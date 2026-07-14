@@ -15,6 +15,6 @@ jobs:
           distribution: temurin
           java-version: 21
           cache: gradle
-                   - run: ./gradlew :composeApp:testDebugUnitTest :composeApp:testReleaseUnitTest :composeApp:assembleDebug --stacktrace
+      - run: ./gradlew :composeApp:testDebugUnitTest :composeApp:testReleaseUnitTest :composeApp:assembleDebug --stacktrace
         env:
           GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"

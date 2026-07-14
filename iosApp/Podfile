@@ -1,0 +1,7 @@
+platform :ios, '18.2'
+
+target 'iosApp' do
+  use_frameworks!
+
+  pod 'GoogleSignIn'
+end

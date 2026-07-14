@@ -1,0 +1,6 @@
+secrets/
+
+# fastlane - contains Apple ID email, team IDs, and match cert repo URL
+fastlane/Appfile
+fastlane/Matchfile
+fastlane/report.xml

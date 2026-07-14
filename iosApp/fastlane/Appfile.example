@@ -1,0 +1,4 @@
+app_identifier("pt.socialfood")
+apple_id("your-apple-id@example.com")
+itc_team_id("your-itc-team-id")
+team_id("your-team-id")

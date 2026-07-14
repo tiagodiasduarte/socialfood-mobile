@@ -1,0 +1,59 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Push a new beta build to TestFlight"
+  lane :beta do |options|
+    key_id = options[:appstore_key_id] || ENV["APPSTORE_KEY_ID"]
+    issuer_id = options[:appstore_issuer_id] || ENV["APPSTORE_ISSUER_ID"]
+    key_filepath = options[:key_filepath] || ENV["KEY_FILEPATH"] || "./secrets/Api_key.p8"
+    key_content = options[:key_content] || ENV["APP_STORE_CONNECT_API_KEY"]
+    match_type = options[:match_type] || ENV["MATCH_TYPE"]
+    app_identifier = options[:app_identifier] || ENV["APP_IDENTIFIER"]
+    git_url = options[:git_url] || ENV["GIT_URL"]
+    git_branch = options[:git_branch] || ENV["GIT_BRANCH"]
+    match_password = options[:match_password] || ENV["MATCH_PASSWORD"]
+    git_private_key = options[:git_private_key] || ENV["GIT_PRIVATE_KEY"] || "./secrets/match_ci_key"
+
+    setup_ci
+
+    api_key = app_store_connect_api_key(
+      key_id: key_id,
+      issuer_id: issuer_id,
+      key_content: key_content,
+     # key_filepath: key_filepath,
+      is_key_content_base64: true
+    )
+
+    match(
+      type: match_type,
+      app_identifier: app_identifier,
+      readonly: true,
+      git_url: git_url,
+      git_branch: git_branch,
+      api_key: api_key,
+      git_private_key: git_private_key
+    )
+
+    latest = latest_testflight_build_number(
+      app_identifier: app_identifier,
+      api_key: api_key
+    )
+
+    increment_build_number(
+      build_number: latest + 1,
+      xcodeproj: "iosApp.xcodeproj"
+    )
+
+    build_ios_app(
+      scheme: "iosApp",
+      workspace: "iosApp.xcworkspace",
+      output_name: "DeployIosApp.ipa",
+      output_directory: "build"
+    )
+
+    pilot(
+      api_key: api_key,
+      skip_waiting_for_build_processing: true
+    )
+  end
+end

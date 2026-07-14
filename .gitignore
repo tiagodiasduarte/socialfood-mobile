@@ -1,0 +1,42 @@
+# Gradle
+.gradle/
+build/
+**/build/
+local.properties
+
+# Kotlin/Native
+*.klib
+.kotlin
+
+# Android
+*.keystore
+*.jks
+
+# Android - Secrets
+composeApp/google-services.json
+
+# iOS - Secrets
+iosApp/Configuration/Secrets.xcconfig
+
+# iOS - CocoaPods
+iosApp/Pods/
+iosApp/Podfile.lock
+
+# iOS - Xcode
+**/*.xcworkspace/xcuserdata/
+**/*.xcodeproj/xcuserdata/
+**/*.xcodeproj/project.xcworkspace/xcuserdata/
+DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# IDE
+.idea/
+*.iml
+.DS_Store
+
+# Claude Code
+.claude/settings.local.json
+.claude/agent-memory/
+.plans/

@@ -1,0 +1,193 @@
+<resources>
+    <string name="app_name">SocialFood</string>
+
+    <string name="back_button_description">Back button</string>
+
+    <string name="sign_in_title_label">Welcome back</string>
+    <string name="sign_in_subtitle_label">Sign in to continue exploring</string>
+    <string name="sign_in_email_label">Email</string>
+    <string name="sign_in_email_placeholder_label">your@email.com</string>
+    <string name="sign_in_password_label">Password</string>
+    <string name="sign_in_password_placeholder_label">••••••••</string>
+    <string name="sign_in_button">Sign in</string>
+    <string name="sign_in_continue_with_google_label">  Or continue with  </string>
+    <string name="sign_in_google_button">Continue with Google</string>
+    <string name="sign_in_google_button_description">Google icon</string>
+    <string name="sign_in_no_account_label">Don't have an account?</string>
+    <string name="sign_in_sign_up_button">Sign Up</string>
+
+    <string name="sign_up_title_label">Create account</string>
+    <string name="sign_up_subtitle_label">Join us to explore the best restaurants</string>
+    <string name="sign_up_name_label">Name</string>
+    <string name="sign_up_name_placeholder_label">Your name</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="sign_up_confirm_password_label">Confirm Password</string>
+    <string name="sign_up_confirm_password_placeholder_label">••••••••</string>
+    <string name="sign_up_already_have_account_label">Already have an account?</string>
+    <string name="sign_up_sign_in_label">Sign In</string>
+
+    <string name="validate_token_title_label">Verify your email</string>
+    <string name="validate_token_subtitle_label">Enter the 6-digit code we sent to your email</string>
+    <string name="validate_token_button">Verify</string>
+    <string name="validate_token_resend_label">Didn\'t receive the code?</string>
+    <string name="validate_token_resend_button">Resend code</string>
+
+    <string name="home_title_label">Discover dining</string>
+    <string name="home_subtitle_label">Find your next favorite restaurant</string>
+    <string name="home_list_see_all_label">See All</string>
+    <string name="home_list_view_all_label">View All</string>
+
+    <string name="profile_contact_card_title_label">Contact Information</string>
+    <string name="profile_guides_button">Guides</string>
+    <string name="profile_guides_button_description">Guides button</string>
+    <string name="profile_favorites_guides_button">Favorites Guides</string>
+    <string name="profile_favorites_guides_button_description">Favorites Guides button</string>
+    <string name="profile_favorites_restaurants_button">Favorites Restaurants</string>
+    <string name="profile_favorites_restaurants_button_description">Favorites Restaurants button</string>
+    <string name="profile_logout_button">Log Out</string>
+    <string name="profile_logout_button_description">Log Out button</string>
+
+    <string name="profile_edit_profile_button">Edit Profile</string>
+    <string name="profile_edit_profile_button_description">Edit profile button</string>
+
+    <string name="guide_detail_error_label">Failed to load guide</string>
+    <string name="guide_detail_restaurants_section_title">Restaurants in this guide</string>
+    <string name="guide_detail_back_button_description">Back</string>
+    <string name="guide_detail_share_button_description">Share</string>
+    <string name="guide_detail_edit_button_description">Edit</string>
+    <string name="guide_detail_favourite_button_description">Favourite</string>
+    <string name="guide_detail_public_label">Public</string>
+    <string name="guide_detail_private_label">Private</string>
+    <string name="guide_detail_restaurants_count_label">%1$d restaurants</string>
+    <string name="guide_detail_public_icon_description">Public icon</string>
+    <string name="guide_detail_private_icon_description">Private icon</string>
+    <string name="guide_detail_separator">·</string>
+
+    <string name="guides_title">Guides</string>
+    <string name="guides_search_placeholder">Search guides…</string>
+    <string name="guides_tab_all">All Guides</string>
+    <string name="guides_tab_my">My Guides</string>
+    <string name="guides_add_button_description">Add guide</string>
+
+    <string name="authors_title">Authors</string>
+    <string name="authors_search_placeholder">Search authors…</string>
+    <string name="authors_error_label">Failed to load authors</string>
+    <string name="authors_follow_button">Follow</string>
+    <string name="authors_following_button">Following</string>
+    <string name="authors_stat_guides_label">guides</string>
+    <string name="authors_stat_followers_label">followers</string>
+    <string name="authors_stat_following_label">following</string>
+    <string name="authors_separator">·</string>
+
+    <string name="author_detail_error_label">Failed to load author</string>
+    <string name="author_detail_back_button_description">Back</string>
+    <string name="author_detail_stat_guides_label">Guides</string>
+    <string name="author_detail_stat_followers_label">Followers</string>
+    <string name="author_detail_stat_following_label">Following</string>
+    <string name="author_detail_stat_separator">|</string>
+    <string name="author_detail_guides_section_title">Guides</string>
+    <string name="author_detail_restaurants_count_label">%1$d restaurants</string>
+    <string name="author_detail_bio_placeholder">Food enthusiast</string>
+
+    <string name="create_guide_create_title">Create Guide</string>
+    <string name="create_guide_save_button">Save</string>
+
+    <string name="edit_guide_title">Edit Guide</string>
+    <string name="edit_guide_save_button">Save</string>
+    <string name="edit_guide_tab_details">Guide Details</string>
+    <string name="edit_guide_tab_status">Status</string>
+    <string name="edit_guide_tab_restaurants">Restaurants</string>
+    <string name="edit_guide_publication_rules_label">Publication Rules</string>
+    <string name="edit_guide_needs_restaurants_warning">Guide needs at least 3 restaurants</string>
+
+    <string name="edit_guide_details_section_details">Guide Details</string>
+    <string name="edit_guide_details_cover_image_label">Cover Image</string>
+    <string name="edit_guide_details_title_label">Title</string>
+    <string name="edit_guide_details_title_placeholder">Give your guide a catchy title</string>
+    <string name="edit_guide_details_description_label">Description</string>
+    <string name="edit_guide_details_description_placeholder">Describe what makes this guide special...</string>
+    <string name="edit_guide_details_title_error">Title is required</string>
+    <string name="edit_guide_details_description_error">Description is required</string>
+    <string name="edit_guide_details_public_restaurants_warning">Public guides need at least 3 restaurants</string>
+    <string name="edit_guide_details_public_image_warning">Public guides need a cover image</string>
+    <string name="edit_guide_details_cover_image_click_label">Click to upload cover image</string>
+    <string name="edit_guide_details_cover_image_hint">JPG, PNG up to 10MB</string>
+    <string name="edit_guide_delete_button">Delete Guide</string>
+    <string name="edit_guide_validation_error_dialog_title">Cannot save guide</string>
+    <string name="edit_guide_validation_error_dialog_ok">OK</string>
+
+    <string name="edit_guide_restaurants_title_label">Restaurants</string>
+    <string name="edit_guide_restaurants_add_button">Add</string>
+    <string name="edit_guide_restaurants_empty_label">No restaurants added yet</string>
+    <string name="edit_guide_restaurants_empty_hint">Click "Add" to include restaurants in your guide</string>
+
+    <string name="edit_guide_visibility_label">Visibility</string>
+    <string name="edit_guide_visibility_public">Public</string>
+    <string name="edit_guide_visibility_private">Private</string>
+
+    <string name="search_restaurants_title">Add Restaurants</string>
+    <string name="search_restaurants_search_placeholder">Search restaurants...</string>
+    <string name="search_restaurants_error">Failed to load restaurants</string>
+
+    <string name="edit_profile_title">Edit Profile</string>
+    <string name="edit_profile_save_button">Save</string>
+    <string name="edit_profile_picture_section_title">Profile Picture</string>
+    <string name="edit_profile_picture_upload_label">Upload a new profile picture</string>
+    <string name="edit_profile_picture_change_button">Change Photo</string>
+    <string name="edit_profile_google_info">You are connected with Google account. Add a password to edit your contact information.</string>
+    <string name="edit_profile_personal_details_title">Personal Details</string>
+    <string name="edit_profile_first_name_label">First Name</string>
+    <string name="edit_profile_first_name_placeholder">John</string>
+    <string name="edit_profile_last_name_label">Last Name</string>
+    <string name="edit_profile_last_name_placeholder">Doe</string>
+    <string name="edit_profile_phone_label">Phone Number</string>
+    <string name="edit_profile_phone_placeholder">+1 (555) 123-4567</string>
+    <string name="edit_profile_city_label">City</string>
+    <string name="edit_profile_city_placeholder">New York</string>
+    <string name="edit_profile_country_label">Country</string>
+    <string name="edit_profile_country_placeholder">United States</string>
+    <string name="edit_profile_about_title">About</string>
+    <string name="edit_profile_bio_label">Bio</string>
+    <string name="edit_profile_bio_placeholder">Tell us about yourself...</string>
+    <string name="edit_profile_social_title">Social Networks</string>
+    <string name="edit_profile_facebook_label">Facebook</string>
+    <string name="edit_profile_facebook_placeholder">https://facebook.com/yourprofile</string>
+    <string name="edit_profile_instagram_label">Instagram</string>
+    <string name="edit_profile_instagram_placeholder">https://instagram.com/yourprofile</string>
+    <string name="edit_profile_youtube_label">YouTube</string>
+    <string name="edit_profile_youtube_placeholder">https://youtube.com/@yourchannel</string>
+
+    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_guides">Guides</string>
+    <string name="bottom_nav_authors">Authors</string>
+    <string name="bottom_nav_profile">Profile</string>
+
+    <string name="no_results_title">No Results Found</string>
+    <string name="no_results_subtitle">We couldn\'t find any matches for your search.</string>
+    <string name="no_results_description">Try adjusting your filters or search terms to find what you\'re looking for.</string>
+    <string name="no_results_retry_button">Try Again</string>
+
+    <string name="error_content_title">Server Error</string>
+    <string name="error_content_subtitle">Oops! Something went wrong on our end.</string>
+    <string name="error_content_description">We\'re having trouble connecting to our servers. Please try again in a moment.</string>
+    <string name="error_content_retry_button">Try Again</string>
+    <string name="error_content_go_home_button">Go to Home</string>
+    <string name="error_content_error_code_label">Error Code: %1$s</string>
+
+    <string name="restaurant_detail_day_monday">Monday</string>
+    <string name="restaurant_detail_day_tuesday">Tuesday</string>
+    <string name="restaurant_detail_day_wednesday">Wednesday</string>
+    <string name="restaurant_detail_day_thursday">Thursday</string>
+    <string name="restaurant_detail_day_friday">Friday</string>
+    <string name="restaurant_detail_day_saturday">Saturday</string>
+    <string name="restaurant_detail_day_sunday">Sunday</string>
+
+    <string name="restaurant_detail_information_title">Information</string>
+    <string name="restaurant_detail_opening_hours_title">Opening Hours</string>
+    <string name="restaurant_detail_call_button">Call for Reservation</string>
+    <string name="restaurant_detail_reviews_count">%1$d reviews</string>
+    <string name="restaurant_detail_navigate_description">Navigate to restaurant</string>
+    <string name="restaurant_detail_share_description">Share restaurant</string>
+    <string name="restaurant_detail_favourite_description">Add to favourites</string>
+
+</resources>

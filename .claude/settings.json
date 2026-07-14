@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew build)",
+      "Bash(./gradlew :composeApp:allTests)",
+      "Bash(./gradlew :composeApp:allTests *)",
+      "Bash(./gradlew :composeApp:assembleDebug)",
+      "Bash(git status)",
+      "Bash(git status *)",
+      "Bash(git diff)",
+      "Bash(git diff *)",
+      "Bash(git log)",
+      "Bash(git log *)",
+      "Bash(git branch)",
+      "Bash(git branch *)",
+      "Bash(gh repo view)",
+      "Bash(gh repo view *)",
+      "Bash(gh pr view)",
+      "Bash(gh pr view *)",
+      "Bash(gh pr list)",
+      "Bash(gh pr list *)"
+    ]
+  }
+}

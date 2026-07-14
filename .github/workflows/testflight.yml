@@ -1,0 +1,66 @@
+name: iOS Build for TestFlight
+
+on:
+  schedule:
+    - cron: '0 10 * * *'  # 10:00 UTC
+  workflow_dispatch:
+
+jobs:
+  ios-build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: develop
+
+      # ----------------- SET BUILD NAME -----------------
+      - name: Set BUILD_NAME
+        run: echo "BUILD_NAME=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
+
+      # ----------------- SET COMMIT HASH -----------------
+      - name: Set COMMIT_HASH
+        run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      # ----------------- SETUP JAVA (required for KMP) -----------------
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      # ----------------- CREATE SECRETS -----------------
+      - name: Create Secrets.xcconfig
+        env:
+          GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          cat > iosApp/Configuration/Secrets.xcconfig <<EOF
+          GOOGLE_CLIENT_ID_WEB = ${GOOGLE_CLIENT_ID_WEB}
+          GOOGLE_REVERSE_CLIENT_ID_WEB = com.googleusercontent.apps.$(echo ${GOOGLE_CLIENT_ID_WEB} | sed 's/.apps.googleusercontent.com//')
+          EOF
+          sed -i '' "s/TEAM_ID=/TEAM_ID=${TEAM_ID}/" iosApp/Configuration/Config.xcconfig
+
+      # ----------------- INSTALL DEPENDENCIES -----------------
+      - run: sudo gem install cocoapods fastlane
+      - run: cd iosApp && pod install
+
+      # ----------------- BUILD & UPLOAD -----------------
+      - name: Build and upload to TestFlight
+        env:
+          #APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          #BUILD_NAME: ${{ env.BUILD_NAME }}
+          #COMMIT_HASH: ${{ env.COMMIT_HASH }}
+          #GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+          #GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
+          APP_IDENTIFIER: pt.socialfood
+          GIT_URL: https://github.com/tiagodiasduarte/socialfood-match-certificates.git
+          GIT_BRANCH: develop
+          MATCH_TYPE: appstore
+          APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}
+          APPSTORE_ISSUER_ID: ${{ secrets.APPSTORE_ISSUER_ID }}
+          KEY_FILEPATH: ${{ secrets.APPSTORE_AUTH_KEY }}
+          APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          GIT_PRIVATE_KEY: ${{ secrets.MATCH_SSH_PRIVATE_KEY }}
+        run: cd iosApp && fastlane beta

@@ -20,8 +20,22 @@ Run the **planner** subagent: `Plan <TICKET_ID>`.
 
 ## Step 3 — Write the description back to Jira
 
-Using the plan output, render `.claude/templates/jira-description.md` (fill `{{WHAT}}`, `{{WHY}}`,
-`{{ACCEPTANCE_CRITERIA}}`) and save it to `.plans/<TICKET_ID>-jira.md`.
+Using the plan output, write the following to `.plans/<TICKET_ID>-jira.md`:
+
+```markdown
+**What**
+<One or two sentences describing what needs to be done.>
+
+**Why**
+<One or two sentences on the motivation — what problem this solves or why it matters.>
+
+**Acceptance Criteria**
+- [ ] <Testable condition 1>
+- [ ] <Testable condition 2>
+- [ ] ...
+```
+
+Rules: no architecture decisions, file names, or implementation steps. Acceptance criteria must be observable outcomes. Keep it under 15 lines.
 
 ## Step 4 — Update Jira
 

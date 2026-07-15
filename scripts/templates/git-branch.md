@@ -1,13 +1,13 @@
 # Branch name template
 #
 # Available placeholders:
-#   {{BRANCH_PREFIX}}         — "feature" for stories/tasks, "bugfix" for bugs
-#   {{TICKET_ID_LOWER}}       — Jira ticket ID in lowercase (e.g. apps-7)
+#   {{TYPE}}                  — one of: feature, fix, hotfix, chore, refactor, docs, test
 #   {{TICKET_SUMMARY_SLUG}}   — Jira summary slugified: lowercase, words joined by hyphens,
-#                               non-alphanumeric characters stripped (e.g. fix-author-card-spacing)
+#                               non-alphanumeric characters stripped (e.g. add-user-profile-screen)
 #
 # Result examples:
-#   feature/apps-7-add-user-profile-screen
-#   bugfix/apps-12-fix-login-crash
+#   feature/add-user-profile-screen
+#   fix/login-crash
+#   chore/bump-target-sdk-37
 
-{{BRANCH_PREFIX}}/{{TICKET_ID_LOWER}}-{{TICKET_SUMMARY_SLUG}}
+{{TYPE}}/{{TICKET_SUMMARY_SLUG}}

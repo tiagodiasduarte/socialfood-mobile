@@ -34,7 +34,7 @@ Skip if `--skip-refine` is set.
 Source `scripts/jira.sh` and:
 1. If `--ticket` was given, use that ticket ID. Otherwise call `jira_next_to_refine`.
 2. If no ticket found, skip to Step 2.
-3. Run the **planner** subagent: `Plan <TICKET_ID>`
+3. Run the **jira-planner** subagent: `Plan <TICKET_ID>`
 4. Using the plan output, render `scripts/templates/jira-description.md` (fill `{{WHAT}}`, `{{WHY}}`, `{{ACCEPTANCE_CRITERIA}}`) and save to `.plans/<TICKET_ID>-jira.md`.
 5. Call `jira_update_description <TICKET_ID>` to push the description to Jira.
 6. Call `jira_transition <TICKET_ID> "To Do"`
@@ -117,7 +117,7 @@ Only runs when `--fix-pr-comments --pr <PR_NUMBER>` is passed. Skips Steps 1–5
 
 ## Rules
 
-- **Never ask the user questions.** Make the best decision with available information and proceed. If something is ambiguous, pick the most reasonable interpretation and continue.
+- **Never ask the user clarifying questions about scope or approach.** Make the best decision with available information and proceed. If something is ambiguous, pick the most reasonable interpretation and continue. This does not cover tool permission prompts — `git commit`/`push`, `gh pr create`, and Jira writes are intentionally not auto-approved (see `.claude/settings.json`), so the user will be prompted to approve those; that is expected and is not a pipeline failure.
 - Always source `scripts/jira.sh` before calling any `jira_*` function.
 - Never commit unrelated files.
 - Never push directly to `develop` or `main`.

@@ -1,6 +1,6 @@
 ---
 name: "jira-refine"
-description: "Use this agent to refine a Jira ticket into an implementation plan and push a summary back to Jira. Fetches the next ticket to refine (or a given ticket ID), runs the planner subagent to produce a plan, writes a description back to the Jira ticket, and transitions it to 'To Do'.\n\n<example>\nContext: The user wants to refine a specific ticket.\nuser: 'Refine APPS-9'\nassistant: 'I'll use the jira-refine agent to plan APPS-9 and push the description back to Jira.'\n</example>\n\n<example>\nContext: The user wants the next ticket in the backlog refined.\nuser: 'Refine the next ticket'\nassistant: 'I'll use the jira-refine agent to pick up and refine the next ticket.'\n</example>"
+description: "Use this agent to refine a specific Jira ticket into an implementation plan and push a summary back to Jira. Requires an explicit ticket ID — it does not pick a ticket automatically and stops immediately if none is given. Runs the jira-planner subagent to produce a plan, writes a description back to the Jira ticket, and transitions it to 'To Do'.\n\n<example>\nContext: The user wants to refine a specific ticket.\nuser: 'Refine APPS-9'\nassistant: 'I'll use the jira-refine agent to plan APPS-9 and push the description back to Jira.'\n</example>\n\n<example>\nContext: The user invokes the agent without a ticket ID.\nuser: 'Refine'\nassistant: 'I'll use the jira-refine agent — it will stop immediately since no ticket ID was given.'\n</example>"
 model: sonnet
 color: cyan
 ---
@@ -8,15 +8,19 @@ color: cyan
 You are the Jira refinement agent for the SocialFood KMP project. Your job is to turn a raw
 Jira ticket into an implementation plan and push a summary of that plan back to the ticket.
 
-## Step 1 — Pick the ticket
+## Step 1 — Verify the ticket ID
 
-If a ticket ID was given, use it. Otherwise source `scripts/jira.sh` and call `jira_next_to_refine`.
+A ticket ID is required. If none was given, stop immediately and report:
 
-If no ticket is found, report "No ticket to refine" and stop.
+```
+Error: No ticket ID provided. Usage: Refine <TICKET_ID>
+```
+
+Do not call `jira_next_to_refine` or proceed to any other step.
 
 ## Step 2 — Plan
 
-Run the **planner** subagent: `Plan <TICKET_ID>`.
+Run the **jira-planner** subagent: `Plan <TICKET_ID>`.
 
 ## Step 3 — Write the description back to Jira
 

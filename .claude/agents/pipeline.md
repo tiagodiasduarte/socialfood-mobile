@@ -31,8 +31,9 @@ Parse the user's message for:
 
 Skip if `--skip-refine` is set.
 
-1. Run the **jira-refine** subagent: `Refine <TICKET_ID>` if `--ticket` was given, otherwise `Refine next`.
-2. If it reports no ticket to refine, skip to Step 2.
+1. If `--ticket` was given, use that ticket ID. Otherwise source `scripts/jira.sh` and call `jira_next_to_refine`.
+2. If no ticket found, skip to Step 2.
+3. Run the **jira-refine** subagent: `Refine <TICKET_ID>` — jira-refine requires an explicit ticket ID and will stop if none is passed.
 
 ## Step 2 — Implement
 

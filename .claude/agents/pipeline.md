@@ -31,14 +31,8 @@ Parse the user's message for:
 
 Skip if `--skip-refine` is set.
 
-Source `scripts/jira.sh` and:
-1. If `--ticket` was given, use that ticket ID. Otherwise call `jira_next_to_refine`.
-2. If no ticket found, skip to Step 2.
-3. Run the **planner** subagent: `Plan <TICKET_ID>`
-4. Using the plan output, render `.claude/templates/jira-description.md` (fill `{{WHAT}}`, `{{WHY}}`, `{{ACCEPTANCE_CRITERIA}}`) and save to `.plans/<TICKET_ID>-jira.md`.
-5. Call `jira_update_description <TICKET_ID>` to push the description to Jira.
-6. Call `jira_transition <TICKET_ID> "To Do"`
-7. Wait 5 seconds for Jira index to update.
+1. Run the **jira-refine** subagent: `Refine <TICKET_ID>` if `--ticket` was given, otherwise `Refine next`.
+2. If it reports no ticket to refine, skip to Step 2.
 
 ## Step 2 — Implement
 

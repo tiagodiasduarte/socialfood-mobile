@@ -4,7 +4,7 @@
 
 _jira_check_env() {
   if [[ -z "${JIRA_BASE_URL:-}" ]]; then
-    echo "Error: JIRA_BASE_URL is not set. Example: https://tiagodiasduarte.atlassian.net" >&2
+    echo "Error: JIRA_BASE_URL is not set." >&2
     return 1
   fi
   if [[ -z "${JIRA_EMAIL:-}" ]]; then

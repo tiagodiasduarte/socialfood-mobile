@@ -1,6 +1,8 @@
 package pt.socialfood.data.network
 
 import io.ktor.client.HttpClient
+import io.ktor.client.HttpClientConfig
+import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.HttpTimeout
@@ -18,9 +20,10 @@ import kotlinx.serialization.json.Json
 
 class KtorHttpClient(
     private val sessionManager: SessionManager,
-    private val isDebug: Boolean = true
+    private val isDebug: Boolean = true,
+    engine: HttpClientEngine? = null
 ) {
-    val client = HttpClient {
+    private val config: HttpClientConfig<*>.() -> Unit = {
 
         defaultRequest {
             url {
@@ -72,4 +75,6 @@ class KtorHttpClient(
             socketTimeoutMillis = 15_000
         }
     }
+
+    val client = if (engine != null) HttpClient(engine, config) else HttpClient(config)
 }

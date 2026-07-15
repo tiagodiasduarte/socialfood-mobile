@@ -1,14 +1,12 @@
 package pt.socialfood.data.network
 
+import com.russhwolf.settings.MapSettings
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
-import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.http.HttpHeaders
-import io.ktor.http.URLProtocol
-import io.ktor.http.encodedPath
 import io.ktor.http.headersOf
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -16,9 +14,9 @@ import kotlin.test.assertEquals
 
 /**
  * Verifies the URL resolution behaviour configured in [KtorHttpClient]'s `defaultRequest` block:
- * relative-path requests must resolve under the `/v1` base path. This mirrors the exact
- * `defaultRequest { url { ... } }` configuration from [KtorHttpClient] against a [MockEngine] so
- * the resolved request URL can be asserted without making a real network call.
+ * relative-path requests must resolve under the `/v1` base path. Instantiates the real
+ * [KtorHttpClient] with an injected [MockEngine] so the resolved request URL can be asserted
+ * against production code, without making a real network call.
  */
 class KtorHttpClientTest {
 
@@ -31,15 +29,10 @@ class KtorHttpClientTest {
                 headers = headersOf(HttpHeaders.ContentType, "application/json")
             )
         }
-        val client = HttpClient(engine) {
-            defaultRequest {
-                url {
-                    protocol = URLProtocol.HTTPS
-                    host = NetworkConfig.HOST
-                    encodedPath = "/${NetworkConfig.API_VERSION}/"
-                }
-            }
-        }
+        val client = KtorHttpClient(
+            sessionManager = SessionManager(MapSettings()),
+            engine = engine
+        ).client
         return client to requestedUrls
     }
 

@@ -9,7 +9,7 @@ You are the pipeline orchestrator for the SocialFood KMP project. You coordinate
 lifecycle of a Jira ticket: refinement → implementation → review → PR.
 
 All Jira operations are done via `scripts/jira.sh`. All git operations stay in this agent.
-Templates are in `scripts/templates/`.
+Templates are in `.claude/templates/`.
 
 ## Arguments
 
@@ -35,7 +35,7 @@ Source `scripts/jira.sh` and:
 1. If `--ticket` was given, use that ticket ID. Otherwise call `jira_next_to_refine`.
 2. If no ticket found, skip to Step 2.
 3. Run the **planner** subagent: `Plan <TICKET_ID>`
-4. Using the plan output, render `scripts/templates/jira-description.md` (fill `{{WHAT}}`, `{{WHY}}`, `{{ACCEPTANCE_CRITERIA}}`) and save to `.plans/<TICKET_ID>-jira.md`.
+4. Using the plan output, render `.claude/templates/jira-description.md` (fill `{{WHAT}}`, `{{WHY}}`, `{{ACCEPTANCE_CRITERIA}}`) and save to `.plans/<TICKET_ID>-jira.md`.
 5. Call `jira_update_description <TICKET_ID>` to push the description to Jira.
 6. Call `jira_transition <TICKET_ID> "To Do"`
 7. Wait 5 seconds for Jira index to update.
@@ -44,11 +44,16 @@ Source `scripts/jira.sh` and:
 
 1. If `--ticket` was given, use that ticket ID. Otherwise call `jira_next_to_do`.
 2. If no ticket found, stop.
-3. Fetch issue type with `jira_get_type` and set branch prefix:
-    - `bug` → `bugfix`
-    - anything else → `feature`
-4. Fetch ticket summary with `jira_get_summary`. Build `TICKET_SUMMARY_SLUG` by lowercasing the summary, replacing spaces with hyphens, and stripping all non-alphanumeric/hyphen characters. Example: `"Fix AuthorCard placeholder spacing"` → `fix-authorcard-placeholder-spacing`.
-5. Render branch name from `scripts/templates/git-branch.md`.
+3. Fetch issue type with `jira_get_type` and summary with `jira_get_summary`, then determine `{{TYPE}}` (one of `feature`, `fix`, `hotfix`, `chore`, `refactor`, `docs`, `test`) in this order:
+    - Issue type `Bug`, and the summary mentions "urgent", "production", or "prod" → `hotfix`.
+    - Issue type `Bug` → `fix`.
+    - Summary mentions "bump", "upgrade", "dependency", "dependencies", "ci", or "tooling" → `chore`.
+    - Summary mentions "docs", "documentation", or "readme" → `docs`.
+    - Summary mentions "refactor", "cleanup", or "restructure" → `refactor`.
+    - Summary mentions "test" or "tests" → `test`.
+    - Otherwise → `feature`.
+4. Build `TICKET_SUMMARY_SLUG` by lowercasing the summary, replacing spaces with hyphens, and stripping all non-alphanumeric/hyphen characters. Example: `"Fix AuthorCard placeholder spacing"` → `fix-authorcard-placeholder-spacing`.
+5. Render branch name from `.claude/templates/git-branch.md`.
 6. Run git:
    ```bash
    git checkout develop && git pull origin develop
@@ -60,19 +65,21 @@ Source `scripts/jira.sh` and:
 ## Step 3 — Commit & PR
 
 1. Fetch ticket summary with `jira_get_summary`.
-2. Render commit message from `scripts/templates/git-commit.md`.
+2. Render commit message from `.claude/templates/git-commit.md`.
 3. Run:
    ```bash
    git add -A
    git diff --cached --quiet || git commit -m "<COMMIT_MSG>"
    git push -u origin <BRANCH>
    ```
-4. Render PR body from `scripts/templates/git-pr.md`.
-5. Create PR:
+4. Determine `<SCOPE>`: look at `git diff --name-only develop...HEAD` and take the folder name immediately after `presentation/`, `domain/`, or `data/` under `commonMain/kotlin/pt/socialfood/`. Use whichever segment appears in the most changed files; if there's no single clear winner, use `app`.
+5. Build the PR title as `<COMMIT_TYPE>(<SCOPE>): <short summary>`, lowercasing the summary and mapping `{{TYPE}}` → Conventional Commits type: `feature` → `feat`, `hotfix` → `fix`, everything else unchanged (`fix`, `chore`, `refactor`, `docs`, `test`).
+6. Render PR body from `.claude/templates/git-pr.md`. Fill `{{CHANGES}}` with a short bullet list summarizing the diff, and `{{SCREENSHOTS}}` with actual screenshots if the diff touches `presentation/` UI code, else `N/A`.
+7. Create PR:
    ```bash
-   gh pr create --base develop --title "<TICKET_ID>: <SUMMARY>" --body "<PR_BODY>"
+   gh pr create --base develop --title "<PR_TITLE>" --body "<PR_BODY>"
    ```
-6. Render Jira comment from `scripts/templates/jira-comment.md` and call `jira_comment`.
+8. Render Jira comment from `.claude/templates/jira-comment.md` and call `jira_comment`.
 
 ## Step 4 — Review loop (max 3 cycles)
 
@@ -103,7 +110,7 @@ Only runs when `--fix-pr-comments --pr <PR_NUMBER>` is passed. Skips Steps 1–5
      --jq '.[] | select(.in_reply_to_id == null) | {id: .id, path: .path, line: .line, body: .body}'
    ```
 2. If no comments are found, report "No open review comments" and stop.
-3. Determine the ticket ID from the PR title or current branch name.
+3. Determine the ticket ID from the PR body's Jira link (rendered by `.claude/templates/git-pr.md`, e.g. `.../browse/APPS-7`).
 4. Run the **coder** subagent, passing all comment bodies with their file path and line number so it knows exactly what to fix.
 5. Commit and push:
    ```bash

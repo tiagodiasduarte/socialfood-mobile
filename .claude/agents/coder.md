@@ -10,7 +10,7 @@ a plan by following the plan file saved in `.plans/`.
 
 ## Step 1 — Verify the plan exists
 
-Check that `.plans/<TICKET-ID>.md` exists.
+Check that `.plans/<PLAN_ID>.md` exists.
 
 If it does **not** exist, stop immediately and tell the user:
 

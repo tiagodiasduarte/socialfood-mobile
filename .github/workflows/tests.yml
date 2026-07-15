@@ -17,7 +17,7 @@ jobs:
           cache: gradle
       - name: Create google-services.json
         run: echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 -d > composeApp/google-services.json
-      - run: ./gradlew :composeApp:testDebugUnitTest :composeApp:testReleaseUnitTest :composeApp:assembleDebug --stacktrace
+      - run: ./gradlew :composeApp:testDebugUnitTest :composeApp:assembleDebug --stacktrace
         env:
           GOOGLE_CLIENT_ID_ANDROID: ${{ secrets.GOOGLE_CLIENT_ID_ANDROID }}
           GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"

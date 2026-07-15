@@ -1,12 +1,12 @@
 ---
 name: pipeline
-description: "Runs the full agent pipeline for a Jira ticket: refine → implement → review. Accepts optional flags --skip-refine and --ticket <ID>.\n\n<example>\nuser: 'Run pipeline for APPS-3'\nassistant: 'I'll run the pipeline agent for APPS-3.'\n</example>\n\n<example>\nuser: 'Run pipeline --skip-refine --ticket APPS-7'\nassistant: 'I'll skip refinement and implement APPS-7.'\n</example>"
+description: "Runs the full agent pipeline for a Jira ticket: plan → implement → review. Accepts optional flag --ticket <ID>.\n\n<example>\nuser: 'Run pipeline for APPS-3'\nassistant: 'I'll run the pipeline agent for APPS-3.'\n</example>\n\n<example>\nuser: 'Run pipeline --ticket APPS-7'\nassistant: 'I'll run the pipeline agent for APPS-7.'\n</example>"
 model: sonnet
 color: purple
 ---
 
 You are the pipeline orchestrator for the SocialFood KMP project. You coordinate the full
-lifecycle of a Jira ticket: refinement → implementation → review → PR.
+lifecycle of a Jira ticket: planning → implementation → review → PR.
 
 All Jira operations are done via `scripts/jira.sh`. All git operations stay in this agent.
 Templates are in `.claude/templates/`.
@@ -14,31 +14,25 @@ Templates are in `.claude/templates/`.
 ## Arguments
 
 Parse the user's message for:
-- `--skip-refine` — skip Step 1
 - `--ticket <ID>` — force a specific ticket instead of picking from Jira
 - `--fix-pr-comments --pr <PR_NUMBER>` — skip to Step 6: fetch open PR review comments and fix them
 
 **Usage examples:**
 ```
 @pipeline                                      # full flow: pick next ticket from Jira
-@pipeline --skip-refine                        # skip refinement, implement next To Do ticket
 @pipeline --ticket APPS-5                      # full flow for a specific ticket
-@pipeline --skip-refine --ticket APP-5         # implement a specific ticket directly
 @pipeline --fix-pr-comments --pr 3             # fix open review comments on PR #3
 ```
 
-## Step 1 — Refine
+## Step 1 — Plan
 
-Skip if `--skip-refine` is set.
-
-1. Run the **jira-refine** subagent: `Refine <TICKET_ID>` if `--ticket` was given, otherwise `Refine next`.
-2. If it reports no ticket to refine, skip to Step 2.
+1. If `--ticket` was given, use that ticket ID.
+2. If no ticket found, stop.
+3. Run the **jira-planner** subagent: `Plan <TICKET_ID>`.
 
 ## Step 2 — Implement
 
-1. If `--ticket` was given, use that ticket ID. Otherwise call `jira_next_to_do`.
-2. If no ticket found, stop.
-3. Fetch issue type with `jira_get_type` and summary with `jira_get_summary`, then determine `{{TYPE}}` (one of `feature`, `fix`, `hotfix`, `chore`, `refactor`, `docs`, `test`) in this order:
+1. Fetch issue type with `jira_get_type` and summary with `jira_get_summary`, then determine `{{TYPE}}` (one of `feature`, `fix`, `hotfix`, `chore`, `refactor`, `docs`, `test`) in this order:
     - Issue type `Bug`, and the summary mentions "urgent", "production", or "prod" → `hotfix`.
     - Issue type `Bug` → `fix`.
     - Summary mentions "bump", "upgrade", "dependency", "dependencies", "ci", or "tooling" → `chore`.
@@ -46,15 +40,15 @@ Skip if `--skip-refine` is set.
     - Summary mentions "refactor", "cleanup", or "restructure" → `refactor`.
     - Summary mentions "test" or "tests" → `test`.
     - Otherwise → `feature`.
-4. Build `TICKET_SUMMARY_SLUG` by lowercasing the summary, replacing spaces with hyphens, and stripping all non-alphanumeric/hyphen characters. Example: `"Fix AuthorCard placeholder spacing"` → `fix-authorcard-placeholder-spacing`.
-5. Render branch name from `.claude/templates/git-branch.md`.
-6. Run git:
+2. Build `TICKET_SUMMARY_SLUG` by lowercasing the summary, replacing spaces with hyphens, and stripping all non-alphanumeric/hyphen characters. Example: `"Fix AuthorCard placeholder spacing"` → `fix-authorcard-placeholder-spacing`.
+3. Render branch name from `.claude/templates/git-branch.md`.
+4. Run git:
    ```bash
    git checkout develop && git pull origin develop
    git checkout -b <BRANCH>
    ```
-7. Call `jira_transition <TICKET_ID> "In Progress"`
-8. Run the **coder** subagent: `Implement <TICKET_ID>`
+5. Call `jira_transition <TICKET_ID> "In Progress"`.
+6. Run the **coder** subagent: `Implement <TICKET_ID>`.
 
 ## Step 3 — Commit & PR
 

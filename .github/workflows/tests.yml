@@ -17,4 +17,5 @@ jobs:
           cache: gradle
       - run: ./gradlew :composeApp:testDebugUnitTest :composeApp:testReleaseUnitTest :composeApp:assembleDebug --stacktrace
         env:
+          GOOGLE_CLIENT_ID_ANDROID: ${{ secrets.GOOGLE_CLIENT_ID_ANDROID }}
           GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"

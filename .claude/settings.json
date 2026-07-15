@@ -20,5 +20,8 @@
       "Bash(gh pr list)",
       "Bash(gh pr list *)"
     ]
+  },
+  "worktree": {
+    "bgIsolation": "none"
   }
 }

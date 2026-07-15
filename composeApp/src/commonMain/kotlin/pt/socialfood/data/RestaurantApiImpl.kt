@@ -19,7 +19,7 @@ class RestaurantApiImpl(
 ) : RestaurantApi {
 
     override suspend fun importRestaurants(): Boolean =
-        client.post("/admin/import/restaurants").body()
+        client.post("admin/import/restaurants").body()
 
     override suspend fun delete(id: String): Boolean =
         client.delete("restaurants/$id").body()

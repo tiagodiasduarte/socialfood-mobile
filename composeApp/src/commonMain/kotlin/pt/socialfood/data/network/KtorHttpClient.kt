@@ -12,6 +12,7 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 import io.ktor.http.URLProtocol
+import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -25,6 +26,7 @@ class KtorHttpClient(
             url {
                 protocol = URLProtocol.HTTPS
                 host = NetworkConfig.HOST
+                encodedPath = "/${NetworkConfig.API_VERSION}/"
             }
         }
 

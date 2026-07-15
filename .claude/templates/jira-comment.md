@@ -2,7 +2,7 @@
 # Posted automatically when the pipeline opens a PR.
 #
 # Available placeholders:
-#   {{BRANCH}}   — Git branch name (e.g. feature/apps-7)
+#   {{BRANCH}}   — Git branch name (e.g. feature/add-user-profile-screen)
 #   {{PR_URL}}   — Full URL of the pull request on GitHub
 
 🤖 *Automated pipeline update*

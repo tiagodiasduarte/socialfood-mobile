@@ -3,7 +3,7 @@
 # Available placeholders:
 #   {{TICKET_ID}}      — Jira ticket ID (e.g. APPS-7)
 #   {{SUMMARY}}        — Jira ticket summary/title
-#   {{JIRA_BASE_URL}}  — Jira base URL (e.g. https://tiagodiasduarte.atlassian.net)
+#   {{JIRA_BASE_URL}}  — Jira base URL
 #   {{CHANGES}}        — bullet list of key changes made (one "- " line per change)
 #   {{SCREENSHOTS}}    — screenshots when the diff touches UI code, else "N/A"
 

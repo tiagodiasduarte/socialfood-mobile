@@ -32,6 +32,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -76,6 +77,13 @@ fun SignInScreen(
     val viewModel: SignInViewModel = koinViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    LaunchedEffect(state) {
+        if (state is SignInUiState.Success) {
+            onSignInSuccess()
+            viewModel.resetState()
+        }
+    }
+
     val googleSignInLauncher = rememberGoogleSignInLauncher(
         onIdToken = { idToken -> viewModel.onGoogleSignIn(idToken) },
         onError = { message -> viewModel.onGoogleSignInError(message) },
@@ -85,7 +93,6 @@ fun SignInScreen(
         state = state,
         onSignInClick = viewModel::onSignIn,
         onSignUpClick = onSignUpClick,
-        onSignInSuccess = onSignInSuccess,
         onGoogleSignInClick = googleSignInLauncher,
     )
 }
@@ -94,7 +101,6 @@ fun SignInScreen(
 private fun SignInScreenContent(
     state: SignInUiState,
     onSignInClick: (email: String, password: String) -> Unit,
-    onSignInSuccess: () -> Unit,
     onGoogleSignInClick: () -> Unit = {},
     onSignUpClick: () -> Unit = {},
 ) {
@@ -109,12 +115,8 @@ private fun SignInScreenContent(
             )
         }
 
-        SignInUiState.Loading -> SignInLoadingView()
-
-        SignInUiState.Success -> {
-            onSignInSuccess()
-            return
-        }
+        SignInUiState.Loading,
+        SignInUiState.Success -> SignInLoadingView()
     }
 }
 
@@ -382,7 +384,6 @@ fun SignInScreenPreview() {
         SignInScreenContent(
             state = SignInUiState.Idle,
             onSignInClick = { _, _ -> },
-            onSignInSuccess = {},
             onGoogleSignInClick = {},
         )
     }

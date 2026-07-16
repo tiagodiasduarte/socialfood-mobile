@@ -1,6 +1,8 @@
 package pt.socialfood.data.network
 
 import io.ktor.client.HttpClient
+import io.ktor.client.HttpClientConfig
+import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.HttpTimeout
@@ -12,19 +14,22 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 import io.ktor.http.URLProtocol
+import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 class KtorHttpClient(
     private val sessionManager: SessionManager,
-    private val isDebug: Boolean = true
+    private val isDebug: Boolean = true,
+    engine: HttpClientEngine? = null
 ) {
-    val client = HttpClient {
+    private val config: HttpClientConfig<*>.() -> Unit = {
 
         defaultRequest {
             url {
                 protocol = URLProtocol.HTTPS
                 host = NetworkConfig.HOST
+                encodedPath = "/${NetworkConfig.API_VERSION}/"
             }
         }
 
@@ -70,4 +75,6 @@ class KtorHttpClient(
             socketTimeoutMillis = 15_000
         }
     }
+
+    val client = if (engine != null) HttpClient(engine, config) else HttpClient(config)
 }

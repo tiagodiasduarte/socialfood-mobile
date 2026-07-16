@@ -20,6 +20,7 @@ ktorClientContentNegotiation = "3.4.0"
 ktorClientCore = "3.4.0"
 ktorClientDarwin = "3.4.0"
 ktorClientLogging = "3.4.0"
+ktorClientMock = "3.4.0"
 ktorClientOkhttp = "3.4.0"
 ktorSerializationKotlinxJson = "3.4.0"
 koin = "4.2.0-alpha3"
@@ -49,6 +50,7 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktorClientDarwin" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorClientLogging" }
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorClientMock" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientOkhttp" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorSerializationKotlinxJson" }
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }

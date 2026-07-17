@@ -21,17 +21,17 @@ class ProfileViewModel(
     val state: StateFlow<ProfileUiState> = _state
 
     init {
-        load()
         viewModelScope.launch {
             observeUser().filterNotNull().collect { user ->
                 _state.value = ProfileUiState.Loaded(user)
             }
         }
+        load()
     }
 
-    fun load() {
+    private fun load() {
         viewModelScope.launch {
-            _state.value = ProfileUiState.Loading
+            if (state.value is ProfileUiState.Loaded) _state.value = ProfileUiState.Loading
             _state.value = when (val result = getUserMe()) {
                 is Result.Success -> ProfileUiState.Loaded(result.data)
                 is Result.Error -> ProfileUiState.Error

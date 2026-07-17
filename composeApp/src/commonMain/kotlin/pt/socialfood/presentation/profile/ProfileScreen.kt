@@ -60,8 +60,8 @@ internal val AvatarOverlap = AvatarRingSize / 2
 
 @Composable
 fun ProfileScreen(
-    onEditProfileClick: () -> Unit = {},
     viewModel: ProfileViewModel = koinViewModel(),
+    onEditProfileClick: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 

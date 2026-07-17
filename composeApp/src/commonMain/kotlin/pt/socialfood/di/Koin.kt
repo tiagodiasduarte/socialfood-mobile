@@ -13,6 +13,8 @@ import pt.socialfood.data.AuthorsApi
 import pt.socialfood.data.AuthorsApiImpl
 import pt.socialfood.data.ConfigsApi
 import pt.socialfood.data.ConfigsApiImpl
+import pt.socialfood.data.crash.CrashReporter
+import pt.socialfood.data.crash.CrashReporterImpl
 import pt.socialfood.data.GuidesApi
 import pt.socialfood.data.GuidesApiImpl
 import pt.socialfood.data.HomeApi
@@ -148,6 +150,7 @@ expect val platformModule: Module
 
 val networkModule = module {
     single { SessionManager(get()) }
+    single<CrashReporter> { CrashReporterImpl() }
     single { KtorHttpClient(get()) }
     single<HttpClient> { get<KtorHttpClient>().client }
     single { S3HttpClient() }
@@ -163,15 +166,15 @@ val networkModule = module {
 }
 
 val repositoryModule = module {
-    single<AuthRepository> { AuthRepositoryImpl(get()) }
-    single<AuthorsRepository> { AuthorsRepositoryImpl(get()) }
-    single<ConfigsRepository> { ConfigsRepositoryImpl(get()) }
-    single<GuidesRepository> { GuidesRepositoryImpl(get()) }
-    single<HomeRepository> { HomeRepositoryImpl(get()) }
-    single<PlacesRepository> { PlacesRepositoryImpl(get()) }
-    single<RestaurantsRepository> { RestaurantsRepositoryImpl(get()) }
-    single<UsersRepository> { UsersRepositoryImpl(get()) }
-    single<PhotosRepository> { PhotosRepositoryImpl(get()) }
+    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
+    single<AuthorsRepository> { AuthorsRepositoryImpl(get(), get()) }
+    single<ConfigsRepository> { ConfigsRepositoryImpl(get(), get()) }
+    single<GuidesRepository> { GuidesRepositoryImpl(get(), get()) }
+    single<HomeRepository> { HomeRepositoryImpl(get(), get()) }
+    single<PlacesRepository> { PlacesRepositoryImpl(get(), get()) }
+    single<RestaurantsRepository> { RestaurantsRepositoryImpl(get(), get()) }
+    single<UsersRepository> { UsersRepositoryImpl(get(), get()) }
+    single<PhotosRepository> { PhotosRepositoryImpl(get(), get()) }
 }
 
 val useCaseModule = module {

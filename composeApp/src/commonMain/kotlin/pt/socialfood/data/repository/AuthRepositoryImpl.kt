@@ -2,11 +2,13 @@ package pt.socialfood.data.repository
 
 import pt.socialfood.core.Result
 import pt.socialfood.data.AuthApi
+import pt.socialfood.data.crash.CrashReporter
 import pt.socialfood.data.network.extensions.toErrorEntity
 import pt.socialfood.domain.repository.AuthRepository
 
 class AuthRepositoryImpl(
-    private val authApi: AuthApi
+    private val authApi: AuthApi,
+    private val crashReporter: CrashReporter,
 ) : AuthRepository {
 
     override suspend fun login(email: String, password: String): Result<String> {
@@ -16,6 +18,7 @@ class AuthRepositoryImpl(
             Result.Success(token)
 
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -25,6 +28,7 @@ class AuthRepositoryImpl(
             val token = authApi.register(name, email, password)
             Result.Success(token)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -34,6 +38,7 @@ class AuthRepositoryImpl(
             val response = authApi.validateCode(email = email, code = code)
             Result.Success(response.token)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -43,6 +48,7 @@ class AuthRepositoryImpl(
             val result = authApi.resendVerificationCode(email)
             Result.Success(result)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -52,6 +58,7 @@ class AuthRepositoryImpl(
             val token = authApi.loginWithGoogle(idToken).token
             Result.Success(token)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -61,6 +68,7 @@ class AuthRepositoryImpl(
             val result = authApi.logout()
             Result.Success(result)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }

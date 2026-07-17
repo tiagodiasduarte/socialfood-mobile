@@ -4,6 +4,7 @@ import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.Place
+import pt.socialfood.fakes.FakeCrashReporter
 import pt.socialfood.fakes.FakePlacesApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -12,8 +13,10 @@ import kotlin.test.assertTrue
 
 class PlacesRepositoryImplTest {
 
+    private val crashReporter = FakeCrashReporter()
+
     private fun createRepository(shouldThrow: Boolean = false): PlacesRepositoryImpl =
-        PlacesRepositoryImpl(FakePlacesApi(shouldThrow))
+        PlacesRepositoryImpl(FakePlacesApi(shouldThrow), crashReporter)
 
     @Test
     fun `given a valid query when search is called then returns Success with places`() = runTest {
@@ -41,5 +44,6 @@ class PlacesRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 }

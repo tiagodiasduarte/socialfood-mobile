@@ -6,6 +6,7 @@ import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.AuthorDetail
 import pt.socialfood.domain.model.PagedAuthors
 import pt.socialfood.fakes.FakeAuthorsApi
+import pt.socialfood.fakes.FakeCrashReporter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -13,8 +14,10 @@ import kotlin.test.assertTrue
 
 class AuthorsRepositoryImplTest {
 
+    private val crashReporter = FakeCrashReporter()
+
     private fun createRepository(shouldThrow: Boolean = false): AuthorsRepositoryImpl =
-        AuthorsRepositoryImpl(FakeAuthorsApi(shouldThrow))
+        AuthorsRepositoryImpl(FakeAuthorsApi(shouldThrow), crashReporter)
 
     // findAuthors
 
@@ -47,6 +50,7 @@ class AuthorsRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // findAuthorById

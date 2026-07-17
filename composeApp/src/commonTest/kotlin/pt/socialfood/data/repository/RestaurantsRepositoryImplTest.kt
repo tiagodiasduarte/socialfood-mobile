@@ -5,6 +5,7 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.PagedRestaurants
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.fakes.FakeCrashReporter
 import pt.socialfood.fakes.FakeRestaurantApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -13,8 +14,10 @@ import kotlin.test.assertTrue
 
 class RestaurantsRepositoryImplTest {
 
+    private val crashReporter = FakeCrashReporter()
+
     private fun createRepository(shouldThrow: Boolean = false): RestaurantsRepositoryImpl =
-        RestaurantsRepositoryImpl(FakeRestaurantApi(shouldThrow))
+        RestaurantsRepositoryImpl(FakeRestaurantApi(shouldThrow), crashReporter)
 
     // importRestaurants
 
@@ -42,6 +45,7 @@ class RestaurantsRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // delete

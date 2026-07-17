@@ -3,14 +3,17 @@ package pt.socialfood.data.repository
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.fakes.FakeCrashReporter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 class AuthRepositoryImplTest {
 
+    private val crashReporter = FakeCrashReporter()
+
     private fun createRepository(shouldThrow: Boolean = false): AuthRepositoryImpl =
-        AuthRepositoryImpl(FakeAuthApi(shouldThrow))
+        AuthRepositoryImpl(FakeAuthApi(shouldThrow), crashReporter)
 
     @Test
     fun `given valid credentials when login is called then returns Success with token`() = runTest {
@@ -36,6 +39,7 @@ class AuthRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     @Test

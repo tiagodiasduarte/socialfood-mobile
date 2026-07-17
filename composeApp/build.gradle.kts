@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.googleServices)
+    alias(libs.plugins.firebaseCrashlytics)
     alias(libs.plugins.kotlinSerialization)
 }
 
@@ -57,6 +58,7 @@ kotlin {
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.kamel.image.default)
+            implementation(libs.firebase.crashlytics.gitlive)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

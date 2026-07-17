@@ -1,5 +1,6 @@
 import SwiftUI
 import ComposeApp
+import FirebaseCore
 import GoogleSignIn
 
 class GoogleSignInDelegateImpl: GoogleSignInDelegate {
@@ -22,6 +23,13 @@ class GoogleSignInDelegateImpl: GoogleSignInDelegate {
 @main
 struct iOSApp: App {
     init() {
+        // TODO(APPS-13): FirebaseApp.configure() requires GoogleService-Info.plist to be
+        // present in this target. No iOS app is registered in the Firebase console yet, so
+        // this file does not exist in the repo (see .plans/APPS-13-plan.md, "Assumptions").
+        // Register the iOS bundle id (pt.socialfood) in the Firebase console, download
+        // GoogleService-Info.plist, and add it to the iosApp Xcode target before shipping —
+        // without it, this call will crash at launch.
+        FirebaseApp.configure()
         KoinKt.doInitKoin()
         GoogleSignInBridge.shared.delegate = GoogleSignInDelegateImpl()
     }

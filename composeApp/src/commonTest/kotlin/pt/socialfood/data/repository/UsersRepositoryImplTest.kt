@@ -6,6 +6,7 @@ import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.PagedUsers
 import pt.socialfood.domain.model.PresignedUrlData
 import pt.socialfood.domain.model.User
+import pt.socialfood.fakes.FakeCrashReporter
 import pt.socialfood.fakes.FakeUserApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -16,8 +17,10 @@ import kotlin.test.assertTrue
 
 class UsersRepositoryImplTest {
 
+    private val crashReporter = FakeCrashReporter()
+
     private fun createRepository(shouldThrow: Boolean = false): UsersRepositoryImpl =
-        UsersRepositoryImpl(FakeUserApi(shouldThrow))
+        UsersRepositoryImpl(FakeUserApi(shouldThrow), crashReporter)
 
     // getUsers
 
@@ -46,6 +49,7 @@ class UsersRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // findUsers

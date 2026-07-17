@@ -7,6 +7,7 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.PagedGuides
 import pt.socialfood.domain.model.PresignedUrlData
+import pt.socialfood.fakes.FakeCrashReporter
 import pt.socialfood.fakes.FakeGuidesApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,8 +16,10 @@ import kotlin.test.assertTrue
 
 class GuidesRepositoryImplTest {
 
+    private val crashReporter = FakeCrashReporter()
+
     private fun createRepository(shouldThrow: Boolean = false): GuidesRepositoryImpl =
-        GuidesRepositoryImpl(FakeGuidesApi(shouldThrow))
+        GuidesRepositoryImpl(FakeGuidesApi(shouldThrow), crashReporter)
 
     // create
 
@@ -45,6 +48,7 @@ class GuidesRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // delete

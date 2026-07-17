@@ -2,6 +2,7 @@ package pt.socialfood.data.repository
 
 import pt.socialfood.core.Result
 import pt.socialfood.data.AuthorsApi
+import pt.socialfood.data.crash.CrashReporter
 import pt.socialfood.data.network.extensions.toErrorEntity
 import pt.socialfood.domain.model.AuthorDetail
 import pt.socialfood.domain.model.PagedAuthors
@@ -11,6 +12,7 @@ import pt.socialfood.mapper.toAuthorDetail
 
 class AuthorsRepositoryImpl(
     private val authorsApi: AuthorsApi,
+    private val crashReporter: CrashReporter,
 ) : AuthorsRepository {
     override suspend fun findAuthors(page: Int, limit: Int, query: String?): Result<PagedAuthors> {
         return try {
@@ -24,6 +26,7 @@ class AuthorsRepositoryImpl(
                 )
             )
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -33,6 +36,7 @@ class AuthorsRepositoryImpl(
             val response = authorsApi.findAuthorById(id)
             Result.Success(response.toAuthorDetail())
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }

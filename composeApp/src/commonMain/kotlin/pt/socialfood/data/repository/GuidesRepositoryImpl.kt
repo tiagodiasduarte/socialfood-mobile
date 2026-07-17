@@ -2,6 +2,7 @@ package pt.socialfood.data.repository
 
 import pt.socialfood.core.Result
 import pt.socialfood.data.GuidesApi
+import pt.socialfood.data.crash.CrashReporter
 import pt.socialfood.data.network.extensions.toErrorEntity
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.domain.model.Guide
@@ -12,7 +13,8 @@ import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.mapper.toGuide
 
 class GuidesRepositoryImpl(
-    private val guideApi: GuidesApi
+    private val guideApi: GuidesApi,
+    private val crashReporter: CrashReporter,
 ) : GuidesRepository {
 
     override suspend fun create(
@@ -28,6 +30,7 @@ class GuidesRepositoryImpl(
             ).toGuide()
             Result.Success(guide)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -38,6 +41,7 @@ class GuidesRepositoryImpl(
             Result.Success(true)
 
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -47,6 +51,7 @@ class GuidesRepositoryImpl(
             val guides = guideApi.findAll().map { it.toGuide() }
             Result.Success(guides)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -64,6 +69,7 @@ class GuidesRepositoryImpl(
                 )
             )
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -87,6 +93,7 @@ class GuidesRepositoryImpl(
             ).toGuide()
             Result.Success(guide)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -97,6 +104,7 @@ class GuidesRepositoryImpl(
             Result.Success(guide)
 
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -122,6 +130,7 @@ class GuidesRepositoryImpl(
                 )
             )
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -138,6 +147,7 @@ class GuidesRepositoryImpl(
             ).toGuide()
             Result.Success(guide)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -153,6 +163,7 @@ class GuidesRepositoryImpl(
             )
             Result.Success(true)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -164,6 +175,7 @@ class GuidesRepositoryImpl(
             ).toGuide()
             Result.Success(true)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }

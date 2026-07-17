@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import pt.socialfood.core.Result
 import pt.socialfood.data.UserApi
+import pt.socialfood.data.crash.CrashReporter
 import pt.socialfood.data.network.extensions.toErrorEntity
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.network.model.user.UpdateUserPhotoRequest
@@ -16,6 +17,7 @@ import pt.socialfood.mapper.toUser
 
 class UsersRepositoryImpl(
     private val userApi: UserApi,
+    private val crashReporter: CrashReporter,
 ) : UsersRepository {
 
     private val _currentUser = MutableStateFlow<User?>(null)
@@ -34,6 +36,7 @@ class UsersRepositoryImpl(
             val users = userApi.getUsers().map { it.toUser() }
             Result.Success(users)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -51,6 +54,7 @@ class UsersRepositoryImpl(
                 )
             )
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -61,6 +65,7 @@ class UsersRepositoryImpl(
             _currentUser.value = user
             Result.Success(user)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -69,6 +74,7 @@ class UsersRepositoryImpl(
         return try {
             Result.Success(userApi.findById(id).toUser())
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -106,6 +112,7 @@ class UsersRepositoryImpl(
             _currentUser.value = user
             Result.Success(user)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -115,6 +122,7 @@ class UsersRepositoryImpl(
             val user = userApi.updatePhotoUrl(id, UpdateUserPhotoRequest(imageUrl))
             Result.Success(true)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -140,6 +148,7 @@ class UsersRepositoryImpl(
             )
         )
     } catch (e: Exception) {
+        crashReporter.recordException(e)
         Result.Error(e.toErrorEntity())
     }
 }

@@ -2,6 +2,7 @@ package pt.socialfood.data.repository
 
 import pt.socialfood.core.Result
 import pt.socialfood.data.RestaurantApi
+import pt.socialfood.data.crash.CrashReporter
 import pt.socialfood.data.network.extensions.toErrorEntity
 import pt.socialfood.domain.model.PagedRestaurants
 import pt.socialfood.domain.model.Restaurant
@@ -9,7 +10,8 @@ import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.mapper.toRestaurant
 
 class RestaurantsRepositoryImpl(
-    private val restaurantApi: RestaurantApi
+    private val restaurantApi: RestaurantApi,
+    private val crashReporter: CrashReporter,
 ) : RestaurantsRepository {
 
     override suspend fun importRestaurants(): Result<Boolean> {
@@ -18,6 +20,7 @@ class RestaurantsRepositoryImpl(
             Result.Success(result)
 
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -28,6 +31,7 @@ class RestaurantsRepositoryImpl(
             Result.Success(restaurants)
 
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -37,6 +41,7 @@ class RestaurantsRepositoryImpl(
             val restaurants = restaurantApi.findAll().map { it.toRestaurant() }
             Result.Success(restaurants)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -54,6 +59,7 @@ class RestaurantsRepositoryImpl(
                 )
             )
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -64,6 +70,7 @@ class RestaurantsRepositoryImpl(
             Result.Success(restaurant)
 
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -73,6 +80,7 @@ class RestaurantsRepositoryImpl(
             val restaurant = restaurantApi.findByPlaceId(placeId).toRestaurant()
             Result.Success(restaurant)
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }
@@ -101,6 +109,7 @@ class RestaurantsRepositoryImpl(
             Result.Success(restaurant)
 
         } catch (exception: Exception) {
+            crashReporter.recordException(exception)
             Result.Error(exception.toErrorEntity())
         }
     }

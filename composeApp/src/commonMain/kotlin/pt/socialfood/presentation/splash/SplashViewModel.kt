@@ -38,7 +38,11 @@ class SplashViewModel(
             val configsResult = configsDeferred.await()
 
             _state.value = if (userResult is Result.Success && configsResult is Result.Success) {
-                SplashUiState.NavigateToHome
+                if (userResult.data.isVerified) {
+                    SplashUiState.NavigateToHome
+                } else {
+                    SplashUiState.NavigateToValidateToken(userResult.data.email)
+                }
             } else {
                 SplashUiState.NavigateToLogin
             }

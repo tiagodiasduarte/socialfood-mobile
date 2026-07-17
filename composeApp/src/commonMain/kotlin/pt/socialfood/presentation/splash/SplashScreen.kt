@@ -15,14 +15,16 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SplashScreen(
     onNavigateToHome: () -> Unit,
     onNavigateToLogin: () -> Unit,
+    onNavigateToValidateToken: (email: String) -> Unit,
     viewModel: SplashViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(state) {
-        when (state) {
+        when (val currentState = state) {
             SplashUiState.NavigateToHome -> onNavigateToHome()
             SplashUiState.NavigateToLogin -> onNavigateToLogin()
+            is SplashUiState.NavigateToValidateToken -> onNavigateToValidateToken(currentState.email)
             SplashUiState.Loading -> Unit
         }
     }

@@ -23,4 +23,5 @@ fun UserResponse.toUser(): User =
         facebookUrl = this.facebookUrl,
         instagramUrl = this.instagramUrl,
         youtubeUrl = this.youtubeUrl,
+        isVerified = this.isVerified,
     )

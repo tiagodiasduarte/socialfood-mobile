@@ -20,4 +20,5 @@ data class UserResponse(
     val facebookUrl: String? = null,
     val instagramUrl: String? = null,
     val youtubeUrl: String? = null,
+    val isVerified: Boolean = true,
 )

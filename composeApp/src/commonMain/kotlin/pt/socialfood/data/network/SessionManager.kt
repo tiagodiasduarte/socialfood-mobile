@@ -51,6 +51,9 @@ class SessionManager(
         token = null
         settings.remove(KEY_TOKEN)
 
+        pendingVerificationEmail = null
+        settings.remove(KEY_PENDING_VERIFICATION_EMAIL)
+
         scope.launch {
             _unauthorizedEvent.emit(Unit)
         }

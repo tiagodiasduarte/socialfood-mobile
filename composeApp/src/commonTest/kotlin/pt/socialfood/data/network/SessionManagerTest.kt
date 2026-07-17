@@ -60,4 +60,22 @@ class SessionManagerTest {
         assertNull(sessionManager.pendingVerificationEmail)
         assertNull(settings.getStringOrNull("pending_verification_email"))
     }
+
+    @Test
+    fun `given a saved token and pending email when clear is called then both are cleared and removed from storage`() {
+        // Given
+        val settings = MapSettings()
+        val sessionManager = SessionManager(settings)
+        sessionManager.saveToken("jwt-token")
+        sessionManager.savePendingVerification("user@test.com")
+
+        // When
+        sessionManager.clear()
+
+        // Then
+        assertNull(sessionManager.token)
+        assertNull(settings.getStringOrNull("jwt_token"))
+        assertNull(sessionManager.pendingVerificationEmail)
+        assertNull(settings.getStringOrNull("pending_verification_email"))
+    }
 }

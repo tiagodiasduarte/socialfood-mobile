@@ -25,14 +25,13 @@ class SplashViewModel(
     }
 
     private fun load() {
-        val pendingEmail = sessionManager.pendingVerificationEmail
-        if (pendingEmail != null) {
-            _state.value = SplashUiState.NavigateToValidateToken(pendingEmail)
-            return
-        }
-
         if (sessionManager.token == null) {
-            _state.value = SplashUiState.NavigateToLogin
+            val pendingEmail = sessionManager.pendingVerificationEmail
+            _state.value = if (pendingEmail != null) {
+                SplashUiState.NavigateToValidateToken(pendingEmail)
+            } else {
+                SplashUiState.NavigateToLogin
+            }
             return
         }
 

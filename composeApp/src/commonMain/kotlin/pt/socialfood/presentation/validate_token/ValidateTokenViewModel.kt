@@ -45,8 +45,10 @@ class ValidateTokenViewModel(
 
     fun onRestartSignUp() {
         viewModelScope.launch {
-            restartSignUp()
-            _state.value = ValidateTokenUiState.RestartSignUp
+            when (restartSignUp()) {
+                is Result.Success -> _state.value = ValidateTokenUiState.RestartSignUp
+                is Result.Error -> _state.value = ValidateTokenUiState.RestartSignUp
+            }
         }
     }
 }

@@ -102,6 +102,25 @@ class SplashViewModelTest {
     }
 
     @Test
+    fun `given stale pendingVerificationEmail and valid token for verified user when loaded then emits NavigateToHome ignoring stale pending flag`() = runTest {
+        // Given
+        val sessionManager = SessionManager(MapSettings())
+        sessionManager.savePendingVerification("stale@test.com")
+        sessionManager.saveToken("jwt-token")
+        val fakeGetUserMe = FakeGetUserMeUseCase(Result.Success(defaultUser(isVerified = true)))
+        val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
+
+        // When
+        val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, sessionManager)
+        advanceUntilIdle()
+
+        // Then
+        assertEquals(SplashUiState.NavigateToHome, viewModel.state.value)
+        assertEquals(1, fakeGetUserMe.invokeCount)
+        assertEquals(1, fakeGetConfigs.invokeCount)
+    }
+
+    @Test
     fun `given no pendingVerificationEmail and token and getUserMe fails when loaded then emits NavigateToLogin`() = runTest {
         // Given
         val sessionManager = SessionManager(MapSettings())

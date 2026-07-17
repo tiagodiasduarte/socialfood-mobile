@@ -11,7 +11,7 @@ import pt.socialfood.presentation.navigation.NavigationRoot
 import pt.socialfood.presentation.sign_in.SignInScreen
 import pt.socialfood.presentation.sign_up.SignUpScreen
 import pt.socialfood.presentation.splash.SplashScreen
-import pt.socialfood.presentation.validate_token.ValidateTokenScreen
+import pt.socialfood.presentation.validate_code.ValidateCodeScreen
 import pt.socialfood.ui.theme.AppTheme
 
 private sealed class AppDestination {
@@ -19,7 +19,7 @@ private sealed class AppDestination {
     data object Home : AppDestination()
     data object Login : AppDestination()
     data object SignUp : AppDestination()
-    data class ValidateToken(val email: String) : AppDestination()
+    data class ValidateCode(val email: String) : AppDestination()
 }
 
 @Composable
@@ -40,7 +40,7 @@ fun App() {
             AppDestination.Splash -> SplashScreen(
                 onNavigateToHome = { navigate(AppDestination.Home) },
                 onNavigateToLogin = { navigate(AppDestination.Login) },
-                onNavigateToValidateToken = { email -> navigate(AppDestination.ValidateToken(email)) },
+                onNavigateToValidateCode = { email -> navigate(AppDestination.ValidateCode(email)) },
             )
             AppDestination.Home -> NavigationRoot()
             AppDestination.Login -> SignInScreen(
@@ -48,13 +48,13 @@ fun App() {
                 onSignUpClick = { navigate(AppDestination.SignUp) },
             )
             AppDestination.SignUp -> SignUpScreen(
-                onSignUpSuccess = { email -> navigate(AppDestination.ValidateToken(email)) },
+                onSignUpSuccess = { email -> navigate(AppDestination.ValidateCode(email)) },
                 onSignInClick = { navigate(AppDestination.Login) },
             )
-            is AppDestination.ValidateToken -> ValidateTokenScreen(
+            is AppDestination.ValidateCode -> ValidateCodeScreen(
                 email = dest.email,
                 onValidateSuccess = { navigate(AppDestination.Home) },
-                onBackClick = { navigate(AppDestination.SignUp) },
+                onRestartSignUp = { navigate(AppDestination.SignUp) },
             )
         }
     }

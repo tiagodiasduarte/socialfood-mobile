@@ -3,4 +3,4 @@ package pt.socialfood.data.network.model.login
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ValidateTokenRequest(val token: String)
+data class ResendVerificationCodeRequest(val email: String)

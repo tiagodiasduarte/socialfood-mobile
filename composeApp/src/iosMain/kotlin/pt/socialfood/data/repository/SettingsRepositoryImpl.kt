@@ -4,6 +4,7 @@ import platform.Foundation.NSUserDefaults
 import pt.socialfood.domain.repository.SettingsRepository
 
 private const val KEY_TOKEN = "jwt_token"
+private const val KEY_PENDING_VERIFICATION_EMAIL = "pending_verification_email"
 
 class SettingsRepositoryImpl : SettingsRepository {
 
@@ -17,5 +18,15 @@ class SettingsRepositoryImpl : SettingsRepository {
 
     override suspend fun clearToken() {
         defaults.removeObjectForKey(KEY_TOKEN)
+    }
+
+    override suspend fun getPendingVerificationEmail(): String? = defaults.stringForKey(KEY_PENDING_VERIFICATION_EMAIL)
+
+    override suspend fun savePendingVerificationEmail(email: String) {
+        defaults.setObject(email, KEY_PENDING_VERIFICATION_EMAIL)
+    }
+
+    override suspend fun clearPendingVerificationEmail() {
+        defaults.removeObjectForKey(KEY_PENDING_VERIFICATION_EMAIL)
     }
 }

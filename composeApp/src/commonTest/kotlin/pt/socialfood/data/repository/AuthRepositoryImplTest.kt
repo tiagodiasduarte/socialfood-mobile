@@ -47,8 +47,7 @@ class AuthRepositoryImplTest {
         val result = repo.register("name", "user@test.com", "password")
 
         // Then
-        assertIs<Result.Success<Boolean>>(result)
-        assertEquals(true, result.data)
+        assertIs<Result.Success<Unit>>(result)
     }
 
     @Test
@@ -65,12 +64,12 @@ class AuthRepositoryImplTest {
     }
 
     @Test
-    fun `given valid token when validateToken is called then returns Success with new token`() = runTest {
+    fun `given valid token when validateCode is called then returns Success with new token`() = runTest {
         // Given
         val repo = createRepository()
 
         // When
-        val result = repo.validateToken("sometoken")
+        val result = repo.validateCode("user@test.com", "sometoken")
 
         // Then
         assertIs<Result.Success<String>>(result)
@@ -78,12 +77,12 @@ class AuthRepositoryImplTest {
     }
 
     @Test
-    fun `given api throws when validateToken is called then returns Error Unknown`() = runTest {
+    fun `given api throws when validateCode is called then returns Error Unknown`() = runTest {
         // Given
         val repo = createRepository(shouldThrow = true)
 
         // When
-        val result = repo.validateToken("sometoken")
+        val result = repo.validateCode("user@test.com", "sometoken")
 
         // Then
         assertIs<Result.Error>(result)
@@ -91,25 +90,24 @@ class AuthRepositoryImplTest {
     }
 
     @Test
-    fun `given valid email when resendVerification is called then returns Success`() = runTest {
+    fun `given valid email when resendVerificationCode is called then returns Success`() = runTest {
         // Given
         val repo = createRepository()
 
         // When
-        val result = repo.resendVerification("user@test.com")
+        val result = repo.resendVerificationCode("user@test.com")
 
         // Then
-        assertIs<Result.Success<Boolean>>(result)
-        assertEquals(true, result.data)
+        assertIs<Result.Success<Unit>>(result)
     }
 
     @Test
-    fun `given api throws when resendVerification is called then returns Error Unknown`() = runTest {
+    fun `given api throws when resendVerificationCode is called then returns Error Unknown`() = runTest {
         // Given
         val repo = createRepository(shouldThrow = true)
 
         // When
-        val result = repo.resendVerification("user@test.com")
+        val result = repo.resendVerificationCode("user@test.com")
 
         // Then
         assertIs<Result.Error>(result)

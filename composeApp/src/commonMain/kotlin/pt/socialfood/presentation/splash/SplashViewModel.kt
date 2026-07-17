@@ -7,14 +7,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.data.network.SessionManager
+import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.domain.use_case.configs.GetConfigsUseCase
 import pt.socialfood.domain.use_case.user.GetUserMeUseCase
 
 class SplashViewModel(
     private val getUserMe: GetUserMeUseCase,
     private val getConfigs: GetConfigsUseCase,
-    private val sessionManager: SessionManager,
+    private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<SplashUiState>(SplashUiState.Loading)
@@ -25,12 +25,17 @@ class SplashViewModel(
     }
 
     private fun load() {
-        if (sessionManager.token == null) {
-            _state.value = SplashUiState.NavigateToLogin
-            return
-        }
-
         viewModelScope.launch {
+            if (settingsRepository.getToken() == null) {
+                val pendingEmail = settingsRepository.getPendingVerificationEmail()
+                _state.value = if (pendingEmail != null) {
+                    SplashUiState.NavigateToValidateCode(pendingEmail)
+                } else {
+                    SplashUiState.NavigateToLogin
+                }
+                return@launch
+            }
+
             val userDeferred = async { getUserMe() }
             val configsDeferred = async { getConfigs() }
 
@@ -41,7 +46,7 @@ class SplashViewModel(
                 if (userResult.data.isVerified) {
                     SplashUiState.NavigateToHome
                 } else {
-                    SplashUiState.NavigateToValidateToken(userResult.data.email)
+                    SplashUiState.NavigateToValidateCode(userResult.data.email)
                 }
             } else {
                 SplashUiState.NavigateToLogin

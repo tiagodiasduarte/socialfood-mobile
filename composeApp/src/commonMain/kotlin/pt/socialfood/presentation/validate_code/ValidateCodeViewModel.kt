@@ -21,16 +21,16 @@ class ValidateCodeViewModel(
     private val _state = MutableStateFlow<ValidateCodeUiState>(ValidateCodeUiState.Idle)
     val state: StateFlow<ValidateCodeUiState> = _state
 
-    fun onValidate(token: String) {
+    fun onValidate(code: String) {
         viewModelScope.launch {
-            if (token.isEmpty()) {
+            if (code.isEmpty()) {
                 _state.value = ValidateCodeUiState.Error(ErrorEntity.InvalidCredentials)
                 return@launch
             }
 
             _state.value = ValidateCodeUiState.Loading
 
-            when (validateCode(email = email, token = token)) {
+            when (validateCode(email = email, code = code)) {
                 is Result.Success -> _state.value = ValidateCodeUiState.Success
                 is Result.Error -> _state.value = ValidateCodeUiState.Error(ErrorEntity.Unknown)
             }

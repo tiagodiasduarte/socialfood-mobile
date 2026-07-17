@@ -6,5 +6,5 @@ import pt.socialfood.domain.use_case.login.ValidateCodeUseCase
 class FakeValidateCodeUseCase(
     private val result: Result<Boolean> = Result.Success(true),
 ) : ValidateCodeUseCase {
-    override suspend fun invoke(email: String, token: String): Result<Boolean> = result
+    override suspend fun invoke(email: String, code: String): Result<Boolean> = result
 }

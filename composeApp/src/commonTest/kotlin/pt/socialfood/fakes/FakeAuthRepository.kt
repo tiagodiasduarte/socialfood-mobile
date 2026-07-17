@@ -10,7 +10,7 @@ class FakeAuthRepository(
 ) : AuthRepository {
     override suspend fun login(email: String, password: String): Result<String> = loginResult
     override suspend fun register(name: String, email: String, password: String): Result<Unit> = registerResult
-    override suspend fun validateCode(email: String, token: String): Result<String> = loginResult
+    override suspend fun validateCode(email: String, code: String): Result<String> = loginResult
     override suspend fun resendVerificationCode(email: String): Result<Unit> = Result.Success(Unit)
     override suspend fun loginWithGoogle(idToken: String): Result<String> = loginResult
     override suspend fun logout(): Result<Boolean> = logoutResult

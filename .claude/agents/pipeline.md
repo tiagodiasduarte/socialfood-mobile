@@ -9,7 +9,10 @@ You are the pipeline orchestrator for the SocialFood KMP project. You coordinate
 lifecycle of a Jira ticket: planning → implementation → review → PR.
 
 All Jira operations are done via `scripts/jira.sh`. All git operations stay in this agent.
-Templates are in `.claude/templates/`.
+Branch naming, commit message, PR title, and PR description conventions are documented
+in `.claude/rules/git-conventions.md` — the steps below already implement them, but that
+doc is the source of truth if the two ever disagree. The Jira comment posted in Step 3
+is rendered from `.claude/templates/jira-comment.md`.
 
 ## Arguments
 
@@ -41,7 +44,7 @@ Parse the user's message for:
     - Summary mentions "test" or "tests" → `test`.
     - Otherwise → `feature`.
 2. Build `TICKET_SUMMARY_SLUG` by lowercasing the summary, replacing spaces with hyphens, and stripping all non-alphanumeric/hyphen characters. Example: `"Fix AuthorCard placeholder spacing"` → `fix-authorcard-placeholder-spacing`.
-3. Render branch name from `.claude/templates/git-branch.md`.
+3. Render branch name from `.claude/rules/git-conventions.md`.
 4. Run git:
    ```bash
    git checkout develop && git pull origin develop
@@ -53,21 +56,22 @@ Parse the user's message for:
 ## Step 3 — Commit & PR
 
 1. Fetch ticket summary with `jira_get_summary`.
-2. Render commit message from `.claude/templates/git-commit.md`.
-3. Run:
+2. Determine `<SCOPE>`: look at `git diff --name-only develop` (working-tree changes vs. `develop`, before committing) and take the folder name immediately after `presentation/`, `domain/`, or `data/` under `commonMain/kotlin/pt/socialfood/`. Use whichever segment appears in the most changed files; if there's no single clear winner, use `app`.
+3. Map `<TYPE>` (from Step 2) to the Conventional Commits type for `<COMMIT_TYPE>`: `feature` → `feat`, `hotfix` → `fix`, everything else unchanged (`fix`, `chore`, `refactor`, `docs`, `test`).
+4. Render commit message from `.claude/rules/git-conventions.md`: `<COMMIT_TYPE>(<SCOPE>): <short summary>`, lowercasing the summary.
+5. Run:
    ```bash
    git add -A
    git diff --cached --quiet || git commit -m "<COMMIT_MSG>"
    git push -u origin <BRANCH>
    ```
-4. Determine `<SCOPE>`: look at `git diff --name-only develop...HEAD` and take the folder name immediately after `presentation/`, `domain/`, or `data/` under `commonMain/kotlin/pt/socialfood/`. Use whichever segment appears in the most changed files; if there's no single clear winner, use `app`.
-5. Build the PR title as `<COMMIT_TYPE>(<SCOPE>): <short summary>`, lowercasing the summary and mapping `{{TYPE}}` → Conventional Commits type: `feature` → `feat`, `hotfix` → `fix`, everything else unchanged (`fix`, `chore`, `refactor`, `docs`, `test`).
-6. Render PR body from `.claude/templates/git-pr.md`. Fill `{{CHANGES}}` with a short bullet list summarizing the diff, and `{{SCREENSHOTS}}` with actual screenshots if the diff touches `presentation/` UI code, else `N/A`.
-7. Create PR:
+6. PR title: identical to the commit message, `<COMMIT_TYPE>(<SCOPE>): <short summary>`.
+7. Render PR body from `.claude/rules/git-conventions.md`. Fill `## Summary` with the ticket summary/description (what this does and why), and `## Changes` with a short bullet list summarizing the diff.
+8. Create PR:
    ```bash
    gh pr create --base develop --title "<PR_TITLE>" --body "<PR_BODY>"
    ```
-8. Render Jira comment from `.claude/templates/jira-comment.md` and call `jira_comment`.
+9. Render Jira comment from `.claude/templates/jira-comment.md` and call `jira_comment` — this is what links the PR back to the ticket, since the PR body no longer references Jira.
 
 ## Step 4 — Review loop (max 3 cycles)
 
@@ -75,10 +79,10 @@ For each cycle:
 1. Run the **code-reviewer** subagent on the current diff. Ask it to end its response with exactly:
    `VERDICT: APPROVED` or `VERDICT: NEEDS_FIXES`
 2. If `VERDICT: APPROVED` → break.
-3. If `VERDICT: NEEDS_FIXES` → run the **coder** subagent to fix the issues, then commit and push:
+3. If `VERDICT: NEEDS_FIXES` → run the **coder** subagent to fix the issues. Reuse `<COMMIT_TYPE>` and `<SCOPE>` from Step 3, then commit and push:
    ```bash
    git add -A
-   git diff --cached --quiet || git commit -m "<TICKET_ID>: apply review fixes (cycle <N>)"
+   git diff --cached --quiet || git commit -m "<COMMIT_TYPE>(<SCOPE>): apply review fixes (cycle <N>)"
    git push
    ```
 4. After 3 cycles without approval → break and move on.
@@ -98,21 +102,24 @@ Only runs when `--fix-pr-comments --pr <PR_NUMBER>` is passed. Skips Steps 1–5
      --jq '.[] | select(.in_reply_to_id == null) | {id: .id, path: .path, line: .line, body: .body}'
    ```
 2. If no comments are found, report "No open review comments" and stop.
-3. Determine the ticket ID from the PR body's Jira link (rendered by `.claude/templates/git-pr.md`, e.g. `.../browse/APPS-7`).
-4. Run the **coder** subagent, passing all comment bodies with their file path and line number so it knows exactly what to fix.
-5. Commit and push:
+3. Determine the originating ticket via `jira_search 'comment ~ "pull/<PR_NUMBER>"'` — this finds the ticket whose Jira comment (posted in Step 3.9) links to this PR. Best effort: if no match is found, proceed without a ticket reference rather than stopping.
+4. Fetch `<COMMIT_TYPE>` and `<SCOPE>` from the existing PR's own title (`gh pr view <PR_NUMBER> --json title -q .title`), parsing the leading `<type>(<scope>):` prefix, so the follow-up commit matches the PR's established type/scope.
+5. Run the **coder** subagent, passing all comment bodies with their file path and line number so it knows exactly what to fix.
+6. Commit and push, per `.claude/rules/git-conventions.md`'s commit message format:
    ```bash
    git add -A
-   git diff --cached --quiet || git commit -m "<TICKET_ID>: address PR review comments"
+   git diff --cached --quiet || git commit -m "<COMMIT_TYPE>(<SCOPE>): address PR review comments"
    git push
    ```
-6. Re-run the **code-reviewer** subagent on the current diff. Ask it to end its response with exactly `VERDICT: APPROVED` or `VERDICT: NEEDS_FIXES`.
-7. If `VERDICT: APPROVED` → report: PR URL, comments fixed, outcome.
-8. If `VERDICT: NEEDS_FIXES` → report the remaining findings and stop (do not loop further).
+7. Re-run the **code-reviewer** subagent on the current diff. Ask it to end its response with exactly `VERDICT: APPROVED` or `VERDICT: NEEDS_FIXES`.
+8. If `VERDICT: APPROVED` → report: ticket (if found), PR URL, comments fixed, outcome.
+9. If `VERDICT: NEEDS_FIXES` → report the remaining findings and stop (do not loop further).
 
 ## Rules
 
 - **Never ask the user clarifying questions about scope or approach.** Make the best decision with available information and proceed. If something is ambiguous, pick the most reasonable interpretation and continue. This does not cover tool permission prompts — `git commit`/`push`, `gh pr create`, and Jira writes are intentionally not auto-approved (see `.claude/settings.json`), so the user will be prompted to approve those; that is expected and is not a pipeline failure.
 - Always source `scripts/jira.sh` before calling any `jira_*` function.
 - Never commit unrelated files.
-- Never push directly to `develop` or `main`.
+- Never push directly to `develop` or `main` — all changes land through the PR opened in Step 3.
+- Never force-push, and never delete `develop` or `main`.
+- Never merge the PR yourself — `develop`/`main` require passing CI and human review before merge; Step 5 reports the outcome without merging.

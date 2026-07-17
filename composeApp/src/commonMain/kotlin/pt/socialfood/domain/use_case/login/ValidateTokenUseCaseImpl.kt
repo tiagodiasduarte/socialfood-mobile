@@ -4,17 +4,19 @@ import pt.socialfood.core.Result
 import pt.socialfood.data.network.SessionManager
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.repository.AuthRepository
+import pt.socialfood.domain.repository.SettingsRepository
 
 class ValidateTokenUseCaseImpl(
     private val sessionManager: SessionManager,
     private val repository: AuthRepository,
+    private val settingsRepository: SettingsRepository,
 ) : ValidateTokenUseCase {
     override suspend operator fun invoke(token: String): Result<Boolean> {
         val result = repository.validateToken(token)
 
         if (result is Result.Success) {
             sessionManager.saveToken(result.data)
-            sessionManager.clearPendingVerification()
+            settingsRepository.clearPendingVerificationEmail()
             return Result.Success(true)
         }
 

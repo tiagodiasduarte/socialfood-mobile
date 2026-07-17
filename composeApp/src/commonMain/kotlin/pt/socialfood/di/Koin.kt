@@ -1,9 +1,9 @@
 package pt.socialfood.di
 
-import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
+import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.includes
 import org.koin.dsl.module
@@ -144,8 +144,9 @@ import pt.socialfood.presentation.profile.edit.EditProfileViewModel
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
 import pt.socialfood.presentation.splash.SplashViewModel
 
+expect val platformModule: Module
+
 val networkModule = module {
-    single<Settings> { Settings() }
     single { SessionManager(get()) }
     single { KtorHttpClient(get()) }
     single<HttpClient> { get<KtorHttpClient>().client }
@@ -217,7 +218,7 @@ val useCaseModule = module {
     factory<LoginWithGoogleUseCase> { LoginWithGoogleUseCaseImpl(get(), get()) }
     factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
     factory<RegisterUseCase> { RegisterUseCaseImpl(get(), get()) }
-    factory<ValidateTokenUseCase> { ValidateTokenUseCaseImpl(get(), get()) }
+    factory<ValidateTokenUseCase> { ValidateTokenUseCaseImpl(get(), get(), get()) }
     factory<ResendVerificationUseCase> { ResendVerificationUseCaseImpl(get()) }
     factory<RestartSignUpUseCase> { RestartSignUpUseCaseImpl(get()) }
 
@@ -225,7 +226,7 @@ val useCaseModule = module {
 }
 
 val viewModelModule = module {
-    factory { SplashViewModel(get(), get(), get()) }
+    factory { SplashViewModel(get(), get(), get(), get()) }
 
     factory { AuthorsViewModel(get<FindAuthorsUseCase>()) }
     factory { (authorId: String) -> AuthorDetailViewModel(get(), authorId) }
@@ -253,6 +254,7 @@ fun initKoin(configuration: KoinAppDeclaration? = null) {
         modules(
             module {
                 includes(
+                    platformModule,
                     networkModule,
                     repositoryModule,
                     useCaseModule,

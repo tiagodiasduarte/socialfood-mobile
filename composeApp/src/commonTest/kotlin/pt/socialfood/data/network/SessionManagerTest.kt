@@ -1,6 +1,7 @@
 package pt.socialfood.data.network
 
-import com.russhwolf.settings.MapSettings
+import kotlinx.coroutines.test.runTest
+import pt.socialfood.fakes.FakeSettingsRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -8,74 +9,56 @@ import kotlin.test.assertNull
 class SessionManagerTest {
 
     @Test
-    fun `given no pending verification saved when session manager is created then pendingVerificationEmail is null`() {
+    fun `given no token saved when session manager is created then token is null`() {
         // Given
-        val settings = MapSettings()
+        val settingsRepository = FakeSettingsRepository()
 
         // When
-        val sessionManager = SessionManager(settings)
+        val sessionManager = SessionManager(settingsRepository)
 
         // Then
-        assertNull(sessionManager.pendingVerificationEmail)
+        assertNull(sessionManager.token)
     }
 
     @Test
-    fun `given an email when savePendingVerification is called then pendingVerificationEmail is set and persisted`() {
+    fun `given a token when saveToken is called then token is set and persisted`() = runTest {
         // Given
-        val settings = MapSettings()
-        val sessionManager = SessionManager(settings)
+        val settingsRepository = FakeSettingsRepository()
+        val sessionManager = SessionManager(settingsRepository)
 
         // When
-        sessionManager.savePendingVerification("user@test.com")
-
-        // Then
-        assertEquals("user@test.com", sessionManager.pendingVerificationEmail)
-        assertEquals("user@test.com", settings.getStringOrNull("pending_verification_email"))
-    }
-
-    @Test
-    fun `given a persisted pending email when a new SessionManager is created then pendingVerificationEmail is reloaded`() {
-        // Given
-        val settings = MapSettings()
-        SessionManager(settings).savePendingVerification("user@test.com")
-
-        // When
-        val reloaded = SessionManager(settings)
-
-        // Then
-        assertEquals("user@test.com", reloaded.pendingVerificationEmail)
-    }
-
-    @Test
-    fun `given a saved pending email when clearPendingVerification is called then pendingVerificationEmail is cleared and removed from storage`() {
-        // Given
-        val settings = MapSettings()
-        val sessionManager = SessionManager(settings)
-        sessionManager.savePendingVerification("user@test.com")
-
-        // When
-        sessionManager.clearPendingVerification()
-
-        // Then
-        assertNull(sessionManager.pendingVerificationEmail)
-        assertNull(settings.getStringOrNull("pending_verification_email"))
-    }
-
-    @Test
-    fun `given a saved token and pending email when clear is called then both are cleared and removed from storage`() {
-        // Given
-        val settings = MapSettings()
-        val sessionManager = SessionManager(settings)
         sessionManager.saveToken("jwt-token")
-        sessionManager.savePendingVerification("user@test.com")
+
+        // Then
+        assertEquals("jwt-token", sessionManager.token)
+        assertEquals("jwt-token", settingsRepository.getToken())
+    }
+
+    @Test
+    fun `given a persisted token when a new SessionManager is created then token is reloaded`() = runTest {
+        // Given
+        val settingsRepository = FakeSettingsRepository()
+        SessionManager(settingsRepository).saveToken("jwt-token")
+
+        // When
+        val reloaded = SessionManager(settingsRepository)
+
+        // Then
+        assertEquals("jwt-token", reloaded.token)
+    }
+
+    @Test
+    fun `given a saved token when clear is called then token is cleared and removed from storage`() = runTest {
+        // Given
+        val settingsRepository = FakeSettingsRepository()
+        val sessionManager = SessionManager(settingsRepository)
+        sessionManager.saveToken("jwt-token")
 
         // When
         sessionManager.clear()
 
         // Then
         assertNull(sessionManager.token)
-        assertNull(settings.getStringOrNull("jwt_token"))
-        assertNull(sessionManager.pendingVerificationEmail)
-        assertNull(settings.getStringOrNull("pending_verification_email"))
+        assertNull(settingsRepository.getToken())
     }
 }

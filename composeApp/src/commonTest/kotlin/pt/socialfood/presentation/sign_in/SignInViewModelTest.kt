@@ -1,6 +1,5 @@
 package pt.socialfood.presentation.sign_in
 
-import com.russhwolf.settings.MapSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -14,6 +13,7 @@ import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.use_case.login.LoginUseCaseImpl
 import pt.socialfood.domain.use_case.login.LoginWithGoogleUseCaseImpl
 import pt.socialfood.fakes.FakeAuthRepository
+import pt.socialfood.fakes.FakeSettingsRepository
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -36,7 +36,7 @@ class SignInViewModelTest {
     }
 
     private fun createViewModel(loginResult: Result<String>): SignInViewModel {
-        val sessionManager = SessionManager(MapSettings())
+        val sessionManager = SessionManager(FakeSettingsRepository())
         val fakeRepo = FakeAuthRepository(loginResult)
         val loginUseCase = LoginUseCaseImpl(sessionManager, fakeRepo)
         val loginWithGoogleUseCase = LoginWithGoogleUseCaseImpl(sessionManager, fakeRepo)

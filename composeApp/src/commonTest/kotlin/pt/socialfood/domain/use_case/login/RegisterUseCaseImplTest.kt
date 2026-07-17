@@ -1,11 +1,10 @@
 package pt.socialfood.domain.use_case.login
 
-import com.russhwolf.settings.MapSettings
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
-import pt.socialfood.data.network.SessionManager
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.fakes.FakeAuthRepository
+import pt.socialfood.fakes.FakeSettingsRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -16,38 +15,36 @@ class RegisterUseCaseImplTest {
     @Test
     fun `given successful register when invoked then pendingVerificationEmail is persisted and returns Success`() = runTest {
         // Given
-        val settings = MapSettings()
-        val sessionManager = SessionManager(settings)
+        val settingsRepository = FakeSettingsRepository()
         val fakeRepo = FakeAuthRepository(
             loginResult = Result.Success("token"),
             registerResult = Result.Success(true),
         )
-        val useCase = RegisterUseCaseImpl(fakeRepo, sessionManager)
+        val useCase = RegisterUseCaseImpl(fakeRepo, settingsRepository)
 
         // When
         val result = useCase.invoke("John Doe", "john.doe@test.com", "password")
 
         // Then
         assertIs<Result.Success<Boolean>>(result)
-        assertEquals("john.doe@test.com", sessionManager.pendingVerificationEmail)
+        assertEquals("john.doe@test.com", settingsRepository.getPendingVerificationEmail())
     }
 
     @Test
     fun `given failed register when invoked then pendingVerificationEmail is untouched and returns Error`() = runTest {
         // Given
-        val settings = MapSettings()
-        val sessionManager = SessionManager(settings)
+        val settingsRepository = FakeSettingsRepository()
         val fakeRepo = FakeAuthRepository(
             loginResult = Result.Success("token"),
             registerResult = Result.Error(ErrorEntity.Unknown),
         )
-        val useCase = RegisterUseCaseImpl(fakeRepo, sessionManager)
+        val useCase = RegisterUseCaseImpl(fakeRepo, settingsRepository)
 
         // When
         val result = useCase.invoke("John Doe", "john.doe@test.com", "password")
 
         // Then
         assertIs<Result.Error>(result)
-        assertNull(sessionManager.pendingVerificationEmail)
+        assertNull(settingsRepository.getPendingVerificationEmail())
     }
 }

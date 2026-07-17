@@ -52,4 +52,8 @@ class SignInViewModel(
     fun onGoogleSignInError(message: String) {
         _state.value = SignInUiState.Error(ErrorEntity.Unknown, message)
     }
+
+    fun resetState() {
+        _state.value = SignInUiState.Idle
+    }
 }

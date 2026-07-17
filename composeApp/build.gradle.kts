@@ -34,6 +34,7 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.credentials)
             implementation(libs.androidx.credentials.play.services.auth)
+            implementation(libs.androidx.datastore.preferences)
             implementation(libs.googleid)
         }
         commonMain.dependencies {
@@ -55,8 +56,6 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.multiplatform.settings)
-            implementation(libs.multiplatform.settings.no.arg)
             implementation(libs.kamel.image.default)
         }
         iosMain.dependencies {
@@ -65,7 +64,6 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
-            implementation(libs.multiplatform.settings.test)
             implementation(libs.ktor.client.mock)
         }
     }

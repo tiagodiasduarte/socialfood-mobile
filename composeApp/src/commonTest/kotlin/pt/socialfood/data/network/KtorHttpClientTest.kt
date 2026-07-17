@@ -1,6 +1,5 @@
 package pt.socialfood.data.network
 
-import com.russhwolf.settings.MapSettings
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
@@ -9,6 +8,7 @@ import io.ktor.client.request.post
 import io.ktor.http.HttpHeaders
 import io.ktor.http.headersOf
 import kotlinx.coroutines.test.runTest
+import pt.socialfood.fakes.FakeSettingsRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -30,7 +30,7 @@ class KtorHttpClientTest {
             )
         }
         val client = KtorHttpClient(
-            sessionManager = SessionManager(MapSettings()),
+            sessionManager = SessionManager(FakeSettingsRepository()),
             engine = engine
         ).client
         return client to requestedUrls

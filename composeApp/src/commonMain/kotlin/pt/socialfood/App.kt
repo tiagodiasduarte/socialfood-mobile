@@ -40,6 +40,7 @@ fun App() {
             AppDestination.Splash -> SplashScreen(
                 onNavigateToHome = { navigate(AppDestination.Home) },
                 onNavigateToLogin = { navigate(AppDestination.Login) },
+                onNavigateToValidateToken = { email -> navigate(AppDestination.ValidateToken(email)) },
             )
             AppDestination.Home -> NavigationRoot()
             AppDestination.Login -> SignInScreen(

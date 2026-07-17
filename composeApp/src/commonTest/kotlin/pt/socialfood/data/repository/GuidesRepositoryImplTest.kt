@@ -77,6 +77,7 @@ class GuidesRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // findGuides
@@ -106,6 +107,7 @@ class GuidesRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // findGuidesPaged
@@ -139,6 +141,7 @@ class GuidesRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // update
@@ -181,6 +184,7 @@ class GuidesRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // findById
@@ -209,6 +213,7 @@ class GuidesRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // getPhotoPresignedUrl
@@ -246,6 +251,7 @@ class GuidesRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // addRestaurantGuide
@@ -282,6 +288,7 @@ class GuidesRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // addPhoto
@@ -310,6 +317,7 @@ class GuidesRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // deletePhoto
@@ -338,5 +346,6 @@ class GuidesRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 }

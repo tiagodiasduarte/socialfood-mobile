@@ -76,6 +76,7 @@ class HomeRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // create
@@ -105,6 +106,7 @@ class HomeRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // update
@@ -147,6 +149,7 @@ class HomeRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // delete
@@ -175,6 +178,7 @@ class HomeRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // addItem
@@ -213,6 +217,7 @@ class HomeRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // removeItem
@@ -241,5 +246,6 @@ class HomeRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 }

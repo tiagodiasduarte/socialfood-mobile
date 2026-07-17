@@ -74,6 +74,7 @@ class RestaurantsRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // findAll
@@ -103,6 +104,7 @@ class RestaurantsRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // findRestaurants
@@ -136,6 +138,7 @@ class RestaurantsRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // findById
@@ -164,6 +167,7 @@ class RestaurantsRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // findByPlaceId
@@ -192,6 +196,7 @@ class RestaurantsRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // update
@@ -238,5 +243,6 @@ class RestaurantsRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 }

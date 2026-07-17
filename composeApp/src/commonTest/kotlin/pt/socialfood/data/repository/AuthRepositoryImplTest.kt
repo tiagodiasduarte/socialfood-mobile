@@ -65,6 +65,7 @@ class AuthRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     @Test
@@ -91,6 +92,7 @@ class AuthRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     @Test
@@ -116,6 +118,7 @@ class AuthRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     @Test
@@ -142,6 +145,7 @@ class AuthRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     @Test
@@ -168,5 +172,6 @@ class AuthRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 }

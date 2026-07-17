@@ -83,6 +83,7 @@ class UsersRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // getUserMe
@@ -113,6 +114,7 @@ class UsersRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // findById
@@ -141,6 +143,7 @@ class UsersRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // update
@@ -199,6 +202,7 @@ class UsersRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // updatePhoto
@@ -227,6 +231,7 @@ class UsersRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // getPresignedUrl
@@ -266,6 +271,7 @@ class UsersRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+        assertEquals(1, crashReporter.recordedExceptions.size)
     }
 
     // saveUser / clearUser / currentUser flow

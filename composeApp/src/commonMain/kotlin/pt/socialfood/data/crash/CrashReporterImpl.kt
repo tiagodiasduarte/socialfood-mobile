@@ -8,18 +8,34 @@ class CrashReporterImpl : CrashReporter {
     private val crashlytics get() = Firebase.crashlytics
 
     override fun recordException(throwable: Throwable) {
-        crashlytics.recordException(throwable)
+        try {
+            crashlytics.recordException(throwable)
+        } catch (e: Exception) {
+            // swallow — crash reporting must never itself crash the app
+        }
     }
 
     override fun log(message: String) {
-        crashlytics.log(message)
+        try {
+            crashlytics.log(message)
+        } catch (e: Exception) {
+            // swallow — crash reporting must never itself crash the app
+        }
     }
 
     override fun setCustomKey(key: String, value: String) {
-        crashlytics.setCustomKey(key, value)
+        try {
+            crashlytics.setCustomKey(key, value)
+        } catch (e: Exception) {
+            // swallow — crash reporting must never itself crash the app
+        }
     }
 
     override fun setUserId(userId: String) {
-        crashlytics.setUserId(userId)
+        try {
+            crashlytics.setUserId(userId)
+        } catch (e: Exception) {
+            // swallow — crash reporting must never itself crash the app
+        }
     }
 }

@@ -19,7 +19,7 @@ SocialFood is a Kotlin Multiplatform (KMP) app targeting **Android** and **iOS**
 ./gradlew :composeApp:allTests
 
 # Run a specific test class
-./gradlew :composeApp:allTests --tests "pt.socialfood.presentation.sign_in.SignInViewModelTest"
+./gradlew :composeApp:testDebugUnitTest --tests "pt.socialfood.presentation.sign_in.SignInViewModelTest"
 ```
 
 For iOS: open `iosApp/` in Xcode and run from there.
@@ -46,15 +46,15 @@ di/            – Koin DI module definitions
 
 ## Dependency Injection (Koin)
 
-All wiring is in `di/Koin.kt`, split into four modules: `networkModule`, `repositoryModule`, `useCaseModule`, `viewModelModule`. ViewModels that require an ID are registered as `factory { (id: String) -> SomeViewModel(get(), id) }` and retrieved with `parametersOf(id)`.
+All wiring is in `di/Koin.kt`, split into five modules: `platformModule` (`expect`/`actual`, binds `SettingsRepository` per platform), `networkModule`, `repositoryModule`, `useCaseModule`, `viewModelModule`. ViewModels that require an ID are registered as `factory { (id: String) -> SomeViewModel(get(), id) }` and retrieved with `parametersOf(id)`.
 
 ## Navigation
 
-Uses JetBrains Navigation 3 (`androidx.navigation3`). All routes are defined as `@Serializable` objects/data classes implementing the `Route` sealed interface. The `NavigationRoot` composable hosts a `NavDisplay` with bottom-tab navigation; the bottom bar hides when the back stack depth > 1. Auth flow (Splash → SignIn/SignUp → Home) is handled outside `NavigationRoot` in `App.kt`.
+Uses JetBrains Navigation 3 (`androidx.navigation3`). All routes are defined as `@Serializable` objects/data classes implementing the `Route` sealed interface. The `NavigationRoot` composable hosts a `NavDisplay` with bottom-tab navigation; the bottom bar hides when the back stack depth > 1. Auth flow (Splash → SignIn/SignUp → ValidateCode → Home) is handled outside `NavigationRoot` in `App.kt`. Unverified users are routed to `ValidateCode` from both Splash (existing session, unverified) and SignUp (new registration).
 
 ## Session & Auth
 
-`SessionManager` stores the JWT in `multiplatform-settings` (key-value store). On 401 responses, `KtorHttpClient` calls `sessionManager.clear()`, which emits an `unauthorizedEvent` that `App.kt` observes to redirect to the login screen.
+`SessionManager` stores the JWT via `SettingsRepository` (Jetpack DataStore on Android, `NSUserDefaults` on iOS). On 401 responses, `KtorHttpClient` calls `sessionManager.clear()`, which emits an `unauthorizedEvent` that `App.kt` observes to redirect to the login screen.
 
 ## Platform-Specific Code
 
@@ -62,35 +62,9 @@ Uses JetBrains Navigation 3 (`androidx.navigation3`). All routes are defined as 
 - `GoogleSignInLauncher` – platform sign-in UI
 - `ImagePickerLauncher` / `ImageBitmapDecoder` – photo picking
 - `AppVersion` – version string
+- `platformModule` (in `di/Koin.kt`) – Koin module binding `SettingsRepository`: `SettingsRepositoryImpl` is backed by Jetpack DataStore on Android and `NSUserDefaults` on iOS (these two `SettingsRepositoryImpl` classes aren't `expect`/`actual` themselves, just independently implemented per platform and wired in through `platformModule`)
 
 Photo uploads use a separate `S3HttpClient` (unsigned requests) distinct from the main `KtorHttpClient`.
-
-## Test Conventions
-
-Every test function must follow the Given-When-Then structure:
-
-- **Name:** `` `given <context> when <action> then <expected outcome>` `` 
-- **Body:** three labelled comment blocks — `// Given`, `// When`, `// Then`
-
-```kotlin
-@Test
-fun `given valid credentials when login is called then returns Success`() = runTest {
-    // Given
-    val api = FakeAuthApi()
-    val repo = AuthRepositoryImpl(api)
-
-    // When
-    val result = repo.login("user@test.com", "password")
-
-    // Then
-    assertIs<Result.Success<*>>(result)
-}
-```
-
-- Fakes over mocks — hand-rolled `Fake<Dependency>` classes with a `shouldThrow: Boolean` flag.
-- Place fakes in `composeApp/src/commonTest/kotlin/pt/socialfood/fakes/` so they are shared across all test files within the module.
-- Place test files under `commonTest` mirroring the production package path.
-- Use `runTest` + `StandardTestDispatcher` for coroutine tests.
 
 ## Key Libraries
 
@@ -99,6 +73,5 @@ fun `given valid credentials when login is called then returns Success`() = runT
 | Ktor 3.4                   | HTTP client (OkHttp on Android, Darwin on iOS) |
 | Koin 4.2                   | Dependency injection                           |
 | Kamel 1.0                  | Async image loading                            |
-| multiplatform-settings 1.3 | Persistent key-value storage                   |
 | kotlinx.serialization      | JSON + route serialization                     |
 | Firebase (BOM 34)          | Analytics (Android only)                       |

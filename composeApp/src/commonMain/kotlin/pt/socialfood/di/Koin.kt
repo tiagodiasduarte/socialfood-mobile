@@ -226,7 +226,7 @@ val useCaseModule = module {
 }
 
 val viewModelModule = module {
-    factory { SplashViewModel(get(), get(), get(), get()) }
+    factory { SplashViewModel(get(), get(), get()) }
 
     factory { AuthorsViewModel(get<FindAuthorsUseCase>()) }
     factory { (authorId: String) -> AuthorDetailViewModel(get(), authorId) }

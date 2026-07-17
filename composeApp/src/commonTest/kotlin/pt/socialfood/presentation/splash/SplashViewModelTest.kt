@@ -8,7 +8,6 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import pt.socialfood.core.Result
-import pt.socialfood.data.network.SessionManager
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.Configs
 import pt.socialfood.domain.model.User
@@ -41,12 +40,11 @@ class SplashViewModelTest {
         // Given
         val settingsRepository = FakeSettingsRepository()
         settingsRepository.savePendingVerificationEmail("pending@test.com")
-        val sessionManager = SessionManager(settingsRepository)
         val fakeGetUserMe = FakeGetUserMeUseCase(Result.Success(defaultUser()))
         val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
         // When
-        val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, sessionManager, settingsRepository)
+        val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
         advanceUntilIdle()
 
         // Then
@@ -59,12 +57,11 @@ class SplashViewModelTest {
     fun `given no pendingVerificationEmail and no token when loaded then emits NavigateToLogin`() = runTest {
         // Given
         val settingsRepository = FakeSettingsRepository()
-        val sessionManager = SessionManager(settingsRepository)
         val fakeGetUserMe = FakeGetUserMeUseCase(Result.Success(defaultUser()))
         val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
         // When
-        val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, sessionManager, settingsRepository)
+        val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
         advanceUntilIdle()
 
         // Then
@@ -75,13 +72,12 @@ class SplashViewModelTest {
     fun `given no pendingVerificationEmail and token and unverified user when loaded then emits NavigateToValidateToken`() = runTest {
         // Given
         val settingsRepository = FakeSettingsRepository()
-        val sessionManager = SessionManager(settingsRepository)
-        sessionManager.saveToken("jwt-token")
+        settingsRepository.saveToken("jwt-token")
         val fakeGetUserMe = FakeGetUserMeUseCase(Result.Success(defaultUser(isVerified = false)))
         val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
         // When
-        val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, sessionManager, settingsRepository)
+        val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
         advanceUntilIdle()
 
         // Then
@@ -92,13 +88,12 @@ class SplashViewModelTest {
     fun `given no pendingVerificationEmail and token and verified user when loaded then emits NavigateToHome`() = runTest {
         // Given
         val settingsRepository = FakeSettingsRepository()
-        val sessionManager = SessionManager(settingsRepository)
-        sessionManager.saveToken("jwt-token")
+        settingsRepository.saveToken("jwt-token")
         val fakeGetUserMe = FakeGetUserMeUseCase(Result.Success(defaultUser(isVerified = true)))
         val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
         // When
-        val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, sessionManager, settingsRepository)
+        val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
         advanceUntilIdle()
 
         // Then
@@ -110,13 +105,12 @@ class SplashViewModelTest {
         // Given
         val settingsRepository = FakeSettingsRepository()
         settingsRepository.savePendingVerificationEmail("stale@test.com")
-        val sessionManager = SessionManager(settingsRepository)
-        sessionManager.saveToken("jwt-token")
+        settingsRepository.saveToken("jwt-token")
         val fakeGetUserMe = FakeGetUserMeUseCase(Result.Success(defaultUser(isVerified = true)))
         val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
         // When
-        val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, sessionManager, settingsRepository)
+        val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
         advanceUntilIdle()
 
         // Then
@@ -129,13 +123,12 @@ class SplashViewModelTest {
     fun `given no pendingVerificationEmail and token and getUserMe fails when loaded then emits NavigateToLogin`() = runTest {
         // Given
         val settingsRepository = FakeSettingsRepository()
-        val sessionManager = SessionManager(settingsRepository)
-        sessionManager.saveToken("jwt-token")
+        settingsRepository.saveToken("jwt-token")
         val fakeGetUserMe = FakeGetUserMeUseCase(Result.Error(ErrorEntity.Unknown))
         val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
         // When
-        val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, sessionManager, settingsRepository)
+        val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
         advanceUntilIdle()
 
         // Then

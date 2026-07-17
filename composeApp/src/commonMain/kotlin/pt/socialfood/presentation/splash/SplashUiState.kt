@@ -4,5 +4,5 @@ sealed class SplashUiState {
     object Loading : SplashUiState()
     object NavigateToHome : SplashUiState()
     object NavigateToLogin : SplashUiState()
-    data class NavigateToValidateToken(val email: String) : SplashUiState()
+    data class NavigateToValidateCode(val email: String) : SplashUiState()
 }

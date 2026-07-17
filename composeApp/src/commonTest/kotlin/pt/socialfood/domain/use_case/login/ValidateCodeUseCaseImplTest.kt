@@ -11,7 +11,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertNull
 
-class ValidateTokenUseCaseImplTest {
+class ValidateCodeUseCaseImplTest {
 
     @Test
     fun `given successful validate when invoked then token is saved and pendingVerificationEmail is cleared`() = runTest {
@@ -20,10 +20,10 @@ class ValidateTokenUseCaseImplTest {
         settingsRepository.savePendingVerificationEmail("user@test.com")
         val sessionManager = SessionManager(settingsRepository)
         val fakeRepo = FakeAuthRepository(loginResult = Result.Success("jwt-token"))
-        val useCase = ValidateTokenUseCaseImpl(sessionManager, fakeRepo, settingsRepository)
+        val useCase = ValidateCodeUseCaseImpl(sessionManager, fakeRepo, settingsRepository)
 
         // When
-        val result = useCase.invoke("123456")
+        val result = useCase.invoke("user@test.com", "123456")
 
         // Then
         assertIs<Result.Success<Boolean>>(result)
@@ -38,10 +38,10 @@ class ValidateTokenUseCaseImplTest {
         settingsRepository.savePendingVerificationEmail("user@test.com")
         val sessionManager = SessionManager(settingsRepository)
         val fakeRepo = FakeAuthRepository(loginResult = Result.Error(ErrorEntity.Unknown))
-        val useCase = ValidateTokenUseCaseImpl(sessionManager, fakeRepo, settingsRepository)
+        val useCase = ValidateCodeUseCaseImpl(sessionManager, fakeRepo, settingsRepository)
 
         // When
-        val result = useCase.invoke("123456")
+        val result = useCase.invoke("user@test.com", "123456")
 
         // Then
         assertIs<Result.Error>(result)

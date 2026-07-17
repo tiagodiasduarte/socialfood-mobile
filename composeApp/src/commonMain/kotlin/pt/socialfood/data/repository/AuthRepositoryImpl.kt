@@ -20,7 +20,7 @@ class AuthRepositoryImpl(
         }
     }
 
-    override suspend fun register(name: String, email: String, password: String): Result<Boolean> {
+    override suspend fun register(name: String, email: String, password: String): Result<Unit> {
         return try {
             val token = authApi.register(name, email, password)
             Result.Success(token)
@@ -29,18 +29,18 @@ class AuthRepositoryImpl(
         }
     }
 
-    override suspend fun validateToken(token: String): Result<String> {
+    override suspend fun validateCode(email: String, code: String): Result<String> {
         return try {
-            val response = authApi.validateToken(token)
+            val response = authApi.validateCode(email = email, code = code)
             Result.Success(response.token)
         } catch (exception: Exception) {
             Result.Error(exception.toErrorEntity())
         }
     }
 
-    override suspend fun resendVerification(email: String): Result<Boolean> {
+    override suspend fun resendVerificationCode(email: String): Result<Unit> {
         return try {
-            val result = authApi.resendVerification(email)
+            val result = authApi.resendVerificationCode(email)
             Result.Success(result)
         } catch (exception: Exception) {
             Result.Error(exception.toErrorEntity())

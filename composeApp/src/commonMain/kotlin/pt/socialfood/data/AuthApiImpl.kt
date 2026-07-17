@@ -10,9 +10,9 @@ import pt.socialfood.data.network.model.LoginRequest
 import pt.socialfood.data.network.model.LoginResponse
 import pt.socialfood.data.network.model.login.GoogleLoginRequest
 import pt.socialfood.data.network.model.login.RegisterRequest
-import pt.socialfood.data.network.model.login.ResendVerificationRequest
-import pt.socialfood.data.network.model.login.ValidateTokenRequest
-import pt.socialfood.data.network.model.login.ValidateTokenResponse
+import pt.socialfood.data.network.model.login.ResendVerificationCodeRequest
+import pt.socialfood.data.network.model.login.ValidateCodeRequest
+import pt.socialfood.data.network.model.login.ValidateCodeResponse
 
 class AuthApiImpl(
     private val client: HttpClient
@@ -24,7 +24,7 @@ class AuthApiImpl(
             setBody(LoginRequest(email = username, password = password))
         }.body()
 
-    override suspend fun register(name: String, username: String, password: String): Boolean =
+    override suspend fun register(name: String, username: String, password: String): Unit =
         client.post("auth/register") {
             contentType(ContentType.Application.Json)
             setBody(RegisterRequest(name = name, email = username, password = password))
@@ -36,16 +36,16 @@ class AuthApiImpl(
             setBody(GoogleLoginRequest(idToken = idToken))
         }.body()
 
-    override suspend fun validateToken(token: String): ValidateTokenResponse =
+    override suspend fun validateCode(email: String, code: String): ValidateCodeResponse =
         client.post("auth/verify") {
             contentType(ContentType.Application.Json)
-            setBody(ValidateTokenRequest(token = token))
+            setBody(ValidateCodeRequest(email = email, code = code))
         }.body()
 
-    override suspend fun resendVerification(email: String): Boolean =
+    override suspend fun resendVerificationCode(email: String): Unit =
         client.post("auth/send-verification") {
             contentType(ContentType.Application.Json)
-            setBody(ResendVerificationRequest(email = email))
+            setBody(ResendVerificationCodeRequest(email = email))
         }.body()
 
     override suspend fun logout(): Boolean =

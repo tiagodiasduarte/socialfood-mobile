@@ -18,7 +18,7 @@ class RegisterUseCaseImplTest {
         val settingsRepository = FakeSettingsRepository()
         val fakeRepo = FakeAuthRepository(
             loginResult = Result.Success("token"),
-            registerResult = Result.Success(true),
+            registerResult = Result.Success(Unit),
         )
         val useCase = RegisterUseCaseImpl(fakeRepo, settingsRepository)
 

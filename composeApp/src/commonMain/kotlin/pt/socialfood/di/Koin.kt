@@ -92,12 +92,12 @@ import pt.socialfood.domain.use_case.login.LogoutUseCase
 import pt.socialfood.domain.use_case.login.LogoutUseCaseImpl
 import pt.socialfood.domain.use_case.login.RegisterUseCase
 import pt.socialfood.domain.use_case.login.RegisterUseCaseImpl
-import pt.socialfood.domain.use_case.login.ResendVerificationUseCase
-import pt.socialfood.domain.use_case.login.ResendVerificationUseCaseImpl
+import pt.socialfood.domain.use_case.login.ResendVerificationCodeUseCase
+import pt.socialfood.domain.use_case.login.ResendVerificationCodeUseCaseImpl
 import pt.socialfood.domain.use_case.login.RestartSignUpUseCase
 import pt.socialfood.domain.use_case.login.RestartSignUpUseCaseImpl
-import pt.socialfood.domain.use_case.login.ValidateTokenUseCase
-import pt.socialfood.domain.use_case.login.ValidateTokenUseCaseImpl
+import pt.socialfood.domain.use_case.login.ValidateCodeUseCase
+import pt.socialfood.domain.use_case.login.ValidateCodeUseCaseImpl
 import pt.socialfood.domain.use_case.restaurant.DeleteRestaurantUseCase
 import pt.socialfood.domain.use_case.restaurant.DeleteRestaurantUseCaseImpl
 import pt.socialfood.domain.use_case.restaurant.FindRestaurantsUseCase
@@ -136,7 +136,7 @@ import pt.socialfood.presentation.guides.create.CreateGuideViewModel
 import pt.socialfood.presentation.home.HomeViewModel
 import pt.socialfood.presentation.sign_in.SignInViewModel
 import pt.socialfood.presentation.sign_up.SignUpViewModel
-import pt.socialfood.presentation.validate_token.ValidateTokenViewModel
+import pt.socialfood.presentation.validate_code.ValidateCodeViewModel
 import pt.socialfood.presentation.guides.edit.search_restaurants.SearchRestaurantsViewModel
 import pt.socialfood.presentation.guides.edit.EditGuideViewModel
 import pt.socialfood.presentation.profile.ProfileViewModel
@@ -218,8 +218,8 @@ val useCaseModule = module {
     factory<LoginWithGoogleUseCase> { LoginWithGoogleUseCaseImpl(get(), get()) }
     factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
     factory<RegisterUseCase> { RegisterUseCaseImpl(get(), get()) }
-    factory<ValidateTokenUseCase> { ValidateTokenUseCaseImpl(get(), get(), get()) }
-    factory<ResendVerificationUseCase> { ResendVerificationUseCaseImpl(get()) }
+    factory<ValidateCodeUseCase> { ValidateCodeUseCaseImpl(get(), get(), get()) }
+    factory<ResendVerificationCodeUseCase> { ResendVerificationCodeUseCaseImpl(get()) }
     factory<RestartSignUpUseCase> { RestartSignUpUseCaseImpl(get()) }
 
     factory<GetPresignedUrlUseCase> { GetPresignedUrlUseCaseImpl(get()) }
@@ -243,7 +243,7 @@ val viewModelModule = module {
     factory { HomeViewModel(get()) }
     factory { SignInViewModel(get(), get()) }
     factory { SignUpViewModel(get()) }
-    factory { (email: String) -> ValidateTokenViewModel(get(), get(), get(), email) }
+    factory { (email: String) -> ValidateCodeViewModel(get(), get(), get(), email) }
     factory { ProfileViewModel(get(), get(), get()) }
     factory { EditProfileViewModel(get(), get(), get(), get(), get()) }
 }

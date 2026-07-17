@@ -29,7 +29,7 @@ class SplashViewModel(
             if (settingsRepository.getToken() == null) {
                 val pendingEmail = settingsRepository.getPendingVerificationEmail()
                 _state.value = if (pendingEmail != null) {
-                    SplashUiState.NavigateToValidateToken(pendingEmail)
+                    SplashUiState.NavigateToValidateCode(pendingEmail)
                 } else {
                     SplashUiState.NavigateToLogin
                 }
@@ -46,7 +46,7 @@ class SplashViewModel(
                 if (userResult.data.isVerified) {
                     SplashUiState.NavigateToHome
                 } else {
-                    SplashUiState.NavigateToValidateToken(userResult.data.email)
+                    SplashUiState.NavigateToValidateCode(userResult.data.email)
                 }
             } else {
                 SplashUiState.NavigateToLogin

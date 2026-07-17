@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.validate_token
+package pt.socialfood.presentation.validate_code
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -44,50 +44,46 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.validate_token_button
-import socialfood.composeapp.generated.resources.validate_token_resend_button
-import socialfood.composeapp.generated.resources.validate_token_resend_label
-import socialfood.composeapp.generated.resources.validate_token_restart_signup_label
-import socialfood.composeapp.generated.resources.validate_token_subtitle_label
-import socialfood.composeapp.generated.resources.validate_token_title_label
+import socialfood.composeapp.generated.resources.validate_code_button
+import socialfood.composeapp.generated.resources.validate_code_resend_button
+import socialfood.composeapp.generated.resources.validate_code_resend_label
+import socialfood.composeapp.generated.resources.validate_code_restart_signup_label
+import socialfood.composeapp.generated.resources.validate_code_subtitle_label
+import socialfood.composeapp.generated.resources.validate_code_title_label
 import pt.socialfood.presentation.components.AppImage
-import pt.socialfood.presentation.components.BackContent
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
 private const val CODE_LENGTH = 6
 
 @Composable
-fun ValidateTokenScreen(
+fun ValidateCodeScreen(
     email: String,
     onValidateSuccess: () -> Unit,
-    onBackClick: () -> Unit = {},
     onRestartSignUp: () -> Unit = {},
-    viewModel: ValidateTokenViewModel = koinViewModel(parameters = { parametersOf(email) }),
+    viewModel: ValidateCodeViewModel = koinViewModel(parameters = { parametersOf(email) }),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    ValidateTokenContent(
+    ValidateCodeContent(
         email = viewModel.email,
         state = state,
         onValidateClick = viewModel::onValidate,
         onResendClick = viewModel::onResendCode,
         onRestartClick = viewModel::onRestartSignUp,
         onValidateSuccess = onValidateSuccess,
-        onBackClick = onBackClick,
         onRestartSignUp = onRestartSignUp,
     )
 }
 
 @Composable
-private fun ValidateTokenContent(
+private fun ValidateCodeContent(
     email: String,
-    state: ValidateTokenUiState,
+    state: ValidateCodeUiState,
     onValidateClick: (String) -> Unit,
     onResendClick: () -> Unit,
     onRestartClick: () -> Unit,
     onValidateSuccess: () -> Unit,
-    onBackClick: () -> Unit,
     onRestartSignUp: () -> Unit,
 ) {
 
@@ -97,11 +93,9 @@ private fun ValidateTokenContent(
             .background(colorScheme.background)
             .statusBarsPadding(),
     ) {
-        BackContent(onBackClick)
-
         when (state) {
-            is ValidateTokenUiState.Error,
-            ValidateTokenUiState.Idle -> ValidateTokenFormView(
+            is ValidateCodeUiState.Error,
+            ValidateCodeUiState.Idle -> ValidateCodeFormView(
                 email = email,
                 state = state,
                 onValidateClick = onValidateClick,
@@ -109,14 +103,14 @@ private fun ValidateTokenContent(
                 onRestartClick = onRestartClick,
             )
 
-            ValidateTokenUiState.Loading -> ValidateTokenLoadingView()
+            ValidateCodeUiState.Loading -> ValidateCodeLoadingView()
 
-            ValidateTokenUiState.Success -> {
+            ValidateCodeUiState.Success -> {
                 onValidateSuccess()
                 return
             }
 
-            ValidateTokenUiState.RestartSignUp -> {
+            ValidateCodeUiState.RestartSignUp -> {
                 onRestartSignUp()
                 return
             }
@@ -125,9 +119,9 @@ private fun ValidateTokenContent(
 }
 
 @Composable
-private fun ValidateTokenFormView(
+private fun ValidateCodeFormView(
     email: String,
-    state: ValidateTokenUiState,
+    state: ValidateCodeUiState,
     onValidateClick: (String) -> Unit,
     onResendClick: () -> Unit,
     onRestartClick: () -> Unit,
@@ -152,7 +146,7 @@ private fun ValidateTokenFormView(
             Spacer(modifier = Modifier.height(SpaceSize.xxlarge))
 
             Text(
-                text = stringResource(Res.string.validate_token_title_label),
+                text = stringResource(Res.string.validate_code_title_label),
                 style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
                 color = colorScheme.onBackground,
             )
@@ -160,7 +154,7 @@ private fun ValidateTokenFormView(
             Spacer(modifier = Modifier.height(SpaceSize.medium))
 
             Text(
-                text = stringResource(Res.string.validate_token_subtitle_label),
+                text = stringResource(Res.string.validate_code_subtitle_label),
                 style = MaterialTheme.typography.bodyMedium,
                 color = colorScheme.onSurfaceVariant,
             )
@@ -173,7 +167,7 @@ private fun ValidateTokenFormView(
                 modifier = Modifier.fillMaxWidth(),
             )
 
-            if (state is ValidateTokenUiState.Error) {
+            if (state is ValidateCodeUiState.Error) {
                 Spacer(modifier = Modifier.height(SpaceSize.small))
                 Text(
                     text = state.error.toString(),
@@ -199,7 +193,7 @@ private fun ValidateTokenFormView(
                 ),
             ) {
                 Text(
-                    text = stringResource(Res.string.validate_token_button),
+                    text = stringResource(Res.string.validate_code_button),
                     style = MaterialTheme.typography.titleSmall,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold,
@@ -214,12 +208,12 @@ private fun ValidateTokenFormView(
                 verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
             ) {
                 Text(
-                    text = stringResource(Res.string.validate_token_resend_label),
+                    text = stringResource(Res.string.validate_code_resend_label),
                     style = MaterialTheme.typography.bodyMedium,
                     color = colorScheme.onSurfaceVariant,
                 )
                 Text(
-                    text = stringResource(Res.string.validate_token_resend_button),
+                    text = stringResource(Res.string.validate_code_resend_button),
                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
                     color = colorScheme.primary,
                     modifier = Modifier
@@ -227,7 +221,7 @@ private fun ValidateTokenFormView(
                         .clickable { onResendClick() },
                 )
                 Text(
-                    text = stringResource(Res.string.validate_token_restart_signup_label),
+                    text = stringResource(Res.string.validate_code_restart_signup_label),
                     style = MaterialTheme.typography.bodyMedium,
                     color = colorScheme.onSurfaceVariant,
                     modifier = Modifier
@@ -299,7 +293,7 @@ private fun OtpBox(digit: String, isCurrent: Boolean) {
 }
 
 @Composable
-private fun ValidateTokenLoadingView() {
+private fun ValidateCodeLoadingView() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -316,16 +310,15 @@ private fun ValidateTokenLoadingView() {
 
 @Composable
 @Preview
-fun ValidateTokenScreenPreview() {
+fun ValidateCodeScreenPreview() {
     AppTheme {
-        ValidateTokenContent(
+        ValidateCodeContent(
             email = "john.doe@email.com",
-            state = ValidateTokenUiState.Idle,
+            state = ValidateCodeUiState.Idle,
             onValidateClick = {},
             onResendClick = {},
             onRestartClick = {},
             onValidateSuccess = {},
-            onBackClick = {},
             onRestartSignUp = {},
         )
     }

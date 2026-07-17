@@ -2,7 +2,7 @@ package pt.socialfood.data.repository
 
 import pt.socialfood.data.AuthApi
 import pt.socialfood.data.network.model.LoginResponse
-import pt.socialfood.data.network.model.login.ValidateTokenResponse
+import pt.socialfood.data.network.model.login.ValidateCodeResponse
 
 class FakeAuthApi(private val shouldThrow: Boolean = false) : AuthApi {
 
@@ -11,9 +11,8 @@ class FakeAuthApi(private val shouldThrow: Boolean = false) : AuthApi {
         return LoginResponse(userId = "uid", token = "token")
     }
 
-    override suspend fun register(name: String, username: String, password: String): Boolean {
+    override suspend fun register(name: String, username: String, password: String) {
         if (shouldThrow) throw RuntimeException("test error")
-        return true
     }
 
     override suspend fun loginWithGoogle(idToken: String): LoginResponse {
@@ -21,14 +20,13 @@ class FakeAuthApi(private val shouldThrow: Boolean = false) : AuthApi {
         return LoginResponse(userId = "uid", token = "token")
     }
 
-    override suspend fun validateToken(token: String): ValidateTokenResponse {
+    override suspend fun validateCode(email: String, code: String): ValidateCodeResponse {
         if (shouldThrow) throw RuntimeException("test error")
-        return ValidateTokenResponse(name = "name", email = "email@test.com", token = "newtoken")
+        return ValidateCodeResponse(userId = "uid", token = "newtoken")
     }
 
-    override suspend fun resendVerification(email: String): Boolean {
+    override suspend fun resendVerificationCode(email: String) {
         if (shouldThrow) throw RuntimeException("test error")
-        return true
     }
 
     override suspend fun logout(): Boolean {

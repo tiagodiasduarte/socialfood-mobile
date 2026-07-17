@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.validate_token
+package pt.socialfood.presentation.validate_code
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -7,16 +7,16 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import pt.socialfood.fakes.FakeResendVerificationUseCase
+import pt.socialfood.fakes.FakeResendVerificationCodeUseCase
 import pt.socialfood.fakes.FakeRestartSignUpUseCase
-import pt.socialfood.fakes.FakeValidateTokenUseCase
+import pt.socialfood.fakes.FakeValidateCodeUseCase
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ValidateTokenViewModelTest {
+class ValidateCodeViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
@@ -34,9 +34,9 @@ class ValidateTokenViewModelTest {
     fun `given a fake restart sign up use case when onRestartSignUp is called then use case is invoked and state becomes RestartSignUp`() = runTest {
         // Given
         val fakeRestartSignUp = FakeRestartSignUpUseCase()
-        val viewModel = ValidateTokenViewModel(
-            validateToken = FakeValidateTokenUseCase(),
-            resendVerification = FakeResendVerificationUseCase(),
+        val viewModel = ValidateCodeViewModel(
+            validateCode = FakeValidateCodeUseCase(),
+            resendVerificationCode = FakeResendVerificationCodeUseCase(),
             restartSignUp = fakeRestartSignUp,
             email = "user@test.com",
         )
@@ -47,6 +47,6 @@ class ValidateTokenViewModelTest {
 
         // Then
         assertEquals(1, fakeRestartSignUp.invokeCount)
-        assertEquals(ValidateTokenUiState.RestartSignUp, viewModel.state.value)
+        assertEquals(ValidateCodeUiState.RestartSignUp, viewModel.state.value)
     }
 }

@@ -36,7 +36,7 @@ class SplashViewModelTest {
     }
 
     @Test
-    fun `given pendingVerificationEmail set and no token when loaded then emits NavigateToValidateToken without calling getUserMe or getConfigs`() = runTest {
+    fun `given pendingVerificationEmail set and no token when loaded then emits NavigateToValidateCode without calling getUserMe or getConfigs`() = runTest {
         // Given
         val settingsRepository = FakeSettingsRepository()
         settingsRepository.savePendingVerificationEmail("pending@test.com")
@@ -48,7 +48,7 @@ class SplashViewModelTest {
         advanceUntilIdle()
 
         // Then
-        assertEquals(SplashUiState.NavigateToValidateToken("pending@test.com"), viewModel.state.value)
+        assertEquals(SplashUiState.NavigateToValidateCode("pending@test.com"), viewModel.state.value)
         assertEquals(0, fakeGetUserMe.invokeCount)
         assertEquals(0, fakeGetConfigs.invokeCount)
     }
@@ -69,7 +69,7 @@ class SplashViewModelTest {
     }
 
     @Test
-    fun `given no pendingVerificationEmail and token and unverified user when loaded then emits NavigateToValidateToken`() = runTest {
+    fun `given no pendingVerificationEmail and token and unverified user when loaded then emits NavigateToValidateCode`() = runTest {
         // Given
         val settingsRepository = FakeSettingsRepository()
         settingsRepository.saveToken("jwt-token")
@@ -81,7 +81,7 @@ class SplashViewModelTest {
         advanceUntilIdle()
 
         // Then
-        assertEquals(SplashUiState.NavigateToValidateToken(defaultUser().email), viewModel.state.value)
+        assertEquals(SplashUiState.NavigateToValidateCode(defaultUser().email), viewModel.state.value)
     }
 
     @Test

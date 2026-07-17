@@ -11,8 +11,8 @@ class ValidateCodeUseCaseImpl(
     private val repository: AuthRepository,
     private val settingsRepository: SettingsRepository,
 ) : ValidateCodeUseCase {
-    override suspend operator fun invoke(email: String, token: String): Result<Boolean> {
-        val result = repository.validateCode(email = email, token = token)
+    override suspend operator fun invoke(email: String, code: String): Result<Boolean> {
+        val result = repository.validateCode(email = email, code = code)
 
         if (result is Result.Success) {
             sessionManager.saveToken(result.data)

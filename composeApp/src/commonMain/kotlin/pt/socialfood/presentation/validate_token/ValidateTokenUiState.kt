@@ -6,5 +6,6 @@ sealed interface ValidateTokenUiState {
     data object Idle : ValidateTokenUiState
     data object Loading : ValidateTokenUiState
     data object Success : ValidateTokenUiState
+    data object RestartSignUp : ValidateTokenUiState
     data class Error(val error: ErrorEntity) : ValidateTokenUiState
 }

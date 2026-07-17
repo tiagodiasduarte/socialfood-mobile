@@ -31,6 +31,7 @@
     <string name="validate_token_button">Verify</string>
     <string name="validate_token_resend_label">Didn\'t receive the code?</string>
     <string name="validate_token_resend_button">Resend code</string>
+    <string name="validate_token_restart_signup_label">Not you? Restart sign up</string>
 
     <string name="home_title_label">Discover dining</string>
     <string name="home_subtitle_label">Find your next favorite restaurant</string>

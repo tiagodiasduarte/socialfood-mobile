@@ -55,6 +55,7 @@ fun App() {
                 email = dest.email,
                 onValidateSuccess = { navigate(AppDestination.Home) },
                 onBackClick = { navigate(AppDestination.SignUp) },
+                onRestartSignUp = { navigate(AppDestination.SignUp) },
             )
         }
     }

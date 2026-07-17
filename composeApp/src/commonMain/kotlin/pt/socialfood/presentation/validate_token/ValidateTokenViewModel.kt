@@ -8,11 +8,13 @@ import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.use_case.login.ResendVerificationUseCase
+import pt.socialfood.domain.use_case.login.RestartSignUpUseCase
 import pt.socialfood.domain.use_case.login.ValidateTokenUseCase
 
 class ValidateTokenViewModel(
     private val validateToken: ValidateTokenUseCase,
     private val resendVerification: ResendVerificationUseCase,
+    private val restartSignUp: RestartSignUpUseCase,
     val email: String,
 ) : ViewModel() {
 
@@ -38,6 +40,13 @@ class ValidateTokenViewModel(
     fun onResendCode() {
         viewModelScope.launch {
             resendVerification(email)
+        }
+    }
+
+    fun onRestartSignUp() {
+        viewModelScope.launch {
+            restartSignUp()
+            _state.value = ValidateTokenUiState.RestartSignUp
         }
     }
 }

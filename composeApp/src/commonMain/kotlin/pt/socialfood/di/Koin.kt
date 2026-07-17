@@ -94,6 +94,8 @@ import pt.socialfood.domain.use_case.login.RegisterUseCase
 import pt.socialfood.domain.use_case.login.RegisterUseCaseImpl
 import pt.socialfood.domain.use_case.login.ResendVerificationUseCase
 import pt.socialfood.domain.use_case.login.ResendVerificationUseCaseImpl
+import pt.socialfood.domain.use_case.login.RestartSignUpUseCase
+import pt.socialfood.domain.use_case.login.RestartSignUpUseCaseImpl
 import pt.socialfood.domain.use_case.login.ValidateTokenUseCase
 import pt.socialfood.domain.use_case.login.ValidateTokenUseCaseImpl
 import pt.socialfood.domain.use_case.restaurant.DeleteRestaurantUseCase
@@ -214,9 +216,10 @@ val useCaseModule = module {
     factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
     factory<LoginWithGoogleUseCase> { LoginWithGoogleUseCaseImpl(get(), get()) }
     factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
-    factory<RegisterUseCase> { RegisterUseCaseImpl(get()) }
+    factory<RegisterUseCase> { RegisterUseCaseImpl(get(), get()) }
     factory<ValidateTokenUseCase> { ValidateTokenUseCaseImpl(get(), get()) }
     factory<ResendVerificationUseCase> { ResendVerificationUseCaseImpl(get()) }
+    factory<RestartSignUpUseCase> { RestartSignUpUseCaseImpl(get()) }
 
     factory<GetPresignedUrlUseCase> { GetPresignedUrlUseCaseImpl(get()) }
 }
@@ -239,7 +242,7 @@ val viewModelModule = module {
     factory { HomeViewModel(get()) }
     factory { SignInViewModel(get(), get()) }
     factory { SignUpViewModel(get()) }
-    factory { (email: String) -> ValidateTokenViewModel(get(), get(), email) }
+    factory { (email: String) -> ValidateTokenViewModel(get(), get(), get(), email) }
     factory { ProfileViewModel(get(), get(), get()) }
     factory { EditProfileViewModel(get(), get(), get(), get(), get()) }
 }

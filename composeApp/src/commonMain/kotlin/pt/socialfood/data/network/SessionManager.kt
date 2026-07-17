@@ -20,17 +20,31 @@ class SessionManager(
     var token: String? = null
         private set
 
+    var pendingVerificationEmail: String? = null
+        private set
+
     init {
         init()
     }
 
     fun init() {
         token = settings.getStringOrNull(KEY_TOKEN)
+        pendingVerificationEmail = settings.getStringOrNull(KEY_PENDING_VERIFICATION_EMAIL)
     }
 
     fun saveToken(newToken: String) {
         token = newToken
         settings.putString(KEY_TOKEN, newToken)
+    }
+
+    fun savePendingVerification(email: String) {
+        pendingVerificationEmail = email
+        settings.putString(KEY_PENDING_VERIFICATION_EMAIL, email)
+    }
+
+    fun clearPendingVerification() {
+        pendingVerificationEmail = null
+        settings.remove(KEY_PENDING_VERIFICATION_EMAIL)
     }
 
     fun clear() {
@@ -44,5 +58,6 @@ class SessionManager(
 
     companion object {
         private const val KEY_TOKEN = "jwt_token"
+        private const val KEY_PENDING_VERIFICATION_EMAIL = "pending_verification_email"
     }
 }

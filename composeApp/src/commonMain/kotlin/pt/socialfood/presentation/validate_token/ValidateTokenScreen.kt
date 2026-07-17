@@ -47,6 +47,7 @@ import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.validate_token_button
 import socialfood.composeapp.generated.resources.validate_token_resend_button
 import socialfood.composeapp.generated.resources.validate_token_resend_label
+import socialfood.composeapp.generated.resources.validate_token_restart_signup_label
 import socialfood.composeapp.generated.resources.validate_token_subtitle_label
 import socialfood.composeapp.generated.resources.validate_token_title_label
 import pt.socialfood.presentation.components.AppImage
@@ -61,6 +62,7 @@ fun ValidateTokenScreen(
     email: String,
     onValidateSuccess: () -> Unit,
     onBackClick: () -> Unit = {},
+    onRestartSignUp: () -> Unit = {},
     viewModel: ValidateTokenViewModel = koinViewModel(parameters = { parametersOf(email) }),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -70,8 +72,10 @@ fun ValidateTokenScreen(
         state = state,
         onValidateClick = viewModel::onValidate,
         onResendClick = viewModel::onResendCode,
+        onRestartClick = viewModel::onRestartSignUp,
         onValidateSuccess = onValidateSuccess,
         onBackClick = onBackClick,
+        onRestartSignUp = onRestartSignUp,
     )
 }
 
@@ -81,8 +85,10 @@ private fun ValidateTokenContent(
     state: ValidateTokenUiState,
     onValidateClick: (String) -> Unit,
     onResendClick: () -> Unit,
+    onRestartClick: () -> Unit,
     onValidateSuccess: () -> Unit,
     onBackClick: () -> Unit,
+    onRestartSignUp: () -> Unit,
 ) {
 
     Column(
@@ -100,12 +106,18 @@ private fun ValidateTokenContent(
                 state = state,
                 onValidateClick = onValidateClick,
                 onResendClick = onResendClick,
+                onRestartClick = onRestartClick,
             )
 
             ValidateTokenUiState.Loading -> ValidateTokenLoadingView()
 
             ValidateTokenUiState.Success -> {
                 onValidateSuccess()
+                return
+            }
+
+            ValidateTokenUiState.RestartSignUp -> {
+                onRestartSignUp()
                 return
             }
         }
@@ -117,7 +129,8 @@ private fun ValidateTokenFormView(
     email: String,
     state: ValidateTokenUiState,
     onValidateClick: (String) -> Unit,
-    onResendClick: () -> Unit
+    onResendClick: () -> Unit,
+    onRestartClick: () -> Unit,
 ) {
     var code by remember { mutableStateOf("") }
     val isComplete = code.length == CODE_LENGTH
@@ -213,6 +226,14 @@ private fun ValidateTokenFormView(
                         .padding(vertical = SpaceSize.small)
                         .clickable { onResendClick() },
                 )
+                Text(
+                    text = stringResource(Res.string.validate_token_restart_signup_label),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .padding(vertical = SpaceSize.small)
+                        .clickable { onRestartClick() },
+                )
             }
         }
     }
@@ -302,8 +323,10 @@ fun ValidateTokenScreenPreview() {
             state = ValidateTokenUiState.Idle,
             onValidateClick = {},
             onResendClick = {},
+            onRestartClick = {},
             onValidateSuccess = {},
             onBackClick = {},
+            onRestartSignUp = {},
         )
     }
 }

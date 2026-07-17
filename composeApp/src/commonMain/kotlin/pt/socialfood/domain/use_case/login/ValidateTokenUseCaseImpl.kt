@@ -14,6 +14,7 @@ class ValidateTokenUseCaseImpl(
 
         if (result is Result.Success) {
             sessionManager.saveToken(result.data)
+            sessionManager.clearPendingVerification()
             return Result.Success(true)
         }
 

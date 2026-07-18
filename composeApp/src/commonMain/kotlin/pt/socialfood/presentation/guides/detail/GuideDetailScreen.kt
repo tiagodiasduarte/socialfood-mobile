@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +42,6 @@ import org.koin.core.parameter.parametersOf
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
 import socialfood.composeapp.generated.resources.guide_detail_edit_button_description
-import socialfood.composeapp.generated.resources.guide_detail_error_label
 import socialfood.composeapp.generated.resources.guide_detail_favourite_button_description
 import socialfood.composeapp.generated.resources.guide_detail_private_icon_description
 import socialfood.composeapp.generated.resources.guide_detail_private_label
@@ -58,8 +59,8 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ActionButton
+import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.guide_detail.AuthorItemCard
 import pt.socialfood.presentation.guide_detail.RestaurantItemCard
 import pt.socialfood.ui.theme.AppTheme
@@ -83,6 +84,7 @@ fun GuideDetailScreen(
         onEditClick = onEditClick,
         onBackClick = onBackClick,
         onRestaurantClick = onRestaurantClick,
+        onRetry = viewModel::load,
     )
 }
 
@@ -92,6 +94,7 @@ private fun GuideDetailContent(
     onEditClick: (id: String) -> Unit,
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onRetry: () -> Unit = {},
 ) {
     when (val current = state) {
         GuideDetailUiState.Loading -> GuideDetailPlaceholder()
@@ -104,15 +107,35 @@ private fun GuideDetailContent(
             onRestaurantClick = onRestaurantClick,
         )
 
-        GuideDetailUiState.Error -> Box(
-            Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+        GuideDetailUiState.Error -> GuideDetailError(
+            onBackClick = onBackClick,
+            onRetry = onRetry,
+        )
+    }
+}
+
+@Composable
+private fun GuideDetailError(
+    onBackClick: () -> Unit,
+    onRetry: () -> Unit,
+) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+        IconButton(
+            onClick = onBackClick,
+            modifier = Modifier.padding(SpaceSize.medium),
         ) {
-            Text(
-                stringResource(Res.string.guide_detail_error_label),
-                color = MaterialTheme.colorScheme.error
+            Icon(
+                imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
+                contentDescription = stringResource(Res.string.back_button_description),
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         }
+
+        ErrorContent(
+            modifier = Modifier.fillMaxSize(),
+            backgroundColor = Color.White,
+            onRetryClick = onRetry,
+        )
     }
 }
 
@@ -162,7 +185,7 @@ private fun GuideDetailLoaded(
 
             AuthorItemCard(
                 modifier = Modifier.padding(horizontal = SpaceSize.large),
-                author = guide.author!!,
+                author = guide.author,
                 onClick = {}
             )
         }
@@ -250,7 +273,7 @@ private fun TopImageContent(
                 .padding(SpaceSize.large),
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
         ) {
-            if (guide.author!!.id == currentUserId) {
+            if (guide.author.id == currentUserId) {
                 ActionButton(onClick = { onEditClick(guide.id) }) {
                     Icon(
                         painter = painterResource(Res.drawable.guide_edit_icon),
@@ -300,7 +323,7 @@ private fun GuidInfo(guide: Guide) {
                 .background(bgColor)
                 .padding(horizontal = SpaceSize.medium, vertical = SpaceSize.small),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
         ) {
             when (guide.visibility) {
                 GuideVisibility.PUBLIC -> {

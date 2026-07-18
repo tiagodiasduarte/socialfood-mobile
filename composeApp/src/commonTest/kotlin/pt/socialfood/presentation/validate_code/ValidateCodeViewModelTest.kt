@@ -1,37 +1,19 @@
 package pt.socialfood.presentation.validate_code
 
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import pt.socialfood.fakes.FakeResendVerificationCodeUseCase
 import pt.socialfood.fakes.FakeRestartSignUpUseCase
 import pt.socialfood.fakes.FakeValidateCodeUseCase
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
+import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ValidateCodeViewModelTest {
 
-    private val testDispatcher = StandardTestDispatcher()
-
-    @BeforeTest
-    fun setUp() {
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    @AfterTest
-    fun tearDown() {
-        Dispatchers.resetMain()
-    }
-
     @Test
-    fun `given a fake restart sign up use case when onRestartSignUp is called then use case is invoked and state becomes RestartSignUp`() = runTest {
+    fun `given a fake restart sign up use case when onRestartSignUp is called then use case is invoked and state becomes RestartSignUp`() = runTestWithMainDispatcher {
         // Given
         val fakeRestartSignUp = FakeRestartSignUpUseCase()
         val viewModel = ValidateCodeViewModel(

@@ -134,6 +134,49 @@ jira_comment() {
   echo "  → Comment posted on $ticket"
 }
 
+
+# Converts simple markdown (bold-only headings, blank-line-separated
+# paragraphs, and "- [ ] " checklist items) into an ADF `content` array, so
+# it renders in Jira as real formatted text instead of a single code block.
+# Usage: _jira_markdown_to_adf_content <markdown text>
+_jira_markdown_to_adf_content() {
+  local content="$1"
+  jq -n --arg content "$content" '
+    def flush:
+      if (.buf | length) > 0 then
+        .blocks += [{
+          type: "bulletList",
+          content: (.buf | map({
+            type: "listItem",
+            content: [{ type: "paragraph", content: [{ type: "text", text: . }] }]
+          }))
+        }]
+        | .buf = []
+      else . end;
+
+    ($content | split("\n")) as $lines
+    | (reduce $lines[] as $line (
+        {blocks: [], buf: []};
+        if ($line | test("^- \\[[ xX]\\] ")) then
+          .buf += [ ($line | sub("^- \\[[ xX]\\] ";"")) ]
+        elif ($line | test("^\\*\\*(.*)\\*\\*$")) then
+          flush | .blocks += [{
+            type: "paragraph",
+            content: [{
+              type: "text",
+              text: ($line | sub("^\\*\\*";"") | sub("\\*\\*$";"")),
+              marks: [{ type: "strong" }]
+            }]
+          }]
+        elif ($line == "") then
+          flush
+        else
+          flush | .blocks += [{ type: "paragraph", content: [{ type: "text", text: $line }] }]
+        end
+      ) | flush | .blocks)
+  '
+}
+
 jira_update_description() {
   _jira_check_env || return 1
   local ticket="$1"
@@ -151,17 +194,16 @@ jira_update_description() {
     return 1
   fi
 
+  local adf_content
+  adf_content=$(_jira_markdown_to_adf_content "$content") || return 1
+
   local payload
-  payload=$(jq -n --arg content "$content" '{
+  payload=$(jq -n --argjson blocks "$adf_content" '{
     fields: {
       description: {
         type: "doc",
         version: 1,
-        content: [{
-          type: "codeBlock",
-          attrs: { language: "markdown" },
-          content: [{ type: "text", text: $content }]
-        }]
+        content: $blocks
       }
     }
   }')
@@ -198,6 +240,17 @@ jira_get_issue() {
     "Updated:     " + .fields.updated[:10],
     "",
     "Description:",
-    (.fields.description.content[]?.content[]?.text? // "" | select(. != ""))
+    (
+      def render_node:
+        if .type == "text" then .text
+        elif .type == "hardBreak" then "\n"
+        elif .type == "paragraph" then ([.content[]? | render_node] | join(""))
+        elif .type == "codeBlock" then ([.content[]? | render_node] | join(""))
+        elif .type == "listItem" then ("- " + ([.content[]? | render_node] | join("")))
+        elif .type == "bulletList" then ([.content[]? | render_node] | join("\n"))
+        else empty
+        end;
+      (.fields.description.content // []) | map(render_node) | join("\n")
+    )
   '
 }

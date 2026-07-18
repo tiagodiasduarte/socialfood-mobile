@@ -15,8 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
+import coil3.compose.SubcomposeAsyncImage
 import pt.socialfood.ui.theme.AppTypography
 
 @Composable
@@ -41,19 +40,19 @@ fun UserImage(name: String, imageUrl: String?, imageSize: Dp) {
         contentAlignment = Alignment.Center,
     ) {
         if (imageUrl != null) {
-            KamelImage(
-                resource = asyncPainterResource(imageUrl),
+            SubcomposeAsyncImage(
+                model = imageUrl,
                 contentDescription = name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.size(imageSize),
-                onLoading = {
+                loading = {
                     Text(
                         text = initials,
                         color = Color.White,
                         style = MaterialTheme.typography.titleLarge
                     )
                 },
-                onFailure = {
+                error = {
                     Text(
                         text = initials,
                         color = Color.White,

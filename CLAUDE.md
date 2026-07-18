@@ -72,6 +72,6 @@ Photo uploads use a separate `S3HttpClient` (unsigned requests) distinct from th
 |----------------------------|------------------------------------------------|
 | Ktor 3.4                   | HTTP client (OkHttp on Android, Darwin on iOS) |
 | Koin 4.2                   | Dependency injection                           |
-| Kamel 1.0                  | Async image loading                            |
+| Coil 3.4                   | Async image loading                            |
 | kotlinx.serialization      | JSON + route serialization                     |
 | Firebase (BOM 34)          | Analytics (Android only)                       |

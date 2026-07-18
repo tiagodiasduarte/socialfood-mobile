@@ -33,8 +33,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
+import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -239,15 +238,15 @@ private fun TopImageContent(
             )
     ) {
         if (guide.imageUrl != null) {
-            KamelImage(
-                resource = asyncPainterResource(guide.imageUrl),
+            SubcomposeAsyncImage(
+                model = guide.imageUrl,
                 contentDescription = guide.name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
-                onLoading = {
+                loading = {
                     Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
                 },
-                onFailure = {
+                error = {
                     Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
                 },
             )

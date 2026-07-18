@@ -38,8 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
+import coil3.compose.AsyncImage
 import pt.socialfood.presentation.image_picker.toImageBitmap
 import org.jetbrains.compose.resources.stringResource
 import socialfood.composeapp.generated.resources.Res
@@ -208,8 +207,8 @@ private fun CoverImagePicker(
                 PendingCoverImage(bitmap)
             }
             image != null -> {
-                KamelImage(
-                    resource = asyncPainterResource(image),
+                AsyncImage(
+                    model = image,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize(),

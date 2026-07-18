@@ -1,5 +1,6 @@
 package pt.socialfood.di
 
+import coil3.SingletonImageLoader
 import io.ktor.client.HttpClient
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
@@ -25,6 +26,7 @@ import pt.socialfood.data.S3Api
 import pt.socialfood.data.S3ApiImpl
 import pt.socialfood.data.UserApi
 import pt.socialfood.data.UserApiImpl
+import pt.socialfood.data.network.ImageHttpClient
 import pt.socialfood.data.network.KtorHttpClient
 import pt.socialfood.data.network.S3HttpClient
 import pt.socialfood.data.network.SessionManager
@@ -152,6 +154,8 @@ val networkModule = module {
     single<HttpClient> { get<KtorHttpClient>().client }
     single { S3HttpClient() }
     single<S3Api> { S3ApiImpl(get<S3HttpClient>().client) }
+    single { ImageHttpClient() }
+    single { AppImageLoaderFactory(get<ImageHttpClient>().client) }
     single<AuthApi> { AuthApiImpl(get()) }
     single<AuthorsApi> { AuthorsApiImpl(get()) }
     single<ConfigsApi> { ConfigsApiImpl(get()) }
@@ -249,7 +253,7 @@ val viewModelModule = module {
 }
 
 fun initKoin(configuration: KoinAppDeclaration? = null) {
-    startKoin {
+    val koinApplication = startKoin {
         includes(configuration)
         modules(
             module {
@@ -264,4 +268,6 @@ fun initKoin(configuration: KoinAppDeclaration? = null) {
         )
         printLogger(Level.DEBUG)
     }
+
+    SingletonImageLoader.setSafe(koinApplication.koin.get<AppImageLoaderFactory>())
 }

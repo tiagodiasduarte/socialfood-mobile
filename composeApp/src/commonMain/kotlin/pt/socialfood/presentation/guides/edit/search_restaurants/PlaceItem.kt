@@ -26,8 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
+import coil3.compose.SubcomposeAsyncImage
 import pt.socialfood.domain.model.Place
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
@@ -90,13 +89,13 @@ internal fun PlaceThumbnail(imageUrl: String?) {
             .background(GreyBackground),
     ) {
         if (imageUrl != null) {
-            KamelImage(
-                resource = asyncPainterResource(imageUrl),
+            SubcomposeAsyncImage(
+                model = imageUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
-                onLoading = { Box(Modifier.fillMaxSize().background(GreyBackground)) },
-                onFailure = { Box(Modifier.fillMaxSize().background(GreyBackground)) },
+                loading = { Box(Modifier.fillMaxSize().background(GreyBackground)) },
+                error = { Box(Modifier.fillMaxSize().background(GreyBackground)) },
             )
         }
     }

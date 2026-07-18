@@ -28,8 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
+import coil3.compose.SubcomposeAsyncImage
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.User
@@ -60,19 +59,19 @@ fun GuideCard(
     ) {
         // Background image or fallback color
         if (guide.imageUrl != null) {
-            KamelImage(
-                resource = asyncPainterResource(guide.imageUrl),
+            SubcomposeAsyncImage(
+                model = guide.imageUrl,
                 contentDescription = guide.name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
-                onLoading = {
+                loading = {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(Color(0xFF2A2A2A)),
                     )
                 },
-                onFailure = {
+                error = {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
@@ -177,19 +176,19 @@ private fun AuthorChip(author: Author) {
             contentAlignment = Alignment.Center,
         ) {
             if (author.imageUrl != null) {
-                KamelImage(
-                    resource = asyncPainterResource(author.imageUrl),
+                SubcomposeAsyncImage(
+                    model = author.imageUrl,
                     contentDescription = author.name,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize(),
-                    onLoading = {
+                    loading = {
                         Text(
                             initials,
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                             color = Color.White,
                         )
                     },
-                    onFailure = {
+                    error = {
                         Text(
                             initials,
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),

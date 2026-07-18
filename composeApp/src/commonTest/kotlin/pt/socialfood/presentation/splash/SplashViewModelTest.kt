@@ -1,7 +1,7 @@
 package pt.socialfood.presentation.splash
 
+import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.Configs
@@ -12,7 +12,6 @@ import pt.socialfood.fakes.FakeSettingsRepository
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SplashViewModelTest {
@@ -28,15 +27,14 @@ class SplashViewModelTest {
 
             // When
             val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
-            advanceUntilIdle()
 
             // Then
-            assertEquals(
-                SplashUiState.NavigateToValidateCode("pending@test.com"),
-                viewModel.state.value
-            )
-            assertEquals(0, fakeGetUserMe.invokeCount)
-            assertEquals(0, fakeGetConfigs.invokeCount)
+            viewModel.state.test {
+                assertEquals(SplashUiState.Loading, awaitItem())
+                assertEquals(SplashUiState.NavigateToValidateCode("pending@test.com"), awaitItem())
+                assertEquals(0, fakeGetUserMe.invokeCount)
+                assertEquals(0, fakeGetConfigs.invokeCount)
+            }
         }
 
     @Test
@@ -49,10 +47,12 @@ class SplashViewModelTest {
 
             // When
             val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
-            advanceUntilIdle()
 
             // Then
-            assertEquals(SplashUiState.NavigateToLogin, viewModel.state.value)
+            viewModel.state.test {
+                assertEquals(SplashUiState.Loading, awaitItem())
+                assertEquals(SplashUiState.NavigateToLogin, awaitItem())
+            }
         }
 
     @Test
@@ -67,13 +67,15 @@ class SplashViewModelTest {
 
             // When
             val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
-            advanceUntilIdle()
 
             // Then
-            assertEquals(
-                SplashUiState.NavigateToValidateCode(defaultUser().email),
-                viewModel.state.value
-            )
+            viewModel.state.test {
+                assertEquals(SplashUiState.Loading, awaitItem())
+                assertEquals(
+                    SplashUiState.NavigateToValidateCode(defaultUser().email),
+                    awaitItem()
+                )
+            }
         }
 
     @Test
@@ -87,10 +89,12 @@ class SplashViewModelTest {
 
             // When
             val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
-            advanceUntilIdle()
 
             // Then
-            assertEquals(SplashUiState.NavigateToHome, viewModel.state.value)
+            viewModel.state.test {
+                assertEquals(SplashUiState.Loading, awaitItem())
+                assertEquals(SplashUiState.NavigateToHome, awaitItem())
+            }
         }
 
     @Test
@@ -105,12 +109,14 @@ class SplashViewModelTest {
 
             // When
             val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
-            advanceUntilIdle()
 
             // Then
-            assertEquals(SplashUiState.NavigateToHome, viewModel.state.value)
-            assertEquals(1, fakeGetUserMe.invokeCount)
-            assertEquals(1, fakeGetConfigs.invokeCount)
+            viewModel.state.test {
+                assertEquals(SplashUiState.Loading, awaitItem())
+                assertEquals(SplashUiState.NavigateToHome, awaitItem())
+                assertEquals(1, fakeGetUserMe.invokeCount)
+                assertEquals(1, fakeGetConfigs.invokeCount)
+            }
         }
 
     @Test
@@ -124,10 +130,12 @@ class SplashViewModelTest {
 
             // When
             val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
-            advanceUntilIdle()
 
             // Then
-            assertIs<SplashUiState.NavigateToLogin>(viewModel.state.value)
+            viewModel.state.test {
+                assertEquals(SplashUiState.Loading, awaitItem())
+                assertEquals(SplashUiState.NavigateToLogin, awaitItem())
+            }
         }
 
     private fun defaultUser(isVerified: Boolean = true) = User(

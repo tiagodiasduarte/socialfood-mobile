@@ -1,7 +1,7 @@
 package pt.socialfood.presentation.validate_code
 
+import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.fakes.FakeResendVerificationCodeUseCase
 import pt.socialfood.fakes.FakeRestartSignUpUseCase
 import pt.socialfood.fakes.FakeValidateCodeUseCase
@@ -13,22 +13,26 @@ import kotlin.test.assertEquals
 class ValidateCodeViewModelTest {
 
     @Test
-    fun `given a fake restart sign up use case when onRestartSignUp is called then use case is invoked and state becomes RestartSignUp`() = runTestWithMainDispatcher {
-        // Given
-        val fakeRestartSignUp = FakeRestartSignUpUseCase()
-        val viewModel = ValidateCodeViewModel(
-            validateCode = FakeValidateCodeUseCase(),
-            resendVerificationCode = FakeResendVerificationCodeUseCase(),
-            restartSignUp = fakeRestartSignUp,
-            email = "user@test.com",
-        )
+    fun `given a fake restart sign up use case when onRestartSignUp is called then use case is invoked and state becomes RestartSignUp`() =
+        runTestWithMainDispatcher {
+            // Given
+            val fakeRestartSignUp = FakeRestartSignUpUseCase()
+            val viewModel = ValidateCodeViewModel(
+                validateCode = FakeValidateCodeUseCase(),
+                resendVerificationCode = FakeResendVerificationCodeUseCase(),
+                restartSignUp = fakeRestartSignUp,
+                email = "user@test.com",
+            )
 
-        // When
-        viewModel.onRestartSignUp()
-        advanceUntilIdle()
+            viewModel.state.test {
+                assertEquals(ValidateCodeUiState.Idle, awaitItem())
 
-        // Then
-        assertEquals(1, fakeRestartSignUp.invokeCount)
-        assertEquals(ValidateCodeUiState.RestartSignUp, viewModel.state.value)
-    }
+                // When
+                viewModel.onRestartSignUp()
+
+                // Then
+                assertEquals(ValidateCodeUiState.RestartSignUp, awaitItem())
+                assertEquals(1, fakeRestartSignUp.invokeCount)
+            }
+        }
 }

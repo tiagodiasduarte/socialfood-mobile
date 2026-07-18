@@ -26,6 +26,7 @@ ktorClientOkhttp = "3.4.0"
 ktorSerializationKotlinxJson = "3.4.0"
 koin = "4.2.0-alpha3"
 multiplatform-nav3-ui = "1.0.0-alpha05"
+turbine = "1.1.0"
 
 [libraries]
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
@@ -53,6 +54,7 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "k
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorClientMock" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientOkhttp" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorSerializationKotlinxJson" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }

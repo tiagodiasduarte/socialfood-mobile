@@ -29,8 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
+import coil3.compose.SubcomposeAsyncImage
 import androidx.compose.ui.tooling.preview.Preview
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.ui.theme.AppTheme
@@ -53,19 +52,19 @@ fun RestaurantCard(restaurant: Restaurant) {
             ) {
                 val imageUrl = restaurant.photoNames.firstOrNull()
                 if (imageUrl != null) {
-                    KamelImage(
-                        resource = asyncPainterResource("$imageUrl&size=400"),
+                    SubcomposeAsyncImage(
+                        model = "$imageUrl&size=400",
                         contentDescription = restaurant.name,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize(),
-                        onLoading = {
+                        loading = {
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .background(MaterialTheme.colorScheme.surfaceVariant),
                             )
                         },
-                        onFailure = {
+                        error = {
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()

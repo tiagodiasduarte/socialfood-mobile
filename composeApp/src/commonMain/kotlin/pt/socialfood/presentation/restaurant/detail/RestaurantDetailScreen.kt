@@ -39,8 +39,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
+import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -231,15 +230,15 @@ private fun TopSection(
             .height(ImageHeight),
     ) {
         if (imageUrl != null) {
-            KamelImage(
-                resource = asyncPainterResource(imageUrl),
+            SubcomposeAsyncImage(
+                model = imageUrl,
                 contentDescription = restaurant.name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
-                onLoading = {
+                loading = {
                     Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
                 },
-                onFailure = {
+                error = {
                     Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
                 },
             )
@@ -338,14 +337,14 @@ private fun PhotoGallery(photos: List<String>, restaurantName: String) {
         contentPadding = PaddingValues(horizontal = SpaceSize.large),
     ) {
         items(photos) { photoUrl ->
-            KamelImage(
-                resource = asyncPainterResource("$photoUrl&size=300"),
+            SubcomposeAsyncImage(
+                model = "$photoUrl&size=300",
                 contentDescription = restaurantName,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(120.dp)
                     .clip(RoundedCornerShape(SpaceSize.medium)),
-                onLoading = {
+                loading = {
                     Box(
                         Modifier
                             .size(120.dp)
@@ -353,7 +352,7 @@ private fun PhotoGallery(photos: List<String>, restaurantName: String) {
                             .background(Color(0xFF2A2A2A)),
                     )
                 },
-                onFailure = {
+                error = {
                     Box(
                         Modifier
                             .size(120.dp)

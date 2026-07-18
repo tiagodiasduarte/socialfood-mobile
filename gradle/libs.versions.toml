@@ -14,7 +14,7 @@ composeMultiplatform = "1.10.0"
 compose-multiplatform-lifecycle = "2.10.0-alpha05"
 firebaseBom = "34.8.0"
 google-services = "4.4.4"
-kamelImageDefault = "1.0.9"
+coil = "3.4.0"
 kotlin = "2.3.0"
 kotlinxSerializationJson = "1.10.0"
 ktorClientContentNegotiation = "3.4.0"
@@ -34,7 +34,8 @@ androidx-datastore-preferences = { module = "androidx.datastore:datastore-prefer
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
-kamel-image-default = { module = "media.kamel:kamel-image-default", version.ref = "kamelImageDefault" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel-navigation", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }

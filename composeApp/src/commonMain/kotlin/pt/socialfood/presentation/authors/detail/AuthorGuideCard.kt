@@ -25,8 +25,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
+import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.stringResource
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.author_detail_restaurants_count_label
@@ -61,13 +60,13 @@ fun AuthorGuideCard(
                     .background(Color(0xFF2A2A2A)),
             ) {
                 if (imageUrl != null) {
-                    KamelImage(
-                        resource = asyncPainterResource("$imageUrl&size=200"),
+                    SubcomposeAsyncImage(
+                        model = "$imageUrl&size=200",
                         contentDescription = guideName,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize(),
-                        onLoading = {},
-                        onFailure = {},
+                        loading = {},
+                        error = {},
                     )
                 }
             }

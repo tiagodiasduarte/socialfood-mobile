@@ -1,7 +1,8 @@
 package pt.socialfood.presentation.sign_in
 
+import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.network.SessionManager
 import pt.socialfood.domain.error.ErrorEntity
@@ -26,12 +27,14 @@ class SignInViewModelTest {
     }
 
     @Test
-    fun `given a new view model when created then state is Idle`() {
+    fun `given a new view model when created then state is Idle`() = runTest {
         // Given
         val vm = createViewModel(Result.Success("token"))
 
         // When / Then
-        assertEquals(SignInUiState.Idle, vm.state.value)
+        vm.state.test {
+            assertEquals(SignInUiState.Idle, awaitItem())
+        }
     }
 
     @Test
@@ -39,13 +42,17 @@ class SignInViewModelTest {
         // Given
         val vm = createViewModel(Result.Success("token"))
 
-        // When
-        vm.onSignIn("", "password")
-        advanceUntilIdle()
+        vm.state.test {
+            assertEquals(SignInUiState.Idle, awaitItem())
 
-        // Then
-        assertIs<SignInUiState.Error>(vm.state.value)
-        assertEquals(ErrorEntity.InvalidCredentials, (vm.state.value as SignInUiState.Error).error)
+            // When
+            vm.onSignIn("", "password")
+
+            // Then
+            val state = awaitItem()
+            assertIs<SignInUiState.Error>(state)
+            assertEquals(ErrorEntity.InvalidCredentials, state.error)
+        }
     }
 
     @Test
@@ -53,13 +60,17 @@ class SignInViewModelTest {
         // Given
         val vm = createViewModel(Result.Success("token"))
 
-        // When
-        vm.onSignIn("user@test.com", "")
-        advanceUntilIdle()
+        vm.state.test {
+            assertEquals(SignInUiState.Idle, awaitItem())
 
-        // Then
-        assertIs<SignInUiState.Error>(vm.state.value)
-        assertEquals(ErrorEntity.InvalidCredentials, (vm.state.value as SignInUiState.Error).error)
+            // When
+            vm.onSignIn("user@test.com", "")
+
+            // Then
+            val state = awaitItem()
+            assertIs<SignInUiState.Error>(state)
+            assertEquals(ErrorEntity.InvalidCredentials, state.error)
+        }
     }
 
     @Test
@@ -67,12 +78,16 @@ class SignInViewModelTest {
         // Given
         val vm = createViewModel(Result.Success("token"))
 
-        // When
-        vm.onSignIn("user@test.com", "password")
-        advanceUntilIdle()
+        vm.state.test {
+            assertEquals(SignInUiState.Idle, awaitItem())
 
-        // Then
-        assertEquals(SignInUiState.Success, vm.state.value)
+            // When
+            vm.onSignIn("user@test.com", "password")
+
+            // Then
+            assertEquals(SignInUiState.Loading, awaitItem())
+            assertEquals(SignInUiState.Success, awaitItem())
+        }
     }
 
     @Test
@@ -80,12 +95,17 @@ class SignInViewModelTest {
         // Given
         val vm = createViewModel(Result.Error(ErrorEntity.Unknown))
 
-        // When
-        vm.onSignIn("user@test.com", "password")
-        advanceUntilIdle()
+        vm.state.test {
+            assertEquals(SignInUiState.Idle, awaitItem())
 
-        // Then
-        assertIs<SignInUiState.Error>(vm.state.value)
-        assertEquals(ErrorEntity.Unknown, (vm.state.value as SignInUiState.Error).error)
+            // When
+            vm.onSignIn("user@test.com", "password")
+
+            // Then
+            assertEquals(SignInUiState.Loading, awaitItem())
+            val state = awaitItem()
+            assertIs<SignInUiState.Error>(state)
+            assertEquals(ErrorEntity.Unknown, state.error)
+        }
     }
 }

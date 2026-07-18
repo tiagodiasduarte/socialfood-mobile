@@ -11,7 +11,7 @@ data class RestaurantResponse(
     val city: String,
     val country: String,
     val countryCode: String,
-    val postalCode: String,
+    val postalCode: String?,
     val phoneNumber: String,
     val address: String,
     val rating: Double,

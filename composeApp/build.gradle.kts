@@ -87,9 +87,9 @@ android {
         versionCode = System.getenv("GITHUB_RUN_NUMBER")?.toInt() ?: 1
         versionName = "0.1.0-${System.getenv("BUILD_NAME") ?: "local"}"
 
-        val googleClientId = System.getenv("GOOGLE_CLIENT_ID_ANDROID")
-            ?: localProperties.getProperty("GOOGLE_CLIENT_ID_ANDROID")
-            ?: error("GOOGLE_CLIENT_ID_ANDROID not set in local.properties or environment")
+        val googleClientId = System.getenv("GOOGLE_CLIENT_ID_WEB")
+            ?: localProperties.getProperty("GOOGLE_CLIENT_ID_WEB")
+            ?: error("GOOGLE_CLIENT_ID_WEB not set in local.properties or environment")
         buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleClientId\"")
     }
     buildFeatures {

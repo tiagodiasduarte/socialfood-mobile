@@ -40,6 +40,17 @@ jobs:
           EOF
           sed -i '' "s/TEAM_ID=/TEAM_ID=${TEAM_ID}/" iosApp/Configuration/Config.xcconfig
 
+      # ----------------- DEBUG: PRINT GENERATED SECRETS.XCCONFIG -----------------
+      # TEMPORARY DEBUG ONLY — remove before merging. Client IDs aren't
+      # confidential (visible in the app's URL scheme/bundle anyway), safe to
+      # print, just to confirm what CI actually wrote vs. the local dev value.
+      - name: Debug print Secrets.xcconfig and Config.xcconfig
+        run: |
+          echo "--- Secrets.xcconfig ---"
+          cat iosApp/Configuration/Secrets.xcconfig
+          echo "--- Config.xcconfig ---"
+          cat iosApp/Configuration/Config.xcconfig
+
       # ----------------- INSTALL DEPENDENCIES -----------------
       - run: sudo gem install cocoapods fastlane
       - run: cd iosApp && pod install

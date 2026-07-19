@@ -41,15 +41,3 @@
 # Firebase
 -keep class com.google.firebase.** { *; }
 -dontwarn com.google.firebase.**
-
-# Credential Manager / Google Sign-In
-# The Play-Services-backed credential provider is discovered via reflection at
-# runtime. Without these keep rules, R8 strips/renames it in minified release
-# builds, so CredentialManager.getCredential() finds no provider and throws
-# NoCredentialException: "No credentials available".
--keep class androidx.credentials.** { *; }
--dontwarn androidx.credentials.**
--keep class com.google.android.gms.auth.api.identity.** { *; }
--dontwarn com.google.android.gms.**
--keep class com.google.android.libraries.identity.googleid.** { *; }
--dontwarn com.google.android.libraries.identity.googleid.**

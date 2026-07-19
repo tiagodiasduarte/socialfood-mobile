@@ -54,7 +54,7 @@ jobs:
           GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
           #GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
           APP_IDENTIFIER: pt.socialfood
-          GIT_URL: https://github.com/tiagodiasduarte/socialfood-match-certificates.git
+          GIT_URL: git@github.com:tiagodiasduarte/socialfood-match-certificates.git
           GIT_BRANCH: develop
           MATCH_TYPE: appstore
           APPSTORE_KEY_ID: ${{ secrets.APPSTORE_KEY_ID }}

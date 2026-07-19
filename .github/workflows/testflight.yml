@@ -31,12 +31,12 @@ jobs:
       # ----------------- CREATE SECRETS -----------------
       - name: Create Secrets.xcconfig
         env:
-          GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+          GOOGLE_CLIENT_ID_IOS: ${{ secrets.GOOGLE_CLIENT_ID_IOS }}
           TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: |
           cat > iosApp/Configuration/Secrets.xcconfig <<EOF
-          GOOGLE_CLIENT_ID_WEB = ${GOOGLE_CLIENT_ID_WEB}
-          GOOGLE_REVERSE_CLIENT_ID_WEB = com.googleusercontent.apps.$(echo ${GOOGLE_CLIENT_ID_WEB} | sed 's/.apps.googleusercontent.com//')
+          GOOGLE_CLIENT_ID_WEB = ${GOOGLE_CLIENT_ID_IOS}
+          GOOGLE_REVERSE_CLIENT_ID_WEB = com.googleusercontent.apps.$(echo ${GOOGLE_CLIENT_ID_IOS} | sed 's/.apps.googleusercontent.com//')
           EOF
           sed -i '' "s/TEAM_ID=/TEAM_ID=${TEAM_ID}/" iosApp/Configuration/Config.xcconfig
 
@@ -51,7 +51,6 @@ jobs:
           #BUILD_NAME: ${{ env.BUILD_NAME }}
           #COMMIT_HASH: ${{ env.COMMIT_HASH }}
           #GITHUB_RUN_NUMBER: ${{ github.run_number }}
-          GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
           #GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
           APP_IDENTIFIER: pt.socialfood
           GIT_CERTIFICATES_URL: ${{ secrets.GIT_CERTIFICATES_URL }}

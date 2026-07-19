@@ -46,6 +46,21 @@ jobs:
           fi
           ls -lh composeApp/socialfood-release-key.jks
 
+      # ----------------- PRINT RELEASE CERT FINGERPRINT -----------------
+      # SHA-1/SHA-256 are not secret (Google's own docs have you paste them into
+      # Firebase/Cloud Console), safe to print. Needed to register this release
+      # signing cert for Google Sign-In to work on CI-distributed builds.
+      - name: Print release keystore fingerprint
+        env:
+          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        run: |
+          keytool -list -v \
+            -keystore composeApp/socialfood-release-key.jks \
+            -alias "$KEY_ALIAS" \
+            -storepass "$STORE_PASSWORD" \
+            | grep -E "SHA1:|SHA256:"
+
       # ----------------- BUILD AAB -----------------
       - name: Build AAB
         env:

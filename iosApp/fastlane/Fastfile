@@ -10,7 +10,7 @@ platform :ios do
     match_type = options[:match_type] || ENV["MATCH_TYPE"]
     app_identifier = options[:app_identifier] || ENV["APP_IDENTIFIER"]
     git_url = options[:git_url] || ENV["GIT_CERTIFICATES_URL"]
-    git_branch = options[:git_branch] || ENV["GIT_BRANCH"]
+    git_branch = options[:git_branch] || ENV["GIT_CERTIFICATES_BRANCH"]
     match_password = options[:match_password] || ENV["MATCH_PASSWORD"]
     git_private_key = options[:git_private_key] || ENV["GIT_PRIVATE_KEY"] || "./secrets/match_ci_key"
 

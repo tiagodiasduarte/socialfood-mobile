@@ -26,10 +26,6 @@ class SearchRestaurantsViewModel(
     private val addRestaurantByPlaceId: AddRestaurantByPlaceIdUseCase,
 ) : ViewModel() {
 
-    companion object {
-        private val SEARCH_DEBOUNCE_MS = 300.milliseconds
-    }
-
     private val _state = MutableStateFlow<SearchRestaurantsUiState>(SearchRestaurantsUiState.Loaded(emptyList()))
     val state: StateFlow<SearchRestaurantsUiState> = _state
 
@@ -91,5 +87,9 @@ class SearchRestaurantsViewModel(
 
     sealed class UiEvent {
         data class RestaurantAdded(val restaurant: Restaurant) : UiEvent()
+    }
+
+    companion object {
+        private val SEARCH_DEBOUNCE_MS = 300.milliseconds
     }
 }

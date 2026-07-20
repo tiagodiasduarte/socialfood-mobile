@@ -6,7 +6,6 @@ import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.PagedRestaurants
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.RestaurantEnrichmentPolling
 import pt.socialfood.fakes.FakeRestaurantApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -287,7 +286,7 @@ class RestaurantsRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Network.TIMEOUT, result.error)
-        assertEquals(RestaurantEnrichmentPolling.MAX_POLL_ATTEMPTS, api.findByPlaceIdInvokeCount)
+        assertEquals(RestaurantsRepositoryImpl.ENRICHMENT_POLL_MAX_ATTEMPTS, api.findByPlaceIdInvokeCount)
     }
 
     @Test

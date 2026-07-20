@@ -22,11 +22,6 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import androidx.compose.ui.tooling.preview.Preview
 
-/**
- * Blocking "please wait" dialog shown while a restaurant is being added: the
- * addByPlaceId trigger call and the enrichment poll that follows it. Not
- * user-dismissible — it closes itself once the flow finishes (success, error, or cap).
- */
 @Composable
 fun ImportRestaurantDialog() {
     Dialog(

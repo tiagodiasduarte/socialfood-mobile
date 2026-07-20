@@ -7,13 +7,19 @@ import pt.socialfood.data.network.extensions.toErrorEntity
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.PagedRestaurants
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.RestaurantEnrichmentPolling
 import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.mapper.toRestaurant
 
 class RestaurantsRepositoryImpl(
     private val restaurantApi: RestaurantApi
 ) : RestaurantsRepository {
+
+    companion object {
+        // Polling tuning for awaitEnrichedRestaurantByPlaceId (see APPS-16). Only used
+        // here, so kept local rather than as a separate shared file.
+        internal const val ENRICHMENT_POLL_INTERVAL_MS = 2_000L
+        internal const val ENRICHMENT_POLL_MAX_ATTEMPTS = 10
+    }
 
     override suspend fun importRestaurants(): Result<Boolean> {
         return try {
@@ -91,12 +97,12 @@ class RestaurantsRepositoryImpl(
 
     override suspend fun awaitEnrichedRestaurantByPlaceId(placeId: String): Result<Restaurant> {
         return try {
-            repeat(RestaurantEnrichmentPolling.MAX_POLL_ATTEMPTS) {
+            repeat(ENRICHMENT_POLL_MAX_ATTEMPTS) {
                 val response = restaurantApi.findByPlaceId(placeId)
                 if (!response.enriching) {
                     return Result.Success(response.toRestaurant())
                 }
-                delay(RestaurantEnrichmentPolling.POLL_INTERVAL_MS)
+                delay(ENRICHMENT_POLL_INTERVAL_MS)
             }
             Result.Error(ErrorEntity.Network.TIMEOUT)
         } catch (exception: Exception) {

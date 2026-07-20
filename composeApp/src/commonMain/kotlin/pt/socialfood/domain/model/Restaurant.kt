@@ -19,4 +19,5 @@ data class Restaurant(
     val websiteUrl: String?,
     val phoneNumber: String,
     val regularOpeningHours: List<String>? = null,
+    val enriching: Boolean = false,
 )

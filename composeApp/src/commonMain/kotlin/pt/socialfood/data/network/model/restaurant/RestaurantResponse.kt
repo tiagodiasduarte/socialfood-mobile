@@ -19,6 +19,7 @@ data class RestaurantResponse(
     val websiteUrl: String?,
     val location: Location,
     val regularOpeningHours: List<String>?,
+    val enriching: Boolean = false,
 ){
     @Serializable
     data class Location(

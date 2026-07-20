@@ -27,10 +27,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import androidx.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.resources.stringResource
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.restaurant_enriching_label
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
@@ -103,8 +107,21 @@ fun RestaurantCard(restaurant: Restaurant) {
                 verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
             ) {
                 Text(
-                    text = restaurant.name,
-                    style = MaterialTheme.typography.bodyLarge,
+                    text = if (restaurant.enriching) {
+                        stringResource(Res.string.restaurant_enriching_label)
+                    } else {
+                        restaurant.name
+                    },
+                    style = if (restaurant.enriching) {
+                        MaterialTheme.typography.bodyLarge.copy(fontStyle = FontStyle.Italic)
+                    } else {
+                        MaterialTheme.typography.bodyLarge
+                    },
+                    color = if (restaurant.enriching) {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    } else {
+                        Color.Unspecified
+                    },
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.fillMaxWidth(),

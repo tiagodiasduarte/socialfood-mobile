@@ -118,7 +118,7 @@ class EditProfileViewModel(
             when (updateUser(
                 id = current.userId,
                 role = current.role,
-                firstName = current.name.ifBlank { null },
+                name = current.name.ifBlank { null },
                 city = current.city.ifBlank { null },
                 country = current.country.ifBlank { null },
                 bio = current.bio.ifBlank { null },

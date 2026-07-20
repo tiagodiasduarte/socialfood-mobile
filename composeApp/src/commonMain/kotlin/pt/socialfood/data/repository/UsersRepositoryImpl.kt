@@ -75,12 +75,9 @@ class UsersRepositoryImpl(
 
     override suspend fun update(
         id: String,
-        username: String?,
         role: String?,
         imageUrl: String?,
-        firstName: String?,
-        lastName: String?,
-        phoneNumber: String?,
+        name: String?,
         city: String?,
         country: String?,
         bio: String?,
@@ -90,11 +87,8 @@ class UsersRepositoryImpl(
     ): Result<User> {
         return try {
             val request = UpdateUserRequest(
-                username = username,
                 role = role,
-                firstName = firstName,
-                lastName = lastName,
-                phoneNumber = phoneNumber,
+                name = name,
                 city = city,
                 country = country,
                 bio = bio,

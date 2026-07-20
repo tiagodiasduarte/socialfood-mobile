@@ -49,7 +49,11 @@ class RestaurantsRepositoryImpl(
         }
     }
 
-    override suspend fun findRestaurants(page: Int, limit: Int, query: String?): Result<PagedRestaurants> {
+    override suspend fun findRestaurants(
+        page: Int,
+        limit: Int,
+        query: String?
+    ): Result<PagedRestaurants> {
         return try {
             val response = restaurantApi.findRestaurants(page = page, limit = limit, query = query)
             val hasMore = response.page * response.limit < response.total
@@ -95,18 +99,17 @@ class RestaurantsRepositoryImpl(
     }
 
     override suspend fun awaitEnrichedRestaurantByPlaceId(placeId: String): Result<Restaurant> {
-        return try {
-            repeat(ENRICHMENT_POLL_MAX_ATTEMPTS) {
+        repeat(ENRICHMENT_POLL_MAX_ATTEMPTS) {
+            try {
                 val response = restaurantApi.findByPlaceId(placeId)
-                if (!response.enriching) {
-                    return Result.Success(response.toRestaurant())
-                }
-                delay(ENRICHMENT_POLL_INTERVAL_MS)
+                return Result.Success(response.toRestaurant())
+            } catch (exception: Exception) {
+                println("Restaurant not ready yet ($exception)")
             }
-            Result.Error(ErrorEntity.Network.TIMEOUT)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+
+            delay(ENRICHMENT_POLL_INTERVAL_MS)
         }
+        return Result.Error(ErrorEntity.Network.TIMEOUT)
     }
 
     override suspend fun update(

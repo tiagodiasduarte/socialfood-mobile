@@ -78,7 +78,7 @@ fun SignUpScreen(
             viewModel.onSignUp(name, email, password, confirmPassword)
         },
         onSignUpSuccess = onSignUpSuccess,
-        onSignInClick = { onSignUpSuccess("tiago@gmail.com")} //onSignInClick,
+        onSignInClick = onSignInClick,
     )
 }
 

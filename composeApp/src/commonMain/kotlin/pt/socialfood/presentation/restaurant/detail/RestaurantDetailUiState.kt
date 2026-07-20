@@ -4,9 +4,6 @@ import pt.socialfood.domain.model.Restaurant
 
 sealed interface RestaurantDetailUiState {
     data object Loading : RestaurantDetailUiState
-    data class Loaded(
-        val restaurant: Restaurant,
-        val enrichmentTimedOut: Boolean = false,
-    ) : RestaurantDetailUiState
+    data class Loaded(val restaurant: Restaurant) : RestaurantDetailUiState
     data object Error : RestaurantDetailUiState
 }

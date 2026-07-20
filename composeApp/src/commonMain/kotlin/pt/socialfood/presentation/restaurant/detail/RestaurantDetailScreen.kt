@@ -83,21 +83,10 @@ private fun RestaurantDetailContent(
     when (state) {
         RestaurantDetailUiState.Loading -> RestaurantDetailPlaceholder()
 
-        is RestaurantDetailUiState.Loaded -> when {
-            // Still being enriched server-side and taking longer than expected: same
-            // retry affordance as a hard error, rather than leaving the user stuck on
-            // an indefinite spinner.
-            state.enrichmentTimedOut -> ErrorContent(onRetryClick = onRetry)
-
-            // Still being enriched, within the normal wait window: reuse the loading
-            // skeleton instead of rendering a restaurant with blank fields.
-            state.restaurant.enriching -> RestaurantDetailPlaceholder()
-
-            else -> RestaurantDetailLoaded(
-                restaurant = state.restaurant,
-                onBackClick = onBackClick,
-            )
-        }
+        is RestaurantDetailUiState.Loaded -> RestaurantDetailLoaded(
+            restaurant = state.restaurant,
+            onBackClick = onBackClick,
+        )
 
         RestaurantDetailUiState.Error -> ErrorContent(onRetryClick = onRetry)
     }

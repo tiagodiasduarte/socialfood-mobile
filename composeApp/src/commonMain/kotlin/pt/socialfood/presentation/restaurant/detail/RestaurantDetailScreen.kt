@@ -143,7 +143,7 @@ private fun RestaurantDetailLoaded(
                             uriHandler.openUri("geo:0,0?q=${restaurant.address}")
                     },
                     onWebsiteClick = {
-                        if (restaurant.websiteUrl.isNotBlank())
+                        if (!restaurant.websiteUrl.isNullOrBlank())
                             uriHandler.openUri(restaurant.websiteUrl)
                     },
                 )

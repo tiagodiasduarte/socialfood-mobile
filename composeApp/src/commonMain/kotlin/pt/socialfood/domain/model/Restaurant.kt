@@ -16,7 +16,7 @@ data class Restaurant(
     val address: String,
     val rating: Double,
     val userRatingCount: Int,
-    val websiteUrl: String,
+    val websiteUrl: String?,
     val phoneNumber: String,
     val regularOpeningHours: List<String>? = null,
 )

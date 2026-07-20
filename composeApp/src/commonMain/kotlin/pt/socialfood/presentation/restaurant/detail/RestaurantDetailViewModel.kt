@@ -10,9 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.use_case.restaurant.GetRestaurantByIdUseCase
-
-internal const val ENRICHMENT_POLL_INTERVAL_MS = 2_000L
-internal const val ENRICHMENT_POLL_MAX_ATTEMPTS = 10
+import pt.socialfood.domain.use_case.restaurant.RestaurantEnrichmentPolling
 
 class RestaurantDetailViewModel(
     private val getRestaurantById: GetRestaurantByIdUseCase,
@@ -48,8 +46,8 @@ class RestaurantDetailViewModel(
     }
 
     private suspend fun pollUntilEnriched() {
-        repeat(ENRICHMENT_POLL_MAX_ATTEMPTS) {
-            delay(ENRICHMENT_POLL_INTERVAL_MS)
+        repeat(RestaurantEnrichmentPolling.MAX_POLL_ATTEMPTS) {
+            delay(RestaurantEnrichmentPolling.POLL_INTERVAL_MS)
             when (val result = getRestaurantById(restaurantId)) {
                 is Result.Success -> {
                     _state.value = RestaurantDetailUiState.Loaded(result.data)

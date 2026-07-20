@@ -16,6 +16,8 @@ interface RestaurantApi {
 
     suspend fun findByPlaceId(placeId: String): RestaurantResponse
 
+    suspend fun addByPlaceId(placeId: String)
+
     suspend fun update(
         id: String,
         name: String,

@@ -5,6 +5,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.domain.use_case.restaurant.RestaurantEnrichmentPolling
 import pt.socialfood.fakes.FakeGetRestaurantByIdUseCase
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
@@ -96,7 +97,7 @@ class RestaurantDetailViewModelTest {
                 assertTrue(timedOut.enrichmentTimedOut)
             }
             // 1 initial load + one call per poll attempt
-            assertEquals(1 + ENRICHMENT_POLL_MAX_ATTEMPTS, fakeUseCase.invokeCount)
+            assertEquals(1 + RestaurantEnrichmentPolling.MAX_POLL_ATTEMPTS, fakeUseCase.invokeCount)
         }
 
     @Test

@@ -190,6 +190,33 @@ class RestaurantsRepositoryImplTest {
         assertEquals(ErrorEntity.Unknown, result.error)
     }
 
+    // addByPlaceId
+
+    @Test
+    fun `given valid placeId when addByPlaceId is called then returns Success`() = runTest {
+        // Given
+        val repo = createRepository()
+
+        // When
+        val result = repo.addByPlaceId(placeId = "place-id")
+
+        // Then
+        assertIs<Result.Success<Unit>>(result)
+    }
+
+    @Test
+    fun `given api throws when addByPlaceId is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
+
+        // When
+        val result = repo.addByPlaceId(placeId = "place-id")
+
+        // Then
+        assertIs<Result.Error>(result)
+        assertEquals(ErrorEntity.Unknown, result.error)
+    }
+
     // update
 
     @Test

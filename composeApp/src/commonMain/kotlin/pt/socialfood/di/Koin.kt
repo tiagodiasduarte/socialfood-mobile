@@ -110,6 +110,8 @@ import pt.socialfood.domain.use_case.restaurant.GetRestaurantsUseCase
 import pt.socialfood.domain.use_case.restaurant.GetRestaurantsUseCaseImpl
 import pt.socialfood.domain.use_case.restaurant.UpdateRestaurantUseCase
 import pt.socialfood.domain.use_case.restaurant.UpdateRestaurantUseCaseImpl
+import pt.socialfood.domain.use_case.restaurant.AddRestaurantByPlaceIdUseCase
+import pt.socialfood.domain.use_case.restaurant.AddRestaurantByPlaceIdUseCaseImpl
 import pt.socialfood.domain.use_case.restaurant.GetRestaurantByPlaceIdUseCase
 import pt.socialfood.domain.use_case.restaurant.GetRestaurantByPlaceIdUseCaseImpl
 import pt.socialfood.domain.use_case.user.GetUserByIdUseCase
@@ -194,6 +196,7 @@ val useCaseModule = module {
     factory<UpdateRestaurantUseCase> { UpdateRestaurantUseCaseImpl(get()) }
 
     factory<GetRestaurantByPlaceIdUseCase> { GetRestaurantByPlaceIdUseCaseImpl(get()) }
+    factory<AddRestaurantByPlaceIdUseCase> { AddRestaurantByPlaceIdUseCaseImpl(get()) }
     factory<GetUsersUseCase> { GetUsersUseCaseImpl(get()) }
     factory<FindUsersUseCase> { FindUsersUseCaseImpl(get()) }
     factory<GetUserByIdUseCase> { GetUserByIdUseCaseImpl(get()) }
@@ -240,7 +243,7 @@ val viewModelModule = module {
     factory { CreateGuideViewModel(get(), get(), get()) }
     factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), get(), guideId) }
 
-    factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get()) }
+    factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
 
     factory { (restaurantId: String) -> RestaurantDetailViewModel(get(), restaurantId) }
 

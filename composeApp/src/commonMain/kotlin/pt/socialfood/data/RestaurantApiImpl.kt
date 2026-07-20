@@ -42,6 +42,10 @@ class RestaurantApiImpl(
             parameter("placeId", placeId)
         }.body()
 
+    override suspend fun addByPlaceId(placeId: String) {
+        client.post("restaurants/$placeId")
+    }
+
     override suspend fun update(
         id: String,
         name: String,

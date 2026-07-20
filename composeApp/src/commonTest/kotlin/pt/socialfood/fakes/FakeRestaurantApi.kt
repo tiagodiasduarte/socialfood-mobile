@@ -59,6 +59,10 @@ class FakeRestaurantApi(private val shouldThrow: Boolean = false) : RestaurantAp
         return fakeRestaurantResponse
     }
 
+    override suspend fun addByPlaceId(placeId: String) {
+        if (shouldThrow) throw RuntimeException("test error")
+    }
+
     override suspend fun update(
         id: String,
         name: String,

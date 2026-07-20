@@ -77,6 +77,15 @@ class RestaurantsRepositoryImpl(
         }
     }
 
+    override suspend fun addByPlaceId(placeId: String): Result<Unit> {
+        return try {
+            restaurantApi.addByPlaceId(placeId)
+            Result.Success(Unit)
+        } catch (exception: Exception) {
+            Result.Error(exception.toErrorEntity())
+        }
+    }
+
     override suspend fun update(
         id: String,
         name: String,

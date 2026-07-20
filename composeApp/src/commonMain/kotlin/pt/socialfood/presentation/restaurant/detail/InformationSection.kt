@@ -114,7 +114,7 @@ private fun InformationCard(
                     color = MaterialTheme.colorScheme.outlineVariant,
                 )
             }
-            if (restaurant.websiteUrl.isNotBlank()) {
+            if (!restaurant.websiteUrl.isNullOrBlank()) {
                 InfoRow(
                     icon = Icons.Outlined.Language,
                     text = restaurant.websiteUrl,

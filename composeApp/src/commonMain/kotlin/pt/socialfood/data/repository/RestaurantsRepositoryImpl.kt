@@ -1,10 +1,13 @@
 package pt.socialfood.data.repository
 
+import kotlinx.coroutines.delay
 import pt.socialfood.core.Result
 import pt.socialfood.data.RestaurantApi
 import pt.socialfood.data.network.extensions.toErrorEntity
+import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.PagedRestaurants
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.domain.model.RestaurantEnrichmentPolling
 import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.mapper.toRestaurant
 
@@ -81,6 +84,21 @@ class RestaurantsRepositoryImpl(
         return try {
             restaurantApi.addByPlaceId(placeId)
             Result.Success(Unit)
+        } catch (exception: Exception) {
+            Result.Error(exception.toErrorEntity())
+        }
+    }
+
+    override suspend fun awaitEnrichedRestaurantByPlaceId(placeId: String): Result<Restaurant> {
+        return try {
+            repeat(RestaurantEnrichmentPolling.MAX_POLL_ATTEMPTS) {
+                val response = restaurantApi.findByPlaceId(placeId)
+                if (!response.enriching) {
+                    return Result.Success(response.toRestaurant())
+                }
+                delay(RestaurantEnrichmentPolling.POLL_INTERVAL_MS)
+            }
+            Result.Error(ErrorEntity.Network.TIMEOUT)
         } catch (exception: Exception) {
             Result.Error(exception.toErrorEntity())
         }

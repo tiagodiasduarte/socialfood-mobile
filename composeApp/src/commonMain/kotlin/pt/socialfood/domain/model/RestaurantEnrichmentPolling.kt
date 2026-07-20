@@ -1,8 +1,9 @@
-package pt.socialfood.domain.use_case.restaurant
+package pt.socialfood.domain.model
 
 /**
  * Shared tuning for polling a restaurant until the backend finishes async enrichment
- * (see APPS-16). Used by both the search/add flow and the restaurant detail screen.
+ * (see APPS-16). Lives in the repository layer (RestaurantsRepositoryImpl), the only
+ * place with access to the raw "still enriching" signal from the network response.
  */
 object RestaurantEnrichmentPolling {
     const val POLL_INTERVAL_MS = 2_000L

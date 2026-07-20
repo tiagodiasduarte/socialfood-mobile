@@ -4,7 +4,16 @@ import pt.socialfood.data.RestaurantApi
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 
-class FakeRestaurantApi(private val shouldThrow: Boolean = false) : RestaurantApi {
+class FakeRestaurantApi(
+    private val shouldThrow: Boolean = false,
+    // Scripts successive findByPlaceId responses (e.g. enriching -> enriching -> ready),
+    // one per call; repeats the last item once exhausted. Defaults to null, in which case
+    // findByPlaceId just returns fakeRestaurantResponse every time, same as before.
+    private val findByPlaceIdResponses: List<RestaurantResponse>? = null,
+) : RestaurantApi {
+
+    var findByPlaceIdInvokeCount: Int = 0
+        private set
 
     private val fakeRestaurantResponse = RestaurantResponse(
         id = "restaurant-id",
@@ -56,7 +65,11 @@ class FakeRestaurantApi(private val shouldThrow: Boolean = false) : RestaurantAp
 
     override suspend fun findByPlaceId(placeId: String): RestaurantResponse {
         if (shouldThrow) throw RuntimeException("test error")
-        return fakeRestaurantResponse
+        val response = findByPlaceIdResponses
+            ?.getOrElse(findByPlaceIdInvokeCount) { findByPlaceIdResponses.last() }
+            ?: fakeRestaurantResponse
+        findByPlaceIdInvokeCount++
+        return response
     }
 
     override suspend fun addByPlaceId(placeId: String) {

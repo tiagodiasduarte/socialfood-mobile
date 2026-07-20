@@ -2,9 +2,11 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
+import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.PagedRestaurants
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.domain.model.RestaurantEnrichmentPolling
 import pt.socialfood.fakes.FakeRestaurantApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,6 +17,25 @@ class RestaurantsRepositoryImplTest {
 
     private fun createRepository(shouldThrow: Boolean = false): RestaurantsRepositoryImpl =
         RestaurantsRepositoryImpl(FakeRestaurantApi(shouldThrow))
+
+    private fun enrichmentResponse(enriching: Boolean) = RestaurantResponse(
+        id = "restaurant-id",
+        name = if (enriching) "" else "Restaurant Name",
+        description = null,
+        photoNames = emptyList(),
+        city = "Lisbon",
+        country = "Portugal",
+        countryCode = "PT",
+        postalCode = null,
+        phoneNumber = "",
+        address = "",
+        rating = 0.0,
+        userRatingCount = 0,
+        websiteUrl = null,
+        location = RestaurantResponse.Location(latitude = 38.7169, longitude = -9.1399),
+        regularOpeningHours = null,
+        enriching = enriching,
+    )
 
     // importRestaurants
 
@@ -211,6 +232,71 @@ class RestaurantsRepositoryImplTest {
 
         // When
         val result = repo.addByPlaceId(placeId = "place-id")
+
+        // Then
+        assertIs<Result.Error>(result)
+        assertEquals(ErrorEntity.Unknown, result.error)
+    }
+
+    // awaitEnrichedRestaurantByPlaceId
+
+    @Test
+    fun `given the restaurant is already enriched when awaitEnrichedRestaurantByPlaceId is called then returns Success without polling`() = runTest {
+        // Given
+        val api = FakeRestaurantApi(findByPlaceIdResponses = listOf(enrichmentResponse(enriching = false)))
+        val repo = RestaurantsRepositoryImpl(api)
+
+        // When
+        val result = repo.awaitEnrichedRestaurantByPlaceId(placeId = "place-id")
+
+        // Then
+        assertIs<Result.Success<Restaurant>>(result)
+        assertEquals("restaurant-id", result.data.id)
+        assertEquals(1, api.findByPlaceIdInvokeCount)
+    }
+
+    @Test
+    fun `given the restaurant is still enriching when awaitEnrichedRestaurantByPlaceId polls then it keeps polling until ready`() = runTest {
+        // Given
+        val api = FakeRestaurantApi(
+            findByPlaceIdResponses = listOf(
+                enrichmentResponse(enriching = true),
+                enrichmentResponse(enriching = true),
+                enrichmentResponse(enriching = false),
+            )
+        )
+        val repo = RestaurantsRepositoryImpl(api)
+
+        // When
+        val result = repo.awaitEnrichedRestaurantByPlaceId(placeId = "place-id")
+
+        // Then
+        assertIs<Result.Success<Restaurant>>(result)
+        assertEquals(3, api.findByPlaceIdInvokeCount)
+    }
+
+    @Test
+    fun `given the restaurant never finishes enriching when awaitEnrichedRestaurantByPlaceId polls up to the cap then returns Error TIMEOUT`() = runTest {
+        // Given
+        val api = FakeRestaurantApi(findByPlaceIdResponses = listOf(enrichmentResponse(enriching = true)))
+        val repo = RestaurantsRepositoryImpl(api)
+
+        // When
+        val result = repo.awaitEnrichedRestaurantByPlaceId(placeId = "place-id")
+
+        // Then
+        assertIs<Result.Error>(result)
+        assertEquals(ErrorEntity.Network.TIMEOUT, result.error)
+        assertEquals(RestaurantEnrichmentPolling.MAX_POLL_ATTEMPTS, api.findByPlaceIdInvokeCount)
+    }
+
+    @Test
+    fun `given api throws when awaitEnrichedRestaurantByPlaceId is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
+
+        // When
+        val result = repo.awaitEnrichedRestaurantByPlaceId(placeId = "place-id")
 
         // Then
         assertIs<Result.Error>(result)

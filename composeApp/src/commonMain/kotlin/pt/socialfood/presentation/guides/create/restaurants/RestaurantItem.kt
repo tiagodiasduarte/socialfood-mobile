@@ -18,11 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.resources.stringResource
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.restaurant_enriching_label
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.guides.edit.search_restaurants.PlaceThumbnail
 import pt.socialfood.ui.theme.AppTheme
@@ -47,25 +43,17 @@ fun RestaurantItem(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
         ) {
-            if (restaurant.enriching) {
-                Text(
-                    text = stringResource(Res.string.restaurant_enriching_label),
-                    style = MaterialTheme.typography.bodyLarge.copy(fontStyle = FontStyle.Italic),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            } else {
-                Text(
-                    text = restaurant.name,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
+            Text(
+                text = restaurant.name,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
 
-                Text(
-                    text = restaurant.cuisine,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
-            }
+            Text(
+                text = restaurant.cuisine,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
         }
 
         IconButton(onClick = onRemove) {

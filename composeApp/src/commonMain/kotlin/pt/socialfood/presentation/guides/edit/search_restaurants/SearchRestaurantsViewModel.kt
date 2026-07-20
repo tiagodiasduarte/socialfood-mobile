@@ -17,12 +17,11 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.use_case.SearchPlacesUseCase
 import pt.socialfood.domain.use_case.restaurant.AddRestaurantByPlaceIdUseCase
-import pt.socialfood.domain.use_case.restaurant.GetRestaurantByPlaceIdUseCase
-import pt.socialfood.domain.use_case.restaurant.RestaurantEnrichmentPolling
+import pt.socialfood.domain.use_case.restaurant.AwaitEnrichedRestaurantByPlaceIdUseCase
 
 class SearchRestaurantsViewModel(
     private val searchPlaces: SearchPlacesUseCase,
-    private val getRestaurantByPlaceId: GetRestaurantByPlaceIdUseCase,
+    private val awaitEnrichedRestaurantByPlaceId: AwaitEnrichedRestaurantByPlaceIdUseCase,
     private val addRestaurantByPlaceId: AddRestaurantByPlaceIdUseCase,
 ) : ViewModel() {
 
@@ -64,36 +63,31 @@ class SearchRestaurantsViewModel(
     }
 
     fun onAddRestaurant(placeId: String) {
+        // Set synchronously, not inside the launched coroutine below: with a lazy
+        // dispatcher the coroutine body doesn't run immediately, which would leave a
+        // window where a rapid second call sails past this guard before the first
+        // coroutine ever gets to flip the flag itself.
         if (_isImportingRestaurant.value) return
+        _isImportingRestaurant.value = true
 
         addRestaurantJob = viewModelScope.launch {
-            _isImportingRestaurant.value = true
             when (addRestaurantByPlaceId(placeId)) {
                 is Result.Success -> {
-                    val restaurant = awaitEnrichedRestaurant(placeId)
-                    if (restaurant != null) {
-                        _events.emit(UiEvent.RestaurantAdded(restaurant))
+                    // Suspends until the repository reports the restaurant is fully
+                    // enriched, or gives up after its own poll cap — either way, a
+                    // Restaurant reaching this ViewModel is never a still-enriching stub.
+                    when (val result = awaitEnrichedRestaurantByPlaceId(placeId)) {
+                        is Result.Success -> _events.emit(UiEvent.RestaurantAdded(result.data))
+                        // Timed out or errored mid-poll: close the dialog without adding
+                        // anything, the user can retry by tapping the place again.
+                        is Result.Error -> Unit
                     }
-                    // If polling errors out or hits the cap while still enriching, we
-                    // simply close the dialog without adding anything — the user can
-                    // retry by tapping the place again.
                 }
 
                 is Result.Error -> Unit
             }
             _isImportingRestaurant.value = false
         }
-    }
-
-    private suspend fun awaitEnrichedRestaurant(placeId: String): Restaurant? {
-        repeat(RestaurantEnrichmentPolling.MAX_POLL_ATTEMPTS) {
-            when (val result = getRestaurantByPlaceId(placeId)) {
-                is Result.Success -> if (!result.data.enriching) return result.data
-                is Result.Error -> return null
-            }
-            delay(RestaurantEnrichmentPolling.POLL_INTERVAL_MS)
-        }
-        return null
     }
 
     override fun onCleared() {

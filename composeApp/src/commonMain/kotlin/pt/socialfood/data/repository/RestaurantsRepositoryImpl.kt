@@ -16,7 +16,7 @@ class RestaurantsRepositoryImpl(
 ) : RestaurantsRepository {
 
     companion object {
-        internal val ENRICHMENT_POLL_INTERVAL_MS = 2_000L.milliseconds
+        internal val ENRICHMENT_POLL_INTERVAL_MS = 2_000.milliseconds
         internal const val ENRICHMENT_POLL_MAX_ATTEMPTS = 10
     }
 

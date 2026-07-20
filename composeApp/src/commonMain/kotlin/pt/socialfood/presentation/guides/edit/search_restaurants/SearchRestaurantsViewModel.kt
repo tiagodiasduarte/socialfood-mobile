@@ -18,6 +18,7 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.use_case.SearchPlacesUseCase
 import pt.socialfood.domain.use_case.restaurant.AddRestaurantByPlaceIdUseCase
 import pt.socialfood.domain.use_case.restaurant.AwaitEnrichedRestaurantByPlaceIdUseCase
+import kotlin.time.Duration.Companion.milliseconds
 
 class SearchRestaurantsViewModel(
     private val searchPlaces: SearchPlacesUseCase,
@@ -25,14 +26,16 @@ class SearchRestaurantsViewModel(
     private val addRestaurantByPlaceId: AddRestaurantByPlaceIdUseCase,
 ) : ViewModel() {
 
+    companion object {
+        private val SEARCH_DEBOUNCE_MS = 300.milliseconds
+    }
+
     private val _state = MutableStateFlow<SearchRestaurantsUiState>(SearchRestaurantsUiState.Loaded(emptyList()))
     val state: StateFlow<SearchRestaurantsUiState> = _state
 
     private val _events = MutableSharedFlow<UiEvent>()
     val events = _events.asSharedFlow()
 
-    // Drives the "Importing restaurant" dialog while addByPlaceId + the enrichment poll
-    // that follows it are in flight.
     private val _isImportingRestaurant = MutableStateFlow(false)
     val isImportingRestaurant: StateFlow<Boolean> = _isImportingRestaurant.asStateFlow()
 
@@ -53,7 +56,7 @@ class SearchRestaurantsViewModel(
             return
         }
         searchJob = viewModelScope.launch {
-            delay(300)
+            delay(SEARCH_DEBOUNCE_MS)
             _state.value = SearchRestaurantsUiState.Loading
             when (val result = searchPlaces(query)) {
                 is Result.Success -> _state.value = SearchRestaurantsUiState.Loaded(result.data)
@@ -63,23 +66,14 @@ class SearchRestaurantsViewModel(
     }
 
     fun onAddRestaurant(placeId: String) {
-        // Set synchronously, not inside the launched coroutine below: with a lazy
-        // dispatcher the coroutine body doesn't run immediately, which would leave a
-        // window where a rapid second call sails past this guard before the first
-        // coroutine ever gets to flip the flag itself.
         if (_isImportingRestaurant.value) return
         _isImportingRestaurant.value = true
 
         addRestaurantJob = viewModelScope.launch {
             when (addRestaurantByPlaceId(placeId)) {
                 is Result.Success -> {
-                    // Suspends until the repository reports the restaurant is fully
-                    // enriched, or gives up after its own poll cap — either way, a
-                    // Restaurant reaching this ViewModel is never a still-enriching stub.
                     when (val result = awaitEnrichedRestaurantByPlaceId(placeId)) {
                         is Result.Success -> _events.emit(UiEvent.RestaurantAdded(result.data))
-                        // Timed out or errored mid-poll: close the dialog without adding
-                        // anything, the user can retry by tapping the place again.
                         is Result.Error -> Unit
                     }
                 }

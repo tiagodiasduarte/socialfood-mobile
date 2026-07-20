@@ -18,10 +18,6 @@
     kotlinx.serialization.KSerializer serializer(...);
 }
 
-# Kamel
--keep class kamel.** { *; }
--dontwarn kamel.**
-
 # Multiplatform Settings
 -keep class com.russhwolf.settings.** { *; }
 -dontwarn com.russhwolf.settings.**

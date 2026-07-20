@@ -80,9 +80,9 @@ internal fun EditProfilePlaceholder() {
             SectionCardPlaceholder(alpha = alpha) {
                 ShimmerBox(modifier = Modifier.width(140.dp).height(20.dp), alpha = alpha)
                 Spacer(Modifier.height(SpaceSize.large))
-                repeat(5) {
+                repeat(3) {
                     FieldPlaceholder(alpha = alpha)
-                    if (it < 4) Spacer(Modifier.height(SpaceSize.large))
+                    if (it < 2) Spacer(Modifier.height(SpaceSize.large))
                 }
             }
 

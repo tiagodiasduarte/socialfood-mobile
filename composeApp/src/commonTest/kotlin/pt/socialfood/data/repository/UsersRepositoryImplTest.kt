@@ -149,12 +149,9 @@ class UsersRepositoryImplTest {
         // When
         val result = repo.update(
             id = "user-id",
-            username = "testuser",
             role = "USER",
             imageUrl = null,
-            firstName = "Test",
-            lastName = "User",
-            phoneNumber = null,
+            name = "Test User",
             city = "Lisbon",
             country = "Portugal",
             bio = null,
@@ -178,12 +175,9 @@ class UsersRepositoryImplTest {
         // When
         val result = repo.update(
             id = "user-id",
-            username = null,
             role = null,
             imageUrl = null,
-            firstName = null,
-            lastName = null,
-            phoneNumber = null,
+            name = null,
             city = null,
             country = null,
             bio = null,

@@ -9,15 +9,14 @@ import pt.socialfood.domain.model.PagedRestaurants
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.mapper.toRestaurant
+import kotlin.time.Duration.Companion.milliseconds
 
 class RestaurantsRepositoryImpl(
     private val restaurantApi: RestaurantApi
 ) : RestaurantsRepository {
 
     companion object {
-        // Polling tuning for awaitEnrichedRestaurantByPlaceId (see APPS-16). Only used
-        // here, so kept local rather than as a separate shared file.
-        internal const val ENRICHMENT_POLL_INTERVAL_MS = 2_000L
+        internal val ENRICHMENT_POLL_INTERVAL_MS = 2_000L.milliseconds
         internal const val ENRICHMENT_POLL_MAX_ATTEMPTS = 10
     }
 

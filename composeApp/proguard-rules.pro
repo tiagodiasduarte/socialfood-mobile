@@ -18,10 +18,6 @@
     kotlinx.serialization.KSerializer serializer(...);
 }
 
-# Multiplatform Settings
--keep class com.russhwolf.settings.** { *; }
--dontwarn com.russhwolf.settings.**
-
 # Kotlin coroutines
 -keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
 -keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}

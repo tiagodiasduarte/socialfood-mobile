@@ -33,9 +33,7 @@ class EditProfileViewModel(
         _state.value = current.block()
     }
 
-    fun onFirstNameChange(value: String) = loaded { copy(firstName = value) }
-    fun onLastNameChange(value: String) = loaded { copy(lastName = value) }
-    fun onPhoneNumberChange(value: String) = loaded { copy(phoneNumber = value) }
+    fun onNameChange(value: String) = loaded { copy(name = value) }
     fun onCityChange(value: String) = loaded { copy(city = value) }
     fun onCountryChange(value: String) = loaded { copy(country = value) }
     fun onBioChange(value: String) = loaded { copy(bio = value) }
@@ -51,11 +49,8 @@ class EditProfileViewModel(
                     val user = result.data
                     _state.value = EditProfileUiState.Loaded(
                         userId = user.id,
-                        username = user.name,
                         role = user.role.name,
-                        firstName = user.firstName.orEmpty(),
-                        lastName = user.lastName.orEmpty(),
-                        phoneNumber = user.phoneNumber.orEmpty(),
+                        name = user.name,
                         city = user.city.orEmpty(),
                         country = user.country.orEmpty(),
                         bio = user.bio.orEmpty(),
@@ -122,11 +117,8 @@ class EditProfileViewModel(
             val current = _state.value as? EditProfileUiState.Loaded ?: return@launch
             when (updateUser(
                 id = current.userId,
-                username = current.username,
                 role = current.role,
-                firstName = current.firstName.ifBlank { null },
-                lastName = current.lastName.ifBlank { null },
-                phoneNumber = current.phoneNumber.ifBlank { null },
+                firstName = current.name.ifBlank { null },
                 city = current.city.ifBlank { null },
                 country = current.country.ifBlank { null },
                 bio = current.bio.ifBlank { null },

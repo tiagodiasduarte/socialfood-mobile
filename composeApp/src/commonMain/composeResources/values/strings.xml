@@ -138,12 +138,8 @@
     <string name="edit_profile_picture_change_button">Change Photo</string>
     <string name="edit_profile_google_info">You are connected with Google account. Add a password to edit your contact information.</string>
     <string name="edit_profile_personal_details_title">Personal Details</string>
-    <string name="edit_profile_first_name_label">First Name</string>
-    <string name="edit_profile_first_name_placeholder">John</string>
-    <string name="edit_profile_last_name_label">Last Name</string>
-    <string name="edit_profile_last_name_placeholder">Doe</string>
-    <string name="edit_profile_phone_label">Phone Number</string>
-    <string name="edit_profile_phone_placeholder">+1 (555) 123-4567</string>
+    <string name="edit_profile_name_label">Name</string>
+    <string name="edit_profile_name_placeholder">John Doe</string>
     <string name="edit_profile_city_label">City</string>
     <string name="edit_profile_city_placeholder">New York</string>
     <string name="edit_profile_country_label">Country</string>

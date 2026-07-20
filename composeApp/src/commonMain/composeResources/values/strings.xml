@@ -129,6 +129,7 @@
     <string name="search_restaurants_title">Add Restaurants</string>
     <string name="search_restaurants_search_placeholder">Search restaurants...</string>
     <string name="search_restaurants_error">Failed to load restaurants</string>
+    <string name="search_restaurants_importing_dialog_message">Importing restaurant…</string>
 
     <string name="edit_profile_title">Edit Profile</string>
     <string name="edit_profile_save_button">Save</string>

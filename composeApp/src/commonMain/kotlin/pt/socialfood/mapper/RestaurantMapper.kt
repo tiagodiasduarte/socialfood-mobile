@@ -20,5 +20,5 @@ fun RestaurantResponse.toRestaurant(): Restaurant =
         userRatingCount = this.userRatingCount,
         websiteUrl = this.websiteUrl,
         phoneNumber = this.phoneNumber,
-        regularOpeningHours = this.regularOpeningHours
+        regularOpeningHours = this.regularOpeningHours,
     )

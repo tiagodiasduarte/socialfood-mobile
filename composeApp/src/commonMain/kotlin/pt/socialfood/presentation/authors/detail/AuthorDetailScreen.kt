@@ -35,9 +35,7 @@ import org.koin.core.parameter.parametersOf
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.author_detail_guides_section_title
 import socialfood.composeapp.generated.resources.back_button_description
-import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.AuthorDetail
-import pt.socialfood.presentation.authors.follow.FollowButton
 import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.UserImage
@@ -62,7 +60,6 @@ fun AuthorDetailScreen(
     AuthorDetailContent(
         state = state,
         onBackClick = onBackClick,
-        onFollowClick = { },
         onRetry = viewModel::load,
     )
 }
@@ -71,7 +68,6 @@ fun AuthorDetailScreen(
 private fun AuthorDetailContent(
     state: AuthorDetailUiState,
     onBackClick: () -> Unit,
-    onFollowClick: (Author) -> Unit,
     onRetry: () -> Unit,
 ) {
     when (state) {
@@ -220,14 +216,6 @@ private fun AuthorHeader(
                 followersCount = author.followersCount,
                 followingCount = author.followingCount,
             )
-
-            Spacer(Modifier.height(SpaceSize.small))
-
-            FollowButton(
-                authorId = author.id,
-                isFollowing = author.isFollowing,
-                onFollowClick = {}
-            )
         }
     }
 }
@@ -263,7 +251,6 @@ private fun AuthorDetailLoadingPreview() {
         AuthorDetailContent(
             state = AuthorDetailUiState.Loading,
             onBackClick = {},
-            onFollowClick = {},
             onRetry = {},
         )
     }
@@ -300,7 +287,6 @@ private fun AuthorDetailLoadedPreview() {
         AuthorDetailContent(
             state = AuthorDetailUiState.Loaded(author),
             onBackClick = {},
-            onFollowClick = {},
             onRetry = {},
         )
     }

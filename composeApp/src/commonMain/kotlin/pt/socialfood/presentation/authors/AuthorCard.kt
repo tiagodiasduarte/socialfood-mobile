@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.Icon
@@ -29,7 +28,6 @@ import socialfood.composeapp.generated.resources.authors_stat_followers_label
 import socialfood.composeapp.generated.resources.authors_stat_following_label
 import socialfood.composeapp.generated.resources.authors_stat_guides_label
 import pt.socialfood.domain.model.Author
-import pt.socialfood.presentation.authors.follow.FollowButton
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.presentation.components.card.SectionCard
 import pt.socialfood.ui.theme.AppTheme
@@ -38,7 +36,6 @@ import pt.socialfood.ui.theme.SpaceSize
 @Composable
 fun AuthorCard(
     author: Author,
-    onFollowClick: (Author) -> Unit,
     onAuthorClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
@@ -56,29 +53,11 @@ fun AuthorCard(
             )
 
             Column(modifier = Modifier.weight(1f)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.Top,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Column(
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Text(
-                            text = author.name,
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onBackground,
-                        )
-                    }
-
-                    Spacer(Modifier.width(SpaceSize.large))
-
-                    FollowButton(
-                        authorId = author.id,
-                        isFollowing = author.isFollowing,
-                        onFollowClick = { onFollowClick(author) }
-                    )
-                }
+                Text(
+                    text = author.name,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -150,30 +129,13 @@ private fun StatItem(value: String, label: String) {
 
 @Preview
 @Composable
-private fun AuthorCardFollowPreview() {
+private fun AuthorCardPreview() {
     AppTheme {
         AuthorCard(
             author = Author(
                 id = "1",
                 name = "Sarah Mitchell",
-                isFollowing = false,
             ),
-            onFollowClick = {},
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun AuthorCardFollowingPreview() {
-    AppTheme {
-        AuthorCard(
-            author = Author(
-                id = "2",
-                name = "Michael Rodriguez",
-                isFollowing = true,
-            ),
-            onFollowClick = {},
         )
     }
 }

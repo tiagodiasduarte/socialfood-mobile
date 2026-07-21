@@ -315,14 +315,6 @@ private fun TitleSection(restaurant: Restaurant) {
         Spacer(Modifier.height(SpaceSize.small))
 
         Text(
-            text = restaurant.cuisine,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-
-        Spacer(Modifier.height(SpaceSize.small))
-
-        Text(
             text = restaurant.address,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -372,7 +364,6 @@ private fun RestaurantDetailScreenPreview() {
         id = "r1",
         name = "Le Jardin Français",
         description = "A charming French bistro",
-        cuisine = "French Cuisine",
         city = "Midtown",
         country = "French",
         countryCode = "French",

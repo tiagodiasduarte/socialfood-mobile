@@ -79,11 +79,6 @@ fun RestaurantItemCard(
                     style = AppTypography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
                     color = MaterialTheme.colorScheme.onBackground,
                 )
-                Text(
-                    text = restaurant.cuisine,
-                    style = AppTypography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),

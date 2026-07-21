@@ -41,11 +41,12 @@ class UserApiImpl(
             setBody(request)
         }.body()
 
-    override suspend fun updatePhotoUrl(userId: String, request: UpdateUserPhotoRequest): UserResponse =
+    override suspend fun updatePhotoUrl(userId: String, request: UpdateUserPhotoRequest) {
         client.post("users/$userId/photo") {
             contentType(ContentType.Application.Json)
             setBody(request)
-        }.body()
+        }
+    }
 
     override suspend fun getPresignedUrl(
         userId: String,

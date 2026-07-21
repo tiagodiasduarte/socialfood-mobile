@@ -106,7 +106,7 @@ class UsersRepositoryImpl(
 
     override suspend fun updatePhoto(id: String, imageUrl: String): Result<Boolean> {
         return try {
-            val user = userApi.updatePhotoUrl(id, UpdateUserPhotoRequest(imageUrl))
+            userApi.updatePhotoUrl(id, UpdateUserPhotoRequest(imageUrl))
             Result.Success(true)
         } catch (exception: Exception) {
             Result.Error(exception.toErrorEntity())

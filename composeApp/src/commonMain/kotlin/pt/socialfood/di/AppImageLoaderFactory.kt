@@ -8,9 +8,6 @@ import coil3.network.ktor3.KtorNetworkFetcherFactory
 import io.ktor.client.HttpClient
 
 interface ImageCache {
-    // Evicts a URL from Coil's memory and disk caches, so a stale image isn't
-    // shown when the same URL is reused after its content changes (e.g. photo
-    // uploads that always target the same S3 key for a given user/guide).
     fun clear(url: String)
 }
 

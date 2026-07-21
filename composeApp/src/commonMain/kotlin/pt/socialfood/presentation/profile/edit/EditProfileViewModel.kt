@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
+import pt.socialfood.di.ImageCache
 import pt.socialfood.domain.use_case.photo.UploadPhotoUseCase
 import pt.socialfood.domain.use_case.user.GetPresignedUrlUseCase
 import pt.socialfood.domain.use_case.user.GetUserMeUseCase
@@ -19,6 +20,7 @@ class EditProfileViewModel(
     private val uploadPhoto: UploadPhotoUseCase,
     private val updateUserPhoto: UpdateUserPhotoUseCase,
     private val getPresignedUrl: GetPresignedUrlUseCase,
+    private val imageCache: ImageCache,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<EditProfileUiState>(EditProfileUiState.Loading)
@@ -104,8 +106,11 @@ class EditProfileViewModel(
                 }
 
                 when (updateUserPhoto(id = state.userId, imageUrl = presigned.publicUrl)) {
-                    is Result.Success -> loaded {
-                        copy(isUploadingPhoto = false, pendingImage = null, imageUrl = presigned.publicUrl)
+                    is Result.Success -> {
+                        imageCache.clear(presigned.publicUrl)
+                        loaded {
+                            copy(isUploadingPhoto = false, pendingImage = null, imageUrl = presigned.publicUrl)
+                        }
                     }
                     is Result.Error -> {
                         loaded { copy(isSaving = false, isUploadingPhoto = false) }

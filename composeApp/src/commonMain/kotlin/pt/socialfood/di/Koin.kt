@@ -160,6 +160,7 @@ val networkModule = module {
     single<S3Api> { S3ApiImpl(get<S3HttpClient>().client) }
     single { ImageHttpClient() }
     single { AppImageLoaderFactory(get<ImageHttpClient>().client) }
+    single<ImageCache> { get<AppImageLoaderFactory>() }
     single<AuthApi> { AuthApiImpl(get()) }
     single<AuthorsApi> { AuthorsApiImpl(get()) }
     single<ConfigsApi> { ConfigsApiImpl(get()) }
@@ -255,7 +256,7 @@ val viewModelModule = module {
     factory { SignUpViewModel(get()) }
     factory { (email: String) -> ValidateCodeViewModel(get(), get(), get(), email) }
     factory { ProfileViewModel(get(), get(), get()) }
-    factory { EditProfileViewModel(get(), get(), get(), get(), get()) }
+    factory { EditProfileViewModel(get(), get(), get(), get(), get(), get()) }
 }
 
 fun initKoin(configuration: KoinAppDeclaration? = null) {

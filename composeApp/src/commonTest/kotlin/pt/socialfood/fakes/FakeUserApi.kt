@@ -52,9 +52,8 @@ class FakeUserApi(private val shouldThrow: Boolean = false) : UserApi {
         return fakeUserResponse
     }
 
-    override suspend fun updatePhotoUrl(userId: String, request: UpdateUserPhotoRequest): UserResponse {
+    override suspend fun updatePhotoUrl(userId: String, request: UpdateUserPhotoRequest) {
         if (shouldThrow) throw RuntimeException("test error")
-        return fakeUserResponse
     }
 
     override suspend fun getPresignedUrl(userId: String, request: PresignedUrlRequest): PresignedUrlResponse {

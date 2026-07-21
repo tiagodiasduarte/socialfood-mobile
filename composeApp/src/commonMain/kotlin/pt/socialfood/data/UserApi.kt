@@ -18,7 +18,7 @@ interface UserApi {
 
     suspend fun update(request: UpdateUserRequest, id: String): UserResponse
 
-    suspend fun updatePhotoUrl(userId: String, request: UpdateUserPhotoRequest): UserResponse
+    suspend fun updatePhotoUrl(userId: String, request: UpdateUserPhotoRequest)
 
     suspend fun getPresignedUrl(userId: String, request: PresignedUrlRequest): PresignedUrlResponse
 }

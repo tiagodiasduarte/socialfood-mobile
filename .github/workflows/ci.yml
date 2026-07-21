@@ -64,6 +64,8 @@ jobs:
           UDID=$(xcrun simctl list devices available -j | jq -r '[.devices[][] | select(.name | test("iPhone"))][0].udid')
           echo "udid=$UDID" >> "$GITHUB_OUTPUT"
       - name: Build iOS app (Debug, simulator, unsigned)
+        env:
+          GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
         run: |
           cd iosApp
           xcodebuild build \

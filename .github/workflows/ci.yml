@@ -4,10 +4,15 @@ on:
   pull_request:
     branches: [ develop ]
 
+concurrency:
+  group: '${{ github.workflow }}-${{ github.event.pull_request.head.label || github.ref }}'
+  cancel-in-progress: true
+
 jobs:
   android-build:
     name: Android Build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - name: Setup Java
@@ -26,6 +31,7 @@ jobs:
   android-test:
     name: Android Unit Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - name: Setup Java
@@ -44,6 +50,7 @@ jobs:
   ios-build:
     name: iOS Build
     runs-on: macos-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - name: Setup Java
@@ -82,6 +89,7 @@ jobs:
   ios-test:
     name: iOS Unit Tests
     runs-on: macos-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - name: Setup Java
@@ -96,3 +104,17 @@ jobs:
         env:
           GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
           GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
+
+  finish:
+    name: 🏁 Finish
+    if: ${{ !cancelled() }}
+    needs:
+      - android-build
+      - android-test
+      - ios-build
+      - ios-test
+    runs-on: ubuntu-latest
+    steps:
+      - if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+        name: Fail
+        run: exit 1

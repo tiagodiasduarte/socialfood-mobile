@@ -73,6 +73,8 @@
     <string name="authors_title">Authors</string>
     <string name="authors_search_placeholder">Search authors…</string>
     <string name="authors_error_label">Failed to load authors</string>
+    <string name="authors_follow_button">Follow</string>
+    <string name="authors_following_button">Following</string>
     <string name="authors_stat_guides_label">guides</string>
     <string name="authors_stat_followers_label">followers</string>
     <string name="authors_stat_following_label">following</string>

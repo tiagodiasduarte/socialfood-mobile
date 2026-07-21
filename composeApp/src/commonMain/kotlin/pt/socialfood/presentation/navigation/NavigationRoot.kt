@@ -110,6 +110,7 @@ fun NavigationRoot(
                             onBackClick = navigator::goBack,
                             onEditClick = { guideId -> navigator.navigate(Route.EditGuide(guideId)) },
                             onRestaurantClick = { restaurantId -> navigator.navigate(Route.RestaurantDetail(restaurantId)) },
+                            onAuthorClick = { authorId -> navigator.navigate(Route.AuthorDetail(authorId)) },
                             viewModel = vm,
                         )
                     }

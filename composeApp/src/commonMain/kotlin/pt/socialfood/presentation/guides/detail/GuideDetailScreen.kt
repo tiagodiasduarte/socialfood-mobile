@@ -74,6 +74,7 @@ fun GuideDetailScreen(
     onBackClick: () -> Unit,
     onEditClick: (guideId: String) -> Unit = {},
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onAuthorClick: (authorId: String) -> Unit = {},
     viewModel: GuideDetailViewModel = koinViewModel { parametersOf(guideId) },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -83,6 +84,7 @@ fun GuideDetailScreen(
         onEditClick = onEditClick,
         onBackClick = onBackClick,
         onRestaurantClick = onRestaurantClick,
+        onAuthorClick = onAuthorClick,
         onRetry = viewModel::load,
     )
 }
@@ -93,6 +95,7 @@ private fun GuideDetailContent(
     onEditClick: (id: String) -> Unit,
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onAuthorClick: (authorId: String) -> Unit = {},
     onRetry: () -> Unit = {},
 ) {
     when (val current = state) {
@@ -104,6 +107,7 @@ private fun GuideDetailContent(
             onEditClick = { onEditClick(it) },
             onBackClick = onBackClick,
             onRestaurantClick = onRestaurantClick,
+            onAuthorClick = onAuthorClick,
         )
 
         GuideDetailUiState.Error -> GuideDetailError(
@@ -145,6 +149,7 @@ private fun GuideDetailLoaded(
     onEditClick: (id: String) -> Unit,
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onAuthorClick: (authorId: String) -> Unit = {},
 ) {
     LazyColumn(
         modifier = Modifier
@@ -185,7 +190,7 @@ private fun GuideDetailLoaded(
             AuthorItemCard(
                 modifier = Modifier.padding(horizontal = SpaceSize.large),
                 author = guide.author,
-                onClick = {}
+                onClick = { onAuthorClick(guide.author.id) }
             )
         }
 

@@ -64,6 +64,11 @@ jobs:
           sed -i '' "s/TEAM_ID=/TEAM_ID=${TEAM_ID}/" iosApp/Configuration/Config.xcconfig
       - run: sudo gem install cocoapods
       - run: cd iosApp && pod install
+      - name: Select simulator destination
+        id: simulator
+        run: |
+          UDID=$(xcrun simctl list devices available -j | jq -r '[.devices[][] | select(.name | test("iPhone"))][0].udid')
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
       - name: Build iOS app (Debug, simulator, unsigned)
         run: |
           cd iosApp
@@ -71,7 +76,7 @@ jobs:
             -workspace iosApp.xcworkspace \
             -scheme iosApp \
             -configuration Debug \
-            -destination "platform=iOS Simulator,name=iPhone 16" \
+            -destination "id=${{ steps.simulator.outputs.udid }}" \
             CODE_SIGNING_ALLOWED=NO
 
   ios-test:

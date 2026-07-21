@@ -56,7 +56,7 @@ class SearchRestaurantsViewModelTest {
         }
 
     @Test
-    fun `given addByPlaceId fails when onAddRestaurant is called then no RestaurantAdded event is emitted, dialog closes, and it never waits for enrichment`() =
+    fun `given addByPlaceId fails when onAddRestaurant is called then no RestaurantAdded event is emitted and dialog closes and it never waits for enrichment`() =
         runTestWithMainDispatcher {
             // Given
             val fakeAdd = FakeAddRestaurantByPlaceIdUseCase(result = Result.Error(ErrorEntity.Unknown))

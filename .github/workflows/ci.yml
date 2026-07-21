@@ -5,8 +5,8 @@ on:
     branches: [ develop ]
 
 jobs:
-  build-and-test:
-    name: Android Build & Test
+  android-build:
+    name: Android Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,12 +18,64 @@ jobs:
           cache: gradle
       - name: Create google-services.json
         run: echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 -d > composeApp/google-services.json
-      - run: ./gradlew :composeApp:testDebugUnitTest :composeApp:assembleDebug --stacktrace
+      - run: ./gradlew :composeApp:assembleDebug --stacktrace
         env:
           GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
           GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
 
+  android-test:
+    name: Android Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+      - name: Create google-services.json
+        run: echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 -d > composeApp/google-services.json
+      - run: ./gradlew :composeApp:testDebugUnitTest --stacktrace
+        env:
+          GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+          GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
+
+  ios-build:
+    name: iOS Build
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+      - name: Create Secrets.xcconfig
+        env:
+          GOOGLE_CLIENT_ID_IOS: ${{ secrets.GOOGLE_CLIENT_ID_IOS }}
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          cat > iosApp/Configuration/Secrets.xcconfig <<EOF
+          GOOGLE_CLIENT_ID_WEB = ${GOOGLE_CLIENT_ID_IOS}
+          GOOGLE_REVERSE_CLIENT_ID_WEB = com.googleusercontent.apps.$(echo ${GOOGLE_CLIENT_ID_IOS} | sed 's/.apps.googleusercontent.com//')
+          EOF
+          sed -i '' "s/TEAM_ID=/TEAM_ID=${TEAM_ID}/" iosApp/Configuration/Config.xcconfig
+      - run: sudo gem install cocoapods
+      - run: cd iosApp && pod install
+      - name: Build iOS app (Debug, simulator, unsigned)
+        run: |
+          cd iosApp
+          xcodebuild build \
+            -workspace iosApp.xcworkspace \
+            -scheme iosApp \
+            -configuration Debug \
+            -destination "generic/platform=iOS Simulator" \
+            CODE_SIGNING_ALLOWED=NO
+
   ios-test:
+    name: iOS Unit Tests
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4

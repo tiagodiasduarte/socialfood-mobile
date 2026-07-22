@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -33,13 +32,15 @@ import pt.socialfood.presentation.components.card.SectionCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
+val AuthorCardHeight = 112.dp
+
 @Composable
 fun AuthorCard(
     author: Author,
     onAuthorClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
-    SectionCard(modifier = modifier.wrapContentHeight()) {
+    SectionCard(modifier = modifier.height(AuthorCardHeight)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -58,23 +59,6 @@ fun AuthorCard(
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(2.dp),
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.LocationOn,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(16.dp),
-                    )
-                    Text(
-                        text = "Lisbon",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
 
                 Spacer(Modifier.height(SpaceSize.large))
 

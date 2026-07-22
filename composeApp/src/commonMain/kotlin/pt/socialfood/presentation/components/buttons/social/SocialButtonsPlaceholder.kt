@@ -15,11 +15,11 @@ import pt.socialfood.ui.theme.AppTheme
 fun SocialButtonsPlaceholder(alpha: Float, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(SocialLinksRowSpacing),
+        horizontalArrangement = Arrangement.spacedBy(SocialButtonsRowSpacing),
     ) {
         repeat(3) {
             ShimmerBox(
-                modifier = Modifier.size(SocialLinkIconSize),
+                modifier = Modifier.size(SocialButtonsIconSize),
                 alpha = alpha,
                 shape = CircleShape,
             )

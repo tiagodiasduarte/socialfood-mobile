@@ -22,8 +22,8 @@ import socialfood.composeapp.generated.resources.youtube_icon
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
-internal val SocialLinkIconSize = 36.dp
-internal val SocialLinksRowSpacing = SpaceSize.medium
+internal val SocialButtonsIconSize = 38.dp
+internal val SocialButtonsRowSpacing = SpaceSize.medium
 
 @Composable
 fun SocialButtons(
@@ -39,7 +39,7 @@ fun SocialButtons(
 
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(SocialLinksRowSpacing),
+        horizontalArrangement = Arrangement.spacedBy(SocialButtonsRowSpacing),
     ) {
         if (!facebookUrl.isNullOrBlank()) {
             SocialLinkIcon(
@@ -75,7 +75,7 @@ private fun SocialLinkIcon(
         painter = painterResource(icon),
         contentDescription = contentDescription,
         modifier = Modifier
-            .size(SocialLinkIconSize)
+            .size(SocialButtonsIconSize)
             .clickable(onClick = onClick),
     )
 }

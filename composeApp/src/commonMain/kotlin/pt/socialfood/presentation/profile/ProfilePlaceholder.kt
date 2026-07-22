@@ -13,17 +13,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import pt.socialfood.presentation.components.ProfileHeaderPlaceholder
+import pt.socialfood.presentation.components.ProfileHeaderTopActionPlaceholder
 import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.buttons.social.SocialButtonsPlaceholder
 import pt.socialfood.presentation.components.rememberShimmerAlpha
@@ -41,7 +41,12 @@ fun ProfilePlaceholder(modifier: Modifier = Modifier) {
             .background(GreyBackground)
             .verticalScroll(rememberScrollState()),
     ) {
-        HeaderPlaceholder(alpha = alpha)
+        ProfileHeaderPlaceholder(alpha = alpha) {
+            ProfileHeaderTopActionPlaceholder(
+                alpha = alpha,
+                modifier = Modifier.align(Alignment.TopEnd),
+            )
+        }
 
         Column(
             modifier = Modifier
@@ -95,44 +100,6 @@ fun ProfilePlaceholder(modifier: Modifier = Modifier) {
                 repeat(4) {
                     MenuRowPlaceholder(alpha = alpha)
                 }
-            }
-        }
-    }
-}
-
-@Composable
-private fun HeaderPlaceholder(alpha: Float) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(HeaderHeight + AvatarOverlap),
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(HeaderHeight)
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color(0xFFF05A1A).copy(alpha = 0.5f),
-                            Color(0xFFB82010).copy(alpha = 0.5f),
-                        ),
-                    ),
-                ),
-        )
-        Box(modifier = Modifier.align(Alignment.BottomCenter)) {
-            Box(
-                modifier = Modifier
-                    .size(AvatarRingSize)
-                    .clip(CircleShape)
-                    .background(Color.White),
-                contentAlignment = Alignment.Center,
-            ) {
-                ShimmerBox(
-                    modifier = Modifier.size(96.dp),
-                    alpha = alpha,
-                    shape = CircleShape,
-                )
             }
         }
     }

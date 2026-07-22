@@ -1,7 +1,6 @@
 package pt.socialfood.presentation.authors.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.Icon
@@ -20,12 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -38,17 +31,10 @@ import socialfood.composeapp.generated.resources.back_button_description
 import pt.socialfood.domain.model.AuthorDetail
 import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.UserImage
-import pt.socialfood.presentation.components.buttons.social.SocialButtons
-import pt.socialfood.presentation.profile.StatsRow
+import pt.socialfood.presentation.components.ProfileHeader
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
-
-internal val HeaderHeight = 180.dp
-internal val AvatarSize = 96.dp
-internal val AvatarRingSize = 108.dp
-internal val AvatarOverlap = AvatarRingSize / 2
 
 @Composable
 fun AuthorDetailScreen(
@@ -140,96 +126,27 @@ private fun AuthorHeader(
     author: AuthorDetail,
     onBackClick: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(GreyBackground),
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(HeaderHeight + AvatarOverlap),
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(HeaderHeight)
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(
-                                Color(0xFFF05A1A),
-                                Color(0xFFB82010),
-                            ),
-                        ),
-                    ),
+    ProfileHeader(
+        name = author.name,
+        bio = author.bio,
+        imageUrl = author.imageUrl,
+        facebookUrl = author.facebookUrl,
+        instagramUrl = author.instagramUrl,
+        youtubeUrl = author.youtubeUrl,
+        topAction = {
+            ActionButton(
+                modifier = Modifier.padding(SpaceSize.large),
+                onClick = onBackClick,
             ) {
-                ActionButton(
-                    modifier = Modifier.padding(SpaceSize.large),
-                    onClick = onBackClick
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                        contentDescription = stringResource(Res.string.back_button_description),
-                        tint = MaterialTheme.colorScheme.surface,
-                        modifier = Modifier.size(24.dp),
-                    )
-                }
-            }
-            Box(
-                modifier = Modifier.align(Alignment.BottomCenter),
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(AvatarRingSize)
-                        .clip(CircleShape)
-                        .background(Color.White),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    UserImage(
-                        name = author.name,
-                        imageUrl = author.imageUrl,
-                        imageSize = AvatarSize
-                    )
-                }
-            }
-        }
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(SpaceSize.large),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                text = author.name,
-                style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-
-            Spacer(Modifier.height(SpaceSize.small))
-
-            if (!author.bio.isNullOrBlank()) {
-                Text(
-                    text = author.bio,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                Icon(
+                    imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
+                    contentDescription = stringResource(Res.string.back_button_description),
+                    tint = MaterialTheme.colorScheme.surface,
+                    modifier = Modifier.size(24.dp),
                 )
-
-                Spacer(Modifier.height(SpaceSize.small))
             }
-
-            StatsRow()
-
-            Spacer(Modifier.height(SpaceSize.large))
-
-            SocialButtons(
-                facebookUrl = author.facebookUrl,
-                instagramUrl = author.instagramUrl,
-                youtubeUrl = author.youtubeUrl,
-                modifier = Modifier.padding(bottom = SpaceSize.small),
-            )
-        }
-    }
+        },
+    )
 }
 
 @Composable

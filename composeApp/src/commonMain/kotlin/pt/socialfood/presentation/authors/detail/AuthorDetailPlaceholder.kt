@@ -13,16 +13,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import pt.socialfood.presentation.components.ProfileHeaderPlaceholder
+import pt.socialfood.presentation.components.ProfileHeaderTopActionPlaceholder
 import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.buttons.social.SocialButtonsPlaceholder
 import pt.socialfood.presentation.components.rememberShimmerAlpha
@@ -40,7 +40,9 @@ fun AuthorDetailPlaceholder(modifier: Modifier = Modifier) {
             .background(GreyBackground),
     ) {
         item {
-            HeaderPlaceholder(alpha = alpha)
+            ProfileHeaderPlaceholder(alpha = alpha) {
+                ProfileHeaderTopActionPlaceholder(alpha = alpha)
+            }
 
             Column(
                 modifier = Modifier
@@ -108,55 +110,6 @@ fun AuthorDetailPlaceholder(modifier: Modifier = Modifier) {
                 alpha = alpha,
             )
             Spacer(Modifier.height(SpaceSize.large))
-        }
-    }
-}
-
-@Composable
-private fun HeaderPlaceholder(alpha: Float) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(HeaderHeight + AvatarOverlap),
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(HeaderHeight)
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color(0xFFF05A1A).copy(alpha = 0.5f),
-                            Color(0xFFB82010).copy(alpha = 0.5f),
-                        ),
-                    ),
-                ),
-        ) {
-            ShimmerBox(
-                modifier = Modifier
-                    .padding(SpaceSize.large)
-                    .size(40.dp),
-                alpha = alpha,
-                shape = CircleShape,
-            )
-        }
-
-        Box(
-            modifier = Modifier.align(Alignment.BottomCenter),
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(AvatarRingSize)
-                    .clip(CircleShape)
-                    .background(Color.White),
-                contentAlignment = Alignment.Center,
-            ) {
-                ShimmerBox(
-                    modifier = Modifier.size(96.dp),
-                    alpha = alpha,
-                    shape = CircleShape,
-                )
-            }
         }
     }
 }

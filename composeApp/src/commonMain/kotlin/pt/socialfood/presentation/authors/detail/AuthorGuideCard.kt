@@ -83,12 +83,12 @@ fun AuthorGuideCard(
                 )
 
                 if (guideDescription.isNotBlank()) {
-                    Spacer(Modifier.height(2.dp))
+                    Spacer(Modifier.height(SpaceSize.small))
                     Text(
                         text = guideDescription,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 2,
+                        maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
                 }

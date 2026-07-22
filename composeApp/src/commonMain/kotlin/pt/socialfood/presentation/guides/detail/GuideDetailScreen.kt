@@ -60,7 +60,7 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.guide_detail.AuthorItemCard
+import pt.socialfood.presentation.guides.detail.author.AuthorItemCard
 import pt.socialfood.presentation.guide_detail.RestaurantItemCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground

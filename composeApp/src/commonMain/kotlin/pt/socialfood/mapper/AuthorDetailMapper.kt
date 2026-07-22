@@ -13,6 +13,5 @@ fun AuthorDetailResponse.toAuthorDetail(): AuthorDetail =
         guidesCount = this.guidesCount,
         followersCount = this.followersCount,
         followingCount = this.followingCount,
-        isFollowing = this.isFollowing,
         guides = this.guides.map { it.toAuthorDetailGuide() },
     )

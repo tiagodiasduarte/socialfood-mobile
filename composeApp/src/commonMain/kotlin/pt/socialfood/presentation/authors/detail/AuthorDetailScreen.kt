@@ -53,6 +53,7 @@ internal val AvatarOverlap = AvatarRingSize / 2
 fun AuthorDetailScreen(
     authorId: String,
     onBackClick: () -> Unit,
+    onGuideClick: (guideId: String) -> Unit = {},
     viewModel: AuthorDetailViewModel = koinViewModel { parametersOf(authorId) },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -60,6 +61,7 @@ fun AuthorDetailScreen(
     AuthorDetailContent(
         state = state,
         onBackClick = onBackClick,
+        onGuideClick = onGuideClick,
         onRetry = viewModel::load,
     )
 }
@@ -68,6 +70,7 @@ fun AuthorDetailScreen(
 private fun AuthorDetailContent(
     state: AuthorDetailUiState,
     onBackClick: () -> Unit,
+    onGuideClick: (guideId: String) -> Unit = {},
     onRetry: () -> Unit,
 ) {
     when (state) {
@@ -76,6 +79,7 @@ private fun AuthorDetailContent(
         is AuthorDetailUiState.Loaded -> AuthorDetailLoaded(
             author = state.author,
             onBackClick = onBackClick,
+            onGuideClick = onGuideClick,
         )
 
         AuthorDetailUiState.Error -> AuthorDetailError(
@@ -89,6 +93,7 @@ private fun AuthorDetailContent(
 private fun AuthorDetailLoaded(
     author: AuthorDetail,
     onBackClick: () -> Unit,
+    onGuideClick: (guideId: String) -> Unit = {},
 ) {
     LazyColumn(
         modifier = Modifier
@@ -121,6 +126,7 @@ private fun AuthorDetailLoaded(
                     guideDescription = guide.description,
                     numberOfRestaurant = guide.numberOfRestaurant,
                     imageUrl = guide.imageUrl,
+                    onClick = { onGuideClick(guide.id) },
                     modifier = Modifier.padding(horizontal = SpaceSize.large),
                 )
                 Spacer(Modifier.height(SpaceSize.large))
@@ -211,11 +217,7 @@ private fun AuthorHeader(
                 Spacer(Modifier.height(SpaceSize.small))
             }
 
-            StatsRow(
-                guidesCount = author.guidesCount,
-                followersCount = author.followersCount,
-                followingCount = author.followingCount,
-            )
+            StatsRow()
         }
     }
 }
@@ -264,12 +266,14 @@ private fun AuthorDetailLoadedPreview() {
             id = "g1",
             name = "Michelin Star Favorites",
             description = "A curated collection of the finest dining experiences",
+            imageUrl = "",
             numberOfRestaurant = 8,
         ),
         AuthorDetail.Guide(
             id = "g2",
             name = "Hidden Gems Lisbon",
             description = "Off the beaten path restaurants in Lisbon",
+            imageUrl = "",
             numberOfRestaurant = 5,
         ),
     )
@@ -280,7 +284,6 @@ private fun AuthorDetailLoadedPreview() {
         guidesCount = 12,
         followersCount = 2400,
         followingCount = 180,
-        isFollowing = false,
         guides = guides,
     )
     AppTheme {

@@ -8,14 +8,13 @@ data class AuthorDetail(
     val guidesCount: Int = 0,
     val followersCount: Int = 0,
     val followingCount: Int = 0,
-    val isFollowing: Boolean = false,
     val guides: List<Guide> = emptyList(),
 ){
     data class Guide(
         val id: String,
+        val imageUrl: String?,
         val name: String,
         val description: String,
         val numberOfRestaurant: Int,
-        val imageUrl: String? = null,
     )
 }

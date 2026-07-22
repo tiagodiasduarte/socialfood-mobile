@@ -84,14 +84,6 @@ fun AuthorDetailPlaceholder(modifier: Modifier = Modifier) {
                         }
                     }
                 }
-
-                Spacer(Modifier.height(SpaceSize.small))
-
-                ShimmerBox(
-                    modifier = Modifier.width(120.dp).height(36.dp),
-                    alpha = alpha,
-                    shape = RoundedCornerShape(50),
-                )
             }
 
             Spacer(Modifier.height(SpaceSize.large))

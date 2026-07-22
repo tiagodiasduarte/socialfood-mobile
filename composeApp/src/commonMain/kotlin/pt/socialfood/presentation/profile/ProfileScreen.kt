@@ -49,6 +49,7 @@ import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.UserImage
+import pt.socialfood.presentation.components.buttons.social.SocialButtons
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
@@ -181,6 +182,12 @@ private fun UserContent(
 
             StatsRow()
 
+            SocialButtons(
+                facebookUrl = user.facebookUrl,
+                instagramUrl = user.instagramUrl,
+                youtubeUrl = user.youtubeUrl,
+            )
+
             ContactCard(user = user)
 
             Column(
@@ -229,6 +236,9 @@ fun ProfileScreenPreview() {
         id = "u1",
         email = "john.doe@email.com",
         name = "John Doe",
+        bio = "Food lover and culinary explorer.",
+        facebookUrl = "https://facebook.com/johndoe",
+        instagramUrl = "https://instagram.com/johndoe",
     )
     AppTheme {
         ProfileContent(

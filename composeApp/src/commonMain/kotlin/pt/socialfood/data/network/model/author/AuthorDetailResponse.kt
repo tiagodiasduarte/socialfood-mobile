@@ -14,6 +14,9 @@ data class AuthorDetailResponse(
     val followersCount: Int = 0,
     val followingCount: Int = 0,
     val isFollowing: Boolean = false,
+    val facebookUrl: String? = null,
+    val instagramUrl: String? = null,
+    val youtubeUrl: String? = null,
     val guides: List<GuideResponse> = emptyList(),
 ){
     @Serializable

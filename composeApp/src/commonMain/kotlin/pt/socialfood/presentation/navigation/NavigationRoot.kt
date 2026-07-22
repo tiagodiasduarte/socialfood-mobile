@@ -138,6 +138,7 @@ fun NavigationRoot(
                         AuthorDetailScreen(
                             authorId = route.authorId,
                             onBackClick = navigator::goBack,
+                            onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                             viewModel = vm,
                         )
                     }

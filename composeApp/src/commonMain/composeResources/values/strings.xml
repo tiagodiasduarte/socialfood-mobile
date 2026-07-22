@@ -155,6 +155,10 @@
     <string name="edit_profile_youtube_label">YouTube</string>
     <string name="edit_profile_youtube_placeholder">https://youtube.com/@yourchannel</string>
 
+    <string name="social_facebook_icon_description">Facebook</string>
+    <string name="social_instagram_icon_description">Instagram</string>
+    <string name="social_youtube_icon_description">YouTube</string>
+
     <string name="bottom_nav_home">Home</string>
     <string name="bottom_nav_guides">Guides</string>
     <string name="bottom_nav_authors">Authors</string>

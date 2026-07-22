@@ -9,7 +9,6 @@ data class UpdateUserRequest(
     val name: String? = null,
     val city: String? = null,
     val country: String? = null,
-    val bio: String? = null,
     val facebookUrl: String? = null,
     val instagramUrl: String? = null,
     val youtubeUrl: String? = null,

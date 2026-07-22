@@ -33,7 +33,6 @@ val ProfileAvatarOverlap = ProfileAvatarRingSize / 2
 @Composable
 fun ProfileHeader(
     name: String,
-    bio: String?,
     imageUrl: String?,
     facebookUrl: String?,
     instagramUrl: String?,
@@ -91,23 +90,11 @@ fun ProfileHeader(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
-            ) {
-                Text(
-                    text = name,
-                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                if (!bio.isNullOrBlank()) {
-                    Text(
-                        text = bio,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
+            Text(
+                text = name,
+                style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onBackground,
+            )
 
             StatsRow()
 

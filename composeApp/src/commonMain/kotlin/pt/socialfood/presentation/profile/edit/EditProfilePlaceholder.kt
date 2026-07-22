@@ -86,19 +86,6 @@ internal fun EditProfilePlaceholder() {
                 }
             }
 
-            // Bio card
-            SectionCardPlaceholder(alpha = alpha) {
-                ShimmerBox(modifier = Modifier.width(60.dp).height(20.dp), alpha = alpha)
-                Spacer(Modifier.height(SpaceSize.large))
-                ShimmerBox(modifier = Modifier.width(40.dp).height(14.dp), alpha = alpha)
-                Spacer(Modifier.height(SpaceSize.small))
-                ShimmerBox(
-                    modifier = Modifier.fillMaxWidth().height(120.dp),
-                    alpha = alpha,
-                    shape = RoundedCornerShape(SpaceSize.medium),
-                )
-            }
-
             // Social networks card
             SectionCardPlaceholder(alpha = alpha) {
                 ShimmerBox(modifier = Modifier.width(140.dp).height(20.dp), alpha = alpha)

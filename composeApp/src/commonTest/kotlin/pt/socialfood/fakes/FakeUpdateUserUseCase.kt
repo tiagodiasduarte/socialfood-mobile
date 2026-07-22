@@ -17,7 +17,6 @@ class FakeUpdateUserUseCase(
         name: String?,
         city: String?,
         country: String?,
-        bio: String?,
         facebookUrl: String?,
         instagramUrl: String?,
         youtubeUrl: String?,

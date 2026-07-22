@@ -39,6 +39,7 @@ import pt.socialfood.domain.model.AuthorDetail
 import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.UserImage
+import pt.socialfood.presentation.components.buttons.social.SocialButtons
 import pt.socialfood.presentation.profile.StatsRow
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
@@ -218,6 +219,15 @@ private fun AuthorHeader(
             }
 
             StatsRow()
+
+            Spacer(Modifier.height(SpaceSize.large))
+
+            SocialButtons(
+                facebookUrl = author.facebookUrl,
+                instagramUrl = author.instagramUrl,
+                youtubeUrl = author.youtubeUrl,
+                modifier = Modifier.padding(bottom = SpaceSize.small),
+            )
         }
     }
 }
@@ -284,6 +294,9 @@ private fun AuthorDetailLoadedPreview() {
         guidesCount = 12,
         followersCount = 2400,
         followingCount = 180,
+        facebookUrl = "https://facebook.com/sarahmitchell",
+        instagramUrl = "https://instagram.com/sarahmitchell",
+        youtubeUrl = "https://youtube.com/@sarahmitchell",
         guides = guides,
     )
     AppTheme {

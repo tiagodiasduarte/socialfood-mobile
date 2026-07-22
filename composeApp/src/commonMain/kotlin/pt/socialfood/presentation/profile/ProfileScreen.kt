@@ -2,15 +2,12 @@ package pt.socialfood.presentation.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Logout
@@ -23,10 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -48,16 +41,10 @@ import pt.socialfood.core.appVersion
 import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.NoResultsContent
-import pt.socialfood.presentation.components.UserImage
-import pt.socialfood.presentation.components.buttons.social.SocialButtons
+import pt.socialfood.presentation.components.ProfileHeader
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
-
-internal val HeaderHeight = 180.dp
-internal val AvatarSize = 96.dp
-internal val AvatarRingSize = 108.dp
-internal val AvatarOverlap = AvatarRingSize / 2
 
 @Composable
 fun ProfileScreen(
@@ -106,24 +93,14 @@ private fun UserContent(
             .background(GreyBackground)
             .verticalScroll(rememberScrollState()),
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(HeaderHeight + AvatarOverlap),
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(HeaderHeight)
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(
-                                Color(0xFFF05A1A),
-                                Color(0xFFB82010),
-                            ),
-                        ),
-                    ),
-            ) {
+        ProfileHeader(
+            name = user.name,
+            bio = user.bio,
+            imageUrl = user.imageUrl,
+            facebookUrl = user.facebookUrl,
+            instagramUrl = user.instagramUrl,
+            youtubeUrl = user.youtubeUrl,
+            topAction = {
                 ActionButton(
                     modifier = Modifier.padding(SpaceSize.large).align(Alignment.TopEnd),
                     onClick = { onEditProfileClick() }) {
@@ -134,60 +111,17 @@ private fun UserContent(
                         modifier = Modifier.size(24.dp),
                     )
                 }
-            }
-            Box(
-                modifier = Modifier.align(Alignment.BottomCenter),
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(AvatarRingSize)
-                        .clip(CircleShape)
-                        .background(Color.White),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    UserImage(
-                        name = user.name,
-                        imageUrl = user.imageUrl,
-                        imageSize = AvatarSize
-                    )
-                }
-            }
-        }
+            },
+        )
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = SpaceSize.large)
-                .padding(vertical = SpaceSize.large),
+                .padding(bottom = SpaceSize.large),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
-            ) {
-                Text(
-                    text = user.name,
-                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                user.bio?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
-
-            StatsRow()
-
-            SocialButtons(
-                facebookUrl = user.facebookUrl,
-                instagramUrl = user.instagramUrl,
-                youtubeUrl = user.youtubeUrl,
-            )
-
             ContactCard(user = user)
 
             Column(

@@ -11,7 +11,6 @@ interface UpdateUserUseCase {
         name: String? = null,
         city: String? = null,
         country: String? = null,
-        bio: String? = null,
         facebookUrl: String? = null,
         instagramUrl: String? = null,
         youtubeUrl: String? = null,

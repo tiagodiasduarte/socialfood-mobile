@@ -38,7 +38,6 @@ class EditProfileViewModel(
     fun onNameChange(value: String) = loaded { copy(name = value) }
     fun onCityChange(value: String) = loaded { copy(city = value) }
     fun onCountryChange(value: String) = loaded { copy(country = value) }
-    fun onBioChange(value: String) = loaded { copy(bio = value) }
     fun onFacebookUrlChange(value: String) = loaded { copy(facebookUrl = value) }
     fun onInstagramUrlChange(value: String) = loaded { copy(instagramUrl = value) }
     fun onYoutubeUrlChange(value: String) = loaded { copy(youtubeUrl = value) }
@@ -55,7 +54,6 @@ class EditProfileViewModel(
                         name = user.name,
                         city = user.city.orEmpty(),
                         country = user.country.orEmpty(),
-                        bio = user.bio.orEmpty(),
                         facebookUrl = user.facebookUrl.orEmpty(),
                         instagramUrl = user.instagramUrl.orEmpty(),
                         youtubeUrl = user.youtubeUrl.orEmpty(),
@@ -126,7 +124,6 @@ class EditProfileViewModel(
                 name = current.name.ifBlank { null },
                 city = current.city.ifBlank { null },
                 country = current.country.ifBlank { null },
-                bio = current.bio.ifBlank { null },
                 facebookUrl = current.facebookUrl.ifBlank { null },
                 instagramUrl = current.instagramUrl.ifBlank { null },
                 youtubeUrl = current.youtubeUrl.ifBlank { null },

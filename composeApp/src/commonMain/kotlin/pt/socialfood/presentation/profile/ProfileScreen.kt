@@ -95,7 +95,6 @@ private fun UserContent(
     ) {
         ProfileHeader(
             name = user.name,
-            bio = user.bio,
             imageUrl = user.imageUrl,
             facebookUrl = user.facebookUrl,
             instagramUrl = user.instagramUrl,
@@ -170,7 +169,6 @@ fun ProfileScreenPreview() {
         id = "u1",
         email = "john.doe@email.com",
         name = "John Doe",
-        bio = "Food lover and culinary explorer.",
         facebookUrl = "https://facebook.com/johndoe",
         instagramUrl = "https://instagram.com/johndoe",
     )

@@ -3,7 +3,6 @@ package pt.socialfood.domain.model
 data class AuthorDetail(
     val id: String,
     val name: String,
-    val bio: String? = null,
     val imageUrl: String? = null,
     val guidesCount: Int = 0,
     val followersCount: Int = 0,

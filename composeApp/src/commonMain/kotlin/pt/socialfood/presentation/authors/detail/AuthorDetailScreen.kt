@@ -128,7 +128,6 @@ private fun AuthorHeader(
 ) {
     ProfileHeader(
         name = author.name,
-        bio = author.bio,
         imageUrl = author.imageUrl,
         facebookUrl = author.facebookUrl,
         instagramUrl = author.instagramUrl,
@@ -207,7 +206,6 @@ private fun AuthorDetailLoadedPreview() {
     val author = AuthorDetail(
         id = "a1",
         name = "Sarah Mitchell",
-        bio = "Food lover and culinary explorer. Discovering the best bites around the world.",
         guidesCount = 12,
         followersCount = 2400,
         followingCount = 180,

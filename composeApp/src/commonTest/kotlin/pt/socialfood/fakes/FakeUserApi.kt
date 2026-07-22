@@ -15,7 +15,6 @@ class FakeUserApi(private val shouldThrow: Boolean = false) : UserApi {
         email = "user@test.com",
         name = "Test User",
         imageUrl = null,
-        bio = null,
         country = "Portugal",
         city = "Lisbon",
         address = null,

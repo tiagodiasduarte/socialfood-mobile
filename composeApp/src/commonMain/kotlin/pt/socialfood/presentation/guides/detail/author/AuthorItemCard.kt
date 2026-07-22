@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.guide_detail
+package pt.socialfood.presentation.guides.detail.author
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
@@ -49,13 +48,8 @@ fun AuthorItemCard(author: Author, onClick: () -> Unit, modifier: Modifier = Mod
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(
                     text = author.name,
-                    style = AppTypography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
+                    style = AppTypography.labelLarge.copy(fontWeight = FontWeight.SemiBold),
                     color = MaterialTheme.colorScheme.onBackground,
-                )
-                Text(
-                    text = "Food critic & culinary explorer",
-                    style = AppTypography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
         }

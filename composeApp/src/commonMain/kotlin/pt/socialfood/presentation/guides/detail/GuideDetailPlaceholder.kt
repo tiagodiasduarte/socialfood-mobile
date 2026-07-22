@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.ShimmerColor
 import pt.socialfood.presentation.components.rememberShimmerAlpha
+import pt.socialfood.presentation.guides.detail.author.AuthorItemCardPlaceholder
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
@@ -150,30 +151,6 @@ private fun HeroImagePlaceholder(alpha: Float) {
         ) {
             ShimmerBox(modifier = Modifier.size(40.dp), alpha = 1f, shape = CircleShape)
             ShimmerBox(modifier = Modifier.size(40.dp), alpha = 1f, shape = CircleShape)
-        }
-    }
-}
-
-@Composable
-private fun AuthorItemCardPlaceholder(modifier: Modifier = Modifier, alpha: Float) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(80.dp)
-            .clip(RoundedCornerShape(SpaceSize.large))
-            .background(Color.White)
-            .padding(horizontal = SpaceSize.large),
-        contentAlignment = Alignment.CenterStart,
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            ShimmerBox(modifier = Modifier.size(44.dp), alpha = alpha, shape = CircleShape)
-            Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.small)) {
-                ShimmerBox(modifier = Modifier.width(120.dp).height(14.dp), alpha = alpha)
-                ShimmerBox(modifier = Modifier.width(180.dp).height(12.dp), alpha = alpha)
-            }
         }
     }
 }

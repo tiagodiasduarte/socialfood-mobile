@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.profile
+package pt.socialfood.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.profile_stat_followers_label
+import socialfood.composeapp.generated.resources.profile_stat_following_label
+import socialfood.composeapp.generated.resources.profile_stat_guides_label
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
@@ -31,21 +36,21 @@ fun StatsRow(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        StatItem(value = guidesCount?.toString() ?: "-", label = "Albums")
+        StatItem(value = guidesCount?.toString() ?: "-", label = stringResource(Res.string.profile_stat_guides_label))
         Box(
             modifier = Modifier
                 .padding(horizontal = SpaceSize.large)
                 .size(width = 1.dp, height = 32.dp)
                 .background(MaterialTheme.colorScheme.outlineVariant)
         )
-        StatItem(value = followersCount?.toString() ?: "-", label = "Followers")
+        StatItem(value = followersCount?.toString() ?: "-", label = stringResource(Res.string.profile_stat_followers_label))
         Box(
             modifier = Modifier
                 .padding(horizontal = SpaceSize.large)
                 .size(width = 1.dp, height = 32.dp)
                 .background(MaterialTheme.colorScheme.outlineVariant),
         )
-        StatItem(value = followingCount?.toString() ?: "-", label = "Following")
+        StatItem(value = followingCount?.toString() ?: "-", label = stringResource(Res.string.profile_stat_following_label))
     }
 
 }

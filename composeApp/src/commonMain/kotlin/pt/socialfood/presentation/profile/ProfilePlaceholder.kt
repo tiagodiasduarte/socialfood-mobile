@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.ProfileHeaderPlaceholder
 import pt.socialfood.presentation.components.ProfileHeaderTopActionPlaceholder
 import pt.socialfood.presentation.components.ShimmerBox
-import pt.socialfood.presentation.components.buttons.social.SocialButtonsPlaceholder
 import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
@@ -56,41 +55,6 @@ fun ProfilePlaceholder(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
-            ) {
-                ShimmerBox(modifier = Modifier.width(160.dp).height(22.dp), alpha = alpha)
-                ShimmerBox(modifier = Modifier.width(110.dp).height(14.dp), alpha = alpha)
-
-                SocialButtonsPlaceholder(alpha = alpha)
-            }
-
-            Row(
-                modifier = Modifier.padding(vertical = SpaceSize.large),
-                horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                repeat(3) { index ->
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
-                    ) {
-                        ShimmerBox(modifier = Modifier.width(32.dp).height(18.dp), alpha = alpha)
-                        ShimmerBox(modifier = Modifier.width(52.dp).height(12.dp), alpha = alpha)
-                    }
-                    if (index < 2) {
-                        ShimmerBox(
-                            modifier = Modifier
-                                .padding(horizontal = SpaceSize.medium)
-                                .width(1.dp)
-                                .height(32.dp),
-                            alpha = alpha,
-                        )
-                    }
-                }
-            }
-
             ContactCardPlaceholder(alpha = alpha)
 
             Column(
@@ -128,7 +92,7 @@ private fun ContactCardPlaceholder(alpha: Float) {
             Spacer(Modifier.height(SpaceSize.large))
 
             Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.large)) {
-                repeat(3) {
+                repeat( 1) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),

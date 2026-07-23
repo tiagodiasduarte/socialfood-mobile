@@ -19,10 +19,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.buttons.social.SocialButtons
-import pt.socialfood.presentation.profile.StatsRow
+import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
+import pt.socialfood.ui.theme.ProfileGradientEnd
+import pt.socialfood.ui.theme.ProfileGradientStart
 import pt.socialfood.ui.theme.SpaceSize
 
 val ProfileHeaderHeight = 180.dp
@@ -57,8 +60,8 @@ fun ProfileHeader(
                     .background(
                         Brush.verticalGradient(
                             colors = listOf(
-                                Color(0xFFF05A1A),
-                                Color(0xFFB82010),
+                                ProfileGradientStart,
+                                ProfileGradientEnd,
                             ),
                         ),
                     ),
@@ -104,5 +107,19 @@ fun ProfileHeader(
                 youtubeUrl = youtubeUrl,
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun ProfileHeaderPreview() {
+    AppTheme {
+        ProfileHeader(
+            name = "John Doe",
+            imageUrl = null,
+            facebookUrl = "https://facebook.com/johndoe",
+            instagramUrl = "https://instagram.com/johndoe",
+            youtubeUrl = null,
+        )
     }
 }

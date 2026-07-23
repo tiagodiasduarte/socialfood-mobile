@@ -40,6 +40,7 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
+import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.SpaceSize
 
 internal val CardHeight = 125.dp
@@ -101,11 +102,14 @@ fun FavoriteGuideCard(
                 )
             }
 
-            IconButton(onClick = onRemoveClick) {
+            IconButton(
+                onClick = onRemoveClick,
+                modifier = Modifier.align(Alignment.Top),
+            ) {
                 Icon(
                     imageVector = Icons.Outlined.Close,
                     contentDescription = stringResource(Res.string.favorite_card_remove_button_description),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    tint = FavouriteRed,
                 )
             }
         }

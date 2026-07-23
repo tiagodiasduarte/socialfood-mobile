@@ -38,6 +38,7 @@ import socialfood.composeapp.generated.resources.favorite_card_remove_button_des
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
+import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.SpaceSize
 
 internal val CardHeight = 125.dp
@@ -111,11 +112,14 @@ fun FavoriteRestaurantCard(
                 }
             }
 
-            IconButton(onClick = onRemoveClick) {
+            IconButton(
+                onClick = onRemoveClick,
+                modifier = Modifier.align(Alignment.Top),
+            ) {
                 Icon(
                     imageVector = Icons.Outlined.Close,
                     contentDescription = stringResource(Res.string.favorite_card_remove_button_description),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    tint = FavouriteRed,
                 )
             }
         }

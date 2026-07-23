@@ -14,6 +14,8 @@ import pt.socialfood.data.AuthorsApi
 import pt.socialfood.data.AuthorsApiImpl
 import pt.socialfood.data.ConfigsApi
 import pt.socialfood.data.ConfigsApiImpl
+import pt.socialfood.data.FavouriteRestaurantsApi
+import pt.socialfood.data.FavouriteRestaurantsApiImpl
 import pt.socialfood.data.FavouritesApi
 import pt.socialfood.data.FavouritesApiImpl
 import pt.socialfood.data.GuidesApi
@@ -37,6 +39,7 @@ import pt.socialfood.data.repository.AuthRepositoryImpl
 import pt.socialfood.data.repository.AuthorsRepositoryImpl
 import pt.socialfood.data.repository.PhotosRepositoryImpl
 import pt.socialfood.data.repository.ConfigsRepositoryImpl
+import pt.socialfood.data.repository.FavouriteRestaurantsRepositoryImpl
 import pt.socialfood.data.repository.FavouritesRepositoryImpl
 import pt.socialfood.data.repository.GuidesRepositoryImpl
 import pt.socialfood.data.repository.HomeRepositoryImpl
@@ -47,6 +50,7 @@ import pt.socialfood.domain.repository.AuthRepository
 import pt.socialfood.domain.repository.AuthorsRepository
 import pt.socialfood.domain.repository.PhotosRepository
 import pt.socialfood.domain.repository.ConfigsRepository
+import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
 import pt.socialfood.domain.repository.FavouritesRepository
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.repository.HomeRepository
@@ -69,10 +73,20 @@ import pt.socialfood.domain.use_case.favourite.guide.IsGuideFavouriteUseCase
 import pt.socialfood.domain.use_case.favourite.guide.IsGuideFavouriteUseCaseImpl
 import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCaseImpl
+import pt.socialfood.domain.use_case.favourite.SyncFavouriteRestaurantsUseCase
+import pt.socialfood.domain.use_case.favourite.SyncFavouriteRestaurantsUseCaseImpl
 import pt.socialfood.domain.use_case.favourite.SyncFavouritesUseCase
 import pt.socialfood.domain.use_case.favourite.SyncFavouritesUseCaseImpl
 import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
 import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCaseImpl
+import pt.socialfood.domain.use_case.favourite.restaurant.GetFavouriteRestaurantsUseCase
+import pt.socialfood.domain.use_case.favourite.restaurant.GetFavouriteRestaurantsUseCaseImpl
+import pt.socialfood.domain.use_case.favourite.restaurant.IsRestaurantFavouriteUseCase
+import pt.socialfood.domain.use_case.favourite.restaurant.IsRestaurantFavouriteUseCaseImpl
+import pt.socialfood.domain.use_case.favourite.restaurant.MarkRestaurantFavouriteUseCase
+import pt.socialfood.domain.use_case.favourite.restaurant.MarkRestaurantFavouriteUseCaseImpl
+import pt.socialfood.domain.use_case.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
+import pt.socialfood.domain.use_case.favourite.restaurant.UnmarkRestaurantFavouriteUseCaseImpl
 import pt.socialfood.domain.use_case.guide.AddRestaurantGuideUseCase
 import pt.socialfood.domain.use_case.guide.AddRestaurantGuideUseCaseImpl
 import pt.socialfood.domain.use_case.guide.CreateGuideUseCase
@@ -180,6 +194,7 @@ val networkModule = module {
     single<AuthApi> { AuthApiImpl(get()) }
     single<AuthorsApi> { AuthorsApiImpl(get()) }
     single<ConfigsApi> { ConfigsApiImpl(get()) }
+    single<FavouriteRestaurantsApi> { FavouriteRestaurantsApiImpl(get()) }
     single<FavouritesApi> { FavouritesApiImpl(get()) }
     single<GuidesApi> { GuidesApiImpl(get()) }
     single<HomeApi> { HomeApiImpl(get()) }
@@ -192,6 +207,7 @@ val repositoryModule = module {
     single<AuthRepository> { AuthRepositoryImpl(get()) }
     single<AuthorsRepository> { AuthorsRepositoryImpl(get()) }
     single<ConfigsRepository> { ConfigsRepositoryImpl(get()) }
+    single<FavouriteRestaurantsRepository> { FavouriteRestaurantsRepositoryImpl(get(), get<AppDatabase>().favouriteRestaurantDao(), get()) }
     single<FavouritesRepository> { FavouritesRepositoryImpl(get(), get<AppDatabase>().favouriteDao(), get()) }
     single<GuidesRepository> { GuidesRepositoryImpl(get()) }
     single<HomeRepository> { HomeRepositoryImpl(get()) }
@@ -258,6 +274,12 @@ val useCaseModule = module {
     factory<GetFavouriteGuidesUseCase> { GetFavouriteGuidesUseCaseImpl(get()) }
     factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
     factory<SyncFavouritesUseCase> { SyncFavouritesUseCaseImpl(get()) }
+
+    factory<MarkRestaurantFavouriteUseCase> { MarkRestaurantFavouriteUseCaseImpl(get()) }
+    factory<UnmarkRestaurantFavouriteUseCase> { UnmarkRestaurantFavouriteUseCaseImpl(get()) }
+    factory<GetFavouriteRestaurantsUseCase> { GetFavouriteRestaurantsUseCaseImpl(get()) }
+    factory<IsRestaurantFavouriteUseCase> { IsRestaurantFavouriteUseCaseImpl(get()) }
+    factory<SyncFavouriteRestaurantsUseCase> { SyncFavouriteRestaurantsUseCaseImpl(get()) }
 }
 
 val viewModelModule = module {

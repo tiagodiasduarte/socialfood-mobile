@@ -19,9 +19,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.buttons.social.SocialButtons
 import pt.socialfood.presentation.profile.StatsRow
+import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
@@ -104,5 +106,19 @@ fun ProfileHeader(
                 youtubeUrl = youtubeUrl,
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun ProfileHeaderPreview() {
+    AppTheme {
+        ProfileHeader(
+            name = "John Doe",
+            imageUrl = null,
+            facebookUrl = "https://facebook.com/johndoe",
+            instagramUrl = "https://instagram.com/johndoe",
+            youtubeUrl = null,
+        )
     }
 }

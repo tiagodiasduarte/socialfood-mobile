@@ -10,6 +10,8 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.PagedFavouriteGuides
 import pt.socialfood.fakes.FakeGetFavouriteGuidesUseCase
+import pt.socialfood.presentation.favourite.guide.FavouriteGuidesUiState
+import pt.socialfood.presentation.favourite.guide.FavouriteGuidesViewModel
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals

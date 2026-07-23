@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.favourite
+package pt.socialfood.presentation.favourite.guide
 
 import pt.socialfood.domain.model.Guide
 

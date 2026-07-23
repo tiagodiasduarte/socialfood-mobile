@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.favourite
+package pt.socialfood.presentation.favourite.restaurant
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,7 +17,7 @@ import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class FavouritesRestaurantsViewModelTest {
+class FavouriteRestaurantsViewModelTest {
 
     private fun favourite(id: String) = FavouriteRestaurant(
         restaurant = Restaurant(
@@ -46,10 +46,10 @@ class FavouritesRestaurantsViewModelTest {
         }
 
         // When / Then
-        val vm = FavouritesRestaurantsViewModel(useCase)
+        val vm = FavouriteRestaurantsViewModel(useCase)
         vm.state.test {
-            assertEquals(FavouritesRestaurantsUiState.Loading, awaitItem())
-            val state = assertIs<FavouritesRestaurantsUiState.Loaded>(awaitItem())
+            assertEquals(FavouriteRestaurantsUiState.Loading, awaitItem())
+            val state = assertIs<FavouriteRestaurantsUiState.Loaded>(awaitItem())
             assertEquals(1, state.restaurants.size)
             assertEquals("r1", state.restaurants.first().id)
         }
@@ -61,10 +61,10 @@ class FavouritesRestaurantsViewModelTest {
         val useCase = FakeGetFavouriteRestaurantsUseCase { Result.Error(ErrorEntity.Unknown) }
 
         // When / Then
-        val vm = FavouritesRestaurantsViewModel(useCase)
+        val vm = FavouriteRestaurantsViewModel(useCase)
         vm.state.test {
-            assertEquals(FavouritesRestaurantsUiState.Loading, awaitItem())
-            assertEquals(FavouritesRestaurantsUiState.Error, awaitItem())
+            assertEquals(FavouriteRestaurantsUiState.Loading, awaitItem())
+            assertEquals(FavouriteRestaurantsUiState.Error, awaitItem())
         }
     }
 
@@ -78,20 +78,20 @@ class FavouritesRestaurantsViewModelTest {
                 Result.Success(PagedFavouriteRestaurants(favourites = listOf(favourite("r2")), page = 2, total = 2, hasMore = false))
             }
         }
-        val vm = FavouritesRestaurantsViewModel(useCase)
+        val vm = FavouriteRestaurantsViewModel(useCase)
 
         // When / Then
         vm.state.test {
-            assertEquals(FavouritesRestaurantsUiState.Loading, awaitItem())
-            val first = assertIs<FavouritesRestaurantsUiState.Loaded>(awaitItem())
+            assertEquals(FavouriteRestaurantsUiState.Loading, awaitItem())
+            val first = assertIs<FavouriteRestaurantsUiState.Loaded>(awaitItem())
             assertEquals(listOf("r1"), first.restaurants.map { it.id })
 
             vm.loadMore()
 
-            val loadingMore = assertIs<FavouritesRestaurantsUiState.Loaded>(awaitItem())
+            val loadingMore = assertIs<FavouriteRestaurantsUiState.Loaded>(awaitItem())
             assertTrue(loadingMore.isLoadingMore)
 
-            val loaded = assertIs<FavouritesRestaurantsUiState.Loaded>(awaitItem())
+            val loaded = assertIs<FavouriteRestaurantsUiState.Loaded>(awaitItem())
             assertEquals(listOf("r1", "r2"), loaded.restaurants.map { it.id })
             assertFalse(loaded.hasMore)
         }
@@ -103,17 +103,17 @@ class FavouritesRestaurantsViewModelTest {
         val useCase = FakeGetFavouriteRestaurantsUseCase {
             Result.Success(PagedFavouriteRestaurants(favourites = listOf(favourite("r1")), page = it, total = 1, hasMore = false))
         }
-        val vm = FavouritesRestaurantsViewModel(useCase)
+        val vm = FavouriteRestaurantsViewModel(useCase)
 
         // When / Then
         vm.state.test {
-            assertEquals(FavouritesRestaurantsUiState.Loading, awaitItem())
-            assertIs<FavouritesRestaurantsUiState.Loaded>(awaitItem())
+            assertEquals(FavouriteRestaurantsUiState.Loading, awaitItem())
+            assertIs<FavouriteRestaurantsUiState.Loaded>(awaitItem())
         }
 
         vm.refresh()
         advanceUntilIdle()
         assertFalse(vm.isRefreshing.value)
-        assertIs<FavouritesRestaurantsUiState.Loaded>(vm.state.value)
+        assertIs<FavouriteRestaurantsUiState.Loaded>(vm.state.value)
     }
 }

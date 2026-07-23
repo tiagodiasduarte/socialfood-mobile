@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.favourite
+package pt.socialfood.presentation.favourite.restaurant
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,12 +11,12 @@ import pt.socialfood.domain.use_case.favourite.restaurant.GetFavouriteRestaurant
 
 private const val PAGE_SIZE = 20
 
-class FavouritesRestaurantsViewModel(
+class FavouriteRestaurantsViewModel(
     private val getFavouriteRestaurants: GetFavouriteRestaurantsUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<FavouritesRestaurantsUiState>(FavouritesRestaurantsUiState.Loading)
-    val state: StateFlow<FavouritesRestaurantsUiState> = _state.asStateFlow()
+    private val _state = MutableStateFlow<FavouriteRestaurantsUiState>(FavouriteRestaurantsUiState.Loading)
+    val state: StateFlow<FavouriteRestaurantsUiState> = _state.asStateFlow()
 
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
@@ -29,17 +29,17 @@ class FavouritesRestaurantsViewModel(
 
     fun loadFirstPage() {
         viewModelScope.launch {
-            _state.value = FavouritesRestaurantsUiState.Loading
+            _state.value = FavouriteRestaurantsUiState.Loading
             currentPage = 1
             when (val result = getFavouriteRestaurants(page = 1, limit = PAGE_SIZE)) {
                 is Result.Success -> {
                     currentPage = result.data.page
-                    _state.value = FavouritesRestaurantsUiState.Loaded(
+                    _state.value = FavouriteRestaurantsUiState.Loaded(
                         restaurants = result.data.favourites.map { it.restaurant },
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Error -> _state.value = FavouritesRestaurantsUiState.Error
+                is Result.Error -> _state.value = FavouriteRestaurantsUiState.Error
             }
         }
     }
@@ -51,19 +51,19 @@ class FavouritesRestaurantsViewModel(
             when (val result = getFavouriteRestaurants(page = 1, limit = PAGE_SIZE)) {
                 is Result.Success -> {
                     currentPage = result.data.page
-                    _state.value = FavouritesRestaurantsUiState.Loaded(
+                    _state.value = FavouriteRestaurantsUiState.Loaded(
                         restaurants = result.data.favourites.map { it.restaurant },
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Error -> _state.value = FavouritesRestaurantsUiState.Error
+                is Result.Error -> _state.value = FavouriteRestaurantsUiState.Error
             }
             _isRefreshing.value = false
         }
     }
 
     fun loadMore() {
-        val current = _state.value as? FavouritesRestaurantsUiState.Loaded ?: return
+        val current = _state.value as? FavouriteRestaurantsUiState.Loaded ?: return
         if (!current.hasMore || current.isLoadingMore) return
 
         viewModelScope.launch {

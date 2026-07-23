@@ -29,8 +29,8 @@ import org.koin.compose.viewmodel.koinViewModel
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.guide_detail_edit_button_description
 import socialfood.composeapp.generated.resources.guide_edit_icon
-import socialfood.composeapp.generated.resources.profile_favorites_guides_button
-import socialfood.composeapp.generated.resources.profile_favorites_guides_button_description
+import socialfood.composeapp.generated.resources.profile_favorite_guides_button
+import socialfood.composeapp.generated.resources.profile_favorite_guides_button_description
 import socialfood.composeapp.generated.resources.profile_favorites_restaurants_button
 import socialfood.composeapp.generated.resources.profile_favorites_restaurants_button_description
 import socialfood.composeapp.generated.resources.profile_guides_button
@@ -144,8 +144,8 @@ private fun UserContent(
                 )
                 MenuRow(
                     icon = Icons.Outlined.FavoriteBorder,
-                    label = stringResource(Res.string.profile_favorites_guides_button),
-                    contentDescription = stringResource(Res.string.profile_favorites_guides_button_description),
+                    label = stringResource(Res.string.profile_favorite_guides_button),
+                    contentDescription = stringResource(Res.string.profile_favorite_guides_button_description),
                     onClick = onFavouriteGuidesClick,
                 )
                 MenuRow(

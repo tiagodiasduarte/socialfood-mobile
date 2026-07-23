@@ -309,7 +309,7 @@ private fun TopImageContent(
                 ActionButton(onClick = onToggleFavourite) {
                     Icon(
                         imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                        tint = MaterialTheme.colorScheme.surface,
+                        tint = if (isFavourite) Color(0xFFEF4444) else MaterialTheme.colorScheme.surface,
                         contentDescription = stringResource(Res.string.guide_detail_favourite_button_description),
                         modifier = Modifier.size(24.dp),
                     )

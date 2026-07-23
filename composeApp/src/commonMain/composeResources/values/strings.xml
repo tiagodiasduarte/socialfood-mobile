@@ -39,6 +39,9 @@
     <string name="home_list_view_all_label">View All</string>
 
     <string name="profile_contact_card_title_label">Contact Information</string>
+    <string name="profile_stat_guides_label">Guides</string>
+    <string name="profile_stat_followers_label">Followers</string>
+    <string name="profile_stat_following_label">Following</string>
     <string name="profile_guides_button">Guides</string>
     <string name="profile_guides_button_description">Guides button</string>
     <string name="profile_favorite_guides_button">Favorite Guides</string>

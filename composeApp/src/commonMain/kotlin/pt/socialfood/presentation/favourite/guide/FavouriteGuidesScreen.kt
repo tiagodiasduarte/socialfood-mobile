@@ -39,7 +39,6 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
-import pt.socialfood.presentation.guides.GuideCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.GreyBackground
@@ -123,12 +122,12 @@ private fun FavouriteGuidesContent(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(
                             horizontal = SpaceSize.large,
-                            vertical = SpaceSize.medium,
+                            vertical = SpaceSize.large,
                         ),
                         verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
                     ) {
                         items(state.guides, key = { it.id }) { guide ->
-                            GuideCard(
+                            FavoriteGuideCard(
                                 guide = guide,
                                 onClick = { onGuideClick(guide.id) },
                             )

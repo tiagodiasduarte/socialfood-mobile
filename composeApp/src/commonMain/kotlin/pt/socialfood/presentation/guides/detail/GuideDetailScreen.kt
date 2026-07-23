@@ -64,6 +64,7 @@ import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.guides.detail.author.AuthorItemCard
 import pt.socialfood.presentation.guide_detail.RestaurantItemCard
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
@@ -309,7 +310,7 @@ private fun TopImageContent(
                 ActionButton(onClick = onToggleFavourite) {
                     Icon(
                         imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                        tint = if (isFavourite) Color(0xFFEF4444) else MaterialTheme.colorScheme.surface,
+                        tint = if (isFavourite) FavouriteRed else MaterialTheme.colorScheme.surface,
                         contentDescription = stringResource(Res.string.guide_detail_favourite_button_description),
                         modifier = Modifier.size(24.dp),
                     )

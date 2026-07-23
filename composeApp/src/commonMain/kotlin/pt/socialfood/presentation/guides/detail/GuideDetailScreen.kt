@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -86,6 +87,7 @@ fun GuideDetailScreen(
         onRestaurantClick = onRestaurantClick,
         onAuthorClick = onAuthorClick,
         onRetry = viewModel::load,
+        onToggleFavourite = viewModel::toggleFavourite,
     )
 }
 
@@ -97,6 +99,7 @@ private fun GuideDetailContent(
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onAuthorClick: (authorId: String) -> Unit = {},
     onRetry: () -> Unit = {},
+    onToggleFavourite: () -> Unit = {},
 ) {
     when (val current = state) {
         GuideDetailUiState.Loading -> GuideDetailPlaceholder()
@@ -104,10 +107,12 @@ private fun GuideDetailContent(
         is GuideDetailUiState.Loaded -> GuideDetailLoaded(
             guide = current.guide,
             currentUserId = current.currentUserId,
+            isFavourite = current.isFavourite,
             onEditClick = { onEditClick(it) },
             onBackClick = onBackClick,
             onRestaurantClick = onRestaurantClick,
             onAuthorClick = onAuthorClick,
+            onToggleFavourite = onToggleFavourite,
         )
 
         GuideDetailUiState.Error -> GuideDetailError(
@@ -146,10 +151,12 @@ private fun GuideDetailError(
 private fun GuideDetailLoaded(
     guide: Guide,
     currentUserId: String?,
+    isFavourite: Boolean,
     onEditClick: (id: String) -> Unit,
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onAuthorClick: (authorId: String) -> Unit = {},
+    onToggleFavourite: () -> Unit = {},
 ) {
     LazyColumn(
         modifier = Modifier
@@ -161,8 +168,10 @@ private fun GuideDetailLoaded(
             TopImageContent(
                 guide = guide,
                 currentUserId = currentUserId,
+                isFavourite = isFavourite,
                 onEditClick = { onEditClick(it) },
-                onBackClick = onBackClick
+                onBackClick = onBackClick,
+                onToggleFavourite = onToggleFavourite,
             )
 
             GuidInfo(guide)
@@ -224,8 +233,10 @@ private fun GuideDetailLoaded(
 private fun TopImageContent(
     guide: Guide,
     currentUserId: String?,
+    isFavourite: Boolean,
     onEditClick: (id: String) -> Unit,
     onBackClick: () -> Unit,
+    onToggleFavourite: () -> Unit = {},
 ) {
     Box(
         modifier = Modifier
@@ -295,9 +306,9 @@ private fun TopImageContent(
                         modifier = Modifier.size(24.dp),
                     )
                 }
-                ActionButton(onClick = {}) {
+                ActionButton(onClick = onToggleFavourite) {
                     Icon(
-                        imageVector = Icons.Outlined.FavoriteBorder,
+                        imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                         tint = MaterialTheme.colorScheme.surface,
                         contentDescription = stringResource(Res.string.guide_detail_favourite_button_description),
                         modifier = Modifier.size(24.dp),

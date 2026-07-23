@@ -11,6 +11,7 @@ class FakeFavouritesRepository(
     private val pagedResult: Result<PagedFavouriteGuides> = Result.Success(
         PagedFavouriteGuides(favourites = emptyList(), page = 1, total = 0, hasMore = false)
     ),
+    private val isFavouriteResult: Result<Boolean> = Result.Success(false),
     private val syncResult: Result<Unit> = Result.Success(Unit),
 ) : FavouritesRepository {
 
@@ -31,6 +32,8 @@ class FakeFavouritesRepository(
     }
 
     override suspend fun getFavouritesPaged(page: Int, limit: Int): Result<PagedFavouriteGuides> = pagedResult
+
+    override suspend fun isFavourite(guideId: String): Result<Boolean> = isFavouriteResult
 
     override suspend fun syncFavourites(): Result<Unit> = syncResult
 }

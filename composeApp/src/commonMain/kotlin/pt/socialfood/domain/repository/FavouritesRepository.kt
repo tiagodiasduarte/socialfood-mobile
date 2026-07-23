@@ -11,5 +11,7 @@ interface FavouritesRepository {
 
     suspend fun getFavouritesPaged(page: Int, limit: Int): Result<PagedFavouriteGuides>
 
+    suspend fun isFavourite(guideId: String): Result<Boolean>
+
     suspend fun syncFavourites(): Result<Unit>
 }

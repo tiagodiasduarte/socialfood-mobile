@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.favourite.IsGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.MarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.UnmarkGuideFavouriteUseCase
+import pt.socialfood.domain.use_case.favourite.guide.IsGuideFavouriteUseCase
+import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
+import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
 import pt.socialfood.domain.use_case.guide.GetGuideByIdUseCase
 import pt.socialfood.domain.use_case.user.GetUserMeUseCase
 

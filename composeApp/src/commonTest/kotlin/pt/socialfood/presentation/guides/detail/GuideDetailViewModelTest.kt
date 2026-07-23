@@ -36,24 +36,25 @@ class GuideDetailViewModelTest {
     private val fakeUser = User(id = "user-id", email = "user@test.com", name = "Test User")
 
     @Test
-    fun `given guide is already a favourite when loaded then state reflects isFavourite true`() = runTestWithMainDispatcher {
-        // Given
-        val vm = GuideDetailViewModel(
-            getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
-            getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
-            isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(true)),
-            markGuideFavourite = FakeMarkGuideFavouriteUseCase(),
-            unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
-            guideId = fakeGuide.id,
-        )
+    fun `given guide is already a favourite when loaded then state reflects isFavourite true`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm = GuideDetailViewModel(
+                getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
+                getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
+                isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(true)),
+                markGuideFavourite = FakeMarkGuideFavouriteUseCase(),
+                unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
+                guideId = fakeGuide.id,
+            )
 
-        // When / Then
-        vm.state.test {
-            assertEquals(GuideDetailUiState.Loading, awaitItem())
-            val loaded = assertIs<GuideDetailUiState.Loaded>(awaitItem())
-            assertTrue(loaded.isFavourite)
+            // When / Then
+            vm.state.test {
+                assertEquals(GuideDetailUiState.Loading, awaitItem())
+                val loaded = assertIs<GuideDetailUiState.Loaded>(awaitItem())
+                assertTrue(loaded.isFavourite)
+            }
         }
-    }
 
     @Test
     fun `given guide is not a favourite when toggleFavourite is called then flips isFavourite optimistically and calls mark`() =
@@ -122,30 +123,31 @@ class GuideDetailViewModelTest {
         }
 
     @Test
-    fun `given mark fails when toggleFavourite is called then reverts the optimistic flip`() = runTestWithMainDispatcher {
-        // Given
-        val vm = GuideDetailViewModel(
-            getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
-            getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
-            isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
-            markGuideFavourite = FakeMarkGuideFavouriteUseCase(Result.Error(ErrorEntity.Unknown)),
-            unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
-            guideId = fakeGuide.id,
-        )
+    fun `given mark fails when toggleFavourite is called then reverts the optimistic flip`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm = GuideDetailViewModel(
+                getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
+                getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
+                isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
+                markGuideFavourite = FakeMarkGuideFavouriteUseCase(Result.Error(ErrorEntity.Unknown)),
+                unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
+                guideId = fakeGuide.id,
+            )
 
-        // When / Then
-        vm.state.test {
-            assertEquals(GuideDetailUiState.Loading, awaitItem())
-            val initial = assertIs<GuideDetailUiState.Loaded>(awaitItem())
-            assertFalse(initial.isFavourite)
+            // When / Then
+            vm.state.test {
+                assertEquals(GuideDetailUiState.Loading, awaitItem())
+                val initial = assertIs<GuideDetailUiState.Loaded>(awaitItem())
+                assertFalse(initial.isFavourite)
 
-            vm.toggleFavourite()
+                vm.toggleFavourite()
 
-            val flipped = assertIs<GuideDetailUiState.Loaded>(awaitItem())
-            assertTrue(flipped.isFavourite)
+                val flipped = assertIs<GuideDetailUiState.Loaded>(awaitItem())
+                assertTrue(flipped.isFavourite)
 
-            val reverted = assertIs<GuideDetailUiState.Loaded>(awaitItem())
-            assertFalse(reverted.isFavourite)
+                val reverted = assertIs<GuideDetailUiState.Loaded>(awaitItem())
+                assertFalse(reverted.isFavourite)
+            }
         }
-    }
 }

@@ -2,7 +2,7 @@ package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.PagedFavouriteGuides
-import pt.socialfood.domain.use_case.favourite.GetFavouriteGuidesUseCase
+import pt.socialfood.domain.use_case.favourite.guide.GetFavouriteGuidesUseCase
 
 class FakeGetFavouriteGuidesUseCase(
     private val result: (page: Int) -> Result<PagedFavouriteGuides> = {

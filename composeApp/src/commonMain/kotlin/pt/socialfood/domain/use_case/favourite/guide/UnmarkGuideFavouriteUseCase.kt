@@ -1,4 +1,4 @@
-package pt.socialfood.domain.use_case.favourite
+package pt.socialfood.domain.use_case.favourite.guide
 
 import pt.socialfood.core.Result
 

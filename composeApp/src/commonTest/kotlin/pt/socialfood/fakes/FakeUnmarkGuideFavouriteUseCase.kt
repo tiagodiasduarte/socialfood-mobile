@@ -1,7 +1,7 @@
 package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.favourite.UnmarkGuideFavouriteUseCase
+import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
 
 class FakeUnmarkGuideFavouriteUseCase(
     private val result: Result<Unit> = Result.Success(Unit),

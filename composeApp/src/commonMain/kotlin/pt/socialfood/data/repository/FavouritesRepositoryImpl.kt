@@ -7,7 +7,7 @@ import pt.socialfood.data.FavouritesApi
 import pt.socialfood.data.local.dao.FavouriteDao
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.data.network.extensions.toErrorEntity
-import pt.socialfood.data.network.model.favourite.FavouriteGuideSyncResponse
+import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.PagedFavouriteGuides
 import pt.socialfood.domain.repository.FavouritesRepository
@@ -137,13 +137,13 @@ class FavouritesRepositoryImpl(
         }
     }
 
-    private suspend fun applyChanges(changes: FavouriteGuideSyncResponse) {
-        if (changes.removedGuideIds.isNotEmpty()) {
-            favouriteDao.deleteByGuideIds(changes.removedGuideIds)
+    private suspend fun applyChanges(changes: FavouriteSyncResponse) {
+        if (changes.removedIds.isNotEmpty()) {
+            favouriteDao.deleteByGuideIds(changes.removedIds)
         }
 
-        if (changes.addedGuideIds.isNotEmpty()) {
-            val addedIds = changes.addedGuideIds.toSet()
+        if (changes.addedIds.isNotEmpty()) {
+            val addedIds = changes.addedIds.toSet()
             val now = currentTimeMillis()
             val allFavourites = favouritesApi.findFavouriteGuides(page = 1, limit = MAX_FAVOURITES_FETCH)
             val toUpsert = allFavourites.items

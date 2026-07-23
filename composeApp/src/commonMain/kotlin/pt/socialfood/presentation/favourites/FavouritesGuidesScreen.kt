@@ -26,14 +26,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
-import socialfood.composeapp.generated.resources.favourites_title
+import socialfood.composeapp.generated.resources.favourites_guides_title
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -41,6 +41,7 @@ import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.guides.GuideCard
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
@@ -48,15 +49,15 @@ private const val LOAD_MORE_THRESHOLD = 10
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavouritesScreen(
+fun FavouritesGuidesScreen(
     onBackClick: () -> Unit,
     onGuideClick: (guideId: String) -> Unit = {},
-    viewModel: FavouritesViewModel = koinViewModel(),
+    viewModel: FavouritesGuidesViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
-    FavouritesContent(
+    FavouritesGuidesContent(
         state = state,
         isRefreshing = isRefreshing,
         onBackClick = onBackClick,
@@ -69,8 +70,8 @@ fun FavouritesScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun FavouritesContent(
-    state: FavouritesUiState,
+private fun FavouritesGuidesContent(
+    state: FavouritesGuidesUiState,
     isRefreshing: Boolean,
     onBackClick: () -> Unit,
     onRefresh: () -> Unit,
@@ -89,7 +90,7 @@ private fun FavouritesContent(
     }
 
     LaunchedEffect(reachedBottom, state) {
-        if (reachedBottom && state is FavouritesUiState.Loaded && state.hasMore && !state.isLoadingMore) {
+        if (reachedBottom && state is FavouritesGuidesUiState.Loaded && state.hasMore && !state.isLoadingMore) {
             onLoadMore()
         }
     }
@@ -102,14 +103,14 @@ private fun FavouritesContent(
         TopBar(onBackClick = onBackClick)
 
         when (state) {
-            FavouritesUiState.Loading -> FavouritesPlaceholder(modifier = Modifier.fillMaxSize())
+            FavouritesGuidesUiState.Loading -> FavouritesGuidesPlaceholder(modifier = Modifier.fillMaxSize())
 
-            FavouritesUiState.Error -> ErrorContent(
+            FavouritesGuidesUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),
                 onRetryClick = onRetry,
             )
 
-            is FavouritesUiState.Loaded -> if (state.guides.isEmpty()) {
+            is FavouritesGuidesUiState.Loaded -> if (state.guides.isEmpty()) {
                 NoResultsContent(modifier = Modifier.fillMaxSize())
             } else {
                 PullToRefreshBox(
@@ -144,6 +145,7 @@ private fun TopBar(onBackClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .background(Color.White)
             .padding(SpaceSize.medium),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -151,22 +153,21 @@ private fun TopBar(onBackClick: () -> Unit) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = stringResource(Res.string.back_button_description),
-                tint = MaterialTheme.colorScheme.onBackground,
+                tint = MaterialTheme.colorScheme.primary,
             )
         }
 
         Text(
-            text = stringResource(Res.string.favourites_title),
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground,
+            text = stringResource(Res.string.favourites_guides_title),
+            style = AppTypography.headlineMedium,
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }
 
 @Preview
 @Composable
-private fun FavouritesScreenLoadedPreview() {
+private fun FavouritesGuidesScreenLoadedPreview() {
     val guides = listOf(
         Guide(
             id = "g1",
@@ -186,8 +187,8 @@ private fun FavouritesScreenLoadedPreview() {
         ),
     )
     AppTheme {
-        FavouritesContent(
-            state = FavouritesUiState.Loaded(guides = guides, hasMore = false),
+        FavouritesGuidesContent(
+            state = FavouritesGuidesUiState.Loaded(guides = guides, hasMore = false),
             isRefreshing = false,
             onBackClick = {},
             onRefresh = {},
@@ -199,10 +200,10 @@ private fun FavouritesScreenLoadedPreview() {
 
 @Preview
 @Composable
-private fun FavouritesScreenEmptyPreview() {
+private fun FavouritesGuidesScreenEmptyPreview() {
     AppTheme {
-        FavouritesContent(
-            state = FavouritesUiState.Loaded(guides = emptyList(), hasMore = false),
+        FavouritesGuidesContent(
+            state = FavouritesGuidesUiState.Loaded(guides = emptyList(), hasMore = false),
             isRefreshing = false,
             onBackClick = {},
             onRefresh = {},

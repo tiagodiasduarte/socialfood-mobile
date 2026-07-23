@@ -17,7 +17,7 @@ import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class FavouritesViewModelTest {
+class FavouritesGuidesViewModelTest {
 
     private fun favourite(id: String) = FavouriteGuide(
         guide = Guide(
@@ -39,11 +39,11 @@ class FavouritesViewModelTest {
         }
 
         // When
-        val vm = FavouritesViewModel(useCase)
+        val vm = FavouritesGuidesViewModel(useCase)
         advanceUntilIdle()
 
         // Then
-        val state = assertIs<FavouritesUiState.Loaded>(vm.state.value)
+        val state = assertIs<FavouritesGuidesUiState.Loaded>(vm.state.value)
         assertEquals(1, state.guides.size)
         assertEquals("g1", state.guides.first().id)
     }
@@ -54,11 +54,11 @@ class FavouritesViewModelTest {
         val useCase = FakeGetFavouriteGuidesUseCase { Result.Error(ErrorEntity.Unknown) }
 
         // When
-        val vm = FavouritesViewModel(useCase)
+        val vm = FavouritesGuidesViewModel(useCase)
         advanceUntilIdle()
 
         // Then
-        assertIs<FavouritesUiState.Error>(vm.state.value)
+        assertIs<FavouritesGuidesUiState.Error>(vm.state.value)
     }
 
     @Test
@@ -71,7 +71,7 @@ class FavouritesViewModelTest {
                 Result.Success(PagedFavouriteGuides(favourites = listOf(favourite("g2")), page = 2, total = 2, hasMore = false))
             }
         }
-        val vm = FavouritesViewModel(useCase)
+        val vm = FavouritesGuidesViewModel(useCase)
         advanceUntilIdle()
 
         // When
@@ -79,7 +79,7 @@ class FavouritesViewModelTest {
         advanceUntilIdle()
 
         // Then
-        val state = assertIs<FavouritesUiState.Loaded>(vm.state.value)
+        val state = assertIs<FavouritesGuidesUiState.Loaded>(vm.state.value)
         assertEquals(listOf("g1", "g2"), state.guides.map { it.id })
         assertTrue(!state.hasMore)
     }
@@ -90,7 +90,7 @@ class FavouritesViewModelTest {
         val useCase = FakeGetFavouriteGuidesUseCase {
             Result.Success(PagedFavouriteGuides(favourites = listOf(favourite("g1")), page = it, total = 1, hasMore = false))
         }
-        val vm = FavouritesViewModel(useCase)
+        val vm = FavouritesGuidesViewModel(useCase)
         advanceUntilIdle()
 
         // When
@@ -99,6 +99,6 @@ class FavouritesViewModelTest {
 
         // Then
         assertEquals(false, vm.isRefreshing.value)
-        assertIs<FavouritesUiState.Loaded>(vm.state.value)
+        assertIs<FavouritesGuidesUiState.Loaded>(vm.state.value)
     }
 }

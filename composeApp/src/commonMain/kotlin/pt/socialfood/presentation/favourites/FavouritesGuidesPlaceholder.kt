@@ -17,7 +17,7 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun FavouritesPlaceholder(modifier: Modifier = Modifier) {
+fun FavouritesGuidesPlaceholder(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
 
     Column(
@@ -38,8 +38,8 @@ fun FavouritesPlaceholder(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun FavouritesPlaceholderPreview() {
+private fun FavouritesGuidesPlaceholderPreview() {
     AppTheme {
-        FavouritesPlaceholder()
+        FavouritesGuidesPlaceholder()
     }
 }

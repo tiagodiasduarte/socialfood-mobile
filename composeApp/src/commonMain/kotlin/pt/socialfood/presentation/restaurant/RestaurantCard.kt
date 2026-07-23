@@ -1,6 +1,7 @@
 package pt.socialfood.presentation.restaurant
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,9 +39,15 @@ import pt.socialfood.ui.theme.SpaceSize
 
 
 @Composable
-fun RestaurantCard(restaurant: Restaurant) {
+fun RestaurantCard(
+    restaurant: Restaurant,
+    modifier: Modifier = Modifier,
+    width: Dp? = null,
+    onClick: () -> Unit = {},
+) {
     Card(
-        modifier = Modifier.width(290.dp),
+        modifier = (if (width != null) modifier.width(width) else modifier.fillMaxWidth())
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),

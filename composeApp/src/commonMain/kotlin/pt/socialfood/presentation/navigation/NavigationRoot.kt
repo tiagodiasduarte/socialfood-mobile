@@ -19,6 +19,7 @@ import pt.socialfood.presentation.authors.detail.AuthorDetailViewModel
 import pt.socialfood.presentation.authors.AuthorsScreen
 import pt.socialfood.presentation.authors.AuthorsViewModel
 import pt.socialfood.presentation.favourites.FavouritesGuidesScreen
+import pt.socialfood.presentation.favourites.FavouritesRestaurantsScreen
 import pt.socialfood.presentation.guides.detail.GuideDetailScreen
 import pt.socialfood.presentation.guides.detail.GuideDetailViewModel
 import pt.socialfood.presentation.guides.GuidesScreen
@@ -96,6 +97,7 @@ fun NavigationRoot(
                         ProfileScreen(
                             onEditProfileClick = { navigator.navigate(Route.EditProfile) },
                             onFavouriteGuidesClick = { navigator.navigate(Route.FavouriteGuides) },
+                            onFavouriteRestaurantsClick = { navigator.navigate(Route.FavouriteRestaurants) },
                         )
                     }
                     entry<Route.EditProfile> {
@@ -105,6 +107,12 @@ fun NavigationRoot(
                         FavouritesGuidesScreen(
                             onBackClick = navigator::goBack,
                             onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+                        )
+                    }
+                    entry<Route.FavouriteRestaurants> {
+                        FavouritesRestaurantsScreen(
+                            onBackClick = navigator::goBack,
+                            onRestaurantClick = { restaurantId -> navigator.navigate(Route.RestaurantDetail(restaurantId)) },
                         )
                     }
                     entry<Route.GuideDetail> { route ->

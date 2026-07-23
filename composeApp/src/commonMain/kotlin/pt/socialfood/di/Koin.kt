@@ -166,6 +166,7 @@ import pt.socialfood.domain.use_case.user.UpdateUserUseCaseImpl
 import pt.socialfood.presentation.authors.detail.AuthorDetailViewModel
 import pt.socialfood.presentation.authors.AuthorsViewModel
 import pt.socialfood.presentation.favourites.FavouritesGuidesViewModel
+import pt.socialfood.presentation.favourites.FavouritesRestaurantsViewModel
 import pt.socialfood.presentation.guides.detail.GuideDetailViewModel
 import pt.socialfood.presentation.guides.GuidesViewModel
 import pt.socialfood.presentation.guides.create.CreateGuideViewModel
@@ -303,6 +304,7 @@ val viewModelModule = module {
     factory { (email: String) -> ValidateCodeViewModel(get(), get(), get(), email) }
     factory { ProfileViewModel(get(), get(), get()) }
     factory { FavouritesGuidesViewModel(get()) }
+    factory { FavouritesRestaurantsViewModel(get()) }
     factory { EditProfileViewModel(get(), get(), get(), get(), get(), get()) }
 }
 

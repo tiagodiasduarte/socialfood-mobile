@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.Button
@@ -55,6 +56,7 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
@@ -71,6 +73,7 @@ fun RestaurantDetailScreen(
         state = state,
         onBackClick = onBackClick,
         onRetry = viewModel::load,
+        onToggleFavourite = viewModel::toggleFavourite,
     )
 }
 
@@ -79,13 +82,16 @@ private fun RestaurantDetailContent(
     state: RestaurantDetailUiState,
     onBackClick: () -> Unit,
     onRetry: () -> Unit,
+    onToggleFavourite: () -> Unit = {},
 ) {
     when (state) {
         RestaurantDetailUiState.Loading -> RestaurantDetailPlaceholder()
 
         is RestaurantDetailUiState.Loaded -> RestaurantDetailLoaded(
             restaurant = state.restaurant,
+            isFavourite = state.isFavourite,
             onBackClick = onBackClick,
+            onToggleFavourite = onToggleFavourite,
         )
 
         RestaurantDetailUiState.Error -> ErrorContent(onRetryClick = onRetry)
@@ -95,7 +101,9 @@ private fun RestaurantDetailContent(
 @Composable
 private fun RestaurantDetailLoaded(
     restaurant: Restaurant,
+    isFavourite: Boolean,
     onBackClick: () -> Unit,
+    onToggleFavourite: () -> Unit = {},
 ) {
     val uriHandler = LocalUriHandler.current
 
@@ -107,9 +115,10 @@ private fun RestaurantDetailLoaded(
             item {
                 TopSection(
                     restaurant = restaurant,
+                    isFavourite = isFavourite,
                     onBackClick = onBackClick,
                     onShareClick = {},
-                    onFavoriteClick = {},
+                    onFavoriteClick = onToggleFavourite,
                 )
             }
 
@@ -218,6 +227,7 @@ private fun RestaurantDetailLoaded(
 @Composable
 private fun TopSection(
     restaurant: Restaurant,
+    isFavourite: Boolean,
     onBackClick: () -> Unit,
     onShareClick: () -> Unit,
     onFavoriteClick: () -> Unit,
@@ -288,9 +298,9 @@ private fun TopSection(
             }
             ActionButton(onClick = onFavoriteClick) {
                 Icon(
-                    imageVector = Icons.Outlined.FavoriteBorder,
+                    imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                     contentDescription = stringResource(Res.string.restaurant_detail_favourite_description),
-                    tint = Color.White,
+                    tint = if (isFavourite) FavouriteRed else Color.White,
                     modifier = Modifier.size(24.dp),
                 )
             }
@@ -378,6 +388,7 @@ private fun RestaurantDetailScreenPreview() {
     AppTheme {
         RestaurantDetailLoaded(
             restaurant = restaurant,
+            isFavourite = false,
             onBackClick = {},
         )
     }

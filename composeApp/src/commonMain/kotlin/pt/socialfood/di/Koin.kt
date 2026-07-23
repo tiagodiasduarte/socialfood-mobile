@@ -14,6 +14,8 @@ import pt.socialfood.data.AuthorsApi
 import pt.socialfood.data.AuthorsApiImpl
 import pt.socialfood.data.ConfigsApi
 import pt.socialfood.data.ConfigsApiImpl
+import pt.socialfood.data.FavouritesApi
+import pt.socialfood.data.FavouritesApiImpl
 import pt.socialfood.data.GuidesApi
 import pt.socialfood.data.GuidesApiImpl
 import pt.socialfood.data.HomeApi
@@ -164,6 +166,7 @@ val networkModule = module {
     single<AuthApi> { AuthApiImpl(get()) }
     single<AuthorsApi> { AuthorsApiImpl(get()) }
     single<ConfigsApi> { ConfigsApiImpl(get()) }
+    single<FavouritesApi> { FavouritesApiImpl(get()) }
     single<GuidesApi> { GuidesApiImpl(get()) }
     single<HomeApi> { HomeApiImpl(get()) }
     single<PlacesApi> { PlacesApiImpl(get()) }

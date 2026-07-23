@@ -7,7 +7,7 @@ import pt.socialfood.data.FavouriteRestaurantsApi
 import pt.socialfood.data.local.dao.FavouriteRestaurantDao
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.data.network.extensions.toErrorEntity
-import pt.socialfood.data.network.model.favourite.FavouriteRestaurantSyncResponse
+import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
 import pt.socialfood.domain.model.PagedFavouriteRestaurants
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
@@ -137,13 +137,13 @@ class FavouriteRestaurantsRepositoryImpl(
         }
     }
 
-    private suspend fun applyChanges(changes: FavouriteRestaurantSyncResponse) {
-        if (changes.removedRestaurantIds.isNotEmpty()) {
-            favouriteRestaurantDao.deleteByRestaurantIds(changes.removedRestaurantIds)
+    private suspend fun applyChanges(changes: FavouriteSyncResponse) {
+        if (changes.removedIds.isNotEmpty()) {
+            favouriteRestaurantDao.deleteByRestaurantIds(changes.removedIds)
         }
 
-        if (changes.addedRestaurantIds.isNotEmpty()) {
-            val addedIds = changes.addedRestaurantIds.toSet()
+        if (changes.addedIds.isNotEmpty()) {
+            val addedIds = changes.addedIds.toSet()
             val now = currentTimeMillis()
             val allFavourites = favouriteRestaurantsApi.findFavouriteRestaurants(page = 1, limit = MAX_FAVOURITES_FETCH)
             val toUpsert = allFavourites.items

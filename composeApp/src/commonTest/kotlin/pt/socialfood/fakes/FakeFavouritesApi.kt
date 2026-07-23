@@ -3,7 +3,7 @@ package pt.socialfood.fakes
 import pt.socialfood.data.FavouritesApi
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.author.AuthorResponse
-import pt.socialfood.data.network.model.favourite.FavouriteGuideSyncResponse
+import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
 import pt.socialfood.domain.model.GuideVisibility
 
@@ -34,9 +34,9 @@ class FakeFavouritesApi(private val shouldThrow: Boolean = false) : FavouritesAp
         total = 1,
     )
 
-    var fakeSyncResponse = FavouriteGuideSyncResponse(
-        addedGuideIds = listOf(fakeGuideResponse.id),
-        removedGuideIds = emptyList(),
+    var fakeSyncResponse = FavouriteSyncResponse(
+        addedIds = listOf(fakeGuideResponse.id),
+        removedIds = emptyList(),
         nextCheckpoint = "checkpoint-1",
     )
 
@@ -55,7 +55,7 @@ class FakeFavouritesApi(private val shouldThrow: Boolean = false) : FavouritesAp
         return fakeFavouriteGuides
     }
 
-    override suspend fun syncFavouriteGuides(since: String?): FavouriteGuideSyncResponse {
+    override suspend fun syncFavouriteGuides(since: String?): FavouriteSyncResponse {
         if (shouldThrow) throw RuntimeException("test error")
         return fakeSyncResponse
     }

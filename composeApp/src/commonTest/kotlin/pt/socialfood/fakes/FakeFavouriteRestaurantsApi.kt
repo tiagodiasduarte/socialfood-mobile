@@ -2,7 +2,7 @@ package pt.socialfood.fakes
 
 import pt.socialfood.data.FavouriteRestaurantsApi
 import pt.socialfood.data.network.model.PagedResponse
-import pt.socialfood.data.network.model.favourite.FavouriteRestaurantSyncResponse
+import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 
 class FakeFavouriteRestaurantsApi(private val shouldThrow: Boolean = false) : FavouriteRestaurantsApi {
@@ -38,9 +38,9 @@ class FakeFavouriteRestaurantsApi(private val shouldThrow: Boolean = false) : Fa
         total = 1,
     )
 
-    var fakeSyncResponse = FavouriteRestaurantSyncResponse(
-        addedRestaurantIds = listOf(fakeRestaurantResponse.id),
-        removedRestaurantIds = emptyList(),
+    var fakeSyncResponse = FavouriteSyncResponse(
+        addedIds = listOf(fakeRestaurantResponse.id),
+        removedIds = emptyList(),
         nextCheckpoint = "checkpoint-1",
     )
 
@@ -59,7 +59,7 @@ class FakeFavouriteRestaurantsApi(private val shouldThrow: Boolean = false) : Fa
         return fakeFavouriteRestaurants
     }
 
-    override suspend fun syncFavouriteRestaurants(since: String?): FavouriteRestaurantSyncResponse {
+    override suspend fun syncFavouriteRestaurants(since: String?): FavouriteSyncResponse {
         if (shouldThrow) throw RuntimeException("test error")
         return fakeSyncResponse
     }

@@ -7,7 +7,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import pt.socialfood.data.network.model.PagedResponse
-import pt.socialfood.data.network.model.favourite.FavouriteRestaurantSyncResponse
+import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 
 class FavouriteRestaurantsApiImpl(
@@ -28,7 +28,7 @@ class FavouriteRestaurantsApiImpl(
             parameter("limit", limit)
         }.body()
 
-    override suspend fun syncFavouriteRestaurants(since: String?): FavouriteRestaurantSyncResponse =
+    override suspend fun syncFavouriteRestaurants(since: String?): FavouriteSyncResponse =
         client.get("me/favourites/restaurants/sync") {
             if (!since.isNullOrBlank()) parameter("since", since)
         }.body()

@@ -1,7 +1,7 @@
 package pt.socialfood.data
 
 import pt.socialfood.data.network.model.PagedResponse
-import pt.socialfood.data.network.model.favourite.FavouriteRestaurantSyncResponse
+import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 
 interface FavouriteRestaurantsApi {
@@ -11,5 +11,5 @@ interface FavouriteRestaurantsApi {
 
     suspend fun findFavouriteRestaurants(page: Int, limit: Int): PagedResponse<RestaurantResponse>
 
-    suspend fun syncFavouriteRestaurants(since: String?): FavouriteRestaurantSyncResponse
+    suspend fun syncFavouriteRestaurants(since: String?): FavouriteSyncResponse
 }

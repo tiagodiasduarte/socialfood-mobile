@@ -5,12 +5,19 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 import pt.socialfood.data.local.dao.FavouriteDao
+import pt.socialfood.data.local.dao.FavouriteRestaurantDao
 import pt.socialfood.data.local.entity.FavouriteGuideEntity
+import pt.socialfood.data.local.entity.FavouriteRestaurantEntity
 
-@Database(entities = [FavouriteGuideEntity::class], version = 1, exportSchema = true)
+@Database(
+    entities = [FavouriteGuideEntity::class, FavouriteRestaurantEntity::class],
+    version = 2,
+    exportSchema = true,
+)
 @ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun favouriteDao(): FavouriteDao
+    abstract fun favouriteRestaurantDao(): FavouriteRestaurantDao
 }
 
 // The `expect object : RoomDatabaseConstructor` pattern below is the standard KMP-Room

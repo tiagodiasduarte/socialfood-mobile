@@ -65,6 +65,7 @@
     <string name="guide_detail_separator">·</string>
 
     <string name="favourites_guides_title">Favourite Guides</string>
+    <string name="favourites_restaurants_title">Favourite Restaurants</string>
 
     <string name="guides_title">Guides</string>
     <string name="guides_search_placeholder">Search guides…</string>

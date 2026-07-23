@@ -165,7 +165,7 @@ private fun HomeSectionRow(section: HomeSection) {
 @Composable
 private fun HomeSectionItemCard(item: HomeSectionItem) {
     when (item.itemType) {
-        HomeItemType.RESTAURANT -> item.restaurant?.let { RestaurantCard(it) }
+        HomeItemType.RESTAURANT -> item.restaurant?.let { RestaurantCard(it, width = 290.dp) }
         HomeItemType.GUIDE -> item.guide?.let { GuideCard(guide = it, width = 300.dp) }
         HomeItemType.EVENT -> {}
     }

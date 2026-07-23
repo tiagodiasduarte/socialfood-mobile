@@ -51,6 +51,7 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = koinViewModel(),
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
+    onFavouriteRestaurantsClick: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -59,6 +60,7 @@ fun ProfileScreen(
         onLogoutClick = { viewModel.logout() },
         onEditProfileClick = onEditProfileClick,
         onFavouriteGuidesClick = onFavouriteGuidesClick,
+        onFavouriteRestaurantsClick = onFavouriteRestaurantsClick,
     )
 }
 
@@ -68,6 +70,7 @@ private fun ProfileContent(
     onLogoutClick: () -> Unit,
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
+    onFavouriteRestaurantsClick: () -> Unit = {},
 ) {
     when (state) {
         ProfileUiState.Loading -> ProfilePlaceholder()
@@ -77,6 +80,7 @@ private fun ProfileContent(
             onLogoutClick = onLogoutClick,
             onEditProfileClick = onEditProfileClick,
             onFavouriteGuidesClick = onFavouriteGuidesClick,
+            onFavouriteRestaurantsClick = onFavouriteRestaurantsClick,
         )
 
         ProfileUiState.Error -> NoResultsContent(modifier = Modifier.fillMaxSize())
@@ -91,6 +95,7 @@ private fun UserContent(
     onLogoutClick: () -> Unit,
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
+    onFavouriteRestaurantsClick: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -147,6 +152,7 @@ private fun UserContent(
                     icon = Icons.Outlined.FavoriteBorder,
                     label = stringResource(Res.string.profile_favorites_restaurants_button),
                     contentDescription = stringResource(Res.string.profile_favorites_restaurants_button_description),
+                    onClick = onFavouriteRestaurantsClick,
                 )
                 MenuRow(
                     icon = Icons.AutoMirrored.Outlined.Logout,

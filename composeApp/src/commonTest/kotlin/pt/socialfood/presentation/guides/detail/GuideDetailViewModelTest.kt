@@ -1,5 +1,6 @@
 package pt.socialfood.presentation.guides.detail
 
+import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
@@ -46,12 +47,12 @@ class GuideDetailViewModelTest {
             guideId = fakeGuide.id,
         )
 
-        // When
-        advanceUntilIdle()
-
-        // Then
-        val state = assertIs<GuideDetailUiState.Loaded>(vm.state.value)
-        assertTrue(state.isFavourite)
+        // When / Then
+        vm.state.test {
+            assertEquals(GuideDetailUiState.Loading, awaitItem())
+            val loaded = assertIs<GuideDetailUiState.Loaded>(awaitItem())
+            assertTrue(loaded.isFavourite)
+        }
     }
 
     @Test
@@ -67,14 +68,20 @@ class GuideDetailViewModelTest {
                 unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
                 guideId = fakeGuide.id,
             )
-            advanceUntilIdle()
 
-            // When
-            vm.toggleFavourite()
+            // When / Then
+            vm.state.test {
+                assertEquals(GuideDetailUiState.Loading, awaitItem())
+                val initial = assertIs<GuideDetailUiState.Loaded>(awaitItem())
+                assertFalse(initial.isFavourite)
 
-            // Then (optimistic flip happens synchronously, before the use case call resolves)
-            val stateRightAfter = assertIs<GuideDetailUiState.Loaded>(vm.state.value)
-            assertTrue(stateRightAfter.isFavourite)
+                vm.toggleFavourite()
+
+                val flipped = assertIs<GuideDetailUiState.Loaded>(awaitItem())
+                assertTrue(flipped.isFavourite)
+
+                cancelAndIgnoreRemainingEvents()
+            }
 
             advanceUntilIdle()
             assertEquals(1, mark.invokeCount)
@@ -94,15 +101,22 @@ class GuideDetailViewModelTest {
                 unmarkGuideFavourite = unmark,
                 guideId = fakeGuide.id,
             )
-            advanceUntilIdle()
 
-            // When
-            vm.toggleFavourite()
-            advanceUntilIdle()
+            // When / Then
+            vm.state.test {
+                assertEquals(GuideDetailUiState.Loading, awaitItem())
+                val initial = assertIs<GuideDetailUiState.Loaded>(awaitItem())
+                assertTrue(initial.isFavourite)
 
-            // Then
-            val state = assertIs<GuideDetailUiState.Loaded>(vm.state.value)
-            assertFalse(state.isFavourite)
+                vm.toggleFavourite()
+
+                val flipped = assertIs<GuideDetailUiState.Loaded>(awaitItem())
+                assertFalse(flipped.isFavourite)
+
+                cancelAndIgnoreRemainingEvents()
+            }
+
+            advanceUntilIdle()
             assertEquals(1, unmark.invokeCount)
             assertEquals(fakeGuide.id, unmark.lastGuideId)
         }
@@ -118,14 +132,20 @@ class GuideDetailViewModelTest {
             unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
             guideId = fakeGuide.id,
         )
-        advanceUntilIdle()
 
-        // When
-        vm.toggleFavourite()
-        advanceUntilIdle()
+        // When / Then
+        vm.state.test {
+            assertEquals(GuideDetailUiState.Loading, awaitItem())
+            val initial = assertIs<GuideDetailUiState.Loaded>(awaitItem())
+            assertFalse(initial.isFavourite)
 
-        // Then
-        val state = assertIs<GuideDetailUiState.Loaded>(vm.state.value)
-        assertFalse(state.isFavourite)
+            vm.toggleFavourite()
+
+            val flipped = assertIs<GuideDetailUiState.Loaded>(awaitItem())
+            assertTrue(flipped.isFavourite)
+
+            val reverted = assertIs<GuideDetailUiState.Loaded>(awaitItem())
+            assertFalse(reverted.isFavourite)
+        }
     }
 }

@@ -3,8 +3,6 @@ package pt.socialfood.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-enum class FavouriteSyncState { SYNCED, PENDING_ADD, PENDING_REMOVE }
-
 @Entity(tableName = "favourite_guides")
 data class FavouriteGuideEntity(
     @PrimaryKey val guideId: String,

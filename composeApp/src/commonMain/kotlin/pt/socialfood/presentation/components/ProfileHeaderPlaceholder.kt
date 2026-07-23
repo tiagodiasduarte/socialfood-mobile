@@ -22,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.buttons.social.SocialButtonsPlaceholder
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.ProfileGradientEnd
+import pt.socialfood.ui.theme.ProfileGradientStart
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
@@ -43,8 +45,8 @@ fun ProfileHeaderPlaceholder(
                     .background(
                         Brush.verticalGradient(
                             colors = listOf(
-                                Color(0xFFF05A1A).copy(alpha = 0.5f),
-                                Color(0xFFB82010).copy(alpha = 0.5f),
+                                ProfileGradientStart.copy(alpha = 0.5f),
+                                ProfileGradientEnd.copy(alpha = 0.5f),
                             ),
                         ),
                     ),

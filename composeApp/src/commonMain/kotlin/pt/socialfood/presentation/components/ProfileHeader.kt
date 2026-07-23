@@ -25,6 +25,8 @@ import pt.socialfood.presentation.components.buttons.social.SocialButtons
 import pt.socialfood.presentation.profile.StatsRow
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
+import pt.socialfood.ui.theme.ProfileGradientEnd
+import pt.socialfood.ui.theme.ProfileGradientStart
 import pt.socialfood.ui.theme.SpaceSize
 
 val ProfileHeaderHeight = 180.dp
@@ -59,8 +61,8 @@ fun ProfileHeader(
                     .background(
                         Brush.verticalGradient(
                             colors = listOf(
-                                Color(0xFFF05A1A),
-                                Color(0xFFB82010),
+                                ProfileGradientStart,
+                                ProfileGradientEnd,
                             ),
                         ),
                     ),

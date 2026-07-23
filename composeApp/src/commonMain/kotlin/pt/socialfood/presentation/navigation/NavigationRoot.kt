@@ -18,6 +18,7 @@ import pt.socialfood.presentation.authors.detail.AuthorDetailScreen
 import pt.socialfood.presentation.authors.detail.AuthorDetailViewModel
 import pt.socialfood.presentation.authors.AuthorsScreen
 import pt.socialfood.presentation.authors.AuthorsViewModel
+import pt.socialfood.presentation.favourites.FavouritesScreen
 import pt.socialfood.presentation.guides.detail.GuideDetailScreen
 import pt.socialfood.presentation.guides.detail.GuideDetailViewModel
 import pt.socialfood.presentation.guides.GuidesScreen
@@ -94,10 +95,17 @@ fun NavigationRoot(
                     entry<Route.Profile> {
                         ProfileScreen(
                             onEditProfileClick = { navigator.navigate(Route.EditProfile) },
+                            onFavouriteGuidesClick = { navigator.navigate(Route.FavouriteGuides) },
                         )
                     }
                     entry<Route.EditProfile> {
                         EditProfileScreen(onBackClick = navigator::goBack)
+                    }
+                    entry<Route.FavouriteGuides> {
+                        FavouritesScreen(
+                            onBackClick = navigator::goBack,
+                            onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+                        )
                     }
                     entry<Route.GuideDetail> { route ->
                         val vm = remember(route.guideId) {

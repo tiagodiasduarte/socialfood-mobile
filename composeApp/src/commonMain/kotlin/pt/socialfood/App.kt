@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import org.koin.mp.KoinPlatform.getKoin
 import pt.socialfood.data.network.SessionManager
-import pt.socialfood.presentation.favourites.FavouriteRestaurantsSyncEffect
 import pt.socialfood.presentation.favourites.FavouritesSyncEffect
 import pt.socialfood.presentation.navigation.NavigationRoot
 import pt.socialfood.presentation.sign_in.SignInScreen
@@ -47,7 +46,6 @@ fun App() {
             AppDestination.Home -> {
                 NavigationRoot()
                 FavouritesSyncEffect()
-                FavouriteRestaurantsSyncEffect()
             }
             AppDestination.Login -> SignInScreen(
                 onSignInSuccess = { navigate(AppDestination.Home) },

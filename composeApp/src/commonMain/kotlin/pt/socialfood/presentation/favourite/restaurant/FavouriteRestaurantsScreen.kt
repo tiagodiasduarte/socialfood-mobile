@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.favourite
+package pt.socialfood.presentation.favourite.restaurant
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -47,15 +47,15 @@ private const val LOAD_MORE_THRESHOLD = 10
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavouritesRestaurantsScreen(
+fun FavouriteRestaurantsScreen(
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
-    viewModel: FavouritesRestaurantsViewModel = koinViewModel(),
+    viewModel: FavouriteRestaurantsViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
-    FavouritesRestaurantsContent(
+    FavouriteRestaurantsContent(
         state = state,
         isRefreshing = isRefreshing,
         onBackClick = onBackClick,
@@ -68,8 +68,8 @@ fun FavouritesRestaurantsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun FavouritesRestaurantsContent(
-    state: FavouritesRestaurantsUiState,
+private fun FavouriteRestaurantsContent(
+    state: FavouriteRestaurantsUiState,
     isRefreshing: Boolean,
     onBackClick: () -> Unit,
     onRefresh: () -> Unit,
@@ -88,7 +88,7 @@ private fun FavouritesRestaurantsContent(
     }
 
     LaunchedEffect(reachedBottom, state) {
-        if (reachedBottom && state is FavouritesRestaurantsUiState.Loaded && state.hasMore && !state.isLoadingMore) {
+        if (reachedBottom && state is FavouriteRestaurantsUiState.Loaded && state.hasMore && !state.isLoadingMore) {
             onLoadMore()
         }
     }
@@ -101,14 +101,14 @@ private fun FavouritesRestaurantsContent(
         TopBar(onBackClick = onBackClick)
 
         when (state) {
-            FavouritesRestaurantsUiState.Loading -> FavouritesRestaurantsPlaceholder(modifier = Modifier.fillMaxSize())
+            FavouriteRestaurantsUiState.Loading -> FavouriteRestaurantsPlaceholder(modifier = Modifier.fillMaxSize())
 
-            FavouritesRestaurantsUiState.Error -> ErrorContent(
+            FavouriteRestaurantsUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),
                 onRetryClick = onRetry,
             )
 
-            is FavouritesRestaurantsUiState.Loaded -> if (state.restaurants.isEmpty()) {
+            is FavouriteRestaurantsUiState.Loaded -> if (state.restaurants.isEmpty()) {
                 NoResultsContent(modifier = Modifier.fillMaxSize())
             } else {
                 PullToRefreshBox(
@@ -165,7 +165,7 @@ private fun TopBar(onBackClick: () -> Unit) {
 
 @Preview
 @Composable
-private fun FavouritesRestaurantsScreenLoadedPreview() {
+private fun FavouriteRestaurantsScreenLoadedPreview() {
     val restaurants = listOf(
         Restaurant(
             id = "r1",
@@ -199,8 +199,8 @@ private fun FavouritesRestaurantsScreenLoadedPreview() {
         ),
     )
     AppTheme {
-        FavouritesRestaurantsContent(
-            state = FavouritesRestaurantsUiState.Loaded(restaurants = restaurants, hasMore = false),
+        FavouriteRestaurantsContent(
+            state = FavouriteRestaurantsUiState.Loaded(restaurants = restaurants, hasMore = false),
             isRefreshing = false,
             onBackClick = {},
             onRefresh = {},
@@ -212,10 +212,10 @@ private fun FavouritesRestaurantsScreenLoadedPreview() {
 
 @Preview
 @Composable
-private fun FavouritesRestaurantsScreenEmptyPreview() {
+private fun FavouriteRestaurantsScreenEmptyPreview() {
     AppTheme {
-        FavouritesRestaurantsContent(
-            state = FavouritesRestaurantsUiState.Loaded(restaurants = emptyList(), hasMore = false),
+        FavouriteRestaurantsContent(
+            state = FavouriteRestaurantsUiState.Loaded(restaurants = emptyList(), hasMore = false),
             isRefreshing = false,
             onBackClick = {},
             onRefresh = {},

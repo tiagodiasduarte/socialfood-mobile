@@ -19,7 +19,7 @@ import pt.socialfood.presentation.authors.detail.AuthorDetailViewModel
 import pt.socialfood.presentation.authors.AuthorsScreen
 import pt.socialfood.presentation.authors.AuthorsViewModel
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesScreen
-import pt.socialfood.presentation.favourite.FavouritesRestaurantsScreen
+import pt.socialfood.presentation.favourite.restaurant.FavouriteRestaurantsScreen
 import pt.socialfood.presentation.guides.detail.GuideDetailScreen
 import pt.socialfood.presentation.guides.detail.GuideDetailViewModel
 import pt.socialfood.presentation.guides.GuidesScreen
@@ -110,7 +110,7 @@ fun NavigationRoot(
                         )
                     }
                     entry<Route.FavouriteRestaurants> {
-                        FavouritesRestaurantsScreen(
+                        FavouriteRestaurantsScreen(
                             onBackClick = navigator::goBack,
                             onRestaurantClick = { restaurantId -> navigator.navigate(Route.RestaurantDetail(restaurantId)) },
                         )

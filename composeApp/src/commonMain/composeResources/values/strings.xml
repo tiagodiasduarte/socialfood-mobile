@@ -41,10 +41,10 @@
     <string name="profile_contact_card_title_label">Contact Information</string>
     <string name="profile_guides_button">Guides</string>
     <string name="profile_guides_button_description">Guides button</string>
-    <string name="profile_favorites_guides_button">Favorites Guides</string>
-    <string name="profile_favorites_guides_button_description">Favorites Guides button</string>
-    <string name="profile_favorites_restaurants_button">Favorites Restaurants</string>
-    <string name="profile_favorites_restaurants_button_description">Favorites Restaurants button</string>
+    <string name="profile_favorites_guides_button">Favourite Guides</string>
+    <string name="profile_favorites_guides_button_description">Favourite Guides button</string>
+    <string name="profile_favorites_restaurants_button">Favourite Restaurants</string>
+    <string name="profile_favorites_restaurants_button_description">Favourite Restaurants button</string>
     <string name="profile_logout_button">Log Out</string>
     <string name="profile_logout_button_description">Log Out button</string>
 

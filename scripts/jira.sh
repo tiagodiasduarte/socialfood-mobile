@@ -62,11 +62,11 @@ jira_search() {
     "${JIRA_BASE_URL}/rest/api/3/search/jql") || return 1
 
   local count
-  count=$(echo "$response" | jq '.issues | length')
+  count=$(printf '%s\n' "$response" | jq '.issues | length')
   echo "  Found $count ticket(s):" >&2
-  echo "$response" | jq -r '.issues[] | "  - \(.key) [\(.fields.issuetype.name)] \(.fields.summary)"' >&2
+  printf '%s\n' "$response" | jq -r '.issues[] | "  - \(.key) [\(.fields.issuetype.name)] \(.fields.summary)"' >&2
 
-  echo "$response" | jq -r '.issues[0].key // empty'
+  printf '%s\n' "$response" | jq -r '.issues[0].key // empty'
 }
 
 _jira_get_field() {
@@ -97,11 +97,11 @@ jira_transition() {
     "${JIRA_BASE_URL}/rest/api/3/issue/${ticket}/transitions") || return 1
 
   local available
-  available=$(echo "$transitions_response" | jq -r '[.transitions[].name] | join(", ")')
+  available=$(printf '%s\n' "$transitions_response" | jq -r '[.transitions[].name] | join(", ")')
   echo "  Available transitions for $ticket: $available"
 
   local transition_id
-  transition_id=$(echo "$transitions_response" | jq -r --arg s "$status" '.transitions[] | select(.name == $s) | .id')
+  transition_id=$(printf '%s\n' "$transitions_response" | jq -r --arg s "$status" '.transitions[] | select(.name == $s) | .id')
 
   if [ -z "$transition_id" ]; then
     echo "  Warning: transition '$status' not found — skipping."
@@ -137,8 +137,16 @@ jira_comment() {
 jira_update_description() {
   _jira_check_env || return 1
   local ticket="$1"
+  local script_path
+  if [ -n "${BASH_SOURCE:-}" ]; then
+    script_path="${BASH_SOURCE[0]}"
+  elif [ -n "${ZSH_VERSION:-}" ]; then
+    script_path="$(eval 'print -r -- ${(%):-%x}')"
+  else
+    script_path="$0"
+  fi
   local plans_dir
-  plans_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../.plans"
+  plans_dir="$(cd "$(dirname "$script_path")" && pwd)/../.plans"
 
   local content
   if [[ -f "${plans_dir}/${ticket}-jira.md" ]]; then
@@ -186,7 +194,7 @@ jira_get_issue() {
     -H "Accept: application/json" \
     "${JIRA_BASE_URL}/rest/api/3/issue/${ticket}") || return 1
 
-  echo "$response" | jq -r '
+  printf '%s\n' "$response" | jq -r '
     "Key:         " + .key,
     "Summary:     " + .fields.summary,
     "Status:      " + .fields.status.name,

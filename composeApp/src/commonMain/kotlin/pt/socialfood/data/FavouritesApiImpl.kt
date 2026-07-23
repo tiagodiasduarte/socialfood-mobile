@@ -6,7 +6,9 @@ import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
-import pt.socialfood.data.network.model.favourite.FavouriteChangesResponse
+import pt.socialfood.data.network.model.PagedResponse
+import pt.socialfood.data.network.model.favourite.FavouriteGuideSyncResponse
+import pt.socialfood.data.network.model.guide.GuideResponse
 
 class FavouritesApiImpl(
     private val client: HttpClient
@@ -20,9 +22,14 @@ class FavouritesApiImpl(
         client.delete("guides/$guideId/favourite")
     }
 
-    override suspend fun findFavouriteChanges(since: String?, limit: Int): FavouriteChangesResponse =
-        client.get("favourites/changes") {
-            if (!since.isNullOrBlank()) parameter("since", since)
+    override suspend fun findFavouriteGuides(page: Int, limit: Int): PagedResponse<GuideResponse> =
+        client.get("me/favourites/guides") {
+            parameter("page", page)
             parameter("limit", limit)
+        }.body()
+
+    override suspend fun syncFavouriteGuides(since: String?): FavouriteGuideSyncResponse =
+        client.get("me/favourites/guides/sync") {
+            if (!since.isNullOrBlank()) parameter("since", since)
         }.body()
 }

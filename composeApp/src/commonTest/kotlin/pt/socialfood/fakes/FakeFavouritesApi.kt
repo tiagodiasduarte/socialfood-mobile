@@ -1,8 +1,9 @@
 package pt.socialfood.fakes
 
 import pt.socialfood.data.FavouritesApi
+import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.author.AuthorResponse
-import pt.socialfood.data.network.model.favourite.FavouriteChangesResponse
+import pt.socialfood.data.network.model.favourite.FavouriteGuideSyncResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
 import pt.socialfood.domain.model.GuideVisibility
 
@@ -26,11 +27,17 @@ class FakeFavouritesApi(private val shouldThrow: Boolean = false) : FavouritesAp
     var lastUnmarkedGuideId: String? = null
         private set
 
-    var fakeChangesResponse = FavouriteChangesResponse(
-        added = listOf(fakeGuideResponse),
+    var fakeFavouriteGuides = PagedResponse(
+        items = listOf(fakeGuideResponse),
+        page = 1,
+        limit = 10,
+        total = 1,
+    )
+
+    var fakeSyncResponse = FavouriteGuideSyncResponse(
+        addedGuideIds = listOf(fakeGuideResponse.id),
         removedGuideIds = emptyList(),
         nextCheckpoint = "checkpoint-1",
-        hasMore = false,
     )
 
     override suspend fun markFavourite(guideId: String) {
@@ -43,8 +50,13 @@ class FakeFavouritesApi(private val shouldThrow: Boolean = false) : FavouritesAp
         lastUnmarkedGuideId = guideId
     }
 
-    override suspend fun findFavouriteChanges(since: String?, limit: Int): FavouriteChangesResponse {
+    override suspend fun findFavouriteGuides(page: Int, limit: Int): PagedResponse<GuideResponse> {
         if (shouldThrow) throw RuntimeException("test error")
-        return fakeChangesResponse
+        return fakeFavouriteGuides
+    }
+
+    override suspend fun syncFavouriteGuides(since: String?): FavouriteGuideSyncResponse {
+        if (shouldThrow) throw RuntimeException("test error")
+        return fakeSyncResponse
     }
 }

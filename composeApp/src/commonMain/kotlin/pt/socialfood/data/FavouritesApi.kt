@@ -1,11 +1,15 @@
 package pt.socialfood.data
 
-import pt.socialfood.data.network.model.favourite.FavouriteChangesResponse
+import pt.socialfood.data.network.model.PagedResponse
+import pt.socialfood.data.network.model.favourite.FavouriteGuideSyncResponse
+import pt.socialfood.data.network.model.guide.GuideResponse
 
 interface FavouritesApi {
     suspend fun markFavourite(guideId: String)
 
     suspend fun unmarkFavourite(guideId: String)
 
-    suspend fun findFavouriteChanges(since: String?, limit: Int): FavouriteChangesResponse
+    suspend fun findFavouriteGuides(page: Int, limit: Int): PagedResponse<GuideResponse>
+
+    suspend fun syncFavouriteGuides(since: String?): FavouriteGuideSyncResponse
 }

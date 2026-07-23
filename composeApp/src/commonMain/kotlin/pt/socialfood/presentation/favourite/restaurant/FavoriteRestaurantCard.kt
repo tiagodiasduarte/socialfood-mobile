@@ -112,10 +112,7 @@ fun FavoriteRestaurantCard(
                 }
             }
 
-            IconButton(
-                onClick = onRemoveClick,
-                modifier = Modifier.align(Alignment.Top),
-            ) {
+            IconButton(onClick = onRemoveClick) {
                 Icon(
                     imageVector = Icons.Outlined.Close,
                     contentDescription = stringResource(Res.string.favorite_card_remove_button_description),

@@ -42,6 +42,7 @@ import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.SpaceSize
 
 internal val CardHeight = 125.dp
+private const val ImageSize = 95
 
 @Composable
 fun FavoriteRestaurantCard(
@@ -69,13 +70,13 @@ fun FavoriteRestaurantCard(
             val imageUrl = restaurant.photoNames.firstOrNull()
             Box(
                 modifier = Modifier
-                    .size(95.dp)
+                    .size(ImageSize.dp)
                     .clip(RoundedCornerShape(SpaceSize.medium))
                     .background(MaterialTheme.colorScheme.surfaceVariant),
             ) {
                 if (imageUrl != null) {
                     AsyncImage(
-                        model = "$imageUrl&size=200",
+                        model = "$imageUrl&size=$ImageSize",
                         contentDescription = restaurant.name,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize(),

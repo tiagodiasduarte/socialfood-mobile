@@ -65,16 +65,15 @@ fun FavoriteGuideCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
-            val imageUrl = guide.imageUrl
             Box(
                 modifier = Modifier
                     .size(95.dp)
                     .clip(RoundedCornerShape(SpaceSize.medium))
                     .background(MaterialTheme.colorScheme.surfaceVariant),
             ) {
-                if (imageUrl != null) {
+                guide.imageUrl?.let {
                     AsyncImage(
-                        model = "$imageUrl&size=200",
+                        model = it,
                         contentDescription = guide.name,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize(),

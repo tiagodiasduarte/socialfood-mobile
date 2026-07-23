@@ -2,6 +2,8 @@ package pt.socialfood.presentation.profile.edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -72,6 +74,7 @@ class EditProfileViewModel(
         loaded { copy(pendingImage = Pair(bytes, mimeType)) }
     }
 
+    @OptIn(ExperimentalTime::class)
     fun save() {
         val state = _state.value as? EditProfileUiState.Loaded ?: return
         if (state.isSaving) return
@@ -83,7 +86,7 @@ class EditProfileViewModel(
 
                 val (bytes, mimeType) = state.pendingImage
                 val ext = mimeType.substringAfter("/", "jpg").substringBefore(";")
-                val fileName = "photo.$ext"
+                val fileName = "photo_${Clock.System.now().toEpochMilliseconds()}.$ext"
 
                 val presigned = when (val result = getPresignedUrl(
                     userId = state.userId,

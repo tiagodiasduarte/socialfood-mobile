@@ -18,8 +18,8 @@ import pt.socialfood.presentation.authors.detail.AuthorDetailScreen
 import pt.socialfood.presentation.authors.detail.AuthorDetailViewModel
 import pt.socialfood.presentation.authors.AuthorsScreen
 import pt.socialfood.presentation.authors.AuthorsViewModel
-import pt.socialfood.presentation.favourites.FavouritesGuidesScreen
-import pt.socialfood.presentation.favourites.FavouritesRestaurantsScreen
+import pt.socialfood.presentation.favourite.FavouriteGuidesScreen
+import pt.socialfood.presentation.favourite.FavouritesRestaurantsScreen
 import pt.socialfood.presentation.guides.detail.GuideDetailScreen
 import pt.socialfood.presentation.guides.detail.GuideDetailViewModel
 import pt.socialfood.presentation.guides.GuidesScreen
@@ -104,7 +104,7 @@ fun NavigationRoot(
                         EditProfileScreen(onBackClick = navigator::goBack)
                     }
                     entry<Route.FavouriteGuides> {
-                        FavouritesGuidesScreen(
+                        FavouriteGuidesScreen(
                             onBackClick = navigator::goBack,
                             onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                         )

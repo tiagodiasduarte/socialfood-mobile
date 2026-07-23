@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import org.koin.mp.KoinPlatform.getKoin
 import pt.socialfood.data.network.SessionManager
-import pt.socialfood.presentation.favourites.FavouritesSyncEffect
+import pt.socialfood.presentation.favourite.FavouritesSyncEffect
 import pt.socialfood.presentation.navigation.NavigationRoot
 import pt.socialfood.presentation.sign_in.SignInScreen
 import pt.socialfood.presentation.sign_up.SignUpScreen

@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.favourites
+package pt.socialfood.presentation.favourite
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

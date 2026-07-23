@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.favourites
+package pt.socialfood.presentation.favourite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,16 +7,16 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.favourite.restaurant.GetFavouriteRestaurantsUseCase
+import pt.socialfood.domain.use_case.favourite.guide.GetFavouriteGuidesUseCase
 
 private const val PAGE_SIZE = 20
 
-class FavouritesRestaurantsViewModel(
-    private val getFavouriteRestaurants: GetFavouriteRestaurantsUseCase,
+class FavouriteGuidesViewModel(
+    private val getFavouriteGuides: GetFavouriteGuidesUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<FavouritesRestaurantsUiState>(FavouritesRestaurantsUiState.Loading)
-    val state: StateFlow<FavouritesRestaurantsUiState> = _state.asStateFlow()
+    private val _state = MutableStateFlow<FavouriteGuidesUiState>(FavouriteGuidesUiState.Loading)
+    val state: StateFlow<FavouriteGuidesUiState> = _state.asStateFlow()
 
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
@@ -29,17 +29,17 @@ class FavouritesRestaurantsViewModel(
 
     fun loadFirstPage() {
         viewModelScope.launch {
-            _state.value = FavouritesRestaurantsUiState.Loading
+            _state.value = FavouriteGuidesUiState.Loading
             currentPage = 1
-            when (val result = getFavouriteRestaurants(page = 1, limit = PAGE_SIZE)) {
+            when (val result = getFavouriteGuides(page = 1, limit = PAGE_SIZE)) {
                 is Result.Success -> {
                     currentPage = result.data.page
-                    _state.value = FavouritesRestaurantsUiState.Loaded(
-                        restaurants = result.data.favourites.map { it.restaurant },
+                    _state.value = FavouriteGuidesUiState.Loaded(
+                        guides = result.data.favourites.map { it.guide },
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Error -> _state.value = FavouritesRestaurantsUiState.Error
+                is Result.Error -> _state.value = FavouriteGuidesUiState.Error
             }
         }
     }
@@ -48,32 +48,32 @@ class FavouritesRestaurantsViewModel(
         viewModelScope.launch {
             _isRefreshing.value = true
             currentPage = 1
-            when (val result = getFavouriteRestaurants(page = 1, limit = PAGE_SIZE)) {
+            when (val result = getFavouriteGuides(page = 1, limit = PAGE_SIZE)) {
                 is Result.Success -> {
                     currentPage = result.data.page
-                    _state.value = FavouritesRestaurantsUiState.Loaded(
-                        restaurants = result.data.favourites.map { it.restaurant },
+                    _state.value = FavouriteGuidesUiState.Loaded(
+                        guides = result.data.favourites.map { it.guide },
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Error -> _state.value = FavouritesRestaurantsUiState.Error
+                is Result.Error -> _state.value = FavouriteGuidesUiState.Error
             }
             _isRefreshing.value = false
         }
     }
 
     fun loadMore() {
-        val current = _state.value as? FavouritesRestaurantsUiState.Loaded ?: return
+        val current = _state.value as? FavouriteGuidesUiState.Loaded ?: return
         if (!current.hasMore || current.isLoadingMore) return
 
         viewModelScope.launch {
             _state.value = current.copy(isLoadingMore = true)
             val nextPage = currentPage + 1
-            when (val result = getFavouriteRestaurants(page = nextPage, limit = PAGE_SIZE)) {
+            when (val result = getFavouriteGuides(page = nextPage, limit = PAGE_SIZE)) {
                 is Result.Success -> {
                     currentPage = result.data.page
                     _state.value = current.copy(
-                        restaurants = current.restaurants + result.data.favourites.map { it.restaurant },
+                        guides = current.guides + result.data.favourites.map { it.guide },
                         hasMore = result.data.hasMore,
                         isLoadingMore = false,
                     )

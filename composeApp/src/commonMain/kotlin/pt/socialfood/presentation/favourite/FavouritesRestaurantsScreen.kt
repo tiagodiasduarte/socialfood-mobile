@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.favourites
+package pt.socialfood.presentation.favourite
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,13 +33,11 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
-import socialfood.composeapp.generated.resources.favourites_guides_title
-import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
+import socialfood.composeapp.generated.resources.favourites_restaurants_title
+import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
-import pt.socialfood.presentation.guides.GuideCard
+import pt.socialfood.presentation.restaurant.RestaurantCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.GreyBackground
@@ -49,35 +47,35 @@ private const val LOAD_MORE_THRESHOLD = 10
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavouritesGuidesScreen(
+fun FavouritesRestaurantsScreen(
     onBackClick: () -> Unit,
-    onGuideClick: (guideId: String) -> Unit = {},
-    viewModel: FavouritesGuidesViewModel = koinViewModel(),
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
+    viewModel: FavouritesRestaurantsViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
-    FavouritesGuidesContent(
+    FavouritesRestaurantsContent(
         state = state,
         isRefreshing = isRefreshing,
         onBackClick = onBackClick,
         onRefresh = viewModel::refresh,
         onLoadMore = viewModel::loadMore,
         onRetry = viewModel::loadFirstPage,
-        onGuideClick = onGuideClick,
+        onRestaurantClick = onRestaurantClick,
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun FavouritesGuidesContent(
-    state: FavouritesGuidesUiState,
+private fun FavouritesRestaurantsContent(
+    state: FavouritesRestaurantsUiState,
     isRefreshing: Boolean,
     onBackClick: () -> Unit,
     onRefresh: () -> Unit,
     onLoadMore: () -> Unit,
     onRetry: () -> Unit,
-    onGuideClick: (guideId: String) -> Unit = {},
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
 
@@ -90,7 +88,7 @@ private fun FavouritesGuidesContent(
     }
 
     LaunchedEffect(reachedBottom, state) {
-        if (reachedBottom && state is FavouritesGuidesUiState.Loaded && state.hasMore && !state.isLoadingMore) {
+        if (reachedBottom && state is FavouritesRestaurantsUiState.Loaded && state.hasMore && !state.isLoadingMore) {
             onLoadMore()
         }
     }
@@ -103,14 +101,14 @@ private fun FavouritesGuidesContent(
         TopBar(onBackClick = onBackClick)
 
         when (state) {
-            FavouritesGuidesUiState.Loading -> FavouritesGuidesPlaceholder(modifier = Modifier.fillMaxSize())
+            FavouritesRestaurantsUiState.Loading -> FavouritesRestaurantsPlaceholder(modifier = Modifier.fillMaxSize())
 
-            FavouritesGuidesUiState.Error -> ErrorContent(
+            FavouritesRestaurantsUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),
                 onRetryClick = onRetry,
             )
 
-            is FavouritesGuidesUiState.Loaded -> if (state.guides.isEmpty()) {
+            is FavouritesRestaurantsUiState.Loaded -> if (state.restaurants.isEmpty()) {
                 NoResultsContent(modifier = Modifier.fillMaxSize())
             } else {
                 PullToRefreshBox(
@@ -127,10 +125,10 @@ private fun FavouritesGuidesContent(
                         ),
                         verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
                     ) {
-                        items(state.guides, key = { it.id }) { guide ->
-                            GuideCard(
-                                guide = guide,
-                                onClick = { onGuideClick(guide.id) },
+                        items(state.restaurants, key = { it.id }) { restaurant ->
+                            RestaurantCard(
+                                restaurant = restaurant,
+                                onClick = { onRestaurantClick(restaurant.id) },
                             )
                         }
                     }
@@ -158,7 +156,7 @@ private fun TopBar(onBackClick: () -> Unit) {
         }
 
         Text(
-            text = stringResource(Res.string.favourites_guides_title),
+            text = stringResource(Res.string.favourites_restaurants_title),
             style = AppTypography.headlineMedium,
             color = MaterialTheme.colorScheme.primary,
         )
@@ -167,28 +165,42 @@ private fun TopBar(onBackClick: () -> Unit) {
 
 @Preview
 @Composable
-private fun FavouritesGuidesScreenLoadedPreview() {
-    val guides = listOf(
-        Guide(
-            id = "g1",
-            name = "Michelin Star Favorites",
-            description = "A curated collection of the finest dining experiences",
-            visibility = GuideVisibility.PUBLIC,
-            author = Author(id = "a1", name = "Sarah Mitchell"),
-            numberOfRestaurant = 8,
+private fun FavouritesRestaurantsScreenLoadedPreview() {
+    val restaurants = listOf(
+        Restaurant(
+            id = "r1",
+            name = "Le Jardin",
+            description = "A charming garden restaurant with French-inspired cuisine",
+            city = "Lisbon",
+            country = "Portugal",
+            countryCode = "PT",
+            postalCode = "1000-000",
+            photoNames = emptyList(),
+            address = "Rua Augusta 123, Lisbon",
+            rating = 4.8,
+            userRatingCount = 320,
+            websiteUrl = null,
+            phoneNumber = "+351 910 000 000",
         ),
-        Guide(
-            id = "g2",
-            name = "Hidden Gems Lisbon",
-            description = "Off the beaten path restaurants in Lisbon",
-            visibility = GuideVisibility.PUBLIC,
-            author = Author(id = "a2", name = "Michael Rodriguez"),
-            numberOfRestaurant = 5,
+        Restaurant(
+            id = "r2",
+            name = "Taberna do Mar",
+            description = "Fresh seafood by the docks",
+            city = "Porto",
+            country = "Portugal",
+            countryCode = "PT",
+            postalCode = "4000-000",
+            photoNames = emptyList(),
+            address = "Rua Nova 45, Porto",
+            rating = 4.5,
+            userRatingCount = 210,
+            websiteUrl = null,
+            phoneNumber = "+351 920 000 000",
         ),
     )
     AppTheme {
-        FavouritesGuidesContent(
-            state = FavouritesGuidesUiState.Loaded(guides = guides, hasMore = false),
+        FavouritesRestaurantsContent(
+            state = FavouritesRestaurantsUiState.Loaded(restaurants = restaurants, hasMore = false),
             isRefreshing = false,
             onBackClick = {},
             onRefresh = {},
@@ -200,10 +212,10 @@ private fun FavouritesGuidesScreenLoadedPreview() {
 
 @Preview
 @Composable
-private fun FavouritesGuidesScreenEmptyPreview() {
+private fun FavouritesRestaurantsScreenEmptyPreview() {
     AppTheme {
-        FavouritesGuidesContent(
-            state = FavouritesGuidesUiState.Loaded(guides = emptyList(), hasMore = false),
+        FavouritesRestaurantsContent(
+            state = FavouritesRestaurantsUiState.Loaded(restaurants = emptyList(), hasMore = false),
             isRefreshing = false,
             onBackClick = {},
             onRefresh = {},

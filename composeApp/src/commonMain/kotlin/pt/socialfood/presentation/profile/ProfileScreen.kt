@@ -50,6 +50,7 @@ import pt.socialfood.ui.theme.SpaceSize
 fun ProfileScreen(
     viewModel: ProfileViewModel = koinViewModel(),
     onEditProfileClick: () -> Unit = {},
+    onFavouriteGuidesClick: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -57,6 +58,7 @@ fun ProfileScreen(
         state = state,
         onLogoutClick = { viewModel.logout() },
         onEditProfileClick = onEditProfileClick,
+        onFavouriteGuidesClick = onFavouriteGuidesClick,
     )
 }
 
@@ -65,6 +67,7 @@ private fun ProfileContent(
     state: ProfileUiState,
     onLogoutClick: () -> Unit,
     onEditProfileClick: () -> Unit = {},
+    onFavouriteGuidesClick: () -> Unit = {},
 ) {
     when (state) {
         ProfileUiState.Loading -> ProfilePlaceholder()
@@ -73,6 +76,7 @@ private fun ProfileContent(
             user = state.user,
             onLogoutClick = onLogoutClick,
             onEditProfileClick = onEditProfileClick,
+            onFavouriteGuidesClick = onFavouriteGuidesClick,
         )
 
         ProfileUiState.Error -> NoResultsContent(modifier = Modifier.fillMaxSize())
@@ -86,6 +90,7 @@ private fun UserContent(
     user: User,
     onLogoutClick: () -> Unit,
     onEditProfileClick: () -> Unit = {},
+    onFavouriteGuidesClick: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -136,6 +141,7 @@ private fun UserContent(
                     icon = Icons.Outlined.FavoriteBorder,
                     label = stringResource(Res.string.profile_favorites_guides_button),
                     contentDescription = stringResource(Res.string.profile_favorites_guides_button_description),
+                    onClick = onFavouriteGuidesClick,
                 )
                 MenuRow(
                     icon = Icons.Outlined.FavoriteBorder,

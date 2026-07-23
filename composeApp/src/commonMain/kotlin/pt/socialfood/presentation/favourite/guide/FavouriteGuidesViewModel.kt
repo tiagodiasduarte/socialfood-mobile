@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.favourite
+package pt.socialfood.presentation.favourite.guide
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

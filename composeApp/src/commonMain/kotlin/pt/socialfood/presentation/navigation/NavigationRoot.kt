@@ -18,7 +18,7 @@ import pt.socialfood.presentation.authors.detail.AuthorDetailScreen
 import pt.socialfood.presentation.authors.detail.AuthorDetailViewModel
 import pt.socialfood.presentation.authors.AuthorsScreen
 import pt.socialfood.presentation.authors.AuthorsViewModel
-import pt.socialfood.presentation.favourite.FavouriteGuidesScreen
+import pt.socialfood.presentation.favourite.guide.FavouriteGuidesScreen
 import pt.socialfood.presentation.favourite.FavouritesRestaurantsScreen
 import pt.socialfood.presentation.guides.detail.GuideDetailScreen
 import pt.socialfood.presentation.guides.detail.GuideDetailViewModel

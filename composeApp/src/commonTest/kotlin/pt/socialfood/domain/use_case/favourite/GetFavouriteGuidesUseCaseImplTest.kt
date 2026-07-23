@@ -4,6 +4,7 @@ import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.PagedFavouriteGuides
+import pt.socialfood.domain.use_case.favourite.guide.GetFavouriteGuidesUseCaseImpl
 import pt.socialfood.fakes.FakeFavouritesRepository
 import kotlin.test.Test
 import kotlin.test.assertIs

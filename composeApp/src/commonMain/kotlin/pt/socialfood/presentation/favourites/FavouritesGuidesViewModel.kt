@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.favourite.GetFavouriteGuidesUseCase
+import pt.socialfood.domain.use_case.favourite.guide.GetFavouriteGuidesUseCase
 
 private const val PAGE_SIZE = 20
 

@@ -6,6 +6,7 @@ import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCaseImpl
 import pt.socialfood.fakes.FakeFavouritesRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals

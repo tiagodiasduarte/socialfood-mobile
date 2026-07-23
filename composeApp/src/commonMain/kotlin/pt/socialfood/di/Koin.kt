@@ -63,14 +63,16 @@ import pt.socialfood.domain.use_case.author.GetAuthorsUseCase
 import pt.socialfood.domain.use_case.author.GetAuthorsUseCaseImpl
 import pt.socialfood.domain.use_case.configs.GetConfigsUseCase
 import pt.socialfood.domain.use_case.configs.GetConfigsUseCaseImpl
-import pt.socialfood.domain.use_case.favourite.GetFavouriteGuidesUseCase
-import pt.socialfood.domain.use_case.favourite.GetFavouriteGuidesUseCaseImpl
-import pt.socialfood.domain.use_case.favourite.MarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.MarkGuideFavouriteUseCaseImpl
+import pt.socialfood.domain.use_case.favourite.guide.GetFavouriteGuidesUseCase
+import pt.socialfood.domain.use_case.favourite.guide.GetFavouriteGuidesUseCaseImpl
+import pt.socialfood.domain.use_case.favourite.guide.IsGuideFavouriteUseCase
+import pt.socialfood.domain.use_case.favourite.guide.IsGuideFavouriteUseCaseImpl
+import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
+import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCaseImpl
 import pt.socialfood.domain.use_case.favourite.SyncFavouritesUseCase
 import pt.socialfood.domain.use_case.favourite.SyncFavouritesUseCaseImpl
-import pt.socialfood.domain.use_case.favourite.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.UnmarkGuideFavouriteUseCaseImpl
+import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
+import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCaseImpl
 import pt.socialfood.domain.use_case.guide.AddRestaurantGuideUseCase
 import pt.socialfood.domain.use_case.guide.AddRestaurantGuideUseCaseImpl
 import pt.socialfood.domain.use_case.guide.CreateGuideUseCase
@@ -254,6 +256,7 @@ val useCaseModule = module {
     factory<MarkGuideFavouriteUseCase> { MarkGuideFavouriteUseCaseImpl(get()) }
     factory<UnmarkGuideFavouriteUseCase> { UnmarkGuideFavouriteUseCaseImpl(get()) }
     factory<GetFavouriteGuidesUseCase> { GetFavouriteGuidesUseCaseImpl(get()) }
+    factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
     factory<SyncFavouritesUseCase> { SyncFavouritesUseCaseImpl(get()) }
 }
 
@@ -264,7 +267,7 @@ val viewModelModule = module {
     factory { (authorId: String) -> AuthorDetailViewModel(get(), authorId) }
 
     factory { GuidesViewModel(get(), get()) }
-    factory { (guideId: String) -> GuideDetailViewModel(get(), get(), guideId) }
+    factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
     factory { CreateGuideViewModel(get(), get(), get()) }
     factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), get(), guideId) }
 

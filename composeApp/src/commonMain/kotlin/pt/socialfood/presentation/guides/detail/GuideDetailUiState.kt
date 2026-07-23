@@ -4,6 +4,10 @@ import pt.socialfood.domain.model.Guide
 
 sealed interface GuideDetailUiState {
     data object Loading : GuideDetailUiState
-    data class Loaded(val guide: Guide, val currentUserId: String?) : GuideDetailUiState
+    data class Loaded(
+        val guide: Guide,
+        val currentUserId: String?,
+        val isFavourite: Boolean = false,
+    ) : GuideDetailUiState
     data object Error : GuideDetailUiState
 }

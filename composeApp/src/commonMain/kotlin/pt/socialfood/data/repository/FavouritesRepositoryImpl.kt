@@ -84,6 +84,14 @@ class FavouritesRepositoryImpl(
         }
     }
 
+    override suspend fun isFavourite(guideId: String): Result<Boolean> {
+        return try {
+            Result.Success(favouriteDao.getByGuideId(guideId) != null)
+        } catch (exception: Exception) {
+            Result.Error(exception.toErrorEntity())
+        }
+    }
+
     override suspend fun syncFavourites(): Result<Unit> {
         return try {
             val now = currentTimeMillis()

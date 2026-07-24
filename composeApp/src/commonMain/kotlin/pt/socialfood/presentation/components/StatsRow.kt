@@ -31,8 +31,6 @@ fun StatsRow(
     followingCount: Int? = null,
 ) {
     Row(
-        modifier = Modifier
-            .padding(vertical = SpaceSize.large),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
     ) {

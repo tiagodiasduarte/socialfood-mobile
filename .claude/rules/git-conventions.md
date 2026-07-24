@@ -46,6 +46,7 @@ Map branch `<type>` to the Conventional Commits type: `feature` → `feat`,
 
 ## Pull request description template
 
+Use exactly the sections defined below unless explicitly requested.
 ```markdown
 ## Summary
 <!-- What does this PR do and why? -->
@@ -64,6 +65,10 @@ Format:
 - `feat(guides): add photo upload to guide editor`
 - `fix(auth): refresh token on 401 instead of forcing re-login`
 - `chore(ci): add tests workflow`
+
+## Base branch
+
+Branch off `develop` and open pull requests against `develop`, not `main`. `main` only receives merges from `develop` for releases.
 
 ## Branch protection
 

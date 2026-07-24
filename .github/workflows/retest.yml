@@ -1,0 +1,44 @@
+name: 🔁 Retest
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  actions: write
+  pull-requests: write
+
+jobs:
+  retest:
+    name: Rerun failed CI jobs
+    if: >
+      github.event.issue.pull_request != null &&
+      contains(fromJSON('["retest", "/retest"]'), github.event.comment.body) &&
+      contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      PR_NUMBER: ${{ github.event.issue.number }}
+      COMMENT_ID: ${{ github.event.comment.id }}
+    steps:
+      - name: React to comment
+        run: gh api "repos/$REPO/issues/comments/$COMMENT_ID/reactions" -f content='eyes'
+
+      - name: Find latest CI run for this PR
+        id: find_run
+        run: |
+          SHA=$(gh pr view "$PR_NUMBER" -R "$REPO" --json headRefOid --jq '.headRefOid')
+          RUN_ID=$(gh run list -R "$REPO" --workflow "ci.yml" --commit "$SHA" --json databaseId --jq '.[0].databaseId')
+          if [ -z "$RUN_ID" ]; then
+            echo "No CI run found for commit $SHA" >&2
+            exit 1
+          fi
+          echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Rerun failed jobs
+        run: gh run rerun "${{ steps.find_run.outputs.run_id }}" -R "$REPO" --failed
+
+      - name: Comment on failure
+        if: failure()
+        run: gh pr comment "$PR_NUMBER" -R "$REPO" --body "Couldn't find or rerun a CI run for the latest commit on this PR — check manually."

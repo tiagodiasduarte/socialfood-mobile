@@ -194,4 +194,6 @@
     <string name="restaurant_detail_share_description">Share restaurant</string>
     <string name="restaurant_detail_favourite_description">Add to favourites</string>
 
+    <string name="favorite_card_remove_button_description">Remove from favorites</string>
+
 </resources>

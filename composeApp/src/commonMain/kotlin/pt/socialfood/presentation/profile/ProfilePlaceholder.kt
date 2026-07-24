@@ -61,7 +61,7 @@ fun ProfilePlaceholder(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
             ) {
-                repeat(4) {
+                repeat(3) {
                     MenuRowPlaceholder(alpha = alpha)
                 }
             }

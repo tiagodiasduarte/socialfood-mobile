@@ -12,7 +12,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -33,8 +32,6 @@ import socialfood.composeapp.generated.resources.profile_favorite_guides_button
 import socialfood.composeapp.generated.resources.profile_favorite_guides_button_description
 import socialfood.composeapp.generated.resources.profile_favorites_restaurants_button
 import socialfood.composeapp.generated.resources.profile_favorites_restaurants_button_description
-import socialfood.composeapp.generated.resources.profile_guides_button
-import socialfood.composeapp.generated.resources.profile_guides_button_description
 import socialfood.composeapp.generated.resources.profile_logout_button
 import socialfood.composeapp.generated.resources.profile_logout_button_description
 import pt.socialfood.core.appVersion
@@ -137,11 +134,6 @@ private fun UserContent(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
             ) {
-                MenuRow(
-                    icon = Icons.Outlined.MenuBook,
-                    label = stringResource(Res.string.profile_guides_button),
-                    contentDescription = stringResource(Res.string.profile_guides_button_description),
-                )
                 MenuRow(
                     icon = Icons.Outlined.FavoriteBorder,
                     label = stringResource(Res.string.profile_favorite_guides_button),

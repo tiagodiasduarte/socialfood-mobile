@@ -25,8 +25,15 @@ class GuidesViewModel(
 
     private var currentPage = 1
     private var currentUserId: String? = null
+    private var selectedTab = 0
 
     init {
+        loadFirstPage()
+    }
+
+    fun onTabSelected(tab: Int) {
+        if (selectedTab == tab) return
+        selectedTab = tab
         loadFirstPage()
     }
 
@@ -35,21 +42,20 @@ class GuidesViewModel(
             _state.value = GuidesUiState.Loading
             currentPage = 1
 
-            val userDeferred = async { getUserMe() }
-            val guidesDeferred = async { findGuides(page = 1, limit = PAGE_SIZE) }
-
-            val userResult = userDeferred.await()
+            val userResult = getUserMe()
             if (userResult is Result.Success) {
                 currentUserId = userResult.data.id
             }
+
+            val userId = if(selectedTab == 1) currentUserId else null
+            val guidesDeferred = async { findGuides(userId = userId, page = 1, limit = PAGE_SIZE) }
 
             when (val result = guidesDeferred.await()) {
                 is Result.Success -> {
                     currentPage = result.data.page
                     val guides = result.data.guides
                     _state.value = GuidesUiState.Loaded(
-                        allGuides = guides,
-                        myGuides = guides.filter { it.author.id == currentUserId },
+                        guides = guides,
                         hasMore = result.data.hasMore,
                     )
                 }
@@ -62,13 +68,14 @@ class GuidesViewModel(
         viewModelScope.launch {
             _isRefreshing.value = true
             currentPage = 1
-            when (val result = findGuides(page = 1, limit = PAGE_SIZE)) {
+
+            val userId = if(selectedTab == 1) currentUserId else null
+            when (val result = findGuides(userId = userId, page = 1, limit = PAGE_SIZE)) {
                 is Result.Success -> {
                     currentPage = result.data.page
                     val guides = result.data.guides
                     _state.value = GuidesUiState.Loaded(
-                        allGuides = guides,
-                        myGuides = guides.filter { it.author.id == currentUserId },
+                        guides = guides,
                         hasMore = result.data.hasMore,
                     )
                 }
@@ -85,13 +92,14 @@ class GuidesViewModel(
         viewModelScope.launch {
             _state.value = current.copy(isLoadingMore = true)
             val nextPage = currentPage + 1
-            when (val result = findGuides(page = nextPage, limit = PAGE_SIZE)) {
+
+            val userId = if(selectedTab == 1) currentUserId else null
+            when (val result = findGuides(userId = userId, page = nextPage, limit = PAGE_SIZE)) {
                 is Result.Success -> {
                     currentPage = result.data.page
-                    val allGuides = current.allGuides + result.data.guides
+                    val allGuides = current.guides + result.data.guides
                     _state.value = current.copy(
-                        allGuides = allGuides,
-                        myGuides = allGuides.filter { it.author.id == currentUserId },
+                        guides = allGuides,
                         hasMore = result.data.hasMore,
                         isLoadingMore = false,
                     )

@@ -47,11 +47,12 @@ class GuidesApiImpl(
     override suspend fun findAll(): List<GuideResponse> =
         client.get("guides").body()
 
-    override suspend fun findGuides(page: Int, limit: Int, query: String?): PagedResponse<GuideResponse> =
+    override suspend fun findGuides(page: Int, limit: Int, query: String?, userId: String?): PagedResponse<GuideResponse> =
         client.get("guides") {
             parameter("page", page)
             parameter("limit", limit)
             if (!query.isNullOrBlank()) parameter("search", query)
+            if (userId != null) parameter("userId", userId)
         }.body()
 
     override suspend fun findById(id: String): GuideDetailResponse =

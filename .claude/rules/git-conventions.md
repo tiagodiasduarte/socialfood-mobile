@@ -66,6 +66,10 @@ Format:
 - `fix(auth): refresh token on 401 instead of forcing re-login`
 - `chore(ci): add tests workflow`
 
+## Base branch
+
+Branch off `develop` and open pull requests against `develop`, not `main`. `main` only receives merges from `develop` for releases.
+
 ## Branch protection
 
 `main` and `develop` require:

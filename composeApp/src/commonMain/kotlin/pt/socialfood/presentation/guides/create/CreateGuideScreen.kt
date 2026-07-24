@@ -119,7 +119,7 @@ private fun CreateGuideContent(
                 ) {
                     item {
                         GuideDetailsCard(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillParentMaxSize(),
                             title = state.title,
                             description = state.description,
                             titleError = state.titleError,

@@ -47,7 +47,7 @@ class FakeGuidesApi(private val shouldThrow: Boolean = false) : GuidesApi {
         return listOf(fakeGuideResponse)
     }
 
-    override suspend fun findGuides(page: Int, limit: Int, query: String?): PagedResponse<GuideResponse> {
+    override suspend fun findGuides(page: Int, limit: Int, query: String?, userId: String?): PagedResponse<GuideResponse> {
         if (shouldThrow) throw RuntimeException("test error")
         return PagedResponse(
             items = listOf(fakeGuideResponse),

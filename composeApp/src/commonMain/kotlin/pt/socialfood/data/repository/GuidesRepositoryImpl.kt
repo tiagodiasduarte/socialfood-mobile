@@ -51,9 +51,9 @@ class GuidesRepositoryImpl(
         }
     }
 
-    override suspend fun findGuidesPaged(page: Int, limit: Int, query: String?): Result<PagedGuides> {
+    override suspend fun findGuidesPaged(page: Int, limit: Int, query: String?, userId: String?): Result<PagedGuides> {
         return try {
-            val response = guideApi.findGuides(page = page, limit = limit, query = query)
+            val response = guideApi.findGuides(page = page, limit = limit, query = query, userId = userId)
             val hasMore = response.page * response.limit < response.total
             Result.Success(
                 PagedGuides(

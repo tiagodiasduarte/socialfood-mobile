@@ -43,10 +43,16 @@ fun GuidesScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
+    var selectedTab by remember { mutableIntStateOf(0) }
 
     GuidesScreenContent(
         state = state,
         isRefreshing = isRefreshing,
+        selectedTab = selectedTab,
+        onTabSelected = {
+            selectedTab = it
+            viewModel.onTabSelected(it)
+        },
         onRefresh = { viewModel.refresh() },
         onLoadMore = { viewModel.loadMore() },
         onGuideClick = onGuideClick,
@@ -59,12 +65,13 @@ fun GuidesScreen(
 fun GuidesScreenContent(
     state: GuidesUiState,
     isRefreshing: Boolean,
+    selectedTab: Int = 0,
+    onTabSelected: (Int) -> Unit = {},
     onRefresh: () -> Unit,
     onLoadMore: () -> Unit = {},
     onGuideClick: (guideId: String) -> Unit = {},
     onAddClick: () -> Unit = {},
 ) {
-    var selectedTab by remember { mutableIntStateOf(0) }
     var searchQuery by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
 
@@ -99,7 +106,7 @@ fun GuidesScreenContent(
                 GuidesHeader(
                     selectedTab = selectedTab,
                     searchQuery = searchQuery,
-                    onSelectedTab = { selectedTab = it },
+                    onSelectedTab = onTabSelected,
                     onQueryChange = { searchQuery = it },
                     onAddClick = onAddClick,
                 )
@@ -111,7 +118,7 @@ fun GuidesScreenContent(
                 }
 
                 is GuidesUiState.Loaded -> {
-                    val baseList = if (selectedTab == 0) state.allGuides else state.myGuides
+                    val baseList = state.guides
                     val guides = if (searchQuery.isBlank()) baseList
                     else baseList.filter {
                         it.name.contains(searchQuery, ignoreCase = true) ||
@@ -172,7 +179,7 @@ fun GuidesScreenPreview() {
     )
     AppTheme {
         GuidesScreenContent(
-            state = GuidesUiState.Loaded(allGuides = guides, myGuides = guides.take(1), hasMore = true),
+            state = GuidesUiState.Loaded(guides = guides, hasMore = true),
             isRefreshing = false,
             onRefresh = {},
         )

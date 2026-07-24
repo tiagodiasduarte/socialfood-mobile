@@ -26,7 +26,7 @@ interface GuidesRepository {
 
     suspend fun findGuides(): Result<List<Guide>>
 
-    suspend fun findGuidesPaged(page: Int, limit: Int, query: String? = null): Result<PagedGuides>
+    suspend fun findGuidesPaged(page: Int, limit: Int, query: String? = null, userId: String? = null): Result<PagedGuides>
 
     suspend fun findById(id: String): Result<Guide>
 

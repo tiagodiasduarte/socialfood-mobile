@@ -24,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.ProfileHeaderPlaceholder
 import pt.socialfood.presentation.components.ProfileHeaderTopActionPlaceholder
 import pt.socialfood.presentation.components.ShimmerBox
-import pt.socialfood.presentation.components.buttons.social.SocialButtonsPlaceholder
 import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
@@ -42,53 +41,6 @@ fun AuthorDetailPlaceholder(modifier: Modifier = Modifier) {
         item {
             ProfileHeaderPlaceholder(alpha = alpha) {
                 ProfileHeaderTopActionPlaceholder(alpha = alpha)
-            }
-
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(GreyBackground)
-                    .padding(SpaceSize.large),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-            ) {
-                ShimmerBox(
-                    modifier = Modifier.width(160.dp).height(22.dp),
-                    alpha = alpha,
-                )
-
-                ShimmerBox(
-                    modifier = Modifier.width(220.dp).height(14.dp),
-                    alpha = alpha,
-                )
-
-                SocialButtonsPlaceholder(alpha = alpha)
-
-                Spacer(Modifier.height(SpaceSize.small))
-
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    repeat(3) { index ->
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
-                        ) {
-                            ShimmerBox(modifier = Modifier.width(32.dp).height(18.dp), alpha = alpha)
-                            ShimmerBox(modifier = Modifier.width(52.dp).height(12.dp), alpha = alpha)
-                        }
-                        if (index < 2) {
-                            ShimmerBox(
-                                modifier = Modifier
-                                    .padding(horizontal = SpaceSize.medium)
-                                    .width(1.dp)
-                                    .height(32.dp),
-                                alpha = alpha,
-                            )
-                        }
-                    }
-                }
             }
 
             Spacer(Modifier.height(SpaceSize.large))

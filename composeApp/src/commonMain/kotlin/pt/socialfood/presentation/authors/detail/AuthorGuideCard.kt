@@ -1,6 +1,7 @@
 package pt.socialfood.presentation.authors.detail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,10 +39,11 @@ fun AuthorGuideCard(
     guideDescription: String,
     numberOfRestaurant: Int,
     imageUrl: String?,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().clickable(onClick = onClick),
         shape = RoundedCornerShape(SpaceSize.large),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
@@ -61,7 +63,7 @@ fun AuthorGuideCard(
             ) {
                 if (imageUrl != null) {
                     SubcomposeAsyncImage(
-                        model = "$imageUrl&size=200",
+                        model = imageUrl,
                         contentDescription = guideName,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize(),
@@ -81,12 +83,12 @@ fun AuthorGuideCard(
                 )
 
                 if (guideDescription.isNotBlank()) {
-                    Spacer(Modifier.height(2.dp))
+                    Spacer(Modifier.height(SpaceSize.small))
                     Text(
                         text = guideDescription,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 2,
+                        maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
                 }

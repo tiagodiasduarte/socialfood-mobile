@@ -1,16 +1,24 @@
 package pt.socialfood.data.repository
 
+import kotlinx.coroutines.delay
 import pt.socialfood.core.Result
 import pt.socialfood.data.RestaurantApi
 import pt.socialfood.data.network.extensions.toErrorEntity
+import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.PagedRestaurants
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.mapper.toRestaurant
+import kotlin.time.Duration.Companion.milliseconds
 
 class RestaurantsRepositoryImpl(
     private val restaurantApi: RestaurantApi
 ) : RestaurantsRepository {
+
+    companion object {
+        internal val ENRICHMENT_POLL_INTERVAL_MS = 2_000.milliseconds
+        internal const val ENRICHMENT_POLL_MAX_ATTEMPTS = 10
+    }
 
     override suspend fun importRestaurants(): Result<Boolean> {
         return try {
@@ -41,7 +49,11 @@ class RestaurantsRepositoryImpl(
         }
     }
 
-    override suspend fun findRestaurants(page: Int, limit: Int, query: String?): Result<PagedRestaurants> {
+    override suspend fun findRestaurants(
+        page: Int,
+        limit: Int,
+        query: String?
+    ): Result<PagedRestaurants> {
         return try {
             val response = restaurantApi.findRestaurants(page = page, limit = limit, query = query)
             val hasMore = response.page * response.limit < response.total
@@ -75,6 +87,29 @@ class RestaurantsRepositoryImpl(
         } catch (exception: Exception) {
             Result.Error(exception.toErrorEntity())
         }
+    }
+
+    override suspend fun addByPlaceId(placeId: String): Result<Unit> {
+        return try {
+            restaurantApi.addByPlaceId(placeId)
+            Result.Success(Unit)
+        } catch (exception: Exception) {
+            Result.Error(exception.toErrorEntity())
+        }
+    }
+
+    override suspend fun awaitEnrichedRestaurantByPlaceId(placeId: String): Result<Restaurant> {
+        repeat(ENRICHMENT_POLL_MAX_ATTEMPTS) {
+            try {
+                val response = restaurantApi.findByPlaceId(placeId)
+                return Result.Success(response.toRestaurant())
+            } catch (exception: Exception) {
+                println("Restaurant not ready yet ($exception)")
+            }
+
+            delay(ENRICHMENT_POLL_INTERVAL_MS)
+        }
+        return Result.Error(ErrorEntity.Network.TIMEOUT)
     }
 
     override suspend fun update(

@@ -39,10 +39,13 @@
     <string name="home_list_view_all_label">View All</string>
 
     <string name="profile_contact_card_title_label">Contact Information</string>
+    <string name="profile_stat_guides_label">Guides</string>
+    <string name="profile_stat_followers_label">Followers</string>
+    <string name="profile_stat_following_label">Following</string>
     <string name="profile_guides_button">Guides</string>
     <string name="profile_guides_button_description">Guides button</string>
-    <string name="profile_favorites_guides_button">Favorites Guides</string>
-    <string name="profile_favorites_guides_button_description">Favorites Guides button</string>
+    <string name="profile_favorite_guides_button">Favorite Guides</string>
+    <string name="profile_favorite_guides_button_description">Favorite Guides button</string>
     <string name="profile_favorites_restaurants_button">Favorites Restaurants</string>
     <string name="profile_favorites_restaurants_button_description">Favorites Restaurants button</string>
     <string name="profile_logout_button">Log Out</string>
@@ -63,6 +66,9 @@
     <string name="guide_detail_public_icon_description">Public icon</string>
     <string name="guide_detail_private_icon_description">Private icon</string>
     <string name="guide_detail_separator">·</string>
+
+    <string name="favourites_guides_title">Favourite Guides</string>
+    <string name="favourites_restaurants_title">Favourite Restaurants</string>
 
     <string name="guides_title">Guides</string>
     <string name="guides_search_placeholder">Search guides…</string>
@@ -88,7 +94,6 @@
     <string name="author_detail_stat_separator">|</string>
     <string name="author_detail_guides_section_title">Guides</string>
     <string name="author_detail_restaurants_count_label">%1$d restaurants</string>
-    <string name="author_detail_bio_placeholder">Food enthusiast</string>
 
     <string name="create_guide_create_title">Create Guide</string>
     <string name="create_guide_save_button">Save</string>
@@ -129,6 +134,7 @@
     <string name="search_restaurants_title">Add Restaurants</string>
     <string name="search_restaurants_search_placeholder">Search restaurants...</string>
     <string name="search_restaurants_error">Failed to load restaurants</string>
+    <string name="search_restaurants_importing_dialog_message">Importing restaurant…</string>
 
     <string name="edit_profile_title">Edit Profile</string>
     <string name="edit_profile_save_button">Save</string>
@@ -137,19 +143,12 @@
     <string name="edit_profile_picture_change_button">Change Photo</string>
     <string name="edit_profile_google_info">You are connected with Google account. Add a password to edit your contact information.</string>
     <string name="edit_profile_personal_details_title">Personal Details</string>
-    <string name="edit_profile_first_name_label">First Name</string>
-    <string name="edit_profile_first_name_placeholder">John</string>
-    <string name="edit_profile_last_name_label">Last Name</string>
-    <string name="edit_profile_last_name_placeholder">Doe</string>
-    <string name="edit_profile_phone_label">Phone Number</string>
-    <string name="edit_profile_phone_placeholder">+1 (555) 123-4567</string>
+    <string name="edit_profile_name_label">Name</string>
+    <string name="edit_profile_name_placeholder">John Doe</string>
     <string name="edit_profile_city_label">City</string>
     <string name="edit_profile_city_placeholder">New York</string>
     <string name="edit_profile_country_label">Country</string>
     <string name="edit_profile_country_placeholder">United States</string>
-    <string name="edit_profile_about_title">About</string>
-    <string name="edit_profile_bio_label">Bio</string>
-    <string name="edit_profile_bio_placeholder">Tell us about yourself...</string>
     <string name="edit_profile_social_title">Social Networks</string>
     <string name="edit_profile_facebook_label">Facebook</string>
     <string name="edit_profile_facebook_placeholder">https://facebook.com/yourprofile</string>
@@ -157,6 +156,10 @@
     <string name="edit_profile_instagram_placeholder">https://instagram.com/yourprofile</string>
     <string name="edit_profile_youtube_label">YouTube</string>
     <string name="edit_profile_youtube_placeholder">https://youtube.com/@yourchannel</string>
+
+    <string name="social_facebook_icon_description">Facebook</string>
+    <string name="social_instagram_icon_description">Instagram</string>
+    <string name="social_youtube_icon_description">YouTube</string>
 
     <string name="bottom_nav_home">Home</string>
     <string name="bottom_nav_guides">Guides</string>
@@ -190,5 +193,7 @@
     <string name="restaurant_detail_navigate_description">Navigate to restaurant</string>
     <string name="restaurant_detail_share_description">Share restaurant</string>
     <string name="restaurant_detail_favourite_description">Add to favourites</string>
+
+    <string name="favorite_card_remove_button_description">Remove from favorites</string>
 
 </resources>

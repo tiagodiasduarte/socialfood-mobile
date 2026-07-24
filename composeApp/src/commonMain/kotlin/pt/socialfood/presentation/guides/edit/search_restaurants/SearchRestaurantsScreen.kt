@@ -47,6 +47,7 @@ fun SearchRestaurantsScreen(
     viewModel: SearchRestaurantsViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val isImportingRestaurant by viewModel.isImportingRestaurant.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
@@ -59,6 +60,7 @@ fun SearchRestaurantsScreen(
     SearchRestaurantsContent(
         state = state,
         searchQuery = viewModel.searchQuery,
+        isImportingRestaurant = isImportingRestaurant,
         onBackClick = onBackClick,
         onSearchQueryChange = viewModel::onSearchQueryChange,
         onRestaurantClicked = {
@@ -71,10 +73,15 @@ fun SearchRestaurantsScreen(
 private fun SearchRestaurantsContent(
     state: SearchRestaurantsUiState,
     searchQuery: String,
+    isImportingRestaurant: Boolean,
     onBackClick: () -> Unit,
     onSearchQueryChange: (String) -> Unit,
     onRestaurantClicked: (String) -> Unit,
 ) {
+    if (isImportingRestaurant) {
+        ImportRestaurantDialog()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -168,6 +175,7 @@ fun SearchRestaurantsScreenPreview() {
         SearchRestaurantsContent(
             state = SearchRestaurantsUiState.Loaded(places),
             searchQuery = "",
+            isImportingRestaurant = false,
             onBackClick = {},
             onSearchQueryChange = {},
             onRestaurantClicked = {},

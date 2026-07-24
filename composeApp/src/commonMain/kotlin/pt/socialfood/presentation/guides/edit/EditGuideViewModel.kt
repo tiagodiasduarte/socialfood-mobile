@@ -2,6 +2,8 @@ package pt.socialfood.presentation.guides.edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -93,6 +95,7 @@ class EditGuideViewModel(
         updateLoaded { copy(validationErrors = emptyList()) }
     }
 
+    @OptIn(ExperimentalTime::class)
     fun onSave() {
         val loaded = _state.value as? EditGuideUiState.Loaded ?: return
         if (loaded.isSaving || loaded.isUploadingPhoto) return
@@ -126,7 +129,8 @@ class EditGuideViewModel(
                     "image/webp" -> "webp"
                     else -> "jpg"
                 }
-                val presigned = guidesRepository.getPhotoPresignedUrl(guideId, "photo.$ext", mimeType)
+                val fileName = "photo_${Clock.System.now().toEpochMilliseconds()}.$ext"
+                val presigned = guidesRepository.getPhotoPresignedUrl(guideId, fileName, mimeType)
                 if (presigned is Result.Success) {
                     if (uploadPhoto(presigned.data, bytes, mimeType) is Result.Success) {
                         val addResult = guidesRepository.addPhoto(guideId, presigned.data.publicUrl)

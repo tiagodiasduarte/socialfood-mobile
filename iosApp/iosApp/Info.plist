@@ -17,5 +17,12 @@
 			</array>
 		</dict>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fb</string>
+		<string>fbapi</string>
+		<string>instagram</string>
+		<string>youtube</string>
+	</array>
 </dict>
 </plist>

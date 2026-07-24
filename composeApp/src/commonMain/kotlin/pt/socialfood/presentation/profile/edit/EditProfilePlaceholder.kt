@@ -80,23 +80,10 @@ internal fun EditProfilePlaceholder() {
             SectionCardPlaceholder(alpha = alpha) {
                 ShimmerBox(modifier = Modifier.width(140.dp).height(20.dp), alpha = alpha)
                 Spacer(Modifier.height(SpaceSize.large))
-                repeat(5) {
+                repeat(3) {
                     FieldPlaceholder(alpha = alpha)
-                    if (it < 4) Spacer(Modifier.height(SpaceSize.large))
+                    if (it < 2) Spacer(Modifier.height(SpaceSize.large))
                 }
-            }
-
-            // Bio card
-            SectionCardPlaceholder(alpha = alpha) {
-                ShimmerBox(modifier = Modifier.width(60.dp).height(20.dp), alpha = alpha)
-                Spacer(Modifier.height(SpaceSize.large))
-                ShimmerBox(modifier = Modifier.width(40.dp).height(14.dp), alpha = alpha)
-                Spacer(Modifier.height(SpaceSize.small))
-                ShimmerBox(
-                    modifier = Modifier.fillMaxWidth().height(120.dp),
-                    alpha = alpha,
-                    shape = RoundedCornerShape(SpaceSize.medium),
-                )
             }
 
             // Social networks card

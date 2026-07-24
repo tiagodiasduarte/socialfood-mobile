@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -26,6 +27,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -82,6 +85,7 @@ private fun CreateGuideContent(
     onDismissErrors: () -> Unit = {},
 ) {
     val pickImage = rememberImagePickerLauncher(onResult = onPhotoSelected)
+    val focusManager = LocalFocusManager.current
 
     val validationErrors = (state as? CreateGuideUiState.Idle)?.validationErrors.orEmpty()
     if (validationErrors.isNotEmpty()) {
@@ -91,7 +95,14 @@ private fun CreateGuideContent(
         )
     }
 
-    Column(modifier = Modifier.fillMaxSize().background(GreyBackground)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(GreyBackground)
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { focusManager.clearFocus() })
+            },
+    ) {
         TopBar(
             isLoading = state is CreateGuideUiState.Loading,
             onBackClick = onBackClick,

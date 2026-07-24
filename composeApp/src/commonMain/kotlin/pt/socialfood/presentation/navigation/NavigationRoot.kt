@@ -26,8 +26,8 @@ import pt.socialfood.presentation.guides.GuidesScreen
 import pt.socialfood.presentation.guides.GuidesViewModel
 import pt.socialfood.presentation.guides.create.CreateGuideScreen
 import pt.socialfood.presentation.guides.create.CreateGuideViewModel
-import pt.socialfood.presentation.guides.edit.search_restaurants.SearchRestaurantsScreen
-import pt.socialfood.presentation.guides.edit.search_restaurants.SearchRestaurantsViewModel
+import pt.socialfood.presentation.restaurant.search.SearchRestaurantsScreen
+import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
 import pt.socialfood.presentation.guides.edit.EditGuideScreen
 import pt.socialfood.presentation.guides.edit.EditGuideViewModel
 import pt.socialfood.presentation.home.HomeScreen

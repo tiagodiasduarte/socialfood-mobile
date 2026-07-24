@@ -174,7 +174,7 @@ import pt.socialfood.presentation.home.HomeViewModel
 import pt.socialfood.presentation.sign_in.SignInViewModel
 import pt.socialfood.presentation.sign_up.SignUpViewModel
 import pt.socialfood.presentation.validate_code.ValidateCodeViewModel
-import pt.socialfood.presentation.guides.edit.search_restaurants.SearchRestaurantsViewModel
+import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
 import pt.socialfood.presentation.guides.edit.EditGuideViewModel
 import pt.socialfood.presentation.profile.ProfileViewModel
 import pt.socialfood.presentation.profile.edit.EditProfileViewModel

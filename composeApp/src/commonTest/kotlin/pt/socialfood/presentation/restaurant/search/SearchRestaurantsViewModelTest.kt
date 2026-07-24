@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.guides.edit.search_restaurants
+package pt.socialfood.presentation.restaurant.search
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi

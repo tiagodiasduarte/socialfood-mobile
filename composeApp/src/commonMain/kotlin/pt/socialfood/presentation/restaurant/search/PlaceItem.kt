@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.guides.edit.search_restaurants
+package pt.socialfood.presentation.restaurant.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

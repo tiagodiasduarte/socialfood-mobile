@@ -46,6 +46,7 @@ Map branch `<type>` to the Conventional Commits type: `feature` → `feat`,
 
 ## Pull request description template
 
+Use exactly the sections defined below unless explicitly requested.
 ```markdown
 ## Summary
 <!-- What does this PR do and why? -->

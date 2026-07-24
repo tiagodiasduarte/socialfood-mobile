@@ -27,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -60,6 +59,7 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ActionButton
+import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.guides.detail.author.AuthorItemCard
 import pt.socialfood.presentation.guide_detail.RestaurantItemCard
@@ -261,19 +261,7 @@ private fun TopImageContent(
             Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Black.copy(alpha = 0.2f),
-                            Color.Transparent,
-                            Color.Black.copy(alpha = 0.15f),
-                        ),
-                    ),
-                ),
-        )
+        Box(modifier = Modifier.fillMaxSize().detailImageScrim())
 
         ActionButton(
             modifier = Modifier.padding(SpaceSize.large),

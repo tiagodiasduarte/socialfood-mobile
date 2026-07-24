@@ -55,6 +55,7 @@ import socialfood.composeapp.generated.resources.share_icon
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
+import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.GreyBackground
@@ -256,19 +257,7 @@ private fun TopSection(
             Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Black.copy(alpha = 0.2f),
-                            Color.Transparent,
-                            Color.Black.copy(alpha = 0.15f),
-                        ),
-                    ),
-                ),
-        )
+        Box(modifier = Modifier.fillMaxSize().detailImageScrim())
 
         ActionButton(
             modifier = Modifier.padding(SpaceSize.large),

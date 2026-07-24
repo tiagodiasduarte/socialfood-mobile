@@ -11,15 +11,19 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.use_case.SearchPlacesUseCase
-import pt.socialfood.domain.use_case.restaurant.GetRestaurantByPlaceIdUseCase
+import pt.socialfood.domain.use_case.restaurant.AddRestaurantByPlaceIdUseCase
+import pt.socialfood.domain.use_case.restaurant.AwaitEnrichedRestaurantByPlaceIdUseCase
+import kotlin.time.Duration.Companion.milliseconds
 
 class SearchRestaurantsViewModel(
     private val searchPlaces: SearchPlacesUseCase,
-    private val getRestaurantByPlaceId: GetRestaurantByPlaceIdUseCase,
+    private val awaitEnrichedRestaurantByPlaceId: AwaitEnrichedRestaurantByPlaceIdUseCase,
+    private val addRestaurantByPlaceId: AddRestaurantByPlaceIdUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<SearchRestaurantsUiState>(SearchRestaurantsUiState.Loaded(emptyList()))
@@ -28,10 +32,14 @@ class SearchRestaurantsViewModel(
     private val _events = MutableSharedFlow<UiEvent>()
     val events = _events.asSharedFlow()
 
+    private val _isImportingRestaurant = MutableStateFlow(false)
+    val isImportingRestaurant: StateFlow<Boolean> = _isImportingRestaurant.asStateFlow()
+
     var searchQuery by mutableStateOf("")
         private set
 
     private var searchJob: Job? = null
+    private var addRestaurantJob: Job? = null
 
     fun onSearchQueryChange(query: String) {
         searchQuery = query
@@ -44,7 +52,7 @@ class SearchRestaurantsViewModel(
             return
         }
         searchJob = viewModelScope.launch {
-            delay(300)
+            delay(SEARCH_DEBOUNCE_MS)
             _state.value = SearchRestaurantsUiState.Loading
             when (val result = searchPlaces(query)) {
                 is Result.Success -> _state.value = SearchRestaurantsUiState.Loaded(result.data)
@@ -54,20 +62,34 @@ class SearchRestaurantsViewModel(
     }
 
     fun onAddRestaurant(placeId: String) {
-        viewModelScope.launch {
-            when (val result = getRestaurantByPlaceId(placeId)) {
+        if (_isImportingRestaurant.value) return
+        _isImportingRestaurant.value = true
+
+        addRestaurantJob = viewModelScope.launch {
+            when (addRestaurantByPlaceId(placeId)) {
                 is Result.Success -> {
-                    _events.emit(UiEvent.RestaurantAdded(result.data))
+                    when (val result = awaitEnrichedRestaurantByPlaceId(placeId)) {
+                        is Result.Success -> _events.emit(UiEvent.RestaurantAdded(result.data))
+                        is Result.Error -> Unit
+                    }
                 }
 
-                is Result.Error -> {
-
-                }
+                is Result.Error -> Unit
             }
+            _isImportingRestaurant.value = false
         }
+    }
+
+    override fun onCleared() {
+        addRestaurantJob?.cancel()
+        super.onCleared()
     }
 
     sealed class UiEvent {
         data class RestaurantAdded(val restaurant: Restaurant) : UiEvent()
+    }
+
+    companion object {
+        private val SEARCH_DEBOUNCE_MS = 300.milliseconds
     }
 }

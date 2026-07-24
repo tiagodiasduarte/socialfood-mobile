@@ -75,29 +75,21 @@ class UsersRepositoryImpl(
 
     override suspend fun update(
         id: String,
-        username: String?,
         role: String?,
         imageUrl: String?,
-        firstName: String?,
-        lastName: String?,
-        phoneNumber: String?,
+        name: String?,
         city: String?,
         country: String?,
-        bio: String?,
         facebookUrl: String?,
         instagramUrl: String?,
         youtubeUrl: String?,
     ): Result<User> {
         return try {
             val request = UpdateUserRequest(
-                username = username,
                 role = role,
-                firstName = firstName,
-                lastName = lastName,
-                phoneNumber = phoneNumber,
+                name = name,
                 city = city,
                 country = country,
-                bio = bio,
                 facebookUrl = facebookUrl,
                 instagramUrl = instagramUrl,
                 youtubeUrl = youtubeUrl,
@@ -112,7 +104,7 @@ class UsersRepositoryImpl(
 
     override suspend fun updatePhoto(id: String, imageUrl: String): Result<Boolean> {
         return try {
-            val user = userApi.updatePhotoUrl(id, UpdateUserPhotoRequest(imageUrl))
+            userApi.updatePhotoUrl(id, UpdateUserPhotoRequest(imageUrl))
             Result.Success(true)
         } catch (exception: Exception) {
             Result.Error(exception.toErrorEntity())

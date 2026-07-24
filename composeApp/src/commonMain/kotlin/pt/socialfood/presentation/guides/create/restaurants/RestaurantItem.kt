@@ -48,12 +48,6 @@ fun RestaurantItem(
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface,
             )
-
-            Text(
-                text = restaurant.cuisine,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
         }
 
         IconButton(onClick = onRemove) {

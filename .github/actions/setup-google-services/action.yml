@@ -1,0 +1,13 @@
+name: Setup google-services.json
+description: Writes composeApp/google-services.json from the base64-encoded secret
+
+inputs:
+  google-services-json-base64:
+    description: Base64-encoded contents of google-services.json
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: echo "${{ inputs.google-services-json-base64 }}" | base64 -d > composeApp/google-services.json

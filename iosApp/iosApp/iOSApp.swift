@@ -24,6 +24,7 @@ struct iOSApp: App {
     init() {
         KoinKt.doInitKoin()
         GoogleSignInBridge.shared.delegate = GoogleSignInDelegateImpl()
+        ImagePickerBridge.shared.delegate = ImagePickerDelegateImpl()
     }
 
     var body: some Scene {

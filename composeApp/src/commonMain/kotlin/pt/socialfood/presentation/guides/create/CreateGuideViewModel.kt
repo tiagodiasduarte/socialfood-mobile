@@ -2,6 +2,8 @@ package pt.socialfood.presentation.guides.create
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -53,6 +55,7 @@ class CreateGuideViewModel(
         updateIdle { copy(validationErrors = emptyList()) }
     }
 
+    @OptIn(ExperimentalTime::class)
     fun onCreateGuide() {
         val idle = _state.value as? CreateGuideUiState.Idle ?: return
 
@@ -91,7 +94,8 @@ class CreateGuideViewModel(
                     "image/webp" -> "webp"
                     else -> "jpg"
                 }
-                val presigned = guidesRepository.getPhotoPresignedUrl(guide.id, "photo.$ext", mimeType)
+                val fileName = "photo_${Clock.System.now().toEpochMilliseconds()}.$ext"
+                val presigned = guidesRepository.getPhotoPresignedUrl(guide.id, fileName, mimeType)
                 if (presigned is Result.Success) {
                     if (uploadPhoto(presigned.data, bytes, mimeType) is Result.Success) {
                         guidesRepository.addPhoto(guide.id, presigned.data.publicUrl)

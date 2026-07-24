@@ -18,6 +18,8 @@ import pt.socialfood.presentation.authors.detail.AuthorDetailScreen
 import pt.socialfood.presentation.authors.detail.AuthorDetailViewModel
 import pt.socialfood.presentation.authors.AuthorsScreen
 import pt.socialfood.presentation.authors.AuthorsViewModel
+import pt.socialfood.presentation.favourite.guide.FavouriteGuidesScreen
+import pt.socialfood.presentation.favourite.restaurant.FavouriteRestaurantsScreen
 import pt.socialfood.presentation.guides.detail.GuideDetailScreen
 import pt.socialfood.presentation.guides.detail.GuideDetailViewModel
 import pt.socialfood.presentation.guides.GuidesScreen
@@ -94,10 +96,24 @@ fun NavigationRoot(
                     entry<Route.Profile> {
                         ProfileScreen(
                             onEditProfileClick = { navigator.navigate(Route.EditProfile) },
+                            onFavouriteGuidesClick = { navigator.navigate(Route.FavouriteGuides) },
+                            onFavouriteRestaurantsClick = { navigator.navigate(Route.FavouriteRestaurants) },
                         )
                     }
                     entry<Route.EditProfile> {
                         EditProfileScreen(onBackClick = navigator::goBack)
+                    }
+                    entry<Route.FavouriteGuides> {
+                        FavouriteGuidesScreen(
+                            onBackClick = navigator::goBack,
+                            onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+                        )
+                    }
+                    entry<Route.FavouriteRestaurants> {
+                        FavouriteRestaurantsScreen(
+                            onBackClick = navigator::goBack,
+                            onRestaurantClick = { restaurantId -> navigator.navigate(Route.RestaurantDetail(restaurantId)) },
+                        )
                     }
                     entry<Route.GuideDetail> { route ->
                         val vm = remember(route.guideId) {
@@ -110,6 +126,7 @@ fun NavigationRoot(
                             onBackClick = navigator::goBack,
                             onEditClick = { guideId -> navigator.navigate(Route.EditGuide(guideId)) },
                             onRestaurantClick = { restaurantId -> navigator.navigate(Route.RestaurantDetail(restaurantId)) },
+                            onAuthorClick = { authorId -> navigator.navigate(Route.AuthorDetail(authorId)) },
                             viewModel = vm,
                         )
                     }
@@ -137,6 +154,7 @@ fun NavigationRoot(
                         AuthorDetailScreen(
                             authorId = route.authorId,
                             onBackClick = navigator::goBack,
+                            onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                             viewModel = vm,
                         )
                     }

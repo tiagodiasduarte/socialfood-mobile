@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -59,10 +59,12 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ActionButton
+import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.guide_detail.AuthorItemCard
+import pt.socialfood.presentation.guides.detail.author.AuthorItemCard
 import pt.socialfood.presentation.guide_detail.RestaurantItemCard
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
@@ -74,6 +76,7 @@ fun GuideDetailScreen(
     onBackClick: () -> Unit,
     onEditClick: (guideId: String) -> Unit = {},
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onAuthorClick: (authorId: String) -> Unit = {},
     viewModel: GuideDetailViewModel = koinViewModel { parametersOf(guideId) },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -83,7 +86,9 @@ fun GuideDetailScreen(
         onEditClick = onEditClick,
         onBackClick = onBackClick,
         onRestaurantClick = onRestaurantClick,
+        onAuthorClick = onAuthorClick,
         onRetry = viewModel::load,
+        onToggleFavourite = viewModel::toggleFavourite,
     )
 }
 
@@ -93,7 +98,9 @@ private fun GuideDetailContent(
     onEditClick: (id: String) -> Unit,
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onAuthorClick: (authorId: String) -> Unit = {},
     onRetry: () -> Unit = {},
+    onToggleFavourite: () -> Unit = {},
 ) {
     when (val current = state) {
         GuideDetailUiState.Loading -> GuideDetailPlaceholder()
@@ -101,9 +108,12 @@ private fun GuideDetailContent(
         is GuideDetailUiState.Loaded -> GuideDetailLoaded(
             guide = current.guide,
             currentUserId = current.currentUserId,
+            isFavourite = current.isFavourite,
             onEditClick = { onEditClick(it) },
             onBackClick = onBackClick,
             onRestaurantClick = onRestaurantClick,
+            onAuthorClick = onAuthorClick,
+            onToggleFavourite = onToggleFavourite,
         )
 
         GuideDetailUiState.Error -> GuideDetailError(
@@ -142,9 +152,12 @@ private fun GuideDetailError(
 private fun GuideDetailLoaded(
     guide: Guide,
     currentUserId: String?,
+    isFavourite: Boolean,
     onEditClick: (id: String) -> Unit,
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onAuthorClick: (authorId: String) -> Unit = {},
+    onToggleFavourite: () -> Unit = {},
 ) {
     LazyColumn(
         modifier = Modifier
@@ -156,8 +169,10 @@ private fun GuideDetailLoaded(
             TopImageContent(
                 guide = guide,
                 currentUserId = currentUserId,
+                isFavourite = isFavourite,
                 onEditClick = { onEditClick(it) },
-                onBackClick = onBackClick
+                onBackClick = onBackClick,
+                onToggleFavourite = onToggleFavourite,
             )
 
             GuidInfo(guide)
@@ -185,7 +200,7 @@ private fun GuideDetailLoaded(
             AuthorItemCard(
                 modifier = Modifier.padding(horizontal = SpaceSize.large),
                 author = guide.author,
-                onClick = {}
+                onClick = { onAuthorClick(guide.author.id) }
             )
         }
 
@@ -219,23 +234,15 @@ private fun GuideDetailLoaded(
 private fun TopImageContent(
     guide: Guide,
     currentUserId: String?,
+    isFavourite: Boolean,
     onEditClick: (id: String) -> Unit,
     onBackClick: () -> Unit,
+    onToggleFavourite: () -> Unit = {},
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .height(GuideImageHeight)
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Transparent,
-                        Color.Black.copy(alpha = 0.4f),
-                    ),
-                    startY = (GuideImageHeight.value * 0.5f),
-                    endY = Float.POSITIVE_INFINITY,
-                ),
-            )
     ) {
         if (guide.imageUrl != null) {
             SubcomposeAsyncImage(
@@ -253,6 +260,8 @@ private fun TopImageContent(
         } else {
             Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
         }
+
+        Box(modifier = Modifier.fillMaxSize().detailImageScrim())
 
         ActionButton(
             modifier = Modifier.padding(SpaceSize.large),
@@ -290,10 +299,10 @@ private fun TopImageContent(
                         modifier = Modifier.size(24.dp),
                     )
                 }
-                ActionButton(onClick = {}) {
+                ActionButton(onClick = onToggleFavourite) {
                     Icon(
-                        imageVector = Icons.Outlined.FavoriteBorder,
-                        tint = MaterialTheme.colorScheme.surface,
+                        imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                        tint = if (isFavourite) FavouriteRed else MaterialTheme.colorScheme.surface,
                         contentDescription = stringResource(Res.string.guide_detail_favourite_button_description),
                         modifier = Modifier.size(24.dp),
                     )

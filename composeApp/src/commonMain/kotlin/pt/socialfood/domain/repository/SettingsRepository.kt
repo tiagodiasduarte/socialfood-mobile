@@ -8,4 +8,16 @@ interface SettingsRepository {
     suspend fun getPendingVerificationEmail(): String?
     suspend fun savePendingVerificationEmail(email: String)
     suspend fun clearPendingVerificationEmail()
+
+    suspend fun getFavouritesSyncCheckpoint(): String?
+    suspend fun saveFavouritesSyncCheckpoint(checkpoint: String)
+
+    suspend fun getLastFavouritesSyncAttemptAt(): Long?
+    suspend fun saveLastFavouritesSyncAttemptAt(timestamp: Long)
+
+    suspend fun getFavouriteRestaurantsSyncCheckpoint(): String?
+    suspend fun saveFavouriteRestaurantsSyncCheckpoint(checkpoint: String)
+
+    suspend fun getLastFavouriteRestaurantsSyncAttemptAt(): Long?
+    suspend fun saveLastFavouriteRestaurantsSyncAttemptAt(timestamp: Long)
 }

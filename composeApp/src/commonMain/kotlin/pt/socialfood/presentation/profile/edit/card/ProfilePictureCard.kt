@@ -73,7 +73,7 @@ fun ProfilePictureCard(
                 } else {
                     UserImage(
                         imageUrl = state.imageUrl,
-                        name = state.username,
+                        name = state.name,
                         imageSize = 72.dp,
                     )
                 }

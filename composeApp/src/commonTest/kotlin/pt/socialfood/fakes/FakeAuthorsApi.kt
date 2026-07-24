@@ -16,7 +16,6 @@ class FakeAuthorsApi(private val shouldThrow: Boolean = false) : AuthorsApi {
     private val fakeAuthorDetailResponse = AuthorDetailResponse(
         id = "author-id",
         name = "Author Name",
-        bio = "Author Bio",
         imageUrl = null,
         guidesCount = 3,
         followersCount = 10,

@@ -7,7 +7,6 @@ data class Restaurant(
     val id: String,
     val name: String,
     val description: String?,
-    val cuisine: String = "Unknow",
     val city: String,
     val country: String,
     val countryCode: String,
@@ -16,7 +15,7 @@ data class Restaurant(
     val address: String,
     val rating: Double,
     val userRatingCount: Int,
-    val websiteUrl: String,
+    val websiteUrl: String?,
     val phoneNumber: String,
     val regularOpeningHours: List<String>? = null,
 )

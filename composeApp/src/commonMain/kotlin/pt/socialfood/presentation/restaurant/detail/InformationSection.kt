@@ -114,7 +114,7 @@ private fun InformationCard(
                     color = MaterialTheme.colorScheme.outlineVariant,
                 )
             }
-            if (restaurant.websiteUrl.isNotBlank()) {
+            if (!restaurant.websiteUrl.isNullOrBlank()) {
                 InfoRow(
                     icon = Icons.Outlined.Language,
                     text = restaurant.websiteUrl,
@@ -249,7 +249,6 @@ private fun InformationSectionPreview() {
                 id = "r1",
                 name = "Le Jardin Français",
                 description = "",
-                cuisine = "French Cuisine",
                 city = "Lisbon",
                 country = "Portugal",
                 countryCode = "PT",

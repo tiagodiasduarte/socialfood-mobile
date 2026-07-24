@@ -190,6 +190,81 @@ class RestaurantsRepositoryImplTest {
         assertEquals(ErrorEntity.Unknown, result.error)
     }
 
+    // addByPlaceId
+
+    @Test
+    fun `given valid placeId when addByPlaceId is called then returns Success`() = runTest {
+        // Given
+        val repo = createRepository()
+
+        // When
+        val result = repo.addByPlaceId(placeId = "place-id")
+
+        // Then
+        assertIs<Result.Success<Unit>>(result)
+    }
+
+    @Test
+    fun `given api throws when addByPlaceId is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
+
+        // When
+        val result = repo.addByPlaceId(placeId = "place-id")
+
+        // Then
+        assertIs<Result.Error>(result)
+        assertEquals(ErrorEntity.Unknown, result.error)
+    }
+
+    // awaitEnrichedRestaurantByPlaceId
+
+    @Test
+    fun `given the restaurant is already enriched when awaitEnrichedRestaurantByPlaceId is called then returns Success without polling`() = runTest {
+        // Given
+        val api = FakeRestaurantApi(findByPlaceIdFailuresBeforeSuccess = 0)
+        val repo = RestaurantsRepositoryImpl(api)
+
+        // When
+        val result = repo.awaitEnrichedRestaurantByPlaceId(placeId = "place-id")
+
+        // Then
+        assertIs<Result.Success<Restaurant>>(result)
+        assertEquals("restaurant-id", result.data.id)
+        assertEquals(1, api.findByPlaceIdInvokeCount)
+    }
+
+    @Test
+    fun `given the restaurant is still enriching when awaitEnrichedRestaurantByPlaceId polls then it keeps polling until ready`() = runTest {
+        // Given
+        val api = FakeRestaurantApi(findByPlaceIdFailuresBeforeSuccess = 2)
+        val repo = RestaurantsRepositoryImpl(api)
+
+        // When
+        val result = repo.awaitEnrichedRestaurantByPlaceId(placeId = "place-id")
+
+        // Then
+        assertIs<Result.Success<Restaurant>>(result)
+        assertEquals(3, api.findByPlaceIdInvokeCount)
+    }
+
+    @Test
+    fun `given the restaurant never finishes enriching when awaitEnrichedRestaurantByPlaceId polls up to the cap then returns Error TIMEOUT`() = runTest {
+        // Given
+        val api = FakeRestaurantApi(
+            findByPlaceIdFailuresBeforeSuccess = RestaurantsRepositoryImpl.ENRICHMENT_POLL_MAX_ATTEMPTS
+        )
+        val repo = RestaurantsRepositoryImpl(api)
+
+        // When
+        val result = repo.awaitEnrichedRestaurantByPlaceId(placeId = "place-id")
+
+        // Then
+        assertIs<Result.Error>(result)
+        assertEquals(ErrorEntity.Network.TIMEOUT, result.error)
+        assertEquals(RestaurantsRepositoryImpl.ENRICHMENT_POLL_MAX_ATTEMPTS, api.findByPlaceIdInvokeCount)
+    }
+
     // update
 
     @Test

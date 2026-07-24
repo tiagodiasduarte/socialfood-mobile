@@ -46,7 +46,6 @@ fun AuthorsScreen(
         onQueryChange = { viewModel.onSearchQueryChange(it) },
         onRefresh = { viewModel.refresh() },
         onLoadMore = { viewModel.loadMore() },
-        onFollowClick = {},
         onAuthorClick = onAuthorClick,
     )
 }
@@ -60,7 +59,6 @@ private fun AuthorsContent(
     onQueryChange: (String) -> Unit,
     onRefresh: () -> Unit,
     onLoadMore: () -> Unit,
-    onFollowClick: (Author) -> Unit,
     onAuthorClick: (String) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
@@ -115,7 +113,6 @@ private fun AuthorsContent(
                         itemsIndexed(state.authors, key = { _, author -> author.id }) { _, author ->
                             AuthorCard(
                                 author = author,
-                                onFollowClick = onFollowClick,
                                 onAuthorClick = { onAuthorClick(author.id) },
                                 modifier = Modifier.padding(horizontal = SpaceSize.large),
                             )
@@ -133,9 +130,9 @@ private fun AuthorsContent(
 @Composable
 private fun AuthorsScreenPreview() {
     val sampleAuthors = listOf(
-        Author(id = "1", name = "Sarah Mitchell", isFollowing = false),
-        Author(id = "2", name = "Michael Rodriguez", isFollowing = true),
-        Author(id = "3", name = "Emma Laurent", isFollowing = false),
+        Author(id = "1", name = "Sarah Mitchell"),
+        Author(id = "2", name = "Michael Rodriguez"),
+        Author(id = "3", name = "Emma Laurent"),
     )
     AppTheme {
         AuthorsContent(
@@ -145,7 +142,6 @@ private fun AuthorsScreenPreview() {
             onQueryChange = {},
             onRefresh = {},
             onLoadMore = {},
-            onFollowClick = {},
             onAuthorClick = {},
         )
     }

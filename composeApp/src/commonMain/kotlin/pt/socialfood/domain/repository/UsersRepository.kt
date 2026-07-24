@@ -24,15 +24,11 @@ interface UsersRepository {
 
     suspend fun update(
         id: String,
-        username: String? = null,
         role: String? = null,
         imageUrl: String? = null,
-        firstName: String? = null,
-        lastName: String? = null,
-        phoneNumber: String? = null,
+        name: String? = null,
         city: String? = null,
         country: String? = null,
-        bio: String? = null,
         facebookUrl: String? = null,
         instagramUrl: String? = null,
         youtubeUrl: String? = null,

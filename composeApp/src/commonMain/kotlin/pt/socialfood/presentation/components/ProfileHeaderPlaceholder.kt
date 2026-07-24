@@ -81,9 +81,9 @@ fun ProfileHeaderPlaceholder(
         ) {
             ShimmerBox(modifier = Modifier.width(160.dp).height(22.dp), alpha = alpha)
 
-            StatsRowPlaceholder(alpha = alpha)
-
             SocialButtonsPlaceholder(alpha = alpha)
+
+            StatsRowPlaceholder(alpha = alpha)
         }
     }
 }

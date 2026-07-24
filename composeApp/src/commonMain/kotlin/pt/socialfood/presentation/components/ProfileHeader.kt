@@ -99,13 +99,13 @@ fun ProfileHeader(
                 color = MaterialTheme.colorScheme.onBackground,
             )
 
-            StatsRow()
-
             SocialButtons(
                 facebookUrl = facebookUrl,
                 instagramUrl = instagramUrl,
                 youtubeUrl = youtubeUrl,
             )
+
+            StatsRow()
         }
     }
 }

@@ -5,10 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
-/**
- * Darkens the top and bottom edges of a hero/cover image so white icon buttons overlaid on it
- * (back, share, favourite, ...) stay legible regardless of the image's own colors.
- */
 fun Modifier.detailImageScrim(): Modifier = background(
     Brush.verticalGradient(
         colors = listOf(

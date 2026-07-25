@@ -4,6 +4,8 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>BuildDate</key>
+	<string>$(BUILD_DATE)</string>
 	<key>GIDClientID</key>
 	<string>$(GOOGLE_CLIENT_ID_WEB)</string>
 	<key>CFBundleURLTypes</key>

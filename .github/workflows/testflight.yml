@@ -13,9 +13,9 @@ jobs:
         with:
           ref: develop
 
-      # ----------------- SET BUILD NAME -----------------
-      - name: Set BUILD_NAME
-        run: echo "BUILD_NAME=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
+      # ----------------- SET BUILD DATE -----------------
+      - name: Set BUILD_DATE
+        run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
 
       # ----------------- SET COMMIT HASH -----------------
       - name: Set COMMIT_HASH
@@ -57,4 +57,6 @@ jobs:
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           GIT_PRIVATE_KEY: ${{ secrets.MATCH_SSH_PRIVATE_KEY }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          BUILD_DATE: ${{ env.BUILD_DATE }}
         run: cd iosApp && fastlane beta

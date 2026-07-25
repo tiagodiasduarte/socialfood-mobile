@@ -34,6 +34,7 @@ import socialfood.composeapp.generated.resources.profile_favorites_restaurants_b
 import socialfood.composeapp.generated.resources.profile_favorites_restaurants_button_description
 import socialfood.composeapp.generated.resources.profile_logout_button
 import socialfood.composeapp.generated.resources.profile_logout_button_description
+import pt.socialfood.core.appBuildDate
 import pt.socialfood.core.appVersion
 import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ActionButton
@@ -157,7 +158,7 @@ private fun UserContent(
             }
 
             Text(
-                text = "v$appVersion",
+                text = if (appBuildDate.isNotBlank()) "v$appVersion ($appBuildDate)" else "v$appVersion",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
                 modifier = Modifier.align(Alignment.CenterHorizontally),

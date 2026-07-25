@@ -89,12 +89,13 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = System.getenv("GITHUB_RUN_NUMBER")?.toInt() ?: 1
-        versionName = "0.1.0-${System.getenv("BUILD_NAME") ?: "local"}"
+        versionName = "0.1.0"
 
         val googleClientId = System.getenv("GOOGLE_CLIENT_ID_WEB")
             ?: localProperties.getProperty("GOOGLE_CLIENT_ID_WEB")
             ?: error("GOOGLE_CLIENT_ID_WEB not set in local.properties or environment")
         buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleClientId\"")
+        buildConfigField("String", "BUILD_DATE", "\"${System.getenv("BUILD_DATE") ?: ""}\"")
     }
     buildFeatures {
         buildConfig = true

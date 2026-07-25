@@ -66,6 +66,8 @@ fun HomeScreen(
         onRefresh = { viewModel.refresh() },
         onGuideClick = onGuideClick,
         onRestaurantClick = onRestaurantClick,
+        onToggleGuideFavourite = viewModel::onToggleGuideFavourite,
+        onToggleRestaurantFavourite = viewModel::onToggleRestaurantFavourite,
     )
 }
 
@@ -77,6 +79,8 @@ fun HomeScreenContent(
     isRefreshing: Boolean,
     onGuideClick: (guideId: String) -> Unit = {},
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onToggleGuideFavourite: (Guide) -> Unit = {},
+    onToggleRestaurantFavourite: (Restaurant) -> Unit = {},
 ) {
     PullToRefreshBox(
         isRefreshing = isRefreshing,
@@ -108,8 +112,12 @@ fun HomeScreenContent(
                         items(current.sections, key = { it.id }) { section ->
                             HomeSectionRow(
                                 section = section,
+                                favouriteRestaurantIds = current.favouriteRestaurantIds,
+                                favouriteGuideIds = current.favouriteGuideIds,
                                 onGuideClick = onGuideClick,
                                 onRestaurantClick = onRestaurantClick,
+                                onToggleGuideFavourite = onToggleGuideFavourite,
+                                onToggleRestaurantFavourite = onToggleRestaurantFavourite,
                             )
                         }
                     }
@@ -128,8 +136,12 @@ fun HomeScreenContent(
 @Composable
 private fun HomeSectionRow(
     section: HomeSection,
+    favouriteRestaurantIds: Set<String> = emptySet(),
+    favouriteGuideIds: Set<String> = emptySet(),
     onGuideClick: (guideId: String) -> Unit = {},
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onToggleGuideFavourite: (Guide) -> Unit = {},
+    onToggleRestaurantFavourite: (Restaurant) -> Unit = {},
 ) {
     val sorted = section.items.sortedBy { it.position }
     val isGuideSection = sorted.any { it.itemType == HomeItemType.GUIDE }
@@ -164,8 +176,12 @@ private fun HomeSectionRow(
                 items(items = sorted, key = { it.id }) { item ->
                     HomeSectionItemCard(
                         item = item,
+                        favouriteRestaurantIds = favouriteRestaurantIds,
+                        favouriteGuideIds = favouriteGuideIds,
                         onGuideClick = onGuideClick,
                         onRestaurantClick = onRestaurantClick,
+                        onToggleGuideFavourite = onToggleGuideFavourite,
+                        onToggleRestaurantFavourite = onToggleRestaurantFavourite,
                     )
                 }
             }
@@ -176,15 +192,31 @@ private fun HomeSectionRow(
 @Composable
 private fun HomeSectionItemCard(
     item: HomeSectionItem,
+    favouriteRestaurantIds: Set<String> = emptySet(),
+    favouriteGuideIds: Set<String> = emptySet(),
     onGuideClick: (guideId: String) -> Unit = {},
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onToggleGuideFavourite: (Guide) -> Unit = {},
+    onToggleRestaurantFavourite: (Restaurant) -> Unit = {},
 ) {
     when (item.itemType) {
         HomeItemType.RESTAURANT -> item.restaurant?.let {
-            RestaurantCard(it, width = cardWidth, onClick = { onRestaurantClick(it.id) })
+            RestaurantCard(
+                it,
+                width = cardWidth,
+                isFavourite = it.id in favouriteRestaurantIds,
+                onClick = { onRestaurantClick(it.id) },
+                onFavouriteClick = { onToggleRestaurantFavourite(it) },
+            )
         }
         HomeItemType.GUIDE -> item.guide?.let {
-            GuideCard(guide = it, width = cardWidth, onClick = { onGuideClick(it.id) })
+            GuideCard(
+                guide = it,
+                width = cardWidth,
+                isFavourite = it.id in favouriteGuideIds,
+                onClick = { onGuideClick(it.id) },
+                onFavouriteClick = { onToggleGuideFavourite(it) },
+            )
         }
         HomeItemType.EVENT -> {}
     }

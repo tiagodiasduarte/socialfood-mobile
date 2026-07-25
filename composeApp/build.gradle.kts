@@ -89,7 +89,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = System.getenv("GITHUB_RUN_NUMBER")?.toInt() ?: 1
-        versionName = "0.1.${System.getenv("GITHUB_RUN_NUMBER") ?: "0"}"
+        versionName = "0.1.0"
 
         val googleClientId = System.getenv("GOOGLE_CLIENT_ID_WEB")
             ?: localProperties.getProperty("GOOGLE_CLIENT_ID_WEB")

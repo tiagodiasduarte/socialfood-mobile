@@ -57,5 +57,6 @@ jobs:
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           GIT_PRIVATE_KEY: ${{ secrets.MATCH_SSH_PRIVATE_KEY }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
           BUILD_DATE: ${{ env.BUILD_DATE }}
         run: cd iosApp && fastlane beta

@@ -118,14 +118,6 @@ fun RestaurantCard(
                     modifier = Modifier.fillMaxWidth(),
                 )
 
-                Text(
-                    text = "Average price: 40€",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
                 ) {
@@ -136,7 +128,7 @@ fun RestaurantCard(
                     )
 
                     Text(
-                        text = "Lisbon",
+                        text = restaurant.city,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,

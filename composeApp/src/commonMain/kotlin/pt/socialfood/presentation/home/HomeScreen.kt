@@ -48,6 +48,8 @@ import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
+private val cardWidth = 300.dp
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -179,10 +181,10 @@ private fun HomeSectionItemCard(
 ) {
     when (item.itemType) {
         HomeItemType.RESTAURANT -> item.restaurant?.let {
-            RestaurantCard(it, width = 290.dp, onClick = { onRestaurantClick(it.id) })
+            RestaurantCard(it, width = cardWidth, onClick = { onRestaurantClick(it.id) })
         }
         HomeItemType.GUIDE -> item.guide?.let {
-            GuideCard(guide = it, width = 300.dp, onClick = { onGuideClick(it.id) })
+            GuideCard(guide = it, width = cardWidth, onClick = { onGuideClick(it.id) })
         }
         HomeItemType.EVENT -> {}
     }

@@ -44,11 +44,15 @@ platform :ios do
       xcodeproj: "iosApp.xcodeproj"
     )
 
+    marketing_version = "0.1.#{ENV["GITHUB_RUN_NUMBER"] || "0"}"
+    build_date = ENV["BUILD_DATE"] || ""
+
     build_ios_app(
       scheme: "iosApp",
       workspace: "iosApp.xcworkspace",
       output_name: "DeployIosApp.ipa",
-      output_directory: "build"
+      output_directory: "build",
+      xcargs: "MARKETING_VERSION=#{marketing_version} BUILD_DATE=#{build_date}"
     )
 
     pilot(

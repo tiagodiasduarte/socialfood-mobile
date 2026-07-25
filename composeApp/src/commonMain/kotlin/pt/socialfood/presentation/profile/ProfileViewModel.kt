@@ -31,7 +31,6 @@ class ProfileViewModel(
 
     private fun load() {
         viewModelScope.launch {
-            if (state.value is ProfileUiState.Loaded) _state.value = ProfileUiState.Loading
             _state.value = when (val result = getUserMe()) {
                 is Result.Success -> ProfileUiState.Loaded(result.data)
                 is Result.Error -> ProfileUiState.Error

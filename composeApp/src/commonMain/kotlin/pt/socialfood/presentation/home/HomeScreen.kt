@@ -52,6 +52,8 @@ import pt.socialfood.ui.theme.SpaceSize
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
+    onGuideClick: (guideId: String) -> Unit = {},
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
@@ -59,7 +61,9 @@ fun HomeScreen(
     HomeScreenContent(
         state = state,
         isRefreshing = isRefreshing,
-        onRefresh = { viewModel.refresh() }
+        onRefresh = { viewModel.refresh() },
+        onGuideClick = onGuideClick,
+        onRestaurantClick = onRestaurantClick,
     )
 }
 
@@ -69,6 +73,8 @@ fun HomeScreenContent(
     state: HomeUiState,
     onRefresh: () -> Unit,
     isRefreshing: Boolean,
+    onGuideClick: (guideId: String) -> Unit = {},
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
 ) {
     PullToRefreshBox(
         isRefreshing = isRefreshing,
@@ -98,7 +104,11 @@ fun HomeScreenContent(
                         }
                     } else {
                         items(current.sections, key = { it.id }) { section ->
-                            HomeSectionRow(section = section)
+                            HomeSectionRow(
+                                section = section,
+                                onGuideClick = onGuideClick,
+                                onRestaurantClick = onRestaurantClick,
+                            )
                         }
                     }
                 }
@@ -114,7 +124,11 @@ fun HomeScreenContent(
 }
 
 @Composable
-private fun HomeSectionRow(section: HomeSection) {
+private fun HomeSectionRow(
+    section: HomeSection,
+    onGuideClick: (guideId: String) -> Unit = {},
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
+) {
     val sorted = section.items.sortedBy { it.position }
     val isGuideSection = sorted.any { it.itemType == HomeItemType.GUIDE }
 
@@ -131,15 +145,6 @@ private fun HomeSectionRow(section: HomeSection) {
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
-            Text(
-                text = if (isGuideSection)
-                    stringResource(Res.string.home_list_see_all_label)
-                else
-                    stringResource(Res.string.home_list_view_all_label),
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable { },
-            )
         }
 
         if (sorted.isEmpty()) {
@@ -155,7 +160,11 @@ private fun HomeSectionRow(section: HomeSection) {
                 contentPadding = PaddingValues(horizontal = SpaceSize.large),
             ) {
                 items(items = sorted, key = { it.id }) { item ->
-                    HomeSectionItemCard(item = item)
+                    HomeSectionItemCard(
+                        item = item,
+                        onGuideClick = onGuideClick,
+                        onRestaurantClick = onRestaurantClick,
+                    )
                 }
             }
         }
@@ -163,10 +172,18 @@ private fun HomeSectionRow(section: HomeSection) {
 }
 
 @Composable
-private fun HomeSectionItemCard(item: HomeSectionItem) {
+private fun HomeSectionItemCard(
+    item: HomeSectionItem,
+    onGuideClick: (guideId: String) -> Unit = {},
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
+) {
     when (item.itemType) {
-        HomeItemType.RESTAURANT -> item.restaurant?.let { RestaurantCard(it, width = 290.dp) }
-        HomeItemType.GUIDE -> item.guide?.let { GuideCard(guide = it, width = 300.dp) }
+        HomeItemType.RESTAURANT -> item.restaurant?.let {
+            RestaurantCard(it, width = 290.dp, onClick = { onRestaurantClick(it.id) })
+        }
+        HomeItemType.GUIDE -> item.guide?.let {
+            GuideCard(guide = it, width = 300.dp, onClick = { onGuideClick(it.id) })
+        }
         HomeItemType.EVENT -> {}
     }
 }

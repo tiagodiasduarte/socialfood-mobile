@@ -70,7 +70,10 @@ fun NavigationRoot(
             entries = navigationState.toEntries(
                 entryProvider {
                     entry<Route.Home> {
-                        HomeScreen()
+                        HomeScreen(
+                            onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+                            onRestaurantClick = { restaurantId -> navigator.navigate(Route.RestaurantDetail(restaurantId)) },
+                        )
                     }
                     entry<Route.Guides> {
                         val vm = remember(key) { getKoin().get<GuidesViewModel>() }

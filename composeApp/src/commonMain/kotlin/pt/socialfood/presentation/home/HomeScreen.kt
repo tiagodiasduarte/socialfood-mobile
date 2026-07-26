@@ -48,10 +48,14 @@ import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
+private val cardWidth = 300.dp
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
+    onGuideClick: (guideId: String) -> Unit = {},
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
@@ -59,7 +63,11 @@ fun HomeScreen(
     HomeScreenContent(
         state = state,
         isRefreshing = isRefreshing,
-        onRefresh = { viewModel.refresh() }
+        onRefresh = { viewModel.refresh() },
+        onGuideClick = onGuideClick,
+        onRestaurantClick = onRestaurantClick,
+        onToggleGuideFavourite = viewModel::onToggleGuideFavourite,
+        onToggleRestaurantFavourite = viewModel::onToggleRestaurantFavourite,
     )
 }
 
@@ -69,6 +77,10 @@ fun HomeScreenContent(
     state: HomeUiState,
     onRefresh: () -> Unit,
     isRefreshing: Boolean,
+    onGuideClick: (guideId: String) -> Unit = {},
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onToggleGuideFavourite: (Guide) -> Unit = {},
+    onToggleRestaurantFavourite: (Restaurant) -> Unit = {},
 ) {
     PullToRefreshBox(
         isRefreshing = isRefreshing,
@@ -98,7 +110,15 @@ fun HomeScreenContent(
                         }
                     } else {
                         items(current.sections, key = { it.id }) { section ->
-                            HomeSectionRow(section = section)
+                            HomeSectionRow(
+                                section = section,
+                                favouriteRestaurantIds = current.favouriteRestaurantIds,
+                                favouriteGuideIds = current.favouriteGuideIds,
+                                onGuideClick = onGuideClick,
+                                onRestaurantClick = onRestaurantClick,
+                                onToggleGuideFavourite = onToggleGuideFavourite,
+                                onToggleRestaurantFavourite = onToggleRestaurantFavourite,
+                            )
                         }
                     }
                 }
@@ -114,7 +134,15 @@ fun HomeScreenContent(
 }
 
 @Composable
-private fun HomeSectionRow(section: HomeSection) {
+private fun HomeSectionRow(
+    section: HomeSection,
+    favouriteRestaurantIds: Set<String> = emptySet(),
+    favouriteGuideIds: Set<String> = emptySet(),
+    onGuideClick: (guideId: String) -> Unit = {},
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onToggleGuideFavourite: (Guide) -> Unit = {},
+    onToggleRestaurantFavourite: (Restaurant) -> Unit = {},
+) {
     val sorted = section.items.sortedBy { it.position }
     val isGuideSection = sorted.any { it.itemType == HomeItemType.GUIDE }
 
@@ -131,15 +159,6 @@ private fun HomeSectionRow(section: HomeSection) {
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
-            Text(
-                text = if (isGuideSection)
-                    stringResource(Res.string.home_list_see_all_label)
-                else
-                    stringResource(Res.string.home_list_view_all_label),
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable { },
-            )
         }
 
         if (sorted.isEmpty()) {
@@ -155,7 +174,15 @@ private fun HomeSectionRow(section: HomeSection) {
                 contentPadding = PaddingValues(horizontal = SpaceSize.large),
             ) {
                 items(items = sorted, key = { it.id }) { item ->
-                    HomeSectionItemCard(item = item)
+                    HomeSectionItemCard(
+                        item = item,
+                        favouriteRestaurantIds = favouriteRestaurantIds,
+                        favouriteGuideIds = favouriteGuideIds,
+                        onGuideClick = onGuideClick,
+                        onRestaurantClick = onRestaurantClick,
+                        onToggleGuideFavourite = onToggleGuideFavourite,
+                        onToggleRestaurantFavourite = onToggleRestaurantFavourite,
+                    )
                 }
             }
         }
@@ -163,10 +190,34 @@ private fun HomeSectionRow(section: HomeSection) {
 }
 
 @Composable
-private fun HomeSectionItemCard(item: HomeSectionItem) {
+private fun HomeSectionItemCard(
+    item: HomeSectionItem,
+    favouriteRestaurantIds: Set<String> = emptySet(),
+    favouriteGuideIds: Set<String> = emptySet(),
+    onGuideClick: (guideId: String) -> Unit = {},
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onToggleGuideFavourite: (Guide) -> Unit = {},
+    onToggleRestaurantFavourite: (Restaurant) -> Unit = {},
+) {
     when (item.itemType) {
-        HomeItemType.RESTAURANT -> item.restaurant?.let { RestaurantCard(it, width = 290.dp) }
-        HomeItemType.GUIDE -> item.guide?.let { GuideCard(guide = it, width = 300.dp) }
+        HomeItemType.RESTAURANT -> item.restaurant?.let {
+            RestaurantCard(
+                it,
+                width = cardWidth,
+                isFavourite = it.id in favouriteRestaurantIds,
+                onClick = { onRestaurantClick(it.id) },
+                onFavouriteClick = { onToggleRestaurantFavourite(it) },
+            )
+        }
+        HomeItemType.GUIDE -> item.guide?.let {
+            GuideCard(
+                guide = it,
+                width = cardWidth,
+                isFavourite = it.id in favouriteGuideIds,
+                onClick = { onGuideClick(it.id) },
+                onFavouriteClick = { onToggleGuideFavourite(it) },
+            )
+        }
         HomeItemType.EVENT -> {}
     }
 }

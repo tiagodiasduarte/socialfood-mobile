@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.NotListedLocation
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -35,6 +36,7 @@ import coil3.compose.SubcomposeAsyncImage
 import androidx.compose.ui.tooling.preview.Preview
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.SpaceSize
 
 
@@ -43,7 +45,9 @@ fun RestaurantCard(
     restaurant: Restaurant,
     modifier: Modifier = Modifier,
     width: Dp? = null,
+    isFavourite: Boolean = false,
     onClick: () -> Unit = {},
+    onFavouriteClick: () -> Unit = {},
 ) {
     Card(
         modifier = (if (width != null) modifier.width(width) else modifier.fillMaxWidth())
@@ -94,13 +98,14 @@ fun RestaurantCard(
                         .padding(8.dp)
                         .size(32.dp)
                         .clip(CircleShape)
-                        .background(Color.White.copy(alpha = 0.9f)),
+                        .background(Color.White.copy(alpha = 0.9f))
+                        .clickable(onClick = onFavouriteClick),
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(
-                        imageVector = Icons.Outlined.FavoriteBorder,
+                        imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                         contentDescription = "Favourite",
-                        tint = MaterialTheme.colorScheme.onSurface,
+                        tint = if (isFavourite) FavouriteRed else MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.size(16.dp),
                     )
                 }
@@ -118,14 +123,6 @@ fun RestaurantCard(
                     modifier = Modifier.fillMaxWidth(),
                 )
 
-                Text(
-                    text = "Average price: 40€",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
                 ) {
@@ -136,7 +133,7 @@ fun RestaurantCard(
                     )
 
                     Text(
-                        text = "Lisbon",
+                        text = restaurant.city,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,

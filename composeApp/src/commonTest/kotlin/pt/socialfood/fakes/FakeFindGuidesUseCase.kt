@@ -11,14 +11,11 @@ class FakeFindGuidesUseCase(
 ) : FindGuidesUseCase {
     var invokeCount: Int = 0
         private set
-    var lastQuery: String? = null
-        private set
     var lastUserId: String? = null
         private set
 
     override suspend fun invoke(page: Int, limit: Int, query: String?, userId: String?): Result<PagedGuides> {
         invokeCount++
-        lastQuery = query
         lastUserId = userId
         return result(page, userId)
     }

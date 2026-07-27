@@ -1,9 +1,7 @@
 package pt.socialfood.presentation.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,11 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.home_list_see_all_label
-import socialfood.composeapp.generated.resources.home_list_view_all_label
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -38,10 +31,9 @@ import pt.socialfood.domain.model.HomeSection
 import pt.socialfood.domain.model.HomeSectionItem
 import pt.socialfood.domain.model.HomeSectionType
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
-import pt.socialfood.presentation.guides.GuideCard
+import pt.socialfood.presentation.guide.list.GuideCard
 import pt.socialfood.presentation.restaurant.RestaurantCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography

@@ -2,7 +2,10 @@ package pt.socialfood.presentation.authors
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -10,14 +13,19 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
+import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.use_case.author.FindAuthorsUseCase
+import pt.socialfood.domain.use_case.author.GetAuthorsPagingUseCase
 
 private const val PAGE_SIZE = 20
 private const val SEARCH_DEBOUNCE_MS = 300L
 
 class AuthorsViewModel(
     private val findAuthors: FindAuthorsUseCase,
+    private val getAuthorsPaging: GetAuthorsPagingUseCase,
 ) : ViewModel() {
+
+    val authors: Flow<PagingData<Author>> = getAuthorsPaging().cachedIn(viewModelScope)
 
     private val _state = MutableStateFlow<AuthorsUiState>(AuthorsUiState.Loading)
     val state: StateFlow<AuthorsUiState> = _state
@@ -32,12 +40,16 @@ class AuthorsViewModel(
     private var currentQuery: String? = null
 
     init {
+        // The blank-query browse list is served by `authors` (Paging + cache) instead, so this
+        // collector only ever needs to (re)load a search result page — it's a no-op once the
+        // query is cleared back to blank.
         @OptIn(FlowPreview::class)
         viewModelScope.launch {
             _searchQuery
                 .debounce(SEARCH_DEBOUNCE_MS)
                 .collectLatest { query ->
-                    currentQuery = query.ifBlank { null }
+                    if (query.isBlank()) return@collectLatest
+                    currentQuery = query
                     loadFirstPage()
                 }
         }
@@ -47,7 +59,7 @@ class AuthorsViewModel(
         _searchQuery.value = query
     }
 
-    fun loadFirstPage() {
+    private fun loadFirstPage() {
         viewModelScope.launch {
             _state.value = AuthorsUiState.Loading
             currentPage = 1

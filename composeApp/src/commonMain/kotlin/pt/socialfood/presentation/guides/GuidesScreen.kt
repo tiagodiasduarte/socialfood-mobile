@@ -2,26 +2,32 @@ package pt.socialfood.presentation.guides
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
+import kotlinx.coroutines.flow.flowOf
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
@@ -32,8 +38,6 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
-private const val LOAD_MORE_THRESHOLD = 10
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GuidesScreen(
@@ -41,20 +45,13 @@ fun GuidesScreen(
     onGuideClick: (guideId: String) -> Unit = {},
     onAddClick: () -> Unit = {},
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
-    var selectedTab by remember { mutableIntStateOf(0) }
+    val guides = viewModel.guides.collectAsLazyPagingItems()
+    val selectedTab by viewModel.selectedTab.collectAsStateWithLifecycle()
 
     GuidesScreenContent(
-        state = state,
-        isRefreshing = isRefreshing,
+        guides = guides,
         selectedTab = selectedTab,
-        onTabSelected = {
-            selectedTab = it
-            viewModel.onTabSelected(it)
-        },
-        onRefresh = { viewModel.refresh() },
-        onLoadMore = { viewModel.loadMore() },
+        onTabSelected = { viewModel.onTabSelected(it) },
         onGuideClick = onGuideClick,
         onAddClick = onAddClick,
     )
@@ -63,35 +60,20 @@ fun GuidesScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GuidesScreenContent(
-    state: GuidesUiState,
-    isRefreshing: Boolean,
-    selectedTab: Int = 0,
+    guides: LazyPagingItems<Guide>,
+    selectedTab: Int = ALL_GUIDES_TAB,
     onTabSelected: (Int) -> Unit = {},
-    onRefresh: () -> Unit,
-    onLoadMore: () -> Unit = {},
     onGuideClick: (guideId: String) -> Unit = {},
     onAddClick: () -> Unit = {},
 ) {
     var searchQuery by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
 
-    val reachedBottom by remember(listState) {
-        derivedStateOf {
-            val lastVisible = listState.layoutInfo.visibleItemsInfo.lastOrNull()
-            val totalItems = listState.layoutInfo.totalItemsCount
-            lastVisible != null && totalItems > 0 && lastVisible.index >= totalItems - 1 - LOAD_MORE_THRESHOLD
-        }
-    }
-
-    LaunchedEffect(reachedBottom, state) {
-        if (reachedBottom && state is GuidesUiState.Loaded && state.hasMore && !state.isLoadingMore) {
-            onLoadMore()
-        }
-    }
+    val isRefreshing = guides.loadState.refresh is LoadState.Loading && guides.itemCount > 0
 
     PullToRefreshBox(
         isRefreshing = isRefreshing,
-        onRefresh = onRefresh,
+        onRefresh = { guides.refresh() },
         modifier = Modifier
             .fillMaxSize()
             .background(GreyBackground),
@@ -112,36 +94,50 @@ fun GuidesScreenContent(
                 )
             }
 
-            when (state) {
-                GuidesUiState.Loading -> item {
+            when {
+                guides.loadState.refresh is LoadState.Loading && guides.itemCount == 0 -> item {
                     GuidesPlaceholder()
                 }
 
-                is GuidesUiState.Loaded -> {
-                    val baseList = state.guides
-                    val guides = if (searchQuery.isBlank()) baseList
-                    else baseList.filter {
-                        it.name.contains(searchQuery, ignoreCase = true) ||
-                                it.description.contains(searchQuery, ignoreCase = true)
-                    }
-
-                    if (guides.isEmpty()) {
-                        item {
-                            NoResultsContent()
-                        }
-                    } else {
-                        items(guides, key = { it.id }) { guide ->
-                            GuideCard(
-                                modifier = Modifier.padding(horizontal = SpaceSize.large),
-                                guide = guide,
-                                onClick = { onGuideClick(guide.id) },
-                            )
-                        }
-                    }
+                guides.loadState.refresh is LoadState.Error && guides.itemCount == 0 -> item {
+                    ErrorContent(onRetryClick = { guides.retry() })
                 }
 
-                GuidesUiState.Error -> item {
-                    ErrorContent(onRetryClick = onRefresh)
+                guides.itemCount == 0 -> item {
+                    NoResultsContent()
+                }
+
+                else -> {
+                    items(
+                        count = guides.itemCount,
+                        key = guides.itemKey { it.id },
+                    ) { index ->
+                        guides[index]?.let { guide ->
+                            if (searchQuery.isBlank() ||
+                                guide.name.contains(searchQuery, ignoreCase = true) ||
+                                guide.description.contains(searchQuery, ignoreCase = true)
+                            ) {
+                                GuideCard(
+                                    modifier = Modifier.padding(horizontal = SpaceSize.large),
+                                    guide = guide,
+                                    onClick = { onGuideClick(guide.id) },
+                                )
+                            }
+                        }
+                    }
+
+                    if (guides.loadState.append is LoadState.Loading) {
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(SpaceSize.large),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                CircularProgressIndicator()
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -151,7 +147,7 @@ fun GuidesScreenContent(
 @Composable
 @Preview
 fun GuidesScreenPreview() {
-    val guides = listOf(
+    val guideList = listOf(
         Guide(
             id = "1",
             name = "Michelin Star Favorites",
@@ -177,11 +173,12 @@ fun GuidesScreenPreview() {
             visibility = GuideVisibility.PUBLIC
         ),
     )
+    val guides = flowOf(PagingData.from(guideList)).collectAsLazyPagingItems()
+
     AppTheme {
         GuidesScreenContent(
-            state = GuidesUiState.Loaded(guides = guides, hasMore = true),
-            isRefreshing = false,
-            onRefresh = {},
+            guides = guides,
+            selectedTab = ALL_GUIDES_TAB,
         )
     }
 }

@@ -31,6 +31,7 @@ import pt.socialfood.data.S3ApiImpl
 import pt.socialfood.data.UserApi
 import pt.socialfood.data.UserApiImpl
 import pt.socialfood.data.local.AppDatabase
+import pt.socialfood.data.paging.asAuthorCacheTransactionRunner
 import pt.socialfood.data.paging.asGuideCacheTransactionRunner
 import pt.socialfood.data.network.ImageHttpClient
 import pt.socialfood.data.network.KtorHttpClient
@@ -64,6 +65,8 @@ import pt.socialfood.domain.use_case.author.FindAuthorsUseCase
 import pt.socialfood.domain.use_case.author.FindAuthorsUseCaseImpl
 import pt.socialfood.domain.use_case.author.GetAuthorByIdUseCase
 import pt.socialfood.domain.use_case.author.GetAuthorByIdUseCaseImpl
+import pt.socialfood.domain.use_case.author.GetAuthorsPagingUseCase
+import pt.socialfood.domain.use_case.author.GetAuthorsPagingUseCaseImpl
 import pt.socialfood.domain.use_case.author.GetAuthorsUseCase
 import pt.socialfood.domain.use_case.author.GetAuthorsUseCaseImpl
 import pt.socialfood.domain.use_case.configs.GetConfigsUseCase
@@ -209,7 +212,14 @@ val networkModule = module {
 
 val repositoryModule = module {
     single<AuthRepository> { AuthRepositoryImpl(get()) }
-    single<AuthorsRepository> { AuthorsRepositoryImpl(get()) }
+    single<AuthorsRepository> {
+        AuthorsRepositoryImpl(
+            authorsApi = get(),
+            authorDao = get<AppDatabase>().authorDao(),
+            authorRemoteKeyDao = get<AppDatabase>().authorRemoteKeyDao(),
+            transactionRunner = get<AppDatabase>().asAuthorCacheTransactionRunner(),
+        )
+    }
     single<ConfigsRepository> { ConfigsRepositoryImpl(get()) }
     single<FavouriteRestaurantsRepository> { FavouriteRestaurantsRepositoryImpl(get(), get<AppDatabase>().favouriteRestaurantDao(), get()) }
     single<FavouritesRepository> { FavouritesRepositoryImpl(get(), get<AppDatabase>().favouriteDao(), get()) }
@@ -266,6 +276,7 @@ val useCaseModule = module {
 
     factory<FindAuthorsUseCase> { FindAuthorsUseCaseImpl(get()) }
     factory<GetAuthorsUseCase> { GetAuthorsUseCaseImpl(get()) }
+    factory<GetAuthorsPagingUseCase> { GetAuthorsPagingUseCaseImpl(get()) }
     factory<GetAuthorByIdUseCase> { GetAuthorByIdUseCaseImpl(get()) }
 
     factory<SearchPlacesUseCase> { SearchPlacesUseCaseImpl(get()) }

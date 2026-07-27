@@ -4,16 +4,20 @@ import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
+import pt.socialfood.data.local.dao.AuthorDao
+import pt.socialfood.data.local.dao.AuthorRemoteKeyDao
 import pt.socialfood.data.local.dao.FavouriteDao
 import pt.socialfood.data.local.dao.FavouriteRestaurantDao
 import pt.socialfood.data.local.dao.GuideDao
 import pt.socialfood.data.local.dao.GuideRemoteKeyDao
+import pt.socialfood.data.local.entity.AuthorEntity
+import pt.socialfood.data.local.entity.AuthorRemoteKeyEntity
 import pt.socialfood.data.local.entity.FavouriteGuideEntity
 import pt.socialfood.data.local.entity.FavouriteRestaurantEntity
 import pt.socialfood.data.local.entity.GuideEntity
 import pt.socialfood.data.local.entity.GuideRemoteKeyEntity
 
-const val DATABASE_VERSION = 3
+const val DATABASE_VERSION = 4
 
 @Database(
     entities = [
@@ -21,6 +25,8 @@ const val DATABASE_VERSION = 3
         FavouriteRestaurantEntity::class,
         GuideEntity::class,
         GuideRemoteKeyEntity::class,
+        AuthorEntity::class,
+        AuthorRemoteKeyEntity::class,
     ],
     version = DATABASE_VERSION,
     exportSchema = true,
@@ -31,6 +37,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun favouriteRestaurantDao(): FavouriteRestaurantDao
     abstract fun guideDao(): GuideDao
     abstract fun guideRemoteKeyDao(): GuideRemoteKeyDao
+    abstract fun authorDao(): AuthorDao
+    abstract fun authorRemoteKeyDao(): AuthorRemoteKeyDao
 }
 
 // The `expect object : RoomDatabaseConstructor` pattern below is the standard KMP-Room

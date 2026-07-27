@@ -40,12 +40,16 @@ class AuthorsViewModel(
     private var currentQuery: String? = null
 
     init {
+        // The blank-query browse list is served by `authors` (Paging + cache) instead, so this
+        // collector only ever needs to (re)load a search result page — it's a no-op once the
+        // query is cleared back to blank.
         @OptIn(FlowPreview::class)
         viewModelScope.launch {
             _searchQuery
                 .debounce(SEARCH_DEBOUNCE_MS)
                 .collectLatest { query ->
-                    currentQuery = query.ifBlank { null }
+                    if (query.isBlank()) return@collectLatest
+                    currentQuery = query
                     loadFirstPage()
                 }
         }
@@ -55,7 +59,7 @@ class AuthorsViewModel(
         _searchQuery.value = query
     }
 
-    fun loadFirstPage() {
+    private fun loadFirstPage() {
         viewModelScope.launch {
             _state.value = AuthorsUiState.Loading
             currentPage = 1

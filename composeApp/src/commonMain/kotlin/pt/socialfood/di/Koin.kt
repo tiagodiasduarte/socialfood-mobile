@@ -31,6 +31,7 @@ import pt.socialfood.data.S3ApiImpl
 import pt.socialfood.data.UserApi
 import pt.socialfood.data.UserApiImpl
 import pt.socialfood.data.local.AppDatabase
+import pt.socialfood.data.paging.asGuideCacheTransactionRunner
 import pt.socialfood.data.network.ImageHttpClient
 import pt.socialfood.data.network.KtorHttpClient
 import pt.socialfood.data.network.S3HttpClient
@@ -97,6 +98,8 @@ import pt.socialfood.domain.use_case.guide.GetGuideByIdUseCase
 import pt.socialfood.domain.use_case.guide.GetGuideByIdUseCaseImpl
 import pt.socialfood.domain.use_case.guide.FindGuidesUseCase
 import pt.socialfood.domain.use_case.guide.FindGuidesUseCaseImpl
+import pt.socialfood.domain.use_case.guide.GetGuidesPagingUseCase
+import pt.socialfood.domain.use_case.guide.GetGuidesPagingUseCaseImpl
 import pt.socialfood.domain.use_case.guide.GetGuidesUseCase
 import pt.socialfood.domain.use_case.guide.GetGuidesUseCaseImpl
 import pt.socialfood.domain.use_case.guide.UpdateGuideUseCase
@@ -210,7 +213,14 @@ val repositoryModule = module {
     single<ConfigsRepository> { ConfigsRepositoryImpl(get()) }
     single<FavouriteRestaurantsRepository> { FavouriteRestaurantsRepositoryImpl(get(), get<AppDatabase>().favouriteRestaurantDao(), get()) }
     single<FavouritesRepository> { FavouritesRepositoryImpl(get(), get<AppDatabase>().favouriteDao(), get()) }
-    single<GuidesRepository> { GuidesRepositoryImpl(get()) }
+    single<GuidesRepository> {
+        GuidesRepositoryImpl(
+            guideApi = get(),
+            guideDao = get<AppDatabase>().guideDao(),
+            guideRemoteKeyDao = get<AppDatabase>().guideRemoteKeyDao(),
+            transactionRunner = get<AppDatabase>().asGuideCacheTransactionRunner(),
+        )
+    }
     single<HomeRepository> { HomeRepositoryImpl(get()) }
     single<PlacesRepository> { PlacesRepositoryImpl(get()) }
     single<RestaurantsRepository> { RestaurantsRepositoryImpl(get()) }
@@ -221,6 +231,7 @@ val repositoryModule = module {
 val useCaseModule = module {
     factory<FindGuidesUseCase> { FindGuidesUseCaseImpl(get()) }
     factory<GetGuidesUseCase> { GetGuidesUseCaseImpl(get()) }
+    factory<GetGuidesPagingUseCase> { GetGuidesPagingUseCaseImpl(get()) }
     factory<GetGuideByIdUseCase> { GetGuideByIdUseCaseImpl(get()) }
     factory<CreateGuideUseCase> { CreateGuideUseCaseImpl(get(), get()) }
     factory<DeleteGuideUseCase> { DeleteGuideUseCaseImpl(get()) }

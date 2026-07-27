@@ -21,7 +21,7 @@ class AuthorsViewModelTest {
     private fun author(id: String) = Author(id = id, name = "Author $id")
 
     @Test
-    fun `given authors exist when created then loads first page into Loaded state`() = runTestWithMainDispatcher {
+    fun `given blank search query when created then state stays Loading and no search fetch happens`() = runTestWithMainDispatcher {
         // Given
         val findAuthors = FakeFindAuthorsUseCase { page, _ ->
             Result.Success(PagedAuthors(authors = listOf(author("a1")), page = page, hasMore = false))
@@ -32,18 +32,19 @@ class AuthorsViewModelTest {
         advanceUntilIdle()
 
         // Then
-        val state = assertIs<AuthorsUiState.Loaded>(vm.state.value)
-        assertEquals(1, state.authors.size)
-        assertEquals("a1", state.authors.first().id)
+        assertIs<AuthorsUiState.Loading>(vm.state.value)
+        assertEquals(null, findAuthors.lastQuery)
     }
 
     @Test
-    fun `given use case fails when created then state is Error`() = runTestWithMainDispatcher {
+    fun `given search use case fails when query becomes non-blank then state is Error`() = runTestWithMainDispatcher {
         // Given
         val findAuthors = FakeFindAuthorsUseCase { _, _ -> Result.Error(ErrorEntity.Unknown) }
+        val vm = AuthorsViewModel(findAuthors, FakeGetAuthorsPagingUseCase())
+        advanceUntilIdle()
 
         // When
-        val vm = AuthorsViewModel(findAuthors, FakeGetAuthorsPagingUseCase())
+        vm.onSearchQueryChange("john")
         advanceUntilIdle()
 
         // Then
@@ -67,7 +68,7 @@ class AuthorsViewModelTest {
     }
 
     @Test
-    fun `given more pages available when loadMore is called then appends authors and updates hasMore`() = runTestWithMainDispatcher {
+    fun `given an active search with more pages when loadMore is called then appends authors and updates hasMore`() = runTestWithMainDispatcher {
         // Given
         val findAuthors = FakeFindAuthorsUseCase { page, _ ->
             if (page == 1) {
@@ -77,6 +78,7 @@ class AuthorsViewModelTest {
             }
         }
         val vm = AuthorsViewModel(findAuthors, FakeGetAuthorsPagingUseCase())
+        vm.onSearchQueryChange("john")
         advanceUntilIdle()
 
         // When
@@ -90,12 +92,13 @@ class AuthorsViewModelTest {
     }
 
     @Test
-    fun `given refresh is called then reloads first page and clears isRefreshing`() = runTestWithMainDispatcher {
+    fun `given an active search when refresh is called then reloads first page and clears isRefreshing`() = runTestWithMainDispatcher {
         // Given
         val findAuthors = FakeFindAuthorsUseCase { page, _ ->
             Result.Success(PagedAuthors(authors = listOf(author("a1")), page = page, hasMore = false))
         }
         val vm = AuthorsViewModel(findAuthors, FakeGetAuthorsPagingUseCase())
+        vm.onSearchQueryChange("john")
         advanceUntilIdle()
 
         // When

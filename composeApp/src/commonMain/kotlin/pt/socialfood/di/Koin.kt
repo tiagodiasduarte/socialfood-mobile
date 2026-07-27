@@ -300,7 +300,7 @@ val viewModelModule = module {
     factory { AuthorsViewModel(get<FindAuthorsUseCase>()) }
     factory { (authorId: String) -> AuthorDetailViewModel(get(), authorId) }
 
-    factory { GuidesViewModel(get(), get(), get(), get()) }
+    factory { GuidesViewModel(get(), get()) }
     factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
     factory { CreateGuideViewModel(get(), get(), get()) }
     factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), get(), guideId) }

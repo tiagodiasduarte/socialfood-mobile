@@ -15,34 +15,15 @@ import pt.socialfood.data.local.entity.AuthorRemoteKeyEntity
 import pt.socialfood.mapper.toAuthor
 import pt.socialfood.mapper.toAuthorEntity
 
-/**
- * Runs [block] as a single atomic write against the Authors cache.
- *
- * Mirrors [GuideCacheTransactionRunner] — a small, injectable seam rather than a raw
- * [AppDatabase] dependency, for the same two reasons documented there: `RoomDatabase.withTransaction`
- * is Android-only in Room 2.8's KMP artifact, and `AppDatabase` cannot be constructed/faked from
- * `commonTest`. Deliberately duplicated rather than shared with [GuideCacheTransactionRunner] — see
- * `authors-caching.md` for the rationale.
- */
 fun interface AuthorCacheTransactionRunner {
     suspend fun run(block: suspend () -> Unit)
 }
 
-/** Production [AuthorCacheTransactionRunner] backed by a real [AppDatabase] transaction. */
 fun AppDatabase.asAuthorCacheTransactionRunner(): AuthorCacheTransactionRunner =
     AuthorCacheTransactionRunner { block ->
         useWriterConnection { transactor -> transactor.immediateTransaction { block() } }
     }
 
-/**
- * Refreshes and pages the unscoped Authors cache from the network. Registered on a
- * [androidx.paging.Pager] alongside [AuthorDao.pagingSource] so Room stays the single source of
- * truth: [load] fetches from [authorsApi] and writes into [authorDao]/[authorRemoteKeyDao], and
- * those writes invalidate the `PagingSource`, which is what actually drives the UI.
- *
- * Unlike [GuideRemoteMediator], there is no scope dimension here — this mediator only ever fetches
- * the unfiltered authors list (`query = null`).
- */
 @OptIn(ExperimentalPagingApi::class)
 class AuthorRemoteMediator(
     private val authorsApi: AuthorsApi,

@@ -11,13 +11,5 @@ interface AuthorsRepository {
     suspend fun findAuthors(page: Int, limit: Int, query: String? = null): Result<PagedAuthors>
     suspend fun findAuthorById(id: String): Result<AuthorDetail>
 
-    /**
-     * Room-backed, refresh-on-fetch paging stream for the unscoped Authors list. Deliberately
-     * returns `Flow<PagingData<Author>>` rather than `Result<PagedAuthors>` — the only method on
-     * this repository that does — because Paging's error surface is
-     * `LoadState`/`RemoteMediator.MediatorResult`, not a one-shot `Result`; see
-     * `AuthorRemoteMediator` for the sync logic. Unlike `GuidesRepository.getGuidesPagingFlow`,
-     * there is no scope/userId parameter — there is nothing to scope the Authors list by.
-     */
     fun getAuthorsPagingFlow(): Flow<PagingData<Author>>
 }

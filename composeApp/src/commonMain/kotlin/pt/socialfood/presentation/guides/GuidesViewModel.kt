@@ -19,6 +19,7 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.use_case.guide.FindGuidesUseCase
 import pt.socialfood.domain.use_case.guide.GetGuidesPagingUseCase
 import pt.socialfood.domain.use_case.user.GetUserMeUseCase
+import pt.socialfood.domain.use_case.user.ObserveUserUseCase
 
 private const val PAGE_SIZE = 20
 
@@ -27,6 +28,7 @@ class GuidesViewModel(
     private val findGuides: FindGuidesUseCase,
     private val getUserMe: GetUserMeUseCase,
     private val getGuidesPaging: GetGuidesPagingUseCase,
+    private val observeUser: ObserveUserUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<GuidesUiState>(GuidesUiState.Loading)
@@ -45,25 +47,18 @@ class GuidesViewModel(
     // one name in the same class — the new public `selectedTab: StateFlow<Int>` needs that name.
     private var legacySelectedTab = 0
 
-    // New tab-selection / current-user-id state feeding `guides`. Deliberately duplicated
-    // alongside the legacy state above rather than reusing it directly — see APPS-20-3 plan.
+    // New tab-selection state feeding `guides`. Deliberately duplicated alongside the legacy
+    // state above rather than reusing it directly — the old and new code paths coexist until
+    // the old path is deleted.
     private val _selectedTab = MutableStateFlow(0)
     val selectedTab: StateFlow<Int> = _selectedTab.asStateFlow()
 
-    private val _currentUserId = MutableStateFlow<String?>(null)
-
-    val guides: Flow<PagingData<Guide>> = combine(_selectedTab, _currentUserId) { tab, userId ->
-        if (tab == 1) userId else null
+    val guides: Flow<PagingData<Guide>> = combine(_selectedTab, observeUser()) { tab, user ->
+        if (tab == 1) user?.id else null
     }.distinctUntilChanged().flatMapLatest { getGuidesPaging(it) }.cachedIn(viewModelScope)
 
     init {
         loadFirstPage()
-        viewModelScope.launch {
-            val userResult = getUserMe()
-            if (userResult is Result.Success) {
-                _currentUserId.value = userResult.data.id
-            }
-        }
     }
 
     fun onTabSelected(tab: Int) {

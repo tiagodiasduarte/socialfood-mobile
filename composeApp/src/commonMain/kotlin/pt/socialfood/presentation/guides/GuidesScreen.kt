@@ -61,7 +61,7 @@ fun GuidesScreen(
 @Composable
 fun GuidesScreenContent(
     guides: LazyPagingItems<Guide>,
-    selectedTab: Int = 0,
+    selectedTab: Int = ALL_GUIDES_TAB,
     onTabSelected: (Int) -> Unit = {},
     onGuideClick: (guideId: String) -> Unit = {},
     onAddClick: () -> Unit = {},
@@ -178,7 +178,7 @@ fun GuidesScreenPreview() {
     AppTheme {
         GuidesScreenContent(
             guides = guides,
-            selectedTab = 0,
+            selectedTab = ALL_GUIDES_TAB,
         )
     }
 }

@@ -16,17 +16,20 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.use_case.guide.GetGuidesPagingUseCase
 import pt.socialfood.domain.use_case.user.ObserveUserUseCase
 
+const val ALL_GUIDES_TAB = 0
+const val MY_GUIDES_TAB = 1
+
 @OptIn(ExperimentalCoroutinesApi::class)
 class GuidesViewModel(
     private val getGuidesPaging: GetGuidesPagingUseCase,
     private val observeUser: ObserveUserUseCase,
 ) : ViewModel() {
 
-    private val _selectedTab = MutableStateFlow(0)
+    private val _selectedTab = MutableStateFlow(ALL_GUIDES_TAB)
     val selectedTab: StateFlow<Int> = _selectedTab.asStateFlow()
 
     val guides: Flow<PagingData<Guide>> = combine(_selectedTab, observeUser()) { tab, user ->
-        if (tab == 1) user?.id else null
+        if (tab == MY_GUIDES_TAB) user?.id else null
     }.distinctUntilChanged().flatMapLatest { getGuidesPaging(it) }.cachedIn(viewModelScope)
 
     fun onTabSelected(tab: Int) {

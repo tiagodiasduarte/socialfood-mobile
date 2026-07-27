@@ -37,9 +37,7 @@ import pt.socialfood.ui.theme.SpaceSize
 @Composable
 fun GuidesHeader(
     selectedTab: Int,
-    searchQuery: String,
     onSelectedTab: (Int) -> Unit,
-    onQueryChange: (String) -> Unit,
     onAddClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -76,8 +74,6 @@ fun GuidesHeader(
         Spacer(Modifier.height(8.dp))
 
         SearchBar(
-            searchQuery = searchQuery,
-            onQueryChange = onQueryChange,
             placeholder = stringResource(Res.string.guides_search_placeholder)
         )
 
@@ -99,9 +95,7 @@ fun GuidesHeaderPreview() {
     AppTheme {
         GuidesHeader(
             selectedTab = 0,
-            searchQuery = "",
             onSelectedTab = { },
-            onQueryChange = { }
         )
     }
 }

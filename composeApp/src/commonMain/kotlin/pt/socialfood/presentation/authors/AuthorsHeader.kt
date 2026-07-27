@@ -25,8 +25,6 @@ import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
 fun AuthorsHeader(
-    searchQuery: String,
-    onQueryChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -52,8 +50,6 @@ fun AuthorsHeader(
         Spacer(Modifier.height(SpaceSize.medium))
 
         SearchBar(
-            searchQuery = searchQuery,
-            onQueryChange = onQueryChange,
             placeholder = stringResource(Res.string.authors_search_placeholder),
         )
 
@@ -65,9 +61,6 @@ fun AuthorsHeader(
 @Preview
 fun AuthorsHeaderPreview() {
     AppTheme {
-        AuthorsHeader(
-            searchQuery = "",
-            onQueryChange = { }
-        )
+        AuthorsHeader()
     }
 }

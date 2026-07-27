@@ -14,9 +14,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -66,7 +63,6 @@ fun GuidesScreenContent(
     onGuideClick: (guideId: String) -> Unit = {},
     onAddClick: () -> Unit = {},
 ) {
-    var searchQuery by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
 
     val isRefreshing = guides.loadState.refresh is LoadState.Loading && guides.itemCount > 0
@@ -87,9 +83,7 @@ fun GuidesScreenContent(
             item {
                 GuidesHeader(
                     selectedTab = selectedTab,
-                    searchQuery = searchQuery,
                     onSelectedTab = onTabSelected,
-                    onQueryChange = { searchQuery = it },
                     onAddClick = onAddClick,
                 )
             }
@@ -113,16 +107,11 @@ fun GuidesScreenContent(
                         key = guides.itemKey { it.id },
                     ) { index ->
                         guides[index]?.let { guide ->
-                            if (searchQuery.isBlank() ||
-                                guide.name.contains(searchQuery, ignoreCase = true) ||
-                                guide.description.contains(searchQuery, ignoreCase = true)
-                            ) {
-                                GuideCard(
-                                    modifier = Modifier.padding(horizontal = SpaceSize.large),
-                                    guide = guide,
-                                    onClick = { onGuideClick(guide.id) },
-                                )
-                            }
+                            GuideCard(
+                                modifier = Modifier.padding(horizontal = SpaceSize.large),
+                                guide = guide,
+                                onClick = { onGuideClick(guide.id) },
+                            )
                         }
                     }
 

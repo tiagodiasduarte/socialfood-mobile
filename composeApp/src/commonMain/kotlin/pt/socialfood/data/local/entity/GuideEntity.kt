@@ -2,7 +2,9 @@ package pt.socialfood.data.local.entity
 
 import androidx.room.Entity
 
-@Entity(tableName = "guides", primaryKeys = ["id", "scope"])
+const val GUIDES_TABLE = "guides"
+
+@Entity(tableName = GUIDES_TABLE, primaryKeys = ["id", "scope"])
 data class GuideEntity(
     val id: String,
     val scope: String,

@@ -33,6 +33,7 @@ import pt.socialfood.data.api.UserApiImpl
 import pt.socialfood.data.local.AppDatabase
 import pt.socialfood.data.paging.asAuthorCacheTransactionRunner
 import pt.socialfood.data.paging.asGuideCacheTransactionRunner
+import pt.socialfood.data.paging.asHomeCacheTransactionRunner
 import pt.socialfood.data.network.ImageHttpClient
 import pt.socialfood.data.network.KtorHttpClient
 import pt.socialfood.data.network.S3HttpClient
@@ -119,6 +120,8 @@ import pt.socialfood.domain.use_case.home.GetHomeSectionByIdUseCase
 import pt.socialfood.domain.use_case.home.GetHomeSectionByIdUseCaseImpl
 import pt.socialfood.domain.use_case.home.GetHomeSectionsUseCase
 import pt.socialfood.domain.use_case.home.GetHomeSectionsUseCaseImpl
+import pt.socialfood.domain.use_case.home.ObserveHomeSectionsUseCase
+import pt.socialfood.domain.use_case.home.ObserveHomeSectionsUseCaseImpl
 import pt.socialfood.domain.use_case.home.RemoveHomeSectionItemUseCase
 import pt.socialfood.domain.use_case.home.RemoveHomeSectionItemUseCaseImpl
 import pt.socialfood.domain.use_case.home.UpdateHomeSectionUseCase
@@ -233,7 +236,13 @@ val repositoryModule = module {
             transactionRunner = get<AppDatabase>().asGuideCacheTransactionRunner(),
         )
     }
-    single<HomeRepository> { HomeRepositoryImpl(get()) }
+    single<HomeRepository> {
+        HomeRepositoryImpl(
+            homeApi = get(),
+            homeDao = get<AppDatabase>().homeDao(),
+            transactionRunner = get<AppDatabase>().asHomeCacheTransactionRunner(),
+        )
+    }
     single<PlacesRepository> { PlacesRepositoryImpl(get()) }
     single<RestaurantsRepository> { RestaurantsRepositoryImpl(get()) }
     single<UsersRepository> { UsersRepositoryImpl(get()) }
@@ -275,6 +284,7 @@ val useCaseModule = module {
     factory<DeleteHomeSectionUseCase> { DeleteHomeSectionUseCaseImpl(get()) }
     factory<AddHomeSectionItemUseCase> { AddHomeSectionItemUseCaseImpl(get()) }
     factory<RemoveHomeSectionItemUseCase> { RemoveHomeSectionItemUseCaseImpl(get()) }
+    factory<ObserveHomeSectionsUseCase> { ObserveHomeSectionsUseCaseImpl(get()) }
 
     factory<FindAuthorsUseCase> { FindAuthorsUseCaseImpl(get()) }
     factory<GetAuthorsUseCase> { GetAuthorsUseCaseImpl(get()) }

@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.authors.detail
+package pt.socialfood.presentation.author.detail
 
 import pt.socialfood.domain.model.AuthorDetail
 

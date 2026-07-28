@@ -6,10 +6,13 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Guide
+import pt.socialfood.domain.model.HomeSection
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.use_case.favourite.guide.IsGuideFavouriteUseCase
 import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
@@ -18,6 +21,7 @@ import pt.socialfood.domain.use_case.favourite.restaurant.IsRestaurantFavouriteU
 import pt.socialfood.domain.use_case.favourite.restaurant.MarkRestaurantFavouriteUseCase
 import pt.socialfood.domain.use_case.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
 import pt.socialfood.domain.use_case.home.GetHomeSectionsUseCase
+import pt.socialfood.domain.use_case.home.ObserveHomeSectionsUseCase
 
 class HomeViewModel(
     private val getHomeSections: GetHomeSectionsUseCase,
@@ -27,6 +31,7 @@ class HomeViewModel(
     private val isGuideFavourite: IsGuideFavouriteUseCase,
     private val markGuideFavourite: MarkGuideFavouriteUseCase,
     private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
+    observeHomeSections: ObserveHomeSectionsUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -34,6 +39,9 @@ class HomeViewModel(
 
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing
+
+    val sections: StateFlow<List<HomeSection>> = observeHomeSections()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     init {
         load()

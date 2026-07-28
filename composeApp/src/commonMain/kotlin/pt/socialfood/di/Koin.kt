@@ -333,7 +333,7 @@ val viewModelModule = module {
 
     factory { (restaurantId: String) -> RestaurantDetailViewModel(get(), get(), get(), get(), restaurantId) }
 
-    factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get<ObserveHomeSectionsUseCase>()) }
     factory { SignInViewModel(get(), get()) }
     factory { SignUpViewModel(get()) }
     factory { (email: String) -> ValidateCodeViewModel(get(), get(), get(), email) }

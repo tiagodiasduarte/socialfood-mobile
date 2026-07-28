@@ -3,7 +3,9 @@ package pt.socialfood.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "favourite_guides")
+const val FAVOURITE_GUIDES_TABLE = "favourite_guides"
+
+@Entity(tableName = FAVOURITE_GUIDES_TABLE)
 data class FavouriteGuideEntity(
     @PrimaryKey val guideId: String,
     val name: String,

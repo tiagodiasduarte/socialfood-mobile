@@ -7,12 +7,18 @@ import androidx.paging.cachedIn
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import pt.socialfood.domain.model.Guide
+import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
+import pt.socialfood.domain.use_case.favourite.guide.ObserveFavouriteGuideIdsUseCase
+import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
 import pt.socialfood.domain.use_case.guide.GetGuidesPagingUseCase
 import pt.socialfood.domain.use_case.user.ObserveUserUseCase
 
@@ -23,6 +29,9 @@ const val MY_GUIDES_TAB = 1
 class GuidesViewModel(
     private val getGuidesPaging: GetGuidesPagingUseCase,
     private val observeUser: ObserveUserUseCase,
+    private val observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase,
+    private val markGuideFavourite: MarkGuideFavouriteUseCase,
+    private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
 ) : ViewModel() {
 
     private val _selectedTab = MutableStateFlow(ALL_GUIDES_TAB)
@@ -32,7 +41,20 @@ class GuidesViewModel(
         if (tab == MY_GUIDES_TAB) user?.id else null
     }.distinctUntilChanged().flatMapLatest { getGuidesPaging(it) }.cachedIn(viewModelScope)
 
+    val favouriteGuideIds: StateFlow<Set<String>> = observeFavouriteGuideIds()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptySet())
+
     fun onTabSelected(tab: Int) {
         _selectedTab.value = tab
+    }
+
+    fun onToggleGuideFavourite(guide: Guide) {
+        viewModelScope.launch {
+            if (guide.id in favouriteGuideIds.value) {
+                unmarkGuideFavourite(guide.id)
+            } else {
+                markGuideFavourite(guide)
+            }
+        }
     }
 }

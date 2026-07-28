@@ -1,5 +1,7 @@
 package pt.socialfood.fakes
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.PagedFavouriteGuides
@@ -12,6 +14,7 @@ class FakeFavouritesRepository(
         PagedFavouriteGuides(favourites = emptyList(), page = 1, total = 0, hasMore = false)
     ),
     private val isFavouriteResult: Result<Boolean> = Result.Success(false),
+    private val favouriteGuideIds: Flow<Set<String>> = flowOf(emptySet()),
     private val syncResult: Result<Unit> = Result.Success(Unit),
 ) : FavouritesRepository {
 
@@ -34,6 +37,8 @@ class FakeFavouritesRepository(
     override suspend fun getFavouritesPaged(page: Int, limit: Int): Result<PagedFavouriteGuides> = pagedResult
 
     override suspend fun isFavourite(guideId: String): Result<Boolean> = isFavouriteResult
+
+    override fun observeFavouriteGuideIds(): Flow<Set<String>> = favouriteGuideIds
 
     override suspend fun syncFavourites(): Result<Unit> = syncResult
 }

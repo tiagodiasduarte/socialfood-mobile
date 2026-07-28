@@ -2,6 +2,8 @@ package pt.socialfood.data.repository
 
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.FavouritesApi
 import pt.socialfood.data.local.dao.FavouriteDao
@@ -91,6 +93,9 @@ class FavouritesRepositoryImpl(
             Result.Error(exception.toErrorEntity())
         }
     }
+
+    override fun observeFavouriteGuideIds(): Flow<Set<String>> =
+        favouriteDao.observeAllIds().map { it.toSet() }
 
     override suspend fun syncFavourites(): Result<Unit> {
         return try {

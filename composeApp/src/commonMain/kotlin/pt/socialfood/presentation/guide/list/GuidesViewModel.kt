@@ -28,8 +28,8 @@ const val MY_GUIDES_TAB = 1
 @OptIn(ExperimentalCoroutinesApi::class)
 class GuidesViewModel(
     private val getGuidesPaging: GetGuidesPagingUseCase,
-    private val observeUser: ObserveUserUseCase,
-    private val observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase,
+    observeUser: ObserveUserUseCase,
+    observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase,
     private val markGuideFavourite: MarkGuideFavouriteUseCase,
     private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
 ) : ViewModel() {
@@ -39,10 +39,17 @@ class GuidesViewModel(
 
     val guides: Flow<PagingData<Guide>> = combine(_selectedTab, observeUser()) { tab, user ->
         if (tab == MY_GUIDES_TAB) user?.id else null
-    }.distinctUntilChanged().flatMapLatest { getGuidesPaging(it) }.cachedIn(viewModelScope)
+    }
+        .distinctUntilChanged()
+        .flatMapLatest { getGuidesPaging(it) }
+        .cachedIn(viewModelScope)
 
     val favouriteGuideIds: StateFlow<Set<String>> = observeFavouriteGuideIds()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, emptySet())
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = emptySet()
+        )
 
     fun onTabSelected(tab: Int) {
         _selectedTab.value = tab

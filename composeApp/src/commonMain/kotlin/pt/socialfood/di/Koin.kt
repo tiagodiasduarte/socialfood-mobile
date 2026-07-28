@@ -169,8 +169,8 @@ import pt.socialfood.domain.use_case.user.UpdateUserPhotoUseCase
 import pt.socialfood.domain.use_case.user.UpdateUserPhotoUseCaseImpl
 import pt.socialfood.domain.use_case.user.UpdateUserUseCase
 import pt.socialfood.domain.use_case.user.UpdateUserUseCaseImpl
-import pt.socialfood.presentation.authors.detail.AuthorDetailViewModel
-import pt.socialfood.presentation.authors.AuthorsViewModel
+import pt.socialfood.presentation.author.detail.AuthorDetailViewModel
+import pt.socialfood.presentation.author.list.AuthorsViewModel
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesViewModel
 import pt.socialfood.presentation.favourite.restaurant.FavouriteRestaurantsViewModel
 import pt.socialfood.presentation.guide.detail.GuideDetailViewModel

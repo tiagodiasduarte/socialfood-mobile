@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.authors
+package pt.socialfood.presentation.author.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

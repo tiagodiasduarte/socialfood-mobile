@@ -14,10 +14,10 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.mp.KoinPlatform.getKoin
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.authors.detail.AuthorDetailScreen
-import pt.socialfood.presentation.authors.detail.AuthorDetailViewModel
-import pt.socialfood.presentation.authors.AuthorsScreen
-import pt.socialfood.presentation.authors.AuthorsViewModel
+import pt.socialfood.presentation.author.detail.AuthorDetailScreen
+import pt.socialfood.presentation.author.detail.AuthorDetailViewModel
+import pt.socialfood.presentation.author.list.AuthorsScreen
+import pt.socialfood.presentation.author.list.AuthorsViewModel
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesScreen
 import pt.socialfood.presentation.favourite.restaurant.FavouriteRestaurantsScreen
 import pt.socialfood.presentation.guide.detail.GuideDetailScreen

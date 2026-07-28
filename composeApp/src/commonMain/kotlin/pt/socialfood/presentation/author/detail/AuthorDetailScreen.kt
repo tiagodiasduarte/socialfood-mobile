@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.authors.detail
+package pt.socialfood.presentation.author.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

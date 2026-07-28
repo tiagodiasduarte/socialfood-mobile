@@ -77,6 +77,8 @@ import pt.socialfood.domain.use_case.favourite.guide.IsGuideFavouriteUseCase
 import pt.socialfood.domain.use_case.favourite.guide.IsGuideFavouriteUseCaseImpl
 import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCaseImpl
+import pt.socialfood.domain.use_case.favourite.guide.ObserveFavouriteGuideIdsUseCase
+import pt.socialfood.domain.use_case.favourite.guide.ObserveFavouriteGuideIdsUseCaseImpl
 import pt.socialfood.domain.use_case.favourite.SyncFavouriteRestaurantsUseCase
 import pt.socialfood.domain.use_case.favourite.SyncFavouriteRestaurantsUseCaseImpl
 import pt.socialfood.domain.use_case.favourite.SyncFavouritesUseCase
@@ -296,6 +298,7 @@ val useCaseModule = module {
     factory<UnmarkGuideFavouriteUseCase> { UnmarkGuideFavouriteUseCaseImpl(get()) }
     factory<GetFavouriteGuidesUseCase> { GetFavouriteGuidesUseCaseImpl(get()) }
     factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
+    factory<ObserveFavouriteGuideIdsUseCase> { ObserveFavouriteGuideIdsUseCaseImpl(get()) }
     factory<SyncFavouritesUseCase> { SyncFavouritesUseCaseImpl(get()) }
 
     factory<MarkRestaurantFavouriteUseCase> { MarkRestaurantFavouriteUseCaseImpl(get()) }
@@ -311,7 +314,7 @@ val viewModelModule = module {
     factory { AuthorsViewModel(get()) }
     factory { (authorId: String) -> AuthorDetailViewModel(get(), authorId) }
 
-    factory { GuidesViewModel(get(), get()) }
+    factory { GuidesViewModel(get(), get<MarkGuideFavouriteUseCase>(), get<UnmarkGuideFavouriteUseCase>(), get(), get<ObserveFavouriteGuideIdsUseCase>()) }
     factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
     factory { CreateGuideViewModel(get(), get(), get()) }
     factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), get(), guideId) }

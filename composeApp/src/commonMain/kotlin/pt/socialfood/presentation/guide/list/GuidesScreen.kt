@@ -44,13 +44,16 @@ fun GuidesScreen(
 ) {
     val guides = viewModel.guides.collectAsLazyPagingItems()
     val selectedTab by viewModel.selectedTab.collectAsStateWithLifecycle()
+    val favouriteGuideIds by viewModel.favouriteGuideIds.collectAsStateWithLifecycle()
 
     GuidesScreenContent(
         guides = guides,
         selectedTab = selectedTab,
+        favouriteGuideIds = favouriteGuideIds,
         onTabSelected = { viewModel.onTabSelected(it) },
         onGuideClick = onGuideClick,
         onAddClick = onAddClick,
+        onFavouriteClick = { viewModel.onToggleGuideFavourite(it) },
     )
 }
 
@@ -59,9 +62,11 @@ fun GuidesScreen(
 fun GuidesScreenContent(
     guides: LazyPagingItems<Guide>,
     selectedTab: Int = ALL_GUIDES_TAB,
+    favouriteGuideIds: Set<String> = emptySet(),
     onTabSelected: (Int) -> Unit = {},
     onGuideClick: (guideId: String) -> Unit = {},
     onAddClick: () -> Unit = {},
+    onFavouriteClick: (Guide) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
 
@@ -110,7 +115,9 @@ fun GuidesScreenContent(
                             GuideCard(
                                 modifier = Modifier.padding(horizontal = SpaceSize.large),
                                 guide = guide,
+                                isFavourite = guide.id in favouriteGuideIds,
                                 onClick = { onGuideClick(guide.id) },
+                                onFavouriteClick = { onFavouriteClick(guide) },
                             )
                         }
                     }
@@ -168,6 +175,7 @@ fun GuidesScreenPreview() {
         GuidesScreenContent(
             guides = guides,
             selectedTab = ALL_GUIDES_TAB,
+            favouriteGuideIds = setOf("2"),
         )
     }
 }

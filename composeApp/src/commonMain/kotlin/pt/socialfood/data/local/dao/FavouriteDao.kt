@@ -3,6 +3,7 @@ package pt.socialfood.data.local.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
+import kotlinx.coroutines.flow.Flow
 import pt.socialfood.data.local.entity.FAVOURITE_GUIDES_TABLE
 import pt.socialfood.data.local.entity.FavouriteGuideEntity
 
@@ -11,6 +12,9 @@ interface FavouriteDao {
 
     @Upsert
     suspend fun upsert(favourite: FavouriteGuideEntity)
+
+    @Query("SELECT guideId FROM $FAVOURITE_GUIDES_TABLE")
+    fun observeAllIds(): Flow<List<String>>
 
     @Upsert
     suspend fun upsertAll(favourites: List<FavouriteGuideEntity>)

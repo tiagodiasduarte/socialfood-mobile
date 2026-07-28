@@ -2,6 +2,8 @@
     <string name="app_name">SocialFood</string>
 
     <string name="back_button_description">Back button</string>
+    <string name="show_password_content_description">Show password</string>
+    <string name="hide_password_content_description">Hide password</string>
 
     <string name="sign_in_title_label">Welcome back</string>
     <string name="sign_in_subtitle_label">Sign in to continue exploring</string>

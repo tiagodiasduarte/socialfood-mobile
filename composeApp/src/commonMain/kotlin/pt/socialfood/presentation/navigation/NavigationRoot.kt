@@ -1,5 +1,9 @@
 package pt.socialfood.presentation.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -36,6 +40,8 @@ import pt.socialfood.presentation.profile.edit.EditProfileScreen
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailScreen
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
 
+private const val NAVIGATION_TRANSITION_DURATION_MILLIS = 300
+
 @Composable
 fun NavigationRoot(
     modifier: Modifier = Modifier,
@@ -67,6 +73,33 @@ fun NavigationRoot(
                 .fillMaxSize()
                 .padding(innerPadding),
             onBack = navigator::goBack,
+            transitionSpec = {
+                slideInHorizontally(
+                    initialOffsetX = { fullWidth -> fullWidth },
+                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                ) togetherWith slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> -fullWidth / 4 },
+                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                )
+            },
+            popTransitionSpec = {
+                slideInHorizontally(
+                    initialOffsetX = { fullWidth -> -fullWidth / 4 },
+                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                ) togetherWith slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> fullWidth },
+                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                )
+            },
+            predictivePopTransitionSpec = {
+                slideInHorizontally(
+                    initialOffsetX = { fullWidth -> -fullWidth / 4 },
+                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                ) togetherWith slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> fullWidth },
+                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                )
+            },
             entries = navigationState.toEntries(
                 entryProvider {
                     entry<Route.Home> {

@@ -1,4 +1,4 @@
-package pt.socialfood.data
+package pt.socialfood.data.api
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.header

@@ -2,7 +2,7 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.delay
 import pt.socialfood.core.Result
-import pt.socialfood.data.RestaurantApi
+import pt.socialfood.data.api.RestaurantApi
 import pt.socialfood.data.network.extensions.toErrorEntity
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.PagedRestaurants

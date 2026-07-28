@@ -1,6 +1,6 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.data.UserApi
+import pt.socialfood.data.api.UserApi
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.network.model.photo.PresignedUrlResponse

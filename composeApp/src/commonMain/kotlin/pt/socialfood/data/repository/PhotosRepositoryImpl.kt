@@ -1,7 +1,7 @@
 package pt.socialfood.data.repository
 
 import pt.socialfood.core.Result
-import pt.socialfood.data.S3Api
+import pt.socialfood.data.api.S3Api
 import pt.socialfood.data.network.extensions.toErrorEntity
 import pt.socialfood.domain.repository.PhotosRepository
 

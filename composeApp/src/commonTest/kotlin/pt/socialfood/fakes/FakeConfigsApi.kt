@@ -1,6 +1,6 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.data.ConfigsApi
+import pt.socialfood.data.api.ConfigsApi
 import pt.socialfood.domain.model.Configs
 
 class FakeConfigsApi(private val shouldThrow: Boolean = false) : ConfigsApi {

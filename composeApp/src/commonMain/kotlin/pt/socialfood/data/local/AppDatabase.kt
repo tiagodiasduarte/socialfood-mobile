@@ -10,15 +10,17 @@ import pt.socialfood.data.local.dao.FavouriteDao
 import pt.socialfood.data.local.dao.FavouriteRestaurantDao
 import pt.socialfood.data.local.dao.GuideDao
 import pt.socialfood.data.local.dao.GuideRemoteKeyDao
+import pt.socialfood.data.local.dao.HomeDao
 import pt.socialfood.data.local.entity.AuthorEntity
 import pt.socialfood.data.local.entity.AuthorRemoteKeyEntity
 import pt.socialfood.data.local.entity.FavouriteGuideEntity
 import pt.socialfood.data.local.entity.FavouriteRestaurantEntity
 import pt.socialfood.data.local.entity.GuideEntity
 import pt.socialfood.data.local.entity.GuideRemoteKeyEntity
+import pt.socialfood.data.local.entity.HomeSectionEntity
 
 const val DATABASE_NAME = "socialfood.db"
-const val DATABASE_VERSION = 4
+const val DATABASE_VERSION = 5
 
 @Database(
     entities = [
@@ -28,6 +30,7 @@ const val DATABASE_VERSION = 4
         FavouriteRestaurantEntity::class,
         GuideEntity::class,
         GuideRemoteKeyEntity::class,
+        HomeSectionEntity::class,
     ],
     version = DATABASE_VERSION,
     exportSchema = true,
@@ -40,6 +43,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun favouriteRestaurantDao(): FavouriteRestaurantDao
     abstract fun guideDao(): GuideDao
     abstract fun guideRemoteKeyDao(): GuideRemoteKeyDao
+    abstract fun homeDao(): HomeDao
 }
 
 @Suppress("NO_ACTUAL_FOR_EXPECT")

@@ -31,32 +31,32 @@ import pt.socialfood.data.api.S3ApiImpl
 import pt.socialfood.data.api.UserApi
 import pt.socialfood.data.api.UserApiImpl
 import pt.socialfood.data.local.AppDatabase
-import pt.socialfood.data.paging.asAuthorCacheTransactionRunner
-import pt.socialfood.data.paging.asGuideCacheTransactionRunner
-import pt.socialfood.data.paging.asHomeCacheTransactionRunner
 import pt.socialfood.data.network.ImageHttpClient
 import pt.socialfood.data.network.KtorHttpClient
 import pt.socialfood.data.network.S3HttpClient
 import pt.socialfood.data.network.SessionManager
+import pt.socialfood.data.paging.asAuthorCacheTransactionRunner
+import pt.socialfood.data.paging.asGuideCacheTransactionRunner
+import pt.socialfood.data.paging.asHomeCacheTransactionRunner
 import pt.socialfood.data.repository.AuthRepositoryImpl
 import pt.socialfood.data.repository.AuthorsRepositoryImpl
-import pt.socialfood.data.repository.PhotosRepositoryImpl
 import pt.socialfood.data.repository.ConfigsRepositoryImpl
 import pt.socialfood.data.repository.FavouriteRestaurantsRepositoryImpl
 import pt.socialfood.data.repository.FavouritesRepositoryImpl
 import pt.socialfood.data.repository.GuidesRepositoryImpl
 import pt.socialfood.data.repository.HomeRepositoryImpl
+import pt.socialfood.data.repository.PhotosRepositoryImpl
 import pt.socialfood.data.repository.PlacesRepositoryImpl
 import pt.socialfood.data.repository.RestaurantsRepositoryImpl
 import pt.socialfood.data.repository.UsersRepositoryImpl
 import pt.socialfood.domain.repository.AuthRepository
 import pt.socialfood.domain.repository.AuthorsRepository
-import pt.socialfood.domain.repository.PhotosRepository
 import pt.socialfood.domain.repository.ConfigsRepository
 import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
 import pt.socialfood.domain.repository.FavouritesRepository
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.repository.HomeRepository
+import pt.socialfood.domain.repository.PhotosRepository
 import pt.socialfood.domain.repository.PlacesRepository
 import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.domain.repository.UsersRepository
@@ -72,6 +72,10 @@ import pt.socialfood.domain.use_case.author.GetAuthorsUseCase
 import pt.socialfood.domain.use_case.author.GetAuthorsUseCaseImpl
 import pt.socialfood.domain.use_case.configs.GetConfigsUseCase
 import pt.socialfood.domain.use_case.configs.GetConfigsUseCaseImpl
+import pt.socialfood.domain.use_case.favourite.SyncFavouriteRestaurantsUseCase
+import pt.socialfood.domain.use_case.favourite.SyncFavouriteRestaurantsUseCaseImpl
+import pt.socialfood.domain.use_case.favourite.SyncFavouritesUseCase
+import pt.socialfood.domain.use_case.favourite.SyncFavouritesUseCaseImpl
 import pt.socialfood.domain.use_case.favourite.guide.GetFavouriteGuidesUseCase
 import pt.socialfood.domain.use_case.favourite.guide.GetFavouriteGuidesUseCaseImpl
 import pt.socialfood.domain.use_case.favourite.guide.IsGuideFavouriteUseCase
@@ -80,10 +84,6 @@ import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCaseImpl
 import pt.socialfood.domain.use_case.favourite.guide.ObserveFavouriteGuideIdsUseCase
 import pt.socialfood.domain.use_case.favourite.guide.ObserveFavouriteGuideIdsUseCaseImpl
-import pt.socialfood.domain.use_case.favourite.SyncFavouriteRestaurantsUseCase
-import pt.socialfood.domain.use_case.favourite.SyncFavouriteRestaurantsUseCaseImpl
-import pt.socialfood.domain.use_case.favourite.SyncFavouritesUseCase
-import pt.socialfood.domain.use_case.favourite.SyncFavouritesUseCaseImpl
 import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
 import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCaseImpl
 import pt.socialfood.domain.use_case.favourite.restaurant.GetFavouriteRestaurantsUseCase
@@ -100,10 +100,10 @@ import pt.socialfood.domain.use_case.guide.CreateGuideUseCase
 import pt.socialfood.domain.use_case.guide.CreateGuideUseCaseImpl
 import pt.socialfood.domain.use_case.guide.DeleteGuideUseCase
 import pt.socialfood.domain.use_case.guide.DeleteGuideUseCaseImpl
-import pt.socialfood.domain.use_case.guide.GetGuideByIdUseCase
-import pt.socialfood.domain.use_case.guide.GetGuideByIdUseCaseImpl
 import pt.socialfood.domain.use_case.guide.FindGuidesUseCase
 import pt.socialfood.domain.use_case.guide.FindGuidesUseCaseImpl
+import pt.socialfood.domain.use_case.guide.GetGuideByIdUseCase
+import pt.socialfood.domain.use_case.guide.GetGuideByIdUseCaseImpl
 import pt.socialfood.domain.use_case.guide.GetGuidesPagingUseCase
 import pt.socialfood.domain.use_case.guide.GetGuidesPagingUseCaseImpl
 import pt.socialfood.domain.use_case.guide.GetGuidesUseCase
@@ -140,34 +140,34 @@ import pt.socialfood.domain.use_case.login.RestartSignUpUseCase
 import pt.socialfood.domain.use_case.login.RestartSignUpUseCaseImpl
 import pt.socialfood.domain.use_case.login.ValidateCodeUseCase
 import pt.socialfood.domain.use_case.login.ValidateCodeUseCaseImpl
+import pt.socialfood.domain.use_case.photo.UploadPhotoUseCase
+import pt.socialfood.domain.use_case.photo.UploadPhotoUseCaseImpl
+import pt.socialfood.domain.use_case.restaurant.AddRestaurantByPlaceIdUseCase
+import pt.socialfood.domain.use_case.restaurant.AddRestaurantByPlaceIdUseCaseImpl
+import pt.socialfood.domain.use_case.restaurant.AwaitEnrichedRestaurantByPlaceIdUseCase
+import pt.socialfood.domain.use_case.restaurant.AwaitEnrichedRestaurantByPlaceIdUseCaseImpl
 import pt.socialfood.domain.use_case.restaurant.DeleteRestaurantUseCase
 import pt.socialfood.domain.use_case.restaurant.DeleteRestaurantUseCaseImpl
 import pt.socialfood.domain.use_case.restaurant.FindRestaurantsUseCase
 import pt.socialfood.domain.use_case.restaurant.FindRestaurantsUseCaseImpl
 import pt.socialfood.domain.use_case.restaurant.GetRestaurantByIdUseCase
 import pt.socialfood.domain.use_case.restaurant.GetRestaurantByIdUseCaseImpl
+import pt.socialfood.domain.use_case.restaurant.GetRestaurantByPlaceIdUseCase
+import pt.socialfood.domain.use_case.restaurant.GetRestaurantByPlaceIdUseCaseImpl
 import pt.socialfood.domain.use_case.restaurant.GetRestaurantsUseCase
 import pt.socialfood.domain.use_case.restaurant.GetRestaurantsUseCaseImpl
 import pt.socialfood.domain.use_case.restaurant.UpdateRestaurantUseCase
 import pt.socialfood.domain.use_case.restaurant.UpdateRestaurantUseCaseImpl
-import pt.socialfood.domain.use_case.restaurant.AddRestaurantByPlaceIdUseCase
-import pt.socialfood.domain.use_case.restaurant.AddRestaurantByPlaceIdUseCaseImpl
-import pt.socialfood.domain.use_case.restaurant.AwaitEnrichedRestaurantByPlaceIdUseCase
-import pt.socialfood.domain.use_case.restaurant.AwaitEnrichedRestaurantByPlaceIdUseCaseImpl
-import pt.socialfood.domain.use_case.restaurant.GetRestaurantByPlaceIdUseCase
-import pt.socialfood.domain.use_case.restaurant.GetRestaurantByPlaceIdUseCaseImpl
+import pt.socialfood.domain.use_case.user.FindUsersUseCase
+import pt.socialfood.domain.use_case.user.FindUsersUseCaseImpl
+import pt.socialfood.domain.use_case.user.GetPresignedUrlUseCase
+import pt.socialfood.domain.use_case.user.GetPresignedUrlUseCaseImpl
 import pt.socialfood.domain.use_case.user.GetUserByIdUseCase
 import pt.socialfood.domain.use_case.user.GetUserByIdUseCaseImpl
 import pt.socialfood.domain.use_case.user.GetUserMeUseCase
 import pt.socialfood.domain.use_case.user.GetUserMeUseCaseImpl
-import pt.socialfood.domain.use_case.user.FindUsersUseCase
-import pt.socialfood.domain.use_case.user.FindUsersUseCaseImpl
 import pt.socialfood.domain.use_case.user.GetUsersUseCase
 import pt.socialfood.domain.use_case.user.GetUsersUseCaseImpl
-import pt.socialfood.domain.use_case.photo.UploadPhotoUseCase
-import pt.socialfood.domain.use_case.photo.UploadPhotoUseCaseImpl
-import pt.socialfood.domain.use_case.user.GetPresignedUrlUseCase
-import pt.socialfood.domain.use_case.user.GetPresignedUrlUseCaseImpl
 import pt.socialfood.domain.use_case.user.ObserveUserUseCase
 import pt.socialfood.domain.use_case.user.ObserveUserUseCaseImpl
 import pt.socialfood.domain.use_case.user.UpdateUserPhotoUseCase
@@ -178,31 +178,24 @@ import pt.socialfood.presentation.author.detail.AuthorDetailViewModel
 import pt.socialfood.presentation.author.list.AuthorsViewModel
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesViewModel
 import pt.socialfood.presentation.favourite.restaurant.FavouriteRestaurantsViewModel
-import pt.socialfood.presentation.guide.detail.GuideDetailViewModel
-import pt.socialfood.presentation.guide.list.GuidesViewModel
 import pt.socialfood.presentation.guide.create.CreateGuideViewModel
-import pt.socialfood.presentation.home.HomeViewModel
-import pt.socialfood.presentation.sign_in.SignInViewModel
-import pt.socialfood.presentation.sign_up.SignUpViewModel
-import pt.socialfood.presentation.validate_code.ValidateCodeViewModel
-import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
+import pt.socialfood.presentation.guide.detail.GuideDetailViewModel
 import pt.socialfood.presentation.guide.edit.EditGuideViewModel
+import pt.socialfood.presentation.guide.list.GuidesViewModel
+import pt.socialfood.presentation.home.HomeViewModel
 import pt.socialfood.presentation.profile.ProfileViewModel
 import pt.socialfood.presentation.profile.edit.EditProfileViewModel
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
+import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
+import pt.socialfood.presentation.sign_in.SignInViewModel
+import pt.socialfood.presentation.sign_up.SignUpViewModel
 import pt.socialfood.presentation.splash.SplashViewModel
+import pt.socialfood.presentation.validate_code.ValidateCodeViewModel
 
 expect val platformModule: Module
 
 val networkModule = module {
-    single { SessionManager(get()) }
-    single { KtorHttpClient(get()) }
-    single<HttpClient> { get<KtorHttpClient>().client }
-    single { S3HttpClient() }
-    single<S3Api> { S3ApiImpl(get<S3HttpClient>().client) }
-    single { ImageHttpClient() }
     single { AppImageLoaderFactory(get<ImageHttpClient>().client) }
-    single<ImageCache> { get<AppImageLoaderFactory>() }
     single<AuthApi> { AuthApiImpl(get()) }
     single<AuthorsApi> { AuthorsApiImpl(get()) }
     single<ConfigsApi> { ConfigsApiImpl(get()) }
@@ -210,8 +203,15 @@ val networkModule = module {
     single<FavouritesApi> { FavouritesApiImpl(get()) }
     single<GuidesApi> { GuidesApiImpl(get()) }
     single<HomeApi> { HomeApiImpl(get()) }
+    single<HttpClient> { get<KtorHttpClient>().client }
+    single<ImageCache> { get<AppImageLoaderFactory>() }
+    single { ImageHttpClient() }
+    single { KtorHttpClient(get()) }
     single<PlacesApi> { PlacesApiImpl(get()) }
     single<RestaurantApi> { RestaurantApiImpl(get()) }
+    single<S3Api> { S3ApiImpl(get<S3HttpClient>().client) }
+    single { S3HttpClient() }
+    single { SessionManager(get()) }
     single<UserApi> { UserApiImpl(get()) }
 }
 
@@ -243,104 +243,90 @@ val repositoryModule = module {
             transactionRunner = get<AppDatabase>().asHomeCacheTransactionRunner(),
         )
     }
+    single<PhotosRepository> { PhotosRepositoryImpl(get()) }
     single<PlacesRepository> { PlacesRepositoryImpl(get()) }
     single<RestaurantsRepository> { RestaurantsRepositoryImpl(get()) }
     single<UsersRepository> { UsersRepositoryImpl(get()) }
-    single<PhotosRepository> { PhotosRepositoryImpl(get()) }
 }
 
 val useCaseModule = module {
-    factory<FindGuidesUseCase> { FindGuidesUseCaseImpl(get()) }
-    factory<GetGuidesUseCase> { GetGuidesUseCaseImpl(get()) }
-    factory<GetGuidesPagingUseCase> { GetGuidesPagingUseCaseImpl(get()) }
-    factory<GetGuideByIdUseCase> { GetGuideByIdUseCaseImpl(get()) }
-    factory<CreateGuideUseCase> { CreateGuideUseCaseImpl(get(), get()) }
-    factory<DeleteGuideUseCase> { DeleteGuideUseCaseImpl(get()) }
-    factory<UpdateGuideUseCase> { UpdateGuideUseCaseImpl(get(), get()) }
-    factory<AddRestaurantGuideUseCase> { AddRestaurantGuideUseCaseImpl(get(), get()) }
-
-    factory<GetRestaurantsUseCase> { GetRestaurantsUseCaseImpl(get()) }
-    factory<FindRestaurantsUseCase> { FindRestaurantsUseCaseImpl(get()) }
-    factory<GetRestaurantByIdUseCase> { GetRestaurantByIdUseCaseImpl(get()) }
-    factory<DeleteRestaurantUseCase> { DeleteRestaurantUseCaseImpl(get()) }
-    factory<UpdateRestaurantUseCase> { UpdateRestaurantUseCaseImpl(get()) }
-
-    factory<GetRestaurantByPlaceIdUseCase> { GetRestaurantByPlaceIdUseCaseImpl(get()) }
+    factory<AddHomeSectionItemUseCase> { AddHomeSectionItemUseCaseImpl(get()) }
     factory<AddRestaurantByPlaceIdUseCase> { AddRestaurantByPlaceIdUseCaseImpl(get()) }
+    factory<AddRestaurantGuideUseCase> { AddRestaurantGuideUseCaseImpl(get(), get()) }
     factory<AwaitEnrichedRestaurantByPlaceIdUseCase> { AwaitEnrichedRestaurantByPlaceIdUseCaseImpl(get()) }
-    factory<GetUsersUseCase> { GetUsersUseCaseImpl(get()) }
+    factory<CreateGuideUseCase> { CreateGuideUseCaseImpl(get(), get()) }
+    factory<CreateHomeSectionUseCase> { CreateHomeSectionUseCaseImpl(get()) }
+    factory<DeleteGuideUseCase> { DeleteGuideUseCaseImpl(get()) }
+    factory<DeleteHomeSectionUseCase> { DeleteHomeSectionUseCaseImpl(get()) }
+    factory<DeleteRestaurantUseCase> { DeleteRestaurantUseCaseImpl(get()) }
+    factory<FindAuthorsUseCase> { FindAuthorsUseCaseImpl(get()) }
+    factory<FindGuidesUseCase> { FindGuidesUseCaseImpl(get()) }
+    factory<FindRestaurantsUseCase> { FindRestaurantsUseCaseImpl(get()) }
     factory<FindUsersUseCase> { FindUsersUseCaseImpl(get()) }
+    factory<GetAuthorByIdUseCase> { GetAuthorByIdUseCaseImpl(get()) }
+    factory<GetAuthorsPagingUseCase> { GetAuthorsPagingUseCaseImpl(get()) }
+    factory<GetAuthorsUseCase> { GetAuthorsUseCaseImpl(get()) }
+    factory<GetConfigsUseCase> { GetConfigsUseCaseImpl(get()) }
+    factory<GetFavouriteGuidesUseCase> { GetFavouriteGuidesUseCaseImpl(get()) }
+    factory<GetFavouriteRestaurantsUseCase> { GetFavouriteRestaurantsUseCaseImpl(get()) }
+    factory<GetGuideByIdUseCase> { GetGuideByIdUseCaseImpl(get()) }
+    factory<GetGuidesPagingUseCase> { GetGuidesPagingUseCaseImpl(get()) }
+    factory<GetGuidesUseCase> { GetGuidesUseCaseImpl(get()) }
+    factory<GetHomeSectionByIdUseCase> { GetHomeSectionByIdUseCaseImpl(get()) }
+    factory<GetHomeSectionsUseCase> { GetHomeSectionsUseCaseImpl(get()) }
+    factory<GetPresignedUrlUseCase> { GetPresignedUrlUseCaseImpl(get()) }
+    factory<GetRestaurantByIdUseCase> { GetRestaurantByIdUseCaseImpl(get()) }
+    factory<GetRestaurantByPlaceIdUseCase> { GetRestaurantByPlaceIdUseCaseImpl(get()) }
+    factory<GetRestaurantsUseCase> { GetRestaurantsUseCaseImpl(get()) }
     factory<GetUserByIdUseCase> { GetUserByIdUseCaseImpl(get()) }
     factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
-    factory<ObserveUserUseCase> { ObserveUserUseCaseImpl(get()) }
-    factory<UploadPhotoUseCase> { UploadPhotoUseCaseImpl(get()) }
-    factory<UpdateUserUseCase> { UpdateUserUseCaseImpl(get()) }
-    factory<UpdateUserPhotoUseCase> { UpdateUserPhotoUseCaseImpl(get()) }
-
-    factory<GetHomeSectionsUseCase> { GetHomeSectionsUseCaseImpl(get()) }
-    factory<GetHomeSectionByIdUseCase> { GetHomeSectionByIdUseCaseImpl(get()) }
-    factory<CreateHomeSectionUseCase> { CreateHomeSectionUseCaseImpl(get()) }
-    factory<UpdateHomeSectionUseCase> { UpdateHomeSectionUseCaseImpl(get()) }
-    factory<DeleteHomeSectionUseCase> { DeleteHomeSectionUseCaseImpl(get()) }
-    factory<AddHomeSectionItemUseCase> { AddHomeSectionItemUseCaseImpl(get()) }
-    factory<RemoveHomeSectionItemUseCase> { RemoveHomeSectionItemUseCaseImpl(get()) }
-    factory<ObserveHomeSectionsUseCase> { ObserveHomeSectionsUseCaseImpl(get()) }
-
-    factory<FindAuthorsUseCase> { FindAuthorsUseCaseImpl(get()) }
-    factory<GetAuthorsUseCase> { GetAuthorsUseCaseImpl(get()) }
-    factory<GetAuthorsPagingUseCase> { GetAuthorsPagingUseCaseImpl(get()) }
-    factory<GetAuthorByIdUseCase> { GetAuthorByIdUseCaseImpl(get()) }
-
-    factory<SearchPlacesUseCase> { SearchPlacesUseCaseImpl(get()) }
-
-    factory<GetConfigsUseCase> { GetConfigsUseCaseImpl(get()) }
+    factory<GetUsersUseCase> { GetUsersUseCaseImpl(get()) }
+    factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
+    factory<IsRestaurantFavouriteUseCase> { IsRestaurantFavouriteUseCaseImpl(get()) }
     factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
     factory<LoginWithGoogleUseCase> { LoginWithGoogleUseCaseImpl(get(), get()) }
     factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
+    factory<MarkGuideFavouriteUseCase> { MarkGuideFavouriteUseCaseImpl(get()) }
+    factory<MarkRestaurantFavouriteUseCase> { MarkRestaurantFavouriteUseCaseImpl(get()) }
+    factory<ObserveFavouriteGuideIdsUseCase> { ObserveFavouriteGuideIdsUseCaseImpl(get()) }
+    factory<ObserveHomeSectionsUseCase> { ObserveHomeSectionsUseCaseImpl(get()) }
+    factory<ObserveUserUseCase> { ObserveUserUseCaseImpl(get()) }
     factory<RegisterUseCase> { RegisterUseCaseImpl(get(), get()) }
-    factory<ValidateCodeUseCase> { ValidateCodeUseCaseImpl(get(), get(), get()) }
+    factory<RemoveHomeSectionItemUseCase> { RemoveHomeSectionItemUseCaseImpl(get()) }
     factory<ResendVerificationCodeUseCase> { ResendVerificationCodeUseCaseImpl(get()) }
     factory<RestartSignUpUseCase> { RestartSignUpUseCaseImpl(get()) }
-
-    factory<GetPresignedUrlUseCase> { GetPresignedUrlUseCaseImpl(get()) }
-
-    factory<MarkGuideFavouriteUseCase> { MarkGuideFavouriteUseCaseImpl(get()) }
-    factory<UnmarkGuideFavouriteUseCase> { UnmarkGuideFavouriteUseCaseImpl(get()) }
-    factory<GetFavouriteGuidesUseCase> { GetFavouriteGuidesUseCaseImpl(get()) }
-    factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
-    factory<ObserveFavouriteGuideIdsUseCase> { ObserveFavouriteGuideIdsUseCaseImpl(get()) }
-    factory<SyncFavouritesUseCase> { SyncFavouritesUseCaseImpl(get()) }
-
-    factory<MarkRestaurantFavouriteUseCase> { MarkRestaurantFavouriteUseCaseImpl(get()) }
-    factory<UnmarkRestaurantFavouriteUseCase> { UnmarkRestaurantFavouriteUseCaseImpl(get()) }
-    factory<GetFavouriteRestaurantsUseCase> { GetFavouriteRestaurantsUseCaseImpl(get()) }
-    factory<IsRestaurantFavouriteUseCase> { IsRestaurantFavouriteUseCaseImpl(get()) }
+    factory<SearchPlacesUseCase> { SearchPlacesUseCaseImpl(get()) }
     factory<SyncFavouriteRestaurantsUseCase> { SyncFavouriteRestaurantsUseCaseImpl(get()) }
+    factory<SyncFavouritesUseCase> { SyncFavouritesUseCaseImpl(get()) }
+    factory<UnmarkGuideFavouriteUseCase> { UnmarkGuideFavouriteUseCaseImpl(get()) }
+    factory<UnmarkRestaurantFavouriteUseCase> { UnmarkRestaurantFavouriteUseCaseImpl(get()) }
+    factory<UpdateGuideUseCase> { UpdateGuideUseCaseImpl(get(), get()) }
+    factory<UpdateHomeSectionUseCase> { UpdateHomeSectionUseCaseImpl(get()) }
+    factory<UpdateRestaurantUseCase> { UpdateRestaurantUseCaseImpl(get()) }
+    factory<UpdateUserPhotoUseCase> { UpdateUserPhotoUseCaseImpl(get()) }
+    factory<UpdateUserUseCase> { UpdateUserUseCaseImpl(get()) }
+    factory<UploadPhotoUseCase> { UploadPhotoUseCaseImpl(get()) }
+    factory<ValidateCodeUseCase> { ValidateCodeUseCaseImpl(get(), get(), get()) }
 }
 
 val viewModelModule = module {
-    factory { SplashViewModel(get(), get(), get()) }
-
-    factory { AuthorsViewModel(get()) }
     factory { (authorId: String) -> AuthorDetailViewModel(get(), authorId) }
-
-    factory { GuidesViewModel(get(), get<MarkGuideFavouriteUseCase>(), get<UnmarkGuideFavouriteUseCase>(), get(), get<ObserveFavouriteGuideIdsUseCase>()) }
-    factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
+    factory { AuthorsViewModel(get()) }
     factory { CreateGuideViewModel(get(), get(), get()) }
     factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), get(), guideId) }
-
-    factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
-
-    factory { (restaurantId: String) -> RestaurantDetailViewModel(get(), get(), get(), get(), restaurantId) }
-
-    factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get<ObserveHomeSectionsUseCase>()) }
-    factory { SignInViewModel(get(), get()) }
-    factory { SignUpViewModel(get()) }
-    factory { (email: String) -> ValidateCodeViewModel(get(), get(), get(), email) }
-    factory { ProfileViewModel(get(), get(), get()) }
+    factory { EditProfileViewModel(get(), get(), get(), get(), get(), get()) }
     factory { FavouriteGuidesViewModel(get()) }
     factory { FavouriteRestaurantsViewModel(get()) }
-    factory { EditProfileViewModel(get(), get(), get(), get(), get(), get()) }
+    factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
+    factory { GuidesViewModel(get(), get(), get(), get(), get()) }
+    factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
+    factory { ProfileViewModel(get(), get(), get()) }
+    factory { (restaurantId: String) -> RestaurantDetailViewModel(get(), get(), get(), get(), restaurantId) }
+    factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
+    factory { SignInViewModel(get(), get()) }
+    factory { SignUpViewModel(get()) }
+    factory { SplashViewModel(get(), get(), get()) }
+    factory { (email: String) -> ValidateCodeViewModel(get(), get(), get(), email) }
 }
 
 fun initKoin(configuration: KoinAppDeclaration? = null) {
@@ -349,8 +335,8 @@ fun initKoin(configuration: KoinAppDeclaration? = null) {
         modules(
             module {
                 includes(
-                    platformModule,
                     networkModule,
+                    platformModule,
                     repositoryModule,
                     useCaseModule,
                     viewModelModule,

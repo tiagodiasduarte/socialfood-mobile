@@ -28,10 +28,10 @@ const val MY_GUIDES_TAB = 1
 @OptIn(ExperimentalCoroutinesApi::class)
 class GuidesViewModel(
     private val getGuidesPaging: GetGuidesPagingUseCase,
-    observeUser: ObserveUserUseCase,
-    observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase,
     private val markGuideFavourite: MarkGuideFavouriteUseCase,
     private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
+    observeUser: ObserveUserUseCase,
+    observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase,
 ) : ViewModel() {
 
     private val _selectedTab = MutableStateFlow(ALL_GUIDES_TAB)

@@ -43,7 +43,7 @@ class GuidesViewModelTest {
         observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase = FakeObserveFavouriteGuideIdsUseCase(),
         markGuideFavourite: MarkGuideFavouriteUseCase = FakeMarkGuideFavouriteUseCase(),
         unmarkGuideFavourite: UnmarkGuideFavouriteUseCase = FakeUnmarkGuideFavouriteUseCase(),
-    ) = GuidesViewModel(getGuidesPaging, observeUser, observeFavouriteGuideIds, markGuideFavourite, unmarkGuideFavourite)
+    ) = GuidesViewModel(getGuidesPaging, markGuideFavourite, unmarkGuideFavourite, observeUser, observeFavouriteGuideIds)
 
     @Test
     fun `given selectedTab is 0 when guides is collected then getGuidesPaging is invoked with userId null`() = runTestWithMainDispatcher {

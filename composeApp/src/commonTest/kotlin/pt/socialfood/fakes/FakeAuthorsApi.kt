@@ -1,6 +1,6 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.data.AuthorsApi
+import pt.socialfood.data.api.AuthorsApi
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.author.AuthorDetailResponse
 import pt.socialfood.data.network.model.author.AuthorResponse

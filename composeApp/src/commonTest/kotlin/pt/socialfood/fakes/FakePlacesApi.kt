@@ -1,6 +1,6 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.data.PlacesApi
+import pt.socialfood.data.api.PlacesApi
 import pt.socialfood.data.network.model.place.PlaceResponse
 
 class FakePlacesApi(private val shouldThrow: Boolean = false) : PlacesApi {

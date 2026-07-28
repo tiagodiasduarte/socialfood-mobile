@@ -1,4 +1,4 @@
-package pt.socialfood.data
+package pt.socialfood.data.api
 
 import pt.socialfood.domain.model.Configs
 

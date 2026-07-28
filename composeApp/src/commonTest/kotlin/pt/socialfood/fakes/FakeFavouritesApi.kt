@@ -1,6 +1,6 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.data.FavouritesApi
+import pt.socialfood.data.api.FavouritesApi
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.author.AuthorResponse
 import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse

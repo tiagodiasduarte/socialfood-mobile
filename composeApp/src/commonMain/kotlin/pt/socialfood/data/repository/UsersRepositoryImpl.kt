@@ -3,7 +3,7 @@ package pt.socialfood.data.repository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import pt.socialfood.core.Result
-import pt.socialfood.data.UserApi
+import pt.socialfood.data.api.UserApi
 import pt.socialfood.data.network.extensions.toErrorEntity
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.network.model.user.UpdateUserPhotoRequest

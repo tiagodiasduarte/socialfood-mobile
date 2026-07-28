@@ -1,6 +1,6 @@
 package pt.socialfood.mapper
 
-import pt.socialfood.data.PlacesApi.Companion.buildImageUrl
+import pt.socialfood.data.api.PlacesApi.Companion.buildImageUrl
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.domain.model.Restaurant
 

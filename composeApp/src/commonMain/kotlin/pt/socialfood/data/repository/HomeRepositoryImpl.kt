@@ -1,7 +1,7 @@
 package pt.socialfood.data.repository
 
 import pt.socialfood.core.Result
-import pt.socialfood.data.HomeApi
+import pt.socialfood.data.api.HomeApi
 import pt.socialfood.data.network.extensions.toErrorEntity
 import pt.socialfood.domain.model.HomeItemType
 import pt.socialfood.domain.model.HomeSection

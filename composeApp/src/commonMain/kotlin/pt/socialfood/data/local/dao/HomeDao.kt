@@ -18,4 +18,7 @@ interface HomeDao {
 
     @Query("SELECT * FROM $HOME_SECTIONS_TABLE WHERE isActive = 1 ORDER BY position ASC")
     fun observeActive(): Flow<List<HomeSectionEntity>>
+
+    @Query("SELECT * FROM $HOME_SECTIONS_TABLE WHERE isActive = 1 ORDER BY position ASC")
+    suspend fun getAllActive(): List<HomeSectionEntity>
 }

@@ -1,7 +1,7 @@
 package pt.socialfood.data.repository
 
 import pt.socialfood.core.Result
-import pt.socialfood.data.PlacesApi
+import pt.socialfood.data.api.PlacesApi
 import pt.socialfood.data.network.extensions.toErrorEntity
 import pt.socialfood.domain.model.Place
 import pt.socialfood.domain.repository.PlacesRepository

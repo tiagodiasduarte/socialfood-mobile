@@ -6,7 +6,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.immediateTransaction
 import androidx.room.useWriterConnection
-import pt.socialfood.data.AuthorsApi
+import pt.socialfood.data.api.AuthorsApi
 import pt.socialfood.data.local.AppDatabase
 import pt.socialfood.data.local.dao.AuthorDao
 import pt.socialfood.data.local.dao.AuthorRemoteKeyDao

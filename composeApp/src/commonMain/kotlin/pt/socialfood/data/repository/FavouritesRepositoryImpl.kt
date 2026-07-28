@@ -3,7 +3,7 @@ package pt.socialfood.data.repository
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import pt.socialfood.core.Result
-import pt.socialfood.data.FavouritesApi
+import pt.socialfood.data.api.FavouritesApi
 import pt.socialfood.data.local.dao.FavouriteDao
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.data.network.extensions.toErrorEntity

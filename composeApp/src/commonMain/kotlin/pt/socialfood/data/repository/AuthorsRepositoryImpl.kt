@@ -8,7 +8,7 @@ import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import pt.socialfood.core.Result
-import pt.socialfood.data.AuthorsApi
+import pt.socialfood.data.api.AuthorsApi
 import pt.socialfood.data.local.dao.AuthorDao
 import pt.socialfood.data.local.dao.AuthorRemoteKeyDao
 import pt.socialfood.data.network.extensions.toErrorEntity

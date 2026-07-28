@@ -50,10 +50,12 @@ fun HomeScreen(
     onRestaurantClick: (restaurantId: String) -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val sections by viewModel.sections.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
     HomeScreenContent(
         state = state,
+        sections = sections,
         isRefreshing = isRefreshing,
         onRefresh = { viewModel.refresh() },
         onGuideClick = onGuideClick,
@@ -67,6 +69,7 @@ fun HomeScreen(
 @Composable
 fun HomeScreenContent(
     state: HomeUiState,
+    sections: List<HomeSection>,
     onRefresh: () -> Unit,
     isRefreshing: Boolean,
     onGuideClick: (guideId: String) -> Unit = {},
@@ -74,6 +77,10 @@ fun HomeScreenContent(
     onToggleGuideFavourite: (Guide) -> Unit = {},
     onToggleRestaurantFavourite: (Restaurant) -> Unit = {},
 ) {
+    val loaded = state as? HomeUiState.Loaded
+    val favouriteRestaurantIds = loaded?.favouriteRestaurantIds ?: emptySet()
+    val favouriteGuideIds = loaded?.favouriteGuideIds ?: emptySet()
+
     PullToRefreshBox(
         isRefreshing = isRefreshing,
         onRefresh = onRefresh,
@@ -88,36 +95,36 @@ fun HomeScreenContent(
                 HomeHeader()
             }
 
-            when (val current = state) {
-                HomeUiState.Loading -> {
+            when {
+                sections.isNotEmpty() -> {
+                    items(sections, key = { it.id }) { section ->
+                        HomeSectionRow(
+                            section = section,
+                            favouriteRestaurantIds = favouriteRestaurantIds,
+                            favouriteGuideIds = favouriteGuideIds,
+                            onGuideClick = onGuideClick,
+                            onRestaurantClick = onRestaurantClick,
+                            onToggleGuideFavourite = onToggleGuideFavourite,
+                            onToggleRestaurantFavourite = onToggleRestaurantFavourite,
+                        )
+                    }
+                }
+
+                state is HomeUiState.Loading -> {
                     item {
                         HomePlaceholder()
                     }
                 }
 
-                is HomeUiState.Loaded -> {
-                    if (current.sections.isEmpty()) {
-                        item {
-                            NoResultsContent()
-                        }
-                    } else {
-                        items(current.sections, key = { it.id }) { section ->
-                            HomeSectionRow(
-                                section = section,
-                                favouriteRestaurantIds = current.favouriteRestaurantIds,
-                                favouriteGuideIds = current.favouriteGuideIds,
-                                onGuideClick = onGuideClick,
-                                onRestaurantClick = onRestaurantClick,
-                                onToggleGuideFavourite = onToggleGuideFavourite,
-                                onToggleRestaurantFavourite = onToggleRestaurantFavourite,
-                            )
-                        }
+                state is HomeUiState.Error -> {
+                    item {
+                        ErrorContent(onRetryClick = onRefresh)
                     }
                 }
 
-                HomeUiState.Error -> {
+                else -> {
                     item {
-                        ErrorContent(onRetryClick = onRefresh)
+                        NoResultsContent()
                     }
                 }
             }
@@ -303,12 +310,11 @@ fun HomeScreenPreview() {
             },
         ),
     )
-    val state = HomeUiState.Loaded(
-        sections = sections,
-    )
+    val state = HomeUiState.Loaded()
     AppTheme {
         HomeScreenContent(
             state = state,
+            sections = sections,
             isRefreshing = false,
             onRefresh = {}
         )

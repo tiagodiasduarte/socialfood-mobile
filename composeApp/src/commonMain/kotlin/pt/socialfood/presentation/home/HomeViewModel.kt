@@ -90,7 +90,6 @@ class HomeViewModel(
                 }
 
                 _state.value = HomeUiState.Loaded(
-                    sections = active,
                     favouriteRestaurantIds = favouriteRestaurantIds,
                     favouriteGuideIds = favouriteGuideIds,
                 )

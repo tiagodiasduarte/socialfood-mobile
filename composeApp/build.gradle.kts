@@ -101,8 +101,9 @@ android {
         val googleClientId = System.getenv(googleClientIdKey)
             ?: localProperties.getProperty(googleClientIdKey)
             ?: error("$googleClientIdKey not set in local.properties or environment")
+        val buildDateKey = "BUILD_DATE"
         buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleClientId\"")
-        buildConfigField("String", "BUILD_DATE", "\"${System.getenv("BUILD_DATE") ?: ""}\"")
+        buildConfigField("String", buildDateKey, "\"${System.getenv(buildDateKey) ?: ""}\"")
     }
     buildFeatures {
         buildConfig = true

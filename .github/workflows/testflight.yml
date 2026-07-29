@@ -14,7 +14,8 @@ jobs:
           ref: develop
 
       # ----------------- SET BUILD DATE -----------------
-      - uses: ./.github/actions/set-build-date
+      - name: Set BUILD_DATE
+        run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
 
       # ----------------- SET COMMIT HASH -----------------
       - name: Set COMMIT_HASH

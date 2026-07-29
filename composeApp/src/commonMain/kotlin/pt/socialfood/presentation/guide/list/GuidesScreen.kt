@@ -102,7 +102,9 @@ fun GuidesScreenContent(
                     ErrorContent(onRetryClick = { guides.retry() })
                 }
 
-                guides.itemCount == 0 -> item {
+                guides.loadState.refresh is LoadState.NotLoading &&
+                    guides.loadState.append.endOfPaginationReached &&
+                    guides.itemCount == 0 -> item {
                     NoResultsContent()
                 }
 

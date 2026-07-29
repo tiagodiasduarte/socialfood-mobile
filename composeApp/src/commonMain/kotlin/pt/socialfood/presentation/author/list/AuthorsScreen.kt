@@ -79,7 +79,9 @@ private fun AuthorsContent(
                     ErrorContent(onRetryClick = { authors.retry() })
                 }
 
-                authors.itemCount == 0 -> item {
+                authors.loadState.refresh is LoadState.NotLoading &&
+                    authors.loadState.append.endOfPaginationReached &&
+                    authors.itemCount == 0 -> item {
                     NoResultsContent(modifier = Modifier.padding(top = 100.dp))
                 }
 

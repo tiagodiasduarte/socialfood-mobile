@@ -21,11 +21,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Restaurant
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -43,6 +46,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,6 +57,8 @@ import org.koin.compose.viewmodel.koinViewModel
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.app_name
 import socialfood.composeapp.generated.resources.google_icon
+import socialfood.composeapp.generated.resources.hide_password_content_description
+import socialfood.composeapp.generated.resources.show_password_content_description
 import socialfood.composeapp.generated.resources.sign_in_button
 import socialfood.composeapp.generated.resources.sign_in_continue_with_google_label
 import socialfood.composeapp.generated.resources.sign_in_email_label
@@ -129,6 +135,7 @@ private fun SignInFormView(
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
 
     val colorScheme = MaterialTheme.colorScheme
 
@@ -238,7 +245,7 @@ private fun SignInFormView(
                     )
                 },
                 singleLine = true,
-                visualTransformation = PasswordVisualTransformation(),
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 leadingIcon = {
                     Icon(
@@ -247,6 +254,18 @@ private fun SignInFormView(
                         tint = colorScheme.outline,
                         modifier = Modifier.size(20.dp),
                     )
+                },
+                trailingIcon = {
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(
+                            imageVector = if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                            contentDescription = stringResource(
+                                if (passwordVisible) Res.string.hide_password_content_description
+                                else Res.string.show_password_content_description
+                            ),
+                            tint = colorScheme.outline,
+                        )
+                    }
                 },
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(

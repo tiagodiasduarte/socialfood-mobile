@@ -189,7 +189,7 @@ import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
 import pt.socialfood.presentation.sign_in.SignInViewModel
 import pt.socialfood.presentation.sign_up.SignUpViewModel
-import pt.socialfood.presentation.splash.StartupViewModel
+import pt.socialfood.presentation.startup.StartupViewModel
 import pt.socialfood.presentation.validate_code.ValidateCodeViewModel
 
 expect val platformModule: Module

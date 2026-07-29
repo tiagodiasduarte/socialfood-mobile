@@ -19,9 +19,13 @@ jobs:
       - uses: ./.github/actions/setup-google-services
         with:
           google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+      - name: Set BUILD_DATE
+        run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
       - run: ./gradlew :composeApp:assembleDebug --stacktrace
         env:
           GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          BUILD_DATE: ${{ env.BUILD_DATE }}
           GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
 
   android-test:
@@ -34,9 +38,13 @@ jobs:
       - uses: ./.github/actions/setup-google-services
         with:
           google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+      - name: Set BUILD_DATE
+        run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
       - run: ./gradlew :composeApp:testDebugUnitTest --stacktrace
         env:
           GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          BUILD_DATE: ${{ env.BUILD_DATE }}
           GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
 
   ios-build:
@@ -63,9 +71,13 @@ jobs:
         run: |
           UDID=$(xcrun simctl list devices available -j | jq -r '[.devices[][] | select(.name | test("iPhone"))][0].udid')
           echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+      - name: Set BUILD_DATE
+        run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
       - name: Build iOS app (Debug, simulator, unsigned)
         env:
           GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          BUILD_DATE: ${{ env.BUILD_DATE }}
         run: |
           cd iosApp
           xcodebuild build \
@@ -85,9 +97,13 @@ jobs:
       - uses: ./.github/actions/setup-google-services
         with:
           google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+      - name: Set BUILD_DATE
+        run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
       - run: ./gradlew :composeApp:iosSimulatorArm64Test --stacktrace
         env:
           GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          BUILD_DATE: ${{ env.BUILD_DATE }}
           GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
 
   finish:

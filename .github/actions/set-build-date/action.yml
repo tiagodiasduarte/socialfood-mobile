@@ -1,0 +1,8 @@
+name: Set BUILD_DATE
+description: Exports BUILD_DATE (current timestamp) to $GITHUB_ENV for later steps
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV

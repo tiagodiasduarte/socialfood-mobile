@@ -71,9 +71,13 @@ jobs:
         run: |
           UDID=$(xcrun simctl list devices available -j | jq -r '[.devices[][] | select(.name | test("iPhone"))][0].udid')
           echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+      - name: Set BUILD_DATE
+        run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
       - name: Build iOS app (Debug, simulator, unsigned)
         env:
           GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          BUILD_DATE: ${{ env.BUILD_DATE }}
         run: |
           cd iosApp
           xcodebuild build \

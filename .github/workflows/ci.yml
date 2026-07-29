@@ -19,8 +19,7 @@ jobs:
       - uses: ./.github/actions/setup-google-services
         with:
           google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
-      - name: Set BUILD_DATE
-        run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
+      - uses: ./.github/actions/set-build-date
       - run: ./gradlew :composeApp:assembleDebug --stacktrace
         env:
           GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
@@ -38,8 +37,7 @@ jobs:
       - uses: ./.github/actions/setup-google-services
         with:
           google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
-      - name: Set BUILD_DATE
-        run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
+      - uses: ./.github/actions/set-build-date
       - run: ./gradlew :composeApp:testDebugUnitTest --stacktrace
         env:
           GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
@@ -71,8 +69,7 @@ jobs:
         run: |
           UDID=$(xcrun simctl list devices available -j | jq -r '[.devices[][] | select(.name | test("iPhone"))][0].udid')
           echo "udid=$UDID" >> "$GITHUB_OUTPUT"
-      - name: Set BUILD_DATE
-        run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
+      - uses: ./.github/actions/set-build-date
       - name: Build iOS app (Debug, simulator, unsigned)
         env:
           GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
@@ -97,8 +94,7 @@ jobs:
       - uses: ./.github/actions/setup-google-services
         with:
           google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
-      - name: Set BUILD_DATE
-        run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
+      - uses: ./.github/actions/set-build-date
       - run: ./gradlew :composeApp:iosSimulatorArm64Test --stacktrace
         env:
           GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}

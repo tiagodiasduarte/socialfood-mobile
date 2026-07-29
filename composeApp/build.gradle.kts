@@ -31,7 +31,6 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.core.splashscreen)
             implementation(libs.ktor.client.okhttp)
@@ -140,9 +139,9 @@ dependencies {
     implementation(libs.firebase.analytics)
     debugImplementation(compose.uiTooling)
 
-    add("kspAndroid", libs.androidx.room.compiler)
-    add("kspIosArm64", libs.androidx.room.compiler)
-    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
+    listOf("kspAndroid", "kspIosArm64", "kspIosSimulatorArm64").forEach {
+        add(it, libs.androidx.room.compiler)
+    }
 }
 
 room {

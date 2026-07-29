@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.ApplicationExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
@@ -85,7 +86,7 @@ val localProperties = Properties().apply {
     if (file.exists()) load(file.inputStream())
 }
 
-android {
+extensions.configure<ApplicationExtension> {
     namespace = "pt.socialfood"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 

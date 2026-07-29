@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
+import pt.socialfood.presentation.startup.StartupViewModel
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.social_food_splash
 

@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.splash
+package pt.socialfood.presentation.startup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,7 +12,7 @@ import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.domain.use_case.configs.GetConfigsUseCase
 import pt.socialfood.domain.use_case.user.GetUserMeUseCase
 
-private const val MIN_SPLASH_DURATION_MILLIS = 1000L
+private const val MIN_STARTUP_DURATION_MILLIS = 1000L
 
 class StartupViewModel(
     private val getUserMe: GetUserMeUseCase,
@@ -20,8 +20,8 @@ class StartupViewModel(
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<SplashUiState>(SplashUiState.Loading)
-    val state: StateFlow<SplashUiState> = _state
+    private val _state = MutableStateFlow<StartupUiState>(StartupUiState.Loading)
+    val state: StateFlow<StartupUiState> = _state
 
     init {
         load()
@@ -29,14 +29,14 @@ class StartupViewModel(
 
     private fun load() {
         viewModelScope.launch {
-            val minDuration = async { delay(MIN_SPLASH_DURATION_MILLIS) }
+            val minDuration = async { delay(MIN_STARTUP_DURATION_MILLIS) }
 
             val resultState = if (settingsRepository.getToken() == null) {
                 val pendingEmail = settingsRepository.getPendingVerificationEmail()
                 if (pendingEmail != null) {
-                    SplashUiState.NavigateToValidateCode(pendingEmail)
+                    StartupUiState.NavigateToValidateCode(pendingEmail)
                 } else {
-                    SplashUiState.NavigateToLogin
+                    StartupUiState.NavigateToLogin
                 }
             } else {
                 val userDeferred = async { getUserMe() }
@@ -47,12 +47,12 @@ class StartupViewModel(
 
                 if (userResult is Result.Success && configsResult is Result.Success) {
                     if (userResult.data.isVerified) {
-                        SplashUiState.NavigateToHome
+                        StartupUiState.NavigateToHome
                     } else {
-                        SplashUiState.NavigateToValidateCode(userResult.data.email)
+                        StartupUiState.NavigateToValidateCode(userResult.data.email)
                     }
                 } else {
-                    SplashUiState.NavigateToLogin
+                    StartupUiState.NavigateToLogin
                 }
             }
 

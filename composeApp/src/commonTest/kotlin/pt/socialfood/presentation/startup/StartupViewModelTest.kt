@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.splash
+package pt.socialfood.presentation.startup
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -30,8 +30,8 @@ class StartupViewModelTest {
 
             // Then
             viewModel.state.test {
-                assertEquals(SplashUiState.Loading, awaitItem())
-                assertEquals(SplashUiState.NavigateToValidateCode("pending@test.com"), awaitItem())
+                assertEquals(StartupUiState.Loading, awaitItem())
+                assertEquals(StartupUiState.NavigateToValidateCode("pending@test.com"), awaitItem())
                 assertEquals(0, fakeGetUserMe.invokeCount)
                 assertEquals(0, fakeGetConfigs.invokeCount)
             }
@@ -50,8 +50,8 @@ class StartupViewModelTest {
 
             // Then
             viewModel.state.test {
-                assertEquals(SplashUiState.Loading, awaitItem())
-                assertEquals(SplashUiState.NavigateToLogin, awaitItem())
+                assertEquals(StartupUiState.Loading, awaitItem())
+                assertEquals(StartupUiState.NavigateToLogin, awaitItem())
             }
         }
 
@@ -70,9 +70,9 @@ class StartupViewModelTest {
 
             // Then
             viewModel.state.test {
-                assertEquals(SplashUiState.Loading, awaitItem())
+                assertEquals(StartupUiState.Loading, awaitItem())
                 assertEquals(
-                    SplashUiState.NavigateToValidateCode(defaultUser().email),
+                    StartupUiState.NavigateToValidateCode(defaultUser().email),
                     awaitItem()
                 )
             }
@@ -92,8 +92,8 @@ class StartupViewModelTest {
 
             // Then
             viewModel.state.test {
-                assertEquals(SplashUiState.Loading, awaitItem())
-                assertEquals(SplashUiState.NavigateToHome, awaitItem())
+                assertEquals(StartupUiState.Loading, awaitItem())
+                assertEquals(StartupUiState.NavigateToHome, awaitItem())
             }
         }
 
@@ -112,8 +112,8 @@ class StartupViewModelTest {
 
             // Then
             viewModel.state.test {
-                assertEquals(SplashUiState.Loading, awaitItem())
-                assertEquals(SplashUiState.NavigateToHome, awaitItem())
+                assertEquals(StartupUiState.Loading, awaitItem())
+                assertEquals(StartupUiState.NavigateToHome, awaitItem())
                 assertEquals(1, fakeGetUserMe.invokeCount)
                 assertEquals(1, fakeGetConfigs.invokeCount)
             }
@@ -133,8 +133,8 @@ class StartupViewModelTest {
 
             // Then
             viewModel.state.test {
-                assertEquals(SplashUiState.Loading, awaitItem())
-                assertEquals(SplashUiState.NavigateToLogin, awaitItem())
+                assertEquals(StartupUiState.Loading, awaitItem())
+                assertEquals(StartupUiState.NavigateToLogin, awaitItem())
             }
         }
 

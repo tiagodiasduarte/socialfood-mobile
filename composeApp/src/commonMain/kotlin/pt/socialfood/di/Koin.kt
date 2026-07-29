@@ -189,7 +189,7 @@ import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
 import pt.socialfood.presentation.sign_in.SignInViewModel
 import pt.socialfood.presentation.sign_up.SignUpViewModel
-import pt.socialfood.presentation.splash.SplashViewModel
+import pt.socialfood.presentation.splash.StartupViewModel
 import pt.socialfood.presentation.validate_code.ValidateCodeViewModel
 
 expect val platformModule: Module
@@ -325,7 +325,7 @@ val viewModelModule = module {
     factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
     factory { SignInViewModel(get(), get()) }
     factory { SignUpViewModel(get()) }
-    factory { SplashViewModel(get(), get(), get()) }
+    factory { StartupViewModel(get(), get(), get()) }
     factory { (email: String) -> ValidateCodeViewModel(get(), get(), get(), email) }
 }
 

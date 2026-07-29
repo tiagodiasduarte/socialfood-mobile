@@ -13,7 +13,7 @@ import pt.socialfood.presentation.navigation.NavigationRoot
 import pt.socialfood.presentation.sign_in.SignInScreen
 import pt.socialfood.presentation.sign_up.SignUpScreen
 import pt.socialfood.presentation.splash.SplashScreen
-import pt.socialfood.presentation.splash.SplashViewModel
+import pt.socialfood.presentation.splash.StartupViewModel
 import pt.socialfood.presentation.validate_code.ValidateCodeScreen
 import pt.socialfood.ui.theme.AppTheme
 
@@ -26,7 +26,7 @@ private sealed class AppDestination {
 }
 
 @Composable
-fun App(prewarmedSplashViewModel: SplashViewModel? = null) {
+fun App(prewarmedStartupViewModel: StartupViewModel? = null) {
     val sessionManager: SessionManager = remember { getKoin().get() }
     val destinationState = remember { mutableStateOf<AppDestination>(AppDestination.Splash) }
     val destination by destinationState
@@ -41,7 +41,7 @@ fun App(prewarmedSplashViewModel: SplashViewModel? = null) {
     AppTheme {
         when (val dest = destination) {
             AppDestination.Splash -> SplashScreen(
-                viewModel = prewarmedSplashViewModel ?: koinViewModel(),
+                viewModel = prewarmedStartupViewModel ?: koinViewModel(),
                 onNavigateToHome = { navigate(AppDestination.Home) },
                 onNavigateToLogin = { navigate(AppDestination.Login) },
                 onNavigateToValidateCode = { email -> navigate(AppDestination.ValidateCode(email)) },

@@ -7,21 +7,21 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import org.koin.mp.KoinPlatform.getKoin
 import pt.socialfood.presentation.splash.SplashUiState
-import pt.socialfood.presentation.splash.SplashViewModel
+import pt.socialfood.presentation.splash.StartupViewModel
 
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashViewModel = getKoin().get<SplashViewModel>()
+        val startupViewModel = getKoin().get<StartupViewModel>()
         val splashScreen = installSplashScreen()
-        splashScreen.setKeepOnScreenCondition { splashViewModel.state.value == SplashUiState.Loading }
+        splashScreen.setKeepOnScreenCondition { startupViewModel.state.value == SplashUiState.Loading }
 
         enableEdgeToEdge()
 
         super.onCreate(savedInstanceState)
 
         setContent {
-            App(prewarmedSplashViewModel = splashViewModel)
+            App(prewarmedStartupViewModel = startupViewModel)
         }
     }
 }

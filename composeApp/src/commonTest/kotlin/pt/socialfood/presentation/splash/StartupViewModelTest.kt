@@ -14,7 +14,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SplashViewModelTest {
+class StartupViewModelTest {
 
     @Test
     fun `given pendingVerificationEmail set and no token when loaded then emits NavigateToValidateCode without calling getUserMe or getConfigs`() =
@@ -26,7 +26,7 @@ class SplashViewModelTest {
             val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
             // When
-            val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
+            val viewModel = StartupViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
 
             // Then
             viewModel.state.test {
@@ -46,7 +46,7 @@ class SplashViewModelTest {
             val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
             // When
-            val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
+            val viewModel = StartupViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
 
             // Then
             viewModel.state.test {
@@ -66,7 +66,7 @@ class SplashViewModelTest {
             val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
             // When
-            val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
+            val viewModel = StartupViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
 
             // Then
             viewModel.state.test {
@@ -88,7 +88,7 @@ class SplashViewModelTest {
             val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
             // When
-            val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
+            val viewModel = StartupViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
 
             // Then
             viewModel.state.test {
@@ -108,7 +108,7 @@ class SplashViewModelTest {
             val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
             // When
-            val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
+            val viewModel = StartupViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
 
             // Then
             viewModel.state.test {
@@ -129,7 +129,7 @@ class SplashViewModelTest {
             val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
             // When
-            val viewModel = SplashViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
+            val viewModel = StartupViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
 
             // Then
             viewModel.state.test {

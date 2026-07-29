@@ -14,7 +14,7 @@ import pt.socialfood.domain.use_case.user.GetUserMeUseCase
 
 private const val MIN_SPLASH_DURATION_MILLIS = 1000L
 
-class SplashViewModel(
+class StartupViewModel(
     private val getUserMe: GetUserMeUseCase,
     private val getConfigs: GetConfigsUseCase,
     private val settingsRepository: SettingsRepository,

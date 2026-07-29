@@ -8,10 +8,8 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeoutOrNull
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.HomeSection
@@ -24,8 +22,6 @@ import pt.socialfood.domain.use_case.favourite.restaurant.MarkRestaurantFavourit
 import pt.socialfood.domain.use_case.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
 import pt.socialfood.domain.use_case.home.GetHomeSectionsUseCase
 import pt.socialfood.domain.use_case.home.ObserveHomeSectionsUseCase
-
-private const val SECTIONS_SYNC_TIMEOUT_MILLIS = 2000L
 
 class HomeViewModel(
     private val getHomeSections: GetHomeSectionsUseCase,
@@ -91,15 +87,6 @@ class HomeViewModel(
                         .toSet()
 
                     favouriteRestaurants to favouriteGuides
-                }
-
-                // `sections` (the cache-backed flow HomeScreen actually renders from) is a
-                // separate flow from this fetch and may not have caught up with the write
-                // `getHomeSections()` just did. Wait for it to agree on emptiness before
-                // reporting `Loaded`, so the screen never briefly disagrees with itself and
-                // flashes "no results". Bounded so a cache that never re-emits can't hang this.
-                withTimeoutOrNull(SECTIONS_SYNC_TIMEOUT_MILLIS) {
-                    sections.first { it.isEmpty() == active.isEmpty() }
                 }
 
                 _state.value = HomeUiState.Loaded(

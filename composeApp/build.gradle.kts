@@ -97,9 +97,10 @@ android {
         versionCode = System.getenv("GITHUB_RUN_NUMBER")?.toInt() ?: 1
         versionName = "0.1.0"
 
-        val googleClientId = System.getenv("GOOGLE_CLIENT_ID_WEB")
-            ?: localProperties.getProperty("GOOGLE_CLIENT_ID_WEB")
-            ?: error("GOOGLE_CLIENT_ID_WEB not set in local.properties or environment")
+        val googleClientIdKey = "GOOGLE_CLIENT_ID_WEB"
+        val googleClientId = System.getenv(googleClientIdKey)
+            ?: localProperties.getProperty(googleClientIdKey)
+            ?: error("$googleClientIdKey not set in local.properties or environment")
         buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleClientId\"")
         buildConfigField("String", "BUILD_DATE", "\"${System.getenv("BUILD_DATE") ?: ""}\"")
     }

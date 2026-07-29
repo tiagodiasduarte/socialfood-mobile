@@ -1,6 +1,19 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
+val appId = "pt.socialfood"
+val appNamespace = "pt.socialfood"
+val appVersionName = "0.1.0"
+val buildDateKey = "BUILD_DATE"
+val githubRunNumberKey = "GITHUB_RUN_NUMBER"
+val googleClientIdKey = "GOOGLE_CLIENT_ID"
+val googleClientIdWebKey = "GOOGLE_CLIENT_ID_WEB"
+val javaVersion = JavaVersion.VERSION_21
+val keyAliasKey = "KEY_ALIAS"
+val keyPasswordKey = "KEY_PASSWORD"
+val releaseKeystoreFileName = "socialfood-release-key.jks"
+val storePasswordKey = "STORE_PASSWORD"
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeCompiler)
@@ -11,8 +24,6 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
 }
-
-val javaVersion = JavaVersion.VERSION_21
 
 kotlin {
     androidTarget {
@@ -42,13 +53,13 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
-            implementation(compose.components.resources)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.materialIconsExtended)
-            implementation(compose.preview)
-            implementation(compose.runtime)
-            implementation(compose.ui)
+            implementation(libs.compose.components.resources)
+            implementation(libs.compose.foundation)
+            implementation(libs.compose.material3)
+            implementation(libs.compose.material.icons.extended)
+            implementation(libs.compose.ui.tooling.preview)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.ui)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.paging.common)
@@ -86,24 +97,31 @@ val localProperties = Properties().apply {
     if (file.exists()) load(file.inputStream())
 }
 
+val isGithubActions = System.getenv("GITHUB_ACTIONS") == "true"
+
+fun configValue(key: String, localDefault: String? = null): String {
+    val value = System.getenv(key) ?: localProperties.getProperty(key)
+    if (value != null) return value
+    if (!isGithubActions && localDefault != null) return localDefault
+    error("$key not set in local.properties or environment")
+}
+
 android {
-    namespace = "pt.socialfood"
+    namespace = appNamespace
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "pt.socialfood"
+        applicationId = appId
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = System.getenv("GITHUB_RUN_NUMBER")?.toInt() ?: 1
-        versionName = "0.1.0"
+        versionCode = configValue(githubRunNumberKey, localDefault = "1").toInt()
+        versionName = appVersionName
 
-        val googleClientIdKey = "GOOGLE_CLIENT_ID_WEB"
-        val googleClientId = System.getenv(googleClientIdKey)
-            ?: localProperties.getProperty(googleClientIdKey)
-            ?: error("$googleClientIdKey not set in local.properties or environment")
-        val buildDateKey = "BUILD_DATE"
-        buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleClientId\"")
-        buildConfigField("String", buildDateKey, "\"${System.getenv(buildDateKey) ?: ""}\"")
+        val googleClientId = configValue(googleClientIdWebKey)
+        val date = configValue(buildDateKey, localDefault = "local")
+
+        buildConfigField("String", googleClientIdKey, "\"$googleClientId\"")
+        buildConfigField("String", buildDateKey, "\"$date\"")
     }
     buildFeatures {
         buildConfig = true
@@ -115,10 +133,10 @@ android {
     }
     signingConfigs {
         create("release") {
-            storeFile = file("socialfood-release-key.jks")
-            storePassword = System.getenv("STORE_PASSWORD")
-            keyAlias = System.getenv("KEY_ALIAS")
-            keyPassword = System.getenv("KEY_PASSWORD")
+            storeFile = file(releaseKeystoreFileName)
+            storePassword = System.getenv(storePasswordKey)
+            keyAlias = System.getenv(keyAliasKey)
+            keyPassword = System.getenv(keyPasswordKey)
         }
     }
     buildTypes {

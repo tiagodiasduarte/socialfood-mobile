@@ -27,8 +27,7 @@ jobs:
         run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
 
       # ----------------- SET COMMIT HASH -----------------
-      - name: Set COMMIT_HASH
-        run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      - uses: ./.github/actions/set-commit-hash
 
       # ----------------- DECODE KEYSTORE -----------------
       - name: Decode Keystore

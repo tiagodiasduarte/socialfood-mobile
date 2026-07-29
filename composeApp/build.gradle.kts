@@ -6,6 +6,7 @@ val appNamespace = "pt.socialfood"
 val appVersionName = "0.1.0"
 val buildDateKey = "BUILD_DATE"
 val githubRunNumberKey = "GITHUB_RUN_NUMBER"
+val githubActionsKey = "GITHUB_ACTIONS"
 val googleClientIdKey = "GOOGLE_CLIENT_ID"
 val googleClientIdWebKey = "GOOGLE_CLIENT_ID_WEB"
 val javaVersion = JavaVersion.VERSION_21
@@ -97,7 +98,7 @@ val localProperties = Properties().apply {
     if (file.exists()) load(file.inputStream())
 }
 
-val isGithubActions = System.getenv("GITHUB_ACTIONS") == "true"
+val isGithubActions = System.getenv(githubActionsKey) == "true"
 
 fun configValue(key: String, localDefault: String? = null): String {
     val value = System.getenv(key) ?: localProperties.getProperty(key)
@@ -159,7 +160,7 @@ android {
 dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
-    debugImplementation(compose.uiTooling)
+    debugImplementation(libs.compose.ui.tooling)
 
     listOf("kspAndroid", "kspIosArm64", "kspIosSimulatorArm64").forEach {
         add(it, libs.androidx.room.compiler)

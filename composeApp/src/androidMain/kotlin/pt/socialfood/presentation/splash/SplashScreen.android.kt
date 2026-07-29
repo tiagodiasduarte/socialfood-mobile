@@ -1,6 +1,7 @@
 package pt.socialfood.presentation.splash
 
 import androidx.compose.runtime.Composable
+import pt.socialfood.presentation.startup.StartupViewModel
 
 @Composable
 actual fun SplashScreen(

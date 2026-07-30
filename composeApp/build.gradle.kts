@@ -187,20 +187,20 @@ kover {
                     "*_Impl\$*",
                     "$appNamespace.BuildConfig",
                     "$appNamespace.di.*",
+                    "$appNamespace.data.network.model.*",
+                    "$appNamespace.presentation.navigation.Route*",
                 )
                 annotatedBy("androidx.compose.ui.tooling.preview.Preview")
             }
         }
-
         total {
             html {
                 onCheck = true
             }
         }
-
         verify {
             rule {
-                minBound(minValue = 18, coverageUnits = CoverageUnit.LINE)
+                minBound(minValue = 19, coverageUnits = CoverageUnit.LINE)
             }
         }
     }

@@ -1,4 +1,5 @@
 secrets/
+GoogleService-Info.plist
 
 # fastlane - contains Apple ID email, team IDs, and match cert repo URL
 fastlane/Appfile

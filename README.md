@@ -1,11 +1,13 @@
 # SocialFood
 
-[![CI Tests](https://github.com/tiagodiasduarte/socialfood-mobile/actions/workflows/tests.yml/badge.svg)](https://github.com/tiagodiasduarte/socialfood-mobile/actions/workflows/tests.yml)
+[![CI](https://github.com/tiagodiasduarte/socialfood-mobile/actions/workflows/ci.yml/badge.svg)](https://github.com/tiagodiasduarte/socialfood-mobile/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.3.0-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.10.0-4285F4)](https://www.jetbrains.com/lp/compose-multiplatform/)
 
 A Kotlin Multiplatform app for discovering and sharing restaurant guides, built with a single Compose Multiplatform codebase for **Android** and **iOS**.
+
+📖 Deeper docs (architecture, CI/CD internals, SDK inventory, testing conventions) live in the [project wiki](https://github.com/tiagodiasduarte/socialfood-mobile/wiki).
 
 ## Features
 
@@ -27,7 +29,10 @@ A Kotlin Multiplatform app for discovering and sharing restaurant guides, built 
 | Navigation    | JetBrains Navigation 3                                            |
 | Images        | [Coil](https://coil-kt.github.io/coil/) 3.4                       |
 | Serialization | kotlinx.serialization                                             |
-| Analytics     | Firebase (Android)                                                |
+| Local cache   | Room                                                               |
+| Crash reporting | Firebase Crashlytics (native on both platforms)                 |
+| Coverage      | [Kover](https://github.com/Kotlin/kotlinx-kover)                   |
+| Static analysis | ktlint + Detekt                                                 |
 | Testing       | kotlin-test, kotlinx-coroutines-test, [Turbine](https://github.com/cashapp/turbine) |
 
 ## Architecture
@@ -50,14 +55,17 @@ Every use case and repository returns `core.Result<T>` — `Success(data)` or `E
 
 Platform-specific code (`androidMain` / `iosMain`) covers things like Google Sign-In, image picking, app versioning, and local settings storage (Jetpack DataStore on Android, `NSUserDefaults` on iOS).
 
+See the [Architecture wiki page](https://github.com/tiagodiasduarte/socialfood-mobile/wiki/Architecture) for the full breakdown (DI modules, the `expect`/`actual` bridge pattern, navigation, session/auth).
+
 ## Getting Started
 
 ### Prerequisites
 
 - JDK 21
 - Android Studio (Narwhal or newer) for Android
-- Xcode for iOS
+- Xcode + [CocoaPods](https://cocoapods.org) for iOS
 - A `GOOGLE_CLIENT_ID_WEB` value in `local.properties` or your environment
+- `composeApp/google-services.json` and `iosApp/iosApp/GoogleService-Info.plist` (real Firebase project files — copy the tracked `.example` versions and fill in real values for local dev)
 
 ### Build & Run — Android
 
@@ -87,11 +95,15 @@ Open `iosApp/` in Xcode and run from there.
 ./gradlew :composeApp:iosSimulatorArm64Test
 ```
 
+See the [Testing Conventions wiki page](https://github.com/tiagodiasduarte/socialfood-mobile/wiki/Testing-Conventions) for the Given-When-Then format and fakes-over-mocks pattern.
+
 ## CI/CD
 
-- **CI Tests** — runs on every PR into `develop`: Android unit tests + debug assemble, and iOS unit tests on the simulator target.
-- **TestFlight** — nightly build uploaded to TestFlight via Fastlane.
-- **Firebase** — Android distribution workflow.
+- **CI** (`ci.yml`) — runs on every PR into `develop`/`main`: Android build + unit tests (with Kover coverage report/gate), iOS build + unit tests, and static analysis (ktlint + Detekt + Android Lint). Comment `/retest` on a PR to re-run just its failed jobs.
+- **Firebase** (`firebase.yml`) — signed release AAB distributed via Firebase App Distribution.
+- **TestFlight** (`testflight.yml`) — signed iOS build uploaded via Fastlane.
+
+Full breakdown, including the nightly-schedule trigger setup, is in the [CI/CD wiki page](https://github.com/tiagodiasduarte/socialfood-mobile/wiki/CI-CD).
 
 ## Contributing
 

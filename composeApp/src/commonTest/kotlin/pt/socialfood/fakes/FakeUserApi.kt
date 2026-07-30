@@ -1,6 +1,6 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.data.UserApi
+import pt.socialfood.data.api.UserApi
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.network.model.photo.PresignedUrlResponse
@@ -15,7 +15,6 @@ class FakeUserApi(private val shouldThrow: Boolean = false) : UserApi {
         email = "user@test.com",
         name = "Test User",
         imageUrl = null,
-        bio = null,
         country = "Portugal",
         city = "Lisbon",
         address = null,
@@ -52,9 +51,8 @@ class FakeUserApi(private val shouldThrow: Boolean = false) : UserApi {
         return fakeUserResponse
     }
 
-    override suspend fun updatePhotoUrl(userId: String, request: UpdateUserPhotoRequest): UserResponse {
+    override suspend fun updatePhotoUrl(userId: String, request: UpdateUserPhotoRequest) {
         if (shouldThrow) throw RuntimeException("test error")
-        return fakeUserResponse
     }
 
     override suspend fun getPresignedUrl(userId: String, request: PresignedUrlRequest): PresignedUrlResponse {

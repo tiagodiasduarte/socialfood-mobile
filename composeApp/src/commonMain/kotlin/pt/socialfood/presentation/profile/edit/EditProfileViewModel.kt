@@ -2,11 +2,14 @@ package pt.socialfood.presentation.profile.edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
+import pt.socialfood.di.ImageCache
 import pt.socialfood.domain.use_case.photo.UploadPhotoUseCase
 import pt.socialfood.domain.use_case.user.GetPresignedUrlUseCase
 import pt.socialfood.domain.use_case.user.GetUserMeUseCase
@@ -19,6 +22,7 @@ class EditProfileViewModel(
     private val uploadPhoto: UploadPhotoUseCase,
     private val updateUserPhoto: UpdateUserPhotoUseCase,
     private val getPresignedUrl: GetPresignedUrlUseCase,
+    private val imageCache: ImageCache,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<EditProfileUiState>(EditProfileUiState.Loading)
@@ -36,7 +40,6 @@ class EditProfileViewModel(
     fun onNameChange(value: String) = loaded { copy(name = value) }
     fun onCityChange(value: String) = loaded { copy(city = value) }
     fun onCountryChange(value: String) = loaded { copy(country = value) }
-    fun onBioChange(value: String) = loaded { copy(bio = value) }
     fun onFacebookUrlChange(value: String) = loaded { copy(facebookUrl = value) }
     fun onInstagramUrlChange(value: String) = loaded { copy(instagramUrl = value) }
     fun onYoutubeUrlChange(value: String) = loaded { copy(youtubeUrl = value) }
@@ -53,7 +56,6 @@ class EditProfileViewModel(
                         name = user.name,
                         city = user.city.orEmpty(),
                         country = user.country.orEmpty(),
-                        bio = user.bio.orEmpty(),
                         facebookUrl = user.facebookUrl.orEmpty(),
                         instagramUrl = user.instagramUrl.orEmpty(),
                         youtubeUrl = user.youtubeUrl.orEmpty(),
@@ -72,6 +74,7 @@ class EditProfileViewModel(
         loaded { copy(pendingImage = Pair(bytes, mimeType)) }
     }
 
+    @OptIn(ExperimentalTime::class)
     fun save() {
         val state = _state.value as? EditProfileUiState.Loaded ?: return
         if (state.isSaving) return
@@ -83,7 +86,7 @@ class EditProfileViewModel(
 
                 val (bytes, mimeType) = state.pendingImage
                 val ext = mimeType.substringAfter("/", "jpg").substringBefore(";")
-                val fileName = "photo.$ext"
+                val fileName = "photo_${Clock.System.now().toEpochMilliseconds()}.$ext"
 
                 val presigned = when (val result = getPresignedUrl(
                     userId = state.userId,
@@ -104,8 +107,11 @@ class EditProfileViewModel(
                 }
 
                 when (updateUserPhoto(id = state.userId, imageUrl = presigned.publicUrl)) {
-                    is Result.Success -> loaded {
-                        copy(isUploadingPhoto = false, pendingImage = null, imageUrl = presigned.publicUrl)
+                    is Result.Success -> {
+                        imageCache.clear(presigned.publicUrl)
+                        loaded {
+                            copy(isUploadingPhoto = false, pendingImage = null, imageUrl = presigned.publicUrl)
+                        }
                     }
                     is Result.Error -> {
                         loaded { copy(isSaving = false, isUploadingPhoto = false) }
@@ -121,7 +127,6 @@ class EditProfileViewModel(
                 name = current.name.ifBlank { null },
                 city = current.city.ifBlank { null },
                 country = current.country.ifBlank { null },
-                bio = current.bio.ifBlank { null },
                 facebookUrl = current.facebookUrl.ifBlank { null },
                 instagramUrl = current.instagramUrl.ifBlank { null },
                 youtubeUrl = current.youtubeUrl.ifBlank { null },

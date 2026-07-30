@@ -1,9 +1,7 @@
 package pt.socialfood.presentation.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,11 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.home_list_see_all_label
-import socialfood.composeapp.generated.resources.home_list_view_all_label
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -38,28 +31,37 @@ import pt.socialfood.domain.model.HomeSection
 import pt.socialfood.domain.model.HomeSectionItem
 import pt.socialfood.domain.model.HomeSectionType
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
-import pt.socialfood.presentation.guides.GuideCard
+import pt.socialfood.presentation.guide.list.GuideCard
 import pt.socialfood.presentation.restaurant.RestaurantCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
+private val cardWidth = 300.dp
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
+    onGuideClick: (guideId: String) -> Unit = {},
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val sections by viewModel.sections.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
     HomeScreenContent(
         state = state,
+        sections = sections,
         isRefreshing = isRefreshing,
-        onRefresh = { viewModel.refresh() }
+        onRefresh = { viewModel.refresh() },
+        onGuideClick = onGuideClick,
+        onRestaurantClick = onRestaurantClick,
+        onToggleGuideFavourite = viewModel::onToggleGuideFavourite,
+        onToggleRestaurantFavourite = viewModel::onToggleRestaurantFavourite,
     )
 }
 
@@ -67,9 +69,18 @@ fun HomeScreen(
 @Composable
 fun HomeScreenContent(
     state: HomeUiState,
+    sections: List<HomeSection>,
     onRefresh: () -> Unit,
     isRefreshing: Boolean,
+    onGuideClick: (guideId: String) -> Unit = {},
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onToggleGuideFavourite: (Guide) -> Unit = {},
+    onToggleRestaurantFavourite: (Restaurant) -> Unit = {},
 ) {
+    val loaded = state as? HomeUiState.Loaded
+    val favouriteRestaurantIds = loaded?.favouriteRestaurantIds ?: emptySet()
+    val favouriteGuideIds = loaded?.favouriteGuideIds ?: emptySet()
+
     PullToRefreshBox(
         isRefreshing = isRefreshing,
         onRefresh = onRefresh,
@@ -84,28 +95,36 @@ fun HomeScreenContent(
                 HomeHeader()
             }
 
-            when (val current = state) {
-                HomeUiState.Loading -> {
+            when {
+                sections.isNotEmpty() -> {
+                    items(sections, key = { it.id }) { section ->
+                        HomeSectionRow(
+                            section = section,
+                            favouriteRestaurantIds = favouriteRestaurantIds,
+                            favouriteGuideIds = favouriteGuideIds,
+                            onGuideClick = onGuideClick,
+                            onRestaurantClick = onRestaurantClick,
+                            onToggleGuideFavourite = onToggleGuideFavourite,
+                            onToggleRestaurantFavourite = onToggleRestaurantFavourite,
+                        )
+                    }
+                }
+
+                state is HomeUiState.Loading -> {
                     item {
                         HomePlaceholder()
                     }
                 }
 
-                is HomeUiState.Loaded -> {
-                    if (current.sections.isEmpty()) {
-                        item {
-                            NoResultsContent()
-                        }
-                    } else {
-                        items(current.sections, key = { it.id }) { section ->
-                            HomeSectionRow(section = section)
-                        }
+                state is HomeUiState.Error -> {
+                    item {
+                        ErrorContent(onRetryClick = onRefresh)
                     }
                 }
 
-                HomeUiState.Error -> {
+                else -> {
                     item {
-                        ErrorContent(onRetryClick = onRefresh)
+                        NoResultsContent()
                     }
                 }
             }
@@ -114,7 +133,15 @@ fun HomeScreenContent(
 }
 
 @Composable
-private fun HomeSectionRow(section: HomeSection) {
+private fun HomeSectionRow(
+    section: HomeSection,
+    favouriteRestaurantIds: Set<String> = emptySet(),
+    favouriteGuideIds: Set<String> = emptySet(),
+    onGuideClick: (guideId: String) -> Unit = {},
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onToggleGuideFavourite: (Guide) -> Unit = {},
+    onToggleRestaurantFavourite: (Restaurant) -> Unit = {},
+) {
     val sorted = section.items.sortedBy { it.position }
     val isGuideSection = sorted.any { it.itemType == HomeItemType.GUIDE }
 
@@ -131,15 +158,6 @@ private fun HomeSectionRow(section: HomeSection) {
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
-            Text(
-                text = if (isGuideSection)
-                    stringResource(Res.string.home_list_see_all_label)
-                else
-                    stringResource(Res.string.home_list_view_all_label),
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable { },
-            )
         }
 
         if (sorted.isEmpty()) {
@@ -155,7 +173,15 @@ private fun HomeSectionRow(section: HomeSection) {
                 contentPadding = PaddingValues(horizontal = SpaceSize.large),
             ) {
                 items(items = sorted, key = { it.id }) { item ->
-                    HomeSectionItemCard(item = item)
+                    HomeSectionItemCard(
+                        item = item,
+                        favouriteRestaurantIds = favouriteRestaurantIds,
+                        favouriteGuideIds = favouriteGuideIds,
+                        onGuideClick = onGuideClick,
+                        onRestaurantClick = onRestaurantClick,
+                        onToggleGuideFavourite = onToggleGuideFavourite,
+                        onToggleRestaurantFavourite = onToggleRestaurantFavourite,
+                    )
                 }
             }
         }
@@ -163,10 +189,34 @@ private fun HomeSectionRow(section: HomeSection) {
 }
 
 @Composable
-private fun HomeSectionItemCard(item: HomeSectionItem) {
+private fun HomeSectionItemCard(
+    item: HomeSectionItem,
+    favouriteRestaurantIds: Set<String> = emptySet(),
+    favouriteGuideIds: Set<String> = emptySet(),
+    onGuideClick: (guideId: String) -> Unit = {},
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onToggleGuideFavourite: (Guide) -> Unit = {},
+    onToggleRestaurantFavourite: (Restaurant) -> Unit = {},
+) {
     when (item.itemType) {
-        HomeItemType.RESTAURANT -> item.restaurant?.let { RestaurantCard(it) }
-        HomeItemType.GUIDE -> item.guide?.let { GuideCard(guide = it, width = 300.dp) }
+        HomeItemType.RESTAURANT -> item.restaurant?.let {
+            RestaurantCard(
+                it,
+                width = cardWidth,
+                isFavourite = it.id in favouriteRestaurantIds,
+                onClick = { onRestaurantClick(it.id) },
+                onFavouriteClick = { onToggleRestaurantFavourite(it) },
+            )
+        }
+        HomeItemType.GUIDE -> item.guide?.let {
+            GuideCard(
+                guide = it,
+                width = cardWidth,
+                isFavourite = it.id in favouriteGuideIds,
+                onClick = { onGuideClick(it.id) },
+                onFavouriteClick = { onToggleGuideFavourite(it) },
+            )
+        }
         HomeItemType.EVENT -> {}
     }
 }
@@ -260,12 +310,11 @@ fun HomeScreenPreview() {
             },
         ),
     )
-    val state = HomeUiState.Loaded(
-        sections = sections,
-    )
+    val state = HomeUiState.Loaded()
     AppTheme {
         HomeScreenContent(
             state = state,
+            sections = sections,
             isRefreshing = false,
             onRefresh = {}
         )

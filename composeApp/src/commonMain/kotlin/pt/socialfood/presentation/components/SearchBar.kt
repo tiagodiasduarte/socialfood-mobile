@@ -22,9 +22,9 @@ import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
 fun SearchBar(
-    searchQuery: String,
-    onQueryChange: (String) -> Unit,
     placeholder: String,
+    searchQuery: String = "",
+    onQueryChange: (String) -> Unit = {},
     enabled: Boolean = true,
 ) {
     TextField(

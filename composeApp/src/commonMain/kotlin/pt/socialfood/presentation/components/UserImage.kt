@@ -17,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import coil3.compose.SubcomposeAsyncImage
 import pt.socialfood.ui.theme.AppTypography
+import pt.socialfood.ui.theme.ProfileGradientEnd
+import pt.socialfood.ui.theme.ProfileGradientStart
 
 @Composable
 fun UserImage(name: String, imageUrl: String?, imageSize: Dp) {
@@ -34,7 +36,7 @@ fun UserImage(name: String, imageUrl: String?, imageSize: Dp) {
             .clip(CircleShape)
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(Color(0xFFF05A1A), Color(0xFFB82010)),
+                    colors = listOf(ProfileGradientStart, ProfileGradientEnd),
                 ),
             ),
         contentAlignment = Alignment.Center,

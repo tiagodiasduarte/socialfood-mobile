@@ -1,6 +1,6 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.data.HomeApi
+import pt.socialfood.data.api.HomeApi
 import pt.socialfood.data.network.model.home.HomeSectionResponse
 
 class FakeHomeApi(private val shouldThrow: Boolean = false) : HomeApi {

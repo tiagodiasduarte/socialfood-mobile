@@ -42,7 +42,6 @@ import socialfood.composeapp.generated.resources.edit_profile_google_info
 import socialfood.composeapp.generated.resources.edit_profile_save_button
 import socialfood.composeapp.generated.resources.edit_profile_title
 import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.profile.edit.card.BioCard
 import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
 import pt.socialfood.presentation.profile.edit.card.ProfilePictureCard
 import pt.socialfood.presentation.profile.edit.card.SocialNetworkCard
@@ -79,7 +78,6 @@ fun EditProfileScreen(
             onNameChange = viewModel::onNameChange,
             onCityChange = viewModel::onCityChange,
             onCountryChange = viewModel::onCountryChange,
-            onBioChange = viewModel::onBioChange,
             onFacebookUrlChange = viewModel::onFacebookUrlChange,
             onInstagramUrlChange = viewModel::onInstagramUrlChange,
             onYoutubeUrlChange = viewModel::onYoutubeUrlChange,
@@ -96,7 +94,6 @@ private fun EditProfileContent(
     onNameChange: (String) -> Unit,
     onCityChange: (String) -> Unit,
     onCountryChange: (String) -> Unit,
-    onBioChange: (String) -> Unit,
     onFacebookUrlChange: (String) -> Unit,
     onInstagramUrlChange: (String) -> Unit,
     onYoutubeUrlChange: (String) -> Unit,
@@ -151,8 +148,6 @@ private fun EditProfileContent(
                 onCityChange = onCityChange,
                 onCountryChange = onCountryChange,
             )
-
-            BioCard(state = state, onBioChange = onBioChange)
 
             SocialNetworkCard(
                 state = state,
@@ -227,7 +222,6 @@ private fun EditProfileScreenPreview() {
                 name = "John Doe",
                 city = "New York",
                 country = "United States",
-                bio = "",
                 facebookUrl = "",
                 instagramUrl = "",
                 youtubeUrl = "",
@@ -239,7 +233,6 @@ private fun EditProfileScreenPreview() {
             onNameChange = {},
             onCityChange = {},
             onCountryChange = {},
-            onBioChange = {},
             onFacebookUrlChange = {},
             onInstagramUrlChange = {},
             onYoutubeUrlChange = {},

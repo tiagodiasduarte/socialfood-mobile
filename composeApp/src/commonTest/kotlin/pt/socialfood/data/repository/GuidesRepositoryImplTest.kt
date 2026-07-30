@@ -2,21 +2,30 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
+import pt.socialfood.data.paging.GuideCacheTransactionRunner
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.PagedGuides
 import pt.socialfood.domain.model.PresignedUrlData
+import pt.socialfood.fakes.FakeGuideDao
+import pt.socialfood.fakes.FakeGuideRemoteKeyDao
 import pt.socialfood.fakes.FakeGuidesApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class GuidesRepositoryImplTest {
 
     private fun createRepository(shouldThrow: Boolean = false): GuidesRepositoryImpl =
-        GuidesRepositoryImpl(FakeGuidesApi(shouldThrow))
+        GuidesRepositoryImpl(
+            guideApi = FakeGuidesApi(shouldThrow),
+            guideDao = FakeGuideDao(),
+            guideRemoteKeyDao = FakeGuideRemoteKeyDao(),
+            transactionRunner = GuideCacheTransactionRunner { it() },
+        )
 
     // create
 
@@ -334,5 +343,21 @@ class GuidesRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+    }
+
+    // getGuidesPagingFlow
+
+    @Test
+    fun `given getGuidesPagingFlow is called then the returned Pager is configured with a RemoteMediator scoped to userId or ALL`() = runTest {
+        // Given
+        val repo = createRepository()
+
+        // When
+        val scopedFlow = repo.getGuidesPagingFlow(userId = "user-1")
+        val defaultScopeFlow = repo.getGuidesPagingFlow(userId = null)
+
+        // Then
+        assertNotNull(scopedFlow)
+        assertNotNull(defaultScopeFlow)
     }
 }

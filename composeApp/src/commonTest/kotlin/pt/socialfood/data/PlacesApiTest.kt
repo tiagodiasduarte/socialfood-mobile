@@ -1,5 +1,6 @@
 package pt.socialfood.data
 
+import pt.socialfood.data.api.PlacesApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

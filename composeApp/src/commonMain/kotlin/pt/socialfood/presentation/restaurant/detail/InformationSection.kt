@@ -249,7 +249,6 @@ private fun InformationSectionPreview() {
                 id = "r1",
                 name = "Le Jardin Français",
                 description = "",
-                cuisine = "French Cuisine",
                 city = "Lisbon",
                 country = "Portugal",
                 countryCode = "PT",

@@ -1,5 +1,7 @@
 package pt.socialfood.domain.repository
 
+import androidx.paging.PagingData
+import kotlinx.coroutines.flow.Flow
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -26,7 +28,16 @@ interface GuidesRepository {
 
     suspend fun findGuides(): Result<List<Guide>>
 
-    suspend fun findGuidesPaged(page: Int, limit: Int, query: String? = null): Result<PagedGuides>
+    suspend fun findGuidesPaged(page: Int, limit: Int, query: String? = null, userId: String? = null): Result<PagedGuides>
+
+    /**
+     * Room-backed, refresh-on-fetch paging stream for the Guides list, scoped to [userId] (or all
+     * authors when `null`). Deliberately returns `Flow<PagingData<Guide>>` rather than
+     * `Result<PagedGuides>` — the only method on this repository that does — because Paging's error
+     * surface is `LoadState`/`RemoteMediator.MediatorResult`, not a one-shot `Result`; see
+     * `GuideRemoteMediator` for the sync logic.
+     */
+    fun getGuidesPagingFlow(userId: String? = null): Flow<PagingData<Guide>>
 
     suspend fun findById(id: String): Result<Guide>
 

@@ -11,7 +11,6 @@ sealed interface EditProfileUiState {
         val name: String = "",
         val city: String = "",
         val country: String = "",
-        val bio: String = "",
         val facebookUrl: String = "",
         val instagramUrl: String = "",
         val youtubeUrl: String = "",

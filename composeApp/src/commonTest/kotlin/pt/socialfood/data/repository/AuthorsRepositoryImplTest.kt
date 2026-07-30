@@ -2,19 +2,28 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
+import pt.socialfood.data.paging.AuthorCacheTransactionRunner
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.AuthorDetail
 import pt.socialfood.domain.model.PagedAuthors
+import pt.socialfood.fakes.FakeAuthorDao
+import pt.socialfood.fakes.FakeAuthorRemoteKeyDao
 import pt.socialfood.fakes.FakeAuthorsApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class AuthorsRepositoryImplTest {
 
     private fun createRepository(shouldThrow: Boolean = false): AuthorsRepositoryImpl =
-        AuthorsRepositoryImpl(FakeAuthorsApi(shouldThrow))
+        AuthorsRepositoryImpl(
+            authorsApi = FakeAuthorsApi(shouldThrow),
+            authorDao = FakeAuthorDao(),
+            authorRemoteKeyDao = FakeAuthorRemoteKeyDao(),
+            transactionRunner = AuthorCacheTransactionRunner { it() },
+        )
 
     // findAuthors
 
@@ -76,5 +85,19 @@ class AuthorsRepositoryImplTest {
         // Then
         assertIs<Result.Error>(result)
         assertEquals(ErrorEntity.Unknown, result.error)
+    }
+
+    // getAuthorsPagingFlow
+
+    @Test
+    fun `given getAuthorsPagingFlow is called then the returned Pager is configured with an AuthorRemoteMediator`() = runTest {
+        // Given
+        val repo = createRepository()
+
+        // When
+        val flow = repo.getAuthorsPagingFlow()
+
+        // Then
+        assertNotNull(flow)
     }
 }

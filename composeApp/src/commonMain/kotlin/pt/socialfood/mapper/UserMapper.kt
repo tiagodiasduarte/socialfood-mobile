@@ -13,7 +13,6 @@ fun UserResponse.toUser(): User =
         role = runCatching { UserRole.valueOf(this.role.uppercase()) }.getOrDefault(UserRole.USER),
         imageUrl = this.imageUrl,
         address = this.address,
-        bio = this.bio,
         city = this.city,
         country = this.country,
         facebookUrl = this.facebookUrl,

@@ -7,7 +7,6 @@ data class Restaurant(
     val id: String,
     val name: String,
     val description: String?,
-    val cuisine: String = "Unknow",
     val city: String,
     val country: String,
     val countryCode: String,

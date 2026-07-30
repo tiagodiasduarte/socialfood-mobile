@@ -3,5 +3,7 @@ platform :ios, '18.2'
 target 'iosApp' do
   use_frameworks!
 
+  pod 'FirebaseCore'
+  pod 'FirebaseCrashlytics'
   pod 'GoogleSignIn'
 end

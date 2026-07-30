@@ -1,5 +1,9 @@
 package pt.socialfood.presentation.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -14,25 +18,29 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.mp.KoinPlatform.getKoin
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.authors.detail.AuthorDetailScreen
-import pt.socialfood.presentation.authors.detail.AuthorDetailViewModel
-import pt.socialfood.presentation.authors.AuthorsScreen
-import pt.socialfood.presentation.authors.AuthorsViewModel
-import pt.socialfood.presentation.guides.detail.GuideDetailScreen
-import pt.socialfood.presentation.guides.detail.GuideDetailViewModel
-import pt.socialfood.presentation.guides.GuidesScreen
-import pt.socialfood.presentation.guides.GuidesViewModel
-import pt.socialfood.presentation.guides.create.CreateGuideScreen
-import pt.socialfood.presentation.guides.create.CreateGuideViewModel
-import pt.socialfood.presentation.guides.edit.search_restaurants.SearchRestaurantsScreen
-import pt.socialfood.presentation.guides.edit.search_restaurants.SearchRestaurantsViewModel
-import pt.socialfood.presentation.guides.edit.EditGuideScreen
-import pt.socialfood.presentation.guides.edit.EditGuideViewModel
+import pt.socialfood.presentation.author.detail.AuthorDetailScreen
+import pt.socialfood.presentation.author.detail.AuthorDetailViewModel
+import pt.socialfood.presentation.author.list.AuthorsScreen
+import pt.socialfood.presentation.author.list.AuthorsViewModel
+import pt.socialfood.presentation.favourite.guide.FavouriteGuidesScreen
+import pt.socialfood.presentation.favourite.restaurant.FavouriteRestaurantsScreen
+import pt.socialfood.presentation.guide.detail.GuideDetailScreen
+import pt.socialfood.presentation.guide.detail.GuideDetailViewModel
+import pt.socialfood.presentation.guide.list.GuidesScreen
+import pt.socialfood.presentation.guide.list.GuidesViewModel
+import pt.socialfood.presentation.guide.create.CreateGuideScreen
+import pt.socialfood.presentation.guide.create.CreateGuideViewModel
+import pt.socialfood.presentation.restaurant.search.SearchRestaurantsScreen
+import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
+import pt.socialfood.presentation.guide.edit.EditGuideScreen
+import pt.socialfood.presentation.guide.edit.EditGuideViewModel
 import pt.socialfood.presentation.home.HomeScreen
 import pt.socialfood.presentation.profile.ProfileScreen
 import pt.socialfood.presentation.profile.edit.EditProfileScreen
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailScreen
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
+
+private const val NAVIGATION_TRANSITION_DURATION_MILLIS = 300
 
 @Composable
 fun NavigationRoot(
@@ -65,10 +73,40 @@ fun NavigationRoot(
                 .fillMaxSize()
                 .padding(innerPadding),
             onBack = navigator::goBack,
+            transitionSpec = {
+                slideInHorizontally(
+                    initialOffsetX = { fullWidth -> fullWidth },
+                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                ) togetherWith slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> -fullWidth / 4 },
+                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                )
+            },
+            popTransitionSpec = {
+                slideInHorizontally(
+                    initialOffsetX = { fullWidth -> -fullWidth / 4 },
+                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                ) togetherWith slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> fullWidth },
+                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                )
+            },
+            predictivePopTransitionSpec = {
+                slideInHorizontally(
+                    initialOffsetX = { fullWidth -> -fullWidth / 4 },
+                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                ) togetherWith slideOutHorizontally(
+                    targetOffsetX = { fullWidth -> fullWidth },
+                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                )
+            },
             entries = navigationState.toEntries(
                 entryProvider {
                     entry<Route.Home> {
-                        HomeScreen()
+                        HomeScreen(
+                            onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+                            onRestaurantClick = { restaurantId -> navigator.navigate(Route.RestaurantDetail(restaurantId)) },
+                        )
                     }
                     entry<Route.Guides> {
                         val vm = remember(key) { getKoin().get<GuidesViewModel>() }
@@ -94,10 +132,24 @@ fun NavigationRoot(
                     entry<Route.Profile> {
                         ProfileScreen(
                             onEditProfileClick = { navigator.navigate(Route.EditProfile) },
+                            onFavouriteGuidesClick = { navigator.navigate(Route.FavouriteGuides) },
+                            onFavouriteRestaurantsClick = { navigator.navigate(Route.FavouriteRestaurants) },
                         )
                     }
                     entry<Route.EditProfile> {
                         EditProfileScreen(onBackClick = navigator::goBack)
+                    }
+                    entry<Route.FavouriteGuides> {
+                        FavouriteGuidesScreen(
+                            onBackClick = navigator::goBack,
+                            onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+                        )
+                    }
+                    entry<Route.FavouriteRestaurants> {
+                        FavouriteRestaurantsScreen(
+                            onBackClick = navigator::goBack,
+                            onRestaurantClick = { restaurantId -> navigator.navigate(Route.RestaurantDetail(restaurantId)) },
+                        )
                     }
                     entry<Route.GuideDetail> { route ->
                         val vm = remember(route.guideId) {
@@ -110,6 +162,7 @@ fun NavigationRoot(
                             onBackClick = navigator::goBack,
                             onEditClick = { guideId -> navigator.navigate(Route.EditGuide(guideId)) },
                             onRestaurantClick = { restaurantId -> navigator.navigate(Route.RestaurantDetail(restaurantId)) },
+                            onAuthorClick = { authorId -> navigator.navigate(Route.AuthorDetail(authorId)) },
                             viewModel = vm,
                         )
                     }
@@ -137,6 +190,7 @@ fun NavigationRoot(
                         AuthorDetailScreen(
                             authorId = route.authorId,
                             onBackClick = navigator::goBack,
+                            onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                             viewModel = vm,
                         )
                     }

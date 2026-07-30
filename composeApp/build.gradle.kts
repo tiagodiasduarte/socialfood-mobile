@@ -188,6 +188,7 @@ kover {
                     "$appNamespace.BuildConfig",
                     "$appNamespace.di.*",
                 )
+                annotatedBy("androidx.compose.ui.tooling.preview.Preview")
             }
         }
 

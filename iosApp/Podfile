@@ -4,4 +4,6 @@ target 'iosApp' do
   use_frameworks!
 
   pod 'GoogleSignIn'
+  pod 'FirebaseCore'
+  pod 'FirebaseCrashlytics'
 end

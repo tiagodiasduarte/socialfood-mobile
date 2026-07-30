@@ -1,8 +1,6 @@
 name: Android Build for Firebase
 
 on:
-  schedule:
-    - cron: '0 9 * * *'   # 09:00 UTC
   workflow_dispatch:
 jobs:
   android-build:

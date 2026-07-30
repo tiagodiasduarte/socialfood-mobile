@@ -1,8 +1,6 @@
 name: iOS Build for TestFlight
 
 on:
-  schedule:
-    - cron: '0 10 * * *'  # 10:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -37,6 +35,11 @@ jobs:
           GOOGLE_REVERSE_CLIENT_ID_WEB = com.googleusercontent.apps.$(echo ${GOOGLE_CLIENT_ID_IOS} | sed 's/.apps.googleusercontent.com//')
           EOF
           sed -i '' "s/TEAM_ID=/TEAM_ID=${TEAM_ID}/" iosApp/Configuration/Config.xcconfig
+
+      # ----------------- SETUP GOOGLESERVICE-INFO.PLIST -----------------
+      - uses: ./.github/actions/setup-google-service-info-plist
+        with:
+          google-service-info-plist-base64: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_BASE64 }}
 
       # ----------------- INSTALL DEPENDENCIES -----------------
       - run: sudo gem install cocoapods fastlane

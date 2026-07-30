@@ -46,6 +46,17 @@ jobs:
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
           BUILD_DATE: ${{ env.BUILD_DATE }}
           GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
+      - run: ./gradlew :composeApp:koverHtmlReport --stacktrace
+        env:
+          GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          BUILD_DATE: ${{ env.BUILD_DATE }}
+          GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
+      - name: Upload Kover HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: kover-html-report
+          path: composeApp/build/reports/kover/html/
 
   ios-build:
     name: iOS Build

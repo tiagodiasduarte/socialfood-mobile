@@ -22,6 +22,7 @@ plugins {
     alias(libs.plugins.googleServices)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.kover)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
 }
@@ -169,5 +170,40 @@ dependencies {
 
 room {
     schemaDirectory("$projectDir/schemas")
+}
+
+kover {
+    reports {
+        filters {
+            excludes {
+                classes(
+                    // Compose-compiler-generated synthetic classes
+                    "*ComposableSingletons*",
+                    "*\$Lambda\$*",
+                    // Compose Multiplatform generated resources accessors
+                    "socialfood.composeapp.generated.resources.*",
+                    // Room-generated implementation classes
+                    "*_Impl",
+                    "*_Impl\$*",
+                    // Generated Android BuildConfig
+                    "$appNamespace.BuildConfig",
+                    // Koin DI module wiring - declarative glue code, not logic worth measuring
+                    "$appNamespace.di.*",
+                )
+            }
+        }
+
+        total {
+            html {
+                onCheck = true
+            }
+        }
+    }
+}
+
+// koverHtmlReport is only wired into the `check`/`build` lifecycle by default (via `onCheck`).
+// Attach it to `allTests` too so the report is also produced as a side effect of that task.
+tasks.named("allTests") {
+    finalizedBy("koverHtmlReport")
 }
 

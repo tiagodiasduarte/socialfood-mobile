@@ -1,6 +1,7 @@
 import SwiftUI
 import ComposeApp
 import FirebaseCore
+import FirebaseCrashlytics
 import GoogleSignIn
 
 class GoogleSignInDelegateImpl: GoogleSignInDelegate {
@@ -20,20 +21,16 @@ class GoogleSignInDelegateImpl: GoogleSignInDelegate {
     }
 }
 
-class CrashReportingDelegateImpl: CrashReportingDelegate {
-    func triggerTestCrash() {
-        fatalError("Test Crash - SocialFood Profile debug trigger")
-    }
-}
-
 @main
 struct iOSApp: App {
     init() {
+        #if DEBUG
+        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(false)
+        #endif
         FirebaseApp.configure()
-        KoinKt.doInitKoin()
         GoogleSignInBridge.shared.delegate = GoogleSignInDelegateImpl()
         ImagePickerBridge.shared.delegate = ImagePickerDelegateImpl()
-        CrashReportingBridge.shared.delegate = CrashReportingDelegateImpl()
+        KoinKt.doInitKoin()
     }
 
     var body: some Scene {

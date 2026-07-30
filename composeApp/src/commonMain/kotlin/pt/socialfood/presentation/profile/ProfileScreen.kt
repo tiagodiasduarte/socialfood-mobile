@@ -11,7 +11,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Logout
-import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -37,8 +36,6 @@ import socialfood.composeapp.generated.resources.profile_logout_button
 import socialfood.composeapp.generated.resources.profile_logout_button_description
 import pt.socialfood.core.appBuildDate
 import pt.socialfood.core.appVersion
-import pt.socialfood.core.isDebugBuild
-import pt.socialfood.core.triggerTestCrash
 import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.NoResultsContent
@@ -158,15 +155,6 @@ private fun UserContent(
                     hasChevron = false,
                     onClick = onLogoutClick
                 )
-                if (isDebugBuild) {
-                    MenuRow(
-                        icon = Icons.Outlined.BugReport,
-                        label = "Force Test Crash (debug only)",
-                        contentDescription = "Force Test Crash (debug only)",
-                        hasChevron = false,
-                        onClick = { triggerTestCrash() },
-                    )
-                }
             }
 
             Text(

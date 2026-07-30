@@ -180,11 +180,10 @@ kover {
             excludes {
                 classes(
                     "*ComposableSingletons*",
-                    "*\$Lambda\$*",
+                    $$"*$Lambda$*",
                     "socialfood.composeapp.generated.resources.*",
-                    // Room-generated implementation classes
                     "*_Impl",
-                    "*_Impl\$*",
+                    "*_Impl$*",
                     "$appNamespace.BuildConfig",
                     "$appNamespace.di.*",
                     "$appNamespace.data.network.model.*",

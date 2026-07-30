@@ -1,5 +1,7 @@
+import io.gitlab.arturbosch.detekt.Detekt
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 import java.util.Properties
 
 val appId = "pt.socialfood"
@@ -34,12 +36,14 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.detekt)
     alias(libs.plugins.firebaseCrashlytics)
     alias(libs.plugins.googleServices)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.kover)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.ktlint)
     alias(libs.plugins.room)
 }
 
@@ -174,6 +178,39 @@ dependencies {
 
 room {
     schemaDirectory("$projectDir/schemas")
+}
+
+ktlint {
+    ignoreFailures.set(false)
+    baseline.set(file("ktlint-baseline.xml"))
+    filter {
+        exclude("**/build/**")
+        exclude("**/generated/**")
+        exclude { element -> element.file.path.contains("${File.separatorChar}build${File.separatorChar}") }
+    }
+    reporters {
+        reporter(ReporterType.CHECKSTYLE)
+        reporter(ReporterType.HTML)
+    }
+}
+
+detekt {
+    buildUponDefaultConfig = true
+    config.setFrom(file("config/detekt/detekt.yml"))
+    baseline = file("config/detekt/baseline.xml")
+    source.setFrom(
+        "src/commonMain/kotlin",
+        "src/androidMain/kotlin",
+        "src/iosMain/kotlin",
+        "src/commonTest/kotlin",
+    )
+}
+
+tasks.withType<Detekt>().configureEach {
+    reports {
+        html.required.set(true)
+        sarif.required.set(true)
+    }
 }
 
 kover {

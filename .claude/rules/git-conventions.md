@@ -30,6 +30,9 @@ Format:
 
 Use lowercase, hyphen-separated words. Keep the description short and specific.
 
+Do not include the Jira/ticket ID (e.g. `APPS-21`) in the branch name — describe the
+change itself instead (`feature/kover-coverage`, not `feature/apps-21-kover-coverage`).
+
 ## Pull request titles
 
 Format:

@@ -1,3 +1,4 @@
+import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
@@ -177,17 +178,13 @@ kover {
         filters {
             excludes {
                 classes(
-                    // Compose-compiler-generated synthetic classes
                     "*ComposableSingletons*",
                     "*\$Lambda\$*",
-                    // Compose Multiplatform generated resources accessors
                     "socialfood.composeapp.generated.resources.*",
                     // Room-generated implementation classes
                     "*_Impl",
                     "*_Impl\$*",
-                    // Generated Android BuildConfig
                     "$appNamespace.BuildConfig",
-                    // Koin DI module wiring - declarative glue code, not logic worth measuring
                     "$appNamespace.di.*",
                 )
             }
@@ -196,6 +193,12 @@ kover {
         total {
             html {
                 onCheck = true
+            }
+        }
+
+        verify {
+            rule {
+                minBound(minValue = 20, coverageUnits = CoverageUnit.LINE)
             }
         }
     }

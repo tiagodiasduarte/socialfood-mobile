@@ -36,6 +36,11 @@ jobs:
           EOF
           sed -i '' "s/TEAM_ID=/TEAM_ID=${TEAM_ID}/" iosApp/Configuration/Config.xcconfig
 
+      # ----------------- SETUP GOOGLESERVICE-INFO.PLIST -----------------
+      - uses: ./.github/actions/setup-google-service-info-plist
+        with:
+          google-service-info-plist-base64: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_BASE64 }}
+
       # ----------------- INSTALL DEPENDENCIES -----------------
       - run: sudo gem install cocoapods fastlane
       - run: cd iosApp && pod install

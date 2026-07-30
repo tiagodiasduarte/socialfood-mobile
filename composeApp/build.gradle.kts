@@ -1,3 +1,4 @@
+import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
@@ -15,6 +16,20 @@ val keyPasswordKey = "KEY_PASSWORD"
 val releaseKeystoreFileName = "socialfood-release-key.jks"
 val storePasswordKey = "STORE_PASSWORD"
 
+val isGithubActions = System.getenv(githubActionsKey) == "true"
+
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) load(file.inputStream())
+}
+
+fun configValue(key: String, localDefault: String? = null): String {
+    val value = System.getenv(key) ?: localProperties.getProperty(key)
+    if (value != null) return value
+    if (!isGithubActions && localDefault != null) return localDefault
+    error("$key not set in local.properties or environment")
+}
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeCompiler)
@@ -22,6 +37,7 @@ plugins {
     alias(libs.plugins.googleServices)
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.kover)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
 }
@@ -93,20 +109,6 @@ kotlin {
     }
 }
 
-val localProperties = Properties().apply {
-    val file = rootProject.file("local.properties")
-    if (file.exists()) load(file.inputStream())
-}
-
-val isGithubActions = System.getenv(githubActionsKey) == "true"
-
-fun configValue(key: String, localDefault: String? = null): String {
-    val value = System.getenv(key) ?: localProperties.getProperty(key)
-    if (value != null) return value
-    if (!isGithubActions && localDefault != null) return localDefault
-    error("$key not set in local.properties or environment")
-}
-
 android {
     namespace = appNamespace
     compileSdk = libs.versions.android.compileSdk.get().toInt()
@@ -160,6 +162,7 @@ android {
 dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+
     debugImplementation(libs.compose.ui.tooling)
 
     listOf("kspAndroid", "kspIosArm64", "kspIosSimulatorArm64").forEach {
@@ -171,3 +174,34 @@ room {
     schemaDirectory("$projectDir/schemas")
 }
 
+kover {
+    reports {
+        filters {
+            excludes {
+                classes(
+                    "*ComposableSingletons*",
+                    "*\$Lambda\$*",
+                    "socialfood.composeapp.generated.resources.*",
+                    // Room-generated implementation classes
+                    "*_Impl",
+                    "*_Impl\$*",
+                    "$appNamespace.BuildConfig",
+                    "$appNamespace.di.*",
+                    "$appNamespace.data.network.model.*",
+                    "$appNamespace.presentation.navigation.Route*",
+                )
+                annotatedBy("androidx.compose.ui.tooling.preview.Preview")
+            }
+        }
+        total {
+            html {
+                onCheck = true
+            }
+        }
+        verify {
+            rule {
+                minBound(minValue = 19, coverageUnits = CoverageUnit.LINE)
+            }
+        }
+    }
+}

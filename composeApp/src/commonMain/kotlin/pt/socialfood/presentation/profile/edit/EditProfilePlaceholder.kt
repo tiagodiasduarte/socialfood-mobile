@@ -68,7 +68,7 @@ internal fun EditProfilePlaceholder() {
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
             // Profile picture card
-            SectionCardPlaceholder(alpha = alpha) {
+            SectionCardPlaceholder {
                 ShimmerBox(modifier = Modifier.width(140.dp).height(20.dp), alpha = alpha)
                 Spacer(Modifier.height(SpaceSize.large))
                 Row(
@@ -84,7 +84,7 @@ internal fun EditProfilePlaceholder() {
             }
 
             // Personal details card
-            SectionCardPlaceholder(alpha = alpha) {
+            SectionCardPlaceholder {
                 ShimmerBox(modifier = Modifier.width(140.dp).height(20.dp), alpha = alpha)
                 Spacer(Modifier.height(SpaceSize.large))
                 repeat(3) {
@@ -94,7 +94,7 @@ internal fun EditProfilePlaceholder() {
             }
 
             // Social networks card
-            SectionCardPlaceholder(alpha = alpha) {
+            SectionCardPlaceholder {
                 ShimmerBox(modifier = Modifier.width(140.dp).height(20.dp), alpha = alpha)
                 Spacer(Modifier.height(SpaceSize.large))
                 repeat(3) {
@@ -110,7 +110,6 @@ internal fun EditProfilePlaceholder() {
 
 @Composable
 private fun SectionCardPlaceholder(
-    alpha: Float,
     content: @Composable () -> Unit,
 ) {
     Card(

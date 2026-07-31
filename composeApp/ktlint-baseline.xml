@@ -2636,9 +2636,9 @@
         <error line="7" column="1" source="standard:no-empty-first-line-in-class-body" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeHomeDao.kt">
-        <error line="8" column="19" source="standard:class-signature" />
-        <error line="8" column="66" source="standard:class-signature" />
-        <error line="9" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="9" column="19" source="standard:class-signature" />
+        <error line="9" column="66" source="standard:class-signature" />
+        <error line="10" column="1" source="standard:no-empty-first-line-in-class-body" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakePlacesApi.kt">
         <error line="7" column="21" source="standard:class-signature" />

@@ -37,7 +37,7 @@ import socialfood.composeapp.generated.resources.profile_logout_button_descripti
 import pt.socialfood.core.appBuildDate
 import pt.socialfood.core.appVersion
 import pt.socialfood.domain.model.User
-import pt.socialfood.presentation.components.ActionButton
+import pt.socialfood.presentation.components.buttons.ActionButton
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.ProfileHeader
 import pt.socialfood.ui.theme.AppTheme

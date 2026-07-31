@@ -6,8 +6,8 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import pt.socialfood.data.network.model.LoginRequest
-import pt.socialfood.data.network.model.LoginResponse
+import pt.socialfood.data.network.model.login.LoginRequest
+import pt.socialfood.data.network.model.login.LoginResponse
 import pt.socialfood.data.network.model.login.GoogleLoginRequest
 import pt.socialfood.data.network.model.login.RegisterRequest
 import pt.socialfood.data.network.model.login.ResendVerificationCodeRequest

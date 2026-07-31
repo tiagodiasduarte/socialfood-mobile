@@ -58,11 +58,11 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.components.ActionButton
+import pt.socialfood.presentation.components.buttons.ActionButton
 import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.guide.detail.author.AuthorItemCard
-import pt.socialfood.presentation.guide_detail.RestaurantItemCard
+import pt.socialfood.presentation.guide.detail.restaurant.RestaurantItemCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.GreyBackground

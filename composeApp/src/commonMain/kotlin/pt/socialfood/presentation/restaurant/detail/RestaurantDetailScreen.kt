@@ -53,7 +53,7 @@ import socialfood.composeapp.generated.resources.restaurant_detail_opening_hours
 import socialfood.composeapp.generated.resources.restaurant_detail_share_description
 import socialfood.composeapp.generated.resources.share_icon
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.components.ActionButton
+import pt.socialfood.presentation.components.buttons.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.ui.theme.AppTheme

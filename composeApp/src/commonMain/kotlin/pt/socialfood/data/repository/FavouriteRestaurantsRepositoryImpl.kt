@@ -16,7 +16,7 @@ import pt.socialfood.mapper.toFavouriteRestaurant
 import pt.socialfood.mapper.toFavouriteRestaurantEntity
 import pt.socialfood.mapper.toRestaurant
 
-private val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
+private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
 
 // The number of favourites a user can have is bounded, so one page covers the whole set —
 // no need for true incremental pagination when hydrating newly-added favourites.

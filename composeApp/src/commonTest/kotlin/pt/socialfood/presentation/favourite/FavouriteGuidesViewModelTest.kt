@@ -10,6 +10,7 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.PagedFavouriteGuides
 import pt.socialfood.fakes.FakeGetFavouriteGuidesUseCase
+import pt.socialfood.fakes.FakeUnmarkGuideFavouriteUseCase
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesUiState
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesViewModel
 import pt.socialfood.runner.runTestWithMainDispatcher
@@ -41,7 +42,7 @@ class FavouriteGuidesViewModelTest {
         }
 
         // When
-        val vm = FavouriteGuidesViewModel(useCase)
+        val vm = FavouriteGuidesViewModel(useCase, FakeUnmarkGuideFavouriteUseCase())
         advanceUntilIdle()
 
         // Then
@@ -56,7 +57,7 @@ class FavouriteGuidesViewModelTest {
         val useCase = FakeGetFavouriteGuidesUseCase { Result.Error(ErrorEntity.Unknown) }
 
         // When
-        val vm = FavouriteGuidesViewModel(useCase)
+        val vm = FavouriteGuidesViewModel(useCase, FakeUnmarkGuideFavouriteUseCase())
         advanceUntilIdle()
 
         // Then
@@ -73,7 +74,7 @@ class FavouriteGuidesViewModelTest {
                 Result.Success(PagedFavouriteGuides(favourites = listOf(favourite("g2")), page = 2, total = 2, hasMore = false))
             }
         }
-        val vm = FavouriteGuidesViewModel(useCase)
+        val vm = FavouriteGuidesViewModel(useCase, FakeUnmarkGuideFavouriteUseCase())
         advanceUntilIdle()
 
         // When
@@ -92,7 +93,7 @@ class FavouriteGuidesViewModelTest {
         val useCase = FakeGetFavouriteGuidesUseCase {
             Result.Success(PagedFavouriteGuides(favourites = listOf(favourite("g1")), page = it, total = 1, hasMore = false))
         }
-        val vm = FavouriteGuidesViewModel(useCase)
+        val vm = FavouriteGuidesViewModel(useCase, FakeUnmarkGuideFavouriteUseCase())
         advanceUntilIdle()
 
         // When
@@ -102,5 +103,52 @@ class FavouriteGuidesViewModelTest {
         // Then
         assertEquals(false, vm.isRefreshing.value)
         assertIs<FavouriteGuidesUiState.Loaded>(vm.state.value)
+    }
+
+    @Test
+    fun `given a favourite guide when removeFavourite succeeds then removes it from state`() = runTestWithMainDispatcher {
+        // Given
+        val useCase = FakeGetFavouriteGuidesUseCase {
+            Result.Success(
+                PagedFavouriteGuides(
+                    favourites = listOf(favourite("g1"), favourite("g2")),
+                    page = it,
+                    total = 2,
+                    hasMore = false,
+                ),
+            )
+        }
+        val unmarkUseCase = FakeUnmarkGuideFavouriteUseCase()
+        val vm = FavouriteGuidesViewModel(useCase, unmarkUseCase)
+        advanceUntilIdle()
+
+        // When
+        vm.removeFavourite("g1")
+        advanceUntilIdle()
+
+        // Then
+        val state = assertIs<FavouriteGuidesUiState.Loaded>(vm.state.value)
+        assertEquals(listOf("g2"), state.guides.map { it.id })
+        assertEquals(1, unmarkUseCase.invokeCount)
+        assertEquals("g1", unmarkUseCase.lastGuideId)
+    }
+
+    @Test
+    fun `given removeFavourite fails when called then reverts the guide back into state`() = runTestWithMainDispatcher {
+        // Given
+        val useCase = FakeGetFavouriteGuidesUseCase {
+            Result.Success(PagedFavouriteGuides(favourites = listOf(favourite("g1")), page = it, total = 1, hasMore = false))
+        }
+        val unmarkUseCase = FakeUnmarkGuideFavouriteUseCase(result = Result.Error(ErrorEntity.Unknown))
+        val vm = FavouriteGuidesViewModel(useCase, unmarkUseCase)
+        advanceUntilIdle()
+
+        // When
+        vm.removeFavourite("g1")
+        advanceUntilIdle()
+
+        // Then
+        val state = assertIs<FavouriteGuidesUiState.Loaded>(vm.state.value)
+        assertEquals(listOf("g1"), state.guides.map { it.id })
     }
 }

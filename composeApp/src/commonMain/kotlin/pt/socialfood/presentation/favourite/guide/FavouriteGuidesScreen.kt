@@ -64,6 +64,7 @@ fun FavouriteGuidesScreen(
         onLoadMore = viewModel::loadMore,
         onRetry = viewModel::loadFirstPage,
         onGuideClick = onGuideClick,
+        onRemoveClick = viewModel::removeFavourite,
     )
 }
 
@@ -77,6 +78,7 @@ private fun FavouriteGuidesContent(
     onLoadMore: () -> Unit,
     onRetry: () -> Unit,
     onGuideClick: (guideId: String) -> Unit = {},
+    onRemoveClick: (guideId: String) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
 
@@ -130,6 +132,7 @@ private fun FavouriteGuidesContent(
                             FavoriteGuideCard(
                                 guide = guide,
                                 onClick = { onGuideClick(guide.id) },
+                                onRemoveClick = { onRemoveClick(guide.id) },
                             )
                         }
                     }

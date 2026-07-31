@@ -8,11 +8,13 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.use_case.favourite.guide.GetFavouriteGuidesUseCase
+import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
 
 private const val PAGE_SIZE = 20
 
 class FavouriteGuidesViewModel(
     private val getFavouriteGuides: GetFavouriteGuidesUseCase,
+    private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<FavouriteGuidesUiState>(FavouriteGuidesUiState.Loading)
@@ -79,6 +81,20 @@ class FavouriteGuidesViewModel(
                     )
                 }
                 is Result.Error -> _state.value = current.copy(isLoadingMore = false)
+            }
+        }
+    }
+
+    fun removeFavourite(guideId: String) {
+        val current = _state.value as? FavouriteGuidesUiState.Loaded ?: return
+        val removedGuide = current.guides.find { it.id == guideId } ?: return
+        _state.value = current.copy(guides = current.guides.filterNot { it.id == guideId })
+
+        viewModelScope.launch {
+            val result = unmarkGuideFavourite(guideId)
+            if (result is Result.Error) {
+                val stateNow = _state.value as? FavouriteGuidesUiState.Loaded ?: return@launch
+                _state.value = stateNow.copy(guides = listOf(removedGuide) + stateNow.guides)
             }
         }
     }

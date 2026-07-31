@@ -62,6 +62,7 @@ fun FavouriteRestaurantsScreen(
         onLoadMore = viewModel::loadMore,
         onRetry = viewModel::loadFirstPage,
         onRestaurantClick = onRestaurantClick,
+        onRemoveClick = viewModel::removeFavourite,
     )
 }
 
@@ -75,6 +76,7 @@ private fun FavouriteRestaurantsContent(
     onLoadMore: () -> Unit,
     onRetry: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onRemoveClick: (restaurantId: String) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
 
@@ -128,6 +130,7 @@ private fun FavouriteRestaurantsContent(
                             FavoriteRestaurantCard(
                                 restaurant = restaurant,
                                 onClick = { onRestaurantClick(restaurant.id) },
+                                onRemoveClick = { onRemoveClick(restaurant.id) },
                             )
                         }
                     }

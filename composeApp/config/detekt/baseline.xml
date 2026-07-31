@@ -261,7 +261,6 @@
     <ID>TooGenericExceptionCaught:GuideRemoteMediator.kt$GuideRemoteMediator$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:GuidesRepositoryImpl.kt$GuidesRepositoryImpl$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:HomeRepositoryImpl.kt$HomeRepositoryImpl$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:PhotosRepositoryImpl.kt$PhotosRepositoryImpl$e: Exception</ID>
     <ID>TooGenericExceptionCaught:PlacesRepositoryImpl.kt$PlacesRepositoryImpl$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:RestaurantsRepositoryImpl.kt$RestaurantsRepositoryImpl$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:UsersRepositoryImpl.kt$UsersRepositoryImpl$e: Exception</ID>
@@ -283,7 +282,6 @@
     <ID>TooGenericExceptionThrown:FakePlacesApi.kt$FakePlacesApi$throw RuntimeException("test error")</ID>
     <ID>TooGenericExceptionThrown:FakeRestaurantApi.kt$FakeRestaurantApi$throw RuntimeException("not found")</ID>
     <ID>TooGenericExceptionThrown:FakeRestaurantApi.kt$FakeRestaurantApi$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeS3Api.kt$FakeS3Api$throw RuntimeException("test error")</ID>
     <ID>TooGenericExceptionThrown:FakeUserApi.kt$FakeUserApi$throw RuntimeException("test error")</ID>
     <ID>TooManyFunctions:EditGuideViewModel.kt$EditGuideViewModel : ViewModel</ID>
     <ID>TooManyFunctions:EditProfileViewModel.kt$EditProfileViewModel : ViewModel</ID>

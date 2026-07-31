@@ -1,5 +1,7 @@
 package pt.socialfood.data.repository
 
+import io.ktor.client.plugins.ResponseException
+import kotlinx.io.IOException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.S3Api
 import pt.socialfood.data.network.extensions.toErrorEntity
@@ -16,7 +18,9 @@ class PhotosRepositoryImpl(
     ): Result<Unit> = try {
         s3Api.uploadToS3(uploadUrl, bytes, mimeType)
         Result.Success(Unit)
-    } catch (e: Exception) {
+    } catch (e: IOException) {
+        Result.Error(e.toErrorEntity())
+    } catch (e: ResponseException) {
         Result.Error(e.toErrorEntity())
     }
 }

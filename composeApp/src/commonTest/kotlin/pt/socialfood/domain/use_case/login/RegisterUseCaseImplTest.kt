@@ -11,40 +11,43 @@ import kotlin.test.assertIs
 import kotlin.test.assertNull
 
 class RegisterUseCaseImplTest {
+    @Test
+    fun `given successful register when invoked then pendingVerificationEmail is persisted and returns Success`() =
+        runTest {
+            // Given
+            val settingsRepository = FakeSettingsRepository()
+            val fakeRepo =
+                FakeAuthRepository(
+                    loginResult = Result.Success("token"),
+                    registerResult = Result.Success(Unit),
+                )
+            val useCase = RegisterUseCaseImpl(fakeRepo, settingsRepository)
+
+            // When
+            val result = useCase.invoke("John Doe", "john.doe@test.com", "password")
+
+            // Then
+            assertIs<Result.Success<Boolean>>(result)
+            assertEquals("john.doe@test.com", settingsRepository.getPendingVerificationEmail())
+        }
 
     @Test
-    fun `given successful register when invoked then pendingVerificationEmail is persisted and returns Success`() = runTest {
-        // Given
-        val settingsRepository = FakeSettingsRepository()
-        val fakeRepo = FakeAuthRepository(
-            loginResult = Result.Success("token"),
-            registerResult = Result.Success(Unit),
-        )
-        val useCase = RegisterUseCaseImpl(fakeRepo, settingsRepository)
+    fun `given failed register when invoked then pendingVerificationEmail is untouched and returns Error`() =
+        runTest {
+            // Given
+            val settingsRepository = FakeSettingsRepository()
+            val fakeRepo =
+                FakeAuthRepository(
+                    loginResult = Result.Success("token"),
+                    registerResult = Result.Error(ErrorEntity.Unknown),
+                )
+            val useCase = RegisterUseCaseImpl(fakeRepo, settingsRepository)
 
-        // When
-        val result = useCase.invoke("John Doe", "john.doe@test.com", "password")
+            // When
+            val result = useCase.invoke("John Doe", "john.doe@test.com", "password")
 
-        // Then
-        assertIs<Result.Success<Boolean>>(result)
-        assertEquals("john.doe@test.com", settingsRepository.getPendingVerificationEmail())
-    }
-
-    @Test
-    fun `given failed register when invoked then pendingVerificationEmail is untouched and returns Error`() = runTest {
-        // Given
-        val settingsRepository = FakeSettingsRepository()
-        val fakeRepo = FakeAuthRepository(
-            loginResult = Result.Success("token"),
-            registerResult = Result.Error(ErrorEntity.Unknown),
-        )
-        val useCase = RegisterUseCaseImpl(fakeRepo, settingsRepository)
-
-        // When
-        val result = useCase.invoke("John Doe", "john.doe@test.com", "password")
-
-        // Then
-        assertIs<Result.Error>(result)
-        assertNull(settingsRepository.getPendingVerificationEmail())
-    }
+            // Then
+            assertIs<Result.Error>(result)
+            assertNull(settingsRepository.getPendingVerificationEmail())
+        }
 }

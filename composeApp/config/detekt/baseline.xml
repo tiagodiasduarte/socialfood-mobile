@@ -9,6 +9,7 @@
     <ID>FunctionNaming:MainViewController.kt$fun MainViewController()</ID>
     <ID>LongMethod:AuthorGuideCard.kt$@Composable fun AuthorGuideCard( guideName: String, guideDescription: String, numberOfRestaurant: Int, imageUrl: String?, onClick: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
     <ID>LongMethod:EditGuideScreen.kt$@Composable private fun GuideLoaded( state: EditGuideUiState.Loaded, initialTab: Int = TAB_DETAILS, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, onVisibilityChange: (GuideVisibility) -&gt; Unit, onAddRestaurantsClick: () -&gt; Unit, onRestaurantRemoved: (String) -&gt; Unit, onPhotoSelected: (ByteArray, String) -&gt; Unit, onDeleteGuide: () -&gt; Unit = {}, )</ID>
+    <ID>LongMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>LongMethod:EditProfilePlaceholder.kt$@Composable internal fun EditProfilePlaceholder()</ID>
     <ID>LongMethod:ErrorContent.kt$@Composable fun ErrorContent( modifier: Modifier = Modifier, errorCode: String? = null, backgroundColor: Color = GreyBackground, onRetryClick: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:FavoriteRestaurantCard.kt$@Composable fun FavoriteRestaurantCard( restaurant: Restaurant, modifier: Modifier = Modifier, onClick: () -&gt; Unit = {}, onRemoveClick: () -&gt; Unit = {}, )</ID>
@@ -24,7 +25,7 @@
     <ID>LongMethod:GuideStatusCard.kt$@Composable fun GuideStatusCard( visibility: GuideVisibility, restaurantCount: Int, hasImage: Boolean, onVisibilityChange: (GuideVisibility) -&gt; Unit, modifier: Modifier = Modifier, )</ID>
     <ID>LongMethod:GuidesScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun GuidesScreenContent( guides: LazyPagingItems&lt;Guide&gt;, selectedTab: Int = ALL_GUIDES_TAB, favouriteGuideIds: Set&lt;String&gt; = emptySet(), onTabSelected: (Int) -&gt; Unit = {}, onGuideClick: (guideId: String) -&gt; Unit = {}, onAddClick: () -&gt; Unit = {}, onFavouriteClick: (Guide) -&gt; Unit = {}, )</ID>
     <ID>LongMethod:HomeScreen.kt$@Composable @Preview fun HomeScreenPreview()</ID>
-    <ID>LongMethod:NavigationRoot.kt$@Composable fun NavigationRoot( modifier: Modifier = Modifier, )</ID>
+    <ID>LongMethod:NavigationRoot.kt$@Composable fun NavigationRoot(modifier: Modifier = Modifier)</ID>
     <ID>LongMethod:ProfileHeader.kt$@Composable fun ProfileHeader( name: String, imageUrl: String?, facebookUrl: String?, instagramUrl: String?, youtubeUrl: String?, modifier: Modifier = Modifier, topAction: @Composable BoxScope.() -&gt; Unit = {}, )</ID>
     <ID>LongMethod:ProfilePictureCard.kt$@Composable fun ProfilePictureCard( state: EditProfileUiState.Loaded, onPhotoSelected: (ByteArray, String) -&gt; Unit, )</ID>
     <ID>LongMethod:ProfileScreen.kt$@Composable private fun UserContent( user: User, onLogoutClick: () -&gt; Unit, onEditProfileClick: () -&gt; Unit = {}, onFavouriteGuidesClick: () -&gt; Unit = {}, onFavouriteRestaurantsClick: () -&gt; Unit = {}, )</ID>
@@ -53,7 +54,7 @@
     <ID>LongParameterList:GuidesRepository.kt$GuidesRepository$( id: String, name: String, userId: String, description: String, restaurantIds: List&lt;String&gt;, visibility: GuideVisibility, )</ID>
     <ID>LongParameterList:GuidesScreen.kt$( guides: LazyPagingItems&lt;Guide&gt;, selectedTab: Int = ALL_GUIDES_TAB, favouriteGuideIds: Set&lt;String&gt; = emptySet(), onTabSelected: (Int) -&gt; Unit = {}, onGuideClick: (guideId: String) -&gt; Unit = {}, onAddClick: () -&gt; Unit = {}, onFavouriteClick: (Guide) -&gt; Unit = {}, )</ID>
     <ID>LongParameterList:HomeApi.kt$HomeApi$( id: String, title: String, position: Int, isActive: Boolean, restaurantIds: List&lt;String&gt; = emptyList(), guideIds: List&lt;String&gt; = emptyList(), )</ID>
-    <ID>LongParameterList:HomeRepository.kt$HomeRepository$(id: String, title: String, position: Int, isActive: Boolean, restaurantIds: List&lt;String&gt; = emptyList(), guideIds: List&lt;String&gt; = emptyList())</ID>
+    <ID>LongParameterList:HomeRepository.kt$HomeRepository$( id: String, title: String, position: Int, isActive: Boolean, restaurantIds: List&lt;String&gt; = emptyList(), guideIds: List&lt;String&gt; = emptyList(), )</ID>
     <ID>LongParameterList:HomeScreen.kt$( item: HomeSectionItem, favouriteRestaurantIds: Set&lt;String&gt; = emptySet(), favouriteGuideIds: Set&lt;String&gt; = emptySet(), onGuideClick: (guideId: String) -&gt; Unit = {}, onRestaurantClick: (restaurantId: String) -&gt; Unit = {}, onToggleGuideFavourite: (Guide) -&gt; Unit = {}, onToggleRestaurantFavourite: (Restaurant) -&gt; Unit = {}, )</ID>
     <ID>LongParameterList:HomeScreen.kt$( section: HomeSection, favouriteRestaurantIds: Set&lt;String&gt; = emptySet(), favouriteGuideIds: Set&lt;String&gt; = emptySet(), onGuideClick: (guideId: String) -&gt; Unit = {}, onRestaurantClick: (restaurantId: String) -&gt; Unit = {}, onToggleGuideFavourite: (Guide) -&gt; Unit = {}, onToggleRestaurantFavourite: (Restaurant) -&gt; Unit = {}, )</ID>
     <ID>LongParameterList:HomeScreen.kt$( state: HomeUiState, sections: List&lt;HomeSection&gt;, onRefresh: () -&gt; Unit, isRefreshing: Boolean, onGuideClick: (guideId: String) -&gt; Unit = {}, onRestaurantClick: (restaurantId: String) -&gt; Unit = {}, onToggleGuideFavourite: (Guide) -&gt; Unit = {}, onToggleRestaurantFavourite: (Restaurant) -&gt; Unit = {}, )</ID>
@@ -133,70 +134,6 @@
     <ID>MagicNumber:SplashScreen.ios.kt$0xFFF54900</ID>
     <ID>MagicNumber:ValidateCodeScreen.kt$0xFFD0D0D0</ID>
     <ID>MagicNumber:ValidateCodeScreen.kt$0xFFF2F2F2</ID>
-    <ID>MaxLineLength:AddHomeSectionItemUseCase.kt$AddHomeSectionItemUseCase$suspend operator fun invoke(sectionId: String, itemId: String, itemType: HomeItemType, position: Int): Result&lt;HomeSection&gt;</ID>
-    <ID>MaxLineLength:AddHomeSectionItemUseCaseImpl.kt$AddHomeSectionItemUseCaseImpl$override suspend operator</ID>
-    <ID>MaxLineLength:AuthorRemoteMediatorTest.kt$AuthorRemoteMediatorTest$fun</ID>
-    <ID>MaxLineLength:AuthorsRepositoryImplTest.kt$AuthorsRepositoryImplTest$fun</ID>
-    <ID>MaxLineLength:EditGuideViewModel.kt$EditGuideViewModel$if (loaded.imageUrl == null &amp;&amp; loaded.pendingImage == null) add(ErrorEntity.Validation.PublicGuideNeedsImage)</ID>
-    <ID>MaxLineLength:EditProfilePlaceholder.kt$ShimmerBox(modifier = Modifier.width(64.dp).height(36.dp), alpha = alpha, shape = RoundedCornerShape(SpaceSize.large))</ID>
-    <ID>MaxLineLength:EditProfileViewModelTest.kt$EditProfileViewModelTest$fun</ID>
-    <ID>MaxLineLength:FakeGuidesApi.kt$FakeGuidesApi$override suspend</ID>
-    <ID>MaxLineLength:FakeHomeApi.kt$FakeHomeApi$override suspend</ID>
-    <ID>MaxLineLength:FavouriteGuidesViewModelTest.kt$FavouriteGuidesViewModelTest$Result.Success(PagedFavouriteGuides(favourites = listOf(favourite("g1")), page = 1, total = 2, hasMore = true))</ID>
-    <ID>MaxLineLength:FavouriteGuidesViewModelTest.kt$FavouriteGuidesViewModelTest$Result.Success(PagedFavouriteGuides(favourites = listOf(favourite("g1")), page = it, total = 1, hasMore = false))</ID>
-    <ID>MaxLineLength:FavouriteGuidesViewModelTest.kt$FavouriteGuidesViewModelTest$Result.Success(PagedFavouriteGuides(favourites = listOf(favourite("g2")), page = 2, total = 2, hasMore = false))</ID>
-    <ID>MaxLineLength:FavouriteGuidesViewModelTest.kt$FavouriteGuidesViewModelTest$fun</ID>
-    <ID>MaxLineLength:FavouriteRestaurantsRepositoryImpl.kt$FavouriteRestaurantsRepositoryImpl$.</ID>
-    <ID>MaxLineLength:FavouriteRestaurantsRepositoryImplTest.kt$FavouriteRestaurantsRepositoryImplTest$fun</ID>
-    <ID>MaxLineLength:FavouriteRestaurantsViewModelTest.kt$FavouriteRestaurantsViewModelTest$Result.Success(PagedFavouriteRestaurants(favourites = listOf(favourite("r1")), page = 1, total = 2, hasMore = true))</ID>
-    <ID>MaxLineLength:FavouriteRestaurantsViewModelTest.kt$FavouriteRestaurantsViewModelTest$Result.Success(PagedFavouriteRestaurants(favourites = listOf(favourite("r1")), page = it, total = 1, hasMore = false))</ID>
-    <ID>MaxLineLength:FavouriteRestaurantsViewModelTest.kt$FavouriteRestaurantsViewModelTest$Result.Success(PagedFavouriteRestaurants(favourites = listOf(favourite("r2")), page = 2, total = 2, hasMore = false))</ID>
-    <ID>MaxLineLength:FavouriteRestaurantsViewModelTest.kt$FavouriteRestaurantsViewModelTest$fun</ID>
-    <ID>MaxLineLength:FavouritesRepositoryImplTest.kt$FavouritesRepositoryImplTest$fun</ID>
-    <ID>MaxLineLength:FindGuidesUseCase.kt$FindGuidesUseCase$suspend operator fun invoke(page: Int, limit: Int, query: String? = null, userId: String? = null): Result&lt;PagedGuides&gt;</ID>
-    <ID>MaxLineLength:GetFavouriteGuidesUseCaseImplTest.kt$GetFavouriteGuidesUseCaseImplTest$pagedResult = Result.Success(PagedFavouriteGuides(favourites = emptyList(), page = 1, total = 0, hasMore = false))</ID>
-    <ID>MaxLineLength:GetFavouriteRestaurantsUseCaseImplTest.kt$GetFavouriteRestaurantsUseCaseImplTest$pagedResult = Result.Success(PagedFavouriteRestaurants(favourites = emptyList(), page = 1, total = 0, hasMore = false))</ID>
-    <ID>MaxLineLength:GoogleSignInLauncher.android.kt$if</ID>
-    <ID>MaxLineLength:GuideDetailScreen.kt$description = "A carefully curated collection of the finest dining experiences in the city. Each restaurant has been personally visited and reviewed to ensure exceptional quality, impeccable service, and unforgettable culinary moments."</ID>
-    <ID>MaxLineLength:GuideDetailViewModelTest.kt$GuideDetailViewModelTest$fun</ID>
-    <ID>MaxLineLength:GuideDetailsCard.kt$color = if (descriptionError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onBackground</ID>
-    <ID>MaxLineLength:GuideRemoteMediatorTest.kt$GuideRemoteMediatorTest$fun</ID>
-    <ID>MaxLineLength:GuideValidationErrorDialog.kt$ErrorEntity.Validation.PublicGuideNeedsMoreRestaurants -&gt; stringResource(Res.string.edit_guide_details_public_restaurants_warning)</ID>
-    <ID>MaxLineLength:GuidesApi.kt$GuidesApi$suspend fun findGuides(page: Int, limit: Int, query: String? = null, userId: String? = null): PagedResponse&lt;GuideResponse&gt;</ID>
-    <ID>MaxLineLength:GuidesApiImpl.kt$GuidesApiImpl$override suspend</ID>
-    <ID>MaxLineLength:GuidesRepository.kt$GuidesRepository$suspend fun findGuidesPaged(page: Int, limit: Int, query: String? = null, userId: String? = null): Result&lt;PagedGuides&gt;</ID>
-    <ID>MaxLineLength:GuidesRepositoryImplTest.kt$GuidesRepositoryImplTest$fun</ID>
-    <ID>MaxLineLength:GuidesViewModelTest.kt$GuidesViewModelTest$)</ID>
-    <ID>MaxLineLength:GuidesViewModelTest.kt$GuidesViewModelTest$fun</ID>
-    <ID>MaxLineLength:HomeApiImpl.kt$HomeApiImpl$override suspend</ID>
-    <ID>MaxLineLength:HomeApiImpl.kt$HomeApiImpl$setBody(UpdateHomeSectionRequest(title = title, position = position, isActive = isActive, restaurantIds = restaurantIds, guideIds = guideIds))</ID>
-    <ID>MaxLineLength:HomeRepository.kt$HomeRepository$suspend fun update(id: String, title: String, position: Int, isActive: Boolean, restaurantIds: List&lt;String&gt; = emptyList(), guideIds: List&lt;String&gt; = emptyList()): Result&lt;HomeSection&gt;</ID>
-    <ID>MaxLineLength:HomeRepositoryImpl.kt$HomeRepositoryImpl$override suspend</ID>
-    <ID>MaxLineLength:HomeViewModel.kt$HomeViewModel$val newIds = if (isFavourite) current.favouriteRestaurantIds - restaurant.id else current.favouriteRestaurantIds + restaurant.id</ID>
-    <ID>MaxLineLength:Koin.kt$single&lt;FavouriteRestaurantsRepository&gt; { FavouriteRestaurantsRepositoryImpl(get(), get&lt;AppDatabase&gt;().favouriteRestaurantDao(), get()) }</ID>
-    <ID>MaxLineLength:NavigationRoot.kt$onRestaurantClick = { restaurantId -&gt; navigator.navigate(Route.RestaurantDetail(restaurantId)) }</ID>
-    <ID>MaxLineLength:RegisterUseCaseImplTest.kt$RegisterUseCaseImplTest$fun</ID>
-    <ID>MaxLineLength:RestartSignUpUseCaseImplTest.kt$RestartSignUpUseCaseImplTest$fun</ID>
-    <ID>MaxLineLength:RestaurantDetailPlaceholder.kt$Column</ID>
-    <ID>MaxLineLength:RestaurantDetailViewModelTest.kt$RestaurantDetailViewModelTest$fun</ID>
-    <ID>MaxLineLength:RestaurantsRepositoryImplTest.kt$RestaurantsRepositoryImplTest$fun</ID>
-    <ID>MaxLineLength:SearchRestaurantsViewModelTest.kt$SearchRestaurantsViewModelTest$fun</ID>
-    <ID>MaxLineLength:SettingsRepositoryImpl.kt$private val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT = longPreferencesKey("last_favourite_restaurants_sync_attempt_at")</ID>
-    <ID>MaxLineLength:SignInScreen.kt$imageVector = if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility</ID>
-    <ID>MaxLineLength:SignInScreen.kt$visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()</ID>
-    <ID>MaxLineLength:SignInViewModelTest.kt$SignInViewModelTest$fun</ID>
-    <ID>MaxLineLength:SignUpScreen.kt$imageVector = if (confirmPasswordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility</ID>
-    <ID>MaxLineLength:SignUpScreen.kt$imageVector = if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility</ID>
-    <ID>MaxLineLength:SignUpScreen.kt$unfocusedBorderColor = if (state is SignUpUiState.Error) colorScheme.error else colorScheme.outlineVariant</ID>
-    <ID>MaxLineLength:SignUpScreen.kt$visualTransformation = if (confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation()</ID>
-    <ID>MaxLineLength:SignUpScreen.kt$visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation()</ID>
-    <ID>MaxLineLength:StartupViewModelTest.kt$StartupViewModelTest$fun</ID>
-    <ID>MaxLineLength:StatsRow.kt$StatItem(value = followersCount?.toString() ?: "-", label = stringResource(Res.string.profile_stat_followers_label))</ID>
-    <ID>MaxLineLength:StatsRow.kt$StatItem(value = followingCount?.toString() ?: "-", label = stringResource(Res.string.profile_stat_following_label))</ID>
-    <ID>MaxLineLength:UsersRepository.kt$UsersRepository$suspend fun getPresignedUrl(userId: String, fileName: String, mimeType: String, context: String): Result&lt;PresignedUrlData&gt;</ID>
-    <ID>MaxLineLength:UsersRepositoryImplTest.kt$UsersRepositoryImplTest$fun</ID>
-    <ID>MaxLineLength:ValidateCodeUseCaseImplTest.kt$ValidateCodeUseCaseImplTest$fun</ID>
-    <ID>MaxLineLength:ValidateCodeViewModelTest.kt$ValidateCodeViewModelTest$fun</ID>
     <ID>ReturnCount:AuthorRemoteMediator.kt$AuthorRemoteMediator$override suspend fun load( loadType: LoadType, state: PagingState&lt;Int, AuthorEntity&gt;, ): MediatorResult</ID>
     <ID>ReturnCount:CreateGuideUseCaseImpl.kt$CreateGuideUseCaseImpl$override suspend operator fun invoke( title: String, description: String, visibility: GuideVisibility, restaurantIds: List&lt;String&gt;?, ): Result&lt;Guide&gt;</ID>
     <ID>ReturnCount:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>

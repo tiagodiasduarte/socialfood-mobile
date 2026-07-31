@@ -10,32 +10,37 @@ import kotlin.test.Test
 import kotlin.test.assertIs
 
 class GetFavouriteRestaurantsUseCaseImplTest {
+    @Test
+    fun `given repository succeeds when invoked then returns Success with PagedFavouriteRestaurants`() =
+        runTest {
+            // Given
+            val repository =
+                FakeFavouriteRestaurantsRepository(
+                    pagedResult =
+                        Result.Success(
+                            PagedFavouriteRestaurants(favourites = emptyList(), page = 1, total = 0, hasMore = false),
+                        ),
+                )
+            val useCase = GetFavouriteRestaurantsUseCaseImpl(repository)
+
+            // When
+            val result = useCase(page = 1, limit = 10)
+
+            // Then
+            assertIs<Result.Success<PagedFavouriteRestaurants>>(result)
+        }
 
     @Test
-    fun `given repository succeeds when invoked then returns Success with PagedFavouriteRestaurants`() = runTest {
-        // Given
-        val repository = FakeFavouriteRestaurantsRepository(
-            pagedResult = Result.Success(PagedFavouriteRestaurants(favourites = emptyList(), page = 1, total = 0, hasMore = false))
-        )
-        val useCase = GetFavouriteRestaurantsUseCaseImpl(repository)
+    fun `given repository fails when invoked then returns Error`() =
+        runTest {
+            // Given
+            val repository = FakeFavouriteRestaurantsRepository(pagedResult = Result.Error(ErrorEntity.Unknown))
+            val useCase = GetFavouriteRestaurantsUseCaseImpl(repository)
 
-        // When
-        val result = useCase(page = 1, limit = 10)
+            // When
+            val result = useCase(page = 1, limit = 10)
 
-        // Then
-        assertIs<Result.Success<PagedFavouriteRestaurants>>(result)
-    }
-
-    @Test
-    fun `given repository fails when invoked then returns Error`() = runTest {
-        // Given
-        val repository = FakeFavouriteRestaurantsRepository(pagedResult = Result.Error(ErrorEntity.Unknown))
-        val useCase = GetFavouriteRestaurantsUseCaseImpl(repository)
-
-        // When
-        val result = useCase(page = 1, limit = 10)
-
-        // Then
-        assertIs<Result.Error>(result)
-    }
+            // Then
+            assertIs<Result.Error>(result)
+        }
 }

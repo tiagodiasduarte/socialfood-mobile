@@ -17,7 +17,12 @@ interface GuidesApi {
 
     suspend fun findAll(): List<GuideResponse>
 
-    suspend fun findGuides(page: Int, limit: Int, query: String? = null, userId: String? = null): PagedResponse<GuideResponse>
+    suspend fun findGuides(
+        page: Int,
+        limit: Int,
+        query: String? = null,
+        userId: String? = null,
+    ): PagedResponse<GuideResponse>
 
     suspend fun findById(id: String): GuideDetailResponse
 
@@ -40,7 +45,10 @@ interface GuidesApi {
         request: PresignedUrlRequest,
     ): PresignedUrlResponse
 
-    suspend fun addPhoto(guideId: String, imageUrl: String): GuideDetailResponse
+    suspend fun addPhoto(
+        guideId: String,
+        imageUrl: String,
+    ): GuideDetailResponse
 
     suspend fun deletePhoto(guideId: String): GuideDetailResponse
 }

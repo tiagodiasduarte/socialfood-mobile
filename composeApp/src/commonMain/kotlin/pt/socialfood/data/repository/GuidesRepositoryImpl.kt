@@ -5,8 +5,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import io.ktor.client.plugins.ResponseException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.io.IOException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.GuidesApi
 import pt.socialfood.data.local.dao.GuideDao
@@ -44,8 +46,10 @@ class GuidesRepositoryImpl(
                 userId = userId
             ).toGuide()
             Result.Success(guide)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -54,8 +58,10 @@ class GuidesRepositoryImpl(
             guideApi.delete(id)
             Result.Success(true)
 
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -63,8 +69,10 @@ class GuidesRepositoryImpl(
         return try {
             val guides = guideApi.findAll().map { it.toGuide() }
             Result.Success(guides)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -80,8 +88,10 @@ class GuidesRepositoryImpl(
                     hasMore = hasMore,
                 )
             )
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -103,8 +113,10 @@ class GuidesRepositoryImpl(
                 visibility = visibility.name,
             ).toGuide()
             Result.Success(guide)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -113,8 +125,10 @@ class GuidesRepositoryImpl(
             val guide = guideApi.findById(id).toGuide()
             Result.Success(guide)
 
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -138,8 +152,10 @@ class GuidesRepositoryImpl(
                     publicUrl = response.publicUrl,
                 )
             )
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -154,8 +170,10 @@ class GuidesRepositoryImpl(
                 placeId = placeId
             ).toGuide()
             Result.Success(guide)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -169,8 +187,10 @@ class GuidesRepositoryImpl(
                 imageUrl = imageUrl
             )
             Result.Success(true)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -180,8 +200,10 @@ class GuidesRepositoryImpl(
                 guideId = guideId,
             ).toGuide()
             Result.Success(true)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 

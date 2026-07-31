@@ -194,157 +194,164 @@ import pt.socialfood.presentation.validate_code.ValidateCodeViewModel
 
 expect val platformModule: Module
 
-val networkModule = module {
-    single { AppImageLoaderFactory(get<ImageHttpClient>().client) }
-    single<AuthApi> { AuthApiImpl(get()) }
-    single<AuthorsApi> { AuthorsApiImpl(get()) }
-    single<ConfigsApi> { ConfigsApiImpl(get()) }
-    single<FavouriteRestaurantsApi> { FavouriteRestaurantsApiImpl(get()) }
-    single<FavouritesApi> { FavouritesApiImpl(get()) }
-    single<GuidesApi> { GuidesApiImpl(get()) }
-    single<HomeApi> { HomeApiImpl(get()) }
-    single<HttpClient> { get<KtorHttpClient>().client }
-    single<ImageCache> { get<AppImageLoaderFactory>() }
-    single { ImageHttpClient() }
-    single { KtorHttpClient(get()) }
-    single<PlacesApi> { PlacesApiImpl(get()) }
-    single<RestaurantApi> { RestaurantApiImpl(get()) }
-    single<S3Api> { S3ApiImpl(get<S3HttpClient>().client) }
-    single { S3HttpClient() }
-    single { SessionManager(get()) }
-    single<UserApi> { UserApiImpl(get()) }
-}
-
-val repositoryModule = module {
-    single<AuthRepository> { AuthRepositoryImpl(get()) }
-    single<AuthorsRepository> {
-        AuthorsRepositoryImpl(
-            authorsApi = get(),
-            authorDao = get<AppDatabase>().authorDao(),
-            authorRemoteKeyDao = get<AppDatabase>().authorRemoteKeyDao(),
-            transactionRunner = get<AppDatabase>().asAuthorCacheTransactionRunner(),
-        )
+val networkModule =
+    module {
+        single { AppImageLoaderFactory(get<ImageHttpClient>().client) }
+        single<AuthApi> { AuthApiImpl(get()) }
+        single<AuthorsApi> { AuthorsApiImpl(get()) }
+        single<ConfigsApi> { ConfigsApiImpl(get()) }
+        single<FavouriteRestaurantsApi> { FavouriteRestaurantsApiImpl(get()) }
+        single<FavouritesApi> { FavouritesApiImpl(get()) }
+        single<GuidesApi> { GuidesApiImpl(get()) }
+        single<HomeApi> { HomeApiImpl(get()) }
+        single<HttpClient> { get<KtorHttpClient>().client }
+        single<ImageCache> { get<AppImageLoaderFactory>() }
+        single { ImageHttpClient() }
+        single { KtorHttpClient(get()) }
+        single<PlacesApi> { PlacesApiImpl(get()) }
+        single<RestaurantApi> { RestaurantApiImpl(get()) }
+        single<S3Api> { S3ApiImpl(get<S3HttpClient>().client) }
+        single { S3HttpClient() }
+        single { SessionManager(get()) }
+        single<UserApi> { UserApiImpl(get()) }
     }
-    single<ConfigsRepository> { ConfigsRepositoryImpl(get()) }
-    single<FavouriteRestaurantsRepository> { FavouriteRestaurantsRepositoryImpl(get(), get<AppDatabase>().favouriteRestaurantDao(), get()) }
-    single<FavouritesRepository> { FavouritesRepositoryImpl(get(), get<AppDatabase>().favouriteDao(), get()) }
-    single<GuidesRepository> {
-        GuidesRepositoryImpl(
-            guideApi = get(),
-            guideDao = get<AppDatabase>().guideDao(),
-            guideRemoteKeyDao = get<AppDatabase>().guideRemoteKeyDao(),
-            transactionRunner = get<AppDatabase>().asGuideCacheTransactionRunner(),
-        )
-    }
-    single<HomeRepository> {
-        HomeRepositoryImpl(
-            homeApi = get(),
-            homeDao = get<AppDatabase>().homeDao(),
-            transactionRunner = get<AppDatabase>().asHomeCacheTransactionRunner(),
-        )
-    }
-    single<PhotosRepository> { PhotosRepositoryImpl(get()) }
-    single<PlacesRepository> { PlacesRepositoryImpl(get()) }
-    single<RestaurantsRepository> { RestaurantsRepositoryImpl(get()) }
-    single<UsersRepository> { UsersRepositoryImpl(get()) }
-}
 
-val useCaseModule = module {
-    factory<AddHomeSectionItemUseCase> { AddHomeSectionItemUseCaseImpl(get()) }
-    factory<AddRestaurantByPlaceIdUseCase> { AddRestaurantByPlaceIdUseCaseImpl(get()) }
-    factory<AddRestaurantGuideUseCase> { AddRestaurantGuideUseCaseImpl(get(), get()) }
-    factory<AwaitEnrichedRestaurantByPlaceIdUseCase> { AwaitEnrichedRestaurantByPlaceIdUseCaseImpl(get()) }
-    factory<CreateGuideUseCase> { CreateGuideUseCaseImpl(get(), get()) }
-    factory<CreateHomeSectionUseCase> { CreateHomeSectionUseCaseImpl(get()) }
-    factory<DeleteGuideUseCase> { DeleteGuideUseCaseImpl(get()) }
-    factory<DeleteHomeSectionUseCase> { DeleteHomeSectionUseCaseImpl(get()) }
-    factory<DeleteRestaurantUseCase> { DeleteRestaurantUseCaseImpl(get()) }
-    factory<FindAuthorsUseCase> { FindAuthorsUseCaseImpl(get()) }
-    factory<FindGuidesUseCase> { FindGuidesUseCaseImpl(get()) }
-    factory<FindRestaurantsUseCase> { FindRestaurantsUseCaseImpl(get()) }
-    factory<FindUsersUseCase> { FindUsersUseCaseImpl(get()) }
-    factory<GetAuthorByIdUseCase> { GetAuthorByIdUseCaseImpl(get()) }
-    factory<GetAuthorsPagingUseCase> { GetAuthorsPagingUseCaseImpl(get()) }
-    factory<GetAuthorsUseCase> { GetAuthorsUseCaseImpl(get()) }
-    factory<GetConfigsUseCase> { GetConfigsUseCaseImpl(get()) }
-    factory<GetFavouriteGuidesUseCase> { GetFavouriteGuidesUseCaseImpl(get()) }
-    factory<GetFavouriteRestaurantsUseCase> { GetFavouriteRestaurantsUseCaseImpl(get()) }
-    factory<GetGuideByIdUseCase> { GetGuideByIdUseCaseImpl(get()) }
-    factory<GetGuidesPagingUseCase> { GetGuidesPagingUseCaseImpl(get()) }
-    factory<GetGuidesUseCase> { GetGuidesUseCaseImpl(get()) }
-    factory<GetHomeSectionByIdUseCase> { GetHomeSectionByIdUseCaseImpl(get()) }
-    factory<GetHomeSectionsUseCase> { GetHomeSectionsUseCaseImpl(get()) }
-    factory<GetPresignedUrlUseCase> { GetPresignedUrlUseCaseImpl(get()) }
-    factory<GetRestaurantByIdUseCase> { GetRestaurantByIdUseCaseImpl(get()) }
-    factory<GetRestaurantByPlaceIdUseCase> { GetRestaurantByPlaceIdUseCaseImpl(get()) }
-    factory<GetRestaurantsUseCase> { GetRestaurantsUseCaseImpl(get()) }
-    factory<GetUserByIdUseCase> { GetUserByIdUseCaseImpl(get()) }
-    factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
-    factory<GetUsersUseCase> { GetUsersUseCaseImpl(get()) }
-    factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
-    factory<IsRestaurantFavouriteUseCase> { IsRestaurantFavouriteUseCaseImpl(get()) }
-    factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
-    factory<LoginWithGoogleUseCase> { LoginWithGoogleUseCaseImpl(get(), get()) }
-    factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
-    factory<MarkGuideFavouriteUseCase> { MarkGuideFavouriteUseCaseImpl(get()) }
-    factory<MarkRestaurantFavouriteUseCase> { MarkRestaurantFavouriteUseCaseImpl(get()) }
-    factory<ObserveFavouriteGuideIdsUseCase> { ObserveFavouriteGuideIdsUseCaseImpl(get()) }
-    factory<ObserveHomeSectionsUseCase> { ObserveHomeSectionsUseCaseImpl(get()) }
-    factory<ObserveUserUseCase> { ObserveUserUseCaseImpl(get()) }
-    factory<RegisterUseCase> { RegisterUseCaseImpl(get(), get()) }
-    factory<RemoveHomeSectionItemUseCase> { RemoveHomeSectionItemUseCaseImpl(get()) }
-    factory<ResendVerificationCodeUseCase> { ResendVerificationCodeUseCaseImpl(get()) }
-    factory<RestartSignUpUseCase> { RestartSignUpUseCaseImpl(get()) }
-    factory<SearchPlacesUseCase> { SearchPlacesUseCaseImpl(get()) }
-    factory<SyncFavouriteRestaurantsUseCase> { SyncFavouriteRestaurantsUseCaseImpl(get()) }
-    factory<SyncFavouritesUseCase> { SyncFavouritesUseCaseImpl(get()) }
-    factory<UnmarkGuideFavouriteUseCase> { UnmarkGuideFavouriteUseCaseImpl(get()) }
-    factory<UnmarkRestaurantFavouriteUseCase> { UnmarkRestaurantFavouriteUseCaseImpl(get()) }
-    factory<UpdateGuideUseCase> { UpdateGuideUseCaseImpl(get(), get()) }
-    factory<UpdateHomeSectionUseCase> { UpdateHomeSectionUseCaseImpl(get()) }
-    factory<UpdateRestaurantUseCase> { UpdateRestaurantUseCaseImpl(get()) }
-    factory<UpdateUserPhotoUseCase> { UpdateUserPhotoUseCaseImpl(get()) }
-    factory<UpdateUserUseCase> { UpdateUserUseCaseImpl(get()) }
-    factory<UploadPhotoUseCase> { UploadPhotoUseCaseImpl(get()) }
-    factory<ValidateCodeUseCase> { ValidateCodeUseCaseImpl(get(), get(), get()) }
-}
+val repositoryModule =
+    module {
+        single<AuthRepository> { AuthRepositoryImpl(get()) }
+        single<AuthorsRepository> {
+            AuthorsRepositoryImpl(
+                authorsApi = get(),
+                authorDao = get<AppDatabase>().authorDao(),
+                authorRemoteKeyDao = get<AppDatabase>().authorRemoteKeyDao(),
+                transactionRunner = get<AppDatabase>().asAuthorCacheTransactionRunner(),
+            )
+        }
+        single<ConfigsRepository> { ConfigsRepositoryImpl(get()) }
+        single<FavouriteRestaurantsRepository> {
+            FavouriteRestaurantsRepositoryImpl(get(), get<AppDatabase>().favouriteRestaurantDao(), get())
+        }
+        single<FavouritesRepository> { FavouritesRepositoryImpl(get(), get<AppDatabase>().favouriteDao(), get()) }
+        single<GuidesRepository> {
+            GuidesRepositoryImpl(
+                guideApi = get(),
+                guideDao = get<AppDatabase>().guideDao(),
+                guideRemoteKeyDao = get<AppDatabase>().guideRemoteKeyDao(),
+                transactionRunner = get<AppDatabase>().asGuideCacheTransactionRunner(),
+            )
+        }
+        single<HomeRepository> {
+            HomeRepositoryImpl(
+                homeApi = get(),
+                homeDao = get<AppDatabase>().homeDao(),
+                transactionRunner = get<AppDatabase>().asHomeCacheTransactionRunner(),
+            )
+        }
+        single<PhotosRepository> { PhotosRepositoryImpl(get()) }
+        single<PlacesRepository> { PlacesRepositoryImpl(get()) }
+        single<RestaurantsRepository> { RestaurantsRepositoryImpl(get()) }
+        single<UsersRepository> { UsersRepositoryImpl(get()) }
+    }
 
-val viewModelModule = module {
-    factory { (authorId: String) -> AuthorDetailViewModel(get(), authorId) }
-    factory { AuthorsViewModel(get()) }
-    factory { CreateGuideViewModel(get(), get(), get()) }
-    factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), get(), guideId) }
-    factory { EditProfileViewModel(get(), get(), get(), get(), get(), get()) }
-    factory { FavouriteGuidesViewModel(get(), get()) }
-    factory { FavouriteRestaurantsViewModel(get(), get()) }
-    factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
-    factory { GuidesViewModel(get(), get(), get(), get(), get()) }
-    factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
-    factory { ProfileViewModel(get(), get(), get()) }
-    factory { (restaurantId: String) -> RestaurantDetailViewModel(get(), get(), get(), get(), restaurantId) }
-    factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
-    factory { SignInViewModel(get(), get()) }
-    factory { SignUpViewModel(get()) }
-    factory { StartupViewModel(get(), get(), get()) }
-    factory { (email: String) -> ValidateCodeViewModel(get(), get(), get(), email) }
-}
+val useCaseModule =
+    module {
+        factory<AddHomeSectionItemUseCase> { AddHomeSectionItemUseCaseImpl(get()) }
+        factory<AddRestaurantByPlaceIdUseCase> { AddRestaurantByPlaceIdUseCaseImpl(get()) }
+        factory<AddRestaurantGuideUseCase> { AddRestaurantGuideUseCaseImpl(get(), get()) }
+        factory<AwaitEnrichedRestaurantByPlaceIdUseCase> { AwaitEnrichedRestaurantByPlaceIdUseCaseImpl(get()) }
+        factory<CreateGuideUseCase> { CreateGuideUseCaseImpl(get(), get()) }
+        factory<CreateHomeSectionUseCase> { CreateHomeSectionUseCaseImpl(get()) }
+        factory<DeleteGuideUseCase> { DeleteGuideUseCaseImpl(get()) }
+        factory<DeleteHomeSectionUseCase> { DeleteHomeSectionUseCaseImpl(get()) }
+        factory<DeleteRestaurantUseCase> { DeleteRestaurantUseCaseImpl(get()) }
+        factory<FindAuthorsUseCase> { FindAuthorsUseCaseImpl(get()) }
+        factory<FindGuidesUseCase> { FindGuidesUseCaseImpl(get()) }
+        factory<FindRestaurantsUseCase> { FindRestaurantsUseCaseImpl(get()) }
+        factory<FindUsersUseCase> { FindUsersUseCaseImpl(get()) }
+        factory<GetAuthorByIdUseCase> { GetAuthorByIdUseCaseImpl(get()) }
+        factory<GetAuthorsPagingUseCase> { GetAuthorsPagingUseCaseImpl(get()) }
+        factory<GetAuthorsUseCase> { GetAuthorsUseCaseImpl(get()) }
+        factory<GetConfigsUseCase> { GetConfigsUseCaseImpl(get()) }
+        factory<GetFavouriteGuidesUseCase> { GetFavouriteGuidesUseCaseImpl(get()) }
+        factory<GetFavouriteRestaurantsUseCase> { GetFavouriteRestaurantsUseCaseImpl(get()) }
+        factory<GetGuideByIdUseCase> { GetGuideByIdUseCaseImpl(get()) }
+        factory<GetGuidesPagingUseCase> { GetGuidesPagingUseCaseImpl(get()) }
+        factory<GetGuidesUseCase> { GetGuidesUseCaseImpl(get()) }
+        factory<GetHomeSectionByIdUseCase> { GetHomeSectionByIdUseCaseImpl(get()) }
+        factory<GetHomeSectionsUseCase> { GetHomeSectionsUseCaseImpl(get()) }
+        factory<GetPresignedUrlUseCase> { GetPresignedUrlUseCaseImpl(get()) }
+        factory<GetRestaurantByIdUseCase> { GetRestaurantByIdUseCaseImpl(get()) }
+        factory<GetRestaurantByPlaceIdUseCase> { GetRestaurantByPlaceIdUseCaseImpl(get()) }
+        factory<GetRestaurantsUseCase> { GetRestaurantsUseCaseImpl(get()) }
+        factory<GetUserByIdUseCase> { GetUserByIdUseCaseImpl(get()) }
+        factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
+        factory<GetUsersUseCase> { GetUsersUseCaseImpl(get()) }
+        factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
+        factory<IsRestaurantFavouriteUseCase> { IsRestaurantFavouriteUseCaseImpl(get()) }
+        factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
+        factory<LoginWithGoogleUseCase> { LoginWithGoogleUseCaseImpl(get(), get()) }
+        factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
+        factory<MarkGuideFavouriteUseCase> { MarkGuideFavouriteUseCaseImpl(get()) }
+        factory<MarkRestaurantFavouriteUseCase> { MarkRestaurantFavouriteUseCaseImpl(get()) }
+        factory<ObserveFavouriteGuideIdsUseCase> { ObserveFavouriteGuideIdsUseCaseImpl(get()) }
+        factory<ObserveHomeSectionsUseCase> { ObserveHomeSectionsUseCaseImpl(get()) }
+        factory<ObserveUserUseCase> { ObserveUserUseCaseImpl(get()) }
+        factory<RegisterUseCase> { RegisterUseCaseImpl(get(), get()) }
+        factory<RemoveHomeSectionItemUseCase> { RemoveHomeSectionItemUseCaseImpl(get()) }
+        factory<ResendVerificationCodeUseCase> { ResendVerificationCodeUseCaseImpl(get()) }
+        factory<RestartSignUpUseCase> { RestartSignUpUseCaseImpl(get()) }
+        factory<SearchPlacesUseCase> { SearchPlacesUseCaseImpl(get()) }
+        factory<SyncFavouriteRestaurantsUseCase> { SyncFavouriteRestaurantsUseCaseImpl(get()) }
+        factory<SyncFavouritesUseCase> { SyncFavouritesUseCaseImpl(get()) }
+        factory<UnmarkGuideFavouriteUseCase> { UnmarkGuideFavouriteUseCaseImpl(get()) }
+        factory<UnmarkRestaurantFavouriteUseCase> { UnmarkRestaurantFavouriteUseCaseImpl(get()) }
+        factory<UpdateGuideUseCase> { UpdateGuideUseCaseImpl(get(), get()) }
+        factory<UpdateHomeSectionUseCase> { UpdateHomeSectionUseCaseImpl(get()) }
+        factory<UpdateRestaurantUseCase> { UpdateRestaurantUseCaseImpl(get()) }
+        factory<UpdateUserPhotoUseCase> { UpdateUserPhotoUseCaseImpl(get()) }
+        factory<UpdateUserUseCase> { UpdateUserUseCaseImpl(get()) }
+        factory<UploadPhotoUseCase> { UploadPhotoUseCaseImpl(get()) }
+        factory<ValidateCodeUseCase> { ValidateCodeUseCaseImpl(get(), get(), get()) }
+    }
+
+val viewModelModule =
+    module {
+        factory { (authorId: String) -> AuthorDetailViewModel(get(), authorId) }
+        factory { AuthorsViewModel(get()) }
+        factory { CreateGuideViewModel(get(), get(), get()) }
+        factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), get(), guideId) }
+        factory { EditProfileViewModel(get(), get(), get(), get(), get(), get()) }
+        factory { FavouriteGuidesViewModel(get(), get()) }
+        factory { FavouriteRestaurantsViewModel(get(), get()) }
+        factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
+        factory { GuidesViewModel(get(), get(), get(), get(), get()) }
+        factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
+        factory { ProfileViewModel(get(), get(), get()) }
+        factory { (restaurantId: String) -> RestaurantDetailViewModel(get(), get(), get(), get(), restaurantId) }
+        factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
+        factory { SignInViewModel(get(), get()) }
+        factory { SignUpViewModel(get()) }
+        factory { StartupViewModel(get(), get(), get()) }
+        factory { (email: String) -> ValidateCodeViewModel(get(), get(), get(), email) }
+    }
 
 fun initKoin(configuration: KoinAppDeclaration? = null) {
-    val koinApplication = startKoin {
-        includes(configuration)
-        modules(
-            module {
-                includes(
-                    networkModule,
-                    platformModule,
-                    repositoryModule,
-                    useCaseModule,
-                    viewModelModule,
-                )
-            }
-        )
-        printLogger(Level.DEBUG)
-    }
+    val koinApplication =
+        startKoin {
+            includes(configuration)
+            modules(
+                module {
+                    includes(
+                        networkModule,
+                        platformModule,
+                        repositoryModule,
+                        useCaseModule,
+                        viewModelModule,
+                    )
+                },
+            )
+            printLogger(Level.DEBUG)
+        }
 
     SingletonImageLoader.setSafe(koinApplication.koin.get<AppImageLoaderFactory>())
 }

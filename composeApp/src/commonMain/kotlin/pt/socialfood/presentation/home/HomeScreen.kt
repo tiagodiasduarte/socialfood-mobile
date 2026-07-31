@@ -143,7 +143,6 @@ private fun HomeSectionRow(
     onToggleRestaurantFavourite: (Restaurant) -> Unit = {},
 ) {
     val sorted = section.items.sortedBy { it.position }
-    val isGuideSection = sorted.any { it.itemType == HomeItemType.GUIDE }
 
     Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.xxlarge)) {
         Row(

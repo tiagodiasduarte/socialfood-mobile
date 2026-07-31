@@ -1,5 +1,6 @@
 package pt.socialfood.fakes
 
+import androidx.sqlite.SQLiteException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import pt.socialfood.data.local.dao.FavouriteDao
@@ -11,25 +12,25 @@ class FakeFavouriteDao(private val shouldThrowOnWrite: Boolean = false) : Favour
     private val idsFlow = MutableStateFlow<List<String>>(emptyList())
 
     override suspend fun upsert(favourite: FavouriteGuideEntity) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw SQLiteException("test error")
         entities[favourite.guideId] = favourite
         idsFlow.value = entities.keys.toList()
     }
 
     override suspend fun upsertAll(favourites: List<FavouriteGuideEntity>) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw SQLiteException("test error")
         favourites.forEach { entities[it.guideId] = it }
         idsFlow.value = entities.keys.toList()
     }
 
     override suspend fun deleteByGuideId(guideId: String) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw SQLiteException("test error")
         entities.remove(guideId)
         idsFlow.value = entities.keys.toList()
     }
 
     override suspend fun deleteByGuideIds(guideIds: List<String>) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw SQLiteException("test error")
         guideIds.forEach { entities.remove(it) }
         idsFlow.value = entities.keys.toList()
     }

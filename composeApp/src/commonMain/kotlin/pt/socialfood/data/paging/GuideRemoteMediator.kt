@@ -6,6 +6,9 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.immediateTransaction
 import androidx.room.useWriterConnection
+import androidx.sqlite.SQLiteException
+import io.ktor.client.plugins.ResponseException
+import kotlinx.io.IOException
 import pt.socialfood.data.api.GuidesApi
 import pt.socialfood.data.local.AppDatabase
 import pt.socialfood.data.local.dao.GuideDao
@@ -109,8 +112,12 @@ class GuideRemoteMediator(
             }
 
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
-        } catch (exception: Exception) {
-            MediatorResult.Error(exception)
+        } catch (e: IOException) {
+            MediatorResult.Error(e)
+        } catch (e: ResponseException) {
+            MediatorResult.Error(e)
+        } catch (e: SQLiteException) {
+            MediatorResult.Error(e)
         }
     }
 }

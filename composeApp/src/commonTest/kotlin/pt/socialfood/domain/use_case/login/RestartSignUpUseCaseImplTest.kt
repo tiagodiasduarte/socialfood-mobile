@@ -8,19 +8,20 @@ import kotlin.test.assertIs
 import kotlin.test.assertNull
 
 class RestartSignUpUseCaseImplTest {
-
     @Test
-    fun `given a pending verification email when invoked then pendingVerificationEmail is cleared and returns Success`() = runTest {
-        // Given
-        val settingsRepository = FakeSettingsRepository()
-        settingsRepository.savePendingVerificationEmail("user@test.com")
-        val useCase = RestartSignUpUseCaseImpl(settingsRepository)
+    @Suppress("MaxLineLength")
+    fun `given a pending verification email when invoked then pendingVerificationEmail is cleared and returns Success`() =
+        runTest {
+            // Given
+            val settingsRepository = FakeSettingsRepository()
+            settingsRepository.savePendingVerificationEmail("user@test.com")
+            val useCase = RestartSignUpUseCaseImpl(settingsRepository)
 
-        // When
-        val result = useCase.invoke()
+            // When
+            val result = useCase.invoke()
 
-        // Then
-        assertIs<Result.Success<Boolean>>(result)
-        assertNull(settingsRepository.getPendingVerificationEmail())
-    }
+            // Then
+            assertIs<Result.Success<Boolean>>(result)
+            assertNull(settingsRepository.getPendingVerificationEmail())
+        }
 }

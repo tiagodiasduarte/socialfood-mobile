@@ -11,18 +11,19 @@ import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ValidateCodeViewModelTest {
-
     @Test
+    @Suppress("MaxLineLength")
     fun `given a fake restart sign up use case when onRestartSignUp is called then use case is invoked and state becomes RestartSignUp`() =
         runTestWithMainDispatcher {
             // Given
             val fakeRestartSignUp = FakeRestartSignUpUseCase()
-            val viewModel = ValidateCodeViewModel(
-                validateCode = FakeValidateCodeUseCase(),
-                resendVerificationCode = FakeResendVerificationCodeUseCase(),
-                restartSignUp = fakeRestartSignUp,
-                email = "user@test.com",
-            )
+            val viewModel =
+                ValidateCodeViewModel(
+                    validateCode = FakeValidateCodeUseCase(),
+                    resendVerificationCode = FakeResendVerificationCodeUseCase(),
+                    restartSignUp = fakeRestartSignUp,
+                    email = "user@test.com",
+                )
 
             viewModel.state.test {
                 assertEquals(ValidateCodeUiState.Idle, awaitItem())

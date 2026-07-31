@@ -1,5 +1,6 @@
 package pt.socialfood.fakes
 
+import kotlinx.io.IOException
 import pt.socialfood.data.api.FavouritesApi
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.author.AuthorResponse
@@ -41,22 +42,22 @@ class FakeFavouritesApi(private val shouldThrow: Boolean = false) : FavouritesAp
     )
 
     override suspend fun markFavourite(guideId: String) {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         lastMarkedGuideId = guideId
     }
 
     override suspend fun unmarkFavourite(guideId: String) {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         lastUnmarkedGuideId = guideId
     }
 
     override suspend fun findFavouriteGuides(page: Int, limit: Int): PagedResponse<GuideResponse> {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return fakeFavouriteGuides
     }
 
     override suspend fun syncFavouriteGuides(since: String?): FavouriteSyncResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return fakeSyncResponse
     }
 }

@@ -1,5 +1,7 @@
 package pt.socialfood.data.repository
 
+import io.ktor.client.plugins.ResponseException
+import kotlinx.io.IOException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.AuthApi
 import pt.socialfood.data.network.extensions.toErrorEntity
@@ -15,8 +17,10 @@ class AuthRepositoryImpl(
             val token = authApi.login(email,password).token
             Result.Success(token)
 
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -24,8 +28,10 @@ class AuthRepositoryImpl(
         return try {
             val token = authApi.register(name, email, password)
             Result.Success(token)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -33,8 +39,10 @@ class AuthRepositoryImpl(
         return try {
             val response = authApi.validateCode(email = email, code = code)
             Result.Success(response.token)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -42,8 +50,10 @@ class AuthRepositoryImpl(
         return try {
             val result = authApi.resendVerificationCode(email)
             Result.Success(result)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -51,8 +61,10 @@ class AuthRepositoryImpl(
         return try {
             val token = authApi.loginWithGoogle(idToken).token
             Result.Success(token)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -60,8 +72,10 @@ class AuthRepositoryImpl(
         return try {
             val result = authApi.logout()
             Result.Success(result)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 }

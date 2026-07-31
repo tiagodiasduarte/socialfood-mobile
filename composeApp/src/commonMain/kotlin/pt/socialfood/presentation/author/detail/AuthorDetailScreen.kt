@@ -28,7 +28,7 @@ import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.author_detail_guides_section_title
 import socialfood.composeapp.generated.resources.back_button_description
 import pt.socialfood.domain.model.AuthorDetail
-import pt.socialfood.presentation.components.ActionButton
+import pt.socialfood.presentation.components.buttons.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.ProfileHeader
 import pt.socialfood.ui.theme.AppTheme

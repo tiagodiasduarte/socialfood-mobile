@@ -1,7 +1,8 @@
 package pt.socialfood.data.network.extensions
 
-import io.ktor.client.plugins.*
-import io.ktor.http.*
+import io.ktor.client.plugins.HttpRequestTimeoutException
+import io.ktor.client.plugins.ResponseException
+import io.ktor.http.HttpStatusCode
 import pt.socialfood.domain.error.ErrorEntity
 
 fun Throwable.toErrorEntity(): ErrorEntity = when (this) {

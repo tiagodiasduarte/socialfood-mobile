@@ -16,24 +16,25 @@ import kotlin.test.assertFalse
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SearchRestaurantsViewModelTest {
-
-    private fun restaurant() = Restaurant(
-        id = "r1",
-        name = "Le Jardin",
-        description = null,
-        city = "Lisbon",
-        country = "Portugal",
-        countryCode = "PT",
-        postalCode = null,
-        photoNames = emptyList(),
-        address = "",
-        rating = 0.0,
-        userRatingCount = 0,
-        websiteUrl = null,
-        phoneNumber = "",
-    )
+    private fun restaurant() =
+        Restaurant(
+            id = "r1",
+            name = "Le Jardin",
+            description = null,
+            city = "Lisbon",
+            country = "Portugal",
+            countryCode = "PT",
+            postalCode = null,
+            photoNames = emptyList(),
+            address = "",
+            rating = 0.0,
+            userRatingCount = 0,
+            websiteUrl = null,
+            phoneNumber = "",
+        )
 
     @Test
+    @Suppress("MaxLineLength")
     fun `given addByPlaceId and the enrichment wait both succeed when onAddRestaurant is called then dialog closes and RestaurantAdded is emitted`() =
         runTestWithMainDispatcher {
             // Given
@@ -56,6 +57,7 @@ class SearchRestaurantsViewModelTest {
         }
 
     @Test
+    @Suppress("MaxLineLength")
     fun `given addByPlaceId fails when onAddRestaurant is called then no RestaurantAdded event is emitted and dialog closes and it never waits for enrichment`() =
         runTestWithMainDispatcher {
             // Given
@@ -73,6 +75,7 @@ class SearchRestaurantsViewModelTest {
         }
 
     @Test
+    @Suppress("MaxLineLength")
     fun `given the enrichment wait times out when onAddRestaurant is called then no RestaurantAdded event is emitted and dialog closes`() =
         runTestWithMainDispatcher {
             // Given

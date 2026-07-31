@@ -1,6 +1,8 @@
 package pt.socialfood.data.repository
 
+import io.ktor.client.plugins.ResponseException
 import kotlinx.coroutines.delay
+import kotlinx.io.IOException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.RestaurantApi
 import pt.socialfood.data.network.extensions.toErrorEntity
@@ -25,8 +27,10 @@ class RestaurantsRepositoryImpl(
             val result = restaurantApi.importRestaurants()
             Result.Success(result)
 
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -35,8 +39,10 @@ class RestaurantsRepositoryImpl(
             val restaurants = restaurantApi.delete(id)
             Result.Success(restaurants)
 
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -44,8 +50,10 @@ class RestaurantsRepositoryImpl(
         return try {
             val restaurants = restaurantApi.findAll().map { it.toRestaurant() }
             Result.Success(restaurants)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -65,8 +73,10 @@ class RestaurantsRepositoryImpl(
                     hasMore = hasMore,
                 )
             )
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -75,8 +85,10 @@ class RestaurantsRepositoryImpl(
             val restaurant = restaurantApi.findById(id).toRestaurant()
             Result.Success(restaurant)
 
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -84,8 +96,10 @@ class RestaurantsRepositoryImpl(
         return try {
             val restaurant = restaurantApi.findByPlaceId(placeId).toRestaurant()
             Result.Success(restaurant)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -93,8 +107,10 @@ class RestaurantsRepositoryImpl(
         return try {
             restaurantApi.addByPlaceId(placeId)
             Result.Success(Unit)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -103,8 +119,10 @@ class RestaurantsRepositoryImpl(
             try {
                 val response = restaurantApi.findByPlaceId(placeId)
                 return Result.Success(response.toRestaurant())
-            } catch (exception: Exception) {
-                println("Restaurant not ready yet ($exception)")
+            } catch (e: IOException) {
+                println("Restaurant not ready yet ($e)")
+            } catch (e: ResponseException) {
+                println("Restaurant not ready yet ($e)")
             }
 
             delay(ENRICHMENT_POLL_INTERVAL_MS)
@@ -135,8 +153,10 @@ class RestaurantsRepositoryImpl(
             ).toRestaurant()
             Result.Success(restaurant)
 
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 }

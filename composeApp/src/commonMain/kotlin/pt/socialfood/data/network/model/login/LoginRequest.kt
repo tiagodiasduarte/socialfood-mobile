@@ -1,4 +1,4 @@
-package pt.socialfood.data.network.model
+package pt.socialfood.data.network.model.login
 
 import kotlinx.serialization.Serializable
 

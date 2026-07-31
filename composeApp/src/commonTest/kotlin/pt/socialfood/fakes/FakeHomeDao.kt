@@ -1,5 +1,6 @@
 package pt.socialfood.fakes
 
+import androidx.sqlite.SQLiteException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import pt.socialfood.data.local.dao.HomeDao
@@ -11,13 +12,13 @@ class FakeHomeDao(private val shouldThrowOnWrite: Boolean = false) : HomeDao {
     private val activeFlow = MutableStateFlow<List<HomeSectionEntity>>(emptyList())
 
     override suspend fun upsertAll(sections: List<HomeSectionEntity>) {
-        if (shouldThrowOnWrite) throw FakeException("test error")
+        if (shouldThrowOnWrite) throw SQLiteException("test error")
         sections.forEach { entities[it.id] = it }
         refreshActiveFlow()
     }
 
     override suspend fun deleteAll() {
-        if (shouldThrowOnWrite) throw FakeException("test error")
+        if (shouldThrowOnWrite) throw SQLiteException("test error")
         entities.clear()
         refreshActiveFlow()
     }

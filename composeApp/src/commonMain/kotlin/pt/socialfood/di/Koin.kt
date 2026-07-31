@@ -321,8 +321,8 @@ val viewModelModule =
         factory { CreateGuideViewModel(get(), get(), get()) }
         factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), get(), guideId) }
         factory { EditProfileViewModel(get(), get(), get(), get(), get(), get()) }
-        factory { FavouriteGuidesViewModel(get()) }
-        factory { FavouriteRestaurantsViewModel(get()) }
+        factory { FavouriteGuidesViewModel(get(), get()) }
+        factory { FavouriteRestaurantsViewModel(get(), get()) }
         factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
         factory { GuidesViewModel(get(), get(), get(), get(), get()) }
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }

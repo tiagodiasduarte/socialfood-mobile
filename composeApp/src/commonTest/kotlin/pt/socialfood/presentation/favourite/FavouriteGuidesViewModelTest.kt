@@ -1,5 +1,6 @@
 package pt.socialfood.presentation.favourite
 
+import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
@@ -10,11 +11,13 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.PagedFavouriteGuides
 import pt.socialfood.fakes.FakeGetFavouriteGuidesUseCase
+import pt.socialfood.fakes.FakeUnmarkGuideFavouriteUseCase
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesUiState
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesViewModel
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
@@ -50,14 +53,14 @@ class FavouriteGuidesViewModelTest {
                     )
                 }
 
-            // When
-            val vm = FavouriteGuidesViewModel(useCase)
-            advanceUntilIdle()
-
-            // Then
-            val state = assertIs<FavouriteGuidesUiState.Loaded>(vm.state.value)
-            assertEquals(1, state.guides.size)
-            assertEquals("g1", state.guides.first().id)
+            // When / Then
+            val vm = FavouriteGuidesViewModel(useCase, FakeUnmarkGuideFavouriteUseCase())
+            vm.state.test {
+                assertEquals(FavouriteGuidesUiState.Loading, awaitItem())
+                val state = assertIs<FavouriteGuidesUiState.Loaded>(awaitItem())
+                assertEquals(1, state.guides.size)
+                assertEquals("g1", state.guides.first().id)
+            }
         }
 
     @Test
@@ -66,12 +69,12 @@ class FavouriteGuidesViewModelTest {
             // Given
             val useCase = FakeGetFavouriteGuidesUseCase { Result.Error(ErrorEntity.Unknown) }
 
-            // When
-            val vm = FavouriteGuidesViewModel(useCase)
-            advanceUntilIdle()
-
-            // Then
-            assertIs<FavouriteGuidesUiState.Error>(vm.state.value)
+            // When / Then
+            val vm = FavouriteGuidesViewModel(useCase, FakeUnmarkGuideFavouriteUseCase())
+            vm.state.test {
+                assertEquals(FavouriteGuidesUiState.Loading, awaitItem())
+                assertEquals(FavouriteGuidesUiState.Error, awaitItem())
+            }
         }
 
     @Test
@@ -100,17 +103,23 @@ class FavouriteGuidesViewModelTest {
                         )
                     }
                 }
-            val vm = FavouriteGuidesViewModel(useCase)
-            advanceUntilIdle()
+            val vm = FavouriteGuidesViewModel(useCase, FakeUnmarkGuideFavouriteUseCase())
 
-            // When
-            vm.loadMore()
-            advanceUntilIdle()
+            // When / Then
+            vm.state.test {
+                assertEquals(FavouriteGuidesUiState.Loading, awaitItem())
+                val first = assertIs<FavouriteGuidesUiState.Loaded>(awaitItem())
+                assertEquals(listOf("g1"), first.guides.map { it.id })
 
-            // Then
-            val state = assertIs<FavouriteGuidesUiState.Loaded>(vm.state.value)
-            assertEquals(listOf("g1", "g2"), state.guides.map { it.id })
-            assertTrue(!state.hasMore)
+                vm.loadMore()
+
+                val loadingMore = assertIs<FavouriteGuidesUiState.Loaded>(awaitItem())
+                assertTrue(loadingMore.isLoadingMore)
+
+                val loaded = assertIs<FavouriteGuidesUiState.Loaded>(awaitItem())
+                assertEquals(listOf("g1", "g2"), loaded.guides.map { it.id })
+                assertFalse(loaded.hasMore)
+            }
         }
 
     @Test
@@ -128,15 +137,85 @@ class FavouriteGuidesViewModelTest {
                         ),
                     )
                 }
-            val vm = FavouriteGuidesViewModel(useCase)
-            advanceUntilIdle()
+            val vm = FavouriteGuidesViewModel(useCase, FakeUnmarkGuideFavouriteUseCase())
 
-            // When
+            // When / Then
+            vm.state.test {
+                assertEquals(FavouriteGuidesUiState.Loading, awaitItem())
+                assertIs<FavouriteGuidesUiState.Loaded>(awaitItem())
+            }
+
             vm.refresh()
             advanceUntilIdle()
-
-            // Then
-            assertEquals(false, vm.isRefreshing.value)
+            assertFalse(vm.isRefreshing.value)
             assertIs<FavouriteGuidesUiState.Loaded>(vm.state.value)
+        }
+
+    @Test
+    fun `given a favourite guide when removeFavourite succeeds then removes it from state`() =
+        runTestWithMainDispatcher {
+            // Given
+            val useCase =
+                FakeGetFavouriteGuidesUseCase {
+                    Result.Success(
+                        PagedFavouriteGuides(
+                            favourites = listOf(favourite("g1"), favourite("g2")),
+                            page = it,
+                            total = 2,
+                            hasMore = false,
+                        ),
+                    )
+                }
+            val unmarkUseCase = FakeUnmarkGuideFavouriteUseCase()
+            val vm = FavouriteGuidesViewModel(useCase, unmarkUseCase)
+
+            // When / Then
+            vm.state.test {
+                assertEquals(FavouriteGuidesUiState.Loading, awaitItem())
+                val loaded = assertIs<FavouriteGuidesUiState.Loaded>(awaitItem())
+                assertEquals(listOf("g1", "g2"), loaded.guides.map { it.id })
+
+                vm.removeFavourite("g1")
+
+                val afterRemoval = assertIs<FavouriteGuidesUiState.Loaded>(awaitItem())
+                assertEquals(listOf("g2"), afterRemoval.guides.map { it.id })
+            }
+            advanceUntilIdle()
+            assertEquals(1, unmarkUseCase.invokeCount)
+            assertEquals("g1", unmarkUseCase.lastGuideId)
+        }
+
+    @Test
+    fun `given removeFavourite fails when called then reverts the guide back into state`() =
+        runTestWithMainDispatcher {
+            // Given
+            val useCase =
+                FakeGetFavouriteGuidesUseCase {
+                    Result.Success(
+                        PagedFavouriteGuides(
+                            favourites = listOf(favourite("g1")),
+                            page = it,
+                            total = 1,
+                            hasMore = false,
+                        ),
+                    )
+                }
+            val unmarkUseCase = FakeUnmarkGuideFavouriteUseCase(result = Result.Error(ErrorEntity.Unknown))
+            val vm = FavouriteGuidesViewModel(useCase, unmarkUseCase)
+
+            // When / Then
+            vm.state.test {
+                assertEquals(FavouriteGuidesUiState.Loading, awaitItem())
+                val loaded = assertIs<FavouriteGuidesUiState.Loaded>(awaitItem())
+                assertEquals(listOf("g1"), loaded.guides.map { it.id })
+
+                vm.removeFavourite("g1")
+
+                val afterRemoval = assertIs<FavouriteGuidesUiState.Loaded>(awaitItem())
+                assertTrue(afterRemoval.guides.isEmpty())
+
+                val reverted = assertIs<FavouriteGuidesUiState.Loaded>(awaitItem())
+                assertEquals(listOf("g1"), reverted.guides.map { it.id })
+            }
         }
 }

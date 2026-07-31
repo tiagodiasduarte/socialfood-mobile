@@ -1,5 +1,6 @@
 package pt.socialfood.fakes
 
+import kotlinx.io.IOException
 import pt.socialfood.data.api.GuidesApi
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.author.AuthorResponse
@@ -50,16 +51,16 @@ class FakeGuidesApi(
         description: String,
         userId: String,
     ): GuideDetailResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return defaultFakeGuideDetail
     }
 
     override suspend fun delete(id: String) {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
     }
 
     override suspend fun findAll(): List<GuideResponse> {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return listOf(defaultFakeGuideResponse)
     }
 
@@ -69,7 +70,7 @@ class FakeGuidesApi(
         query: String?,
         userId: String?,
     ): PagedResponse<GuideResponse> {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         findGuidesCallCount++
         lastFindGuidesPage = page
         lastFindGuidesUserId = userId
@@ -82,7 +83,7 @@ class FakeGuidesApi(
     }
 
     override suspend fun findById(id: String): GuideDetailResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return defaultFakeGuideDetail
     }
 
@@ -94,7 +95,7 @@ class FakeGuidesApi(
         restaurantIds: List<String>,
         visibility: String,
     ): GuideDetailResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return defaultFakeGuideDetail
     }
 
@@ -102,7 +103,7 @@ class FakeGuidesApi(
         guideId: String,
         placeId: String?,
     ): GuideDetailResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return defaultFakeGuideDetail
     }
 
@@ -110,7 +111,7 @@ class FakeGuidesApi(
         guideId: String,
         request: PresignedUrlRequest,
     ): PresignedUrlResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return PresignedUrlResponse(
             uploadUrl = "https://upload.example.com/photo",
             key = "photo-key",
@@ -122,12 +123,12 @@ class FakeGuidesApi(
         guideId: String,
         imageUrl: String,
     ): GuideDetailResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return defaultFakeGuideDetail
     }
 
     override suspend fun deletePhoto(guideId: String): GuideDetailResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return defaultFakeGuideDetail
     }
 }

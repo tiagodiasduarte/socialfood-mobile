@@ -1,7 +1,9 @@
 package pt.socialfood.data.repository
 
+import io.ktor.client.plugins.ResponseException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.io.IOException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.UserApi
 import pt.socialfood.data.network.extensions.toErrorEntity
@@ -33,8 +35,10 @@ class UsersRepositoryImpl(
         return try {
             val users = userApi.getUsers().map { it.toUser() }
             Result.Success(users)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -50,8 +54,10 @@ class UsersRepositoryImpl(
                     hasMore = hasMore,
                 )
             )
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -60,16 +66,20 @@ class UsersRepositoryImpl(
             val user = userApi.getUserMe().toUser()
             _currentUser.value = user
             Result.Success(user)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
     override suspend fun findById(id: String): Result<User> {
         return try {
             Result.Success(userApi.findById(id).toUser())
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -97,8 +107,10 @@ class UsersRepositoryImpl(
             val user = userApi.update(request, id).toUser()
             _currentUser.value = user
             Result.Success(user)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -106,8 +118,10 @@ class UsersRepositoryImpl(
         return try {
             userApi.updatePhotoUrl(id, UpdateUserPhotoRequest(imageUrl))
             Result.Success(true)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -131,7 +145,9 @@ class UsersRepositoryImpl(
                 publicUrl = response.publicUrl
             )
         )
-    } catch (e: Exception) {
+    } catch (e: IOException) {
+        Result.Error(e.toErrorEntity())
+    } catch (e: ResponseException) {
         Result.Error(e.toErrorEntity())
     }
 }

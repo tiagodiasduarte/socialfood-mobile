@@ -171,15 +171,19 @@ class FavouriteRestaurantsViewModelTest {
                 }
             val unmarkUseCase = FakeUnmarkRestaurantFavouriteUseCase()
             val vm = FavouriteRestaurantsViewModel(useCase, unmarkUseCase)
-            advanceUntilIdle()
 
-            // When
-            vm.removeFavourite("r1")
-            advanceUntilIdle()
+            // When / Then
+            vm.state.test {
+                assertEquals(FavouriteRestaurantsUiState.Loading, awaitItem())
+                val loaded = assertIs<FavouriteRestaurantsUiState.Loaded>(awaitItem())
+                assertEquals(listOf("r1", "r2"), loaded.restaurants.map { it.id })
 
-            // Then
-            val state = assertIs<FavouriteRestaurantsUiState.Loaded>(vm.state.value)
-            assertEquals(listOf("r2"), state.restaurants.map { it.id })
+                vm.removeFavourite("r1")
+
+                val afterRemoval = assertIs<FavouriteRestaurantsUiState.Loaded>(awaitItem())
+                assertEquals(listOf("r2"), afterRemoval.restaurants.map { it.id })
+            }
+            advanceUntilIdle()
             assertEquals(1, unmarkUseCase.invokeCount)
             assertEquals("r1", unmarkUseCase.lastRestaurantId)
         }
@@ -201,14 +205,20 @@ class FavouriteRestaurantsViewModelTest {
                 }
             val unmarkUseCase = FakeUnmarkRestaurantFavouriteUseCase(result = Result.Error(ErrorEntity.Unknown))
             val vm = FavouriteRestaurantsViewModel(useCase, unmarkUseCase)
-            advanceUntilIdle()
 
-            // When
-            vm.removeFavourite("r1")
-            advanceUntilIdle()
+            // When / Then
+            vm.state.test {
+                assertEquals(FavouriteRestaurantsUiState.Loading, awaitItem())
+                val loaded = assertIs<FavouriteRestaurantsUiState.Loaded>(awaitItem())
+                assertEquals(listOf("r1"), loaded.restaurants.map { it.id })
 
-            // Then
-            val state = assertIs<FavouriteRestaurantsUiState.Loaded>(vm.state.value)
-            assertEquals(listOf("r1"), state.restaurants.map { it.id })
+                vm.removeFavourite("r1")
+
+                val afterRemoval = assertIs<FavouriteRestaurantsUiState.Loaded>(awaitItem())
+                assertTrue(afterRemoval.restaurants.isEmpty())
+
+                val reverted = assertIs<FavouriteRestaurantsUiState.Loaded>(awaitItem())
+                assertEquals(listOf("r1"), reverted.restaurants.map { it.id })
+            }
         }
 }

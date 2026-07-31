@@ -140,19 +140,12 @@
     <ID>ReturnCount:GuideRemoteMediator.kt$GuideRemoteMediator$override suspend fun load( loadType: LoadType, state: PagingState&lt;Int, GuideEntity&gt;, ): MediatorResult</ID>
     <ID>ReturnCount:GuideValidation.kt$internal fun validateGuideInput( title: String, description: String, visibility: GuideVisibility, restaurantIds: List&lt;String&gt;? = null, requireDescription: Boolean = true, ): ErrorEntity.Validation?</ID>
     <ID>ReturnCount:UpdateGuideUseCaseImpl.kt$UpdateGuideUseCaseImpl$override suspend operator fun invoke( id: String, title: String, description: String, restaurantIds: List&lt;String&gt;, visibility: GuideVisibility, ): Result&lt;Guide&gt;</ID>
-    <ID>TooGenericExceptionCaught:AuthRepositoryImpl.kt$AuthRepositoryImpl$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:AuthorRemoteMediator.kt$AuthorRemoteMediator$exception: Exception</ID>
-    <ID>TooGenericExceptionCaught:AuthorsRepositoryImpl.kt$AuthorsRepositoryImpl$exception: Exception</ID>
-    <ID>TooGenericExceptionCaught:ConfigsRepositoryImpl.kt$ConfigsRepositoryImpl$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:FavouriteRestaurantsRepositoryImpl.kt$FavouriteRestaurantsRepositoryImpl$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:FavouritesRepositoryImpl.kt$FavouritesRepositoryImpl$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:GoogleSignInLauncher.android.kt$e: Exception</ID>
     <ID>TooGenericExceptionCaught:GuideRemoteMediator.kt$GuideRemoteMediator$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:HomeRepositoryImpl.kt$HomeRepositoryImpl$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:PlacesRepositoryImpl.kt$PlacesRepositoryImpl$exception: Exception</ID>
-    <ID>TooGenericExceptionCaught:RestaurantsRepositoryImpl.kt$RestaurantsRepositoryImpl$exception: Exception</ID>
-    <ID>TooGenericExceptionCaught:UsersRepositoryImpl.kt$UsersRepositoryImpl$e: Exception</ID>
-    <ID>TooGenericExceptionCaught:UsersRepositoryImpl.kt$UsersRepositoryImpl$exception: Exception</ID>
     <ID>TooManyFunctions:EditGuideViewModel.kt$EditGuideViewModel : ViewModel</ID>
     <ID>TooManyFunctions:EditProfileViewModel.kt$EditProfileViewModel : ViewModel</ID>
     <ID>TooManyFunctions:GuidesRepository.kt$GuidesRepository</ID>

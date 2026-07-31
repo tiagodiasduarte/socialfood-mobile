@@ -1,5 +1,7 @@
 package pt.socialfood.data.repository
 
+import io.ktor.client.plugins.ResponseException
+import kotlinx.io.IOException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.ConfigsApi
 import pt.socialfood.data.network.extensions.toErrorEntity
@@ -14,8 +16,10 @@ class ConfigsRepositoryImpl(
         return try {
             val configs = configsApi.getConfigs()
             Result.Success(configs)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 }

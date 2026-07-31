@@ -1,7 +1,9 @@
 package pt.socialfood.data.repository
 
+import io.ktor.client.plugins.ResponseException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.io.IOException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.HomeApi
 import pt.socialfood.data.local.dao.HomeDao
@@ -42,7 +44,9 @@ class HomeRepositoryImpl(
     override suspend fun findById(id: String): Result<HomeSection> =
         try {
             Result.Success(homeApi.findById(id).toHomeSection())
-        } catch (e: Exception) {
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
         }
 
@@ -53,7 +57,9 @@ class HomeRepositoryImpl(
     ): Result<HomeSection> =
         try {
             Result.Success(homeApi.create(title, type.name, position).toHomeSection())
-        } catch (e: Exception) {
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
         }
 
@@ -67,7 +73,9 @@ class HomeRepositoryImpl(
     ): Result<HomeSection> =
         try {
             Result.Success(homeApi.update(id, title, position, isActive, restaurantIds, guideIds).toHomeSection())
-        } catch (e: Exception) {
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
         }
 
@@ -75,7 +83,9 @@ class HomeRepositoryImpl(
         try {
             homeApi.delete(id)
             Result.Success(true)
-        } catch (e: Exception) {
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
         }
 
@@ -87,7 +97,9 @@ class HomeRepositoryImpl(
     ): Result<HomeSection> =
         try {
             Result.Success(homeApi.addItem(sectionId, itemId, itemType.name, position).toHomeSection())
-        } catch (e: Exception) {
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
         }
 
@@ -98,7 +110,9 @@ class HomeRepositoryImpl(
         try {
             homeApi.removeItem(sectionId, itemId)
             Result.Success(true)
-        } catch (e: Exception) {
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
         }
 }

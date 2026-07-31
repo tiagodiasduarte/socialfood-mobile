@@ -40,6 +40,10 @@
         <error line="31" column="65" source="standard:multiline-expression-wrapping" />
         <error line="31" column="65" source="standard:function-signature" />
     </file>
+    <file name="src/androidMain/kotlin/pt/socialfood/presentation/google/GoogleSignInLauncher.android.kt">
+        <error line="67" column="26" source="standard:parameter-list-wrapping" />
+        <error line="67" column="77" source="standard:parameter-list-wrapping" />
+    </file>
     <file name="src/androidMain/kotlin/pt/socialfood/presentation/image_picker/ImageBitmapDecoder.android.kt">
         <error line="1" column="9" source="standard:package-name" />
         <error line="7" column="52" source="standard:function-signature" />

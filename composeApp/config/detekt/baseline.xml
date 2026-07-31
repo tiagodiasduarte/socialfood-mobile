@@ -143,7 +143,6 @@
     <ID>TooGenericExceptionCaught:AuthorRemoteMediator.kt$AuthorRemoteMediator$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:FavouriteRestaurantsRepositoryImpl.kt$FavouriteRestaurantsRepositoryImpl$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:FavouritesRepositoryImpl.kt$FavouritesRepositoryImpl$exception: Exception</ID>
-    <ID>TooGenericExceptionCaught:GoogleSignInLauncher.android.kt$e: Exception</ID>
     <ID>TooGenericExceptionCaught:GuideRemoteMediator.kt$GuideRemoteMediator$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:HomeRepositoryImpl.kt$HomeRepositoryImpl$e: Exception</ID>
     <ID>TooManyFunctions:EditGuideViewModel.kt$EditGuideViewModel : ViewModel</ID>

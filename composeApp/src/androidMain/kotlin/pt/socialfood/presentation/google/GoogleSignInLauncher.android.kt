@@ -64,7 +64,10 @@ actual fun rememberGoogleSignInLauncher(
                     }
                 } catch (e: GetCredentialException) {
                     onError("${e::class.simpleName}: ${e.message}")
-                } catch (e: Exception) {
+                } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+                    // Deliberately broad: a last-resort safety net for anything unexpected from the
+                    // Google Identity SDK (e.g. config/runtime errors), not just credential failures.
+                    // Uncaught here would propagate out of this coroutine instead of calling onError().
                     onError("${e::class.simpleName}: ${e.message}")
                 }
             }

@@ -7,11 +7,6 @@
     <ID>ComplexCondition:SignUpViewModel.kt$SignUpViewModel$name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()</ID>
     <ID>CyclomaticComplexMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>FunctionNaming:MainViewController.kt$fun MainViewController()</ID>
-    <ID>InvalidPackageDeclaration:ActionButton.kt$package pt.socialfood.presentation.components</ID>
-    <ID>InvalidPackageDeclaration:LoginRequest.kt$package pt.socialfood.data.network.model</ID>
-    <ID>InvalidPackageDeclaration:LoginResponse.kt$package pt.socialfood.data.network.model</ID>
-    <ID>InvalidPackageDeclaration:RatingStars.kt$package pt.socialfood.presentation.restaurants.components</ID>
-    <ID>InvalidPackageDeclaration:RestaurantItemCard.kt$package pt.socialfood.presentation.guide_detail</ID>
     <ID>LongMethod:AuthorGuideCard.kt$@Composable fun AuthorGuideCard( guideName: String, guideDescription: String, numberOfRestaurant: Int, imageUrl: String?, onClick: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
     <ID>LongMethod:EditGuideScreen.kt$@Composable private fun GuideLoaded( state: EditGuideUiState.Loaded, initialTab: Int = TAB_DETAILS, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, onVisibilityChange: (GuideVisibility) -&gt; Unit, onAddRestaurantsClick: () -&gt; Unit, onRestaurantRemoved: (String) -&gt; Unit, onPhotoSelected: (ByteArray, String) -&gt; Unit, onDeleteGuide: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:EditProfilePlaceholder.kt$@Composable internal fun EditProfilePlaceholder()</ID>
@@ -101,12 +96,6 @@
     <ID>MagicNumber:FavouriteRestaurantsPlaceholder.kt$0.5f</ID>
     <ID>MagicNumber:FavouriteRestaurantsPlaceholder.kt$0.7f</ID>
     <ID>MagicNumber:FavouriteRestaurantsPlaceholder.kt$5</ID>
-    <ID>MagicNumber:FavouriteRestaurantsRepositoryImpl.kt$1000L</ID>
-    <ID>MagicNumber:FavouriteRestaurantsRepositoryImpl.kt$5</ID>
-    <ID>MagicNumber:FavouriteRestaurantsRepositoryImpl.kt$60</ID>
-    <ID>MagicNumber:FavouritesRepositoryImpl.kt$1000L</ID>
-    <ID>MagicNumber:FavouritesRepositoryImpl.kt$5</ID>
-    <ID>MagicNumber:FavouritesRepositoryImpl.kt$60</ID>
     <ID>MagicNumber:GuideCard.kt$0xFF2A2A2A</ID>
     <ID>MagicNumber:GuideDetailPlaceholder.kt$4</ID>
     <ID>MagicNumber:GuideDetailScreen.kt$0xFF008236</ID>
@@ -144,9 +133,6 @@
     <ID>MagicNumber:SplashScreen.ios.kt$0xFFF54900</ID>
     <ID>MagicNumber:ValidateCodeScreen.kt$0xFFD0D0D0</ID>
     <ID>MagicNumber:ValidateCodeScreen.kt$0xFFF2F2F2</ID>
-    <ID>MatchingDeclarationName:ConnectivityObserver.android.kt$ConnectivityObserverImpl : ConnectivityObserver</ID>
-    <ID>MatchingDeclarationName:ConnectivityObserver.ios.kt$ConnectivityObserverImpl : ConnectivityObserver</ID>
-    <ID>MatchingDeclarationName:SocialLinkOpener.kt$SocialPlatform</ID>
     <ID>MaxLineLength:AddHomeSectionItemUseCase.kt$AddHomeSectionItemUseCase$suspend operator fun invoke(sectionId: String, itemId: String, itemType: HomeItemType, position: Int): Result&lt;HomeSection&gt;</ID>
     <ID>MaxLineLength:AddHomeSectionItemUseCaseImpl.kt$AddHomeSectionItemUseCaseImpl$override suspend operator</ID>
     <ID>MaxLineLength:AuthorRemoteMediatorTest.kt$AuthorRemoteMediatorTest$fun</ID>
@@ -211,9 +197,7 @@
     <ID>MaxLineLength:UsersRepositoryImplTest.kt$UsersRepositoryImplTest$fun</ID>
     <ID>MaxLineLength:ValidateCodeUseCaseImplTest.kt$ValidateCodeUseCaseImplTest$fun</ID>
     <ID>MaxLineLength:ValidateCodeViewModelTest.kt$ValidateCodeViewModelTest$fun</ID>
-    <ID>MayBeConst:FavouriteRestaurantsRepositoryImpl.kt$private val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L</ID>
-    <ID>MayBeConst:FavouritesRepositoryImpl.kt$private val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L</ID>
-    <ID>NewLineAtEndOfFile:ActionButton.kt$pt.socialfood.presentation.components.ActionButton.kt</ID>
+    <ID>NewLineAtEndOfFile:ActionButton.kt$pt.socialfood.presentation.components.buttons.ActionButton.kt</ID>
     <ID>NewLineAtEndOfFile:AddRestaurantGuideRequest.kt$pt.socialfood.data.network.model.guide.AddRestaurantGuideRequest.kt</ID>
     <ID>NewLineAtEndOfFile:AddRestaurantGuideUseCase.kt$pt.socialfood.domain.use_case.guide.AddRestaurantGuideUseCase.kt</ID>
     <ID>NewLineAtEndOfFile:AppImage.kt$pt.socialfood.presentation.components.AppImage.kt</ID>
@@ -277,8 +261,8 @@
     <ID>NewLineAtEndOfFile:HomeSectionRequest.kt$pt.socialfood.data.network.model.home.HomeSectionRequest.kt</ID>
     <ID>NewLineAtEndOfFile:HomeSectionResponse.kt$pt.socialfood.data.network.model.home.HomeSectionResponse.kt</ID>
     <ID>NewLineAtEndOfFile:KtorHttpClient.kt$pt.socialfood.data.network.KtorHttpClient.kt</ID>
-    <ID>NewLineAtEndOfFile:LoginRequest.kt$pt.socialfood.data.network.model.LoginRequest.kt</ID>
-    <ID>NewLineAtEndOfFile:LoginResponse.kt$pt.socialfood.data.network.model.LoginResponse.kt</ID>
+    <ID>NewLineAtEndOfFile:LoginRequest.kt$pt.socialfood.data.network.model.login.LoginRequest.kt</ID>
+    <ID>NewLineAtEndOfFile:LoginResponse.kt$pt.socialfood.data.network.model.login.LoginResponse.kt</ID>
     <ID>NewLineAtEndOfFile:LoginUseCase.kt$pt.socialfood.domain.use_case.login.LoginUseCase.kt</ID>
     <ID>NewLineAtEndOfFile:LoginWithGoogleUseCase.kt$pt.socialfood.domain.use_case.login.LoginWithGoogleUseCase.kt</ID>
     <ID>NewLineAtEndOfFile:MainActivity.kt$pt.socialfood.MainActivity.kt</ID>
@@ -299,7 +283,7 @@
     <ID>NewLineAtEndOfFile:Restaurant.kt$pt.socialfood.domain.model.Restaurant.kt</ID>
     <ID>NewLineAtEndOfFile:RestaurantCard.kt$pt.socialfood.presentation.restaurant.RestaurantCard.kt</ID>
     <ID>NewLineAtEndOfFile:RestaurantItem.kt$pt.socialfood.presentation.guide.create.restaurants.RestaurantItem.kt</ID>
-    <ID>NewLineAtEndOfFile:RestaurantItemCard.kt$pt.socialfood.presentation.guide_detail.RestaurantItemCard.kt</ID>
+    <ID>NewLineAtEndOfFile:RestaurantItemCard.kt$pt.socialfood.presentation.guide.detail.restaurant.RestaurantItemCard.kt</ID>
     <ID>NewLineAtEndOfFile:RestaurantResponse.kt$pt.socialfood.data.network.model.restaurant.RestaurantResponse.kt</ID>
     <ID>NewLineAtEndOfFile:RestaurantsRepository.kt$pt.socialfood.domain.repository.RestaurantsRepository.kt</ID>
     <ID>NewLineAtEndOfFile:RestaurantsRepositoryImpl.kt$pt.socialfood.data.repository.RestaurantsRepositoryImpl.kt</ID>
@@ -377,12 +361,8 @@
     <ID>TooManyFunctions:GuidesRepositoryImpl.kt$GuidesRepositoryImpl : GuidesRepository</ID>
     <ID>TooManyFunctions:SettingsRepository.kt$SettingsRepository</ID>
     <ID>TooManyFunctions:SettingsRepositoryImpl.kt$SettingsRepositoryImpl : SettingsRepository</ID>
-    <ID>TopLevelPropertyNaming:FavoriteRestaurantCard.kt$private const val ImageSize = 95</ID>
     <ID>UnusedParameter:EditProfilePlaceholder.kt$alpha: Float</ID>
     <ID>UnusedParameter:InformationSection.kt$onClick: () -&gt; Unit = {}</ID>
     <ID>UnusedParameter:ValidateCodeScreen.kt$email: String</ID>
-    <ID>UnusedPrivateProperty:HomeScreen.kt$val isGuideSection = sorted.any { it.itemType == HomeItemType.GUIDE }</ID>
-    <ID>WildcardImport:ThrowableExceptions.kt$import io.ktor.client.plugins.*</ID>
-    <ID>WildcardImport:ThrowableExceptions.kt$import io.ktor.http.*</ID>
   </CurrentIssues>
 </SmellBaseline>

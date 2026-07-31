@@ -1,6 +1,6 @@
 package pt.socialfood.data.api
 
-import pt.socialfood.data.network.model.LoginResponse
+import pt.socialfood.data.network.model.login.LoginResponse
 import pt.socialfood.data.network.model.login.ValidateCodeResponse
 
 interface AuthApi {

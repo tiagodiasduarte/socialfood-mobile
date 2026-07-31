@@ -11,25 +11,25 @@ class FakeFavouriteDao(private val shouldThrowOnWrite: Boolean = false) : Favour
     private val idsFlow = MutableStateFlow<List<String>>(emptyList())
 
     override suspend fun upsert(favourite: FavouriteGuideEntity) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         entities[favourite.guideId] = favourite
         idsFlow.value = entities.keys.toList()
     }
 
     override suspend fun upsertAll(favourites: List<FavouriteGuideEntity>) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         favourites.forEach { entities[it.guideId] = it }
         idsFlow.value = entities.keys.toList()
     }
 
     override suspend fun deleteByGuideId(guideId: String) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         entities.remove(guideId)
         idsFlow.value = entities.keys.toList()
     }
 
     override suspend fun deleteByGuideIds(guideIds: List<String>) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         guideIds.forEach { entities.remove(it) }
         idsFlow.value = entities.keys.toList()
     }

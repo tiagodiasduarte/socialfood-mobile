@@ -8,22 +8,22 @@ class FakeFavouriteRestaurantDao(private val shouldThrowOnWrite: Boolean = false
     private val entities = LinkedHashMap<String, FavouriteRestaurantEntity>()
 
     override suspend fun upsert(favourite: FavouriteRestaurantEntity) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         entities[favourite.restaurantId] = favourite
     }
 
     override suspend fun upsertAll(favourites: List<FavouriteRestaurantEntity>) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         favourites.forEach { entities[it.restaurantId] = it }
     }
 
     override suspend fun deleteByRestaurantId(restaurantId: String) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         entities.remove(restaurantId)
     }
 
     override suspend fun deleteByRestaurantIds(restaurantIds: List<String>) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         restaurantIds.forEach { entities.remove(it) }
     }
 

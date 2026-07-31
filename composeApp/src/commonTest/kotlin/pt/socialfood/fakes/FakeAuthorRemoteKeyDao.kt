@@ -8,14 +8,14 @@ class FakeAuthorRemoteKeyDao(private val shouldThrowOnWrite: Boolean = false) : 
     private var key: AuthorRemoteKeyEntity? = null
 
     override suspend fun upsert(key: AuthorRemoteKeyEntity) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         this.key = key
     }
 
     override suspend fun get(): AuthorRemoteKeyEntity? = key
 
     override suspend fun deleteAll() {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         key = null
     }
 }

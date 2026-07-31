@@ -155,25 +155,7 @@
     <ID>TooGenericExceptionCaught:RestaurantsRepositoryImpl.kt$RestaurantsRepositoryImpl$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:UsersRepositoryImpl.kt$UsersRepositoryImpl$e: Exception</ID>
     <ID>TooGenericExceptionCaught:UsersRepositoryImpl.kt$UsersRepositoryImpl$exception: Exception</ID>
-    <ID>TooGenericExceptionThrown:FakeAuthApi.kt$FakeAuthApi$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeAuthorDao.kt$FakeAuthorDao$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeAuthorRemoteKeyDao.kt$FakeAuthorRemoteKeyDao$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeAuthorsApi.kt$FakeAuthorsApi$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeConfigsApi.kt$FakeConfigsApi$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeFavouriteDao.kt$FakeFavouriteDao$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeFavouriteRestaurantDao.kt$FakeFavouriteRestaurantDao$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeFavouriteRestaurantsApi.kt$FakeFavouriteRestaurantsApi$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeFavouritesApi.kt$FakeFavouritesApi$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeGuideDao.kt$FakeGuideDao$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeGuideRemoteKeyDao.kt$FakeGuideRemoteKeyDao$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeGuidesApi.kt$FakeGuidesApi$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeHomeApi.kt$FakeHomeApi$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeHomeDao.kt$FakeHomeDao$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakePlacesApi.kt$FakePlacesApi$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeRestaurantApi.kt$FakeRestaurantApi$throw RuntimeException("not found")</ID>
-    <ID>TooGenericExceptionThrown:FakeRestaurantApi.kt$FakeRestaurantApi$throw RuntimeException("test error")</ID>
     <ID>TooGenericExceptionThrown:FakeS3Api.kt$FakeS3Api$throw RuntimeException("test error")</ID>
-    <ID>TooGenericExceptionThrown:FakeUserApi.kt$FakeUserApi$throw RuntimeException("test error")</ID>
     <ID>TooManyFunctions:EditGuideViewModel.kt$EditGuideViewModel : ViewModel</ID>
     <ID>TooManyFunctions:EditProfileViewModel.kt$EditProfileViewModel : ViewModel</ID>
     <ID>TooManyFunctions:GuidesRepository.kt$GuidesRepository</ID>

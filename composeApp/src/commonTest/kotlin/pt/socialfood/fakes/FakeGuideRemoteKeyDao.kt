@@ -8,14 +8,14 @@ class FakeGuideRemoteKeyDao(private val shouldThrowOnWrite: Boolean = false) : G
     private val keys = mutableMapOf<String, GuideRemoteKeyEntity>()
 
     override suspend fun upsert(key: GuideRemoteKeyEntity) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         keys[key.scope] = key
     }
 
     override suspend fun getByScope(scope: String): GuideRemoteKeyEntity? = keys[scope]
 
     override suspend fun deleteByScope(scope: String) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         keys.remove(scope)
     }
 }

@@ -1873,9 +1873,11 @@
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/EditProfilePlaceholder.kt">
         <error line="33" column="14" source="standard:function-naming" />
         <error line="112" column="13" source="standard:function-naming" />
-        <error line="129" column="13" source="standard:function-naming" />
-        <error line="141" column="13" source="standard:function-naming" />
-        <error line="160" column="13" source="standard:function-naming" />
+        <error line="113" column="5" source="standard:function-signature" />
+        <error line="113" column="37" source="standard:function-signature" />
+        <error line="128" column="13" source="standard:function-naming" />
+        <error line="140" column="13" source="standard:function-naming" />
+        <error line="159" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/EditProfileScreen.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -1957,14 +1959,14 @@
         <error line="133" column="28" source="standard:function-signature" />
         <error line="166" column="13" source="standard:function-naming" />
         <error line="177" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="208" column="5" source="standard:function-naming" />
-        <error line="208" column="16" source="standard:function-signature" />
-        <error line="208" column="32" source="standard:function-signature" />
-        <error line="208" column="48" source="standard:function-signature" />
-        <error line="216" column="42" source="standard:trailing-comma-on-call-site" />
-        <error line="230" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="245" column="13" source="standard:function-naming" />
-        <error line="248" column="26" source="standard:multiline-expression-wrapping" />
+        <error line="209" column="5" source="standard:function-naming" />
+        <error line="209" column="16" source="standard:function-signature" />
+        <error line="209" column="32" source="standard:function-signature" />
+        <error line="209" column="48" source="standard:function-signature" />
+        <error line="217" column="42" source="standard:trailing-comma-on-call-site" />
+        <error line="231" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="246" column="13" source="standard:function-naming" />
+        <error line="249" column="26" source="standard:multiline-expression-wrapping" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/restaurant/detail/OpeningHoursCard.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -2147,36 +2149,36 @@
         <error line="1" column="9" source="standard:package-name" />
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="60" column="5" source="standard:function-naming" />
-        <error line="80" column="13" source="standard:function-naming" />
-        <error line="89" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="91" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="98" column="37" source="standard:trailing-comma-on-declaration-site" />
-        <error line="98" column="41" source="standard:multiline-expression-wrapping" />
-        <error line="122" column="13" source="standard:function-naming" />
-        <error line="139" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="184" column="28" source="standard:multiline-expression-wrapping" />
-        <error line="188" column="26" source="standard:multiline-expression-wrapping" />
-        <error line="219" column="32" source="standard:multiline-expression-wrapping" />
-        <error line="227" column="32" source="standard:multiline-expression-wrapping" />
-        <error line="237" column="13" source="standard:function-naming" />
-        <error line="266" column="13" source="standard:function-naming" />
-        <error line="266" column="20" source="standard:function-signature" />
-        <error line="266" column="35" source="standard:function-signature" />
-        <error line="266" column="53" source="standard:function-signature" />
-        <error line="271" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="277" column="13" source="standard:chain-method-continuation" />
-        <error line="279" column="25" source="standard:multiline-expression-wrapping" />
-        <error line="279" column="37" source="standard:if-else-wrapping" />
-        <error line="279" column="37" source="standard:multiline-if-else" />
-        <error line="279" column="77" source="standard:if-else-wrapping" />
-        <error line="279" column="77" source="standard:multiline-if-else" />
-        <error line="280" column="33" source="standard:trailing-comma-on-call-site" />
-        <error line="281" column="19" source="standard:if-else-wrapping" />
-        <error line="281" column="24" source="standard:if-else-wrapping" />
-        <error line="281" column="24" source="standard:multiline-if-else" />
-        <error line="296" column="13" source="standard:function-naming" />
-        <error line="298" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="313" column="5" source="standard:function-naming" />
+        <error line="79" column="13" source="standard:function-naming" />
+        <error line="87" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="89" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="96" column="37" source="standard:trailing-comma-on-declaration-site" />
+        <error line="96" column="41" source="standard:multiline-expression-wrapping" />
+        <error line="119" column="13" source="standard:function-naming" />
+        <error line="135" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="180" column="28" source="standard:multiline-expression-wrapping" />
+        <error line="184" column="26" source="standard:multiline-expression-wrapping" />
+        <error line="215" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="223" column="32" source="standard:multiline-expression-wrapping" />
+        <error line="233" column="13" source="standard:function-naming" />
+        <error line="262" column="13" source="standard:function-naming" />
+        <error line="262" column="20" source="standard:function-signature" />
+        <error line="262" column="35" source="standard:function-signature" />
+        <error line="262" column="53" source="standard:function-signature" />
+        <error line="267" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="273" column="13" source="standard:chain-method-continuation" />
+        <error line="275" column="25" source="standard:multiline-expression-wrapping" />
+        <error line="275" column="37" source="standard:if-else-wrapping" />
+        <error line="275" column="37" source="standard:multiline-if-else" />
+        <error line="275" column="77" source="standard:if-else-wrapping" />
+        <error line="275" column="77" source="standard:multiline-if-else" />
+        <error line="276" column="33" source="standard:trailing-comma-on-call-site" />
+        <error line="277" column="19" source="standard:if-else-wrapping" />
+        <error line="277" column="24" source="standard:if-else-wrapping" />
+        <error line="277" column="24" source="standard:multiline-if-else" />
+        <error line="292" column="13" source="standard:function-naming" />
+        <error line="294" column="20" source="standard:multiline-expression-wrapping" />
+        <error line="309" column="5" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/validate_code/ValidateCodeUiState.kt">
         <error line="1" column="9" source="standard:package-name" />

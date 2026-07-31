@@ -36,7 +36,7 @@
     <ID>LongMethod:RestaurantItemCard.kt$@Composable fun RestaurantItemCard( restaurant: Restaurant, modifier: Modifier = Modifier, onClick: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:SignInScreen.kt$@Composable private fun SignInFormView( state: SignInUiState, onSignInClick: (email: String, password: String) -&gt; Unit, onSignUpClick: () -&gt; Unit, onGoogleSignInClick: () -&gt; Unit, )</ID>
     <ID>LongMethod:SignUpScreen.kt$@Composable private fun SignUpFormView( state: SignUpUiState, onSignUpClick: (name: String, email: String, password: String, confirmPassword: String) -&gt; Unit, onSignInClick: () -&gt; Unit, )</ID>
-    <ID>LongMethod:ValidateCodeScreen.kt$@Composable private fun ValidateCodeFormView( email: String, state: ValidateCodeUiState, onValidateClick: (String) -&gt; Unit, onResendClick: () -&gt; Unit, onRestartClick: () -&gt; Unit, )</ID>
+    <ID>LongMethod:ValidateCodeScreen.kt$@Composable private fun ValidateCodeFormView( state: ValidateCodeUiState, onValidateClick: (String) -&gt; Unit, onResendClick: () -&gt; Unit, onRestartClick: () -&gt; Unit, )</ID>
     <ID>LongParameterList:AuthorGuideCard.kt$( guideName: String, guideDescription: String, numberOfRestaurant: Int, imageUrl: String?, onClick: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
     <ID>LongParameterList:CreateGuideScreen.kt$( state: CreateGuideUiState, onBackClick: () -&gt; Unit, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, onCreateGuide: () -&gt; Unit, onPhotoSelected: (ByteArray, String) -&gt; Unit = { _, _ -&gt; }, onDismissErrors: () -&gt; Unit = {}, )</ID>
     <ID>LongParameterList:EditGuideScreen.kt$( state: EditGuideUiState, initialTab: Int = TAB_DETAILS, onBackClick: () -&gt; Unit, onAddRestaurantsClick: () -&gt; Unit, onRestaurantRemoved: (String) -&gt; Unit, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, onVisibilityChange: (GuideVisibility) -&gt; Unit = {}, onRetry: () -&gt; Unit, onSaveGuide: () -&gt; Unit, onPhotoSelected: (ByteArray, String) -&gt; Unit = { _, _ -&gt; }, onDeleteGuide: () -&gt; Unit = {}, onDismissErrors: () -&gt; Unit = {}, )</ID>
@@ -71,7 +71,7 @@
     <ID>LongParameterList:UpdateRestaurantUseCase.kt$UpdateRestaurantUseCase$( id: String, name: String, description: String?, country: String, city: String, address: String, phoneNumber: String, websiteUrl: String, )</ID>
     <ID>LongParameterList:UpdateUserUseCase.kt$UpdateUserUseCase$( id: String, role: String? = null, imageUrl: String? = null, name: String? = null, city: String? = null, country: String? = null, facebookUrl: String? = null, instagramUrl: String? = null, youtubeUrl: String? = null, )</ID>
     <ID>LongParameterList:UsersRepository.kt$UsersRepository$( id: String, role: String? = null, imageUrl: String? = null, name: String? = null, city: String? = null, country: String? = null, facebookUrl: String? = null, instagramUrl: String? = null, youtubeUrl: String? = null, )</ID>
-    <ID>LongParameterList:ValidateCodeScreen.kt$( email: String, state: ValidateCodeUiState, onValidateClick: (String) -&gt; Unit, onResendClick: () -&gt; Unit, onRestartClick: () -&gt; Unit, onValidateSuccess: () -&gt; Unit, onRestartSignUp: () -&gt; Unit, )</ID>
+    <ID>LongParameterList:ValidateCodeScreen.kt$( state: ValidateCodeUiState, onValidateClick: (String) -&gt; Unit, onResendClick: () -&gt; Unit, onRestartClick: () -&gt; Unit, onValidateSuccess: () -&gt; Unit, onRestartSignUp: () -&gt; Unit, )</ID>
     <ID>MagicNumber:AuthorCardPlaceholder.kt$3</ID>
     <ID>MagicNumber:AuthorDetailPlaceholder.kt$4</ID>
     <ID>MagicNumber:AuthorGuideCard.kt$0xFF2A2A2A</ID>
@@ -147,8 +147,5 @@
     <ID>TooManyFunctions:GuidesRepositoryImpl.kt$GuidesRepositoryImpl : GuidesRepository</ID>
     <ID>TooManyFunctions:SettingsRepository.kt$SettingsRepository</ID>
     <ID>TooManyFunctions:SettingsRepositoryImpl.kt$SettingsRepositoryImpl : SettingsRepository</ID>
-    <ID>UnusedParameter:EditProfilePlaceholder.kt$alpha: Float</ID>
-    <ID>UnusedParameter:InformationSection.kt$onClick: () -&gt; Unit = {}</ID>
-    <ID>UnusedParameter:ValidateCodeScreen.kt$email: String</ID>
   </CurrentIssues>
 </SmellBaseline>

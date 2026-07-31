@@ -66,7 +66,6 @@ fun ValidateCodeScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     ValidateCodeContent(
-        email = viewModel.email,
         state = state,
         onValidateClick = viewModel::onValidate,
         onResendClick = viewModel::onResendCode,
@@ -78,7 +77,6 @@ fun ValidateCodeScreen(
 
 @Composable
 private fun ValidateCodeContent(
-    email: String,
     state: ValidateCodeUiState,
     onValidateClick: (String) -> Unit,
     onResendClick: () -> Unit,
@@ -96,7 +94,6 @@ private fun ValidateCodeContent(
         when (state) {
             is ValidateCodeUiState.Error,
             ValidateCodeUiState.Idle -> ValidateCodeFormView(
-                email = email,
                 state = state,
                 onValidateClick = onValidateClick,
                 onResendClick = onResendClick,
@@ -120,7 +117,6 @@ private fun ValidateCodeContent(
 
 @Composable
 private fun ValidateCodeFormView(
-    email: String,
     state: ValidateCodeUiState,
     onValidateClick: (String) -> Unit,
     onResendClick: () -> Unit,
@@ -313,7 +309,6 @@ private fun ValidateCodeLoadingView() {
 fun ValidateCodeScreenPreview() {
     AppTheme {
         ValidateCodeContent(
-            email = "john.doe@email.com",
             state = ValidateCodeUiState.Idle,
             onValidateClick = {},
             onResendClick = {},

@@ -15,7 +15,6 @@
     </file>
     <file name="src/androidMain/kotlin/pt/socialfood/MainActivity.kt">
         <error line="13" column="1" source="standard:no-empty-first-line-in-class-body" />
-        <error line="27" column="1" source="standard:final-newline" />
     </file>
     <file name="src/androidMain/kotlin/pt/socialfood/SocialFoodApp.kt">
         <error line="9" column="1" source="standard:no-empty-first-line-in-class-body" />
@@ -40,7 +39,6 @@
         <error line="11" column="13" source="standard:multiline-expression-wrapping" />
         <error line="31" column="65" source="standard:multiline-expression-wrapping" />
         <error line="31" column="65" source="standard:function-signature" />
-        <error line="36" column="1" source="standard:final-newline" />
     </file>
     <file name="src/androidMain/kotlin/pt/socialfood/presentation/image_picker/ImageBitmapDecoder.android.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -55,7 +53,6 @@
     </file>
     <file name="src/androidMain/kotlin/pt/socialfood/presentation/splash/SplashScreen.android.kt">
         <error line="7" column="12" source="standard:function-naming" />
-        <error line="16" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/App.kt">
         <error line="22" column="5" source="standard:blank-line-before-declaration" />
@@ -76,7 +73,6 @@
         <error line="7" column="5" source="standard:blank-line-before-declaration" />
         <error line="7" column="22" source="standard:class-signature" />
         <error line="7" column="44" source="standard:class-signature" />
-        <error line="8" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/api/AuthApi.kt">
         <error line="7" column="23" source="standard:function-signature" />
@@ -94,7 +90,6 @@
         <error line="10" column="57" source="standard:function-signature" />
         <error line="11" column="5" source="standard:blank-line-before-declaration" />
         <error line="12" column="5" source="standard:blank-line-before-declaration" />
-        <error line="13" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/api/AuthApiImpl.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -130,9 +125,6 @@
         <error line="14" column="75" source="standard:function-signature" />
         <error line="15" column="15" source="standard:chain-method-continuation" />
         <error line="21" column="76" source="standard:function-signature" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/api/ConfigsApi.kt">
-        <error line="7" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/api/ConfigsApiImpl.kt">
         <error line="9" column="35" source="standard:trailing-comma-on-declaration-site" />
@@ -302,9 +294,6 @@
     <file name="src/commonMain/kotlin/pt/socialfood/data/local/dao/HomeDao.kt">
         <error line="12" column="1" source="standard:no-empty-first-line-in-class-body" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/local/entity/AuthorEntity.kt">
-        <error line="14" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/ImageHttpClient.kt">
         <error line="16" column="37" source="standard:trailing-comma-on-declaration-site" />
         <error line="21" column="22" source="standard:multiline-expression-wrapping" />
@@ -313,10 +302,6 @@
         <error line="24" column="37" source="standard:trailing-comma-on-declaration-site" />
         <error line="41" column="18" source="standard:trailing-comma-on-call-site" />
         <error line="46" column="22" source="standard:multiline-expression-wrapping" />
-        <error line="80" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/network/NetworkConfig.kt">
-        <error line="7" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/S3HttpClient.kt">
         <error line="11" column="20" source="standard:class-signature" />
@@ -330,52 +315,19 @@
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/extensions/ThrowableExceptions.kt">
         <error line="8" column="46" source="standard:multiline-expression-wrapping" />
         <error line="8" column="46" source="standard:function-signature" />
-        <error line="23" column="5" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/author/AuthorDetailResponse.kt">
         <error line="5" column="1" source="standard:no-unused-imports" />
         <error line="20" column="2" source="standard:curly-spacing" />
         <error line="20" column="2" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/guide/AddRestaurantGuideRequest.kt">
-        <error line="9" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/guide/CreateGuideRequest.kt">
-        <error line="10" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/guide/GuideDetailResponse.kt">
-        <error line="17" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/guide/GuideResponse.kt">
-        <error line="16" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/guide/UpdateGuidePhotoRequest.kt">
         <error line="6" column="36" source="standard:class-signature" />
-        <error line="6" column="56" source="standard:final-newline" />
         <error line="6" column="56" source="standard:class-signature" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/guide/UpdateGuideRequest.kt">
-        <error line="12" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/home/HomeSectionRequest.kt">
-        <error line="26" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/home/HomeSectionResponse.kt">
-        <error line="26" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/login/GoogleLoginRequest.kt">
         <error line="6" column="31" source="standard:class-signature" />
-        <error line="6" column="50" source="standard:final-newline" />
         <error line="6" column="50" source="standard:class-signature" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/login/LoginRequest.kt">
-        <error line="9" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/login/LoginResponse.kt">
-        <error line="9" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/login/RegisterResponse.kt">
-        <error line="9" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/login/ResendVerificationCodeRequest.kt">
         <error line="6" column="42" source="standard:class-signature" />
@@ -389,23 +341,14 @@
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/place/PlaceResponse.kt">
         <error line="8" column="2" source="standard:curly-spacing" />
         <error line="8" column="2" source="standard:class-signature" />
-        <error line="15" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/restaurant/RestaurantResponse.kt">
         <error line="22" column="2" source="standard:curly-spacing" />
         <error line="22" column="2" source="standard:class-signature" />
-        <error line="28" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/restaurant/UpdateRestaurantRequest.kt">
-        <error line="14" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/user/UpdateUserPhotoRequest.kt">
         <error line="6" column="35" source="standard:class-signature" />
-        <error line="6" column="55" source="standard:final-newline" />
         <error line="6" column="55" source="standard:class-signature" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/user/UserResponse.kt">
-        <error line="19" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/paging/AuthorRemoteMediator.kt">
         <error line="34" column="1" source="standard:no-empty-first-line-in-class-body" />
@@ -442,7 +385,6 @@
         <error line="41" column="78" source="standard:function-expression-body" />
         <error line="50" column="75" source="standard:function-expression-body" />
         <error line="59" column="52" source="standard:function-expression-body" />
-        <error line="67" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/repository/AuthorsRepositoryImpl.kt">
         <error line="32" column="38" source="standard:function-signature" />
@@ -459,7 +401,6 @@
         <error line="10" column="39" source="standard:trailing-comma-on-declaration-site" />
         <error line="12" column="1" source="standard:no-empty-first-line-in-class-body" />
         <error line="13" column="56" source="standard:function-expression-body" />
-        <error line="21" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/repository/FavouritesRepositoryImpl.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -514,7 +455,6 @@
         <error line="177" column="72" source="standard:function-expression-body" />
         <error line="179" column="21" source="standard:chain-method-continuation" />
         <error line="193" column="30" source="standard:multiline-expression-wrapping" />
-        <error line="203" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/repository/PhotosRepositoryImpl.kt">
         <error line="13" column="1" source="standard:no-empty-first-line-in-class-body" />
@@ -524,7 +464,6 @@
     <file name="src/commonMain/kotlin/pt/socialfood/data/repository/PlacesRepositoryImpl.kt">
         <error line="13" column="1" source="standard:no-empty-first-line-in-class-body" />
         <error line="14" column="69" source="standard:function-expression-body" />
-        <error line="22" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/repository/RestaurantsRepositoryImpl.kt">
         <error line="15" column="45" source="standard:trailing-comma-on-declaration-site" />
@@ -545,7 +484,6 @@
         <error line="126" column="30" source="standard:multiline-expression-wrapping" />
         <error line="126" column="43" source="standard:chain-method-continuation" />
         <error line="137" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="142" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/repository/UsersRepositoryImpl.kt">
         <error line="20" column="1" source="standard:no-empty-first-line-in-class-body" />
@@ -572,7 +510,6 @@
         <error line="126" column="14" source="standard:trailing-comma-on-call-site" />
         <error line="131" column="47" source="standard:trailing-comma-on-call-site" />
         <error line="132" column="14" source="standard:trailing-comma-on-call-site" />
-        <error line="137" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/di/AppImageLoaderFactory.kt">
         <error line="17" column="29" source="standard:class-signature" />
@@ -600,35 +537,13 @@
         <error line="21" column="5" source="standard:blank-line-before-declaration" />
         <error line="22" column="5" source="standard:blank-line-before-declaration" />
         <error line="23" column="5" source="standard:blank-line-before-declaration" />
-        <error line="24" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/model/AuthorDetail.kt">
         <error line="14" column="2" source="standard:curly-spacing" />
         <error line="14" column="2" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/model/Configs.kt">
-        <error line="8" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/model/Event.kt">
-        <error line="8" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/model/Guide.kt">
-        <error line="14" column="46" source="standard:final-newline" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/model/HomeSection.kt">
-        <error line="25" column="52" source="standard:final-newline" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/model/Place.kt">
-        <error line="11" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/model/PresignedUrlData.kt">
         <error line="5" column="26" source="standard:trailing-comma-on-declaration-site" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/model/Restaurant.kt">
-        <error line="21" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/model/User.kt">
-        <error line="18" column="35" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/repository/AuthRepository.kt">
         <error line="6" column="1" source="standard:no-empty-first-line-in-class-body" />
@@ -648,7 +563,6 @@
         <error line="11" column="5" source="standard:blank-line-before-declaration" />
         <error line="12" column="5" source="standard:blank-line-before-declaration" />
         <error line="13" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="14" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/repository/AuthorsRepository.kt">
         <error line="11" column="29" source="standard:function-signature" />
@@ -656,9 +570,6 @@
         <error line="11" column="52" source="standard:function-signature" />
         <error line="11" column="73" source="standard:function-signature" />
         <error line="12" column="5" source="standard:blank-line-before-declaration" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/repository/ConfigsRepository.kt">
-        <error line="8" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/repository/FavouriteRestaurantsRepository.kt">
         <error line="12" column="36" source="standard:function-signature" />
@@ -676,9 +587,6 @@
         <error line="6" column="65" source="standard:function-signature" />
         <error line="6" column="81" source="standard:function-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/repository/PlacesRepository.kt">
-        <error line="8" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/repository/RestaurantsRepository.kt">
         <error line="7" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="9" column="1" source="standard:no-empty-first-line-in-class-body" />
@@ -693,7 +601,6 @@
         <error line="15" column="5" source="standard:blank-line-before-declaration" />
         <error line="16" column="5" source="standard:blank-line-before-declaration" />
         <error line="19" column="5" source="standard:blank-line-before-declaration" />
-        <error line="29" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/repository/SettingsRepository.kt">
         <error line="5" column="5" source="standard:blank-line-before-declaration" />
@@ -717,7 +624,6 @@
         <error line="7" column="44" source="standard:function-signature" />
         <error line="7" column="56" source="standard:function-signature" />
         <error line="7" column="77" source="standard:function-signature" />
-        <error line="8" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/author/FindAuthorsUseCaseImpl.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -755,12 +661,10 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/configs/GetConfigsUseCase.kt">
         <error line="1" column="9" source="standard:package-name" />
-        <error line="8" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/configs/GetConfigsUseCaseImpl.kt">
         <error line="1" column="9" source="standard:package-name" />
         <error line="8" column="46" source="standard:trailing-comma-on-declaration-site" />
-        <error line="11" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/SyncFavouriteRestaurantsUseCase.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -844,21 +748,18 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/AddRestaurantGuideUseCase.kt">
         <error line="1" column="9" source="standard:package-name" />
-        <error line="11" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/AddRestaurantGuideUseCaseImpl.kt">
         <error line="1" column="9" source="standard:package-name" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/CreateGuideUseCase.kt">
         <error line="1" column="9" source="standard:package-name" />
-        <error line="14" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/CreateGuideUseCaseImpl.kt">
         <error line="1" column="9" source="standard:package-name" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/DeleteGuideUseCase.kt">
         <error line="1" column="9" source="standard:package-name" />
-        <error line="7" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/DeleteGuideUseCaseImpl.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -876,7 +777,6 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/GetGuideByIdUseCase.kt">
         <error line="1" column="9" source="standard:package-name" />
-        <error line="8" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/GetGuideByIdUseCaseImpl.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -889,14 +789,12 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/GetGuidesUseCase.kt">
         <error line="1" column="9" source="standard:package-name" />
-        <error line="8" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/GetGuidesUseCaseImpl.kt">
         <error line="1" column="9" source="standard:package-name" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/UpdateGuideUseCase.kt">
         <error line="1" column="9" source="standard:package-name" />
-        <error line="15" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/UpdateGuideUseCaseImpl.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -974,7 +872,6 @@
         <error line="6" column="33" source="standard:function-signature" />
         <error line="6" column="48" source="standard:function-signature" />
         <error line="6" column="64" source="standard:function-signature" />
-        <error line="7" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/LoginUseCaseImpl.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -984,7 +881,6 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/LoginWithGoogleUseCase.kt">
         <error line="1" column="9" source="standard:package-name" />
-        <error line="7" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/LoginWithGoogleUseCaseImpl.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -1118,7 +1014,6 @@
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/GetPresignedUrlUseCase.kt">
         <error line="1" column="9" source="standard:package-name" />
         <error line="11" column="24" source="standard:trailing-comma-on-declaration-site" />
-        <error line="13" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/GetPresignedUrlUseCaseImpl.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -1207,12 +1102,10 @@
         <error line="56" column="29" source="standard:multiline-expression-wrapping" />
         <error line="56" column="29" source="standard:function-signature" />
         <error line="61" column="14" source="standard:multiline-expression-wrapping" />
-        <error line="68" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/mapper/HomeSectionMapper.kt">
         <error line="51" column="17" source="standard:multiline-expression-wrapping" />
         <error line="51" column="21" source="standard:chain-method-continuation" />
-        <error line="53" column="5" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/mapper/PlaceMapper.kt">
         <error line="6" column="1" source="standard:no-consecutive-blank-lines" />
@@ -1223,7 +1116,6 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/mapper/UserMapper.kt">
         <error line="7" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="22" column="5" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/author/detail/AuthorDetailPlaceholder.kt">
         <error line="33" column="5" source="standard:function-naming" />
@@ -1257,7 +1149,6 @@
         <error line="189" column="18" source="standard:multiline-expression-wrapping" />
         <error line="205" column="18" source="standard:multiline-expression-wrapping" />
         <error line="227" column="13" source="standard:function-naming" />
-        <error line="231" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/author/detail/AuthorDetailUiState.kt">
         <error line="7" column="5" source="standard:blank-line-before-declaration" />
@@ -1285,7 +1176,6 @@
         <error line="27" column="30" source="standard:multiline-expression-wrapping" />
         <error line="41" column="22" source="standard:multiline-expression-wrapping" />
         <error line="44" column="30" source="standard:multiline-expression-wrapping" />
-        <error line="56" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/author/list/AuthorCard.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -1301,7 +1191,6 @@
         <error line="94" column="50" source="standard:function-signature" />
         <error line="111" column="13" source="standard:function-naming" />
         <error line="114" column="22" source="standard:multiline-expression-wrapping" />
-        <error line="120" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/author/list/AuthorCardPlaceholder.kt">
         <error line="29" column="5" source="standard:function-naming" />
@@ -1323,7 +1212,6 @@
         <error line="34" column="37" source="standard:trailing-comma-on-call-site" />
         <error line="37" column="24" source="standard:multiline-expression-wrapping" />
         <error line="62" column="5" source="standard:function-naming" />
-        <error line="66" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/author/list/AuthorsPlaceholder.kt">
         <error line="14" column="5" source="standard:function-naming" />
@@ -1346,7 +1234,6 @@
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="27" column="5" source="standard:function-naming" />
         <error line="30" column="24" source="standard:multiline-expression-wrapping" />
-        <error line="52" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/BackContent.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -1355,7 +1242,6 @@
         <error line="23" column="20" source="standard:multiline-expression-wrapping" />
         <error line="24" column="28" source="standard:trailing-comma-on-call-site" />
         <error line="28" column="24" source="standard:multiline-expression-wrapping" />
-        <error line="39" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/CircularProgressContent.kt">
         <error line="15" column="5" source="standard:function-naming" />
@@ -1424,7 +1310,6 @@
         <error line="62" column="20" source="standard:multiline-expression-wrapping" />
         <error line="68" column="47" source="standard:trailing-comma-on-call-site" />
         <error line="69" column="14" source="standard:trailing-comma-on-call-site" />
-        <error line="71" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/ShimmerBox.kt">
         <error line="28" column="25" source="standard:multiline-expression-wrapping" />
@@ -1447,7 +1332,6 @@
         <error line="59" column="29" source="standard:multiline-if-else" />
         <error line="59" column="71" source="standard:trailing-comma-on-call-site" />
         <error line="61" column="18" source="standard:trailing-comma-on-call-site" />
-        <error line="65" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/UserImage.kt">
         <error line="24" column="5" source="standard:function-naming" />
@@ -1471,7 +1355,6 @@
         <error line="16" column="70" source="standard:function-signature" />
         <error line="16" column="101" source="standard:function-signature" />
         <error line="18" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="27" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/buttons/IconTextButton.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -1485,7 +1368,6 @@
         <error line="69" column="13" source="standard:function-naming" />
         <error line="77" column="20" source="standard:multiline-expression-wrapping" />
         <error line="85" column="13" source="standard:function-naming" />
-        <error line="93" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/buttons/social/SocialButtonsPlaceholder.kt">
         <error line="15" column="5" source="standard:function-naming" />
@@ -1493,11 +1375,9 @@
         <error line="15" column="44" source="standard:function-signature" />
         <error line="15" column="73" source="standard:function-signature" />
         <error line="32" column="13" source="standard:function-naming" />
-        <error line="36" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/buttons/social/SocialLinkOpener.kt">
         <error line="1" column="1" source="standard:filename" />
-        <error line="8" column="58" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/card/SectionCard.kt">
         <error line="16" column="14" source="standard:function-naming" />
@@ -1518,7 +1398,6 @@
         <error line="69" column="28" source="standard:multiline-expression-wrapping" />
         <error line="115" column="5" source="standard:function-naming" />
         <error line="118" column="21" source="standard:multiline-expression-wrapping" />
-        <error line="128" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/favourite/guide/FavouriteGuidesPlaceholder.kt">
         <error line="24" column="1" source="standard:no-consecutive-blank-lines" />
@@ -1559,7 +1438,6 @@
         <error line="72" column="28" source="standard:multiline-expression-wrapping" />
         <error line="129" column="5" source="standard:function-naming" />
         <error line="132" column="26" source="standard:multiline-expression-wrapping" />
-        <error line="149" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/favourite/restaurant/FavouriteRestaurantsPlaceholder.kt">
         <error line="25" column="5" source="standard:function-naming" />
@@ -1634,7 +1512,6 @@
         <error line="33" column="20" source="standard:multiline-expression-wrapping" />
         <error line="66" column="13" source="standard:function-naming" />
         <error line="69" column="26" source="standard:multiline-expression-wrapping" />
-        <error line="87" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/detail/GuideDetailPlaceholder.kt">
         <error line="35" column="5" source="standard:function-naming" />
@@ -1698,7 +1575,6 @@
         <error line="58" column="28" source="standard:multiline-expression-wrapping" />
         <error line="107" column="5" source="standard:function-naming" />
         <error line="110" column="26" source="standard:multiline-expression-wrapping" />
-        <error line="127" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/edit/EditGuideScreen.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -1725,7 +1601,6 @@
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/edit/EditGuideUiState.kt">
         <error line="10" column="5" source="standard:blank-line-before-declaration" />
         <error line="25" column="5" source="standard:blank-line-before-declaration" />
-        <error line="26" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/edit/card/GuideDetailsCard.kt">
         <error line="65" column="5" source="standard:function-naming" />
@@ -1745,7 +1620,6 @@
         <error line="133" column="13" source="standard:function-naming" />
         <error line="145" column="13" source="standard:function-naming" />
         <error line="148" column="27" source="standard:multiline-expression-wrapping" />
-        <error line="184" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/edit/card/GuideStatusCard.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -1781,7 +1655,6 @@
         <error line="184" column="13" source="standard:function-naming" />
         <error line="189" column="24" source="standard:multiline-expression-wrapping" />
         <error line="198" column="24" source="standard:multiline-expression-wrapping" />
-        <error line="242" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/list/GuidesHeader.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -1795,7 +1668,6 @@
         <error line="77" column="79" source="standard:trailing-comma-on-call-site" />
         <error line="85" column="50" source="standard:trailing-comma-on-call-site" />
         <error line="94" column="5" source="standard:function-naming" />
-        <error line="101" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/list/GuidesPlaceholder.kt">
         <error line="19" column="5" source="standard:function-naming" />
@@ -1836,7 +1708,6 @@
         <error line="71" column="59" source="standard:trailing-comma-on-call-site" />
         <error line="78" column="31" source="standard:trailing-comma-on-call-site" />
         <error line="87" column="5" source="standard:function-naming" />
-        <error line="91" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/home/HomePlaceholder.kt">
         <error line="26" column="5" source="standard:function-naming" />
@@ -1864,7 +1735,6 @@
         <error line="283" column="21" source="standard:multiline-expression-wrapping" />
         <error line="300" column="21" source="standard:multiline-expression-wrapping" />
         <error line="318" column="27" source="standard:trailing-comma-on-call-site" />
-        <error line="321" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/home/HomeSearchBar.kt">
         <error line="24" column="5" source="standard:function-naming" />
@@ -1873,7 +1743,6 @@
         <error line="57" column="20" source="standard:multiline-expression-wrapping" />
         <error line="64" column="47" source="standard:trailing-comma-on-call-site" />
         <error line="65" column="14" source="standard:trailing-comma-on-call-site" />
-        <error line="67" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/home/HomeUiState.kt">
         <error line="5" column="5" source="standard:blank-line-before-declaration" />
@@ -1893,7 +1762,6 @@
         <error line="25" column="21" source="standard:multiline-expression-wrapping" />
         <error line="29" column="22" source="standard:multiline-expression-wrapping" />
         <error line="33" column="22" source="standard:multiline-expression-wrapping" />
-        <error line="37" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/BottomNavigationBar.kt">
         <error line="19" column="5" source="standard:function-naming" />
@@ -1922,7 +1790,6 @@
         <error line="86" column="26" source="standard:multiline-expression-wrapping" />
         <error line="88" column="54" source="standard:trailing-comma-on-call-site" />
         <error line="93" column="42" source="standard:trailing-comma-on-call-site" />
-        <error line="100" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/Navigator.kt">
         <error line="5" column="17" source="standard:class-signature" />
@@ -1931,7 +1798,6 @@
         <error line="8" column="11" source="standard:keyword-spacing" />
         <error line="16" column="28" source="standard:multiline-expression-wrapping" />
         <error line="20" column="11" source="standard:keyword-spacing" />
-        <error line="33" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/Route.kt">
         <error line="7" column="23" source="standard:colon-spacing" />
@@ -1951,7 +1817,6 @@
         <error line="34" column="50" source="standard:class-signature" />
         <error line="37" column="33" source="standard:class-signature" />
         <error line="37" column="57" source="standard:class-signature" />
-        <error line="47" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/ContactCard.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -1960,7 +1825,6 @@
         <error line="54" column="24" source="standard:function-signature" />
         <error line="54" column="43" source="standard:function-signature" />
         <error line="54" column="55" source="standard:function-signature" />
-        <error line="71" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/MenuRow.kt">
         <error line="27" column="5" source="standard:function-naming" />
@@ -1968,7 +1832,6 @@
         <error line="42" column="24" source="standard:multiline-expression-wrapping" />
         <error line="65" column="15" source="standard:keyword-spacing" />
         <error line="65" column="27" source="standard:curly-spacing" />
-        <error line="75" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/ProfilePlaceholder.kt">
         <error line="34" column="5" source="standard:function-naming" />
@@ -2056,24 +1919,20 @@
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/ProfileTextField.kt">
         <error line="22" column="5" source="standard:function-naming" />
         <error line="62" column="22" source="standard:multiline-expression-wrapping" />
-        <error line="68" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/card/PersonalDetailsCard.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="25" column="5" source="standard:function-naming" />
-        <error line="65" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/card/ProfilePictureCard.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="43" column="5" source="standard:function-naming" />
         <error line="69" column="36" source="standard:multiline-expression-wrapping" />
         <error line="81" column="32" source="standard:multiline-expression-wrapping" />
-        <error line="125" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/card/SocialNetworksCard.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="25" column="5" source="standard:function-naming" />
-        <error line="65" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/restaurant/RestaurantCard.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -2087,7 +1946,6 @@
         <error line="96" column="32" source="standard:multiline-expression-wrapping" />
         <error line="150" column="5" source="standard:function-naming" />
         <error line="153" column="26" source="standard:multiline-expression-wrapping" />
-        <error line="170" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/restaurant/detail/InformationSection.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -2190,7 +2048,6 @@
         <error line="86" column="20" source="standard:multiline-expression-wrapping" />
         <error line="106" column="13" source="standard:function-naming" />
         <error line="109" column="21" source="standard:multiline-expression-wrapping" />
-        <error line="117" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/restaurant/search/SearchRestaurantsScreen.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -2276,7 +2133,6 @@
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/splash/SplashScreen.kt">
         <error line="11" column="12" source="standard:function-naming" />
         <error line="19" column="14" source="standard:function-naming" />
-        <error line="35" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/startup/StartupUiState.kt">
         <error line="5" column="5" source="standard:blank-line-before-declaration" />
@@ -2284,12 +2140,10 @@
         <error line="7" column="5" source="standard:blank-line-before-declaration" />
         <error line="7" column="39" source="standard:class-signature" />
         <error line="7" column="56" source="standard:class-signature" />
-        <error line="8" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/startup/StartupViewModel.kt">
         <error line="22" column="1" source="standard:no-empty-first-line-in-class-body" />
         <error line="34" column="31" source="standard:multiline-expression-wrapping" />
-        <error line="63" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/validate_code/ValidateCodeScreen.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -2352,13 +2206,11 @@
         <error line="12" column="25" source="standard:keyword-spacing" />
         <error line="14" column="26" source="standard:trailing-comma-on-call-site" />
         <error line="16" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="17" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/ui/theme/Color.kt">
         <error line="7" column="23" source="standard:multiline-expression-wrapping" />
         <error line="20" column="27" source="standard:multiline-expression-wrapping" />
         <error line="33" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="38" column="42" source="standard:final-newline" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/ui/theme/Typography.kt">
         <error line="16" column="25" source="standard:multiline-expression-wrapping" />
@@ -2473,19 +2325,19 @@
         <error line="28" column="85" source="standard:function-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/data/repository/FakeAuthApi.kt">
-        <error line="7" column="19" source="standard:class-signature" />
-        <error line="7" column="59" source="standard:class-signature" />
-        <error line="8" column="1" source="standard:no-empty-first-line-in-class-body" />
-        <error line="9" column="32" source="standard:function-signature" />
-        <error line="9" column="50" source="standard:function-signature" />
-        <error line="9" column="66" source="standard:function-signature" />
-        <error line="14" column="35" source="standard:function-signature" />
-        <error line="14" column="49" source="standard:function-signature" />
-        <error line="14" column="67" source="standard:function-signature" />
-        <error line="14" column="83" source="standard:function-signature" />
-        <error line="23" column="39" source="standard:function-signature" />
-        <error line="23" column="54" source="standard:function-signature" />
-        <error line="23" column="66" source="standard:function-signature" />
+        <error line="8" column="19" source="standard:class-signature" />
+        <error line="8" column="59" source="standard:class-signature" />
+        <error line="9" column="1" source="standard:no-empty-first-line-in-class-body" />
+        <error line="10" column="32" source="standard:function-signature" />
+        <error line="10" column="50" source="standard:function-signature" />
+        <error line="10" column="66" source="standard:function-signature" />
+        <error line="15" column="35" source="standard:function-signature" />
+        <error line="15" column="49" source="standard:function-signature" />
+        <error line="15" column="67" source="standard:function-signature" />
+        <error line="15" column="83" source="standard:function-signature" />
+        <error line="24" column="39" source="standard:function-signature" />
+        <error line="24" column="54" source="standard:function-signature" />
+        <error line="24" column="66" source="standard:function-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/data/repository/FavouriteRestaurantsRepositoryImplTest.kt">
         <error line="170" column="121" source="standard:max-line-length" />
@@ -2659,7 +2511,6 @@
         <error line="14" column="5" source="standard:blank-line-before-declaration" />
         <error line="15" column="5" source="standard:blank-line-before-declaration" />
         <error line="16" column="5" source="standard:blank-line-before-declaration" />
-        <error line="17" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeAuthorDao.kt">
         <error line="8" column="21" source="standard:class-signature" />
@@ -2764,7 +2615,6 @@
         <error line="17" column="56" source="standard:function-signature" />
         <error line="17" column="72" source="standard:function-signature" />
         <error line="17" column="87" source="standard:function-signature" />
-        <error line="22" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeGetFavouriteGuidesUseCase.kt">
         <error line="15" column="42" source="standard:function-signature" />
@@ -2775,9 +2625,6 @@
         <error line="15" column="42" source="standard:function-signature" />
         <error line="15" column="53" source="standard:function-signature" />
         <error line="15" column="63" source="standard:function-signature" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeGetPresignedUrlUseCase.kt">
-        <error line="22" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeGuideDao.kt">
         <error line="8" column="20" source="standard:class-signature" />
@@ -2794,9 +2641,6 @@
         <error line="8" column="19" source="standard:class-signature" />
         <error line="8" column="66" source="standard:class-signature" />
         <error line="9" column="1" source="standard:no-empty-first-line-in-class-body" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeImageCache.kt">
-        <error line="12" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakePlacesApi.kt">
         <error line="6" column="21" source="standard:class-signature" />
@@ -2830,13 +2674,6 @@
         <error line="14" column="33" source="standard:function-signature" />
         <error line="14" column="45" source="standard:function-signature" />
         <error line="14" column="61" source="standard:function-signature" />
-        <error line="19" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeUpdateUserUseCase.kt">
-        <error line="27" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeUploadPhotoUseCase.kt">
-        <error line="24" column="1" source="standard:final-newline" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeUserApi.kt">
         <error line="11" column="19" source="standard:class-signature" />
@@ -2907,11 +2744,9 @@
     <file name="src/commonTest/kotlin/pt/socialfood/runner/runTestWithMainDispatcher.kt">
         <error line="1" column="1" source="standard:filename" />
         <error line="15" column="43" source="standard:trailing-comma-on-declaration-site" />
-        <error line="23" column="1" source="standard:final-newline" />
     </file>
     <file name="src/iosMain/kotlin/pt/socialfood/MainViewController.kt">
         <error line="5" column="5" source="standard:function-naming" />
-        <error line="5" column="60" source="standard:final-newline" />
     </file>
     <file name="src/iosMain/kotlin/pt/socialfood/data/local/DatabaseBuilder.ios.kt">
         <error line="12" column="29" source="standard:multiline-expression-wrapping" />
@@ -2932,7 +2767,6 @@
         <error line="11" column="59" source="standard:function-signature" />
         <error line="13" column="26" source="standard:multiline-expression-wrapping" />
         <error line="28" column="94" source="standard:function-expression-body" />
-        <error line="40" column="1" source="standard:final-newline" />
     </file>
     <file name="src/iosMain/kotlin/pt/socialfood/presentation/google/GoogleSignInLauncher.ios.kt">
         <error line="7" column="16" source="standard:function-signature" />
@@ -2955,6 +2789,5 @@
     <file name="src/iosMain/kotlin/pt/socialfood/presentation/splash/SplashScreen.ios.kt">
         <error line="21" column="12" source="standard:function-naming" />
         <error line="33" column="20" source="standard:multiline-expression-wrapping" />
-        <error line="44" column="1" source="standard:final-newline" />
     </file>
 </baseline>

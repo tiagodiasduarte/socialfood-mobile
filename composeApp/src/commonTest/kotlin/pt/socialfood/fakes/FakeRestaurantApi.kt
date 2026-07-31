@@ -34,22 +34,22 @@ class FakeRestaurantApi(
     )
 
     override suspend fun importRestaurants(): Boolean {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return true
     }
 
     override suspend fun delete(id: String): Boolean {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return true
     }
 
     override suspend fun findAll(): List<RestaurantResponse> {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return listOf(fakeRestaurantResponse)
     }
 
     override suspend fun findRestaurants(page: Int, limit: Int, query: String?): PagedResponse<RestaurantResponse> {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return PagedResponse(
             items = listOf(fakeRestaurantResponse),
             page = page,
@@ -59,21 +59,21 @@ class FakeRestaurantApi(
     }
 
     override suspend fun findById(id: String): RestaurantResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return fakeRestaurantResponse
     }
 
     override suspend fun findByPlaceId(placeId: String): RestaurantResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         findByPlaceIdInvokeCount++
         if (findByPlaceIdInvokeCount <= findByPlaceIdFailuresBeforeSuccess) {
-            throw RuntimeException("not found")
+            throw FakeException("not found")
         }
         return fakeRestaurantResponse
     }
 
     override suspend fun addByPlaceId(placeId: String) {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
     }
 
     override suspend fun update(
@@ -86,7 +86,7 @@ class FakeRestaurantApi(
         phoneNumber: String,
         websiteUrl: String,
     ): RestaurantResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return fakeRestaurantResponse
     }
 }

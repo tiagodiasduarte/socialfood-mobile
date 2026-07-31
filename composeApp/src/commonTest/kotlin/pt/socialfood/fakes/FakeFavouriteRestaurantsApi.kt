@@ -45,22 +45,22 @@ class FakeFavouriteRestaurantsApi(private val shouldThrow: Boolean = false) : Fa
     )
 
     override suspend fun markFavourite(restaurantId: String) {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         lastMarkedRestaurantId = restaurantId
     }
 
     override suspend fun unmarkFavourite(restaurantId: String) {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         lastUnmarkedRestaurantId = restaurantId
     }
 
     override suspend fun findFavouriteRestaurants(page: Int, limit: Int): PagedResponse<RestaurantResponse> {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return fakeFavouriteRestaurants
     }
 
     override suspend fun syncFavouriteRestaurants(since: String?): FavouriteSyncResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return fakeSyncResponse
     }
 }

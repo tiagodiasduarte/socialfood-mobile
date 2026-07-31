@@ -6,7 +6,7 @@ import pt.socialfood.data.network.model.place.PlaceResponse
 class FakePlacesApi(private val shouldThrow: Boolean = false) : PlacesApi {
 
     override suspend fun search(query: String): PlaceResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return PlaceResponse(
             results = listOf(
                 PlaceResponse.Place(

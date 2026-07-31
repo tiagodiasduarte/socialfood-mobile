@@ -30,7 +30,7 @@ class FakeAuthorsApi(
         private set
 
     override suspend fun findAuthors(page: Int, limit: Int, query: String?): PagedResponse<AuthorResponse> {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         findAuthorsCallCount++
         lastFindAuthorsPage = page
         return PagedResponse(
@@ -42,7 +42,7 @@ class FakeAuthorsApi(
     }
 
     override suspend fun findAuthorById(id: String): AuthorDetailResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return fakeAuthorDetailResponse
     }
 }

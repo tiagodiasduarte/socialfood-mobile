@@ -20,14 +20,9 @@ Error: No Jira ticket ID provided. Usage: '@jira-planner <TICKET-ID>'.
 
 ## Step 2 — Fetch the ticket
 
-Source `scripts/jira.sh` and call `jira_get_issue` to fetch the ticket details:
+Resolve the Atlassian `cloudId` with `mcp__atlassian__getAccessibleAtlassianResources`, then fetch the ticket with `mcp__atlassian__getJiraIssue` (`issueIdOrKey: <TICKET-ID>`).
 
-```bash
-source ./scripts/jira.sh
-jira_get_issue <TICKET-ID>
-```
-
-If `jira_get_issue` fails to find the ticket (invalid ID, no access, etc.), stop and report the error verbatim — do not proceed with a plan based on assumptions about what the ticket might contain.
+If the issue can't be found (invalid ID, no access, etc.), stop and report the error verbatim — do not proceed with a plan based on assumptions about what the ticket might contain.
 
 ## Step 3 — Analyse the ticket
 

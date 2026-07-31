@@ -11,32 +11,33 @@ import pt.socialfood.domain.model.GuideVisibility
 
 private val defaultFakeAuthor = AuthorResponse(id = "author-id", name = "Author Name", imageUrl = null)
 
-private val defaultFakeGuideDetail = GuideDetailResponse(
-    id = "guide-id",
-    name = "Guide Name",
-    description = "Guide Description",
-    visibility = GuideVisibility.PUBLIC,
-    author = defaultFakeAuthor,
-    restaurants = emptyList(),
-    imageUrl = null,
-)
+private val defaultFakeGuideDetail =
+    GuideDetailResponse(
+        id = "guide-id",
+        name = "Guide Name",
+        description = "Guide Description",
+        visibility = GuideVisibility.PUBLIC,
+        author = defaultFakeAuthor,
+        restaurants = emptyList(),
+        imageUrl = null,
+    )
 
-private val defaultFakeGuideResponse = GuideResponse(
-    id = "guide-id",
-    name = "Guide Name",
-    description = "Guide Description",
-    visibility = GuideVisibility.PUBLIC,
-    author = defaultFakeAuthor,
-    numberOfRestaurants = 0,
-    imageUrl = null,
-)
+private val defaultFakeGuideResponse =
+    GuideResponse(
+        id = "guide-id",
+        name = "Guide Name",
+        description = "Guide Description",
+        visibility = GuideVisibility.PUBLIC,
+        author = defaultFakeAuthor,
+        numberOfRestaurants = 0,
+        imageUrl = null,
+    )
 
 class FakeGuidesApi(
     private val shouldThrow: Boolean = false,
     private val items: List<GuideResponse> = listOf(defaultFakeGuideResponse),
     private val total: Int = 25,
 ) : GuidesApi {
-
     var findGuidesCallCount: Int = 0
         private set
     var lastFindGuidesPage: Int? = null
@@ -44,7 +45,11 @@ class FakeGuidesApi(
     var lastFindGuidesUserId: String? = null
         private set
 
-    override suspend fun create(name: String, description: String, userId: String): GuideDetailResponse {
+    override suspend fun create(
+        name: String,
+        description: String,
+        userId: String,
+    ): GuideDetailResponse {
         if (shouldThrow) throw RuntimeException("test error")
         return defaultFakeGuideDetail
     }
@@ -58,7 +63,12 @@ class FakeGuidesApi(
         return listOf(defaultFakeGuideResponse)
     }
 
-    override suspend fun findGuides(page: Int, limit: Int, query: String?, userId: String?): PagedResponse<GuideResponse> {
+    override suspend fun findGuides(
+        page: Int,
+        limit: Int,
+        query: String?,
+        userId: String?,
+    ): PagedResponse<GuideResponse> {
         if (shouldThrow) throw RuntimeException("test error")
         findGuidesCallCount++
         lastFindGuidesPage = page
@@ -88,7 +98,10 @@ class FakeGuidesApi(
         return defaultFakeGuideDetail
     }
 
-    override suspend fun addRestaurantGuide(guideId: String, placeId: String?): GuideDetailResponse {
+    override suspend fun addRestaurantGuide(
+        guideId: String,
+        placeId: String?,
+    ): GuideDetailResponse {
         if (shouldThrow) throw RuntimeException("test error")
         return defaultFakeGuideDetail
     }
@@ -105,7 +118,10 @@ class FakeGuidesApi(
         )
     }
 
-    override suspend fun addPhoto(guideId: String, imageUrl: String): GuideDetailResponse {
+    override suspend fun addPhoto(
+        guideId: String,
+        imageUrl: String,
+    ): GuideDetailResponse {
         if (shouldThrow) throw RuntimeException("test error")
         return defaultFakeGuideDetail
     }

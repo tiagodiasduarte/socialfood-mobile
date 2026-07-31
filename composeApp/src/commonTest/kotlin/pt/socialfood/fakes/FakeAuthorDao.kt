@@ -12,7 +12,7 @@ class FakeAuthorDao(private val shouldThrowOnWrite: Boolean = false) : AuthorDao
     fun getAll(): List<AuthorEntity> = entities.toList()
 
     override suspend fun upsertAll(authors: List<AuthorEntity>) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         authors.forEach { author ->
             val index = entities.indexOfFirst { it.id == author.id }
             if (index >= 0) entities[index] = author else entities.add(author)
@@ -20,7 +20,7 @@ class FakeAuthorDao(private val shouldThrowOnWrite: Boolean = false) : AuthorDao
     }
 
     override suspend fun deleteAll() {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         entities.clear()
     }
 

@@ -11,13 +11,13 @@ class FakeHomeDao(private val shouldThrowOnWrite: Boolean = false) : HomeDao {
     private val activeFlow = MutableStateFlow<List<HomeSectionEntity>>(emptyList())
 
     override suspend fun upsertAll(sections: List<HomeSectionEntity>) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         sections.forEach { entities[it.id] = it }
         refreshActiveFlow()
     }
 
     override suspend fun deleteAll() {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         entities.clear()
         refreshActiveFlow()
     }

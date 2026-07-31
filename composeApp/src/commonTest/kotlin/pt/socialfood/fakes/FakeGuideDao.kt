@@ -12,7 +12,7 @@ class FakeGuideDao(private val shouldThrowOnWrite: Boolean = false) : GuideDao {
     fun getAll(): List<GuideEntity> = entities.toList()
 
     override suspend fun upsertAll(guides: List<GuideEntity>) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         guides.forEach { guide ->
             val index = entities.indexOfFirst { it.id == guide.id && it.scope == guide.scope }
             if (index >= 0) entities[index] = guide else entities.add(guide)
@@ -20,7 +20,7 @@ class FakeGuideDao(private val shouldThrowOnWrite: Boolean = false) : GuideDao {
     }
 
     override suspend fun deleteByScope(scope: String) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw FakeException("test error")
         entities.removeAll { it.scope == scope }
     }
 

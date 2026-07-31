@@ -22,12 +22,12 @@ class FakeUserApi(private val shouldThrow: Boolean = false) : UserApi {
     )
 
     override suspend fun getUsers(): List<UserResponse> {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return listOf(fakeUserResponse)
     }
 
     override suspend fun findUsers(page: Int, limit: Int, query: String?): PagedResponse<UserResponse> {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return PagedResponse(
             items = listOf(fakeUserResponse),
             page = page,
@@ -37,26 +37,26 @@ class FakeUserApi(private val shouldThrow: Boolean = false) : UserApi {
     }
 
     override suspend fun getUserMe(): UserResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return fakeUserResponse
     }
 
     override suspend fun findById(id: String): UserResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return fakeUserResponse
     }
 
     override suspend fun update(request: UpdateUserRequest, id: String): UserResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return fakeUserResponse
     }
 
     override suspend fun updatePhotoUrl(userId: String, request: UpdateUserPhotoRequest) {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
     }
 
     override suspend fun getPresignedUrl(userId: String, request: PresignedUrlRequest): PresignedUrlResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return PresignedUrlResponse(
             uploadUrl = "https://upload.example.com/user-photo",
             key = "user-photo-key",

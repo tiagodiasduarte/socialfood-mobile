@@ -17,12 +17,12 @@ class FakeHomeApi(
         )
 
     override suspend fun findAll(): List<HomeSectionResponse> {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return listOf(fakeHomeSectionResponse)
     }
 
     override suspend fun findById(id: String): HomeSectionResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return fakeHomeSectionResponse
     }
 
@@ -31,7 +31,7 @@ class FakeHomeApi(
         type: String,
         position: Int,
     ): HomeSectionResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return fakeHomeSectionResponse
     }
 
@@ -43,12 +43,12 @@ class FakeHomeApi(
         restaurantIds: List<String>,
         guideIds: List<String>,
     ): HomeSectionResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return fakeHomeSectionResponse
     }
 
     override suspend fun delete(id: String) {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
     }
 
     override suspend fun addItem(
@@ -57,7 +57,7 @@ class FakeHomeApi(
         itemType: String,
         position: Int,
     ): HomeSectionResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
         return fakeHomeSectionResponse
     }
 
@@ -65,6 +65,6 @@ class FakeHomeApi(
         sectionId: String,
         itemId: String,
     ) {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw FakeException("test error")
     }
 }

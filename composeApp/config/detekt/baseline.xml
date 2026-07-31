@@ -364,43 +364,5 @@
     <ID>UnusedParameter:EditProfilePlaceholder.kt$alpha: Float</ID>
     <ID>UnusedParameter:InformationSection.kt$onClick: () -&gt; Unit = {}</ID>
     <ID>UnusedParameter:ValidateCodeScreen.kt$email: String</ID>
-    <ID>UnusedPrivateMember:AuthorCard.kt$@Preview @Composable private fun AuthorCardPreview()</ID>
-    <ID>UnusedPrivateMember:AuthorCardPlaceholder.kt$@Preview @Composable private fun AuthorCardPlaceholderPreview()</ID>
-    <ID>UnusedPrivateMember:AuthorDetailPlaceholder.kt$@Preview @Composable private fun AuthorDetailPlaceholderPreview()</ID>
-    <ID>UnusedPrivateMember:AuthorDetailScreen.kt$@Preview @Composable private fun AuthorDetailErrorPreview()</ID>
-    <ID>UnusedPrivateMember:AuthorDetailScreen.kt$@Preview @Composable private fun AuthorDetailLoadedPreview()</ID>
-    <ID>UnusedPrivateMember:AuthorDetailScreen.kt$@Preview @Composable private fun AuthorDetailLoadingPreview()</ID>
-    <ID>UnusedPrivateMember:AuthorItemCardPlaceholder.kt$@Composable @Preview private fun AuthorItemCardPlaceholderPreview()</ID>
-    <ID>UnusedPrivateMember:AuthorsPlaceholder.kt$@Preview @Composable private fun AuthorsPlaceholderPreview()</ID>
-    <ID>UnusedPrivateMember:AuthorsScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Preview @Composable private fun AuthorsScreenPreview()</ID>
-    <ID>UnusedPrivateMember:CircularProgressContent.kt$@Preview @Composable private fun CircularProgressContentPreview()</ID>
-    <ID>UnusedPrivateMember:EditProfilePlaceholder.kt$@Preview @Composable private fun EditProfilePlaceholderPreview()</ID>
-    <ID>UnusedPrivateMember:EditProfileScreen.kt$@Preview @Composable private fun EditProfileScreenPreview()</ID>
-    <ID>UnusedPrivateMember:ErrorContent.kt$@Preview @Composable private fun ErrorContentPreview()</ID>
-    <ID>UnusedPrivateMember:FavouriteGuidesPlaceholder.kt$@Preview @Composable private fun FavouriteGuidesPlaceholderPreview()</ID>
-    <ID>UnusedPrivateMember:FavouriteGuidesScreen.kt$@Preview @Composable private fun FavouriteGuidesScreenEmptyPreview()</ID>
-    <ID>UnusedPrivateMember:FavouriteGuidesScreen.kt$@Preview @Composable private fun FavouriteGuidesScreenLoadedPreview()</ID>
-    <ID>UnusedPrivateMember:FavouriteRestaurantsPlaceholder.kt$@Preview @Composable private fun FavouriteRestaurantsPlaceholderPreview()</ID>
-    <ID>UnusedPrivateMember:FavouriteRestaurantsScreen.kt$@Preview @Composable private fun FavouriteRestaurantsScreenEmptyPreview()</ID>
-    <ID>UnusedPrivateMember:FavouriteRestaurantsScreen.kt$@Preview @Composable private fun FavouriteRestaurantsScreenLoadedPreview()</ID>
-    <ID>UnusedPrivateMember:GuideDetailPlaceholder.kt$@Preview @Composable private fun GuideDetailPlaceholderPreview()</ID>
-    <ID>UnusedPrivateMember:GuideRestaurantsCard.kt$@Preview @Composable private fun GuideRestaurantsCardEmptyPreview()</ID>
-    <ID>UnusedPrivateMember:GuideRestaurantsCard.kt$@Preview @Composable private fun GuideRestaurantsCardWithItemsPreview()</ID>
-    <ID>UnusedPrivateMember:GuidesPlaceholder.kt$@Preview @Composable private fun GuidesPlaceholderPreview()</ID>
-    <ID>UnusedPrivateMember:HomePlaceholder.kt$@Preview @Composable private fun HomePlaceholderPreview()</ID>
-    <ID>UnusedPrivateMember:IconTextButton.kt$@Preview @Composable private fun IconTextButtonPreview()</ID>
-    <ID>UnusedPrivateMember:ImportRestaurantDialog.kt$@Preview @Composable private fun ImportRestaurantDialogPreview()</ID>
-    <ID>UnusedPrivateMember:InformationSection.kt$@Preview @Composable private fun InformationSectionPreview()</ID>
-    <ID>UnusedPrivateMember:NoResultsContent.kt$@Preview @Composable private fun NoResultsContentPreview()</ID>
-    <ID>UnusedPrivateMember:OpeningHoursCard.kt$@Preview @Composable private fun OpeningHoursCardPreview()</ID>
-    <ID>UnusedPrivateMember:PlaceItem.kt$@Preview @Composable private fun PlaceItemPreview()</ID>
-    <ID>UnusedPrivateMember:ProfileHeader.kt$@Preview @Composable private fun ProfileHeaderPreview()</ID>
-    <ID>UnusedPrivateMember:ProfileHeaderPlaceholder.kt$@Preview @Composable private fun ProfileHeaderPlaceholderPreview()</ID>
-    <ID>UnusedPrivateMember:ProfilePlaceholder.kt$@Preview @Composable private fun ProfilePlaceholderPreview()</ID>
-    <ID>UnusedPrivateMember:RestaurantDetailPlaceholder.kt$@Preview @Composable private fun RestaurantDetailPlaceholderPreview()</ID>
-    <ID>UnusedPrivateMember:RestaurantDetailScreen.kt$@Preview @Composable private fun RestaurantDetailScreenPreview()</ID>
-    <ID>UnusedPrivateMember:RestaurantItem.kt$@Preview @Composable private fun RestaurantItemPreview()</ID>
-    <ID>UnusedPrivateMember:SocialButtons.kt$@Preview @Composable private fun SocialButtonsPreview()</ID>
-    <ID>UnusedPrivateMember:SocialButtonsPlaceholder.kt$@Preview @Composable private fun SocialButtonsPlaceholderPreview()</ID>
   </CurrentIssues>
 </SmellBaseline>

@@ -1,7 +1,5 @@
 package pt.socialfood.data.repository
 
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.FavouriteRestaurantsApi
 import pt.socialfood.data.local.dao.FavouriteRestaurantDao
@@ -15,6 +13,8 @@ import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.mapper.toFavouriteRestaurant
 import pt.socialfood.mapper.toFavouriteRestaurantEntity
 import pt.socialfood.mapper.toRestaurant
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
 
@@ -27,13 +27,13 @@ class FavouriteRestaurantsRepositoryImpl(
     private val favouriteRestaurantDao: FavouriteRestaurantDao,
     private val settingsRepository: SettingsRepository,
 ) : FavouriteRestaurantsRepository {
-
-    override suspend fun markFavourite(restaurant: Restaurant): Result<Unit> {
-        return try {
-            val entity = restaurant.toFavouriteRestaurantEntity(
-                favouritedAt = currentTimeMillis(),
-                syncState = FavouriteSyncState.PENDING_ADD,
-            )
+    override suspend fun markFavourite(restaurant: Restaurant): Result<Unit> =
+        try {
+            val entity =
+                restaurant.toFavouriteRestaurantEntity(
+                    favouritedAt = currentTimeMillis(),
+                    syncState = FavouriteSyncState.PENDING_ADD,
+                )
             favouriteRestaurantDao.upsert(entity)
 
             try {
@@ -47,10 +47,9 @@ class FavouriteRestaurantsRepositoryImpl(
         } catch (exception: Exception) {
             Result.Error(exception.toErrorEntity())
         }
-    }
 
-    override suspend fun unmarkFavourite(restaurantId: String): Result<Unit> {
-        return try {
+    override suspend fun unmarkFavourite(restaurantId: String): Result<Unit> =
+        try {
             favouriteRestaurantDao.updateSyncState(restaurantId, FavouriteSyncState.PENDING_REMOVE.name)
 
             try {
@@ -64,10 +63,12 @@ class FavouriteRestaurantsRepositoryImpl(
         } catch (exception: Exception) {
             Result.Error(exception.toErrorEntity())
         }
-    }
 
-    override suspend fun getFavouritesPaged(page: Int, limit: Int): Result<PagedFavouriteRestaurants> {
-        return try {
+    override suspend fun getFavouritesPaged(
+        page: Int,
+        limit: Int,
+    ): Result<PagedFavouriteRestaurants> =
+        try {
             val offset = (page - 1) * limit
             val entities = favouriteRestaurantDao.getPaged(limit = limit, offset = offset)
             val total = favouriteRestaurantDao.countAll()
@@ -77,20 +78,18 @@ class FavouriteRestaurantsRepositoryImpl(
                     page = page,
                     total = total,
                     hasMore = page * limit < total,
-                )
+                ),
             )
         } catch (exception: Exception) {
             Result.Error(exception.toErrorEntity())
         }
-    }
 
-    override suspend fun isFavourite(restaurantId: String): Result<Boolean> {
-        return try {
+    override suspend fun isFavourite(restaurantId: String): Result<Boolean> =
+        try {
             Result.Success(favouriteRestaurantDao.getByRestaurantId(restaurantId) != null)
         } catch (exception: Exception) {
             Result.Error(exception.toErrorEntity())
         }
-    }
 
     override suspend fun syncFavourites(): Result<Unit> {
         return try {
@@ -118,19 +117,21 @@ class FavouriteRestaurantsRepositoryImpl(
     private suspend fun pushPendingMutations() {
         favouriteRestaurantDao.getPending().forEach { entity ->
             when (FavouriteSyncState.valueOf(entity.syncState)) {
-                FavouriteSyncState.PENDING_ADD -> try {
-                    favouriteRestaurantsApi.markFavourite(entity.restaurantId)
-                    favouriteRestaurantDao.updateSyncState(entity.restaurantId, FavouriteSyncState.SYNCED.name)
-                } catch (_: Exception) {
-                    // Still offline/failing — retried next sync.
-                }
+                FavouriteSyncState.PENDING_ADD ->
+                    try {
+                        favouriteRestaurantsApi.markFavourite(entity.restaurantId)
+                        favouriteRestaurantDao.updateSyncState(entity.restaurantId, FavouriteSyncState.SYNCED.name)
+                    } catch (_: Exception) {
+                        // Still offline/failing — retried next sync.
+                    }
 
-                FavouriteSyncState.PENDING_REMOVE -> try {
-                    favouriteRestaurantsApi.unmarkFavourite(entity.restaurantId)
-                    favouriteRestaurantDao.deleteByRestaurantId(entity.restaurantId)
-                } catch (_: Exception) {
-                    // Still offline/failing — retried next sync.
-                }
+                FavouriteSyncState.PENDING_REMOVE ->
+                    try {
+                        favouriteRestaurantsApi.unmarkFavourite(entity.restaurantId)
+                        favouriteRestaurantDao.deleteByRestaurantId(entity.restaurantId)
+                    } catch (_: Exception) {
+                        // Still offline/failing — retried next sync.
+                    }
 
                 FavouriteSyncState.SYNCED -> Unit
             }
@@ -146,9 +147,15 @@ class FavouriteRestaurantsRepositoryImpl(
             val addedIds = changes.addedIds.toSet()
             val now = currentTimeMillis()
             val allFavourites = favouriteRestaurantsApi.findFavouriteRestaurants(page = 1, limit = MAX_FAVOURITES_FETCH)
-            val toUpsert = allFavourites.items
-                .filter { it.id in addedIds }
-                .map { it.toRestaurant().toFavouriteRestaurantEntity(favouritedAt = now, syncState = FavouriteSyncState.SYNCED) }
+            val toUpsert =
+                allFavourites.items
+                    .filter { it.id in addedIds }
+                    .map {
+                        it.toRestaurant().toFavouriteRestaurantEntity(
+                            favouritedAt = now,
+                            syncState = FavouriteSyncState.SYNCED,
+                        )
+                    }
             favouriteRestaurantDao.upsertAll(toUpsert)
         }
     }

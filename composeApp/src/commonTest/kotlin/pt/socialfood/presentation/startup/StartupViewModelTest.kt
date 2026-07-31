@@ -15,8 +15,8 @@ import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class StartupViewModelTest {
-
     @Test
+    @Suppress("MaxLineLength")
     fun `given pendingVerificationEmail set and no token when loaded then emits NavigateToValidateCode without calling getUserMe or getConfigs`() =
         runTestWithMainDispatcher {
             // Given
@@ -56,6 +56,7 @@ class StartupViewModelTest {
         }
 
     @Test
+    @Suppress("MaxLineLength")
     fun `given no pendingVerificationEmail and token and unverified user when loaded then emits NavigateToValidateCode`() =
         runTestWithMainDispatcher {
             // Given
@@ -73,7 +74,7 @@ class StartupViewModelTest {
                 assertEquals(StartupUiState.Loading, awaitItem())
                 assertEquals(
                     StartupUiState.NavigateToValidateCode(defaultUser().email),
-                    awaitItem()
+                    awaitItem(),
                 )
             }
         }
@@ -98,6 +99,7 @@ class StartupViewModelTest {
         }
 
     @Test
+    @Suppress("MaxLineLength")
     fun `given stale pendingVerificationEmail and valid token for verified user when loaded then emits NavigateToHome ignoring stale pending flag`() =
         runTestWithMainDispatcher {
             // Given
@@ -138,10 +140,11 @@ class StartupViewModelTest {
             }
         }
 
-    private fun defaultUser(isVerified: Boolean = true) = User(
-        id = "1",
-        email = "john.doe@test.com",
-        name = "John Doe",
-        isVerified = isVerified,
-    )
+    private fun defaultUser(isVerified: Boolean = true) =
+        User(
+            id = "1",
+            email = "john.doe@test.com",
+            name = "John Doe",
+            isVerified = isVerified,
+        )
 }

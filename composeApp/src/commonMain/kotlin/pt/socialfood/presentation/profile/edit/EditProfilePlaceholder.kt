@@ -34,30 +34,37 @@ internal fun EditProfilePlaceholder() {
     val alpha = rememberShimmerAlpha()
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(GreyBackground),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(GreyBackground),
     ) {
         // Top bar skeleton
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(horizontal = SpaceSize.medium, vertical = SpaceSize.medium),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(horizontal = SpaceSize.medium, vertical = SpaceSize.medium),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             ShimmerBox(modifier = Modifier.size(40.dp), alpha = alpha, shape = CircleShape)
             Spacer(Modifier.weight(1f))
             ShimmerBox(modifier = Modifier.width(80.dp).height(20.dp), alpha = alpha)
             Spacer(Modifier.weight(1f))
-            ShimmerBox(modifier = Modifier.width(64.dp).height(36.dp), alpha = alpha, shape = RoundedCornerShape(SpaceSize.large))
+            ShimmerBox(
+                modifier = Modifier.width(64.dp).height(36.dp),
+                alpha = alpha,
+                shape = RoundedCornerShape(SpaceSize.large),
+            )
         }
 
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(SpaceSize.large),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(SpaceSize.large),
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
             // Profile picture card
@@ -102,7 +109,10 @@ internal fun EditProfilePlaceholder() {
 }
 
 @Composable
-private fun SectionCardPlaceholder(alpha: Float, content: @Composable () -> Unit) {
+private fun SectionCardPlaceholder(
+    alpha: Float,
+    content: @Composable () -> Unit,
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(SpaceSize.large),

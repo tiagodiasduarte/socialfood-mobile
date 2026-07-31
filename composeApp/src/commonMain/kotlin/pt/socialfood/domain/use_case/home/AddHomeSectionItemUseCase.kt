@@ -5,5 +5,10 @@ import pt.socialfood.domain.model.HomeItemType
 import pt.socialfood.domain.model.HomeSection
 
 interface AddHomeSectionItemUseCase {
-    suspend operator fun invoke(sectionId: String, itemId: String, itemType: HomeItemType, position: Int): Result<HomeSection>
+    suspend operator fun invoke(
+        sectionId: String,
+        itemId: String,
+        itemType: HomeItemType,
+        position: Int,
+    ): Result<HomeSection>
 }

@@ -19,34 +19,35 @@ import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RestaurantDetailViewModelTest {
-
-    private val fakeRestaurant = Restaurant(
-        id = "restaurant-id",
-        name = "Restaurant Name",
-        description = "Restaurant Description",
-        city = "Lisbon",
-        country = "Portugal",
-        countryCode = "PT",
-        postalCode = "1000-000",
-        photoNames = emptyList(),
-        address = "Rua Augusta 1",
-        rating = 4.5,
-        userRatingCount = 100,
-        websiteUrl = null,
-        phoneNumber = "+351910000000",
-    )
+    private val fakeRestaurant =
+        Restaurant(
+            id = "restaurant-id",
+            name = "Restaurant Name",
+            description = "Restaurant Description",
+            city = "Lisbon",
+            country = "Portugal",
+            countryCode = "PT",
+            postalCode = "1000-000",
+            photoNames = emptyList(),
+            address = "Rua Augusta 1",
+            rating = 4.5,
+            userRatingCount = 100,
+            websiteUrl = null,
+            phoneNumber = "+351910000000",
+        )
 
     @Test
     fun `given restaurant is already a favourite when loaded then state reflects isFavourite true`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = RestaurantDetailViewModel(
-                getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
-                isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(true)),
-                markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(),
-                unmarkRestaurantFavourite = FakeUnmarkRestaurantFavouriteUseCase(),
-                restaurantId = fakeRestaurant.id,
-            )
+            val vm =
+                RestaurantDetailViewModel(
+                    getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
+                    isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(true)),
+                    markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(),
+                    unmarkRestaurantFavourite = FakeUnmarkRestaurantFavouriteUseCase(),
+                    restaurantId = fakeRestaurant.id,
+                )
 
             // When / Then
             vm.state.test {
@@ -57,17 +58,19 @@ class RestaurantDetailViewModelTest {
         }
 
     @Test
+    @Suppress("MaxLineLength")
     fun `given restaurant is not a favourite when toggleFavourite is called then flips isFavourite optimistically and calls mark`() =
         runTestWithMainDispatcher {
             // Given
             val mark = FakeMarkRestaurantFavouriteUseCase()
-            val vm = RestaurantDetailViewModel(
-                getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
-                isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
-                markRestaurantFavourite = mark,
-                unmarkRestaurantFavourite = FakeUnmarkRestaurantFavouriteUseCase(),
-                restaurantId = fakeRestaurant.id,
-            )
+            val vm =
+                RestaurantDetailViewModel(
+                    getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
+                    isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
+                    markRestaurantFavourite = mark,
+                    unmarkRestaurantFavourite = FakeUnmarkRestaurantFavouriteUseCase(),
+                    restaurantId = fakeRestaurant.id,
+                )
 
             // When / Then
             vm.state.test {
@@ -93,13 +96,14 @@ class RestaurantDetailViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val unmark = FakeUnmarkRestaurantFavouriteUseCase()
-            val vm = RestaurantDetailViewModel(
-                getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
-                isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(true)),
-                markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(),
-                unmarkRestaurantFavourite = unmark,
-                restaurantId = fakeRestaurant.id,
-            )
+            val vm =
+                RestaurantDetailViewModel(
+                    getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
+                    isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(true)),
+                    markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(),
+                    unmarkRestaurantFavourite = unmark,
+                    restaurantId = fakeRestaurant.id,
+                )
 
             // When / Then
             vm.state.test {
@@ -124,13 +128,14 @@ class RestaurantDetailViewModelTest {
     fun `given mark fails when toggleFavourite is called then reverts the optimistic flip`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = RestaurantDetailViewModel(
-                getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
-                isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
-                markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(Result.Error(ErrorEntity.Unknown)),
-                unmarkRestaurantFavourite = FakeUnmarkRestaurantFavouriteUseCase(),
-                restaurantId = fakeRestaurant.id,
-            )
+            val vm =
+                RestaurantDetailViewModel(
+                    getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
+                    isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
+                    markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(Result.Error(ErrorEntity.Unknown)),
+                    unmarkRestaurantFavourite = FakeUnmarkRestaurantFavouriteUseCase(),
+                    restaurantId = fakeRestaurant.id,
+                )
 
             // When / Then
             vm.state.test {

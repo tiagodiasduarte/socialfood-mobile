@@ -8,6 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.edit_guide_details_description_error
 import socialfood.composeapp.generated.resources.edit_guide_details_public_image_warning
@@ -15,8 +17,6 @@ import socialfood.composeapp.generated.resources.edit_guide_details_public_resta
 import socialfood.composeapp.generated.resources.edit_guide_details_title_error
 import socialfood.composeapp.generated.resources.edit_guide_validation_error_dialog_ok
 import socialfood.composeapp.generated.resources.edit_guide_validation_error_dialog_title
-import pt.socialfood.domain.error.ErrorEntity
-import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
 fun GuideValidationErrorDialog(
@@ -45,9 +45,14 @@ fun GuideValidationErrorDialog(
 }
 
 @Composable
-fun ErrorEntity.Validation.message(): String = when (this) {
-    ErrorEntity.Validation.EmptyTitle -> stringResource(Res.string.edit_guide_details_title_error)
-    ErrorEntity.Validation.EmptyDescription -> stringResource(Res.string.edit_guide_details_description_error)
-    ErrorEntity.Validation.PublicGuideNeedsMoreRestaurants -> stringResource(Res.string.edit_guide_details_public_restaurants_warning)
-    ErrorEntity.Validation.PublicGuideNeedsImage -> stringResource(Res.string.edit_guide_details_public_image_warning)
-}
+fun ErrorEntity.Validation.message(): String =
+    when (this) {
+        ErrorEntity.Validation.EmptyTitle -> stringResource(Res.string.edit_guide_details_title_error)
+        ErrorEntity.Validation.EmptyDescription -> stringResource(Res.string.edit_guide_details_description_error)
+        ErrorEntity.Validation.PublicGuideNeedsMoreRestaurants ->
+            stringResource(Res.string.edit_guide_details_public_restaurants_warning)
+        ErrorEntity.Validation.PublicGuideNeedsImage ->
+            stringResource(
+                Res.string.edit_guide_details_public_image_warning,
+            )
+    }

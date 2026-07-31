@@ -8,6 +8,10 @@ import pt.socialfood.domain.repository.HomeRepository
 class AddHomeSectionItemUseCaseImpl(
     private val repository: HomeRepository,
 ) : AddHomeSectionItemUseCase {
-    override suspend operator fun invoke(sectionId: String, itemId: String, itemType: HomeItemType, position: Int): Result<HomeSection> =
-        repository.addItem(sectionId, itemId, itemType, position)
+    override suspend operator fun invoke(
+        sectionId: String,
+        itemId: String,
+        itemType: HomeItemType,
+        position: Int,
+    ): Result<HomeSection> = repository.addItem(sectionId, itemId, itemType, position)
 }

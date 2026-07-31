@@ -17,7 +17,6 @@ import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SignInViewModelTest {
-
     private fun createViewModel(loginResult: Result<String>): SignInViewModel {
         val sessionManager = SessionManager(FakeSettingsRepository())
         val fakeRepo = FakeAuthRepository(loginResult)
@@ -27,85 +26,90 @@ class SignInViewModelTest {
     }
 
     @Test
-    fun `given a new view model when created then state is Idle`() = runTest {
-        // Given
-        val vm = createViewModel(Result.Success("token"))
+    fun `given a new view model when created then state is Idle`() =
+        runTest {
+            // Given
+            val vm = createViewModel(Result.Success("token"))
 
-        // When / Then
-        vm.state.test {
-            assertEquals(SignInUiState.Idle, awaitItem())
+            // When / Then
+            vm.state.test {
+                assertEquals(SignInUiState.Idle, awaitItem())
+            }
         }
-    }
 
     @Test
-    fun `given an empty email when sign in is called then state is InvalidCredentials error`() = runTestWithMainDispatcher {
-        // Given
-        val vm = createViewModel(Result.Success("token"))
+    fun `given an empty email when sign in is called then state is InvalidCredentials error`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm = createViewModel(Result.Success("token"))
 
-        vm.state.test {
-            assertEquals(SignInUiState.Idle, awaitItem())
+            vm.state.test {
+                assertEquals(SignInUiState.Idle, awaitItem())
 
-            // When
-            vm.onSignIn("", "password")
+                // When
+                vm.onSignIn("", "password")
 
-            // Then
-            val state = awaitItem()
-            assertIs<SignInUiState.Error>(state)
-            assertEquals(ErrorEntity.InvalidCredentials, state.error)
+                // Then
+                val state = awaitItem()
+                assertIs<SignInUiState.Error>(state)
+                assertEquals(ErrorEntity.InvalidCredentials, state.error)
+            }
         }
-    }
 
     @Test
-    fun `given an empty password when sign in is called then state is InvalidCredentials error`() = runTestWithMainDispatcher {
-        // Given
-        val vm = createViewModel(Result.Success("token"))
+    fun `given an empty password when sign in is called then state is InvalidCredentials error`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm = createViewModel(Result.Success("token"))
 
-        vm.state.test {
-            assertEquals(SignInUiState.Idle, awaitItem())
+            vm.state.test {
+                assertEquals(SignInUiState.Idle, awaitItem())
 
-            // When
-            vm.onSignIn("user@test.com", "")
+                // When
+                vm.onSignIn("user@test.com", "")
 
-            // Then
-            val state = awaitItem()
-            assertIs<SignInUiState.Error>(state)
-            assertEquals(ErrorEntity.InvalidCredentials, state.error)
+                // Then
+                val state = awaitItem()
+                assertIs<SignInUiState.Error>(state)
+                assertEquals(ErrorEntity.InvalidCredentials, state.error)
+            }
         }
-    }
 
     @Test
-    fun `given valid credentials when sign in is called then state is Success`() = runTestWithMainDispatcher {
-        // Given
-        val vm = createViewModel(Result.Success("token"))
+    fun `given valid credentials when sign in is called then state is Success`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm = createViewModel(Result.Success("token"))
 
-        vm.state.test {
-            assertEquals(SignInUiState.Idle, awaitItem())
+            vm.state.test {
+                assertEquals(SignInUiState.Idle, awaitItem())
 
-            // When
-            vm.onSignIn("user@test.com", "password")
+                // When
+                vm.onSignIn("user@test.com", "password")
 
-            // Then
-            assertEquals(SignInUiState.Loading, awaitItem())
-            assertEquals(SignInUiState.Success, awaitItem())
+                // Then
+                assertEquals(SignInUiState.Loading, awaitItem())
+                assertEquals(SignInUiState.Success, awaitItem())
+            }
         }
-    }
 
     @Test
-    fun `given a failing sign in when sign in is called then state is Unknown error`() = runTestWithMainDispatcher {
-        // Given
-        val vm = createViewModel(Result.Error(ErrorEntity.Unknown))
+    fun `given a failing sign in when sign in is called then state is Unknown error`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm = createViewModel(Result.Error(ErrorEntity.Unknown))
 
-        vm.state.test {
-            assertEquals(SignInUiState.Idle, awaitItem())
+            vm.state.test {
+                assertEquals(SignInUiState.Idle, awaitItem())
 
-            // When
-            vm.onSignIn("user@test.com", "password")
+                // When
+                vm.onSignIn("user@test.com", "password")
 
-            // Then
-            assertEquals(SignInUiState.Loading, awaitItem())
-            val state = awaitItem()
-            assertIs<SignInUiState.Error>(state)
-            assertEquals(ErrorEntity.Unknown, state.error)
+                // Then
+                assertEquals(SignInUiState.Loading, awaitItem())
+                val state = awaitItem()
+                assertIs<SignInUiState.Error>(state)
+                assertEquals(ErrorEntity.Unknown, state.error)
+            }
         }
-    }
 }

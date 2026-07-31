@@ -2,6 +2,7 @@ package pt.socialfood.fakes
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import androidx.sqlite.SQLiteException
 import pt.socialfood.data.local.dao.AuthorDao
 import pt.socialfood.data.local.entity.AuthorEntity
 
@@ -12,7 +13,7 @@ class FakeAuthorDao(private val shouldThrowOnWrite: Boolean = false) : AuthorDao
     fun getAll(): List<AuthorEntity> = entities.toList()
 
     override suspend fun upsertAll(authors: List<AuthorEntity>) {
-        if (shouldThrowOnWrite) throw FakeException("test error")
+        if (shouldThrowOnWrite) throw SQLiteException("test error")
         authors.forEach { author ->
             val index = entities.indexOfFirst { it.id == author.id }
             if (index >= 0) entities[index] = author else entities.add(author)
@@ -20,7 +21,7 @@ class FakeAuthorDao(private val shouldThrowOnWrite: Boolean = false) : AuthorDao
     }
 
     override suspend fun deleteAll() {
-        if (shouldThrowOnWrite) throw FakeException("test error")
+        if (shouldThrowOnWrite) throw SQLiteException("test error")
         entities.clear()
     }
 

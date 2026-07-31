@@ -1,9 +1,10 @@
 package pt.socialfood.data.repository
 
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
+import androidx.sqlite.SQLiteException
+import io.ktor.client.plugins.ResponseException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.io.IOException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.FavouritesApi
 import pt.socialfood.data.local.dao.FavouriteDao
@@ -17,6 +18,8 @@ import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.mapper.toFavouriteGuide
 import pt.socialfood.mapper.toFavouriteGuideEntity
 import pt.socialfood.mapper.toGuide
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
 
@@ -46,8 +49,8 @@ class FavouritesRepositoryImpl(
             }
 
             Result.Success(Unit)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: SQLiteException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -63,8 +66,8 @@ class FavouritesRepositoryImpl(
             }
 
             Result.Success(Unit)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: SQLiteException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -79,18 +82,18 @@ class FavouritesRepositoryImpl(
                     page = page,
                     total = total,
                     hasMore = page * limit < total,
-                )
+                ),
             )
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: SQLiteException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
     override suspend fun isFavourite(guideId: String): Result<Boolean> {
         return try {
             Result.Success(favouriteDao.getByGuideId(guideId) != null)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: SQLiteException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -115,8 +118,12 @@ class FavouritesRepositoryImpl(
 
             settingsRepository.saveFavouritesSyncCheckpoint(changes.nextCheckpoint)
             Result.Success(Unit)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: SQLiteException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 

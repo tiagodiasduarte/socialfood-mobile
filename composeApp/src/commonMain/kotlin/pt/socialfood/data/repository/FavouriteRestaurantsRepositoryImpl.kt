@@ -1,5 +1,8 @@
 package pt.socialfood.data.repository
 
+import androidx.sqlite.SQLiteException
+import io.ktor.client.plugins.ResponseException
+import kotlinx.io.IOException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.FavouriteRestaurantsApi
 import pt.socialfood.data.local.dao.FavouriteRestaurantDao
@@ -44,8 +47,8 @@ class FavouriteRestaurantsRepositoryImpl(
             }
 
             Result.Success(Unit)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: SQLiteException) {
+            Result.Error(e.toErrorEntity())
         }
 
     override suspend fun unmarkFavourite(restaurantId: String): Result<Unit> =
@@ -60,8 +63,8 @@ class FavouriteRestaurantsRepositoryImpl(
             }
 
             Result.Success(Unit)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: SQLiteException) {
+            Result.Error(e.toErrorEntity())
         }
 
     override suspend fun getFavouritesPaged(
@@ -80,15 +83,15 @@ class FavouriteRestaurantsRepositoryImpl(
                     hasMore = page * limit < total,
                 ),
             )
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: SQLiteException) {
+            Result.Error(e.toErrorEntity())
         }
 
     override suspend fun isFavourite(restaurantId: String): Result<Boolean> =
         try {
             Result.Success(favouriteRestaurantDao.getByRestaurantId(restaurantId) != null)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: SQLiteException) {
+            Result.Error(e.toErrorEntity())
         }
 
     override suspend fun syncFavourites(): Result<Unit> {
@@ -109,8 +112,12 @@ class FavouriteRestaurantsRepositoryImpl(
 
             settingsRepository.saveFavouriteRestaurantsSyncCheckpoint(changes.nextCheckpoint)
             Result.Success(Unit)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: SQLiteException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 

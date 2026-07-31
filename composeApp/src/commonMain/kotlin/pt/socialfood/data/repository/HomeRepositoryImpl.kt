@@ -1,5 +1,6 @@
 package pt.socialfood.data.repository
 
+import androidx.sqlite.SQLiteException
 import io.ktor.client.plugins.ResponseException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -29,14 +30,22 @@ class HomeRepositoryImpl(
                 homeDao.upsertAll(response.map { it.toHomeSectionEntity() })
             }
             Result.Success(response.map { it.toHomeSection() })
-        } catch (e: Exception) {
-            val cached = homeDao.getAllActive()
-            if (cached.isNotEmpty()) {
-                Result.Success(cached.map { it.toHomeSection() })
-            } else {
-                Result.Error(e.toErrorEntity())
-            }
+        } catch (e: IOException) {
+            fallbackToCache(e)
+        } catch (e: ResponseException) {
+            fallbackToCache(e)
+        } catch (e: SQLiteException) {
+            fallbackToCache(e)
         }
+
+    private suspend fun fallbackToCache(exception: Throwable): Result<List<HomeSection>> {
+        val cached = homeDao.getAllActive()
+        return if (cached.isNotEmpty()) {
+            Result.Success(cached.map { it.toHomeSection() })
+        } else {
+            Result.Error(exception.toErrorEntity())
+        }
+    }
 
     override fun observeHomeSections(): Flow<List<HomeSection>> =
         homeDao.observeActive().map { entities -> entities.map { it.toHomeSection() } }

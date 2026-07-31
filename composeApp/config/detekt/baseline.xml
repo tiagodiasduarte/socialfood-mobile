@@ -141,8 +141,6 @@
     <ID>ReturnCount:GuideValidation.kt$internal fun validateGuideInput( title: String, description: String, visibility: GuideVisibility, restaurantIds: List&lt;String&gt;? = null, requireDescription: Boolean = true, ): ErrorEntity.Validation?</ID>
     <ID>ReturnCount:UpdateGuideUseCaseImpl.kt$UpdateGuideUseCaseImpl$override suspend operator fun invoke( id: String, title: String, description: String, restaurantIds: List&lt;String&gt;, visibility: GuideVisibility, ): Result&lt;Guide&gt;</ID>
     <ID>TooGenericExceptionCaught:AuthorRemoteMediator.kt$AuthorRemoteMediator$exception: Exception</ID>
-    <ID>TooGenericExceptionCaught:FavouriteRestaurantsRepositoryImpl.kt$FavouriteRestaurantsRepositoryImpl$exception: Exception</ID>
-    <ID>TooGenericExceptionCaught:FavouritesRepositoryImpl.kt$FavouritesRepositoryImpl$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:GoogleSignInLauncher.android.kt$e: Exception</ID>
     <ID>TooGenericExceptionCaught:GuideRemoteMediator.kt$GuideRemoteMediator$exception: Exception</ID>
     <ID>TooGenericExceptionCaught:HomeRepositoryImpl.kt$HomeRepositoryImpl$e: Exception</ID>

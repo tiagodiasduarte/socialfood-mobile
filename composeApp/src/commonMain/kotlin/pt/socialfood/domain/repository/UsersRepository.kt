@@ -28,7 +28,6 @@ interface UsersRepository {
     @Suppress("LongParameterList")
     suspend fun update(
         id: String,
-        role: String? = null,
         imageUrl: String? = null,
         name: String? = null,
         username: String? = null,

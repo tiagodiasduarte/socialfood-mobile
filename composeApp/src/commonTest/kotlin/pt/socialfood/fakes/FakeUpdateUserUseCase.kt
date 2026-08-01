@@ -12,7 +12,6 @@ class FakeUpdateUserUseCase(
 
     override suspend fun invoke(
         id: String,
-        role: String?,
         imageUrl: String?,
         name: String?,
         username: String?,

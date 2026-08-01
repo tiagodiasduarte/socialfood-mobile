@@ -51,7 +51,6 @@ class EditProfileViewModel(
                     val user = result.data
                     _state.value = EditProfileUiState.Loaded(
                         userId = user.id,
-                        role = user.role.name,
                         name = user.name,
                         username = user.username,
                         facebookUrl = user.facebookUrl.orEmpty(),
@@ -121,7 +120,6 @@ class EditProfileViewModel(
             val current = _state.value as? EditProfileUiState.Loaded ?: return@launch
             when (updateUser(
                 id = current.userId,
-                role = current.role,
                 name = current.name.ifBlank { null },
                 username = current.username.ifBlank { null },
                 facebookUrl = current.facebookUrl.ifBlank { null },

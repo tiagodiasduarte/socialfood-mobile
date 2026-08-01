@@ -9,7 +9,6 @@ class UpdateUserUseCaseImpl(
 ) : UpdateUserUseCase {
     override suspend operator fun invoke(
         id: String,
-        role: String?,
         imageUrl: String?,
         name: String?,
         username: String?,
@@ -18,7 +17,6 @@ class UpdateUserUseCaseImpl(
         youtubeUrl: String?,
     ): Result<User> = repository.update(
         id = id,
-        role = role,
         imageUrl = imageUrl,
         name = name,
         username = username,

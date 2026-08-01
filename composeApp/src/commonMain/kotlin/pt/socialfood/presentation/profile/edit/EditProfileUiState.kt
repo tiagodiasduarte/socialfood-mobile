@@ -7,7 +7,6 @@ sealed interface EditProfileUiState {
         val saveSuccess: Boolean = false,
         val isUploadingPhoto: Boolean = false,
         val userId: String = "",
-        val role: String = "",
         val name: String = "",
         val username: String = "",
         val facebookUrl: String = "",

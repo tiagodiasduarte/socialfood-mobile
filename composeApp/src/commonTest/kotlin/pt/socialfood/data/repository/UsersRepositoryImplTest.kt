@@ -159,7 +159,6 @@ class UsersRepositoryImplTest {
             val result =
                 repo.update(
                     id = "user-id",
-                    role = "USER",
                     imageUrl = null,
                     name = "Test User",
                     username = "testuser",
@@ -185,7 +184,6 @@ class UsersRepositoryImplTest {
             val result =
                 repo.update(
                     id = "user-id",
-                    role = null,
                     imageUrl = null,
                     name = null,
                     username = null,

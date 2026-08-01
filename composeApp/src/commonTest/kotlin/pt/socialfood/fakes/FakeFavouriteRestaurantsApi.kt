@@ -42,7 +42,7 @@ class FakeFavouriteRestaurantsApi(private val shouldThrow: Boolean = false) : Fa
     var fakeSyncResponse = FavouriteSyncResponse(
         addedIds = listOf(fakeRestaurantResponse.id),
         removedIds = emptyList(),
-        nextCheckpoint = "checkpoint-1",
+        lastUpdate = "checkpoint-1",
     )
 
     override suspend fun markFavourite(restaurantId: String) {

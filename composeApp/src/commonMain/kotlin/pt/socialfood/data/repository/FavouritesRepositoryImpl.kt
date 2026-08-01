@@ -116,7 +116,7 @@ class FavouritesRepositoryImpl(
 
             applyChanges(changes)
 
-            settingsRepository.saveFavouritesSyncCheckpoint(changes.nextCheckpoint)
+            settingsRepository.saveFavouritesSyncCheckpoint(changes.lastUpdate)
             Result.Success(Unit)
         } catch (e: IOException) {
             Result.Error(e.toErrorEntity())

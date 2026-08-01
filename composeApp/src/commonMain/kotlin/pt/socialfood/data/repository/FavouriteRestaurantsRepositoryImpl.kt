@@ -110,7 +110,7 @@ class FavouriteRestaurantsRepositoryImpl(
 
             applyChanges(changes)
 
-            settingsRepository.saveFavouriteRestaurantsSyncCheckpoint(changes.nextCheckpoint)
+            settingsRepository.saveFavouriteRestaurantsSyncCheckpoint(changes.lastUpdate)
             Result.Success(Unit)
         } catch (e: IOException) {
             Result.Error(e.toErrorEntity())

@@ -38,7 +38,7 @@ class FakeFavouritesApi(private val shouldThrow: Boolean = false) : FavouritesAp
     var fakeSyncResponse = FavouriteSyncResponse(
         addedIds = listOf(fakeGuideResponse.id),
         removedIds = emptyList(),
-        nextCheckpoint = "checkpoint-1",
+        lastUpdate = "checkpoint-1",
     )
 
     override suspend fun markFavourite(guideId: String) {

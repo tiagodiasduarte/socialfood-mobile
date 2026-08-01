@@ -1771,7 +1771,7 @@
         <error line="45" column="26" source="standard:multiline-expression-wrapping" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/NavigationRoot.kt">
-        <error line="46" column="5" source="standard:function-naming" />
+        <error line="43" column="5" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/NavigationState.kt">
         <error line="28" column="54" source="standard:trailing-comma-on-declaration-site" />

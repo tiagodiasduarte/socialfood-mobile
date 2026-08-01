@@ -13,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import kotlinx.coroutines.NonCancellable.key
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.mp.KoinPlatform.getKoin
@@ -21,7 +20,6 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.author.detail.AuthorDetailScreen
 import pt.socialfood.presentation.author.detail.AuthorDetailViewModel
 import pt.socialfood.presentation.author.list.AuthorsScreen
-import pt.socialfood.presentation.author.list.AuthorsViewModel
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesScreen
 import pt.socialfood.presentation.favourite.restaurant.FavouriteRestaurantsScreen
 import pt.socialfood.presentation.guide.create.CreateGuideScreen
@@ -31,7 +29,6 @@ import pt.socialfood.presentation.guide.detail.GuideDetailViewModel
 import pt.socialfood.presentation.guide.edit.EditGuideScreen
 import pt.socialfood.presentation.guide.edit.EditGuideViewModel
 import pt.socialfood.presentation.guide.list.GuidesScreen
-import pt.socialfood.presentation.guide.list.GuidesViewModel
 import pt.socialfood.presentation.home.HomeScreen
 import pt.socialfood.presentation.profile.ProfileScreen
 import pt.socialfood.presentation.profile.edit.EditProfileScreen
@@ -115,17 +112,13 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             )
                         }
                         entry<Route.Guides> {
-                            val vm = remember(key) { getKoin().get<GuidesViewModel>() }
                             GuidesScreen(
-                                viewModel = vm,
                                 onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                                 onAddClick = { navigator.navigate(Route.CreateGuide) },
                             )
                         }
                         entry<Route.Authors> {
-                            val vm = remember(key) { getKoin().get<AuthorsViewModel>() }
                             AuthorsScreen(
-                                viewModel = vm,
                                 onAuthorClick = { authorId ->
                                     navigator.navigate(
                                         Route.AuthorDetail(

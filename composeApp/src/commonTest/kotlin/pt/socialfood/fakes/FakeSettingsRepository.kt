@@ -6,9 +6,9 @@ class FakeSettingsRepository : SettingsRepository {
 
     private var token: String? = null
     private var pendingVerificationEmail: String? = null
-    private var favouritesSyncCheckpoint: String? = null
+    private var lastFavouritesSyncUpdate: String? = null
     private var lastFavouritesSyncAttemptAt: Long? = null
-    private var favouriteRestaurantsSyncCheckpoint: String? = null
+    private var lastFavouriteRestaurantsSyncUpdate: String? = null
     private var lastFavouriteRestaurantsSyncAttemptAt: Long? = null
 
     override suspend fun getToken(): String? = token
@@ -31,10 +31,10 @@ class FakeSettingsRepository : SettingsRepository {
         pendingVerificationEmail = null
     }
 
-    override suspend fun getFavouritesSyncCheckpoint(): String? = favouritesSyncCheckpoint
+    override suspend fun getLastFavouritesSyncUpdate(): String? = lastFavouritesSyncUpdate
 
-    override suspend fun saveFavouritesSyncCheckpoint(checkpoint: String) {
-        favouritesSyncCheckpoint = checkpoint
+    override suspend fun saveLastFavouritesSyncUpdate(lastUpdate: String) {
+        lastFavouritesSyncUpdate = lastUpdate
     }
 
     override suspend fun getLastFavouritesSyncAttemptAt(): Long? = lastFavouritesSyncAttemptAt
@@ -43,10 +43,10 @@ class FakeSettingsRepository : SettingsRepository {
         lastFavouritesSyncAttemptAt = timestamp
     }
 
-    override suspend fun getFavouriteRestaurantsSyncCheckpoint(): String? = favouriteRestaurantsSyncCheckpoint
+    override suspend fun getLastFavouriteRestaurantsSyncUpdate(): String? = lastFavouriteRestaurantsSyncUpdate
 
-    override suspend fun saveFavouriteRestaurantsSyncCheckpoint(checkpoint: String) {
-        favouriteRestaurantsSyncCheckpoint = checkpoint
+    override suspend fun saveLastFavouriteRestaurantsSyncUpdate(lastUpdate: String) {
+        lastFavouriteRestaurantsSyncUpdate = lastUpdate
     }
 
     override suspend fun getLastFavouriteRestaurantsSyncAttemptAt(): Long? = lastFavouriteRestaurantsSyncAttemptAt

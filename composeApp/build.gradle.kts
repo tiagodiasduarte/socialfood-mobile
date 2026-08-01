@@ -6,7 +6,7 @@ import java.util.Properties
 
 val appId = "pt.socialfood"
 val appNamespace = "pt.socialfood"
-val appVersionName = "0.1.0"
+val appVersionName = "1.0.0"
 val buildDateKey = "BUILD_DATE"
 val githubActionsKey = "GITHUB_ACTIONS"
 val githubRunNumberKey = "GITHUB_RUN_NUMBER"

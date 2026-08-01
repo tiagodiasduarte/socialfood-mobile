@@ -21,11 +21,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Restaurant
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -43,6 +46,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -50,9 +54,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.presentation.google.rememberGoogleSignInLauncher
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.app_name
 import socialfood.composeapp.generated.resources.google_icon
+import socialfood.composeapp.generated.resources.hide_password_content_description
+import socialfood.composeapp.generated.resources.show_password_content_description
 import socialfood.composeapp.generated.resources.sign_in_button
 import socialfood.composeapp.generated.resources.sign_in_continue_with_google_label
 import socialfood.composeapp.generated.resources.sign_in_email_label
@@ -65,9 +74,6 @@ import socialfood.composeapp.generated.resources.sign_in_password_placeholder_la
 import socialfood.composeapp.generated.resources.sign_in_sign_up_button
 import socialfood.composeapp.generated.resources.sign_in_subtitle_label
 import socialfood.composeapp.generated.resources.sign_in_title_label
-import pt.socialfood.presentation.google.rememberGoogleSignInLauncher
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
 fun SignInScreen(
@@ -84,10 +90,11 @@ fun SignInScreen(
         }
     }
 
-    val googleSignInLauncher = rememberGoogleSignInLauncher(
-        onIdToken = { idToken -> viewModel.onGoogleSignIn(idToken) },
-        onError = { message -> viewModel.onGoogleSignInError(message) },
-    )
+    val googleSignInLauncher =
+        rememberGoogleSignInLauncher(
+            onIdToken = { idToken -> viewModel.onGoogleSignIn(idToken) },
+            onError = { message -> viewModel.onGoogleSignInError(message) },
+        )
 
     SignInScreenContent(
         state = state,
@@ -106,7 +113,8 @@ private fun SignInScreenContent(
 ) {
     when (state) {
         is SignInUiState.Error,
-        SignInUiState.Idle -> {
+        SignInUiState.Idle,
+        -> {
             SignInFormView(
                 state = state,
                 onSignInClick = onSignInClick,
@@ -116,7 +124,8 @@ private fun SignInScreenContent(
         }
 
         SignInUiState.Loading,
-        SignInUiState.Success -> SignInLoadingView()
+        SignInUiState.Success,
+        -> SignInLoadingView()
     }
 }
 
@@ -129,22 +138,25 @@ private fun SignInFormView(
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
 
     val colorScheme = MaterialTheme.colorScheme
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colorScheme.background)
-            .padding(horizontal = SpaceSize.large)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(colorScheme.background)
+                .padding(horizontal = SpaceSize.large),
     ) {
         Column(Modifier.align(Alignment.Center)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
-                    modifier = Modifier
-                        .size(52.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(colorScheme.primary),
+                    modifier =
+                        Modifier
+                            .size(52.dp)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(colorScheme.primary),
                     contentAlignment = Alignment.Center,
                 ) {
                     Icon(
@@ -210,10 +222,11 @@ private fun SignInFormView(
                     )
                 },
                 shape = RoundedCornerShape(12.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedBorderColor = colorScheme.outlineVariant,
-                    focusedBorderColor = colorScheme.primary,
-                ),
+                colors =
+                    OutlinedTextFieldDefaults.colors(
+                        unfocusedBorderColor = colorScheme.outlineVariant,
+                        focusedBorderColor = colorScheme.primary,
+                    ),
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -238,7 +251,12 @@ private fun SignInFormView(
                     )
                 },
                 singleLine = true,
-                visualTransformation = PasswordVisualTransformation(),
+                visualTransformation =
+                    if (passwordVisible) {
+                        VisualTransformation.None
+                    } else {
+                        PasswordVisualTransformation()
+                    },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 leadingIcon = {
                     Icon(
@@ -248,11 +266,33 @@ private fun SignInFormView(
                         modifier = Modifier.size(20.dp),
                     )
                 },
+                trailingIcon = {
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(
+                            imageVector =
+                                if (passwordVisible) {
+                                    Icons.Default.VisibilityOff
+                                } else {
+                                    Icons.Default.Visibility
+                                },
+                            contentDescription =
+                                stringResource(
+                                    if (passwordVisible) {
+                                        Res.string.hide_password_content_description
+                                    } else {
+                                        Res.string.show_password_content_description
+                                    },
+                                ),
+                            tint = colorScheme.outline,
+                        )
+                    }
+                },
                 shape = RoundedCornerShape(12.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedBorderColor = colorScheme.outlineVariant,
-                    focusedBorderColor = colorScheme.primary,
-                ),
+                colors =
+                    OutlinedTextFieldDefaults.colors(
+                        unfocusedBorderColor = colorScheme.outlineVariant,
+                        focusedBorderColor = colorScheme.primary,
+                    ),
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -269,14 +309,16 @@ private fun SignInFormView(
 
             Button(
                 onClick = { onSignInClick(email, password) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
                 shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colorScheme.primary,
-                    contentColor = colorScheme.onPrimary,
-                ),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = colorScheme.primary,
+                        contentColor = colorScheme.onPrimary,
+                    ),
             ) {
                 Text(
                     text = stringResource(Res.string.sign_in_button),
@@ -294,7 +336,7 @@ private fun SignInFormView(
             ) {
                 HorizontalDivider(
                     modifier = Modifier.weight(1f),
-                    color = colorScheme.outlineVariant
+                    color = colorScheme.outlineVariant,
                 )
 
                 Text(
@@ -304,7 +346,7 @@ private fun SignInFormView(
                 )
                 HorizontalDivider(
                     modifier = Modifier.weight(1f),
-                    color = colorScheme.outlineVariant
+                    color = colorScheme.outlineVariant,
                 )
             }
 
@@ -312,9 +354,10 @@ private fun SignInFormView(
 
             OutlinedButton(
                 onClick = onGoogleSignInClick,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
                 shape = RoundedCornerShape(12.dp),
                 border = BorderStroke(1.dp, colorScheme.outlineVariant),
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = colorScheme.onBackground),
@@ -337,9 +380,10 @@ private fun SignInFormView(
             Spacer(modifier = Modifier.height(SpaceSize.xlarge))
 
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(SpaceSize.medium),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(SpaceSize.medium),
                 horizontalArrangement = Arrangement.Center,
             ) {
                 Text(
@@ -349,9 +393,10 @@ private fun SignInFormView(
                 )
 
                 Text(
-                    modifier = Modifier
-                        .padding(horizontal = SpaceSize.small)
-                        .clickable { onSignUpClick() },
+                    modifier =
+                        Modifier
+                            .padding(horizontal = SpaceSize.small)
+                            .clickable { onSignUpClick() },
                     text = stringResource(Res.string.sign_in_sign_up_button),
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                     color = colorScheme.primary,
@@ -364,9 +409,10 @@ private fun SignInFormView(
 @Composable
 private fun SignInLoadingView() {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(

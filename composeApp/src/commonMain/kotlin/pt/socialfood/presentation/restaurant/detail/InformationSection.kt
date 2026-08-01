@@ -114,7 +114,7 @@ private fun InformationCard(
                     color = MaterialTheme.colorScheme.outlineVariant,
                 )
             }
-            if (restaurant.websiteUrl.isNotBlank()) {
+            if (!restaurant.websiteUrl.isNullOrBlank()) {
                 InfoRow(
                     icon = Icons.Outlined.Language,
                     text = restaurant.websiteUrl,
@@ -176,6 +176,7 @@ private fun InfoRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable(onClick = onClick)
             .padding(SpaceSize.large),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
@@ -249,7 +250,6 @@ private fun InformationSectionPreview() {
                 id = "r1",
                 name = "Le Jardin Français",
                 description = "",
-                cuisine = "French Cuisine",
                 city = "Lisbon",
                 country = "Portugal",
                 countryCode = "PT",

@@ -1,0 +1,8 @@
+name: Set COMMIT_HASH
+description: Exports COMMIT_HASH (short SHA of HEAD) to $GITHUB_ENV for later steps
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV

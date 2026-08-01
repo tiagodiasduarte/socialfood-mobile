@@ -13,17 +13,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import pt.socialfood.presentation.components.ProfileHeaderPlaceholder
+import pt.socialfood.presentation.components.ProfileHeaderTopActionPlaceholder
 import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
@@ -40,7 +40,12 @@ fun ProfilePlaceholder(modifier: Modifier = Modifier) {
             .background(GreyBackground)
             .verticalScroll(rememberScrollState()),
     ) {
-        HeaderPlaceholder(alpha = alpha)
+        ProfileHeaderPlaceholder(alpha = alpha) {
+            ProfileHeaderTopActionPlaceholder(
+                alpha = alpha,
+                modifier = Modifier.align(Alignment.TopEnd),
+            )
+        }
 
         Column(
             modifier = Modifier
@@ -50,86 +55,15 @@ fun ProfilePlaceholder(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
-            ) {
-                ShimmerBox(modifier = Modifier.width(160.dp).height(22.dp), alpha = alpha)
-                ShimmerBox(modifier = Modifier.width(110.dp).height(14.dp), alpha = alpha)
-            }
-
-            Row(
-                modifier = Modifier.padding(vertical = SpaceSize.large),
-                horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                repeat(3) { index ->
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
-                    ) {
-                        ShimmerBox(modifier = Modifier.width(32.dp).height(18.dp), alpha = alpha)
-                        ShimmerBox(modifier = Modifier.width(52.dp).height(12.dp), alpha = alpha)
-                    }
-                    if (index < 2) {
-                        ShimmerBox(
-                            modifier = Modifier
-                                .padding(horizontal = SpaceSize.medium)
-                                .width(1.dp)
-                                .height(32.dp),
-                            alpha = alpha,
-                        )
-                    }
-                }
-            }
-
             ContactCardPlaceholder(alpha = alpha)
 
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
             ) {
-                repeat(4) {
+                repeat(3) {
                     MenuRowPlaceholder(alpha = alpha)
                 }
-            }
-        }
-    }
-}
-
-@Composable
-private fun HeaderPlaceholder(alpha: Float) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(HeaderHeight + AvatarOverlap),
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(HeaderHeight)
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color(0xFFF05A1A).copy(alpha = 0.5f),
-                            Color(0xFFB82010).copy(alpha = 0.5f),
-                        ),
-                    ),
-                ),
-        )
-        Box(modifier = Modifier.align(Alignment.BottomCenter)) {
-            Box(
-                modifier = Modifier
-                    .size(AvatarRingSize)
-                    .clip(CircleShape)
-                    .background(Color.White),
-                contentAlignment = Alignment.Center,
-            ) {
-                ShimmerBox(
-                    modifier = Modifier.size(96.dp),
-                    alpha = alpha,
-                    shape = CircleShape,
-                )
             }
         }
     }
@@ -158,7 +92,7 @@ private fun ContactCardPlaceholder(alpha: Float) {
             Spacer(Modifier.height(SpaceSize.large))
 
             Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.large)) {
-                repeat(3) {
+                repeat( 1) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),

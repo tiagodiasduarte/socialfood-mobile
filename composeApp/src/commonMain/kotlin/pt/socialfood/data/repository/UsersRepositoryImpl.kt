@@ -1,9 +1,11 @@
 package pt.socialfood.data.repository
 
+import io.ktor.client.plugins.ResponseException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.io.IOException
 import pt.socialfood.core.Result
-import pt.socialfood.data.UserApi
+import pt.socialfood.data.api.UserApi
 import pt.socialfood.data.network.extensions.toErrorEntity
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.network.model.user.UpdateUserPhotoRequest
@@ -33,8 +35,10 @@ class UsersRepositoryImpl(
         return try {
             val users = userApi.getUsers().map { it.toUser() }
             Result.Success(users)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -50,8 +54,10 @@ class UsersRepositoryImpl(
                     hasMore = hasMore,
                 )
             )
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -60,44 +66,40 @@ class UsersRepositoryImpl(
             val user = userApi.getUserMe().toUser()
             _currentUser.value = user
             Result.Success(user)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
     override suspend fun findById(id: String): Result<User> {
         return try {
             Result.Success(userApi.findById(id).toUser())
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
     override suspend fun update(
         id: String,
-        username: String?,
         role: String?,
         imageUrl: String?,
-        firstName: String?,
-        lastName: String?,
-        phoneNumber: String?,
+        name: String?,
         city: String?,
         country: String?,
-        bio: String?,
         facebookUrl: String?,
         instagramUrl: String?,
         youtubeUrl: String?,
     ): Result<User> {
         return try {
             val request = UpdateUserRequest(
-                username = username,
                 role = role,
-                firstName = firstName,
-                lastName = lastName,
-                phoneNumber = phoneNumber,
+                name = name,
                 city = city,
                 country = country,
-                bio = bio,
                 facebookUrl = facebookUrl,
                 instagramUrl = instagramUrl,
                 youtubeUrl = youtubeUrl,
@@ -105,17 +107,21 @@ class UsersRepositoryImpl(
             val user = userApi.update(request, id).toUser()
             _currentUser.value = user
             Result.Success(user)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
     override suspend fun updatePhoto(id: String, imageUrl: String): Result<Boolean> {
         return try {
-            val user = userApi.updatePhotoUrl(id, UpdateUserPhotoRequest(imageUrl))
+            userApi.updatePhotoUrl(id, UpdateUserPhotoRequest(imageUrl))
             Result.Success(true)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -139,7 +145,9 @@ class UsersRepositoryImpl(
                 publicUrl = response.publicUrl
             )
         )
-    } catch (e: Exception) {
+    } catch (e: IOException) {
+        Result.Error(e.toErrorEntity())
+    } catch (e: ResponseException) {
         Result.Error(e.toErrorEntity())
     }
 }

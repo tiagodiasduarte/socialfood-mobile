@@ -1,8 +1,6 @@
 name: Android Build for Firebase
 
 on:
-  schedule:
-    - cron: '0 9 * * *'   # 09:00 UTC
   workflow_dispatch:
 jobs:
   android-build:
@@ -22,13 +20,11 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      # ----------------- SET BUILD NAME -----------------
-      - name: Set BUILD_NAME
-        run: echo "BUILD_NAME=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
+      # ----------------- SET BUILD DATE -----------------
+      - uses: ./.github/actions/set-build-date
 
       # ----------------- SET COMMIT HASH -----------------
-      - name: Set COMMIT_HASH
-        run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      - uses: ./.github/actions/set-commit-hash
 
       # ----------------- DECODE KEYSTORE -----------------
       - name: Decode Keystore
@@ -49,12 +45,11 @@ jobs:
       # ----------------- BUILD AAB -----------------
       - name: Build AAB
         env:
-          GOOGLE_CLIENT_ID_ANDROID: ${{ secrets.GOOGLE_CLIENT_ID_ANDROID }}
           GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          BUILD_NAME: ${{ env.BUILD_NAME }}
+          BUILD_DATE: ${{ env.BUILD_DATE }}
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
           GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
         run: ./gradlew :composeApp:bundleRelease

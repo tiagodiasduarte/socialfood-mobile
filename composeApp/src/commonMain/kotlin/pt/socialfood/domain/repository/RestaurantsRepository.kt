@@ -13,6 +13,9 @@ interface RestaurantsRepository {
     suspend fun findRestaurants(page: Int, limit: Int, query: String? = null): Result<PagedRestaurants>
     suspend fun findById(id: String): Result<Restaurant>
     suspend fun findByPlaceId(placeId: String): Result<Restaurant>
+    suspend fun addByPlaceId(placeId: String): Result<Unit>
+
+    suspend fun awaitEnrichedRestaurantByPlaceId(placeId: String): Result<Restaurant>
     suspend fun update(
         id: String,
         name: String,

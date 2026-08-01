@@ -1,38 +1,35 @@
 package pt.socialfood.presentation.splash
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.presentation.startup.StartupUiState
+import pt.socialfood.presentation.startup.StartupViewModel
 
 @Composable
-fun SplashScreen(
+expect fun SplashScreen(
+    viewModel: StartupViewModel,
     onNavigateToHome: () -> Unit,
     onNavigateToLogin: () -> Unit,
     onNavigateToValidateCode: (email: String) -> Unit,
-    viewModel: SplashViewModel = koinViewModel(),
+)
+
+@Composable
+internal fun SplashNavigationEffect(
+    viewModel: StartupViewModel,
+    onNavigateToHome: () -> Unit,
+    onNavigateToLogin: () -> Unit,
+    onNavigateToValidateCode: (email: String) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(state) {
         when (val currentState = state) {
-            SplashUiState.NavigateToHome -> onNavigateToHome()
-            SplashUiState.NavigateToLogin -> onNavigateToLogin()
-            is SplashUiState.NavigateToValidateCode -> onNavigateToValidateCode(currentState.email)
-            SplashUiState.Loading -> Unit
+            StartupUiState.NavigateToHome -> onNavigateToHome()
+            StartupUiState.NavigateToLogin -> onNavigateToLogin()
+            is StartupUiState.NavigateToValidateCode -> onNavigateToValidateCode(currentState.email)
+            StartupUiState.Loading -> Unit
         }
-    }
-
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        CircularProgressIndicator()
     }
 }

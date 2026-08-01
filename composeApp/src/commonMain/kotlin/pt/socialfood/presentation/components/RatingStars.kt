@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.restaurants.components
+package pt.socialfood.presentation.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size

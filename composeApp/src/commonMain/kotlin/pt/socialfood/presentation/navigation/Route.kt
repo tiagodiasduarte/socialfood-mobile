@@ -38,4 +38,10 @@ sealed interface Route: NavKey {
 
     @Serializable
     data object EditProfile : Route
+
+    @Serializable
+    data object FavouriteGuides : Route
+
+    @Serializable
+    data object FavouriteRestaurants : Route
 }

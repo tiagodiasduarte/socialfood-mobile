@@ -1,5 +1,7 @@
 import SwiftUI
 import ComposeApp
+import FirebaseCore
+import FirebaseCrashlytics
 import GoogleSignIn
 
 class GoogleSignInDelegateImpl: GoogleSignInDelegate {
@@ -22,8 +24,13 @@ class GoogleSignInDelegateImpl: GoogleSignInDelegate {
 @main
 struct iOSApp: App {
     init() {
-        KoinKt.doInitKoin()
+        #if DEBUG
+        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(false)
+        #endif
+        FirebaseApp.configure()
         GoogleSignInBridge.shared.delegate = GoogleSignInDelegateImpl()
+        ImagePickerBridge.shared.delegate = ImagePickerDelegateImpl()
+        KoinKt.doInitKoin()
     }
 
     var body: some Scene {

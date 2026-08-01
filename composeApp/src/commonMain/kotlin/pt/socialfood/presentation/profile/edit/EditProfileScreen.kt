@@ -42,7 +42,6 @@ import socialfood.composeapp.generated.resources.edit_profile_google_info
 import socialfood.composeapp.generated.resources.edit_profile_save_button
 import socialfood.composeapp.generated.resources.edit_profile_title
 import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.profile.edit.card.BioCard
 import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
 import pt.socialfood.presentation.profile.edit.card.ProfilePictureCard
 import pt.socialfood.presentation.profile.edit.card.SocialNetworkCard
@@ -76,12 +75,9 @@ fun EditProfileScreen(
             onBackClick = onBackClick,
             onSaveClick = viewModel::save,
             onPhotoSelected = viewModel::onPhotoSelected,
-            onFirstNameChange = viewModel::onFirstNameChange,
-            onLastNameChange = viewModel::onLastNameChange,
-            onPhoneNumberChange = viewModel::onPhoneNumberChange,
+            onNameChange = viewModel::onNameChange,
             onCityChange = viewModel::onCityChange,
             onCountryChange = viewModel::onCountryChange,
-            onBioChange = viewModel::onBioChange,
             onFacebookUrlChange = viewModel::onFacebookUrlChange,
             onInstagramUrlChange = viewModel::onInstagramUrlChange,
             onYoutubeUrlChange = viewModel::onYoutubeUrlChange,
@@ -95,12 +91,9 @@ private fun EditProfileContent(
     onBackClick: () -> Unit,
     onSaveClick: () -> Unit,
     onPhotoSelected: (ByteArray, String) -> Unit,
-    onFirstNameChange: (String) -> Unit,
-    onLastNameChange: (String) -> Unit,
-    onPhoneNumberChange: (String) -> Unit,
+    onNameChange: (String) -> Unit,
     onCityChange: (String) -> Unit,
     onCountryChange: (String) -> Unit,
-    onBioChange: (String) -> Unit,
     onFacebookUrlChange: (String) -> Unit,
     onInstagramUrlChange: (String) -> Unit,
     onYoutubeUrlChange: (String) -> Unit,
@@ -151,14 +144,10 @@ private fun EditProfileContent(
 
             PersonalDetailsCard(
                 state = state,
-                onFirstNameChange = onFirstNameChange,
-                onLastNameChange = onLastNameChange,
-                onPhoneNumberChange = onPhoneNumberChange,
+                onNameChange = onNameChange,
                 onCityChange = onCityChange,
                 onCountryChange = onCountryChange,
             )
-
-            BioCard(state = state, onBioChange = onBioChange)
 
             SocialNetworkCard(
                 state = state,
@@ -230,12 +219,9 @@ private fun EditProfileScreenPreview() {
     AppTheme {
         EditProfileContent(
             state = EditProfileUiState.Loaded(
-                firstName = "John",
-                lastName = "Doe",
-                phoneNumber = "+1 (555) 123-4567",
+                name = "John Doe",
                 city = "New York",
                 country = "United States",
-                bio = "",
                 facebookUrl = "",
                 instagramUrl = "",
                 youtubeUrl = "",
@@ -244,12 +230,9 @@ private fun EditProfileScreenPreview() {
             onBackClick = {},
             onSaveClick = {},
             onPhotoSelected = { _, _ -> },
-            onFirstNameChange = {},
-            onLastNameChange = {},
-            onPhoneNumberChange = {},
+            onNameChange = {},
             onCityChange = {},
             onCountryChange = {},
-            onBioChange = {},
             onFacebookUrlChange = {},
             onInstagramUrlChange = {},
             onYoutubeUrlChange = {},

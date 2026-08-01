@@ -1,0 +1,13 @@
+name: Setup GoogleService-Info.plist
+description: Writes iosApp/iosApp/GoogleService-Info.plist from the base64-encoded secret
+
+inputs:
+  google-service-info-plist-base64:
+    description: Base64-encoded contents of GoogleService-Info.plist
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: echo "${{ inputs.google-service-info-plist-base64 }}" | base64 -d > iosApp/iosApp/GoogleService-Info.plist

@@ -9,8 +9,8 @@ platform :ios do
     key_content = options[:key_content] || ENV["APP_STORE_CONNECT_API_KEY"]
     match_type = options[:match_type] || ENV["MATCH_TYPE"]
     app_identifier = options[:app_identifier] || ENV["APP_IDENTIFIER"]
-    git_url = options[:git_url] || ENV["GIT_URL"]
-    git_branch = options[:git_branch] || ENV["GIT_BRANCH"]
+    git_url = options[:git_url] || ENV["GIT_CERTIFICATES_URL"]
+    git_branch = options[:git_branch] || ENV["GIT_CERTIFICATES_BRANCH"]
     match_password = options[:match_password] || ENV["MATCH_PASSWORD"]
     git_private_key = options[:git_private_key] || ENV["GIT_PRIVATE_KEY"] || "./secrets/match_ci_key"
 
@@ -43,6 +43,11 @@ platform :ios do
       build_number: latest + 1,
       xcodeproj: "iosApp.xcodeproj"
     )
+
+    # Set explicitly (rather than relying on inherited env or xcargs) so it's
+    # guaranteed to be a real process env var for xcodebuild and everything it
+    # spawns, including the KMP framework's "Run Script" build phase.
+    ENV["BUILD_DATE"] = ENV["BUILD_DATE"] || Time.now.strftime("%Y%m%d-%H%M")
 
     build_ios_app(
       scheme: "iosApp",

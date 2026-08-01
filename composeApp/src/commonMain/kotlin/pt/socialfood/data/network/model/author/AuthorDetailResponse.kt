@@ -8,12 +8,14 @@ import pt.socialfood.domain.model.GuideVisibility
 data class AuthorDetailResponse(
     val id: String,
     val name: String,
-    val bio: String? = null,
     val imageUrl: String? = null,
     val guidesCount: Int = 0,
     val followersCount: Int = 0,
     val followingCount: Int = 0,
     val isFollowing: Boolean = false,
+    val facebookUrl: String? = null,
+    val instagramUrl: String? = null,
+    val youtubeUrl: String? = null,
     val guides: List<GuideResponse> = emptyList(),
 ){
     @Serializable

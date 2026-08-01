@@ -5,12 +5,15 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import org.koin.compose.viewmodel.koinViewModel
 import org.koin.mp.KoinPlatform.getKoin
 import pt.socialfood.data.network.SessionManager
+import pt.socialfood.presentation.favourite.FavouritesSyncEffect
 import pt.socialfood.presentation.navigation.NavigationRoot
 import pt.socialfood.presentation.sign_in.SignInScreen
 import pt.socialfood.presentation.sign_up.SignUpScreen
 import pt.socialfood.presentation.splash.SplashScreen
+import pt.socialfood.presentation.startup.StartupViewModel
 import pt.socialfood.presentation.validate_code.ValidateCodeScreen
 import pt.socialfood.ui.theme.AppTheme
 
@@ -23,7 +26,7 @@ private sealed class AppDestination {
 }
 
 @Composable
-fun App() {
+fun App(prewarmedStartupViewModel: StartupViewModel? = null) {
     val sessionManager: SessionManager = remember { getKoin().get() }
     val destinationState = remember { mutableStateOf<AppDestination>(AppDestination.Splash) }
     val destination by destinationState
@@ -38,11 +41,15 @@ fun App() {
     AppTheme {
         when (val dest = destination) {
             AppDestination.Splash -> SplashScreen(
+                viewModel = prewarmedStartupViewModel ?: koinViewModel(),
                 onNavigateToHome = { navigate(AppDestination.Home) },
                 onNavigateToLogin = { navigate(AppDestination.Login) },
                 onNavigateToValidateCode = { email -> navigate(AppDestination.ValidateCode(email)) },
             )
-            AppDestination.Home -> NavigationRoot()
+            AppDestination.Home -> {
+                NavigationRoot()
+                FavouritesSyncEffect()
+            }
             AppDestination.Login -> SignInScreen(
                 onSignInSuccess = { navigate(AppDestination.Home) },
                 onSignUpClick = { navigate(AppDestination.SignUp) },

@@ -1,9 +1,23 @@
 package pt.socialfood.data.repository
 
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
+import io.ktor.client.plugins.ResponseException
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.io.IOException
 import pt.socialfood.core.Result
-import pt.socialfood.data.GuidesApi
+import pt.socialfood.data.api.GuidesApi
+import pt.socialfood.data.local.dao.GuideDao
+import pt.socialfood.data.local.dao.GuideRemoteKeyDao
 import pt.socialfood.data.network.extensions.toErrorEntity
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
+import pt.socialfood.data.paging.GUIDES_ALL_SCOPE
+import pt.socialfood.data.paging.GuideCacheTransactionRunner
+import pt.socialfood.data.paging.GuideRemoteMediator
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.PagedGuides
@@ -11,8 +25,13 @@ import pt.socialfood.domain.model.PresignedUrlData
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.mapper.toGuide
 
+private const val GUIDES_PAGE_SIZE = 20
+
 class GuidesRepositoryImpl(
-    private val guideApi: GuidesApi
+    private val guideApi: GuidesApi,
+    private val guideDao: GuideDao,
+    private val guideRemoteKeyDao: GuideRemoteKeyDao,
+    private val transactionRunner: GuideCacheTransactionRunner,
 ) : GuidesRepository {
 
     override suspend fun create(
@@ -27,8 +46,10 @@ class GuidesRepositoryImpl(
                 userId = userId
             ).toGuide()
             Result.Success(guide)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -37,8 +58,10 @@ class GuidesRepositoryImpl(
             guideApi.delete(id)
             Result.Success(true)
 
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -46,14 +69,16 @@ class GuidesRepositoryImpl(
         return try {
             val guides = guideApi.findAll().map { it.toGuide() }
             Result.Success(guides)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
-    override suspend fun findGuidesPaged(page: Int, limit: Int, query: String?): Result<PagedGuides> {
+    override suspend fun findGuidesPaged(page: Int, limit: Int, query: String?, userId: String?): Result<PagedGuides> {
         return try {
-            val response = guideApi.findGuides(page = page, limit = limit, query = query)
+            val response = guideApi.findGuides(page = page, limit = limit, query = query, userId = userId)
             val hasMore = response.page * response.limit < response.total
             Result.Success(
                 PagedGuides(
@@ -63,8 +88,10 @@ class GuidesRepositoryImpl(
                     hasMore = hasMore,
                 )
             )
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -86,8 +113,10 @@ class GuidesRepositoryImpl(
                 visibility = visibility.name,
             ).toGuide()
             Result.Success(guide)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -96,8 +125,10 @@ class GuidesRepositoryImpl(
             val guide = guideApi.findById(id).toGuide()
             Result.Success(guide)
 
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -121,8 +152,10 @@ class GuidesRepositoryImpl(
                     publicUrl = response.publicUrl,
                 )
             )
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -137,8 +170,10 @@ class GuidesRepositoryImpl(
                 placeId = placeId
             ).toGuide()
             Result.Success(guide)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -152,8 +187,10 @@ class GuidesRepositoryImpl(
                 imageUrl = imageUrl
             )
             Result.Success(true)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -163,8 +200,26 @@ class GuidesRepositoryImpl(
                 guideId = guideId,
             ).toGuide()
             Result.Success(true)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
+        } catch (e: IOException) {
+            Result.Error(e.toErrorEntity())
+        } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
         }
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getGuidesPagingFlow(userId: String?): Flow<PagingData<Guide>> {
+        val scope = userId ?: GUIDES_ALL_SCOPE
+        return Pager(
+            config = PagingConfig(pageSize = GUIDES_PAGE_SIZE),
+            remoteMediator = GuideRemoteMediator(
+                scope = scope,
+                guidesApi = guideApi,
+                guideDao = guideDao,
+                guideRemoteKeyDao = guideRemoteKeyDao,
+                transactionRunner = transactionRunner,
+            ),
+            pagingSourceFactory = { guideDao.pagingSource(scope) },
+        ).flow.map { pagingData -> pagingData.map { it.toGuide() } }
     }
 }

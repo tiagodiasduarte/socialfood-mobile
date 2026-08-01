@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.Button
@@ -52,9 +53,11 @@ import socialfood.composeapp.generated.resources.restaurant_detail_opening_hours
 import socialfood.composeapp.generated.resources.restaurant_detail_share_description
 import socialfood.composeapp.generated.resources.share_icon
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.components.ActionButton
+import pt.socialfood.presentation.components.buttons.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
+import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
@@ -71,6 +74,7 @@ fun RestaurantDetailScreen(
         state = state,
         onBackClick = onBackClick,
         onRetry = viewModel::load,
+        onToggleFavourite = viewModel::toggleFavourite,
     )
 }
 
@@ -79,13 +83,16 @@ private fun RestaurantDetailContent(
     state: RestaurantDetailUiState,
     onBackClick: () -> Unit,
     onRetry: () -> Unit,
+    onToggleFavourite: () -> Unit = {},
 ) {
     when (state) {
         RestaurantDetailUiState.Loading -> RestaurantDetailPlaceholder()
 
         is RestaurantDetailUiState.Loaded -> RestaurantDetailLoaded(
             restaurant = state.restaurant,
+            isFavourite = state.isFavourite,
             onBackClick = onBackClick,
+            onToggleFavourite = onToggleFavourite,
         )
 
         RestaurantDetailUiState.Error -> ErrorContent(onRetryClick = onRetry)
@@ -95,7 +102,9 @@ private fun RestaurantDetailContent(
 @Composable
 private fun RestaurantDetailLoaded(
     restaurant: Restaurant,
+    isFavourite: Boolean,
     onBackClick: () -> Unit,
+    onToggleFavourite: () -> Unit = {},
 ) {
     val uriHandler = LocalUriHandler.current
 
@@ -107,9 +116,10 @@ private fun RestaurantDetailLoaded(
             item {
                 TopSection(
                     restaurant = restaurant,
+                    isFavourite = isFavourite,
                     onBackClick = onBackClick,
                     onShareClick = {},
-                    onFavoriteClick = {},
+                    onFavoriteClick = onToggleFavourite,
                 )
             }
 
@@ -143,7 +153,7 @@ private fun RestaurantDetailLoaded(
                             uriHandler.openUri("geo:0,0?q=${restaurant.address}")
                     },
                     onWebsiteClick = {
-                        if (restaurant.websiteUrl.isNotBlank())
+                        if (!restaurant.websiteUrl.isNullOrBlank())
                             uriHandler.openUri(restaurant.websiteUrl)
                     },
                 )
@@ -218,6 +228,7 @@ private fun RestaurantDetailLoaded(
 @Composable
 private fun TopSection(
     restaurant: Restaurant,
+    isFavourite: Boolean,
     onBackClick: () -> Unit,
     onShareClick: () -> Unit,
     onFavoriteClick: () -> Unit,
@@ -246,19 +257,7 @@ private fun TopSection(
             Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Black.copy(alpha = 0.2f),
-                            Color.Transparent,
-                            Color.Black.copy(alpha = 0.15f),
-                        ),
-                    ),
-                ),
-        )
+        Box(modifier = Modifier.fillMaxSize().detailImageScrim())
 
         ActionButton(
             modifier = Modifier.padding(SpaceSize.large),
@@ -288,9 +287,9 @@ private fun TopSection(
             }
             ActionButton(onClick = onFavoriteClick) {
                 Icon(
-                    imageVector = Icons.Outlined.FavoriteBorder,
+                    imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                     contentDescription = stringResource(Res.string.restaurant_detail_favourite_description),
-                    tint = Color.White,
+                    tint = if (isFavourite) FavouriteRed else Color.White,
                     modifier = Modifier.size(24.dp),
                 )
             }
@@ -310,14 +309,6 @@ private fun TitleSection(restaurant: Restaurant) {
             text = restaurant.name,
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onBackground,
-        )
-
-        Spacer(Modifier.height(SpaceSize.small))
-
-        Text(
-            text = restaurant.cuisine,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
         Spacer(Modifier.height(SpaceSize.small))
@@ -372,7 +363,6 @@ private fun RestaurantDetailScreenPreview() {
         id = "r1",
         name = "Le Jardin Français",
         description = "A charming French bistro",
-        cuisine = "French Cuisine",
         city = "Midtown",
         country = "French",
         countryCode = "French",
@@ -387,6 +377,7 @@ private fun RestaurantDetailScreenPreview() {
     AppTheme {
         RestaurantDetailLoaded(
             restaurant = restaurant,
+            isFavourite = false,
             onBackClick = {},
         )
     }

@@ -52,12 +52,6 @@ private fun HomeSectionPlaceholder(alpha: Float) {
                     .height(18.dp),
                 alpha = alpha,
             )
-            ShimmerBox(
-                modifier = Modifier
-                    .width(50.dp)
-                    .height(14.dp),
-                alpha = alpha,
-            )
         }
 
         LazyRow(

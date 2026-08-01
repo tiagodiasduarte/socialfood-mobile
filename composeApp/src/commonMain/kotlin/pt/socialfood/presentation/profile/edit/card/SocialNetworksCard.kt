@@ -57,7 +57,7 @@ fun SocialNetworkCard(
 
         ProfileTextField(
             label = stringResource(Res.string.edit_profile_youtube_label),
-            value = state.instagramUrl,
+            value = state.youtubeUrl,
             placeholder = stringResource(Res.string.edit_profile_youtube_placeholder),
             onValueChange = onYoutubeUrlChange,
         )

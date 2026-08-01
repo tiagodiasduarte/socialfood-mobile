@@ -25,7 +25,6 @@
     <ID>LongMethod:GuideStatusCard.kt$@Composable fun GuideStatusCard( visibility: GuideVisibility, restaurantCount: Int, hasImage: Boolean, onVisibilityChange: (GuideVisibility) -&gt; Unit, modifier: Modifier = Modifier, )</ID>
     <ID>LongMethod:GuidesScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun GuidesScreenContent( guides: LazyPagingItems&lt;Guide&gt;, selectedTab: Int = ALL_GUIDES_TAB, favouriteGuideIds: Set&lt;String&gt; = emptySet(), onTabSelected: (Int) -&gt; Unit = {}, onGuideClick: (guideId: String) -&gt; Unit = {}, onAddClick: () -&gt; Unit = {}, onFavouriteClick: (Guide) -&gt; Unit = {}, )</ID>
     <ID>LongMethod:HomeScreen.kt$@Composable @Preview fun HomeScreenPreview()</ID>
-    <ID>LongMethod:NavigationRoot.kt$@Composable fun NavigationRoot(modifier: Modifier = Modifier)</ID>
     <ID>LongMethod:ProfileHeader.kt$@Composable fun ProfileHeader( name: String, imageUrl: String?, facebookUrl: String?, instagramUrl: String?, youtubeUrl: String?, modifier: Modifier = Modifier, topAction: @Composable BoxScope.() -&gt; Unit = {}, )</ID>
     <ID>LongMethod:ProfilePictureCard.kt$@Composable fun ProfilePictureCard( state: EditProfileUiState.Loaded, onPhotoSelected: (ByteArray, String) -&gt; Unit, )</ID>
     <ID>LongMethod:ProfileScreen.kt$@Composable private fun UserContent( user: User, onLogoutClick: () -&gt; Unit, onEditProfileClick: () -&gt; Unit = {}, onFavouriteGuidesClick: () -&gt; Unit = {}, onFavouriteRestaurantsClick: () -&gt; Unit = {}, )</ID>

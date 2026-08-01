@@ -28,7 +28,6 @@ import pt.socialfood.presentation.guide.create.CreateGuideViewModel
 import pt.socialfood.presentation.guide.detail.GuideDetailScreen
 import pt.socialfood.presentation.guide.detail.GuideDetailViewModel
 import pt.socialfood.presentation.guide.edit.EditGuideScreen
-import pt.socialfood.presentation.guide.edit.EditGuideViewModel
 import pt.socialfood.presentation.guide.list.GuidesScreen
 import pt.socialfood.presentation.home.HomeScreen
 import pt.socialfood.presentation.profile.ProfileScreen
@@ -40,6 +39,7 @@ import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
 
 private const val NAVIGATION_TRANSITION_DURATION_MILLIS = 300
 
+@Suppress("LongMethod")
 @Composable
 fun NavigationRoot(modifier: Modifier = Modifier) {
     val navigationState =
@@ -141,7 +141,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             RestaurantDetailEntry(route, navigator)
                         }
                         entry<Route.AddRestaurants> { route ->
-                            teste(route, navigator, onRestaurantAddedRef)
+                            SearchRestaurantsEntry(route, navigator, onRestaurantAddedRef)
                         }
                     },
                 ),
@@ -241,11 +241,8 @@ private fun EditGuideEntry(
     navigator: Navigator,
     onRestaurantAddedRef: MutableState<((Restaurant) -> Unit)?>,
 ) {
-    val vm =
-        koinViewModel<EditGuideViewModel>(
-            parameters = { parametersOf(route.guideId) },
-        )
     EditGuideScreen(
+        guideId = route.guideId,
         onBackClick = navigator::goBack,
         onGuideDeleted = navigator::popToRoot,
         initialTab = route.initialTab,
@@ -253,7 +250,6 @@ private fun EditGuideEntry(
             onRestaurantAddedRef.value = onRestaurantAdded
             navigator.navigate(Route.AddRestaurants(route.guideId))
         },
-        viewModel = vm,
     )
 }
 
@@ -308,7 +304,7 @@ private fun RestaurantDetailEntry(
 }
 
 @Composable
-fun teste(
+fun SearchRestaurantsEntry(
     route: Route.AddRestaurants,
     navigator: Navigator,
     onRestaurantAddedRef: MutableState<((Restaurant) -> Unit)?>,

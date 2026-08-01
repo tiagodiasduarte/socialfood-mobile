@@ -10,6 +10,7 @@ fun UserResponse.toUser(): User =
         id = this.id,
         email = this.email,
         name = this.name,
+        username = this.username,
         role = runCatching { UserRole.valueOf(this.role.uppercase()) }.getOrDefault(UserRole.USER),
         imageUrl = this.imageUrl,
         address = this.address,

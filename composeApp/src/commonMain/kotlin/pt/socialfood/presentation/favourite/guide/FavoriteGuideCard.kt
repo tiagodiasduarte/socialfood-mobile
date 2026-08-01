@@ -120,7 +120,7 @@ fun FavoriteGuideCardPreview() {
                 name = "Michelin Star Favorites",
                 description = "A curated collection of the finest dining experiences",
                 visibility = GuideVisibility.PUBLIC,
-                author = Author(id = "a1", name = "Sarah Mitchell"),
+                author = Author(id = "a1", name = "Sarah Mitchell", username = "sarahmitchell"),
                 numberOfRestaurant = 8,
             ),
         )

@@ -176,7 +176,7 @@ private fun FavouriteGuidesScreenLoadedPreview() {
             name = "Michelin Star Favorites",
             description = "A curated collection of the finest dining experiences",
             visibility = GuideVisibility.PUBLIC,
-            author = Author(id = "a1", name = "Sarah Mitchell"),
+            author = Author(id = "a1", name = "Sarah Mitchell", username = "sarahmitchell"),
             numberOfRestaurant = 8,
         ),
         Guide(
@@ -184,7 +184,7 @@ private fun FavouriteGuidesScreenLoadedPreview() {
             name = "Hidden Gems Lisbon",
             description = "Off the beaten path restaurants in Lisbon",
             visibility = GuideVisibility.PUBLIC,
-            author = Author(id = "a2", name = "Michael Rodriguez"),
+            author = Author(id = "a2", name = "Michael Rodriguez", username = "michaelrodriguez"),
             numberOfRestaurant = 5,
         ),
     )

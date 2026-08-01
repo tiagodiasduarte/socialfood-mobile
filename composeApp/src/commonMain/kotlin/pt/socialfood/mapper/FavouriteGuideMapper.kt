@@ -12,7 +12,12 @@ fun FavouriteGuideEntity.toGuide(): Guide = Guide(
     name = this.name,
     description = this.description,
     visibility = GuideVisibility.valueOf(this.visibility),
-    author = Author(id = this.authorId, name = this.authorName, imageUrl = this.authorImageUrl),
+    author = Author(
+        id = this.authorId,
+        name = this.authorName,
+        username = this.authorUsername,
+        imageUrl = this.authorImageUrl,
+    ),
     numberOfRestaurant = this.numberOfRestaurant,
     imageUrl = this.imageUrl,
 )
@@ -32,6 +37,7 @@ fun Guide.toFavouriteGuideEntity(
     visibility = this.visibility.name,
     authorId = this.author.id,
     authorName = this.author.name,
+    authorUsername = this.author.username,
     authorImageUrl = this.author.imageUrl,
     numberOfRestaurant = this.numberOfRestaurant,
     imageUrl = this.imageUrl,

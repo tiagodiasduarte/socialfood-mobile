@@ -145,13 +145,6 @@
     <file name="src/commonMain/kotlin/pt/socialfood/data/local/DatabaseBuilder.kt">
         <error line="7" column="79" source="standard:function-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/local/entity/AuthorEntity.kt">
-        <error line="10" column="5" source="standard:class-signature" />
-        <error line="11" column="5" source="standard:class-signature" />
-        <error line="12" column="5" source="standard:class-signature" />
-        <error line="13" column="5" source="standard:class-signature" />
-        <error line="13" column="23" source="standard:class-signature" />
-    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/local/entity/AuthorRemoteKeyEntity.kt">
         <error line="10" column="5" source="standard:class-signature" />
         <error line="11" column="5" source="standard:class-signature" />
@@ -191,14 +184,15 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/author/AuthorDetailResponse.kt">
         <error line="5" column="1" source="standard:no-unused-imports" />
-        <error line="20" column="2" source="standard:curly-spacing" />
-        <error line="20" column="2" source="standard:class-signature" />
+        <error line="21" column="2" source="standard:curly-spacing" />
+        <error line="21" column="2" source="standard:class-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/author/AuthorResponse.kt">
         <error line="7" column="5" source="standard:class-signature" />
         <error line="8" column="5" source="standard:class-signature" />
         <error line="9" column="5" source="standard:class-signature" />
-        <error line="9" column="34" source="standard:class-signature" />
+        <error line="10" column="5" source="standard:class-signature" />
+        <error line="10" column="34" source="standard:class-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/guide/AddRestaurantGuideRequest.kt">
         <error line="7" column="5" source="standard:class-signature" />
@@ -427,12 +421,12 @@
         <error line="55" column="18" source="standard:trailing-comma-on-call-site" />
         <error line="64" column="52" source="standard:function-expression-body" />
         <error line="76" column="61" source="standard:function-expression-body" />
-        <error line="96" column="21" source="standard:function-expression-body" />
-        <error line="117" column="85" source="standard:function-expression-body" />
-        <error line="139" column="34" source="standard:trailing-comma-on-call-site" />
-        <error line="140" column="14" source="standard:trailing-comma-on-call-site" />
-        <error line="145" column="47" source="standard:trailing-comma-on-call-site" />
-        <error line="146" column="14" source="standard:trailing-comma-on-call-site" />
+        <error line="94" column="21" source="standard:function-expression-body" />
+        <error line="113" column="85" source="standard:function-expression-body" />
+        <error line="135" column="34" source="standard:trailing-comma-on-call-site" />
+        <error line="136" column="14" source="standard:trailing-comma-on-call-site" />
+        <error line="141" column="47" source="standard:trailing-comma-on-call-site" />
+        <error line="142" column="14" source="standard:trailing-comma-on-call-site" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/di/AppImageLoaderFactory.kt">
         <error line="17" column="67" source="standard:class-signature" />
@@ -449,11 +443,12 @@
         <error line="4" column="5" source="standard:class-signature" />
         <error line="5" column="5" source="standard:class-signature" />
         <error line="6" column="5" source="standard:class-signature" />
-        <error line="6" column="34" source="standard:class-signature" />
+        <error line="7" column="5" source="standard:class-signature" />
+        <error line="7" column="34" source="standard:class-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/model/AuthorDetail.kt">
-        <error line="14" column="2" source="standard:curly-spacing" />
-        <error line="14" column="2" source="standard:class-signature" />
+        <error line="15" column="2" source="standard:curly-spacing" />
+        <error line="15" column="2" source="standard:class-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/model/Configs.kt">
         <error line="7" column="5" source="standard:class-signature" />
@@ -558,9 +553,9 @@
         <error line="20" column="9" source="standard:function-signature" />
         <error line="21" column="9" source="standard:function-signature" />
         <error line="21" column="31" source="standard:function-signature" />
+        <error line="40" column="9" source="standard:function-signature" />
         <error line="41" column="9" source="standard:function-signature" />
-        <error line="42" column="9" source="standard:function-signature" />
-        <error line="42" column="26" source="standard:function-signature" />
+        <error line="41" column="26" source="standard:function-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/SearchPlacesUseCase.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -1063,14 +1058,14 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/mapper/AuthorMapper.kt">
         <error line="7" column="40" source="standard:function-signature" />
-        <error line="14" column="57" source="standard:function-signature" />
-        <error line="22" column="38" source="standard:function-signature" />
+        <error line="15" column="57" source="standard:function-signature" />
+        <error line="24" column="38" source="standard:function-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/mapper/FavouriteGuideMapper.kt">
-        <error line="26" column="5" source="standard:function-signature" />
-        <error line="27" column="5" source="standard:function-signature" />
-        <error line="27" column="35" source="standard:function-signature" />
-        <error line="28" column="27" source="standard:function-signature" />
+        <error line="31" column="5" source="standard:function-signature" />
+        <error line="32" column="5" source="standard:function-signature" />
+        <error line="32" column="35" source="standard:function-signature" />
+        <error line="33" column="27" source="standard:function-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/mapper/GuideMapper.kt">
         <error line="12" column="1" source="standard:no-consecutive-blank-lines" />
@@ -1111,14 +1106,14 @@
         <error line="125" column="5" source="standard:function-signature" />
         <error line="126" column="5" source="standard:function-signature" />
         <error line="126" column="29" source="standard:function-signature" />
-        <error line="151" column="13" source="standard:function-naming" />
-        <error line="152" column="5" source="standard:function-signature" />
+        <error line="152" column="13" source="standard:function-naming" />
         <error line="153" column="5" source="standard:function-signature" />
-        <error line="153" column="25" source="standard:function-signature" />
-        <error line="169" column="35" source="standard:trailing-comma-on-call-site" />
-        <error line="176" column="13" source="standard:function-naming" />
-        <error line="188" column="13" source="standard:function-naming" />
-        <error line="227" column="13" source="standard:function-naming" />
+        <error line="154" column="5" source="standard:function-signature" />
+        <error line="154" column="25" source="standard:function-signature" />
+        <error line="170" column="35" source="standard:trailing-comma-on-call-site" />
+        <error line="177" column="13" source="standard:function-naming" />
+        <error line="189" column="13" source="standard:function-naming" />
+        <error line="229" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/author/detail/AuthorDetailViewModel.kt">
         <error line="12" column="5" source="standard:class-signature" />
@@ -1149,16 +1144,16 @@
         <error line="36" column="5" source="standard:function-signature" />
         <error line="36" column="35" source="standard:function-signature" />
         <error line="48" column="34" source="standard:trailing-comma-on-call-site" />
-        <error line="66" column="85" source="standard:trailing-comma-on-call-site" />
-        <error line="75" column="88" source="standard:trailing-comma-on-call-site" />
-        <error line="85" column="88" source="standard:trailing-comma-on-call-site" />
-        <error line="94" column="13" source="standard:function-naming" />
-        <error line="111" column="13" source="standard:function-naming" />
+        <error line="72" column="85" source="standard:trailing-comma-on-call-site" />
+        <error line="81" column="88" source="standard:trailing-comma-on-call-site" />
+        <error line="91" column="88" source="standard:trailing-comma-on-call-site" />
+        <error line="100" column="13" source="standard:function-naming" />
+        <error line="117" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/author/list/AuthorCardPlaceholder.kt">
         <error line="29" column="5" source="standard:function-naming" />
-        <error line="70" column="13" source="standard:function-naming" />
-        <error line="79" column="13" source="standard:function-naming" />
+        <error line="74" column="13" source="standard:function-naming" />
+        <error line="83" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/author/list/AuthorsHeader.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -1217,14 +1212,14 @@
         <error line="91" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/ProfileHeader.kt">
-        <error line="37" column="5" source="standard:function-naming" />
-        <error line="115" column="13" source="standard:function-naming" />
+        <error line="38" column="5" source="standard:function-naming" />
+        <error line="127" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/ProfileHeaderPlaceholder.kt">
         <error line="30" column="5" source="standard:function-naming" />
-        <error line="92" column="13" source="standard:function-naming" />
-        <error line="119" column="14" source="standard:function-naming" />
-        <error line="131" column="13" source="standard:function-naming" />
+        <error line="98" column="13" source="standard:function-naming" />
+        <error line="125" column="14" source="standard:function-naming" />
+        <error line="137" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/RatingStars.kt">
         <error line="17" column="5" source="standard:function-naming" />
@@ -1482,11 +1477,11 @@
         <error line="46" column="33" source="standard:wrapping" />
         <error line="46" column="34" source="standard:argument-list-wrapping" />
         <error line="46" column="34" source="standard:trailing-comma-on-call-site" />
-        <error line="61" column="5" source="standard:function-naming" />
+        <error line="66" column="5" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/detail/author/AuthorItemCardPlaceholder.kt">
-        <error line="29" column="5" source="standard:function-naming" />
-        <error line="50" column="13" source="standard:function-naming" />
+        <error line="30" column="5" source="standard:function-naming" />
+        <error line="54" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/detail/restaurant/RestaurantItemCard.kt">
         <error line="38" column="5" source="standard:function-naming" />
@@ -1738,12 +1733,12 @@
         <error line="48" column="5" source="standard:function-naming" />
         <error line="66" column="13" source="standard:function-naming" />
         <error line="91" column="13" source="standard:function-naming" />
-        <error line="113" column="54" source="standard:wrapping" />
-        <error line="113" column="55" source="standard:argument-list-wrapping" />
-        <error line="113" column="55" source="standard:trailing-comma-on-call-site" />
-        <error line="156" column="44" source="standard:trailing-comma-on-call-site" />
-        <error line="172" column="5" source="standard:function-naming" />
-        <error line="183" column="31" source="standard:trailing-comma-on-call-site" />
+        <error line="114" column="54" source="standard:wrapping" />
+        <error line="114" column="55" source="standard:argument-list-wrapping" />
+        <error line="114" column="55" source="standard:trailing-comma-on-call-site" />
+        <error line="157" column="44" source="standard:trailing-comma-on-call-site" />
+        <error line="173" column="5" source="standard:function-naming" />
+        <error line="185" column="31" source="standard:trailing-comma-on-call-site" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/EditProfilePlaceholder.kt">
         <error line="33" column="14" source="standard:function-naming" />
@@ -1766,12 +1761,11 @@
         <error line="159" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/EditProfileScreen.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="53" column="5" source="standard:function-naming" />
-        <error line="54" column="5" source="standard:function-signature" />
+        <error line="54" column="5" source="standard:function-naming" />
         <error line="55" column="5" source="standard:function-signature" />
-        <error line="55" column="55" source="standard:function-signature" />
-        <error line="89" column="13" source="standard:function-naming" />
+        <error line="56" column="5" source="standard:function-signature" />
+        <error line="56" column="55" source="standard:function-signature" />
+        <error line="91" column="13" source="standard:function-naming" />
         <error line="163" column="13" source="standard:function-naming" />
         <error line="164" column="5" source="standard:function-signature" />
         <error line="165" column="5" source="standard:function-signature" />
@@ -1782,17 +1776,17 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/EditProfileViewModel.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="91" column="39" source="standard:wrapping" />
-        <error line="96" column="17" source="standard:wrapping" />
-        <error line="124" column="19" source="standard:wrapping" />
-        <error line="133" column="13" source="standard:wrapping" />
+        <error line="88" column="39" source="standard:wrapping" />
+        <error line="93" column="17" source="standard:wrapping" />
+        <error line="121" column="19" source="standard:wrapping" />
+        <error line="128" column="13" source="standard:wrapping" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/ProfileTextField.kt">
         <error line="22" column="5" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/card/PersonalDetailsCard.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="25" column="5" source="standard:function-naming" />
+        <error line="23" column="5" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/card/ProfilePictureCard.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -2175,15 +2169,15 @@
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/data/paging/AuthorRemoteMediatorTest.kt">
         <error line="34" column="45" source="standard:function-signature" />
-        <error line="42" column="9" source="standard:function-signature" />
         <error line="43" column="9" source="standard:function-signature" />
-        <error line="43" column="27" source="standard:function-signature" />
-        <error line="63" column="110" source="standard:function-signature" />
-        <error line="128" column="121" source="standard:max-line-length" />
-        <error line="148" column="121" source="standard:max-line-length" />
-        <error line="169" column="121" source="standard:max-line-length" />
-        <error line="188" column="121" source="standard:max-line-length" />
-        <error line="207" column="121" source="standard:max-line-length" />
+        <error line="44" column="9" source="standard:function-signature" />
+        <error line="44" column="27" source="standard:function-signature" />
+        <error line="65" column="110" source="standard:function-signature" />
+        <error line="130" column="121" source="standard:max-line-length" />
+        <error line="150" column="121" source="standard:max-line-length" />
+        <error line="171" column="121" source="standard:max-line-length" />
+        <error line="190" column="121" source="standard:max-line-length" />
+        <error line="209" column="121" source="standard:max-line-length" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/data/paging/GuideRemoteMediatorTest.kt">
         <error line="38" column="44" source="standard:function-signature" />
@@ -2191,13 +2185,13 @@
         <error line="51" column="9" source="standard:function-signature" />
         <error line="52" column="9" source="standard:function-signature" />
         <error line="52" column="27" source="standard:function-signature" />
-        <error line="82" column="121" source="standard:max-line-length" />
-        <error line="105" column="121" source="standard:max-line-length" />
-        <error line="150" column="121" source="standard:max-line-length" />
-        <error line="172" column="121" source="standard:max-line-length" />
-        <error line="193" column="121" source="standard:max-line-length" />
-        <error line="212" column="121" source="standard:max-line-length" />
-        <error line="231" column="121" source="standard:max-line-length" />
+        <error line="83" column="121" source="standard:max-line-length" />
+        <error line="106" column="121" source="standard:max-line-length" />
+        <error line="151" column="121" source="standard:max-line-length" />
+        <error line="173" column="121" source="standard:max-line-length" />
+        <error line="194" column="121" source="standard:max-line-length" />
+        <error line="213" column="121" source="standard:max-line-length" />
+        <error line="232" column="121" source="standard:max-line-length" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/data/repository/AuthorsRepositoryImplTest.kt">
         <error line="19" column="88" source="standard:function-signature" />
@@ -2282,13 +2276,13 @@
         <error line="107" column="83" source="standard:function-signature" />
         <error line="123" column="84" source="standard:function-signature" />
         <error line="137" column="82" source="standard:function-signature" />
-        <error line="180" column="80" source="standard:function-signature" />
-        <error line="207" column="95" source="standard:function-signature" />
-        <error line="221" column="85" source="standard:function-signature" />
-        <error line="237" column="107" source="standard:function-signature" />
-        <error line="258" column="89" source="standard:function-signature" />
-        <error line="280" column="89" source="standard:function-signature" />
-        <error line="300" column="86" source="standard:function-signature" />
+        <error line="178" column="80" source="standard:function-signature" />
+        <error line="203" column="95" source="standard:function-signature" />
+        <error line="217" column="85" source="standard:function-signature" />
+        <error line="233" column="107" source="standard:function-signature" />
+        <error line="254" column="89" source="standard:function-signature" />
+        <error line="276" column="89" source="standard:function-signature" />
+        <error line="297" column="86" source="standard:function-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/GetFavouriteGuidesUseCaseImplTest.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -2403,16 +2397,16 @@
         <error line="34" column="5" source="standard:class-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeGuidesApi.kt">
-        <error line="50" column="9" source="standard:function-signature" />
-        <error line="51" column="9" source="standard:function-signature" />
-        <error line="52" column="9" source="standard:function-signature" />
-        <error line="52" column="24" source="standard:function-signature" />
-        <error line="103" column="9" source="standard:function-signature" />
-        <error line="104" column="9" source="standard:function-signature" />
-        <error line="104" column="26" source="standard:function-signature" />
-        <error line="123" column="9" source="standard:function-signature" />
-        <error line="124" column="9" source="standard:function-signature" />
-        <error line="124" column="26" source="standard:function-signature" />
+        <error line="55" column="9" source="standard:function-signature" />
+        <error line="56" column="9" source="standard:function-signature" />
+        <error line="57" column="9" source="standard:function-signature" />
+        <error line="57" column="24" source="standard:function-signature" />
+        <error line="108" column="9" source="standard:function-signature" />
+        <error line="109" column="9" source="standard:function-signature" />
+        <error line="109" column="26" source="standard:function-signature" />
+        <error line="128" column="9" source="standard:function-signature" />
+        <error line="129" column="9" source="standard:function-signature" />
+        <error line="129" column="26" source="standard:function-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeHomeApi.kt">
         <error line="8" column="5" source="standard:class-signature" />
@@ -2552,7 +2546,7 @@
         <error line="62" column="121" source="standard:max-line-length" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/profile/edit/EditProfileViewModelTest.kt">
-        <error line="85" column="90" source="standard:function-signature" />
+        <error line="86" column="90" source="standard:function-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/restaurant/detail/RestaurantDetailViewModelTest.kt">
         <error line="62" column="121" source="standard:max-line-length" />

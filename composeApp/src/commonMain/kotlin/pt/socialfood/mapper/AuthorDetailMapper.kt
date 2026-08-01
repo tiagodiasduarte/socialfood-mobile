@@ -8,6 +8,7 @@ fun AuthorDetailResponse.toAuthorDetail(): AuthorDetail =
     AuthorDetail(
         id = this.id,
         name = this.name,
+        username = this.username,
         imageUrl = this.imageUrl,
         guidesCount = this.guidesCount,
         followersCount = this.followersCount,

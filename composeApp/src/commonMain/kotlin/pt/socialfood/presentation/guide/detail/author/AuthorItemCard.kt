@@ -51,6 +51,11 @@ fun AuthorItemCard(author: Author, onClick: () -> Unit, modifier: Modifier = Mod
                     style = AppTypography.labelLarge.copy(fontWeight = FontWeight.SemiBold),
                     color = MaterialTheme.colorScheme.onBackground,
                 )
+                Text(
+                    text = "@${author.username}",
+                    style = AppTypography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
         }
     }
@@ -64,6 +69,7 @@ fun AuthorItemCardPreview() {
             author = Author(
                 id = "u1",
                 name = "Sarah Mitchell",
+                username = "sarahmitchell",
             ),
             onClick = {},
         )

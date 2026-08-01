@@ -25,7 +25,7 @@ import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GuidesViewModelTest {
-    private val fakeUser = User(id = "user-1", email = "user@test.com", name = "Test User")
+    private val fakeUser = User(id = "user-1", email = "user@test.com", name = "Test User", username = "testuser")
 
     private fun guide(id: String) =
         Guide(
@@ -33,7 +33,7 @@ class GuidesViewModelTest {
             name = "Guide $id",
             description = "Description $id",
             visibility = GuideVisibility.PUBLIC,
-            author = Author(id = "author-1", name = "Author"),
+            author = Author(id = "author-1", name = "Author", username = "author"),
             numberOfRestaurant = 0,
         )
 

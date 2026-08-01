@@ -79,7 +79,13 @@ fun ProfileHeaderPlaceholder(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
-            ShimmerBox(modifier = Modifier.width(160.dp).height(22.dp), alpha = alpha)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
+            ) {
+                ShimmerBox(modifier = Modifier.width(160.dp).height(22.dp), alpha = alpha)
+                ShimmerBox(modifier = Modifier.width(100.dp).height(16.dp), alpha = alpha)
+            }
 
             SocialButtonsPlaceholder(alpha = alpha)
 

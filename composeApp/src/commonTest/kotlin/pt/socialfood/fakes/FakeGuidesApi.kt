@@ -10,7 +10,12 @@ import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.network.model.photo.PresignedUrlResponse
 import pt.socialfood.domain.model.GuideVisibility
 
-private val defaultFakeAuthor = AuthorResponse(id = "author-id", name = "Author Name", imageUrl = null)
+private val defaultFakeAuthor = AuthorResponse(
+    id = "author-id",
+    name = "Author Name",
+    username = "authorname",
+    imageUrl = null,
+)
 
 private val defaultFakeGuideDetail =
     GuideDetailResponse(

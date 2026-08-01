@@ -25,13 +25,12 @@ interface UsersRepository {
 
     suspend fun findById(id: String): Result<User>
 
+    @Suppress("LongParameterList")
     suspend fun update(
         id: String,
-        role: String? = null,
         imageUrl: String? = null,
         name: String? = null,
-        city: String? = null,
-        country: String? = null,
+        username: String? = null,
         facebookUrl: String? = null,
         instagramUrl: String? = null,
         youtubeUrl: String? = null,

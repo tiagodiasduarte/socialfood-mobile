@@ -127,6 +127,7 @@ private fun AuthorHeader(
 ) {
     ProfileHeader(
         name = author.name,
+        username = author.username,
         imageUrl = author.imageUrl,
         facebookUrl = author.facebookUrl,
         instagramUrl = author.instagramUrl,
@@ -205,6 +206,7 @@ private fun AuthorDetailLoadedPreview() {
     val author = AuthorDetail(
         id = "a1",
         name = "Sarah Mitchell",
+        username = "sarahmitchell",
         guidesCount = 12,
         followersCount = 2400,
         followingCount = 180,

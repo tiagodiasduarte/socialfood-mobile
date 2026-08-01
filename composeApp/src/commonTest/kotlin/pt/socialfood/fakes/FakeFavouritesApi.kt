@@ -10,7 +10,12 @@ import pt.socialfood.domain.model.GuideVisibility
 
 class FakeFavouritesApi(private val shouldThrow: Boolean = false) : FavouritesApi {
 
-    private val fakeAuthor = AuthorResponse(id = "author-id", name = "Author Name", imageUrl = null)
+    private val fakeAuthor = AuthorResponse(
+        id = "author-id",
+        name = "Author Name",
+        username = "authorname",
+        imageUrl = null,
+    )
 
     private val fakeGuideResponse = GuideResponse(
         id = "guide-id",

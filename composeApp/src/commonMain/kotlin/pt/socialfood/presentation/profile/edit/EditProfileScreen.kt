@@ -36,11 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.back_button_description
-import socialfood.composeapp.generated.resources.edit_profile_google_info
-import socialfood.composeapp.generated.resources.edit_profile_save_button
-import socialfood.composeapp.generated.resources.edit_profile_title
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
 import pt.socialfood.presentation.profile.edit.card.ProfilePictureCard
@@ -48,7 +43,13 @@ import pt.socialfood.presentation.profile.edit.card.SocialNetworkCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.back_button_description
+import socialfood.composeapp.generated.resources.edit_profile_google_info
+import socialfood.composeapp.generated.resources.edit_profile_save_button
+import socialfood.composeapp.generated.resources.edit_profile_title
 
+@Suppress("LongParameterList")
 @Composable
 fun EditProfileScreen(
     onBackClick: () -> Unit,
@@ -70,14 +71,14 @@ fun EditProfileScreen(
             TopBar(isSaving = false, showSaveButton = false, onBackClick = onBackClick, onSaveClick = {})
             ErrorContent(modifier = Modifier.fillMaxSize(), onRetryClick = viewModel::retry)
         }
+
         is EditProfileUiState.Loaded -> EditProfileContent(
             state = s,
             onBackClick = onBackClick,
             onSaveClick = viewModel::save,
             onPhotoSelected = viewModel::onPhotoSelected,
             onNameChange = viewModel::onNameChange,
-            onCityChange = viewModel::onCityChange,
-            onCountryChange = viewModel::onCountryChange,
+            onUsernameChange = viewModel::onUsernameChange,
             onFacebookUrlChange = viewModel::onFacebookUrlChange,
             onInstagramUrlChange = viewModel::onInstagramUrlChange,
             onYoutubeUrlChange = viewModel::onYoutubeUrlChange,
@@ -85,6 +86,7 @@ fun EditProfileScreen(
     }
 }
 
+@Suppress("LongParameterList")
 @Composable
 private fun EditProfileContent(
     state: EditProfileUiState.Loaded,
@@ -92,8 +94,7 @@ private fun EditProfileContent(
     onSaveClick: () -> Unit,
     onPhotoSelected: (ByteArray, String) -> Unit,
     onNameChange: (String) -> Unit,
-    onCityChange: (String) -> Unit,
-    onCountryChange: (String) -> Unit,
+    onUsernameChange: (String) -> Unit,
     onFacebookUrlChange: (String) -> Unit,
     onInstagramUrlChange: (String) -> Unit,
     onYoutubeUrlChange: (String) -> Unit,
@@ -145,8 +146,7 @@ private fun EditProfileContent(
             PersonalDetailsCard(
                 state = state,
                 onNameChange = onNameChange,
-                onCityChange = onCityChange,
-                onCountryChange = onCountryChange,
+                onUsernameChange = onUsernameChange,
             )
 
             SocialNetworkCard(
@@ -220,8 +220,7 @@ private fun EditProfileScreenPreview() {
         EditProfileContent(
             state = EditProfileUiState.Loaded(
                 name = "John Doe",
-                city = "New York",
-                country = "United States",
+                username = "johndoe",
                 facebookUrl = "",
                 instagramUrl = "",
                 youtubeUrl = "",
@@ -231,8 +230,7 @@ private fun EditProfileScreenPreview() {
             onSaveClick = {},
             onPhotoSelected = { _, _ -> },
             onNameChange = {},
-            onCityChange = {},
-            onCountryChange = {},
+            onUsernameChange = {},
             onFacebookUrlChange = {},
             onInstagramUrlChange = {},
             onYoutubeUrlChange = {},

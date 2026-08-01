@@ -8,6 +8,7 @@ fun AuthorResponse.toAuthor(): Author =
     Author(
         id = this.id,
         name = this.name,
+        username = this.username,
         imageUrl = this.imageUrl,
     )
 
@@ -15,6 +16,7 @@ fun Author.toAuthorEntity(position: Int): AuthorEntity =
     AuthorEntity(
         id = this.id,
         name = this.name,
+        username = this.username,
         imageUrl = this.imageUrl,
         position = position,
     )
@@ -23,5 +25,6 @@ fun AuthorEntity.toAuthor(): Author =
     Author(
         id = this.id,
         name = this.name,
+        username = this.username,
         imageUrl = this.imageUrl,
     )

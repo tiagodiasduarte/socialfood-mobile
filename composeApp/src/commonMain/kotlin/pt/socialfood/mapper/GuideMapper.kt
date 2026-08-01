@@ -47,6 +47,7 @@ fun Guide.toGuideEntity(scope: String, position: Int) = GuideEntity(
     visibility = this.visibility.name,
     authorId = this.author.id,
     authorName = this.author.name,
+    authorUsername = this.author.username,
     authorImageUrl = this.author.imageUrl,
     numberOfRestaurant = this.numberOfRestaurant,
     imageUrl = this.imageUrl,
@@ -61,6 +62,7 @@ fun GuideEntity.toGuide() = Guide(
     author = Author(
         id = this.authorId,
         name = this.authorName,
+        username = this.authorUsername,
         imageUrl = this.authorImageUrl,
     ),
     numberOfRestaurant = this.numberOfRestaurant,

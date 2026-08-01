@@ -24,6 +24,7 @@ class EditProfileViewModelTest {
             id = "user-1",
             email = "user@test.com",
             name = "Jane Doe",
+            username = "janedoe",
             imageUrl = "https://cdn.socialfood.pt/old.png",
         )
 

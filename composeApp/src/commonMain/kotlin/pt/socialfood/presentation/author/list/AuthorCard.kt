@@ -27,7 +27,7 @@ import pt.socialfood.presentation.components.card.SectionCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
-val AuthorCardHeight = 112.dp
+val AuthorCardHeight = 132.dp
 
 @Composable
 fun AuthorCard(
@@ -53,6 +53,12 @@ fun AuthorCard(
                     text = author.name,
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground,
+                )
+
+                Text(
+                    text = "@${author.username}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
 
                 Spacer(Modifier.height(SpaceSize.large))
@@ -114,6 +120,7 @@ private fun AuthorCardPreview() {
             author = Author(
                 id = "1",
                 name = "Sarah Mitchell",
+                username = "sarahmitchell",
             ),
         )
     }

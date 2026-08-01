@@ -151,7 +151,7 @@ fun GuidesScreenPreview() {
             name = "Michelin Star Favorites",
             description = "The finest dining experiences in the city",
             numberOfRestaurant = 8,
-            author = Author(id = "u1", name = "Sarah M."),
+            author = Author(id = "u1", name = "Sarah M.", username = "sarahm"),
             visibility = GuideVisibility.PUBLIC
         ),
         Guide(
@@ -159,7 +159,7 @@ fun GuidesScreenPreview() {
             name = "Hidden Gems",
             description = "Undiscovered culinary treasures",
             numberOfRestaurant = 12,
-            author = Author(id = "u2", name = "Michael R."),
+            author = Author(id = "u2", name = "Michael R.", username = "michaelr"),
             visibility = GuideVisibility.PUBLIC
         ),
         Guide(
@@ -167,7 +167,7 @@ fun GuidesScreenPreview() {
             name = "Best for Date Night",
             description = "Romantic ambiance and exceptional cuisine",
             numberOfRestaurant = 6,
-            author = Author(id = "u3", name = "Ana P."),
+            author = Author(id = "u3", name = "Ana P.", username = "anap"),
             visibility = GuideVisibility.PUBLIC
         ),
     )

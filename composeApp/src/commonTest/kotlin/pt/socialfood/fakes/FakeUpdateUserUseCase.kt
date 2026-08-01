@@ -12,11 +12,9 @@ class FakeUpdateUserUseCase(
 
     override suspend fun invoke(
         id: String,
-        role: String?,
         imageUrl: String?,
         name: String?,
-        city: String?,
-        country: String?,
+        username: String?,
         facebookUrl: String?,
         instagramUrl: String?,
         youtubeUrl: String?,

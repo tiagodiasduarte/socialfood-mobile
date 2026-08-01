@@ -3,6 +3,7 @@ package pt.socialfood.presentation.guide.detail.author
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -40,7 +41,10 @@ fun AuthorItemCardPlaceholder(alpha: Float, modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
             ShimmerBox(modifier = Modifier.size(44.dp), alpha = alpha, shape = CircleShape)
-            ShimmerBox(modifier = Modifier.width(140.dp).height(16.dp), alpha = alpha)
+            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                ShimmerBox(modifier = Modifier.width(140.dp).height(16.dp), alpha = alpha)
+                ShimmerBox(modifier = Modifier.width(90.dp).height(12.dp), alpha = alpha)
+            }
         }
     }
 }

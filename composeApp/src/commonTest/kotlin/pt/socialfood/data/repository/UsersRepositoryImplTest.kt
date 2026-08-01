@@ -159,11 +159,9 @@ class UsersRepositoryImplTest {
             val result =
                 repo.update(
                     id = "user-id",
-                    role = "USER",
                     imageUrl = null,
                     name = "Test User",
-                    city = "Lisbon",
-                    country = "Portugal",
+                    username = "testuser",
                     facebookUrl = null,
                     instagramUrl = null,
                     youtubeUrl = null,
@@ -186,11 +184,9 @@ class UsersRepositoryImplTest {
             val result =
                 repo.update(
                     id = "user-id",
-                    role = null,
                     imageUrl = null,
                     name = null,
-                    city = null,
-                    country = null,
+                    username = null,
                     facebookUrl = null,
                     instagramUrl = null,
                     youtubeUrl = null,
@@ -286,6 +282,7 @@ class UsersRepositoryImplTest {
                     id = "user-id",
                     email = "user@test.com",
                     name = "Test User",
+                    username = "testuser",
                 )
 
             // When
@@ -306,6 +303,7 @@ class UsersRepositoryImplTest {
                     id = "user-id",
                     email = "user@test.com",
                     name = "Test User",
+                    username = "testuser",
                 )
             repo.saveUser(user)
 

@@ -12,7 +12,7 @@ import pt.socialfood.domain.use_case.favourite.SyncFavouriteRestaurantsUseCase
 import pt.socialfood.domain.use_case.favourite.SyncFavouritesUseCase
 
 /**
- * Triggers a (debounced, checkpointed) favourites sync — guides and restaurants — on
+ * Triggers a (debounced, incremental) favourites sync — guides and restaurants — on
  * launch/foreground and on reconnect. Mount once at the app root.
  */
 @Composable

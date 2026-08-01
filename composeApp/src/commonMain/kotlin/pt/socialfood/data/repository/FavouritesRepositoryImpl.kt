@@ -111,12 +111,12 @@ class FavouritesRepositoryImpl(
 
             pushPendingMutations()
 
-            val checkpoint = settingsRepository.getFavouritesSyncCheckpoint()
-            val changes = favouritesApi.syncFavouriteGuides(since = checkpoint)
+            val lastUpdate = settingsRepository.getLastFavouritesSyncUpdate()
+            val changes = favouritesApi.syncFavouriteGuides(since = lastUpdate)
 
             applyChanges(changes)
 
-            settingsRepository.saveFavouritesSyncCheckpoint(changes.nextCheckpoint)
+            settingsRepository.saveLastFavouritesSyncUpdate(changes.lastUpdate)
             Result.Success(Unit)
         } catch (e: IOException) {
             Result.Error(e.toErrorEntity())

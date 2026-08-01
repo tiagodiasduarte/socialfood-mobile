@@ -131,7 +131,7 @@ class FavouritesRepositoryImplTest {
     // syncFavourites
 
     @Test
-    fun `given changes available when syncFavourites is called then applies them and advances checkpoint`() =
+    fun `given changes available when syncFavourites is called then applies them and advances lastUpdate`() =
         runTest {
             // Given
             val (repo, dao, settings) = createRepository()
@@ -142,12 +142,12 @@ class FavouritesRepositoryImplTest {
 
             // Then
             assertIs<Result.Success<Unit>>(result)
-            assertEquals("checkpoint-1", settings.getFavouritesSyncCheckpoint())
+            assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouritesSyncUpdate())
             assertTrue(dao.getPaged(limit = 10, offset = 0).isNotEmpty())
         }
 
     @Test
-    fun `given DAO write throws when syncFavourites is called then does not advance the checkpoint`() =
+    fun `given DAO write throws when syncFavourites is called then does not advance lastUpdate`() =
         runTest {
             // Given
             val (repo, _, settings) = createRepository(dao = FakeFavouriteDao(shouldThrowOnWrite = true))
@@ -158,7 +158,7 @@ class FavouritesRepositoryImplTest {
 
             // Then
             assertIs<Result.Error>(result)
-            assertEquals(null, settings.getFavouritesSyncCheckpoint())
+            assertEquals(null, settings.getLastFavouritesSyncUpdate())
         }
 
     @Test
@@ -174,7 +174,7 @@ class FavouritesRepositoryImplTest {
 
             // Then
             assertIs<Result.Success<Unit>>(result)
-            assertEquals(null, settings.getFavouritesSyncCheckpoint())
+            assertEquals(null, settings.getLastFavouritesSyncUpdate())
         }
 
     @Test
@@ -189,7 +189,7 @@ class FavouritesRepositoryImplTest {
 
             // Then
             assertIs<Result.Success<Unit>>(result)
-            assertEquals("checkpoint-1", settings.getFavouritesSyncCheckpoint())
+            assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouritesSyncUpdate())
         }
 }
 

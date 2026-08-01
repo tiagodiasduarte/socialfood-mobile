@@ -42,7 +42,7 @@ class FakeFavouriteRestaurantsApi(private val shouldThrow: Boolean = false) : Fa
     var fakeSyncResponse = FavouriteSyncResponse(
         addedIds = listOf(fakeRestaurantResponse.id),
         removedIds = emptyList(),
-        lastUpdate = "2026-08-01T10:30:00Z",
+        syncedAt = "2026-08-01T10:30:00Z",
     )
 
     override suspend fun markFavourite(restaurantId: String) {

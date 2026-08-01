@@ -38,7 +38,7 @@ class FakeFavouritesApi(private val shouldThrow: Boolean = false) : FavouritesAp
     var fakeSyncResponse = FavouriteSyncResponse(
         addedIds = listOf(fakeGuideResponse.id),
         removedIds = emptyList(),
-        lastUpdate = "2026-08-01T10:30:00Z",
+        syncedAt = "2026-08-01T10:30:00Z",
     )
 
     override suspend fun markFavourite(guideId: String) {

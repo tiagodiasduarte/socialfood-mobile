@@ -12,9 +12,9 @@ private val Context.dataStore by preferencesDataStore(name = "socialfood_setting
 
 private val KEY_TOKEN = stringPreferencesKey("jwt_token")
 private val KEY_PENDING_VERIFICATION_EMAIL = stringPreferencesKey("pending_verification_email")
-private val KEY_LAST_FAVOURITES_SYNC_UPDATE = stringPreferencesKey("favourites_sync_checkpoint")
+private val KEY_LAST_FAVOURITES_SYNCED_AT = stringPreferencesKey("favourites_sync_checkpoint")
 private val KEY_LAST_FAVOURITES_SYNC_ATTEMPT_AT = longPreferencesKey("last_favourites_sync_attempt_at")
-private val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_UPDATE = stringPreferencesKey("favourite_restaurants_sync_checkpoint")
+private val KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = stringPreferencesKey("favourite_restaurants_sync_checkpoint")
 private val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT =
     longPreferencesKey("last_favourite_restaurants_sync_attempt_at")
 
@@ -42,11 +42,11 @@ class SettingsRepositoryImpl(
         context.dataStore.edit { it.remove(KEY_PENDING_VERIFICATION_EMAIL) }
     }
 
-    override suspend fun getLastFavouritesSyncUpdate(): String? =
-        context.dataStore.data.first()[KEY_LAST_FAVOURITES_SYNC_UPDATE]
+    override suspend fun getLastFavouritesSyncedAt(): String? =
+        context.dataStore.data.first()[KEY_LAST_FAVOURITES_SYNCED_AT]
 
-    override suspend fun saveLastFavouritesSyncUpdate(lastUpdate: String) {
-        context.dataStore.edit { it[KEY_LAST_FAVOURITES_SYNC_UPDATE] = lastUpdate }
+    override suspend fun saveLastFavouritesSyncedAt(syncedAt: String) {
+        context.dataStore.edit { it[KEY_LAST_FAVOURITES_SYNCED_AT] = syncedAt }
     }
 
     override suspend fun getLastFavouritesSyncAttemptAt(): Long? =
@@ -56,11 +56,11 @@ class SettingsRepositoryImpl(
         context.dataStore.edit { it[KEY_LAST_FAVOURITES_SYNC_ATTEMPT_AT] = timestamp }
     }
 
-    override suspend fun getLastFavouriteRestaurantsSyncUpdate(): String? =
-        context.dataStore.data.first()[KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_UPDATE]
+    override suspend fun getLastFavouriteRestaurantsSyncedAt(): String? =
+        context.dataStore.data.first()[KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT]
 
-    override suspend fun saveLastFavouriteRestaurantsSyncUpdate(lastUpdate: String) {
-        context.dataStore.edit { it[KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_UPDATE] = lastUpdate }
+    override suspend fun saveLastFavouriteRestaurantsSyncedAt(syncedAt: String) {
+        context.dataStore.edit { it[KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT] = syncedAt }
     }
 
     override suspend fun getLastFavouriteRestaurantsSyncAttemptAt(): Long? =

@@ -9,14 +9,14 @@ interface SettingsRepository {
     suspend fun savePendingVerificationEmail(email: String)
     suspend fun clearPendingVerificationEmail()
 
-    suspend fun getLastFavouritesSyncUpdate(): String?
-    suspend fun saveLastFavouritesSyncUpdate(lastUpdate: String)
+    suspend fun getLastFavouritesSyncedAt(): String?
+    suspend fun saveLastFavouritesSyncedAt(syncedAt: String)
 
     suspend fun getLastFavouritesSyncAttemptAt(): Long?
     suspend fun saveLastFavouritesSyncAttemptAt(timestamp: Long)
 
-    suspend fun getLastFavouriteRestaurantsSyncUpdate(): String?
-    suspend fun saveLastFavouriteRestaurantsSyncUpdate(lastUpdate: String)
+    suspend fun getLastFavouriteRestaurantsSyncedAt(): String?
+    suspend fun saveLastFavouriteRestaurantsSyncedAt(syncedAt: String)
 
     suspend fun getLastFavouriteRestaurantsSyncAttemptAt(): Long?
     suspend fun saveLastFavouriteRestaurantsSyncAttemptAt(timestamp: Long)

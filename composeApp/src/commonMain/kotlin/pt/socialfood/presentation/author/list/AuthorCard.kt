@@ -27,7 +27,7 @@ import pt.socialfood.presentation.components.card.SectionCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
-val AuthorCardHeight = 112.dp
+val AuthorCardHeight = 132.dp
 
 @Composable
 fun AuthorCard(

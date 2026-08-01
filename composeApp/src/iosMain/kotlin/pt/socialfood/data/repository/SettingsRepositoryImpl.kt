@@ -5,13 +5,13 @@ import pt.socialfood.domain.repository.SettingsRepository
 
 private const val KEY_TOKEN = "jwt_token"
 private const val KEY_PENDING_VERIFICATION_EMAIL = "pending_verification_email"
-private const val KEY_LAST_FAVOURITES_SYNC_UPDATE = "favourites_sync_checkpoint"
+private const val KEY_LAST_FAVOURITES_SYNCED_AT = "favourites_synced_at"
 private const val KEY_LAST_FAVOURITES_SYNC_ATTEMPT_AT = "last_favourites_sync_attempt_at"
-private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_UPDATE = "favourite_restaurants_sync_checkpoint"
+private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = "favourite_restaurants_synced_at"
 private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT = "last_favourite_restaurants_sync_attempt_at"
 
+@Suppress("TooManyFunctions")
 class SettingsRepositoryImpl : SettingsRepository {
-
     private val defaults = NSUserDefaults.standardUserDefaults
 
     override suspend fun getToken(): String? = defaults.stringForKey(KEY_TOKEN)
@@ -34,10 +34,10 @@ class SettingsRepositoryImpl : SettingsRepository {
         defaults.removeObjectForKey(KEY_PENDING_VERIFICATION_EMAIL)
     }
 
-    override suspend fun getLastFavouritesSyncUpdate(): String? = defaults.stringForKey(KEY_LAST_FAVOURITES_SYNC_UPDATE)
+    override suspend fun getLastFavouritesSyncedAt(): String? = defaults.stringForKey(KEY_LAST_FAVOURITES_SYNCED_AT)
 
-    override suspend fun saveLastFavouritesSyncUpdate(lastUpdate: String) {
-        defaults.setObject(lastUpdate, KEY_LAST_FAVOURITES_SYNC_UPDATE)
+    override suspend fun saveLastFavouritesSyncedAt(syncedAt: String) {
+        defaults.setObject(syncedAt, KEY_LAST_FAVOURITES_SYNCED_AT)
     }
 
     override suspend fun getLastFavouritesSyncAttemptAt(): Long? =
@@ -51,11 +51,11 @@ class SettingsRepositoryImpl : SettingsRepository {
         defaults.setInteger(timestamp, KEY_LAST_FAVOURITES_SYNC_ATTEMPT_AT)
     }
 
-    override suspend fun getLastFavouriteRestaurantsSyncUpdate(): String? =
-        defaults.stringForKey(KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_UPDATE)
+    override suspend fun getLastFavouriteRestaurantsSyncedAt(): String? =
+        defaults.stringForKey(KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT)
 
-    override suspend fun saveLastFavouriteRestaurantsSyncUpdate(lastUpdate: String) {
-        defaults.setObject(lastUpdate, KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_UPDATE)
+    override suspend fun saveLastFavouriteRestaurantsSyncedAt(syncedAt: String) {
+        defaults.setObject(syncedAt, KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT)
     }
 
     override suspend fun getLastFavouriteRestaurantsSyncAttemptAt(): Long? =

@@ -135,7 +135,7 @@ class FavouriteRestaurantsRepositoryImplTest {
     // syncFavourites
 
     @Test
-    fun `given changes available when syncFavourites is called then applies them and advances lastUpdate`() =
+    fun `given changes available when syncFavourites is called then applies them and advances syncedAt`() =
         runTest {
             // Given
             val (repo, dao, settings) = createRepository()
@@ -146,12 +146,12 @@ class FavouriteRestaurantsRepositoryImplTest {
 
             // Then
             assertIs<Result.Success<Unit>>(result)
-            assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouriteRestaurantsSyncUpdate())
+            assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouriteRestaurantsSyncedAt())
             assertTrue(dao.getPaged(limit = 10, offset = 0).isNotEmpty())
         }
 
     @Test
-    fun `given DAO write throws when syncFavourites is called then does not advance lastUpdate`() =
+    fun `given DAO write throws when syncFavourites is called then does not advance syncedAt`() =
         runTest {
             // Given
             val (repo, _, settings) = createRepository(dao = FakeFavouriteRestaurantDao(shouldThrowOnWrite = true))
@@ -162,7 +162,7 @@ class FavouriteRestaurantsRepositoryImplTest {
 
             // Then
             assertIs<Result.Error>(result)
-            assertEquals(null, settings.getLastFavouriteRestaurantsSyncUpdate())
+            assertEquals(null, settings.getLastFavouriteRestaurantsSyncedAt())
         }
 
     @Test
@@ -178,7 +178,7 @@ class FavouriteRestaurantsRepositoryImplTest {
 
             // Then
             assertIs<Result.Success<Unit>>(result)
-            assertEquals(null, settings.getLastFavouriteRestaurantsSyncUpdate())
+            assertEquals(null, settings.getLastFavouriteRestaurantsSyncedAt())
         }
 
     @Test
@@ -193,7 +193,7 @@ class FavouriteRestaurantsRepositoryImplTest {
 
             // Then
             assertIs<Result.Success<Unit>>(result)
-            assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouriteRestaurantsSyncUpdate())
+            assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouriteRestaurantsSyncedAt())
         }
 }
 

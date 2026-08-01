@@ -553,9 +553,9 @@
         <error line="20" column="9" source="standard:function-signature" />
         <error line="21" column="9" source="standard:function-signature" />
         <error line="21" column="31" source="standard:function-signature" />
-        <error line="40" column="9" source="standard:function-signature" />
         <error line="41" column="9" source="standard:function-signature" />
-        <error line="41" column="26" source="standard:function-signature" />
+        <error line="42" column="9" source="standard:function-signature" />
+        <error line="42" column="26" source="standard:function-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/SearchPlacesUseCase.kt">
         <error line="1" column="9" source="standard:package-name" />

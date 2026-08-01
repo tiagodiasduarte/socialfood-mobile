@@ -65,8 +65,6 @@
     <ID>LongParameterList:SearchRestaurantsScreen.kt$( state: SearchRestaurantsUiState, searchQuery: String, isImportingRestaurant: Boolean, onBackClick: () -&gt; Unit, onSearchQueryChange: (String) -&gt; Unit, onRestaurantClicked: (String) -&gt; Unit, )</ID>
     <ID>LongParameterList:UpdateHomeSectionUseCase.kt$UpdateHomeSectionUseCase$( id: String, title: String, position: Int, isActive: Boolean, restaurantIds: List&lt;String&gt; = emptyList(), guideIds: List&lt;String&gt; = emptyList(), )</ID>
     <ID>LongParameterList:UpdateRestaurantUseCase.kt$UpdateRestaurantUseCase$( id: String, name: String, description: String?, country: String, city: String, address: String, phoneNumber: String, websiteUrl: String, )</ID>
-    <ID>LongParameterList:UpdateUserUseCase.kt$UpdateUserUseCase$( id: String, role: String? = null, imageUrl: String? = null, name: String? = null, username: String? = null, facebookUrl: String? = null, instagramUrl: String? = null, youtubeUrl: String? = null, )</ID>
-    <ID>LongParameterList:UsersRepository.kt$UsersRepository$( id: String, role: String? = null, imageUrl: String? = null, name: String? = null, username: String? = null, facebookUrl: String? = null, instagramUrl: String? = null, youtubeUrl: String? = null, )</ID>
     <ID>LongParameterList:ValidateCodeScreen.kt$( state: ValidateCodeUiState, onValidateClick: (String) -&gt; Unit, onResendClick: () -&gt; Unit, onRestartClick: () -&gt; Unit, onValidateSuccess: () -&gt; Unit, onRestartSignUp: () -&gt; Unit, )</ID>
     <ID>MagicNumber:AuthorCardPlaceholder.kt$3</ID>
     <ID>MagicNumber:AuthorDetailPlaceholder.kt$4</ID>

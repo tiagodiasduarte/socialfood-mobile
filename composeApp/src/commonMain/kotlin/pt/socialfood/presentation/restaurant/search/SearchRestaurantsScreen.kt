@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.search_restaurants_error
 import socialfood.composeapp.generated.resources.search_restaurants_search_placeholder
@@ -42,9 +43,10 @@ import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
 fun SearchRestaurantsScreen(
+    guideId: String,
     onBackClick: () -> Unit,
     onRestaurantAdded: (Restaurant) -> Unit,
-    viewModel: SearchRestaurantsViewModel = koinViewModel(),
+    viewModel: SearchRestaurantsViewModel = koinViewModel(parameters = { parametersOf(guideId) }),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val isImportingRestaurant by viewModel.isImportingRestaurant.collectAsStateWithLifecycle()

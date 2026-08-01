@@ -14,28 +14,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.parameter.parametersOf
-import org.koin.mp.KoinPlatform.getKoin
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.author.detail.AuthorDetailScreen
-import pt.socialfood.presentation.author.detail.AuthorDetailViewModel
 import pt.socialfood.presentation.author.list.AuthorsScreen
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesScreen
 import pt.socialfood.presentation.favourite.restaurant.FavouriteRestaurantsScreen
 import pt.socialfood.presentation.guide.create.CreateGuideScreen
-import pt.socialfood.presentation.guide.create.CreateGuideViewModel
 import pt.socialfood.presentation.guide.detail.GuideDetailScreen
-import pt.socialfood.presentation.guide.detail.GuideDetailViewModel
 import pt.socialfood.presentation.guide.edit.EditGuideScreen
 import pt.socialfood.presentation.guide.list.GuidesScreen
 import pt.socialfood.presentation.home.HomeScreen
 import pt.socialfood.presentation.profile.ProfileScreen
 import pt.socialfood.presentation.profile.edit.EditProfileScreen
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailScreen
-import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsScreen
-import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
 
 private const val NAVIGATION_TRANSITION_DURATION_MILLIS = 300
 
@@ -217,12 +209,6 @@ private fun GuideDetailEntry(
     route: Route.GuideDetail,
     navigator: Navigator,
 ) {
-    val vm =
-        remember(route.guideId) {
-            getKoin().get<GuideDetailViewModel> {
-                parametersOf(route.guideId)
-            }
-        }
     GuideDetailScreen(
         guideId = route.guideId,
         onBackClick = navigator::goBack,
@@ -231,7 +217,6 @@ private fun GuideDetailEntry(
             navigator.navigate(Route.RestaurantDetail(restaurantId))
         },
         onAuthorClick = { authorId -> navigator.navigate(Route.AuthorDetail(authorId)) },
-        viewModel = vm,
     )
 }
 
@@ -258,25 +243,16 @@ private fun AuthorDetailEntry(
     route: Route.AuthorDetail,
     navigator: Navigator,
 ) {
-    val vm =
-        remember(route.authorId) {
-            getKoin().get<AuthorDetailViewModel> {
-                parametersOf(route.authorId)
-            }
-        }
     AuthorDetailScreen(
         authorId = route.authorId,
         onBackClick = navigator::goBack,
         onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
-        viewModel = vm,
     )
 }
 
 @Composable
 private fun CreateGuideEntry(navigator: Navigator) {
-    val vm = koinViewModel<CreateGuideViewModel>()
     CreateGuideScreen(
-        viewModel = vm,
         onBackClick = navigator::goBack,
         onGuideCreated = { guideId ->
             navigator.goBack()
@@ -290,16 +266,9 @@ private fun RestaurantDetailEntry(
     route: Route.RestaurantDetail,
     navigator: Navigator,
 ) {
-    val vm =
-        remember(route.restaurantId) {
-            getKoin().get<RestaurantDetailViewModel> {
-                parametersOf(route.restaurantId)
-            }
-        }
     RestaurantDetailScreen(
         restaurantId = route.restaurantId,
         onBackClick = navigator::goBack,
-        viewModel = vm,
     )
 }
 
@@ -309,12 +278,8 @@ fun SearchRestaurantsEntry(
     navigator: Navigator,
     onRestaurantAddedRef: MutableState<((Restaurant) -> Unit)?>,
 ) {
-    val vm =
-        koinViewModel<SearchRestaurantsViewModel>(
-            parameters = { parametersOf(route.guideId) },
-        )
     SearchRestaurantsScreen(
-        viewModel = vm,
+        guideId = route.guideId,
         onBackClick = navigator::goBack,
         onRestaurantAdded = { restaurant ->
             onRestaurantAddedRef.value?.invoke(restaurant)

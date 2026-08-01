@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class FavouriteSyncResponse(
     val addedIds: List<String> = emptyList(),
     val removedIds: List<String> = emptyList(),
-    val lastUpdate: String,
+    val syncedAt: String,
 )

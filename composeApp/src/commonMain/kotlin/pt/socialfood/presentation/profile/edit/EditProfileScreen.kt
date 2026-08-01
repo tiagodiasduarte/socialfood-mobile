@@ -36,11 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.back_button_description
-import socialfood.composeapp.generated.resources.edit_profile_google_info
-import socialfood.composeapp.generated.resources.edit_profile_save_button
-import socialfood.composeapp.generated.resources.edit_profile_title
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
 import pt.socialfood.presentation.profile.edit.card.ProfilePictureCard
@@ -48,7 +43,13 @@ import pt.socialfood.presentation.profile.edit.card.SocialNetworkCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.back_button_description
+import socialfood.composeapp.generated.resources.edit_profile_google_info
+import socialfood.composeapp.generated.resources.edit_profile_save_button
+import socialfood.composeapp.generated.resources.edit_profile_title
 
+@Suppress("LongParameterList")
 @Composable
 fun EditProfileScreen(
     onBackClick: () -> Unit,
@@ -70,6 +71,7 @@ fun EditProfileScreen(
             TopBar(isSaving = false, showSaveButton = false, onBackClick = onBackClick, onSaveClick = {})
             ErrorContent(modifier = Modifier.fillMaxSize(), onRetryClick = viewModel::retry)
         }
+
         is EditProfileUiState.Loaded -> EditProfileContent(
             state = s,
             onBackClick = onBackClick,
@@ -84,6 +86,7 @@ fun EditProfileScreen(
     }
 }
 
+@Suppress("LongParameterList")
 @Composable
 private fun EditProfileContent(
     state: EditProfileUiState.Loaded,

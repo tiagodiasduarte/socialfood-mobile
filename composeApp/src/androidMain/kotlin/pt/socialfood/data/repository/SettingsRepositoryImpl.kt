@@ -12,9 +12,9 @@ private val Context.dataStore by preferencesDataStore(name = "socialfood_setting
 
 private val KEY_TOKEN = stringPreferencesKey("jwt_token")
 private val KEY_PENDING_VERIFICATION_EMAIL = stringPreferencesKey("pending_verification_email")
-private val KEY_LAST_FAVOURITES_SYNCED_AT = stringPreferencesKey("favourites_sync_checkpoint")
+private val KEY_LAST_FAVOURITES_SYNCED_AT = stringPreferencesKey("favourites_synced_at")
 private val KEY_LAST_FAVOURITES_SYNC_ATTEMPT_AT = longPreferencesKey("last_favourites_sync_attempt_at")
-private val KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = stringPreferencesKey("favourite_restaurants_sync_checkpoint")
+private val KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = stringPreferencesKey("favourite_restaurants_synced_at")
 private val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT =
     longPreferencesKey("last_favourite_restaurants_sync_attempt_at")
 

@@ -5,9 +5,9 @@ import pt.socialfood.domain.repository.SettingsRepository
 
 private const val KEY_TOKEN = "jwt_token"
 private const val KEY_PENDING_VERIFICATION_EMAIL = "pending_verification_email"
-private const val KEY_LAST_FAVOURITES_SYNCED_AT = "favourites_sync_checkpoint"
+private const val KEY_LAST_FAVOURITES_SYNCED_AT = "favourites_synced_at"
 private const val KEY_LAST_FAVOURITES_SYNC_ATTEMPT_AT = "last_favourites_sync_attempt_at"
-private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = "favourite_restaurants_sync_checkpoint"
+private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = "favourite_restaurants_synced_at"
 private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT = "last_favourite_restaurants_sync_attempt_at"
 
 class SettingsRepositoryImpl : SettingsRepository {

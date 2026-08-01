@@ -13,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import kotlinx.coroutines.NonCancellable.key
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.mp.KoinPlatform.getKoin
@@ -115,7 +114,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             )
                         }
                         entry<Route.Guides> {
-                            val vm = remember(key) { getKoin().get<GuidesViewModel>() }
+                            val vm = koinViewModel<GuidesViewModel>()
                             GuidesScreen(
                                 viewModel = vm,
                                 onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
@@ -123,7 +122,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             )
                         }
                         entry<Route.Authors> {
-                            val vm = remember(key) { getKoin().get<AuthorsViewModel>() }
+                            val vm = koinViewModel<AuthorsViewModel>()
                             AuthorsScreen(
                                 viewModel = vm,
                                 onAuthorClick = { authorId ->

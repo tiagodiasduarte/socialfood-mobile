@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -104,142 +105,224 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 navigationState.toEntries(
                     entryProvider {
                         entry<Route.Home> {
-                            HomeScreen(
-                                onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
-                                onRestaurantClick = { restaurantId ->
-                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
-                                },
-                            )
+                            HomeEntry(navigator)
                         }
                         entry<Route.Guides> {
-                            GuidesScreen(
-                                onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
-                                onAddClick = { navigator.navigate(Route.CreateGuide) },
-                            )
+                            GuidesEntry(navigator)
                         }
                         entry<Route.Authors> {
-                            AuthorsScreen(
-                                onAuthorClick = { authorId ->
-                                    navigator.navigate(
-                                        Route.AuthorDetail(
-                                            authorId,
-                                        ),
-                                    )
-                                },
-                            )
+                            AuthorsEntry(navigator)
                         }
                         entry<Route.Profile> {
-                            ProfileScreen(
-                                onEditProfileClick = { navigator.navigate(Route.EditProfile) },
-                                onFavouriteGuidesClick = { navigator.navigate(Route.FavouriteGuides) },
-                                onFavouriteRestaurantsClick = { navigator.navigate(Route.FavouriteRestaurants) },
-                            )
+                            ProfileEntry(navigator)
                         }
                         entry<Route.EditProfile> {
-                            EditProfileScreen(onBackClick = navigator::goBack)
+                            EditProfileEntry(navigator)
                         }
                         entry<Route.FavouriteGuides> {
-                            FavouriteGuidesScreen(
-                                onBackClick = navigator::goBack,
-                                onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
-                            )
+                            FavouriteGuidesEntry(navigator)
                         }
                         entry<Route.FavouriteRestaurants> {
-                            FavouriteRestaurantsScreen(
-                                onBackClick = navigator::goBack,
-                                onRestaurantClick = { restaurantId ->
-                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
-                                },
-                            )
+                            FavouriteRestaurantsEntry(navigator)
                         }
                         entry<Route.GuideDetail> { route ->
-                            val vm =
-                                remember(route.guideId) {
-                                    getKoin().get<GuideDetailViewModel> {
-                                        parametersOf(route.guideId)
-                                    }
-                                }
-                            GuideDetailScreen(
-                                guideId = route.guideId,
-                                onBackClick = navigator::goBack,
-                                onEditClick = { guideId -> navigator.navigate(Route.EditGuide(guideId)) },
-                                onRestaurantClick = { restaurantId ->
-                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
-                                },
-                                onAuthorClick = { authorId -> navigator.navigate(Route.AuthorDetail(authorId)) },
-                                viewModel = vm,
-                            )
+                            GuideDetailEntry(route, navigator)
                         }
                         entry<Route.EditGuide> { route ->
-                            val vm =
-                                koinViewModel<EditGuideViewModel>(
-                                    parameters = { parametersOf(route.guideId) },
-                                )
-                            EditGuideScreen(
-                                onBackClick = navigator::goBack,
-                                onGuideDeleted = navigator::popToRoot,
-                                initialTab = route.initialTab,
-                                onAddRestaurantsClick = { onRestaurantAdded ->
-                                    onRestaurantAddedRef.value = onRestaurantAdded
-                                    navigator.navigate(Route.AddRestaurants(route.guideId))
-                                },
-                                viewModel = vm,
-                            )
+                            EditGuideEntry(route, navigator, onRestaurantAddedRef)
                         }
                         entry<Route.AuthorDetail> { route ->
-                            val vm =
-                                remember(route.authorId) {
-                                    getKoin().get<AuthorDetailViewModel> {
-                                        parametersOf(route.authorId)
-                                    }
-                                }
-                            AuthorDetailScreen(
-                                authorId = route.authorId,
-                                onBackClick = navigator::goBack,
-                                onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
-                                viewModel = vm,
-                            )
+                            AuthorDetailEntry(route, navigator)
                         }
                         entry<Route.CreateGuide> {
-                            val vm = koinViewModel<CreateGuideViewModel>()
-                            CreateGuideScreen(
-                                viewModel = vm,
-                                onBackClick = navigator::goBack,
-                                onGuideCreated = { guideId ->
-                                    navigator.goBack()
-                                    navigator.navigate(Route.EditGuide(guideId, initialTab = 1))
-                                },
-                            )
+                            CreateGuideEntry(navigator)
                         }
                         entry<Route.RestaurantDetail> { route ->
-                            val vm =
-                                remember(route.restaurantId) {
-                                    getKoin().get<RestaurantDetailViewModel> {
-                                        parametersOf(route.restaurantId)
-                                    }
-                                }
-                            RestaurantDetailScreen(
-                                restaurantId = route.restaurantId,
-                                onBackClick = navigator::goBack,
-                                viewModel = vm,
-                            )
+                            RestaurantDetailEntry(route, navigator)
                         }
                         entry<Route.AddRestaurants> { route ->
-                            val vm =
-                                koinViewModel<SearchRestaurantsViewModel>(
-                                    parameters = { parametersOf(route.guideId) },
-                                )
-                            SearchRestaurantsScreen(
-                                viewModel = vm,
-                                onBackClick = navigator::goBack,
-                                onRestaurantAdded = { restaurant ->
-                                    onRestaurantAddedRef.value?.invoke(restaurant)
-                                    navigator.goBack()
-                                },
-                            )
+                            teste(route, navigator, onRestaurantAddedRef)
                         }
                     },
                 ),
         )
     }
+}
+
+@Composable
+private fun HomeEntry(navigator: Navigator) {
+    HomeScreen(
+        onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+        onRestaurantClick = { restaurantId ->
+            navigator.navigate(Route.RestaurantDetail(restaurantId))
+        },
+    )
+}
+
+@Composable
+private fun GuidesEntry(navigator: Navigator) {
+    GuidesScreen(
+        onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+        onAddClick = { navigator.navigate(Route.CreateGuide) },
+    )
+}
+
+@Composable
+private fun AuthorsEntry(navigator: Navigator) {
+    AuthorsScreen(
+        onAuthorClick = { authorId ->
+            navigator.navigate(
+                Route.AuthorDetail(
+                    authorId,
+                ),
+            )
+        },
+    )
+}
+
+@Composable
+private fun ProfileEntry(navigator: Navigator) {
+    ProfileScreen(
+        onEditProfileClick = { navigator.navigate(Route.EditProfile) },
+        onFavouriteGuidesClick = { navigator.navigate(Route.FavouriteGuides) },
+        onFavouriteRestaurantsClick = { navigator.navigate(Route.FavouriteRestaurants) },
+    )
+}
+
+@Composable
+private fun EditProfileEntry(navigator: Navigator) {
+    EditProfileScreen(onBackClick = navigator::goBack)
+}
+
+@Composable
+private fun FavouriteGuidesEntry(navigator: Navigator) {
+    FavouriteGuidesScreen(
+        onBackClick = navigator::goBack,
+        onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+    )
+}
+
+@Composable
+private fun FavouriteRestaurantsEntry(navigator: Navigator) {
+    FavouriteRestaurantsScreen(
+        onBackClick = navigator::goBack,
+        onRestaurantClick = { restaurantId ->
+            navigator.navigate(Route.RestaurantDetail(restaurantId))
+        },
+    )
+}
+
+@Composable
+private fun GuideDetailEntry(
+    route: Route.GuideDetail,
+    navigator: Navigator,
+) {
+    val vm =
+        remember(route.guideId) {
+            getKoin().get<GuideDetailViewModel> {
+                parametersOf(route.guideId)
+            }
+        }
+    GuideDetailScreen(
+        guideId = route.guideId,
+        onBackClick = navigator::goBack,
+        onEditClick = { guideId -> navigator.navigate(Route.EditGuide(guideId)) },
+        onRestaurantClick = { restaurantId ->
+            navigator.navigate(Route.RestaurantDetail(restaurantId))
+        },
+        onAuthorClick = { authorId -> navigator.navigate(Route.AuthorDetail(authorId)) },
+        viewModel = vm,
+    )
+}
+
+@Composable
+private fun EditGuideEntry(
+    route: Route.EditGuide,
+    navigator: Navigator,
+    onRestaurantAddedRef: MutableState<((Restaurant) -> Unit)?>,
+) {
+    val vm =
+        koinViewModel<EditGuideViewModel>(
+            parameters = { parametersOf(route.guideId) },
+        )
+    EditGuideScreen(
+        onBackClick = navigator::goBack,
+        onGuideDeleted = navigator::popToRoot,
+        initialTab = route.initialTab,
+        onAddRestaurantsClick = { onRestaurantAdded ->
+            onRestaurantAddedRef.value = onRestaurantAdded
+            navigator.navigate(Route.AddRestaurants(route.guideId))
+        },
+        viewModel = vm,
+    )
+}
+
+@Composable
+private fun AuthorDetailEntry(
+    route: Route.AuthorDetail,
+    navigator: Navigator,
+) {
+    val vm =
+        remember(route.authorId) {
+            getKoin().get<AuthorDetailViewModel> {
+                parametersOf(route.authorId)
+            }
+        }
+    AuthorDetailScreen(
+        authorId = route.authorId,
+        onBackClick = navigator::goBack,
+        onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+        viewModel = vm,
+    )
+}
+
+@Composable
+private fun CreateGuideEntry(navigator: Navigator) {
+    val vm = koinViewModel<CreateGuideViewModel>()
+    CreateGuideScreen(
+        viewModel = vm,
+        onBackClick = navigator::goBack,
+        onGuideCreated = { guideId ->
+            navigator.goBack()
+            navigator.navigate(Route.EditGuide(guideId, initialTab = 1))
+        },
+    )
+}
+
+@Composable
+private fun RestaurantDetailEntry(
+    route: Route.RestaurantDetail,
+    navigator: Navigator,
+) {
+    val vm =
+        remember(route.restaurantId) {
+            getKoin().get<RestaurantDetailViewModel> {
+                parametersOf(route.restaurantId)
+            }
+        }
+    RestaurantDetailScreen(
+        restaurantId = route.restaurantId,
+        onBackClick = navigator::goBack,
+        viewModel = vm,
+    )
+}
+
+@Composable
+fun teste(
+    route: Route.AddRestaurants,
+    navigator: Navigator,
+    onRestaurantAddedRef: MutableState<((Restaurant) -> Unit)?>,
+) {
+    val vm =
+        koinViewModel<SearchRestaurantsViewModel>(
+            parameters = { parametersOf(route.guideId) },
+        )
+    SearchRestaurantsScreen(
+        viewModel = vm,
+        onBackClick = navigator::goBack,
+        onRestaurantAdded = { restaurant ->
+            onRestaurantAddedRef.value?.invoke(restaurant)
+            navigator.goBack()
+        },
+    )
 }

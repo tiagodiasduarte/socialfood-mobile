@@ -1771,7 +1771,19 @@
         <error line="45" column="26" source="standard:multiline-expression-wrapping" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/NavigationRoot.kt">
-        <error line="43" column="5" source="standard:function-naming" />
+        <error line="44" column="5" source="standard:function-naming" />
+        <error line="153" column="13" source="standard:function-naming" />
+        <error line="163" column="13" source="standard:function-naming" />
+        <error line="171" column="13" source="standard:function-naming" />
+        <error line="184" column="13" source="standard:function-naming" />
+        <error line="193" column="13" source="standard:function-naming" />
+        <error line="198" column="13" source="standard:function-naming" />
+        <error line="206" column="13" source="standard:function-naming" />
+        <error line="216" column="13" source="standard:function-naming" />
+        <error line="239" column="13" source="standard:function-naming" />
+        <error line="261" column="13" source="standard:function-naming" />
+        <error line="280" column="13" source="standard:function-naming" />
+        <error line="293" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/NavigationState.kt">
         <error line="28" column="54" source="standard:trailing-comma-on-declaration-site" />

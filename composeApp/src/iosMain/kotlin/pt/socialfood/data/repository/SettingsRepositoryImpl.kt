@@ -10,8 +10,8 @@ private const val KEY_LAST_FAVOURITES_SYNC_ATTEMPT_AT = "last_favourites_sync_at
 private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = "favourite_restaurants_synced_at"
 private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT = "last_favourite_restaurants_sync_attempt_at"
 
+@Suppress("TooManyFunctions")
 class SettingsRepositoryImpl : SettingsRepository {
-
     private val defaults = NSUserDefaults.standardUserDefaults
 
     override suspend fun getToken(): String? = defaults.stringForKey(KEY_TOKEN)

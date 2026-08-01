@@ -18,6 +18,7 @@ private val KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = stringPreferencesKey("fav
 private val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT =
     longPreferencesKey("last_favourite_restaurants_sync_attempt_at")
 
+@Suppress("TooManyFunctions")
 class SettingsRepositoryImpl(
     private val context: Context,
 ) : SettingsRepository {

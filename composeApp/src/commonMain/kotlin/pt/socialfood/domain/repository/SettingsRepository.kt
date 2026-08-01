@@ -1,5 +1,6 @@
 package pt.socialfood.domain.repository
 
+@Suppress("TooManyFunctions")
 interface SettingsRepository {
     suspend fun getToken(): String?
     suspend fun saveToken(token: String)

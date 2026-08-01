@@ -605,14 +605,14 @@
         <error line="19" column="5" source="standard:blank-line-before-declaration" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/repository/SettingsRepository.kt">
-        <error line="5" column="5" source="standard:blank-line-before-declaration" />
         <error line="6" column="5" source="standard:blank-line-before-declaration" />
-        <error line="9" column="5" source="standard:blank-line-before-declaration" />
+        <error line="7" column="5" source="standard:blank-line-before-declaration" />
         <error line="10" column="5" source="standard:blank-line-before-declaration" />
-        <error line="13" column="5" source="standard:blank-line-before-declaration" />
-        <error line="16" column="5" source="standard:blank-line-before-declaration" />
-        <error line="19" column="5" source="standard:blank-line-before-declaration" />
-        <error line="22" column="5" source="standard:blank-line-before-declaration" />
+        <error line="11" column="5" source="standard:blank-line-before-declaration" />
+        <error line="14" column="5" source="standard:blank-line-before-declaration" />
+        <error line="17" column="5" source="standard:blank-line-before-declaration" />
+        <error line="20" column="5" source="standard:blank-line-before-declaration" />
+        <error line="23" column="5" source="standard:blank-line-before-declaration" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/SearchPlacesUseCase.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -2756,9 +2756,6 @@
     <file name="src/iosMain/kotlin/pt/socialfood/data/network/ConnectivityObserverImpl.ios.kt">
         <error line="19" column="1" source="standard:no-empty-first-line-in-class-body" />
         <error line="20" column="44" source="standard:multiline-expression-wrapping" />
-    </file>
-    <file name="src/iosMain/kotlin/pt/socialfood/data/repository/SettingsRepositoryImpl.kt">
-        <error line="14" column="1" source="standard:no-empty-first-line-in-class-body" />
     </file>
     <file name="src/iosMain/kotlin/pt/socialfood/di/PlatformModule.kt">
         <error line="13" column="37" source="standard:multiline-expression-wrapping" />

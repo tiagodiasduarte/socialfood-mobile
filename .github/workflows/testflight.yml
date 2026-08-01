@@ -1,6 +1,8 @@
 name: iOS Build for TestFlight
 
 on:
+  schedule:
+    - cron: '0 10 * * *'  # 10:00 UTC (11:00 Lisbon/WEST summer)
   workflow_dispatch:
 
 jobs:

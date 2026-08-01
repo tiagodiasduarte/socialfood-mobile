@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -59,9 +58,9 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
     ) { innerPadding ->
         NavDisplay(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
             onBack = navigator::goBack,
             transitionSpec = {
                 slideInHorizontally(
@@ -94,196 +93,114 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                     )
             },
             entries =
-                navigationState.toEntries(
-                    entryProvider {
-                        entry<Route.Home> {
-                            HomeEntry(navigator)
-                        }
-                        entry<Route.Guides> {
-                            GuidesEntry(navigator)
-                        }
-                        entry<Route.Authors> {
-                            AuthorsEntry(navigator)
-                        }
-                        entry<Route.Profile> {
-                            ProfileEntry(navigator)
-                        }
-                        entry<Route.EditProfile> {
-                            EditProfileEntry(navigator)
-                        }
-                        entry<Route.FavouriteGuides> {
-                            FavouriteGuidesEntry(navigator)
-                        }
-                        entry<Route.FavouriteRestaurants> {
-                            FavouriteRestaurantsEntry(navigator)
-                        }
-                        entry<Route.GuideDetail> { route ->
-                            GuideDetailEntry(route, navigator)
-                        }
-                        entry<Route.EditGuide> { route ->
-                            EditGuideEntry(route, navigator, onRestaurantAddedRef)
-                        }
-                        entry<Route.AuthorDetail> { route ->
-                            AuthorDetailEntry(route, navigator)
-                        }
-                        entry<Route.CreateGuide> {
-                            CreateGuideEntry(navigator)
-                        }
-                        entry<Route.RestaurantDetail> { route ->
-                            RestaurantDetailEntry(route, navigator)
-                        }
-                        entry<Route.AddRestaurants> { route ->
-                            SearchRestaurantsEntry(route, navigator, onRestaurantAddedRef)
-                        }
-                    },
-                ),
+            navigationState.toEntries(
+                entryProvider {
+                    entry<Route.Home> {
+                        HomeScreen(
+                            onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+                            onRestaurantClick = { restaurantId ->
+                                navigator.navigate(Route.RestaurantDetail(restaurantId))
+                            },
+                        )
+                    }
+                    entry<Route.Guides> {
+                        GuidesScreen(
+                            onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+                            onAddClick = { navigator.navigate(Route.CreateGuide) },
+                        )
+                    }
+                    entry<Route.Authors> {
+                        AuthorsScreen(
+                            onAuthorClick = { authorId ->
+                                navigator.navigate(
+                                    Route.AuthorDetail(
+                                        authorId,
+                                    ),
+                                )
+                            },
+                        )
+                    }
+                    entry<Route.Profile> {
+                        ProfileScreen(
+                            onEditProfileClick = { navigator.navigate(Route.EditProfile) },
+                            onFavouriteGuidesClick = { navigator.navigate(Route.FavouriteGuides) },
+                            onFavouriteRestaurantsClick = { navigator.navigate(Route.FavouriteRestaurants) },
+                        )
+                    }
+                    entry<Route.EditProfile> {
+                        EditProfileScreen(onBackClick = navigator::goBack)
+                    }
+                    entry<Route.FavouriteGuides> {
+                        FavouriteGuidesScreen(
+                            onBackClick = navigator::goBack,
+                            onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+                        )
+                    }
+                    entry<Route.FavouriteRestaurants> {
+                        FavouriteRestaurantsScreen(
+                            onBackClick = navigator::goBack,
+                            onRestaurantClick = { restaurantId ->
+                                navigator.navigate(Route.RestaurantDetail(restaurantId))
+                            },
+                        )
+                    }
+                    entry<Route.GuideDetail> { route ->
+                        GuideDetailScreen(
+                            guideId = route.guideId,
+                            onBackClick = navigator::goBack,
+                            onEditClick = { guideId -> navigator.navigate(Route.EditGuide(guideId)) },
+                            onRestaurantClick = { restaurantId ->
+                                navigator.navigate(Route.RestaurantDetail(restaurantId))
+                            },
+                            onAuthorClick = { authorId -> navigator.navigate(Route.AuthorDetail(authorId)) },
+                        )
+                    }
+                    entry<Route.EditGuide> { route ->
+                        EditGuideScreen(
+                            guideId = route.guideId,
+                            onBackClick = navigator::goBack,
+                            onGuideDeleted = navigator::popToRoot,
+                            initialTab = route.initialTab,
+                            onAddRestaurantsClick = { onRestaurantAdded ->
+                                onRestaurantAddedRef.value = onRestaurantAdded
+                                navigator.navigate(Route.AddRestaurants(route.guideId))
+                            },
+                        )
+                    }
+                    entry<Route.AuthorDetail> { route ->
+                        AuthorDetailScreen(
+                            authorId = route.authorId,
+                            onBackClick = navigator::goBack,
+                            onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+                        )
+                    }
+                    entry<Route.CreateGuide> {
+                        CreateGuideScreen(
+                            onBackClick = navigator::goBack,
+                            onGuideCreated = { guideId ->
+                                navigator.goBack()
+                                navigator.navigate(Route.EditGuide(guideId, initialTab = 1))
+                            },
+                        )
+                    }
+                    entry<Route.RestaurantDetail> { route ->
+                        RestaurantDetailScreen(
+                            restaurantId = route.restaurantId,
+                            onBackClick = navigator::goBack,
+                        )
+                    }
+                    entry<Route.AddRestaurants> { route ->
+                        SearchRestaurantsScreen(
+                            guideId = route.guideId,
+                            onBackClick = navigator::goBack,
+                            onRestaurantAdded = { restaurant ->
+                                onRestaurantAddedRef.value?.invoke(restaurant)
+                                navigator.goBack()
+                            },
+                        )
+                    }
+                },
+            ),
         )
     }
-}
-
-@Composable
-private fun HomeEntry(navigator: Navigator) {
-    HomeScreen(
-        onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
-        onRestaurantClick = { restaurantId ->
-            navigator.navigate(Route.RestaurantDetail(restaurantId))
-        },
-    )
-}
-
-@Composable
-private fun GuidesEntry(navigator: Navigator) {
-    GuidesScreen(
-        onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
-        onAddClick = { navigator.navigate(Route.CreateGuide) },
-    )
-}
-
-@Composable
-private fun AuthorsEntry(navigator: Navigator) {
-    AuthorsScreen(
-        onAuthorClick = { authorId ->
-            navigator.navigate(
-                Route.AuthorDetail(
-                    authorId,
-                ),
-            )
-        },
-    )
-}
-
-@Composable
-private fun ProfileEntry(navigator: Navigator) {
-    ProfileScreen(
-        onEditProfileClick = { navigator.navigate(Route.EditProfile) },
-        onFavouriteGuidesClick = { navigator.navigate(Route.FavouriteGuides) },
-        onFavouriteRestaurantsClick = { navigator.navigate(Route.FavouriteRestaurants) },
-    )
-}
-
-@Composable
-private fun EditProfileEntry(navigator: Navigator) {
-    EditProfileScreen(onBackClick = navigator::goBack)
-}
-
-@Composable
-private fun FavouriteGuidesEntry(navigator: Navigator) {
-    FavouriteGuidesScreen(
-        onBackClick = navigator::goBack,
-        onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
-    )
-}
-
-@Composable
-private fun FavouriteRestaurantsEntry(navigator: Navigator) {
-    FavouriteRestaurantsScreen(
-        onBackClick = navigator::goBack,
-        onRestaurantClick = { restaurantId ->
-            navigator.navigate(Route.RestaurantDetail(restaurantId))
-        },
-    )
-}
-
-@Composable
-private fun GuideDetailEntry(
-    route: Route.GuideDetail,
-    navigator: Navigator,
-) {
-    GuideDetailScreen(
-        guideId = route.guideId,
-        onBackClick = navigator::goBack,
-        onEditClick = { guideId -> navigator.navigate(Route.EditGuide(guideId)) },
-        onRestaurantClick = { restaurantId ->
-            navigator.navigate(Route.RestaurantDetail(restaurantId))
-        },
-        onAuthorClick = { authorId -> navigator.navigate(Route.AuthorDetail(authorId)) },
-    )
-}
-
-@Composable
-private fun EditGuideEntry(
-    route: Route.EditGuide,
-    navigator: Navigator,
-    onRestaurantAddedRef: MutableState<((Restaurant) -> Unit)?>,
-) {
-    EditGuideScreen(
-        guideId = route.guideId,
-        onBackClick = navigator::goBack,
-        onGuideDeleted = navigator::popToRoot,
-        initialTab = route.initialTab,
-        onAddRestaurantsClick = { onRestaurantAdded ->
-            onRestaurantAddedRef.value = onRestaurantAdded
-            navigator.navigate(Route.AddRestaurants(route.guideId))
-        },
-    )
-}
-
-@Composable
-private fun AuthorDetailEntry(
-    route: Route.AuthorDetail,
-    navigator: Navigator,
-) {
-    AuthorDetailScreen(
-        authorId = route.authorId,
-        onBackClick = navigator::goBack,
-        onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
-    )
-}
-
-@Composable
-private fun CreateGuideEntry(navigator: Navigator) {
-    CreateGuideScreen(
-        onBackClick = navigator::goBack,
-        onGuideCreated = { guideId ->
-            navigator.goBack()
-            navigator.navigate(Route.EditGuide(guideId, initialTab = 1))
-        },
-    )
-}
-
-@Composable
-private fun RestaurantDetailEntry(
-    route: Route.RestaurantDetail,
-    navigator: Navigator,
-) {
-    RestaurantDetailScreen(
-        restaurantId = route.restaurantId,
-        onBackClick = navigator::goBack,
-    )
-}
-
-@Composable
-fun SearchRestaurantsEntry(
-    route: Route.AddRestaurants,
-    navigator: Navigator,
-    onRestaurantAddedRef: MutableState<((Restaurant) -> Unit)?>,
-) {
-    SearchRestaurantsScreen(
-        guideId = route.guideId,
-        onBackClick = navigator::goBack,
-        onRestaurantAdded = { restaurant ->
-            onRestaurantAddedRef.value?.invoke(restaurant)
-            navigator.goBack()
-        },
-    )
 }

@@ -143,7 +143,6 @@
     <ID>TooManyFunctions:EditProfileViewModel.kt$EditProfileViewModel : ViewModel</ID>
     <ID>TooManyFunctions:GuidesRepository.kt$GuidesRepository</ID>
     <ID>TooManyFunctions:GuidesRepositoryImpl.kt$GuidesRepositoryImpl : GuidesRepository</ID>
-    <ID>TooManyFunctions:NavigationRoot.kt$pt.socialfood.presentation.navigation.NavigationRoot.kt</ID>
     <ID>TooManyFunctions:SettingsRepository.kt$SettingsRepository</ID>
     <ID>TooManyFunctions:SettingsRepositoryImpl.kt$SettingsRepositoryImpl : SettingsRepository</ID>
   </CurrentIssues>

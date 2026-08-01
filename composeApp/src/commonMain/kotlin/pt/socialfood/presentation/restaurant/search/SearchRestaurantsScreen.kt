@@ -31,15 +31,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.search_restaurants_error
-import socialfood.composeapp.generated.resources.search_restaurants_search_placeholder
-import socialfood.composeapp.generated.resources.search_restaurants_title
 import pt.socialfood.domain.model.Place
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.SearchBar
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.search_restaurants_error
+import socialfood.composeapp.generated.resources.search_restaurants_search_placeholder
+import socialfood.composeapp.generated.resources.search_restaurants_title
 
 @Composable
 fun SearchRestaurantsScreen(
@@ -101,7 +101,7 @@ private fun SearchRestaurantsContent(
 
         Spacer(Modifier.height(SpaceSize.large))
 
-        when (val current = state) {
+        when (state) {
             SearchRestaurantsUiState.Loading -> Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
@@ -113,11 +113,11 @@ private fun SearchRestaurantsContent(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(
                     horizontal = SpaceSize.large,
-                    vertical = SpaceSize.medium
+                    vertical = SpaceSize.medium,
                 ),
                 verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
             ) {
-                items(current.places, key = { it.id }) { place ->
+                items(state.places, key = { it.id }) { place ->
                     PlaceItem(
                         place = place,
                         onAddClicked = { onRestaurantClicked(place.id) },
@@ -163,7 +163,6 @@ private fun TopBar(onBackClick: () -> Unit) {
         )
     }
 }
-
 
 @Composable
 @Preview

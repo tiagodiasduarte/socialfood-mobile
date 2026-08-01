@@ -76,8 +76,7 @@ fun EditProfileScreen(
             onSaveClick = viewModel::save,
             onPhotoSelected = viewModel::onPhotoSelected,
             onNameChange = viewModel::onNameChange,
-            onCityChange = viewModel::onCityChange,
-            onCountryChange = viewModel::onCountryChange,
+            onUsernameChange = viewModel::onUsernameChange,
             onFacebookUrlChange = viewModel::onFacebookUrlChange,
             onInstagramUrlChange = viewModel::onInstagramUrlChange,
             onYoutubeUrlChange = viewModel::onYoutubeUrlChange,
@@ -92,8 +91,7 @@ private fun EditProfileContent(
     onSaveClick: () -> Unit,
     onPhotoSelected: (ByteArray, String) -> Unit,
     onNameChange: (String) -> Unit,
-    onCityChange: (String) -> Unit,
-    onCountryChange: (String) -> Unit,
+    onUsernameChange: (String) -> Unit,
     onFacebookUrlChange: (String) -> Unit,
     onInstagramUrlChange: (String) -> Unit,
     onYoutubeUrlChange: (String) -> Unit,
@@ -145,8 +143,7 @@ private fun EditProfileContent(
             PersonalDetailsCard(
                 state = state,
                 onNameChange = onNameChange,
-                onCityChange = onCityChange,
-                onCountryChange = onCountryChange,
+                onUsernameChange = onUsernameChange,
             )
 
             SocialNetworkCard(
@@ -220,8 +217,7 @@ private fun EditProfileScreenPreview() {
         EditProfileContent(
             state = EditProfileUiState.Loaded(
                 name = "John Doe",
-                city = "New York",
-                country = "United States",
+                username = "johndoe",
                 facebookUrl = "",
                 instagramUrl = "",
                 youtubeUrl = "",
@@ -231,8 +227,7 @@ private fun EditProfileScreenPreview() {
             onSaveClick = {},
             onPhotoSelected = { _, _ -> },
             onNameChange = {},
-            onCityChange = {},
-            onCountryChange = {},
+            onUsernameChange = {},
             onFacebookUrlChange = {},
             onInstagramUrlChange = {},
             onYoutubeUrlChange = {},

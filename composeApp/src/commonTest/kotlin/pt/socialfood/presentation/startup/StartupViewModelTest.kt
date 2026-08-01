@@ -145,6 +145,7 @@ class StartupViewModelTest {
             id = "1",
             email = "john.doe@test.com",
             name = "John Doe",
+            username = "johndoe",
             isVerified = isVerified,
         )
 }

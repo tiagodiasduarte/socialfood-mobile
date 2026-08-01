@@ -20,7 +20,7 @@ import pt.socialfood.data.local.entity.GuideRemoteKeyEntity
 import pt.socialfood.data.local.entity.HomeSectionEntity
 
 const val DATABASE_NAME = "socialfood.db"
-const val DATABASE_VERSION = 5
+const val DATABASE_VERSION = 6
 
 @Database(
     entities = [

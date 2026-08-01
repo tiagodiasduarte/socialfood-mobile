@@ -25,7 +25,7 @@ class FavouritesRepositoryImplTest {
             name = "Guide Name",
             description = "Guide Description",
             visibility = GuideVisibility.PUBLIC,
-            author = Author(id = "author-id", name = "Author Name", imageUrl = null),
+            author = Author(id = "author-id", name = "Author Name", username = "authorname", imageUrl = null),
             numberOfRestaurant = 0,
             imageUrl = null,
         )

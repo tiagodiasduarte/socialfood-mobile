@@ -9,7 +9,7 @@ import pt.socialfood.data.network.model.author.AuthorResponse
 class FakeAuthorsApi(
     private val shouldThrow: Boolean = false,
     private val items: List<AuthorResponse> = listOf(
-        AuthorResponse(id = "author-id", name = "Author Name", imageUrl = null),
+        AuthorResponse(id = "author-id", name = "Author Name", username = "authorname", imageUrl = null),
     ),
     private val total: Int = 25,
 ) : AuthorsApi {
@@ -17,6 +17,7 @@ class FakeAuthorsApi(
     private val fakeAuthorDetailResponse = AuthorDetailResponse(
         id = "author-id",
         name = "Author Name",
+        username = "authorname",
         imageUrl = null,
         guidesCount = 3,
         followersCount = 10,

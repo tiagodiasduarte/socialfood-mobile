@@ -395,7 +395,7 @@ private fun GuidInfo(guide: Guide) {
 @Composable
 @Preview
 fun GuideDetailScreenPreview() {
-    val author = Author(id = "u1", name = "Sarah Mitchell")
+    val author = Author(id = "u1", name = "Sarah Mitchell", username = "sarahmitchell")
     val restaurants =
         listOf(
             Restaurant(

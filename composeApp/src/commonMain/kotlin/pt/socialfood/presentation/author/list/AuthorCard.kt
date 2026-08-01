@@ -55,6 +55,12 @@ fun AuthorCard(
                     color = MaterialTheme.colorScheme.onBackground,
                 )
 
+                Text(
+                    text = "@${author.username}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+
                 Spacer(Modifier.height(SpaceSize.large))
 
                 Row(
@@ -114,6 +120,7 @@ private fun AuthorCardPreview() {
             author = Author(
                 id = "1",
                 name = "Sarah Mitchell",
+                username = "sarahmitchell",
             ),
         )
     }

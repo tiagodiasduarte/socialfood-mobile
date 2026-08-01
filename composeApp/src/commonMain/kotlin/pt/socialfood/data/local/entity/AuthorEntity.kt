@@ -9,6 +9,7 @@ const val AUTHORS_TABLE = "authors"
 data class AuthorEntity(
     @PrimaryKey val id: String,
     val name: String,
+    val username: String,
     val imageUrl: String?,
     val position: Int,
 )

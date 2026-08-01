@@ -122,9 +122,9 @@ private fun AuthorsContent(
 @Composable
 private fun AuthorsScreenPreview() {
     val sampleAuthors = listOf(
-        Author(id = "1", name = "Sarah Mitchell"),
-        Author(id = "2", name = "Michael Rodriguez"),
-        Author(id = "3", name = "Emma Laurent"),
+        Author(id = "1", name = "Sarah Mitchell", username = "sarahmitchell"),
+        Author(id = "2", name = "Michael Rodriguez", username = "michaelrodriguez"),
+        Author(id = "3", name = "Emma Laurent", username = "emmalaurent"),
     )
     val authors = flowOf(PagingData.from(sampleAuthors)).collectAsLazyPagingItems()
 

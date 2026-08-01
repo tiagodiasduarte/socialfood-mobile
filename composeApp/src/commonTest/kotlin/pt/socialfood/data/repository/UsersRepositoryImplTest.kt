@@ -286,6 +286,7 @@ class UsersRepositoryImplTest {
                     id = "user-id",
                     email = "user@test.com",
                     name = "Test User",
+                    username = "testuser",
                 )
 
             // When
@@ -306,6 +307,7 @@ class UsersRepositoryImplTest {
                     id = "user-id",
                     email = "user@test.com",
                     name = "Test User",
+                    username = "testuser",
                 )
             repo.saveUser(user)
 

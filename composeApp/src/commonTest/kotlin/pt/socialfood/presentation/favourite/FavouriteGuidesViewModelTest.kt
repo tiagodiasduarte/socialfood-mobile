@@ -31,7 +31,7 @@ class FavouriteGuidesViewModelTest {
                     name = "Guide $id",
                     description = "",
                     visibility = GuideVisibility.PUBLIC,
-                    author = Author(id = "author-id", name = "Author"),
+                    author = Author(id = "author-id", name = "Author", username = "author"),
                     numberOfRestaurant = 0,
                 ),
             favouritedAt = 0L,

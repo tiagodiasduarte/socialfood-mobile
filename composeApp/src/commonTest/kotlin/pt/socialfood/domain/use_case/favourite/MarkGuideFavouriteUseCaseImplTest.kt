@@ -19,7 +19,7 @@ class MarkGuideFavouriteUseCaseImplTest {
         name = "Guide Name",
         description = "Guide Description",
         visibility = GuideVisibility.PUBLIC,
-        author = Author(id = "author-id", name = "Author Name"),
+        author = Author(id = "author-id", name = "Author Name", username = "authorname"),
         numberOfRestaurant = 0,
     )
 

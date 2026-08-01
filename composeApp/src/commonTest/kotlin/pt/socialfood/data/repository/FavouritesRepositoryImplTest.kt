@@ -142,7 +142,7 @@ class FavouritesRepositoryImplTest {
 
             // Then
             assertIs<Result.Success<Unit>>(result)
-            assertEquals("checkpoint-1", settings.getLastFavouritesSyncUpdate())
+            assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouritesSyncUpdate())
             assertTrue(dao.getPaged(limit = 10, offset = 0).isNotEmpty())
         }
 
@@ -189,7 +189,7 @@ class FavouritesRepositoryImplTest {
 
             // Then
             assertIs<Result.Success<Unit>>(result)
-            assertEquals("checkpoint-1", settings.getLastFavouritesSyncUpdate())
+            assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouritesSyncUpdate())
         }
 }
 

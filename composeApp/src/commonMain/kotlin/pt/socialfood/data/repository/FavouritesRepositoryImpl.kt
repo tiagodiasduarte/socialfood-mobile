@@ -124,6 +124,8 @@ class FavouritesRepositoryImpl(
             Result.Error(e.toErrorEntity())
         } catch (e: SQLiteException) {
             Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            Result.Error(e.toErrorEntity())
         }
     }
 

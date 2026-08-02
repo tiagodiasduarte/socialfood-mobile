@@ -46,6 +46,8 @@ class AuthorsRepositoryImpl(
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -56,6 +58,8 @@ class AuthorsRepositoryImpl(
         } catch (e: IOException) {
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
             Result.Error(e.toErrorEntity())
         }
     }

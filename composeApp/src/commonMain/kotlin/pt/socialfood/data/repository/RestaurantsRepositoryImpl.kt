@@ -31,6 +31,8 @@ class RestaurantsRepositoryImpl(
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -43,6 +45,8 @@ class RestaurantsRepositoryImpl(
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -53,6 +57,8 @@ class RestaurantsRepositoryImpl(
         } catch (e: IOException) {
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
             Result.Error(e.toErrorEntity())
         }
     }
@@ -77,6 +83,8 @@ class RestaurantsRepositoryImpl(
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -89,6 +97,8 @@ class RestaurantsRepositoryImpl(
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -99,6 +109,8 @@ class RestaurantsRepositoryImpl(
         } catch (e: IOException) {
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
             Result.Error(e.toErrorEntity())
         }
     }
@@ -111,6 +123,8 @@ class RestaurantsRepositoryImpl(
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -122,6 +136,8 @@ class RestaurantsRepositoryImpl(
             } catch (e: IOException) {
                 println("Restaurant not ready yet ($e)")
             } catch (e: ResponseException) {
+                println("Restaurant not ready yet ($e)")
+            } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
                 println("Restaurant not ready yet ($e)")
             }
 
@@ -156,6 +172,8 @@ class RestaurantsRepositoryImpl(
         } catch (e: IOException) {
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
             Result.Error(e.toErrorEntity())
         }
     }

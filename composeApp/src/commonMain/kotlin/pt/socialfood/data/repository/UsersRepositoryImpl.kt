@@ -39,6 +39,8 @@ class UsersRepositoryImpl(
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -58,6 +60,8 @@ class UsersRepositoryImpl(
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -70,6 +74,8 @@ class UsersRepositoryImpl(
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -79,6 +85,8 @@ class UsersRepositoryImpl(
         } catch (e: IOException) {
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
             Result.Error(e.toErrorEntity())
         }
     }
@@ -107,6 +115,8 @@ class UsersRepositoryImpl(
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -117,6 +127,8 @@ class UsersRepositoryImpl(
         } catch (e: IOException) {
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
             Result.Error(e.toErrorEntity())
         }
     }
@@ -144,6 +156,8 @@ class UsersRepositoryImpl(
     } catch (e: IOException) {
         Result.Error(e.toErrorEntity())
     } catch (e: ResponseException) {
+        Result.Error(e.toErrorEntity())
+    } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
         Result.Error(e.toErrorEntity())
     }
 }

@@ -36,6 +36,8 @@ class HomeRepositoryImpl(
             fallbackToCache(e)
         } catch (e: SQLiteException) {
             fallbackToCache(e)
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            fallbackToCache(e)
         }
 
     private suspend fun fallbackToCache(exception: Throwable): Result<List<HomeSection>> {
@@ -57,6 +59,8 @@ class HomeRepositoryImpl(
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            Result.Error(e.toErrorEntity())
         }
 
     override suspend fun create(
@@ -69,6 +73,8 @@ class HomeRepositoryImpl(
         } catch (e: IOException) {
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
             Result.Error(e.toErrorEntity())
         }
 
@@ -86,6 +92,8 @@ class HomeRepositoryImpl(
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            Result.Error(e.toErrorEntity())
         }
 
     override suspend fun delete(id: String): Result<Boolean> =
@@ -95,6 +103,8 @@ class HomeRepositoryImpl(
         } catch (e: IOException) {
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
             Result.Error(e.toErrorEntity())
         }
 
@@ -110,6 +120,8 @@ class HomeRepositoryImpl(
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
             Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
+            Result.Error(e.toErrorEntity())
         }
 
     override suspend fun removeItem(
@@ -122,6 +134,8 @@ class HomeRepositoryImpl(
         } catch (e: IOException) {
             Result.Error(e.toErrorEntity())
         } catch (e: ResponseException) {
+            Result.Error(e.toErrorEntity())
+        } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
             Result.Error(e.toErrorEntity())
         }
 }

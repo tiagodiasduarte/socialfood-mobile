@@ -7,6 +7,9 @@
         <error line="23" column="5" source="standard:class-signature" />
         <error line="23" column="34" source="standard:class-signature" />
     </file>
+    <file name="src/androidMain/kotlin/pt/socialfood/presentation/components/ErrorAlertDialog.android.kt">
+        <error line="9" column="12" source="standard:function-naming" />
+    </file>
     <file name="src/androidMain/kotlin/pt/socialfood/presentation/google/GoogleSignInLauncher.android.kt">
         <error line="19" column="5" source="standard:function-signature" />
         <error line="20" column="5" source="standard:function-signature" />
@@ -1198,6 +1201,9 @@
         <error line="15" column="5" source="standard:function-naming" />
         <error line="20" column="44" source="standard:trailing-comma-on-call-site" />
         <error line="28" column="13" source="standard:function-naming" />
+    </file>
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/ErrorAlertDialog.kt">
+        <error line="6" column="12" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/ErrorContent.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -2582,6 +2588,9 @@
     </file>
     <file name="src/iosMain/kotlin/pt/socialfood/data/local/DatabaseBuilder.ios.kt">
         <error line="19" column="10" source="standard:trailing-comma-on-call-site" />
+    </file>
+    <file name="src/iosMain/kotlin/pt/socialfood/presentation/components/ErrorAlertDialog.ios.kt">
+        <error line="14" column="12" source="standard:function-naming" />
     </file>
     <file name="src/iosMain/kotlin/pt/socialfood/presentation/components/buttons/social/SocialButtonsOpener.ios.kt">
         <error line="28" column="94" source="standard:function-expression-body" />

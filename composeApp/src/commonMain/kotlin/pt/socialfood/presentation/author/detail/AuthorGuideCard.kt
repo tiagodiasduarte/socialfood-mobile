@@ -28,11 +28,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.author_detail_restaurants_count_label
-import pt.socialfood.ui.theme.SpaceSize
 
-
+@Suppress("LongParameterList", "LongMethod")
 @Composable
 fun AuthorGuideCard(
     guideName: String,
@@ -40,7 +40,7 @@ fun AuthorGuideCard(
     numberOfRestaurant: Int,
     imageUrl: String?,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier.fillMaxWidth().clickable(onClick = onClick),
@@ -98,7 +98,7 @@ fun AuthorGuideCard(
                 Text(
                     text = stringResource(
                         Res.string.author_detail_restaurants_count_label,
-                        numberOfRestaurant
+                        numberOfRestaurant,
                     ),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,

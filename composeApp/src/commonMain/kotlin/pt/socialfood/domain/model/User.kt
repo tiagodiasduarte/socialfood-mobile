@@ -7,7 +7,6 @@ data class User(
     val username: String,
     val imageUrl: String? = null,
     val role: UserRole = UserRole.USER,
-    val address: String? = null,
     val city: String? = null,
     val country: String? = null,
     val facebookUrl: String? = null,

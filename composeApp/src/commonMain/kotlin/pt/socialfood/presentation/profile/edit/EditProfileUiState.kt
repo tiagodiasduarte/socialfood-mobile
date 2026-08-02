@@ -5,6 +5,7 @@ sealed interface EditProfileUiState {
     data class Loaded(
         val isSaving: Boolean = false,
         val saveSuccess: Boolean = false,
+        val saveError: Boolean = false,
         val isUploadingPhoto: Boolean = false,
         val userId: String = "",
         val name: String = "",

@@ -144,6 +144,9 @@
     <string name="edit_profile_picture_upload_label">Upload a new profile picture</string>
     <string name="edit_profile_picture_change_button">Change Photo</string>
     <string name="edit_profile_google_info">You are connected with Google account. Add a password to edit your contact information.</string>
+    <string name="edit_profile_save_error_title">Couldn\'t save profile</string>
+    <string name="edit_profile_save_error_message">Something went wrong while saving your profile. Please try again.</string>
+    <string name="edit_profile_save_error_dismiss">OK</string>
     <string name="edit_profile_personal_details_title">Personal Details</string>
     <string name="edit_profile_name_label">Name</string>
     <string name="edit_profile_name_placeholder">John Doe</string>

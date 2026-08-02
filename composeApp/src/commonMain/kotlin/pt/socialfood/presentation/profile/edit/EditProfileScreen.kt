@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.presentation.components.ErrorAlertDialog
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
 import pt.socialfood.presentation.profile.edit.card.ProfilePictureCard
@@ -47,14 +48,14 @@ import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
 import socialfood.composeapp.generated.resources.edit_profile_google_info
 import socialfood.composeapp.generated.resources.edit_profile_save_button
+import socialfood.composeapp.generated.resources.edit_profile_save_error_dismiss
+import socialfood.composeapp.generated.resources.edit_profile_save_error_message
+import socialfood.composeapp.generated.resources.edit_profile_save_error_title
 import socialfood.composeapp.generated.resources.edit_profile_title
 
 @Suppress("LongParameterList")
 @Composable
-fun EditProfileScreen(
-    onBackClick: () -> Unit,
-    viewModel: EditProfileViewModel = koinViewModel(),
-) {
+fun EditProfileScreen(onBackClick: () -> Unit, viewModel: EditProfileViewModel = koinViewModel()) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     if (state is EditProfileUiState.Loaded) {
@@ -82,6 +83,7 @@ fun EditProfileScreen(
             onFacebookUrlChange = viewModel::onFacebookUrlChange,
             onInstagramUrlChange = viewModel::onInstagramUrlChange,
             onYoutubeUrlChange = viewModel::onYoutubeUrlChange,
+            onDismissSaveError = viewModel::dismissSaveError,
         )
     }
 }
@@ -98,7 +100,12 @@ private fun EditProfileContent(
     onFacebookUrlChange: (String) -> Unit,
     onInstagramUrlChange: (String) -> Unit,
     onYoutubeUrlChange: (String) -> Unit,
+    onDismissSaveError: () -> Unit,
 ) {
+    if (state.saveError) {
+        SaveErrorDialog(onDismiss = onDismissSaveError)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -160,12 +167,17 @@ private fun EditProfileContent(
 }
 
 @Composable
-private fun TopBar(
-    isSaving: Boolean,
-    showSaveButton: Boolean,
-    onBackClick: () -> Unit,
-    onSaveClick: () -> Unit,
-) {
+private fun SaveErrorDialog(onDismiss: () -> Unit) {
+    ErrorAlertDialog(
+        title = stringResource(Res.string.edit_profile_save_error_title),
+        message = stringResource(Res.string.edit_profile_save_error_message),
+        confirmButtonText = stringResource(Res.string.edit_profile_save_error_dismiss),
+        onDismiss = onDismiss,
+    )
+}
+
+@Composable
+private fun TopBar(isSaving: Boolean, showSaveButton: Boolean, onBackClick: () -> Unit, onSaveClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -234,6 +246,7 @@ private fun EditProfileScreenPreview() {
             onFacebookUrlChange = {},
             onInstagramUrlChange = {},
             onYoutubeUrlChange = {},
+            onDismissSaveError = {},
         )
     }
 }

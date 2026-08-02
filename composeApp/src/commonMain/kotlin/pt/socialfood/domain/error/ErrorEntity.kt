@@ -17,6 +17,8 @@ sealed class ErrorEntity {
         object PublicGuideNeedsImage : Validation()
     }
 
+    data class Api(val message: String) : ErrorEntity()
+
     object Unauthorized : ErrorEntity()
     object InvalidCredentials : ErrorEntity()
     object PasswordMismatch : ErrorEntity()

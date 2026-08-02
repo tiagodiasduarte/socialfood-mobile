@@ -3,9 +3,11 @@ package pt.socialfood.data.network.extensions
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import io.ktor.client.plugins.ResponseException
 import io.ktor.http.HttpStatusCode
+import pt.socialfood.core.ApiException
 import pt.socialfood.domain.error.ErrorEntity
 
 fun Throwable.toErrorEntity(): ErrorEntity = when (this) {
+    is ApiException -> ErrorEntity.Api(message)
     is ResponseException -> mapStatusCode(response.status)
     is HttpRequestTimeoutException -> ErrorEntity.Network.TIMEOUT
     else -> ErrorEntity.Unknown

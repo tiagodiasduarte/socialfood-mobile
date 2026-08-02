@@ -30,6 +30,19 @@
     <file name="src/commonMain/kotlin/pt/socialfood/App.kt">
         <error line="29" column="5" source="standard:function-naming" />
     </file>
+    <file name="src/commonMain/kotlin/pt/socialfood/core/ApiException.kt">
+        <error line="7" column="5" source="standard:class-signature" />
+        <error line="8" column="5" source="standard:class-signature" />
+        <error line="9" column="5" source="standard:class-signature" />
+        <error line="9" column="34" source="standard:class-signature" />
+        <error line="10" column="5" source="standard:class-signature" />
+    </file>
+    <file name="src/commonMain/kotlin/pt/socialfood/core/ErrorResponse.kt">
+        <error line="7" column="5" source="standard:class-signature" />
+        <error line="8" column="5" source="standard:class-signature" />
+        <error line="8" column="24" source="standard:class-signature" />
+        <error line="8" column="24" source="standard:trailing-comma-on-declaration-site" />
+    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/api/AuthApiImpl.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="18" column="5" source="standard:class-signature" />
@@ -166,17 +179,13 @@
         <error line="16" column="37" source="standard:class-signature" />
         <error line="16" column="37" source="standard:trailing-comma-on-declaration-site" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/data/network/KtorHttpClient.kt">
-        <error line="24" column="37" source="standard:trailing-comma-on-declaration-site" />
-        <error line="41" column="18" source="standard:trailing-comma-on-call-site" />
-    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/SessionManager.kt">
         <error line="13" column="5" source="standard:class-signature" />
         <error line="13" column="55" source="standard:class-signature" />
         <error line="13" column="55" source="standard:trailing-comma-on-declaration-site" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/extensions/ThrowableExceptions.kt">
-        <error line="14" column="65" source="standard:function-signature" />
+        <error line="16" column="65" source="standard:function-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/data/network/model/PagedResponse.kt">
         <error line="7" column="5" source="standard:class-signature" />
@@ -1769,13 +1778,6 @@
         <error line="180" column="13" source="standard:function-naming" />
         <error line="230" column="13" source="standard:function-naming" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/EditProfileViewModel.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="88" column="39" source="standard:wrapping" />
-        <error line="93" column="17" source="standard:wrapping" />
-        <error line="121" column="19" source="standard:wrapping" />
-        <error line="128" column="13" source="standard:wrapping" />
-    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/ProfileTextField.kt">
         <error line="22" column="5" source="standard:function-naming" />
     </file>
@@ -2158,9 +2160,9 @@
         <error line="36" column="107" source="standard:function-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/data/network/KtorHttpClientTest.kt">
-        <error line="29" column="81" source="standard:trailing-comma-on-call-site" />
-        <error line="34" column="28" source="standard:trailing-comma-on-call-site" />
-        <error line="53" column="105" source="standard:function-signature" />
+        <error line="34" column="81" source="standard:trailing-comma-on-call-site" />
+        <error line="39" column="28" source="standard:trailing-comma-on-call-site" />
+        <error line="58" column="105" source="standard:function-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/data/paging/AuthorRemoteMediatorTest.kt">
         <error line="34" column="45" source="standard:function-signature" />
@@ -2539,9 +2541,6 @@
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/guide/detail/GuideDetailViewModelTest.kt">
         <error line="62" column="121" source="standard:max-line-length" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/presentation/profile/edit/EditProfileViewModelTest.kt">
-        <error line="86" column="90" source="standard:function-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/restaurant/detail/RestaurantDetailViewModelTest.kt">
         <error line="62" column="121" source="standard:max-line-length" />

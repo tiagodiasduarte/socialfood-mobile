@@ -2,6 +2,7 @@ package pt.socialfood.data.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
+import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpResponseValidator
@@ -15,13 +16,16 @@ import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
 import io.ktor.http.URLProtocol
 import io.ktor.http.encodedPath
+import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import pt.socialfood.core.ApiException
+import pt.socialfood.core.ErrorResponse
 
 class KtorHttpClient(
     private val sessionManager: SessionManager,
     private val isDebug: Boolean = true,
-    engine: HttpClientEngine? = null
+    engine: HttpClientEngine? = null,
 ) {
     private val config: HttpClientConfig<*>.() -> Unit = {
 
@@ -38,7 +42,7 @@ class KtorHttpClient(
                 Json {
                     ignoreUnknownKeys = true
                     isLenient = true
-                }
+                },
             )
         }
 
@@ -62,10 +66,20 @@ class KtorHttpClient(
                 if (response.status.value == 401) {
                     sessionManager.clear()
                 }
-            }
 
-            handleResponseException { exception ->
-                // Optional: handle network exceptions here
+                if (!response.status.isSuccess()) {
+                    val error = try {
+                        response.body<ErrorResponse>()
+                    } catch (@Suppress("TooGenericExceptionCaught") _: Exception) {
+                        return@validateResponse
+                    }
+
+                    throw ApiException(
+                        response = response,
+                        error = error.error,
+                        message = error.message,
+                    )
+                }
             }
         }
 
@@ -76,5 +90,9 @@ class KtorHttpClient(
         }
     }
 
-    val client = if (engine != null) HttpClient(engine, config) else HttpClient(config)
+    val client = if (engine != null) {
+        HttpClient(engine, config)
+    } else {
+        HttpClient(config)
+    }
 }

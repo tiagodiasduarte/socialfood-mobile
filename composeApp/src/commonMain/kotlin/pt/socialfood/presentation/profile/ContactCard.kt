@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,9 +41,6 @@ fun ContactCard(user: User) {
             )
             Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.large)) {
                 ContactRow(icon = Icons.Outlined.Email, text = user.email)
-                user.address?.takeIf { it.isNotBlank() }?.let {
-                    ContactRow(Icons.Outlined.LocationOn, it)
-                }
             }
         }
     }

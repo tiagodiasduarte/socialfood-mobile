@@ -2,8 +2,6 @@ package pt.socialfood.presentation.profile.edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +13,10 @@ import pt.socialfood.domain.use_case.user.GetPresignedUrlUseCase
 import pt.socialfood.domain.use_case.user.GetUserMeUseCase
 import pt.socialfood.domain.use_case.user.UpdateUserPhotoUseCase
 import pt.socialfood.domain.use_case.user.UpdateUserUseCase
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
+@Suppress("TooManyFunctions")
 class EditProfileViewModel(
     private val getUserMe: GetUserMeUseCase,
     private val updateUser: UpdateUserUseCase,
@@ -71,6 +72,8 @@ class EditProfileViewModel(
         loaded { copy(pendingImage = Pair(bytes, mimeType)) }
     }
 
+    fun dismissSaveError() = loaded { copy(saveError = false) }
+
     @OptIn(ExperimentalTime::class)
     fun save() {
         val state = _state.value as? EditProfileUiState.Loaded ?: return
@@ -85,21 +88,23 @@ class EditProfileViewModel(
                 val ext = mimeType.substringAfter("/", "jpg").substringBefore(";")
                 val fileName = "photo_${Clock.System.now().toEpochMilliseconds()}.$ext"
 
-                val presigned = when (val result = getPresignedUrl(
-                    userId = state.userId,
-                    fileName = fileName,
-                    mimeType = mimeType,
-                    context = "profile",
-                )) {
+                val presigned = when (
+                    val result = getPresignedUrl(
+                        userId = state.userId,
+                        fileName = fileName,
+                        mimeType = mimeType,
+                        context = "profile",
+                    )
+                ) {
                     is Result.Success -> result.data
                     is Result.Error -> {
-                        loaded { copy(isSaving = false, isUploadingPhoto = false) }
+                        loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = true) }
                         return@launch
                     }
                 }
 
                 if (uploadPhoto(presigned = presigned, bytes = bytes, mimeType = mimeType) is Result.Error) {
-                    loaded { copy(isSaving = false, isUploadingPhoto = false) }
+                    loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = true) }
                     return@launch
                 }
 
@@ -111,23 +116,25 @@ class EditProfileViewModel(
                         }
                     }
                     is Result.Error -> {
-                        loaded { copy(isSaving = false, isUploadingPhoto = false) }
+                        loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = true) }
                         return@launch
                     }
                 }
             }
 
             val current = _state.value as? EditProfileUiState.Loaded ?: return@launch
-            when (updateUser(
-                id = current.userId,
-                name = current.name.ifBlank { null },
-                username = current.username.ifBlank { null },
-                facebookUrl = current.facebookUrl.ifBlank { null },
-                instagramUrl = current.instagramUrl.ifBlank { null },
-                youtubeUrl = current.youtubeUrl.ifBlank { null },
-            )) {
+            when (
+                updateUser(
+                    id = current.userId,
+                    name = current.name.ifBlank { null },
+                    username = current.username.ifBlank { null },
+                    facebookUrl = current.facebookUrl.ifBlank { null },
+                    instagramUrl = current.instagramUrl.ifBlank { null },
+                    youtubeUrl = current.youtubeUrl.ifBlank { null },
+                )
+            ) {
                 is Result.Success -> loaded { copy(isSaving = false, saveSuccess = true) }
-                is Result.Error -> loaded { copy(isSaving = false) }
+                is Result.Error -> loaded { copy(isSaving = false, saveError = true) }
             }
         }
     }

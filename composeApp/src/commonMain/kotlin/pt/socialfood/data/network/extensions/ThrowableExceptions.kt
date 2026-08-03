@@ -5,7 +5,7 @@ import pt.socialfood.data.network.ApiException
 import pt.socialfood.domain.error.DataError
 
 fun Throwable.toDataError(): DataError = when (this) {
-    is ApiException -> DataError.Known(code = error, message = message, httpStatus = response.status.value)
-    is ResponseException -> DataError.Unknown(message = response.status.description, httpStatus = response.status.value)
+    is ApiException -> DataError.Known(statusCode = response.status.value, errorCode = error, message = message)
+    is ResponseException -> DataError.Unknown(statusCode = response.status.value, message = response.status.description)
     else -> DataError.Network(this)
 }

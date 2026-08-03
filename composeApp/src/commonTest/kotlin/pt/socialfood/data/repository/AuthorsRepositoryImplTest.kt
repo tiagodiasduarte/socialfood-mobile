@@ -3,7 +3,7 @@ package pt.socialfood.data.repository
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.paging.AuthorCacheTransactionRunner
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.AuthorDetail
 import pt.socialfood.domain.model.PagedAuthors
 import pt.socialfood.fakes.FakeAuthorDao
@@ -62,7 +62,7 @@ class AuthorsRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // findAuthorById
@@ -93,7 +93,7 @@ class AuthorsRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // getAuthorsPagingFlow

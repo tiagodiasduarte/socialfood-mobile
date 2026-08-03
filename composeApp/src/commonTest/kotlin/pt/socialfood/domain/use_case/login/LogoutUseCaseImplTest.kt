@@ -3,7 +3,7 @@ package pt.socialfood.domain.use_case.login
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.network.SessionManager
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.fakes.FakeAuthRepository
 import pt.socialfood.fakes.FakeSettingsRepository
 import kotlin.test.Test
@@ -38,7 +38,7 @@ class LogoutUseCaseImplTest {
         sessionManager.saveToken("some-jwt-token")
         val fakeRepo = FakeAuthRepository(
             loginResult = Result.Success("token"),
-            logoutResult = Result.Failure(ApiError.Network(Exception("test error"))),
+            logoutResult = Result.Failure(DataError.Network(Exception("test error"))),
         )
         val useCase = LogoutUseCaseImpl(sessionManager, fakeRepo)
 

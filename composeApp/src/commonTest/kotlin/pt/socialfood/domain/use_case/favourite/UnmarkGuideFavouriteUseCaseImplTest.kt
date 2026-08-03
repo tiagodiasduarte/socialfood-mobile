@@ -2,7 +2,7 @@ package pt.socialfood.domain.use_case.favourite
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCaseImpl
 import pt.socialfood.fakes.FakeFavouritesRepository
 import kotlin.test.Test
@@ -29,7 +29,7 @@ class UnmarkGuideFavouriteUseCaseImplTest {
     fun `given repository fails when invoked then returns Error`() = runTest {
         // Given
         val repository =
-            FakeFavouritesRepository(unmarkResult = Result.Failure(ApiError.Network(Exception("test error"))))
+            FakeFavouritesRepository(unmarkResult = Result.Failure(DataError.Network(Exception("test error"))))
         val useCase = UnmarkGuideFavouriteUseCaseImpl(repository)
 
         // When

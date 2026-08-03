@@ -2,7 +2,7 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.PagedRestaurants
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.fakes.FakeRestaurantApi
@@ -42,7 +42,7 @@ class RestaurantsRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // delete
@@ -72,7 +72,7 @@ class RestaurantsRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // findAll
@@ -103,7 +103,7 @@ class RestaurantsRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // findRestaurants
@@ -139,7 +139,7 @@ class RestaurantsRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // findById
@@ -169,7 +169,7 @@ class RestaurantsRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // findByPlaceId
@@ -199,7 +199,7 @@ class RestaurantsRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // addByPlaceId
@@ -228,7 +228,7 @@ class RestaurantsRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // awaitEnrichedRestaurantByPlaceId
@@ -282,7 +282,7 @@ class RestaurantsRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
             assertEquals(RestaurantsRepositoryImpl.ENRICHMENT_POLL_MAX_ATTEMPTS, api.findByPlaceIdInvokeCount)
         }
 
@@ -333,6 +333,6 @@ class RestaurantsRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 }

@@ -2,7 +2,7 @@ package pt.socialfood.domain.use_case.guide
 
 import kotlinx.coroutines.flow.first
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.repository.GuidesRepository
@@ -20,7 +20,7 @@ class UpdateGuideUseCaseImpl(
         visibility: GuideVisibility,
     ): Result<Guide> {
         val userId = userRepository.currentUser.first()?.id
-            ?: return Result.Failure(ApiError.Network(IllegalStateException("No current user")))
+            ?: return Result.Failure(DataError.Network(IllegalStateException("No current user")))
 
         return guidesRepository.update(
             id = id,

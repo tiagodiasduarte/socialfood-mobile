@@ -2,7 +2,7 @@ package pt.socialfood.domain.use_case.login
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.fakes.FakeAuthRepository
 import pt.socialfood.fakes.FakeSettingsRepository
 import kotlin.test.Test
@@ -39,7 +39,7 @@ class RegisterUseCaseImplTest {
             val fakeRepo =
                 FakeAuthRepository(
                     loginResult = Result.Success("token"),
-                    registerResult = Result.Failure(ApiError.Network(Exception("test error"))),
+                    registerResult = Result.Failure(DataError.Network(Exception("test error"))),
                 )
             val useCase = RegisterUseCaseImpl(fakeRepo, settingsRepository)
 

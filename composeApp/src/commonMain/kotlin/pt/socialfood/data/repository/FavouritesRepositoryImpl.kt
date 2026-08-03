@@ -7,7 +7,7 @@ import pt.socialfood.core.Result
 import pt.socialfood.data.api.FavouritesApi
 import pt.socialfood.data.local.dao.FavouriteDao
 import pt.socialfood.data.local.entity.FavouriteSyncState
-import pt.socialfood.data.network.extensions.toApiError
+import pt.socialfood.data.network.extensions.toDataError
 import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
 import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.Guide
@@ -54,7 +54,7 @@ class FavouritesRepositoryImpl(
 
             Result.Success(Unit)
         } catch (e: SQLiteException) {
-            Result.Failure(e.toApiError())
+            Result.Failure(e.toDataError())
         }
     }
 
@@ -75,7 +75,7 @@ class FavouritesRepositoryImpl(
 
             Result.Success(Unit)
         } catch (e: SQLiteException) {
-            Result.Failure(e.toApiError())
+            Result.Failure(e.toDataError())
         }
     }
 
@@ -93,7 +93,7 @@ class FavouritesRepositoryImpl(
                 ),
             )
         } catch (e: SQLiteException) {
-            Result.Failure(e.toApiError())
+            Result.Failure(e.toDataError())
         }
     }
 
@@ -101,7 +101,7 @@ class FavouritesRepositoryImpl(
         return try {
             Result.Success(favouriteDao.getByGuideId(guideId) != null)
         } catch (e: SQLiteException) {
-            Result.Failure(e.toApiError())
+            Result.Failure(e.toDataError())
         }
     }
 
@@ -133,7 +133,7 @@ class FavouritesRepositoryImpl(
             settingsRepository.saveLastFavouritesSyncedAt(changes.syncedAt)
             Result.Success(Unit)
         } catch (e: SQLiteException) {
-            Result.Failure(e.toApiError())
+            Result.Failure(e.toDataError())
         }
     }
 

@@ -5,7 +5,7 @@ import pt.socialfood.core.Result
 import pt.socialfood.data.api.FavouriteRestaurantsApi
 import pt.socialfood.data.local.dao.FavouriteRestaurantDao
 import pt.socialfood.data.local.entity.FavouriteSyncState
-import pt.socialfood.data.network.extensions.toApiError
+import pt.socialfood.data.network.extensions.toDataError
 import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
 import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.PagedFavouriteRestaurants
@@ -49,7 +49,7 @@ class FavouriteRestaurantsRepositoryImpl(
 
             Result.Success(Unit)
         } catch (e: SQLiteException) {
-            Result.Failure(e.toApiError())
+            Result.Failure(e.toDataError())
         }
 
     override suspend fun unmarkFavourite(restaurantId: String): Result<Unit> =
@@ -70,7 +70,7 @@ class FavouriteRestaurantsRepositoryImpl(
 
             Result.Success(Unit)
         } catch (e: SQLiteException) {
-            Result.Failure(e.toApiError())
+            Result.Failure(e.toDataError())
         }
 
     override suspend fun getFavouritesPaged(
@@ -90,14 +90,14 @@ class FavouriteRestaurantsRepositoryImpl(
                 ),
             )
         } catch (e: SQLiteException) {
-            Result.Failure(e.toApiError())
+            Result.Failure(e.toDataError())
         }
 
     override suspend fun isFavourite(restaurantId: String): Result<Boolean> =
         try {
             Result.Success(favouriteRestaurantDao.getByRestaurantId(restaurantId) != null)
         } catch (e: SQLiteException) {
-            Result.Failure(e.toApiError())
+            Result.Failure(e.toDataError())
         }
 
     @Suppress("ReturnCount")
@@ -127,7 +127,7 @@ class FavouriteRestaurantsRepositoryImpl(
             settingsRepository.saveLastFavouriteRestaurantsSyncedAt(changes.syncedAt)
             Result.Success(Unit)
         } catch (e: SQLiteException) {
-            Result.Failure(e.toApiError())
+            Result.Failure(e.toDataError())
         }
     }
 

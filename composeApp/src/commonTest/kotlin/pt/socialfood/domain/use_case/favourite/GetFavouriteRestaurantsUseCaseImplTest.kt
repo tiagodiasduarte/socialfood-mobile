@@ -2,7 +2,7 @@ package pt.socialfood.domain.use_case.favourite
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.PagedFavouriteRestaurants
 import pt.socialfood.domain.use_case.favourite.restaurant.GetFavouriteRestaurantsUseCaseImpl
 import pt.socialfood.fakes.FakeFavouriteRestaurantsRepository
@@ -36,7 +36,7 @@ class GetFavouriteRestaurantsUseCaseImplTest {
             // Given
             val repository =
                 FakeFavouriteRestaurantsRepository(
-                    pagedResult = Result.Failure(ApiError.Network(Exception("test error"))),
+                    pagedResult = Result.Failure(DataError.Network(Exception("test error"))),
                 )
             val useCase = GetFavouriteRestaurantsUseCaseImpl(repository)
 

@@ -2,7 +2,7 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.PagedUsers
 import pt.socialfood.domain.model.PresignedUrlData
 import pt.socialfood.domain.model.User
@@ -46,7 +46,7 @@ class UsersRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // findUsers
@@ -82,7 +82,7 @@ class UsersRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // getUserMe
@@ -114,7 +114,7 @@ class UsersRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // findById
@@ -144,7 +144,7 @@ class UsersRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // update
@@ -194,7 +194,7 @@ class UsersRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // updatePhoto
@@ -224,7 +224,7 @@ class UsersRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // getPresignedUrl
@@ -267,7 +267,7 @@ class UsersRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // saveUser / clearUser / currentUser flow

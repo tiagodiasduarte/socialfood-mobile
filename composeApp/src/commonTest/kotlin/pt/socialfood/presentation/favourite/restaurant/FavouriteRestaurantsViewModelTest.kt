@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.FavouriteRestaurant
 import pt.socialfood.domain.model.PagedFavouriteRestaurants
 import pt.socialfood.domain.model.Restaurant
@@ -71,7 +71,7 @@ class FavouriteRestaurantsViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val useCase =
-                FakeGetFavouriteRestaurantsUseCase { Result.Failure(ApiError.Network(Exception("test error"))) }
+                FakeGetFavouriteRestaurantsUseCase { Result.Failure(DataError.Network(Exception("test error"))) }
 
             // When / Then
             val vm = FavouriteRestaurantsViewModel(useCase, FakeUnmarkRestaurantFavouriteUseCase())
@@ -205,7 +205,9 @@ class FavouriteRestaurantsViewModelTest {
                     )
                 }
             val unmarkUseCase =
-                FakeUnmarkRestaurantFavouriteUseCase(result = Result.Failure(ApiError.Network(Exception("test error"))))
+                FakeUnmarkRestaurantFavouriteUseCase(
+                    result = Result.Failure(DataError.Network(Exception("test error"))),
+                )
             val vm = FavouriteRestaurantsViewModel(useCase, unmarkUseCase)
 
             // When / Then

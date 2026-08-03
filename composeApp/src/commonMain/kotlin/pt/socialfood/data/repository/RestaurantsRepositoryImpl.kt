@@ -4,7 +4,7 @@ import kotlinx.coroutines.delay
 import kotlinx.io.IOException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.RestaurantApi
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.PagedRestaurants
 import pt.socialfood.domain.model.Restaurant
@@ -71,7 +71,7 @@ class RestaurantsRepositoryImpl(
 
             delay(ENRICHMENT_POLL_INTERVAL_MS)
         }
-        return Result.Failure(ApiError.Network(IOException("Restaurant enrichment timed out")))
+        return Result.Failure(DataError.Network(IOException("Restaurant enrichment timed out")))
     }
 
     override suspend fun update(

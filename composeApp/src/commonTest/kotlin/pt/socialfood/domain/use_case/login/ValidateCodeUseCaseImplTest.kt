@@ -3,7 +3,7 @@ package pt.socialfood.domain.use_case.login
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.network.SessionManager
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.fakes.FakeAuthRepository
 import pt.socialfood.fakes.FakeSettingsRepository
 import kotlin.test.Test
@@ -38,7 +38,7 @@ class ValidateCodeUseCaseImplTest {
             val settingsRepository = FakeSettingsRepository()
             settingsRepository.savePendingVerificationEmail("user@test.com")
             val sessionManager = SessionManager(settingsRepository)
-            val fakeRepo = FakeAuthRepository(loginResult = Result.Failure(ApiError.Network(Exception("test error"))))
+            val fakeRepo = FakeAuthRepository(loginResult = Result.Failure(DataError.Network(Exception("test error"))))
             val useCase = ValidateCodeUseCaseImpl(sessionManager, fakeRepo, settingsRepository)
 
             // When

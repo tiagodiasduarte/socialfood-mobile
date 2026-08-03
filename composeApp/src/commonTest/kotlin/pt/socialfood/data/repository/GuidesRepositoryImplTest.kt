@@ -3,7 +3,7 @@ package pt.socialfood.data.repository
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.paging.GuideCacheTransactionRunner
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.PagedGuides
@@ -54,7 +54,7 @@ class GuidesRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // delete
@@ -84,7 +84,7 @@ class GuidesRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // findGuides
@@ -115,7 +115,7 @@ class GuidesRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // findGuidesPaged
@@ -151,7 +151,7 @@ class GuidesRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // update
@@ -197,7 +197,7 @@ class GuidesRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // findById
@@ -227,7 +227,7 @@ class GuidesRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // getPhotoPresignedUrl
@@ -268,7 +268,7 @@ class GuidesRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // addRestaurantGuide
@@ -308,7 +308,7 @@ class GuidesRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // addPhoto
@@ -338,7 +338,7 @@ class GuidesRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // deletePhoto
@@ -368,7 +368,7 @@ class GuidesRepositoryImplTest {
 
             // Then
             assertIs<Result.Failure>(result)
-            assertIs<ApiError.Network>(result.error)
+            assertIs<DataError.Network>(result.error)
         }
 
     // getGuidesPagingFlow

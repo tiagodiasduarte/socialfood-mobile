@@ -2,7 +2,7 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Configs
 import pt.socialfood.fakes.FakeConfigsApi
 import kotlin.test.Test
@@ -34,6 +34,6 @@ class ConfigsRepositoryImplTest {
 
         // Then
         assertIs<Result.Failure>(result)
-        assertIs<ApiError.Network>(result.error)
+        assertIs<DataError.Network>(result.error)
     }
 }

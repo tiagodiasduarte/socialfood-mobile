@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -136,7 +136,7 @@ class GuideDetailViewModelTest {
                     getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
                     isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
                     markGuideFavourite =
-                        FakeMarkGuideFavouriteUseCase(Result.Failure(ApiError.Network(Exception("test error")))),
+                        FakeMarkGuideFavouriteUseCase(Result.Failure(DataError.Network(Exception("test error")))),
                     unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
                     guideId = fakeGuide.id,
                 )

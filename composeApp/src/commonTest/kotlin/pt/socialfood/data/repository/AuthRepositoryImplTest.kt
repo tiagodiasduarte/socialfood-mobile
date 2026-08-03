@@ -2,7 +2,7 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -35,7 +35,7 @@ class AuthRepositoryImplTest {
 
         // Then
         assertIs<Result.Failure>(result)
-        assertIs<ApiError.Network>(result.error)
+        assertIs<DataError.Network>(result.error)
     }
 
     @Test
@@ -60,7 +60,7 @@ class AuthRepositoryImplTest {
 
         // Then
         assertIs<Result.Failure>(result)
-        assertIs<ApiError.Network>(result.error)
+        assertIs<DataError.Network>(result.error)
     }
 
     @Test
@@ -86,7 +86,7 @@ class AuthRepositoryImplTest {
 
         // Then
         assertIs<Result.Failure>(result)
-        assertIs<ApiError.Network>(result.error)
+        assertIs<DataError.Network>(result.error)
     }
 
     @Test
@@ -111,7 +111,7 @@ class AuthRepositoryImplTest {
 
         // Then
         assertIs<Result.Failure>(result)
-        assertIs<ApiError.Network>(result.error)
+        assertIs<DataError.Network>(result.error)
     }
 
     @Test
@@ -137,7 +137,7 @@ class AuthRepositoryImplTest {
 
         // Then
         assertIs<Result.Failure>(result)
-        assertIs<ApiError.Network>(result.error)
+        assertIs<DataError.Network>(result.error)
     }
 
     @Test
@@ -163,6 +163,6 @@ class AuthRepositoryImplTest {
 
         // Then
         assertIs<Result.Failure>(result)
-        assertIs<ApiError.Network>(result.error)
+        assertIs<DataError.Network>(result.error)
     }
 }

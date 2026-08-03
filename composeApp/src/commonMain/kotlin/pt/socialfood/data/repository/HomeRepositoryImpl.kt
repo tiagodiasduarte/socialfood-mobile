@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.map
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.HomeApi
 import pt.socialfood.data.local.dao.HomeDao
-import pt.socialfood.data.network.extensions.toApiError
+import pt.socialfood.data.network.extensions.toDataError
 import pt.socialfood.data.paging.HomeCacheTransactionRunner
-import pt.socialfood.domain.error.ApiError
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.HomeItemType
 import pt.socialfood.domain.model.HomeSection
@@ -33,11 +33,11 @@ class HomeRepositoryImpl(
                     }
                     Result.Success(result.data.map { it.toHomeSection() })
                 } catch (e: SQLiteException) {
-                    fallbackToCache(e.toApiError())
+                    fallbackToCache(e.toDataError())
                 }
         }
 
-    private suspend fun fallbackToCache(error: ApiError): Result<List<HomeSection>> {
+    private suspend fun fallbackToCache(error: DataError): Result<List<HomeSection>> {
         val cached = homeDao.getAllActive()
         return if (cached.isNotEmpty()) {
             Result.Success(cached.map { it.toHomeSection() })

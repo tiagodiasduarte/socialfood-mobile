@@ -5,6 +5,7 @@ import io.ktor.client.HttpClientConfig
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.DefaultRequest
+import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -14,6 +15,7 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.URLProtocol
 import io.ktor.http.encodedPath
 import io.ktor.http.isSuccess
@@ -26,6 +28,7 @@ class KtorHttpClient(
     private val isDebug: Boolean = true,
     engine: HttpClientEngine? = null,
 ) {
+
     private val config: HttpClientConfig<*>.() -> Unit = {
 
         defaultRequest {
@@ -61,15 +64,22 @@ class KtorHttpClient(
         }
 
         install(HttpTimeout) {
-            requestTimeoutMillis = 15_000
-            connectTimeoutMillis = 15_000
-            socketTimeoutMillis = 15_000
+            requestTimeoutMillis = REQUEST_TIMEOUT_MS
+            connectTimeoutMillis = CONNECT_TIMEOUT_MS
+            socketTimeoutMillis = SOCKET_TIMEOUT_MS
         }
 
+        install(HttpRequestRetry) {
+            maxRetries = MAX_RETRIES
+            retryIf { _, response ->
+                response.status.isServerError() || response.status == HttpStatusCode.RequestTimeout
+            }
+            exponentialDelay()
+        }
 
         HttpResponseValidator {
             validateResponse { response ->
-                if (response.status.value == 401) {
+                if (response.status == HttpStatusCode.Unauthorized) {
                     sessionManager.clear()
                 }
 
@@ -87,7 +97,6 @@ class KtorHttpClient(
                     )
                 }
             }
-
         }
     }
 
@@ -95,5 +104,16 @@ class KtorHttpClient(
         HttpClient(engine, config)
     } else {
         HttpClient(config)
+    }
+
+    companion object {
+        private const val REQUEST_TIMEOUT_MS = 15_000L
+        private const val CONNECT_TIMEOUT_MS = 15_000L
+        private const val SOCKET_TIMEOUT_MS = 15_000L
+        private const val MAX_RETRIES = 3
+        private const val HTTP_STATUS_CLASS_DIVISOR = 100
+        private const val SERVER_ERROR_STATUS_CLASS = 5
+
+        private fun HttpStatusCode.isServerError() = value / HTTP_STATUS_CLASS_DIVISOR == SERVER_ERROR_STATUS_CLASS
     }
 }

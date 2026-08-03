@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.ErrorEntity
-import pt.socialfood.domain.error.displayMessage
 import pt.socialfood.domain.use_case.login.LoginUseCase
 import pt.socialfood.domain.use_case.login.LoginWithGoogleUseCase
+import pt.socialfood.presentation.error.displayMessage
 
 class SignInViewModel(
     private val login: LoginUseCase,

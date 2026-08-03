@@ -6,12 +6,6 @@ sealed class DataError {
     data class Network(val cause: Throwable) : DataError()
 }
 
-fun DataError.displayMessage(): String? = when (this) {
-    is DataError.Known -> message
-    is DataError.Unknown -> message
-    is DataError.Network -> null
-}
-
 fun DataError.toThrowable(): Throwable = when (this) {
     is DataError.Known -> Exception("[$errorCode] $message")
     is DataError.Unknown -> Exception("HTTP $statusCode: ${message ?: "unknown error"}")
@@ -65,4 +59,3 @@ enum class ErrorCode {
         fun from(value: String): ErrorCode = entries.find { it.name == value } ?: UNKNOWN
     }
 }
-

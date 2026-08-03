@@ -1,6 +1,6 @@
 package pt.socialfood.presentation.guide.create
 
-import pt.socialfood.domain.error.ErrorEntity
+import org.jetbrains.compose.resources.StringResource
 
 sealed interface CreateGuideUiState {
     data class Idle(
@@ -9,7 +9,7 @@ sealed interface CreateGuideUiState {
         val titleError: Boolean = false,
         val descriptionError: Boolean = false,
         val pendingImage: Pair<ByteArray, String>? = null,
-        val validationErrors: List<ErrorEntity.Validation> = emptyList(),
+        val validationErrors: List<StringResource> = emptyList(),
     ) : CreateGuideUiState
 
     data object Loading : CreateGuideUiState

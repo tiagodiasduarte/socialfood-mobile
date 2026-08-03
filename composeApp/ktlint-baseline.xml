@@ -405,12 +405,6 @@
         <error line="17" column="97" source="standard:class-signature" />
         <error line="21" column="72" source="standard:function-expression-body" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/error/ErrorEntity.kt">
-        <error line="5" column="16" source="standard:class-naming" />
-        <error line="6" column="16" source="standard:class-naming" />
-        <error line="8" column="16" source="standard:class-naming" />
-        <error line="9" column="16" source="standard:class-naming" />
-    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/model/Author.kt">
         <error line="4" column="5" source="standard:class-signature" />
         <error line="5" column="5" source="standard:class-signature" />
@@ -736,10 +730,6 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/UpdateGuideUseCaseImpl.kt">
         <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/validation/GuideValidation.kt">
-        <error line="1" column="9" source="standard:package-name" />
-        <error line="15" column="62" source="standard:op-spacing" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/AddHomeSectionItemUseCase.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -1362,24 +1352,22 @@
         <error line="8" column="31" source="standard:function-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/GuideValidationErrorDialog.kt">
-        <error line="22" column="5" source="standard:function-naming" />
-        <error line="23" column="5" source="standard:function-signature" />
-        <error line="24" column="5" source="standard:function-signature" />
-        <error line="24" column="27" source="standard:function-signature" />
-        <error line="48" column="47" source="standard:function-signature" />
+        <error line="18" column="5" source="standard:function-naming" />
+        <error line="19" column="5" source="standard:function-signature" />
+        <error line="20" column="5" source="standard:function-signature" />
+        <error line="20" column="27" source="standard:function-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/create/CreateGuideScreen.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="49" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="51" column="5" source="standard:function-naming" />
         <error line="78" column="13" source="standard:function-naming" />
-        <error line="148" column="13" source="standard:function-naming" />
-        <error line="149" column="5" source="standard:function-signature" />
+        <error line="149" column="13" source="standard:function-naming" />
         <error line="150" column="5" source="standard:function-signature" />
         <error line="151" column="5" source="standard:function-signature" />
-        <error line="151" column="31" source="standard:function-signature" />
-        <error line="187" column="44" source="standard:trailing-comma-on-call-site" />
-        <error line="208" column="5" source="standard:function-naming" />
+        <error line="152" column="5" source="standard:function-signature" />
+        <error line="152" column="31" source="standard:function-signature" />
+        <error line="209" column="5" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/create/restaurants/RestaurantItem.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -1473,9 +1461,9 @@
         <error line="333" column="5" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/edit/EditGuideViewModel.kt">
-        <error line="93" column="9" source="standard:function-signature" />
-        <error line="94" column="9" source="standard:function-signature" />
-        <error line="94" column="26" source="standard:function-signature" />
+        <error line="97" column="9" source="standard:function-signature" />
+        <error line="98" column="9" source="standard:function-signature" />
+        <error line="98" column="26" source="standard:function-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/edit/card/GuideDetailsCard.kt">
         <error line="65" column="5" source="standard:function-naming" />

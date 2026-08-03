@@ -61,6 +61,13 @@ class KtorHttpClient(
             }
         }
 
+        install(HttpTimeout) {
+            requestTimeoutMillis = 15_000
+            connectTimeoutMillis = 15_000
+            socketTimeoutMillis = 15_000
+        }
+
+
         HttpResponseValidator {
             validateResponse { response ->
                 if (response.status.value == 401) {
@@ -68,7 +75,7 @@ class KtorHttpClient(
                 }
 
                 if (!response.status.isSuccess()) {
-                    val error = try {
+                    val body = try {
                         response.body<ErrorResponse>()
                     } catch (@Suppress("TooGenericExceptionCaught") _: Exception) {
                         return@validateResponse
@@ -76,17 +83,12 @@ class KtorHttpClient(
 
                     throw ApiException(
                         response = response,
-                        error = error.error,
-                        message = error.message,
+                        error = body.error,
+                        message = body.message,
                     )
                 }
             }
-        }
 
-        install(HttpTimeout) {
-            requestTimeoutMillis = 15_000
-            connectTimeoutMillis = 15_000
-            socketTimeoutMillis = 15_000
         }
     }
 

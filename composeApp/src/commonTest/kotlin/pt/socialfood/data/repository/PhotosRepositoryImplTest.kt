@@ -2,7 +2,7 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.ApiError
 import pt.socialfood.fakes.FakeS3Api
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -31,7 +31,7 @@ class PhotosRepositoryImplTest {
         val result = repo.uploadToS3("https://s3.example.com/key", ByteArray(0), "image/jpeg")
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<ApiError.Network>(result.error)
     }
 }

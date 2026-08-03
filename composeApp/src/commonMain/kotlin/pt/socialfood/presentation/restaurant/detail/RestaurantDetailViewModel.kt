@@ -41,7 +41,7 @@ class RestaurantDetailViewModel(
                     restaurant = restaurantResult.data,
                     isFavourite = (isFavouriteResult as? Result.Success)?.data ?: false,
                 )
-                is Result.Error -> RestaurantDetailUiState.Error
+                is Result.Failure -> RestaurantDetailUiState.Error
             }
         }
     }
@@ -57,7 +57,7 @@ class RestaurantDetailViewModel(
             } else {
                 unmarkRestaurantFavourite(current.restaurant.id)
             }
-            if (result is Result.Error) {
+            if (result is Result.Failure) {
                 val stateNow = _state.value as? RestaurantDetailUiState.Loaded ?: return@launch
                 _state.value = stateNow.copy(isFavourite = !newIsFavourite)
             }

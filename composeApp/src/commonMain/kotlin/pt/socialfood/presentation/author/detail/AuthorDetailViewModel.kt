@@ -25,7 +25,7 @@ class AuthorDetailViewModel(
             _state.value = AuthorDetailUiState.Loading
             _state.value = when (val result = getAuthorById(authorId)) {
                 is Result.Success -> AuthorDetailUiState.Loaded(result.data)
-                is Result.Error -> AuthorDetailUiState.Error
+                is Result.Failure -> AuthorDetailUiState.Error
             }
         }
     }

@@ -8,8 +8,9 @@ import kotlinx.io.IOException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.HomeApi
 import pt.socialfood.data.local.dao.HomeDao
-import pt.socialfood.data.network.extensions.toErrorEntity
+import pt.socialfood.data.network.extensions.toApiError
 import pt.socialfood.data.paging.HomeCacheTransactionRunner
+import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.HomeItemType
 import pt.socialfood.domain.model.HomeSection
 import pt.socialfood.domain.model.HomeSectionType
@@ -43,7 +44,7 @@ class HomeRepositoryImpl(
         return if (cached.isNotEmpty()) {
             Result.Success(cached.map { it.toHomeSection() })
         } else {
-            Result.Error(exception.toErrorEntity())
+            Result.Failure(exception.toApiError())
         }
     }
 
@@ -51,26 +52,14 @@ class HomeRepositoryImpl(
         homeDao.observeActive().map { entities -> entities.map { it.toHomeSection() } }
 
     override suspend fun findById(id: String): Result<HomeSection> =
-        try {
-            Result.Success(homeApi.findById(id).toHomeSection())
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
-        }
+        safeApiCall { homeApi.findById(id).toHomeSection() }
 
     override suspend fun create(
         title: String,
         type: HomeSectionType,
         position: Int,
     ): Result<HomeSection> =
-        try {
-            Result.Success(homeApi.create(title, type.name, position).toHomeSection())
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
-        }
+        safeApiCall { homeApi.create(title, type.name, position).toHomeSection() }
 
     override suspend fun update(
         id: String,
@@ -80,22 +69,12 @@ class HomeRepositoryImpl(
         restaurantIds: List<String>,
         guideIds: List<String>,
     ): Result<HomeSection> =
-        try {
-            Result.Success(homeApi.update(id, title, position, isActive, restaurantIds, guideIds).toHomeSection())
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
-        }
+        safeApiCall { homeApi.update(id, title, position, isActive, restaurantIds, guideIds).toHomeSection() }
 
     override suspend fun delete(id: String): Result<Boolean> =
-        try {
+        safeApiCall {
             homeApi.delete(id)
-            Result.Success(true)
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
+            true
         }
 
     override suspend fun addItem(
@@ -104,24 +83,14 @@ class HomeRepositoryImpl(
         itemType: HomeItemType,
         position: Int,
     ): Result<HomeSection> =
-        try {
-            Result.Success(homeApi.addItem(sectionId, itemId, itemType.name, position).toHomeSection())
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
-        }
+        safeApiCall { homeApi.addItem(sectionId, itemId, itemType.name, position).toHomeSection() }
 
     override suspend fun removeItem(
         sectionId: String,
         itemId: String,
     ): Result<Boolean> =
-        try {
+        safeApiCall {
             homeApi.removeItem(sectionId, itemId)
-            Result.Success(true)
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
+            true
         }
 }

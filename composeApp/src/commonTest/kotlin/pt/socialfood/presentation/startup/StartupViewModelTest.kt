@@ -3,7 +3,7 @@ package pt.socialfood.presentation.startup
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.ApiError
 import pt.socialfood.domain.model.Configs
 import pt.socialfood.domain.model.User
 import pt.socialfood.fakes.FakeGetConfigsUseCase
@@ -127,7 +127,7 @@ class StartupViewModelTest {
             // Given
             val settingsRepository = FakeSettingsRepository()
             settingsRepository.saveToken("jwt-token")
-            val fakeGetUserMe = FakeGetUserMeUseCase(Result.Error(ErrorEntity.Unknown))
+            val fakeGetUserMe = FakeGetUserMeUseCase(Result.Failure(ApiError.Network(Exception("test error"))))
             val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
             // When

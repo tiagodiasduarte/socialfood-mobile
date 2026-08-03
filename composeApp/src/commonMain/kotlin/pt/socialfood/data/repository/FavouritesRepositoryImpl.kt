@@ -9,7 +9,7 @@ import pt.socialfood.core.Result
 import pt.socialfood.data.api.FavouritesApi
 import pt.socialfood.data.local.dao.FavouriteDao
 import pt.socialfood.data.local.entity.FavouriteSyncState
-import pt.socialfood.data.network.extensions.toErrorEntity
+import pt.socialfood.data.network.extensions.toApiError
 import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.PagedFavouriteGuides
@@ -50,7 +50,7 @@ class FavouritesRepositoryImpl(
 
             Result.Success(Unit)
         } catch (e: SQLiteException) {
-            Result.Error(e.toErrorEntity())
+            Result.Failure(e.toApiError())
         }
     }
 
@@ -67,7 +67,7 @@ class FavouritesRepositoryImpl(
 
             Result.Success(Unit)
         } catch (e: SQLiteException) {
-            Result.Error(e.toErrorEntity())
+            Result.Failure(e.toApiError())
         }
     }
 
@@ -85,7 +85,7 @@ class FavouritesRepositoryImpl(
                 ),
             )
         } catch (e: SQLiteException) {
-            Result.Error(e.toErrorEntity())
+            Result.Failure(e.toApiError())
         }
     }
 
@@ -93,7 +93,7 @@ class FavouritesRepositoryImpl(
         return try {
             Result.Success(favouriteDao.getByGuideId(guideId) != null)
         } catch (e: SQLiteException) {
-            Result.Error(e.toErrorEntity())
+            Result.Failure(e.toApiError())
         }
     }
 
@@ -119,11 +119,11 @@ class FavouritesRepositoryImpl(
             settingsRepository.saveLastFavouritesSyncedAt(changes.syncedAt)
             Result.Success(Unit)
         } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
+            Result.Failure(e.toApiError())
         } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
+            Result.Failure(e.toApiError())
         } catch (e: SQLiteException) {
-            Result.Error(e.toErrorEntity())
+            Result.Failure(e.toApiError())
         }
     }
 

@@ -2,7 +2,7 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.ApiError
 import pt.socialfood.domain.model.PagedRestaurants
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.fakes.FakeRestaurantApi
@@ -41,8 +41,8 @@ class RestaurantsRepositoryImplTest {
             val result = repo.importRestaurants()
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<ApiError.Network>(result.error)
         }
 
     // delete
@@ -71,8 +71,8 @@ class RestaurantsRepositoryImplTest {
             val result = repo.delete(id = "restaurant-id")
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<ApiError.Network>(result.error)
         }
 
     // findAll
@@ -102,8 +102,8 @@ class RestaurantsRepositoryImplTest {
             val result = repo.findAll()
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<ApiError.Network>(result.error)
         }
 
     // findRestaurants
@@ -138,8 +138,8 @@ class RestaurantsRepositoryImplTest {
             val result = repo.findRestaurants(page = 1, limit = 10, query = null)
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<ApiError.Network>(result.error)
         }
 
     // findById
@@ -168,8 +168,8 @@ class RestaurantsRepositoryImplTest {
             val result = repo.findById(id = "restaurant-id")
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<ApiError.Network>(result.error)
         }
 
     // findByPlaceId
@@ -198,8 +198,8 @@ class RestaurantsRepositoryImplTest {
             val result = repo.findByPlaceId(placeId = "place-id")
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<ApiError.Network>(result.error)
         }
 
     // addByPlaceId
@@ -227,8 +227,8 @@ class RestaurantsRepositoryImplTest {
             val result = repo.addByPlaceId(placeId = "place-id")
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<ApiError.Network>(result.error)
         }
 
     // awaitEnrichedRestaurantByPlaceId
@@ -281,8 +281,8 @@ class RestaurantsRepositoryImplTest {
             val result = repo.awaitEnrichedRestaurantByPlaceId(placeId = "place-id")
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Network.TIMEOUT, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<ApiError.Network>(result.error)
             assertEquals(RestaurantsRepositoryImpl.ENRICHMENT_POLL_MAX_ATTEMPTS, api.findByPlaceIdInvokeCount)
         }
 
@@ -332,7 +332,7 @@ class RestaurantsRepositoryImplTest {
                 )
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<ApiError.Network>(result.error)
         }
 }

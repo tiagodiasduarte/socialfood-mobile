@@ -2,7 +2,7 @@ package pt.socialfood.domain.use_case.guide
 
 import kotlinx.coroutines.flow.first
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.ApiError
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.repository.UsersRepository
@@ -16,7 +16,8 @@ class AddRestaurantGuideUseCaseImpl(
         placeId: String?,
     ): Result<Guide> {
         val userId =
-            userRepository.currentUser.first()?.id ?: return Result.Error(ErrorEntity.Unknown)
+            userRepository.currentUser.first()?.id
+                ?: return Result.Failure(ApiError.Network(IllegalStateException("No current user")))
 
         return guidesRepository.addRestaurantGuide(
             guideId = guideId,

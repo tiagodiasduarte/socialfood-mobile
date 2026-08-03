@@ -5,6 +5,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.network.SessionManager
+import pt.socialfood.domain.error.ApiError
 import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.use_case.login.LoginUseCaseImpl
 import pt.socialfood.domain.use_case.login.LoginWithGoogleUseCaseImpl
@@ -97,7 +98,7 @@ class SignInViewModelTest {
     fun `given a failing sign in when sign in is called then state is Unknown error`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = createViewModel(Result.Error(ErrorEntity.Unknown))
+            val vm = createViewModel(Result.Failure(ApiError.Network(Exception("test error"))))
 
             vm.state.test {
                 assertEquals(SignInUiState.Idle, awaitItem())

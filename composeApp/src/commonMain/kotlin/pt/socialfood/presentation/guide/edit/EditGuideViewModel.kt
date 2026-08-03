@@ -71,7 +71,7 @@ class EditGuideViewModel(
                             restaurants = result.data.restaurants,
                             imageUrl = result.data.imageUrl,
                         )
-                is Result.Error -> _state.value = EditGuideUiState.Error
+                is Result.Failure -> _state.value = EditGuideUiState.Error
             }
         }
     }
@@ -163,7 +163,7 @@ class EditGuideViewModel(
                     visibility = current.visibility,
                 )
             ) {
-                is Result.Error -> updateLoaded { copy(isSaving = false) }
+                is Result.Failure -> updateLoaded { copy(isSaving = false) }
                 is Result.Success -> _events.emit(UiEvent.NavigateBack)
             }
         }
@@ -175,7 +175,7 @@ class EditGuideViewModel(
         viewModelScope.launch {
             updateLoaded { copy(isDeleting = true) }
             when (deleteGuide(guideId)) {
-                is Result.Error -> updateLoaded { copy(isDeleting = false) }
+                is Result.Failure -> updateLoaded { copy(isDeleting = false) }
                 is Result.Success -> _events.emit(UiEvent.GuideDeleted)
             }
         }

@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.ApiError
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.fakes.FakeAddRestaurantByPlaceIdUseCase
 import pt.socialfood.fakes.FakeAwaitEnrichedRestaurantByPlaceIdUseCase
@@ -61,7 +61,7 @@ class SearchRestaurantsViewModelTest {
     fun `given addByPlaceId fails when onAddRestaurant is called then no RestaurantAdded event is emitted and dialog closes and it never waits for enrichment`() =
         runTestWithMainDispatcher {
             // Given
-            val fakeAdd = FakeAddRestaurantByPlaceIdUseCase(result = Result.Error(ErrorEntity.Unknown))
+            val fakeAdd = FakeAddRestaurantByPlaceIdUseCase(result = Result.Failure(ApiError.Network(Exception("test error"))))
             val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(restaurant()))
             val vm = SearchRestaurantsViewModel(FakeSearchPlacesUseCase(), fakeAwait, fakeAdd)
 
@@ -80,7 +80,8 @@ class SearchRestaurantsViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val fakeAdd = FakeAddRestaurantByPlaceIdUseCase()
-            val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Error(ErrorEntity.Network.TIMEOUT))
+            val fakeAwait =
+                FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Failure(ApiError.Network(Exception("test error"))))
             val vm = SearchRestaurantsViewModel(FakeSearchPlacesUseCase(), fakeAwait, fakeAdd)
 
             // When

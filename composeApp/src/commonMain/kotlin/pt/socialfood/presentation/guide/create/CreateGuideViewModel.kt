@@ -84,7 +84,7 @@ class CreateGuideViewModel(
                 restaurantIds = emptyList(),
             )) {
                 is Result.Success -> result.data
-                is Result.Error -> { handleError(result.error, idle); return@launch }
+                is Result.Failure -> { _state.value = CreateGuideUiState.Error; return@launch }
             }
 
             if (idle.pendingImage != null) {
@@ -104,15 +104,6 @@ class CreateGuideViewModel(
             }
 
             _events.emit(UiEvent.GuideCreated(guide.id))
-        }
-    }
-
-    private fun handleError(error: ErrorEntity, previousIdle: CreateGuideUiState.Idle) {
-        _state.value = when (error) {
-            ErrorEntity.Validation.EmptyTitle -> previousIdle.copy(titleError = true)
-            ErrorEntity.Validation.EmptyDescription -> previousIdle.copy(descriptionError = true)
-            ErrorEntity.Validation.PublicGuideNeedsMoreRestaurants -> previousIdle
-            else -> CreateGuideUiState.Error
         }
     }
 

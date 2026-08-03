@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.ApiError
 import pt.socialfood.domain.model.FavouriteRestaurant
 import pt.socialfood.domain.model.PagedFavouriteRestaurants
 import pt.socialfood.domain.model.Restaurant
@@ -70,7 +70,7 @@ class FavouriteRestaurantsViewModelTest {
     fun `given use case fails when created then state is Error`() =
         runTestWithMainDispatcher {
             // Given
-            val useCase = FakeGetFavouriteRestaurantsUseCase { Result.Error(ErrorEntity.Unknown) }
+            val useCase = FakeGetFavouriteRestaurantsUseCase { Result.Failure(ApiError.Network(Exception("test error"))) }
 
             // When / Then
             val vm = FavouriteRestaurantsViewModel(useCase, FakeUnmarkRestaurantFavouriteUseCase())
@@ -203,7 +203,8 @@ class FavouriteRestaurantsViewModelTest {
                         ),
                     )
                 }
-            val unmarkUseCase = FakeUnmarkRestaurantFavouriteUseCase(result = Result.Error(ErrorEntity.Unknown))
+            val unmarkUseCase =
+                FakeUnmarkRestaurantFavouriteUseCase(result = Result.Failure(ApiError.Network(Exception("test error"))))
             val vm = FavouriteRestaurantsViewModel(useCase, unmarkUseCase)
 
             // When / Then

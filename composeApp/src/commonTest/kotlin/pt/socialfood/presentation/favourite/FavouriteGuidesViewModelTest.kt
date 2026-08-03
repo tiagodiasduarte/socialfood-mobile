@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.ApiError
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.FavouriteGuide
 import pt.socialfood.domain.model.Guide
@@ -67,7 +67,7 @@ class FavouriteGuidesViewModelTest {
     fun `given use case fails when created then state is Error`() =
         runTestWithMainDispatcher {
             // Given
-            val useCase = FakeGetFavouriteGuidesUseCase { Result.Error(ErrorEntity.Unknown) }
+            val useCase = FakeGetFavouriteGuidesUseCase { Result.Failure(ApiError.Network(Exception("test error"))) }
 
             // When / Then
             val vm = FavouriteGuidesViewModel(useCase, FakeUnmarkGuideFavouriteUseCase())
@@ -200,7 +200,7 @@ class FavouriteGuidesViewModelTest {
                         ),
                     )
                 }
-            val unmarkUseCase = FakeUnmarkGuideFavouriteUseCase(result = Result.Error(ErrorEntity.Unknown))
+            val unmarkUseCase = FakeUnmarkGuideFavouriteUseCase(result = Result.Failure(ApiError.Network(Exception("test error"))))
             val vm = FavouriteGuidesViewModel(useCase, unmarkUseCase)
 
             // When / Then

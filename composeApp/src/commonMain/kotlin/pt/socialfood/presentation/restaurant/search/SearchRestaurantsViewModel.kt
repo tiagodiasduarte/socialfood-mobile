@@ -56,7 +56,7 @@ class SearchRestaurantsViewModel(
             _state.value = SearchRestaurantsUiState.Loading
             when (val result = searchPlaces(query)) {
                 is Result.Success -> _state.value = SearchRestaurantsUiState.Loaded(result.data)
-                is Result.Error -> _state.value = SearchRestaurantsUiState.Error
+                is Result.Failure -> _state.value = SearchRestaurantsUiState.Error
             }
         }
     }
@@ -70,11 +70,11 @@ class SearchRestaurantsViewModel(
                 is Result.Success -> {
                     when (val result = awaitEnrichedRestaurantByPlaceId(placeId)) {
                         is Result.Success -> _events.emit(UiEvent.RestaurantAdded(result.data))
-                        is Result.Error -> Unit
+                        is Result.Failure -> Unit
                     }
                 }
 
-                is Result.Error -> Unit
+                is Result.Failure -> Unit
             }
             _isImportingRestaurant.value = false
         }

@@ -2,7 +2,6 @@ package pt.socialfood.domain.use_case.login
 
 import pt.socialfood.core.Result
 import pt.socialfood.data.network.SessionManager
-import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.repository.AuthRepository
 
 class LoginWithGoogleUseCaseImpl(
@@ -10,13 +9,12 @@ class LoginWithGoogleUseCaseImpl(
     private val repository: AuthRepository,
 ) : LoginWithGoogleUseCase {
     override suspend operator fun invoke(idToken: String): Result<Boolean> {
-        val result = repository.loginWithGoogle(idToken)
-
-        if (result is Result.Success) {
-            sessionManager.saveToken(result.data)
-            return Result.Success(true)
+        return when (val result = repository.loginWithGoogle(idToken)) {
+            is Result.Success -> {
+                sessionManager.saveToken(result.data)
+                Result.Success(true)
+            }
+            is Result.Failure -> Result.Failure(result.error)
         }
-
-        return Result.Error(ErrorEntity.Unknown)
     }
 }

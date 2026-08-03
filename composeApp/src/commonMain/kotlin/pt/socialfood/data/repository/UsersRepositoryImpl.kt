@@ -1,15 +1,13 @@
 package pt.socialfood.data.repository
 
-import io.ktor.client.plugins.ResponseException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.io.IOException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.UserApi
-import pt.socialfood.data.network.extensions.toErrorEntity
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.network.model.user.UpdateUserPhotoRequest
 import pt.socialfood.data.network.model.user.UpdateUserRequest
+import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.PagedUsers
 import pt.socialfood.domain.model.PresignedUrlData
 import pt.socialfood.domain.model.User
@@ -32,55 +30,32 @@ class UsersRepositoryImpl(
     }
 
     override suspend fun getUsers(): Result<List<User>> {
-        return try {
-            val users = userApi.getUsers().map { it.toUser() }
-            Result.Success(users)
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
-        }
+        return safeApiCall { userApi.getUsers().map { it.toUser() } }
     }
 
     override suspend fun findUsers(page: Int, limit: Int, query: String?): Result<PagedUsers> {
-        return try {
+        return safeApiCall {
             val response = userApi.findUsers(page = page, limit = limit, query = query)
             val hasMore = response.page * response.limit < response.total
-            Result.Success(
-                PagedUsers(
-                    users = response.items.map { it.toUser() },
-                    page = response.page,
-                    total = response.total,
-                    hasMore = hasMore,
-                )
+            PagedUsers(
+                users = response.items.map { it.toUser() },
+                page = response.page,
+                total = response.total,
+                hasMore = hasMore,
             )
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
         }
     }
 
     override suspend fun getUserMe(): Result<User> {
-        return try {
+        return safeApiCall {
             val user = userApi.getUserMe().toUser()
             _currentUser.value = user
-            Result.Success(user)
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
+            user
         }
     }
 
     override suspend fun findById(id: String): Result<User> {
-        return try {
-            Result.Success(userApi.findById(id).toUser())
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
-        }
+        return safeApiCall { userApi.findById(id).toUser() }
     }
 
     override suspend fun update(
@@ -92,7 +67,7 @@ class UsersRepositoryImpl(
         instagramUrl: String?,
         youtubeUrl: String?,
     ): Result<User> {
-        return try {
+        return safeApiCall {
             val request = UpdateUserRequest(
                 name = name,
                 username = username,
@@ -102,22 +77,14 @@ class UsersRepositoryImpl(
             )
             val user = userApi.update(request, id).toUser()
             _currentUser.value = user
-            Result.Success(user)
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
+            user
         }
     }
 
     override suspend fun updatePhoto(id: String, imageUrl: String): Result<Boolean> {
-        return try {
+        return safeApiCall {
             userApi.updatePhotoUrl(id, UpdateUserPhotoRequest(imageUrl))
-            Result.Success(true)
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
+            true
         }
     }
 
@@ -126,7 +93,7 @@ class UsersRepositoryImpl(
         fileName: String,
         mimeType: String,
         context: String,
-    ): Result<PresignedUrlData> = try {
+    ): Result<PresignedUrlData> = safeApiCall {
         val response = userApi.getPresignedUrl(
             userId = userId,
             request = PresignedUrlRequest(
@@ -135,15 +102,9 @@ class UsersRepositoryImpl(
                 context = context
             )
         )
-        Result.Success(
-            PresignedUrlData(
-                uploadUrl = response.uploadUrl,
-                publicUrl = response.publicUrl
-            )
+        PresignedUrlData(
+            uploadUrl = response.uploadUrl,
+            publicUrl = response.publicUrl
         )
-    } catch (e: IOException) {
-        Result.Error(e.toErrorEntity())
-    } catch (e: ResponseException) {
-        Result.Error(e.toErrorEntity())
     }
 }

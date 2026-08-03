@@ -36,6 +36,28 @@ class GuideDetailViewModelTest {
     private val fakeUser = User(id = "user-id", email = "user@test.com", name = "Test User", username = "testuser")
 
     @Test
+    fun `given loading the guide fails when created then state is Error with the backend message`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm =
+                GuideDetailViewModel(
+                    getGuideById = FakeGetGuideByIdUseCase(Result.Failure(DataError.Network(Exception("test error")))),
+                    getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
+                    isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
+                    markGuideFavourite = FakeMarkGuideFavouriteUseCase(),
+                    unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
+                    guideId = fakeGuide.id,
+                )
+
+            // When / Then
+            vm.state.test {
+                assertEquals(GuideDetailUiState.Loading, awaitItem())
+                val error = assertIs<GuideDetailUiState.Error>(awaitItem())
+                assertEquals("Something went wrong", error.message)
+            }
+        }
+
+    @Test
     fun `given guide is already a favourite when loaded then state reflects isFavourite true`() =
         runTestWithMainDispatcher {
             // Given
@@ -136,7 +158,7 @@ class GuideDetailViewModelTest {
                     getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
                     isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
                     markGuideFavourite =
-                        FakeMarkGuideFavouriteUseCase(Result.Failure(DataError.Network(Exception("test error")))),
+                    FakeMarkGuideFavouriteUseCase(Result.Failure(DataError.Network(Exception("test error")))),
                     unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
                     guideId = fakeGuide.id,
                 )

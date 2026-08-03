@@ -37,6 +37,28 @@ class RestaurantDetailViewModelTest {
         )
 
     @Test
+    fun `given loading the restaurant fails when created then state is Error with the backend message`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm =
+                RestaurantDetailViewModel(
+                    getRestaurantById =
+                    FakeGetRestaurantByIdUseCase(Result.Failure(DataError.Network(Exception("test error")))),
+                    isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
+                    markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(),
+                    unmarkRestaurantFavourite = FakeUnmarkRestaurantFavouriteUseCase(),
+                    restaurantId = fakeRestaurant.id,
+                )
+
+            // When / Then
+            vm.state.test {
+                assertEquals(RestaurantDetailUiState.Loading, awaitItem())
+                val error = assertIs<RestaurantDetailUiState.Error>(awaitItem())
+                assertEquals("Something went wrong", error.message)
+            }
+        }
+
+    @Test
     fun `given restaurant is already a favourite when loaded then state reflects isFavourite true`() =
         runTestWithMainDispatcher {
             // Given
@@ -133,7 +155,7 @@ class RestaurantDetailViewModelTest {
                     getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
                     isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
                     markRestaurantFavourite =
-                        FakeMarkRestaurantFavouriteUseCase(Result.Failure(DataError.Network(Exception("test error")))),
+                    FakeMarkRestaurantFavouriteUseCase(Result.Failure(DataError.Network(Exception("test error")))),
                     unmarkRestaurantFavourite = FakeUnmarkRestaurantFavouriteUseCase(),
                     restaurantId = fakeRestaurant.id,
                 )

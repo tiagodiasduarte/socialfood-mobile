@@ -21,12 +21,12 @@ class SignInViewModel(
     fun onSignIn(email: String, password: String) {
         viewModelScope.launch {
             if (email.isEmpty()) {
-                _state.value = SignInUiState.Error("Invalid email")
+                _state.value = SignInUiState.Error("Please enter your email")
                 return@launch
             }
 
             if (password.isEmpty()) {
-                _state.value = SignInUiState.Error("Invalid password")
+                _state.value = SignInUiState.Error("Please enter your password")
                 return@launch
             }
 

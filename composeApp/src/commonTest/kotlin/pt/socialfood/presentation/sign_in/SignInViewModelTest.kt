@@ -52,7 +52,7 @@ class SignInViewModelTest {
                 // Then
                 val state = awaitItem()
                 assertIs<SignInUiState.Error>(state)
-                assertEquals("Invalid email", state.message)
+                assertEquals("Please enter your email", state.message)
             }
         }
 
@@ -71,7 +71,7 @@ class SignInViewModelTest {
                 // Then
                 val state = awaitItem()
                 assertIs<SignInUiState.Error>(state)
-                assertEquals("Invalid password", state.message)
+                assertEquals("Please enter your password", state.message)
             }
         }
 
@@ -109,7 +109,7 @@ class SignInViewModelTest {
                 assertEquals(SignInUiState.Loading, awaitItem())
                 val state = awaitItem()
                 assertIs<SignInUiState.Error>(state)
-                assertEquals("Something went wrong", state.message)
+                assertEquals("Something went wrong. Please try again.", state.message)
             }
         }
 }

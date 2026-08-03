@@ -63,8 +63,10 @@ private val errorCodeStringResources: Map<ErrorCode, StringResource> = mapOf(
 
 fun ErrorCode.stringResource(): StringResource = errorCodeStringResources.getValue(this)
 
+private const val GENERIC_ERROR_MESSAGE = "Something went wrong. Please try again."
+
 suspend fun DataError.displayMessage(): String = when (this) {
     is DataError.Known -> getString(errorCode.stringResource())
-    is DataError.Unknown -> message ?: "Something went wrong"
-    is DataError.Network -> "Something went wrong"
+    is DataError.Unknown -> message ?: GENERIC_ERROR_MESSAGE
+    is DataError.Network -> GENERIC_ERROR_MESSAGE
 }

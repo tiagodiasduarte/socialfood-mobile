@@ -1,7 +1,7 @@
 package pt.socialfood.data.network.extensions
 
 import io.ktor.client.plugins.ResponseException
-import pt.socialfood.core.ApiException
+import pt.socialfood.data.network.ApiException
 import pt.socialfood.domain.error.ApiError
 
 fun Throwable.toApiError(): ApiError = when (this) {

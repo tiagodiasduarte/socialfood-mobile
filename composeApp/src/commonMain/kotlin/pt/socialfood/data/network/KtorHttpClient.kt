@@ -19,8 +19,7 @@ import io.ktor.http.encodedPath
 import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import pt.socialfood.core.ApiException
-import pt.socialfood.core.ErrorResponse
+import pt.socialfood.data.network.model.ErrorResponse
 
 class KtorHttpClient(
     private val sessionManager: SessionManager,

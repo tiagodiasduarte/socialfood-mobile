@@ -11,7 +11,6 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.Serializable
-import pt.socialfood.core.ApiException
 import pt.socialfood.fakes.FakeSettingsRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals

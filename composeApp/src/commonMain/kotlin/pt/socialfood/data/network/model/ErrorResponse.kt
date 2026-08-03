@@ -1,4 +1,4 @@
-package pt.socialfood.core
+package pt.socialfood.data.network.model
 
 import kotlinx.serialization.Serializable
 

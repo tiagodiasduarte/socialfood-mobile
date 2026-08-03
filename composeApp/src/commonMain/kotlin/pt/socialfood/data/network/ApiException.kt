@@ -1,4 +1,4 @@
-package pt.socialfood.core
+package pt.socialfood.data.network
 
 import io.ktor.client.plugins.ResponseException
 import io.ktor.client.statement.HttpResponse

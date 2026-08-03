@@ -22,6 +22,7 @@ import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import pt.socialfood.data.network.model.ErrorResponse
+import pt.socialfood.domain.error.ErrorCode
 
 class KtorHttpClient(
     private val sessionManager: SessionManager,
@@ -92,7 +93,7 @@ class KtorHttpClient(
 
                     throw ApiException(
                         response = response,
-                        error = body.error,
+                        errorCode = ErrorCode.from(body.error),
                         message = body.message,
                     )
                 }

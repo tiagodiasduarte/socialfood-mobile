@@ -11,6 +11,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.Serializable
+import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.fakes.FakeSettingsRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -88,8 +89,33 @@ class KtorHttpClientTest {
             }
 
             // Then
-            assertEquals("validation_error", exception.error)
+            assertEquals(ErrorCode.UNKNOWN, exception.errorCode)
             assertEquals("Username already taken", exception.message)
+        }
+
+    @Test
+    fun `given a 400 error body with a known error code when body is read then errorCode matches it`() =
+        runTest {
+            // Given
+            val engine = MockEngine {
+                respond(
+                    content = """{"error":"INVALID_REQUEST","message":"Username already taken"}""",
+                    status = HttpStatusCode.BadRequest,
+                    headers = headersOf(HttpHeaders.ContentType, "application/json"),
+                )
+            }
+            val client = KtorHttpClient(
+                sessionManager = SessionManager(FakeSettingsRepository()),
+                engine = engine,
+            ).client
+
+            // When
+            val exception = assertFailsWith<ApiException> {
+                client.get("users/me").body<UnrelatedSuccessDto>()
+            }
+
+            // Then
+            assertEquals(ErrorCode.INVALID_REQUEST, exception.errorCode)
         }
 }
 

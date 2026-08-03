@@ -14,5 +14,5 @@ sealed interface CreateGuideUiState {
 
     data object Loading : CreateGuideUiState
 
-    data object Error : CreateGuideUiState
+    data class Error(val message: String) : CreateGuideUiState
 }

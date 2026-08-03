@@ -15,6 +15,7 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.use_case.guide.CreateGuideUseCase
 import pt.socialfood.domain.use_case.photo.UploadPhotoUseCase
+import pt.socialfood.presentation.error.displayMessage
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -87,7 +88,7 @@ class CreateGuideViewModel(
             ) {
                 is Result.Success -> result.data
                 is Result.Failure -> {
-                    _state.value = CreateGuideUiState.Error
+                    _state.value = CreateGuideUiState.Error(result.error.displayMessage())
                     return@launch
                 }
             }

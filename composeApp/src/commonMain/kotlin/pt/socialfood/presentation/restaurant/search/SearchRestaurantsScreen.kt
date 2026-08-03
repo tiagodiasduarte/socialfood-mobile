@@ -125,7 +125,7 @@ private fun SearchRestaurantsContent(
                 }
             }
 
-            SearchRestaurantsUiState.Error -> Box(
+            is SearchRestaurantsUiState.Error -> Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) {

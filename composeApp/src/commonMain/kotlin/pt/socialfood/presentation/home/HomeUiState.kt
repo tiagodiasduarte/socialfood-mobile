@@ -6,5 +6,5 @@ sealed interface HomeUiState {
         val favouriteRestaurantIds: Set<String> = emptySet(),
         val favouriteGuideIds: Set<String> = emptySet(),
     ) : HomeUiState
-    data object Error : HomeUiState
+    data class Error(val message: String) : HomeUiState
 }

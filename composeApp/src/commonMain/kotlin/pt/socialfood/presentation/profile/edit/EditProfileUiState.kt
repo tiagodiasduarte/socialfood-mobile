@@ -17,5 +17,5 @@ sealed interface EditProfileUiState {
         val pendingImage: Pair<ByteArray, String>? = null,
         val isGoogleConnected: Boolean = false,
     ) : EditProfileUiState
-    data object Error : EditProfileUiState
+    data class Error(val message: String) : EditProfileUiState
 }

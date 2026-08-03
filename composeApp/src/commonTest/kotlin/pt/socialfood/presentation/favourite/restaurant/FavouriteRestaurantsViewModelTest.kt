@@ -77,7 +77,7 @@ class FavouriteRestaurantsViewModelTest {
             val vm = FavouriteRestaurantsViewModel(useCase, FakeUnmarkRestaurantFavouriteUseCase())
             vm.state.test {
                 assertEquals(FavouriteRestaurantsUiState.Loading, awaitItem())
-                assertEquals(FavouriteRestaurantsUiState.Error, awaitItem())
+                assertIs<FavouriteRestaurantsUiState.Error>(awaitItem())
             }
         }
 

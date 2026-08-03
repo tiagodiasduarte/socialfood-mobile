@@ -110,7 +110,7 @@ private fun CreateGuideContent(
         )
 
         when (state) {
-            CreateGuideUiState.Error -> {}
+            is CreateGuideUiState.Error -> {}
             is CreateGuideUiState.Idle -> {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),

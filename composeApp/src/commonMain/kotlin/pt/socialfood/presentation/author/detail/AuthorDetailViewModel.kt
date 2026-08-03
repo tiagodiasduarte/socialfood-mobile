@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.use_case.author.GetAuthorByIdUseCase
+import pt.socialfood.presentation.error.displayMessage
 
 class AuthorDetailViewModel(
     private val getAuthorById: GetAuthorByIdUseCase,
@@ -25,7 +26,7 @@ class AuthorDetailViewModel(
             _state.value = AuthorDetailUiState.Loading
             _state.value = when (val result = getAuthorById(authorId)) {
                 is Result.Success -> AuthorDetailUiState.Loaded(result.data)
-                is Result.Failure -> AuthorDetailUiState.Error
+                is Result.Failure -> AuthorDetailUiState.Error(result.error.displayMessage())
             }
         }
     }

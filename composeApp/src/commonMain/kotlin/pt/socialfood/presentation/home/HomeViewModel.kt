@@ -22,6 +22,7 @@ import pt.socialfood.domain.use_case.favourite.restaurant.MarkRestaurantFavourit
 import pt.socialfood.domain.use_case.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
 import pt.socialfood.domain.use_case.home.GetHomeSectionsUseCase
 import pt.socialfood.domain.use_case.home.ObserveHomeSectionsUseCase
+import pt.socialfood.presentation.error.displayMessage
 
 class HomeViewModel(
     private val getHomeSections: GetHomeSectionsUseCase,
@@ -101,7 +102,7 @@ class HomeViewModel(
                         favouriteGuideIds = favouriteGuideIds,
                     )
             }
-            is Result.Failure -> _state.value = HomeUiState.Error
+            is Result.Failure -> _state.value = HomeUiState.Error(result.error.displayMessage())
         }
     }
 

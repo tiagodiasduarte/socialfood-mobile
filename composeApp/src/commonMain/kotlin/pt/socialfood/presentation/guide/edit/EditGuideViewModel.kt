@@ -17,6 +17,7 @@ import pt.socialfood.domain.use_case.guide.DeleteGuideUseCase
 import pt.socialfood.domain.use_case.guide.GetGuideByIdUseCase
 import pt.socialfood.domain.use_case.guide.UpdateGuideUseCase
 import pt.socialfood.domain.use_case.photo.UploadPhotoUseCase
+import pt.socialfood.presentation.error.displayMessage
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -71,7 +72,7 @@ class EditGuideViewModel(
                             restaurants = result.data.restaurants,
                             imageUrl = result.data.imageUrl,
                         )
-                is Result.Failure -> _state.value = EditGuideUiState.Error
+                is Result.Failure -> _state.value = EditGuideUiState.Error(result.error.displayMessage())
             }
         }
     }

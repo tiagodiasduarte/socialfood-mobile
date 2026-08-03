@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.use_case.login.LoginUseCase
 import pt.socialfood.domain.use_case.login.LoginWithGoogleUseCase
 import pt.socialfood.presentation.error.displayMessage
@@ -22,12 +21,12 @@ class SignInViewModel(
     fun onSignIn(email: String, password: String) {
         viewModelScope.launch {
             if (email.isEmpty()) {
-                _state.value = SignInUiState.Error(ErrorEntity.InvalidCredentials)
+                _state.value = SignInUiState.Error("Invalid email")
                 return@launch
             }
 
             if (password.isEmpty()) {
-                _state.value = SignInUiState.Error(ErrorEntity.InvalidCredentials)
+                _state.value = SignInUiState.Error("Invalid password")
                 return@launch
             }
 
@@ -35,10 +34,7 @@ class SignInViewModel(
 
             when (val result = login(email, password)) {
                 is Result.Success -> _state.value = SignInUiState.Success
-                is Result.Failure -> _state.value = SignInUiState.Error(
-                    error = ErrorEntity.Unknown,
-                    message = result.error.displayMessage(),
-                )
+                is Result.Failure -> _state.value = SignInUiState.Error(result.error.displayMessage())
             }
         }
     }
@@ -48,16 +44,13 @@ class SignInViewModel(
             _state.value = SignInUiState.Loading
             when (val result = loginWithGoogle(idToken)) {
                 is Result.Success -> _state.value = SignInUiState.Success
-                is Result.Failure -> _state.value = SignInUiState.Error(
-                    error = ErrorEntity.Unknown,
-                    message = result.error.displayMessage(),
-                )
+                is Result.Failure -> _state.value = SignInUiState.Error(result.error.displayMessage())
             }
         }
     }
 
     fun onGoogleSignInError(message: String) {
-        _state.value = SignInUiState.Error(ErrorEntity.Unknown, message)
+        _state.value = SignInUiState.Error(message)
     }
 
     fun resetState() {

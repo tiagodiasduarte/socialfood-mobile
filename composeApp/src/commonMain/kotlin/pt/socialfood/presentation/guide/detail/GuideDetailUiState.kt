@@ -9,5 +9,5 @@ sealed interface GuideDetailUiState {
         val currentUserId: String?,
         val isFavourite: Boolean = false,
     ) : GuideDetailUiState
-    data object Error : GuideDetailUiState
+    data class Error(val message: String) : GuideDetailUiState
 }

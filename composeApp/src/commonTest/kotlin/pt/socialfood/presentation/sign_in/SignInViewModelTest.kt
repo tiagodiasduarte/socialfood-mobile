@@ -6,7 +6,6 @@ import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.network.SessionManager
 import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.use_case.login.LoginUseCaseImpl
 import pt.socialfood.domain.use_case.login.LoginWithGoogleUseCaseImpl
 import pt.socialfood.fakes.FakeAuthRepository
@@ -53,7 +52,7 @@ class SignInViewModelTest {
                 // Then
                 val state = awaitItem()
                 assertIs<SignInUiState.Error>(state)
-                assertEquals(ErrorEntity.InvalidCredentials, state.error)
+                assertEquals("Invalid email", state.message)
             }
         }
 
@@ -72,7 +71,7 @@ class SignInViewModelTest {
                 // Then
                 val state = awaitItem()
                 assertIs<SignInUiState.Error>(state)
-                assertEquals(ErrorEntity.InvalidCredentials, state.error)
+                assertEquals("Invalid password", state.message)
             }
         }
 
@@ -110,7 +109,7 @@ class SignInViewModelTest {
                 assertEquals(SignInUiState.Loading, awaitItem())
                 val state = awaitItem()
                 assertIs<SignInUiState.Error>(state)
-                assertEquals(ErrorEntity.Unknown, state.error)
+                assertEquals("Something went wrong", state.message)
             }
         }
 }

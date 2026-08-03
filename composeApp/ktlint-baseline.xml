@@ -1092,10 +1092,10 @@
         <error line="229" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/author/detail/AuthorDetailViewModel.kt">
-        <error line="12" column="5" source="standard:class-signature" />
         <error line="13" column="5" source="standard:class-signature" />
-        <error line="13" column="34" source="standard:class-signature" />
         <error line="14" column="5" source="standard:class-signature" />
+        <error line="14" column="34" source="standard:class-signature" />
+        <error line="15" column="5" source="standard:class-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/author/detail/AuthorGuideCard.kt">
         <error line="37" column="5" source="standard:function-naming" />
@@ -1473,9 +1473,9 @@
         <error line="333" column="5" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/edit/EditGuideViewModel.kt">
-        <error line="92" column="9" source="standard:function-signature" />
         <error line="93" column="9" source="standard:function-signature" />
-        <error line="93" column="26" source="standard:function-signature" />
+        <error line="94" column="9" source="standard:function-signature" />
+        <error line="94" column="26" source="standard:function-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/edit/card/GuideDetailsCard.kt">
         <error line="65" column="5" source="standard:function-naming" />
@@ -1846,9 +1846,6 @@
         <error line="9" column="9" source="standard:class-signature" />
         <error line="9" column="42" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/restaurant/detail/RestaurantDetailViewModel.kt">
-        <error line="16" column="1" source="standard:no-consecutive-blank-lines" />
-    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/restaurant/search/ImportRestaurantDialog.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="26" column="5" source="standard:function-naming" />
@@ -1877,59 +1874,7 @@
         <error line="81" column="36" source="standard:function-signature" />
         <error line="108" column="13" source="standard:function-naming" />
         <error line="133" column="13" source="standard:function-naming" />
-        <error line="147" column="1" source="standard:indent" />
-        <error line="148" column="1" source="standard:indent" />
-        <error line="149" column="1" source="standard:indent" />
-        <error line="150" column="1" source="standard:indent" />
-        <error line="156" column="1" source="standard:indent" />
-        <error line="157" column="1" source="standard:indent" />
-        <error line="158" column="1" source="standard:indent" />
-        <error line="159" column="1" source="standard:indent" />
-        <error line="226" column="1" source="standard:indent" />
-        <error line="227" column="1" source="standard:indent" />
-        <error line="228" column="1" source="standard:indent" />
-        <error line="229" column="1" source="standard:indent" />
-        <error line="255" column="1" source="standard:indent" />
-        <error line="256" column="1" source="standard:indent" />
-        <error line="257" column="1" source="standard:indent" />
-        <error line="258" column="1" source="standard:indent" />
-        <error line="259" column="1" source="standard:indent" />
-        <error line="273" column="1" source="standard:indent" />
-        <error line="274" column="1" source="standard:indent" />
-        <error line="275" column="1" source="standard:indent" />
-        <error line="276" column="1" source="standard:indent" />
-        <error line="277" column="1" source="standard:indent" />
-        <error line="279" column="1" source="standard:indent" />
-        <error line="280" column="1" source="standard:indent" />
-        <error line="281" column="1" source="standard:indent" />
-        <error line="282" column="1" source="standard:indent" />
-        <error line="283" column="1" source="standard:indent" />
-        <error line="284" column="1" source="standard:indent" />
-        <error line="285" column="1" source="standard:indent" />
-        <error line="292" column="1" source="standard:indent" />
-        <error line="293" column="1" source="standard:indent" />
-        <error line="294" column="1" source="standard:indent" />
-        <error line="295" column="1" source="standard:indent" />
-        <error line="313" column="1" source="standard:indent" />
-        <error line="314" column="1" source="standard:indent" />
-        <error line="315" column="1" source="standard:indent" />
-        <error line="318" column="1" source="standard:indent" />
-        <error line="319" column="1" source="standard:indent" />
-        <error line="320" column="1" source="standard:indent" />
-        <error line="321" column="1" source="standard:indent" />
-        <error line="358" column="1" source="standard:indent" />
-        <error line="359" column="1" source="standard:indent" />
-        <error line="360" column="1" source="standard:indent" />
-        <error line="384" column="1" source="standard:indent" />
-        <error line="385" column="1" source="standard:indent" />
-        <error line="386" column="1" source="standard:indent" />
-        <error line="397" column="1" source="standard:indent" />
-        <error line="398" column="1" source="standard:indent" />
-        <error line="399" column="1" source="standard:indent" />
         <error line="410" column="13" source="standard:function-naming" />
-        <error line="413" column="1" source="standard:indent" />
-        <error line="414" column="1" source="standard:indent" />
-        <error line="415" column="1" source="standard:indent" />
         <error line="428" column="5" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_in/SignInUiState.kt">
@@ -1937,10 +1882,10 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_in/SignInViewModel.kt">
         <error line="1" column="9" source="standard:package-name" />
+        <error line="14" column="5" source="standard:class-signature" />
         <error line="15" column="5" source="standard:class-signature" />
+        <error line="15" column="57" source="standard:class-signature" />
         <error line="16" column="5" source="standard:class-signature" />
-        <error line="16" column="57" source="standard:class-signature" />
-        <error line="17" column="5" source="standard:class-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_up/SignUpScreen.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -2514,9 +2459,9 @@
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/sign_in/SignInViewModelTest.kt">
         <error line="1" column="9" source="standard:package-name" />
-        <error line="30" column="69" source="standard:function-signature" />
-        <error line="80" column="83" source="standard:function-signature" />
-        <error line="98" column="89" source="standard:function-signature" />
+        <error line="29" column="69" source="standard:function-signature" />
+        <error line="79" column="83" source="standard:function-signature" />
+        <error line="97" column="89" source="standard:function-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/startup/StartupViewModelTest.kt">
         <error line="20" column="121" source="standard:max-line-length" />

@@ -81,7 +81,7 @@ private fun ProfileContent(
             onFavouriteRestaurantsClick = onFavouriteRestaurantsClick,
         )
 
-        ProfileUiState.Error -> NoResultsContent(modifier = Modifier.fillMaxSize())
+        is ProfileUiState.Error -> NoResultsContent(modifier = Modifier.fillMaxSize())
 
         ProfileUiState.LoggedOut -> ProfilePlaceholder()
     }

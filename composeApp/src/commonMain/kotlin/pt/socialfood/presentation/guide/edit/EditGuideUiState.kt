@@ -22,5 +22,5 @@ sealed interface EditGuideUiState {
         val isDeleting: Boolean = false,
         val validationErrors: List<ErrorEntity.Validation> = emptyList(),
     ) : EditGuideUiState
-    data object Error : EditGuideUiState
+    data class Error(val message: String) : EditGuideUiState
 }

@@ -73,7 +73,7 @@ class FavouriteGuidesViewModelTest {
             val vm = FavouriteGuidesViewModel(useCase, FakeUnmarkGuideFavouriteUseCase())
             vm.state.test {
                 assertEquals(FavouriteGuidesUiState.Loading, awaitItem())
-                assertEquals(FavouriteGuidesUiState.Error, awaitItem())
+                assertIs<FavouriteGuidesUiState.Error>(awaitItem())
             }
         }
 

@@ -13,6 +13,7 @@ import pt.socialfood.domain.use_case.user.GetPresignedUrlUseCase
 import pt.socialfood.domain.use_case.user.GetUserMeUseCase
 import pt.socialfood.domain.use_case.user.UpdateUserPhotoUseCase
 import pt.socialfood.domain.use_case.user.UpdateUserUseCase
+import pt.socialfood.presentation.error.displayMessage
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -61,7 +62,7 @@ class EditProfileViewModel(
                     )
                 }
 
-                is Result.Failure -> _state.value = EditProfileUiState.Error
+                is Result.Failure -> _state.value = EditProfileUiState.Error(result.error.displayMessage())
             }
         }
     }

@@ -9,5 +9,5 @@ sealed interface FavouriteGuidesUiState {
         val hasMore: Boolean,
         val isLoadingMore: Boolean = false,
     ) : FavouriteGuidesUiState
-    data object Error : FavouriteGuidesUiState
+    data class Error(val message: String) : FavouriteGuidesUiState
 }

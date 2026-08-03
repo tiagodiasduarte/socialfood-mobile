@@ -199,4 +199,31 @@
 
     <string name="favorite_card_remove_button_description">Remove from favorites</string>
 
+    <string name="error_code_user_already_exists">An account with this email already exists.</string>
+    <string name="error_code_invalid_credentials">Incorrect email or password.</string>
+    <string name="error_code_email_not_verified">Please verify your email before continuing.</string>
+    <string name="error_code_email_already_verified">This email is already verified.</string>
+    <string name="error_code_invalid_code">That code isn\'t valid.</string>
+    <string name="error_code_code_expired">This code has expired. Please request a new one.</string>
+    <string name="error_code_no_pending_verification">There\'s no pending verification for this account.</string>
+    <string name="error_code_resend_too_soon">Please wait a moment before requesting another code.</string>
+    <string name="error_code_invalid_google_token">Google sign-in failed. Please try again.</string>
+    <string name="error_code_user_not_found">User not found.</string>
+    <string name="error_code_guide_not_found">Guide not found.</string>
+    <string name="error_code_author_not_found">Author not found.</string>
+    <string name="error_code_restaurant_not_found">Restaurant not found.</string>
+    <string name="error_code_restaurant_not_in_guide">This restaurant isn\'t part of the guide.</string>
+    <string name="error_code_home_section_not_found">Section not found.</string>
+    <string name="error_code_cannot_follow_self">You can\'t follow yourself.</string>
+    <string name="error_code_already_following">You\'re already following this author.</string>
+    <string name="error_code_not_following">You\'re not following this author.</string>
+    <string name="error_code_already_favourited">This is already in your favourites.</string>
+    <string name="error_code_not_favourited">This isn\'t in your favourites.</string>
+    <string name="error_code_item_type_mismatch">This item can\'t be added to this section.</string>
+    <string name="error_code_forbidden">You don\'t have permission to do that.</string>
+    <string name="error_code_invalid_request">Something about that request wasn\'t valid.</string>
+    <string name="error_code_internal_error">Something went wrong on our end. Please try again.</string>
+    <string name="error_code_invalid_social_link">That social link doesn\'t look valid.</string>
+    <string name="error_code_unknown">Something went wrong. Please try again.</string>
+
 </resources>

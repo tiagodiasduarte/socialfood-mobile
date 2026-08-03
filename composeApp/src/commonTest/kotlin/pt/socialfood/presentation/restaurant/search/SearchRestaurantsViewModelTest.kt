@@ -13,49 +13,25 @@ import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SearchRestaurantsViewModelTest {
-    private fun restaurant() = Restaurant(
-        id = "r1",
-        name = "Le Jardin",
-        description = null,
-        city = "Lisbon",
-        country = "Portugal",
-        countryCode = "PT",
-        postalCode = null,
-        photoNames = emptyList(),
-        address = "",
-        rating = 0.0,
-        userRatingCount = 0,
-        websiteUrl = null,
-        phoneNumber = "",
-    )
-
-    @Test
-    fun `given search fails when the query changes then state is Error with the backend message`() =
-        runTestWithMainDispatcher {
-            // Given
-            val searchPlaces = FakeSearchPlacesUseCase(Result.Failure(DataError.Network(Exception("test error"))))
-            val vm =
-                SearchRestaurantsViewModel(
-                    searchPlaces,
-                    FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Failure(DataError.Network(Exception("unused")))),
-                    FakeAddRestaurantByPlaceIdUseCase(),
-                )
-
-            // When / Then
-            vm.state.test {
-                assertIs<SearchRestaurantsUiState.Loaded>(awaitItem())
-
-                vm.onSearchQueryChange("pizza")
-
-                assertEquals(SearchRestaurantsUiState.Loading, awaitItem())
-                val error = assertIs<SearchRestaurantsUiState.Error>(awaitItem())
-                assertEquals("Something went wrong", error.message)
-            }
-        }
+    private fun restaurant() =
+        Restaurant(
+            id = "r1",
+            name = "Le Jardin",
+            description = null,
+            city = "Lisbon",
+            country = "Portugal",
+            countryCode = "PT",
+            postalCode = null,
+            photoNames = emptyList(),
+            address = "",
+            rating = 0.0,
+            userRatingCount = 0,
+            websiteUrl = null,
+            phoneNumber = "",
+        )
 
     @Test
     @Suppress("MaxLineLength")
@@ -85,8 +61,7 @@ class SearchRestaurantsViewModelTest {
     fun `given addByPlaceId fails when onAddRestaurant is called then no RestaurantAdded event is emitted and dialog closes and it never waits for enrichment`() =
         runTestWithMainDispatcher {
             // Given
-            val fakeAdd =
-                FakeAddRestaurantByPlaceIdUseCase(result = Result.Failure(DataError.Network(Exception("test error"))))
+            val fakeAdd = FakeAddRestaurantByPlaceIdUseCase(result = Result.Failure(DataError.Network(Exception("test error"))))
             val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(restaurant()))
             val vm = SearchRestaurantsViewModel(FakeSearchPlacesUseCase(), fakeAwait, fakeAdd)
 

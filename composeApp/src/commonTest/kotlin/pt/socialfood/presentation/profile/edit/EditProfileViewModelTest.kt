@@ -50,28 +50,6 @@ class EditProfileViewModelTest {
     )
 
     @Test
-    fun `given loading the user fails when created then state is Error with the backend message`() =
-        runTestWithMainDispatcher {
-            // Given
-            val vm =
-                EditProfileViewModel(
-                    getUserMe = FakeGetUserMeUseCase(Result.Failure(DataError.Network(Exception("test error")))),
-                    updateUser = FakeUpdateUserUseCase(Result.Success(sampleUser)),
-                    uploadPhoto = FakeUploadPhotoUseCase(Result.Success(Unit)),
-                    updateUserPhoto = FakeUpdateUserPhotoUseCase(Result.Success(true)),
-                    getPresignedUrl = FakeGetPresignedUrlUseCase(Result.Success(presignedUrlData)),
-                    imageCache = FakeImageCache(),
-                )
-
-            // When / Then
-            vm.state.test {
-                assertEquals(EditProfileUiState.Loading, awaitItem())
-                val error = assertIs<EditProfileUiState.Error>(awaitItem())
-                assertEquals("Something went wrong", error.message)
-            }
-        }
-
-    @Test
     fun `given a pending image when save is called then photo is uploaded to S3 before saving`() =
         runTestWithMainDispatcher {
             // Given

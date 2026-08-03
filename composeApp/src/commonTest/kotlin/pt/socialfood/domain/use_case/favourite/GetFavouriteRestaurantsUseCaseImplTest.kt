@@ -34,7 +34,10 @@ class GetFavouriteRestaurantsUseCaseImplTest {
     fun `given repository fails when invoked then returns Error`() =
         runTest {
             // Given
-            val repository = FakeFavouriteRestaurantsRepository(pagedResult = Result.Failure(ApiError.Network(Exception("test error"))))
+            val repository =
+                FakeFavouriteRestaurantsRepository(
+                    pagedResult = Result.Failure(ApiError.Network(Exception("test error"))),
+                )
             val useCase = GetFavouriteRestaurantsUseCaseImpl(repository)
 
             // When

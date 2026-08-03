@@ -25,7 +25,8 @@ class SyncFavouritesUseCaseImplTest {
     @Test
     fun `given repository fails when invoked then returns Error`() = runTest {
         // Given
-        val repository = FakeFavouritesRepository(syncResult = Result.Failure(ApiError.Network(Exception("test error"))))
+        val repository =
+            FakeFavouritesRepository(syncResult = Result.Failure(ApiError.Network(Exception("test error"))))
         val useCase = SyncFavouritesUseCaseImpl(repository)
 
         // When

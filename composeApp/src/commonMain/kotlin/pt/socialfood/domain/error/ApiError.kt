@@ -11,3 +11,9 @@ fun ApiError.displayMessage(): String? = when (this) {
     is ApiError.Unknown -> message
     is ApiError.Network -> null
 }
+
+fun ApiError.toThrowable(): Throwable = when (this) {
+    is ApiError.Known -> Exception("[$code] $message")
+    is ApiError.Unknown -> Exception("HTTP $httpStatus: ${message ?: "unknown error"}")
+    is ApiError.Network -> cause
+}

@@ -135,7 +135,8 @@ class GuideDetailViewModelTest {
                     getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
                     getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
                     isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
-                    markGuideFavourite = FakeMarkGuideFavouriteUseCase(Result.Failure(ApiError.Network(Exception("test error")))),
+                    markGuideFavourite =
+                        FakeMarkGuideFavouriteUseCase(Result.Failure(ApiError.Network(Exception("test error")))),
                     unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
                     guideId = fakeGuide.id,
                 )

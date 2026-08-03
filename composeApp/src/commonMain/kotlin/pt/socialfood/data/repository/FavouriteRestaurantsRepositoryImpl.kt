@@ -1,14 +1,13 @@
 package pt.socialfood.data.repository
 
 import androidx.sqlite.SQLiteException
-import io.ktor.client.plugins.ResponseException
-import kotlinx.io.IOException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.FavouriteRestaurantsApi
 import pt.socialfood.data.local.dao.FavouriteRestaurantDao
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.data.network.extensions.toApiError
 import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
+import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.PagedFavouriteRestaurants
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
@@ -20,9 +19,6 @@ import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
-
-// The number of favourites a user can have is bounded, so one page covers the whole set —
-// no need for true incremental pagination when hydrating newly-added favourites.
 private const val MAX_FAVOURITES_FETCH = 500
 
 class FavouriteRestaurantsRepositoryImpl(
@@ -30,20 +26,25 @@ class FavouriteRestaurantsRepositoryImpl(
     private val favouriteRestaurantDao: FavouriteRestaurantDao,
     private val settingsRepository: SettingsRepository,
 ) : FavouriteRestaurantsRepository {
+
     override suspend fun markFavourite(restaurant: Restaurant): Result<Unit> =
         try {
-            val entity =
-                restaurant.toFavouriteRestaurantEntity(
-                    favouritedAt = currentTimeMillis(),
-                    syncState = FavouriteSyncState.PENDING_ADD,
-                )
+            val entity = restaurant.toFavouriteRestaurantEntity(
+                favouritedAt = currentTimeMillis(),
+                syncState = FavouriteSyncState.PENDING_ADD,
+            )
             favouriteRestaurantDao.upsert(entity)
 
-            try {
-                favouriteRestaurantsApi.markFavourite(restaurant.id)
-                favouriteRestaurantDao.updateSyncState(restaurant.id, FavouriteSyncState.SYNCED.name)
-            } catch (_: Exception) {
-                // Network failed — row stays PENDING_ADD, retried by the next syncFavourites().
+            when (val result = safeApiCall { favouriteRestaurantsApi.markFavourite(restaurant.id) }) {
+                is Result.Failure ->
+                    println(
+                        "markFavourite(${restaurant.id}) failed (${result.error}); " +
+                            "row stays PENDING_ADD, retried by the next syncFavourites().",
+                    )
+
+                is Result.Success<*> -> {
+                    favouriteRestaurantDao.updateSyncState(restaurant.id, FavouriteSyncState.SYNCED.name)
+                }
             }
 
             Result.Success(Unit)
@@ -55,11 +56,16 @@ class FavouriteRestaurantsRepositoryImpl(
         try {
             favouriteRestaurantDao.updateSyncState(restaurantId, FavouriteSyncState.PENDING_REMOVE.name)
 
-            try {
-                favouriteRestaurantsApi.unmarkFavourite(restaurantId)
-                favouriteRestaurantDao.deleteByRestaurantId(restaurantId)
-            } catch (_: Exception) {
-                // Network failed — row stays PENDING_REMOVE, retried by the next syncFavourites().
+            when (val result = safeApiCall { favouriteRestaurantsApi.unmarkFavourite(restaurantId) }) {
+                is Result.Failure ->
+                    println(
+                        "unmarkFavourite($restaurantId) failed (${result.error}); " +
+                            "row stays PENDING_REMOVE, retried by the next syncFavourites().",
+                    )
+
+                is Result.Success<*> -> {
+                    favouriteRestaurantDao.deleteByRestaurantId(restaurantId)
+                }
             }
 
             Result.Success(Unit)
@@ -94,28 +100,32 @@ class FavouriteRestaurantsRepositoryImpl(
             Result.Failure(e.toApiError())
         }
 
+    @Suppress("ReturnCount")
     override suspend fun syncFavourites(): Result<Unit> {
+        val now = currentTimeMillis()
+        val lastAttempt = settingsRepository.getLastFavouriteRestaurantsSyncAttemptAt()
+        if (lastAttempt != null && now - lastAttempt < MIN_SYNC_INTERVAL_MS) {
+            return Result.Success(Unit)
+        }
+
         return try {
-            val now = currentTimeMillis()
-            val lastAttempt = settingsRepository.getLastFavouriteRestaurantsSyncAttemptAt()
-            if (lastAttempt != null && now - lastAttempt < MIN_SYNC_INTERVAL_MS) {
-                return Result.Success(Unit)
-            }
             settingsRepository.saveLastFavouriteRestaurantsSyncAttemptAt(now)
 
             pushPendingMutations()
 
             val syncedAt = settingsRepository.getLastFavouriteRestaurantsSyncedAt()
-            val changes = favouriteRestaurantsApi.syncFavouriteRestaurants(since = syncedAt)
+            val changes = when (
+                val result = safeApiCall { favouriteRestaurantsApi.syncFavouriteRestaurants(since = syncedAt) }
+            ) {
+                is Result.Failure -> return result
+                is Result.Success -> result.data
+            }
 
-            applyChanges(changes)
+            val applyResult = applyChanges(changes)
+            if (applyResult is Result.Failure) return applyResult
 
             settingsRepository.saveLastFavouriteRestaurantsSyncedAt(changes.syncedAt)
             Result.Success(Unit)
-        } catch (e: IOException) {
-            Result.Failure(e.toApiError())
-        } catch (e: ResponseException) {
-            Result.Failure(e.toApiError())
         } catch (e: SQLiteException) {
             Result.Failure(e.toApiError())
         }
@@ -124,28 +134,40 @@ class FavouriteRestaurantsRepositoryImpl(
     private suspend fun pushPendingMutations() {
         favouriteRestaurantDao.getPending().forEach { entity ->
             when (FavouriteSyncState.valueOf(entity.syncState)) {
-                FavouriteSyncState.PENDING_ADD ->
-                    try {
-                        favouriteRestaurantsApi.markFavourite(entity.restaurantId)
-                        favouriteRestaurantDao.updateSyncState(entity.restaurantId, FavouriteSyncState.SYNCED.name)
-                    } catch (_: Exception) {
-                        // Still offline/failing — retried next sync.
-                    }
-
-                FavouriteSyncState.PENDING_REMOVE ->
-                    try {
-                        favouriteRestaurantsApi.unmarkFavourite(entity.restaurantId)
-                        favouriteRestaurantDao.deleteByRestaurantId(entity.restaurantId)
-                    } catch (_: Exception) {
-                        // Still offline/failing — retried next sync.
-                    }
-
+                FavouriteSyncState.PENDING_ADD -> pushPendingAdd(entity.restaurantId)
+                FavouriteSyncState.PENDING_REMOVE -> pushPendingRemove(entity.restaurantId)
                 FavouriteSyncState.SYNCED -> Unit
             }
         }
     }
 
-    private suspend fun applyChanges(changes: FavouriteSyncResponse) {
+    private suspend fun pushPendingAdd(restaurantId: String) {
+        try {
+            when (val result = safeApiCall { favouriteRestaurantsApi.markFavourite(restaurantId) }) {
+                is Result.Failure ->
+                    println("markFavourite($restaurantId) still failing (${result.error}); retried next sync.")
+                is Result.Success ->
+                    favouriteRestaurantDao.updateSyncState(restaurantId, FavouriteSyncState.SYNCED.name)
+            }
+        } catch (e: SQLiteException) {
+            println("markFavourite($restaurantId) local update failed ($e); retried next sync.")
+        }
+    }
+
+    private suspend fun pushPendingRemove(restaurantId: String) {
+        try {
+            when (val result = safeApiCall { favouriteRestaurantsApi.unmarkFavourite(restaurantId) }) {
+                is Result.Failure ->
+                    println("unmarkFavourite($restaurantId) still failing (${result.error}); retried next sync.")
+                is Result.Success ->
+                    favouriteRestaurantDao.deleteByRestaurantId(restaurantId)
+            }
+        } catch (e: SQLiteException) {
+            println("unmarkFavourite($restaurantId) local update failed ($e); retried next sync.")
+        }
+    }
+
+    private suspend fun applyChanges(changes: FavouriteSyncResponse): Result<Unit> {
         if (changes.removedIds.isNotEmpty()) {
             favouriteRestaurantDao.deleteByRestaurantIds(changes.removedIds)
         }
@@ -153,18 +175,25 @@ class FavouriteRestaurantsRepositoryImpl(
         if (changes.addedIds.isNotEmpty()) {
             val addedIds = changes.addedIds.toSet()
             val now = currentTimeMillis()
-            val allFavourites = favouriteRestaurantsApi.findFavouriteRestaurants(page = 1, limit = MAX_FAVOURITES_FETCH)
-            val toUpsert =
-                allFavourites.items
-                    .filter { it.id in addedIds }
-                    .map {
-                        it.toRestaurant().toFavouriteRestaurantEntity(
-                            favouritedAt = now,
-                            syncState = FavouriteSyncState.SYNCED,
-                        )
-                    }
+            val fetchResult = safeApiCall {
+                favouriteRestaurantsApi.findFavouriteRestaurants(page = 1, limit = MAX_FAVOURITES_FETCH)
+            }
+            val allFavourites = when (fetchResult) {
+                is Result.Failure -> return fetchResult
+                is Result.Success -> fetchResult.data
+            }
+            val toUpsert = allFavourites.items
+                .filter { it.id in addedIds }
+                .map {
+                    it.toRestaurant().toFavouriteRestaurantEntity(
+                        favouritedAt = now,
+                        syncState = FavouriteSyncState.SYNCED,
+                    )
+                }
             favouriteRestaurantDao.upsertAll(toUpsert)
         }
+
+        return Result.Success(Unit)
     }
 
     @OptIn(ExperimentalTime::class)

@@ -70,7 +70,8 @@ class FavouriteRestaurantsViewModelTest {
     fun `given use case fails when created then state is Error`() =
         runTestWithMainDispatcher {
             // Given
-            val useCase = FakeGetFavouriteRestaurantsUseCase { Result.Failure(ApiError.Network(Exception("test error"))) }
+            val useCase =
+                FakeGetFavouriteRestaurantsUseCase { Result.Failure(ApiError.Network(Exception("test error"))) }
 
             // When / Then
             val vm = FavouriteRestaurantsViewModel(useCase, FakeUnmarkRestaurantFavouriteUseCase())

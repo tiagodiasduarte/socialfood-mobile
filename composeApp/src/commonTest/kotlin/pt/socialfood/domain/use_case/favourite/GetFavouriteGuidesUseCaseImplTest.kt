@@ -34,7 +34,8 @@ class GetFavouriteGuidesUseCaseImplTest {
     fun `given repository fails when invoked then returns Error`() =
         runTest {
             // Given
-            val repository = FakeFavouritesRepository(pagedResult = Result.Failure(ApiError.Network(Exception("test error"))))
+            val repository =
+                FakeFavouritesRepository(pagedResult = Result.Failure(ApiError.Network(Exception("test error"))))
             val useCase = GetFavouriteGuidesUseCaseImpl(repository)
 
             // When

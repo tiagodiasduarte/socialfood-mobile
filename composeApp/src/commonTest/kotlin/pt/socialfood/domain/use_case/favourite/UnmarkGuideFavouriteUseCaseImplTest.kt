@@ -28,7 +28,8 @@ class UnmarkGuideFavouriteUseCaseImplTest {
     @Test
     fun `given repository fails when invoked then returns Error`() = runTest {
         // Given
-        val repository = FakeFavouritesRepository(unmarkResult = Result.Failure(ApiError.Network(Exception("test error"))))
+        val repository =
+            FakeFavouritesRepository(unmarkResult = Result.Failure(ApiError.Network(Exception("test error"))))
         val useCase = UnmarkGuideFavouriteUseCaseImpl(repository)
 
         // When

@@ -1,15 +1,14 @@
 package pt.socialfood.data.repository
 
 import androidx.sqlite.SQLiteException
-import io.ktor.client.plugins.ResponseException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.io.IOException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.HomeApi
 import pt.socialfood.data.local.dao.HomeDao
 import pt.socialfood.data.network.extensions.toApiError
 import pt.socialfood.data.paging.HomeCacheTransactionRunner
+import pt.socialfood.domain.error.ApiError
 import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.HomeItemType
 import pt.socialfood.domain.model.HomeSection
@@ -24,27 +23,26 @@ class HomeRepositoryImpl(
     private val transactionRunner: HomeCacheTransactionRunner,
 ) : HomeRepository {
     override suspend fun findAll(): Result<List<HomeSection>> =
-        try {
-            val response = homeApi.findAll()
-            transactionRunner.run {
-                homeDao.deleteAll()
-                homeDao.upsertAll(response.map { it.toHomeSectionEntity() })
-            }
-            Result.Success(response.map { it.toHomeSection() })
-        } catch (e: IOException) {
-            fallbackToCache(e)
-        } catch (e: ResponseException) {
-            fallbackToCache(e)
-        } catch (e: SQLiteException) {
-            fallbackToCache(e)
+        when (val result = safeApiCall { homeApi.findAll() }) {
+            is Result.Failure -> fallbackToCache(result.error)
+            is Result.Success ->
+                try {
+                    transactionRunner.run {
+                        homeDao.deleteAll()
+                        homeDao.upsertAll(result.data.map { it.toHomeSectionEntity() })
+                    }
+                    Result.Success(result.data.map { it.toHomeSection() })
+                } catch (e: SQLiteException) {
+                    fallbackToCache(e.toApiError())
+                }
         }
 
-    private suspend fun fallbackToCache(exception: Throwable): Result<List<HomeSection>> {
+    private suspend fun fallbackToCache(error: ApiError): Result<List<HomeSection>> {
         val cached = homeDao.getAllActive()
         return if (cached.isNotEmpty()) {
             Result.Success(cached.map { it.toHomeSection() })
         } else {
-            Result.Failure(exception.toApiError())
+            Result.Failure(error)
         }
     }
 

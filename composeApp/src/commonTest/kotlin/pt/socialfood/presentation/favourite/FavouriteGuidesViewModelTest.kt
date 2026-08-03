@@ -200,7 +200,8 @@ class FavouriteGuidesViewModelTest {
                         ),
                     )
                 }
-            val unmarkUseCase = FakeUnmarkGuideFavouriteUseCase(result = Result.Failure(ApiError.Network(Exception("test error"))))
+            val unmarkUseCase =
+                FakeUnmarkGuideFavouriteUseCase(result = Result.Failure(ApiError.Network(Exception("test error"))))
             val vm = FavouriteGuidesViewModel(useCase, unmarkUseCase)
 
             // When / Then

@@ -1,6 +1,5 @@
 package pt.socialfood.data.repository
 
-import io.ktor.client.plugins.ResponseException
 import kotlinx.coroutines.delay
 import kotlinx.io.IOException
 import pt.socialfood.core.Result
@@ -65,13 +64,9 @@ class RestaurantsRepositoryImpl(
 
     override suspend fun awaitEnrichedRestaurantByPlaceId(placeId: String): Result<Restaurant> {
         repeat(ENRICHMENT_POLL_MAX_ATTEMPTS) {
-            try {
-                val response = restaurantApi.findByPlaceId(placeId)
-                return Result.Success(response.toRestaurant())
-            } catch (e: IOException) {
-                println("Restaurant not ready yet ($e)")
-            } catch (e: ResponseException) {
-                println("Restaurant not ready yet ($e)")
+            when (val result = safeApiCall { restaurantApi.findByPlaceId(placeId).toRestaurant() }) {
+                is Result.Success -> return result
+                is Result.Failure -> println("Restaurant not ready yet (${result.error})")
             }
 
             delay(ENRICHMENT_POLL_INTERVAL_MS)

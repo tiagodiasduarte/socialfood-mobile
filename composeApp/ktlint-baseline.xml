@@ -2378,6 +2378,42 @@
         <error line="7" column="5" source="standard:class-signature" />
         <error line="7" column="64" source="standard:class-signature" />
     </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/presentation/favourite/FavouriteGuidesViewModelTest.kt">
+        <error line="26" column="40" source="standard:function-signature" />
+        <error line="29" column="1" source="standard:indent" />
+        <error line="30" column="1" source="standard:indent" />
+        <error line="31" column="1" source="standard:indent" />
+        <error line="32" column="1" source="standard:indent" />
+        <error line="33" column="1" source="standard:indent" />
+        <error line="34" column="1" source="standard:indent" />
+        <error line="35" column="1" source="standard:indent" />
+        <error line="36" column="1" source="standard:indent" />
+        <error line="41" column="90" source="standard:function-signature" />
+        <error line="67" column="68" source="standard:function-signature" />
+        <error line="126" column="86" source="standard:function-signature" />
+        <error line="189" column="93" source="standard:function-signature" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/presentation/favourite/restaurant/FavouriteRestaurantsViewModelTest.kt">
+        <error line="22" column="40" source="standard:function-signature" />
+        <error line="25" column="1" source="standard:indent" />
+        <error line="26" column="1" source="standard:indent" />
+        <error line="27" column="1" source="standard:indent" />
+        <error line="28" column="1" source="standard:indent" />
+        <error line="29" column="1" source="standard:indent" />
+        <error line="30" column="1" source="standard:indent" />
+        <error line="31" column="1" source="standard:indent" />
+        <error line="32" column="1" source="standard:indent" />
+        <error line="33" column="1" source="standard:indent" />
+        <error line="34" column="1" source="standard:indent" />
+        <error line="35" column="1" source="standard:indent" />
+        <error line="36" column="1" source="standard:indent" />
+        <error line="37" column="1" source="standard:indent" />
+        <error line="38" column="1" source="standard:indent" />
+        <error line="39" column="1" source="standard:indent" />
+        <error line="44" column="90" source="standard:function-signature" />
+        <error line="70" column="68" source="standard:function-signature" />
+        <error line="130" column="86" source="standard:function-signature" />
+    </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/guide/GuidesViewModelTest.kt">
         <error line="30" column="36" source="standard:function-signature" />
         <error line="73" column="121" source="standard:max-line-length" />
@@ -2386,24 +2422,34 @@
         <error line="173" column="121" source="standard:max-line-length" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/guide/detail/GuideDetailViewModelTest.kt">
-        <error line="84" column="121" source="standard:max-line-length" />
+        <error line="62" column="121" source="standard:max-line-length" />
+        <error line="139" column="1" source="standard:indent" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/restaurant/detail/RestaurantDetailViewModelTest.kt">
-        <error line="84" column="121" source="standard:max-line-length" />
+        <error line="62" column="121" source="standard:max-line-length" />
+        <error line="136" column="1" source="standard:indent" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/restaurant/search/SearchRestaurantsViewModelTest.kt">
-        <error line="62" column="121" source="standard:max-line-length" />
-        <error line="85" column="121" source="standard:max-line-length" />
-        <error line="104" column="121" source="standard:max-line-length" />
+        <error line="19" column="31" source="standard:function-signature" />
+        <error line="38" column="121" source="standard:max-line-length" />
+        <error line="61" column="121" source="standard:max-line-length" />
+        <error line="64" column="26" source="standard:property-wrapping" />
+        <error line="64" column="61" source="standard:argument-list-wrapping" />
+        <error line="64" column="85" source="standard:argument-list-wrapping" />
+        <error line="64" column="103" source="standard:argument-list-wrapping" />
+        <error line="64" column="113" source="standard:argument-list-wrapping" />
+        <error line="64" column="121" source="standard:max-line-length" />
+        <error line="64" column="125" source="standard:argument-list-wrapping" />
+        <error line="64" column="126" source="standard:argument-list-wrapping" />
+        <error line="64" column="127" source="standard:argument-list-wrapping" />
+        <error line="64" column="128" source="standard:argument-list-wrapping" />
+        <error line="79" column="121" source="standard:max-line-length" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/sign_in/SignInViewModelTest.kt">
         <error line="1" column="9" source="standard:package-name" />
         <error line="29" column="69" source="standard:function-signature" />
         <error line="79" column="83" source="standard:function-signature" />
         <error line="97" column="89" source="standard:function-signature" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/presentation/sign_up/SignUpViewModelTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/startup/StartupViewModelTest.kt">
         <error line="20" column="121" source="standard:max-line-length" />
@@ -2413,8 +2459,7 @@
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/validate_code/ValidateCodeViewModelTest.kt">
         <error line="1" column="9" source="standard:package-name" />
-        <error line="42" column="121" source="standard:max-line-length" />
-        <error line="68" column="121" source="standard:max-line-length" />
+        <error line="16" column="121" source="standard:max-line-length" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/runner/runTestWithMainDispatcher.kt">
         <error line="1" column="1" source="standard:filename" />

@@ -61,8 +61,7 @@ private val errorCodeStringResources: Map<ErrorCode, StringResource> = mapOf(
     ErrorCode.UNKNOWN to Res.string.error_code_unknown,
 )
 
-fun ErrorCode.stringResource(): StringResource =
-    errorCodeStringResources.getValue(this)
+fun ErrorCode.stringResource(): StringResource = errorCodeStringResources.getValue(this)
 
 suspend fun DataError.displayMessage(): String? = when (this) {
     is DataError.Known -> getString(errorCode.stringResource())

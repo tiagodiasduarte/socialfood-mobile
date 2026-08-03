@@ -1,7 +1,10 @@
 package pt.socialfood.presentation.home
 
+import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
+import pt.socialfood.core.Result
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.HomeSection
 import pt.socialfood.domain.model.HomeSectionType
 import pt.socialfood.domain.use_case.favourite.guide.IsGuideFavouriteUseCase
@@ -23,6 +26,7 @@ import pt.socialfood.fakes.FakeUnmarkRestaurantFavouriteUseCase
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeViewModelTest {
@@ -54,6 +58,21 @@ class HomeViewModelTest {
         unmarkGuideFavourite,
         observeHomeSections,
     )
+
+    @Test
+    fun `given getHomeSections fails when created then state is Error with the backend message`() =
+        runTestWithMainDispatcher {
+            // Given
+            val getHomeSections = FakeGetHomeSectionsUseCase(Result.Failure(DataError.Network(Exception("test error"))))
+
+            // When / Then
+            val vm = createViewModel(getHomeSections = getHomeSections)
+            vm.state.test {
+                assertEquals(HomeUiState.Loading, awaitItem())
+                val error = assertIs<HomeUiState.Error>(awaitItem())
+                assertEquals("Something went wrong", error.message)
+            }
+        }
 
     @Test
     fun `given the cache is observed then sections reflects the emitted values`() = runTestWithMainDispatcher {

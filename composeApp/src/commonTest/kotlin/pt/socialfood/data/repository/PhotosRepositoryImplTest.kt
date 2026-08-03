@@ -5,7 +5,6 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.fakes.FakeS3Api
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 class PhotosRepositoryImplTest {

@@ -10,7 +10,6 @@ class ConfigsRepositoryImpl(
     private val configsApi: ConfigsApi
 ) : ConfigsRepository {
 
-    override suspend fun getConfigs(): Result<Configs> {
-        return safeApiCall { configsApi.getConfigs() }
-    }
+    override suspend fun getConfigs(): Result<Configs> =
+        safeApiCall { configsApi.getConfigs() }
 }

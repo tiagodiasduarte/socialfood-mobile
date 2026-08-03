@@ -29,8 +29,8 @@ class AuthorsRepositoryImpl(
     private val authorRemoteKeyDao: AuthorRemoteKeyDao,
     private val transactionRunner: AuthorCacheTransactionRunner,
 ) : AuthorsRepository {
-    override suspend fun findAuthors(page: Int, limit: Int, query: String?): Result<PagedAuthors> {
-        return safeApiCall {
+    override suspend fun findAuthors(page: Int, limit: Int, query: String?): Result<PagedAuthors> =
+        safeApiCall {
             val response = authorsApi.findAuthors(page = page, limit = limit, query = query)
             val hasMore = response.page * response.limit < response.total
             PagedAuthors(
@@ -39,15 +39,13 @@ class AuthorsRepositoryImpl(
                 hasMore = hasMore,
             )
         }
-    }
 
-    override suspend fun findAuthorById(id: String): Result<AuthorDetail> {
-        return safeApiCall { authorsApi.findAuthorById(id).toAuthorDetail() }
-    }
+    override suspend fun findAuthorById(id: String): Result<AuthorDetail> =
+        safeApiCall { authorsApi.findAuthorById(id).toAuthorDetail() }
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun getAuthorsPagingFlow(): Flow<PagingData<Author>> {
-        return Pager(
+    override fun getAuthorsPagingFlow(): Flow<PagingData<Author>> =
+        Pager(
             config = PagingConfig(pageSize = AUTHORS_PAGE_SIZE),
             remoteMediator = AuthorRemoteMediator(
                 authorsApi = authorsApi,
@@ -57,5 +55,4 @@ class AuthorsRepositoryImpl(
             ),
             pagingSourceFactory = { authorDao.pagingSource() },
         ).flow.map { pagingData -> pagingData.map { it.toAuthor() } }
-    }
 }

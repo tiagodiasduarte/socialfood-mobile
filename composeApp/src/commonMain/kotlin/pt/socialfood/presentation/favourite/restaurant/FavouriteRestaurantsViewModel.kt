@@ -41,7 +41,7 @@ class FavouriteRestaurantsViewModel(
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Error -> _state.value = FavouriteRestaurantsUiState.Error
+                is Result.Failure -> _state.value = FavouriteRestaurantsUiState.Error
             }
         }
     }
@@ -58,7 +58,7 @@ class FavouriteRestaurantsViewModel(
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Error -> _state.value = FavouriteRestaurantsUiState.Error
+                is Result.Failure -> _state.value = FavouriteRestaurantsUiState.Error
             }
             _isRefreshing.value = false
         }
@@ -80,7 +80,7 @@ class FavouriteRestaurantsViewModel(
                         isLoadingMore = false,
                     )
                 }
-                is Result.Error -> _state.value = current.copy(isLoadingMore = false)
+                is Result.Failure -> _state.value = current.copy(isLoadingMore = false)
             }
         }
     }
@@ -92,7 +92,7 @@ class FavouriteRestaurantsViewModel(
 
         viewModelScope.launch {
             val result = unmarkRestaurantFavourite(restaurantId)
-            if (result is Result.Error) {
+            if (result is Result.Failure) {
                 val stateNow = _state.value as? FavouriteRestaurantsUiState.Loaded ?: return@launch
                 _state.value = stateNow.copy(restaurants = listOf(removedRestaurant) + stateNow.restaurants)
             }

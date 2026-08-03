@@ -41,7 +41,7 @@ class FavouriteGuidesViewModel(
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Error -> _state.value = FavouriteGuidesUiState.Error
+                is Result.Failure -> _state.value = FavouriteGuidesUiState.Error
             }
         }
     }
@@ -58,7 +58,7 @@ class FavouriteGuidesViewModel(
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Error -> _state.value = FavouriteGuidesUiState.Error
+                is Result.Failure -> _state.value = FavouriteGuidesUiState.Error
             }
             _isRefreshing.value = false
         }
@@ -80,7 +80,7 @@ class FavouriteGuidesViewModel(
                         isLoadingMore = false,
                     )
                 }
-                is Result.Error -> _state.value = current.copy(isLoadingMore = false)
+                is Result.Failure -> _state.value = current.copy(isLoadingMore = false)
             }
         }
     }
@@ -92,7 +92,7 @@ class FavouriteGuidesViewModel(
 
         viewModelScope.launch {
             val result = unmarkGuideFavourite(guideId)
-            if (result is Result.Error) {
+            if (result is Result.Failure) {
                 val stateNow = _state.value as? FavouriteGuidesUiState.Loaded ?: return@launch
                 _state.value = stateNow.copy(guides = listOf(removedGuide) + stateNow.guides)
             }

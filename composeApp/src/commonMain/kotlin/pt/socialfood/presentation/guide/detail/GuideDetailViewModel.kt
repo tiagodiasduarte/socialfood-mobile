@@ -44,7 +44,7 @@ class GuideDetailViewModel(
                     currentUserId = (userResult as? Result.Success)?.data?.id,
                     isFavourite = (isFavouriteResult as? Result.Success)?.data ?: false,
                 )
-                is Result.Error -> GuideDetailUiState.Error
+                is Result.Failure -> GuideDetailUiState.Error
             }
         }
     }
@@ -60,7 +60,7 @@ class GuideDetailViewModel(
             } else {
                 unmarkGuideFavourite(current.guide.id)
             }
-            if (result is Result.Error) {
+            if (result is Result.Failure) {
                 val stateNow = _state.value as? GuideDetailUiState.Loaded ?: return@launch
                 _state.value = stateNow.copy(isFavourite = !newIsFavourite)
             }

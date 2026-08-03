@@ -2,7 +2,7 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.PagedUsers
 import pt.socialfood.domain.model.PresignedUrlData
 import pt.socialfood.domain.model.User
@@ -45,8 +45,8 @@ class UsersRepositoryImplTest {
             val result = repo.getUsers()
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // findUsers
@@ -81,8 +81,8 @@ class UsersRepositoryImplTest {
             val result = repo.findUsers(page = 1, limit = 10, query = null)
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // getUserMe
@@ -113,8 +113,8 @@ class UsersRepositoryImplTest {
             val result = repo.getUserMe()
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // findById
@@ -143,8 +143,8 @@ class UsersRepositoryImplTest {
             val result = repo.findById(id = "user-id")
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // update
@@ -193,8 +193,8 @@ class UsersRepositoryImplTest {
                 )
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // updatePhoto
@@ -223,8 +223,8 @@ class UsersRepositoryImplTest {
             val result = repo.updatePhoto(id = "user-id", imageUrl = "https://example.com/photo.jpg")
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // getPresignedUrl
@@ -266,8 +266,8 @@ class UsersRepositoryImplTest {
                 )
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // saveUser / clearUser / currentUser flow

@@ -32,7 +32,7 @@ class ValidateCodeViewModel(
 
             when (validateCode(email = email, code = code)) {
                 is Result.Success -> _state.value = ValidateCodeUiState.Success
-                is Result.Error -> _state.value = ValidateCodeUiState.Error(ErrorEntity.Unknown)
+                is Result.Failure -> _state.value = ValidateCodeUiState.Error(ErrorEntity.Unknown)
             }
         }
     }
@@ -47,7 +47,7 @@ class ValidateCodeViewModel(
         viewModelScope.launch {
             when (restartSignUp()) {
                 is Result.Success -> _state.value = ValidateCodeUiState.RestartSignUp
-                is Result.Error -> _state.value = ValidateCodeUiState.RestartSignUp
+                is Result.Failure -> _state.value = ValidateCodeUiState.RestartSignUp
             }
         }
     }

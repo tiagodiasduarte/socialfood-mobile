@@ -2,12 +2,11 @@ package pt.socialfood.domain.use_case.guide
 
 import kotlinx.coroutines.flow.first
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.repository.UsersRepository
-import pt.socialfood.domain.use_case.guide.validation.validateGuideInput
 
 class UpdateGuideUseCaseImpl(
     private val guidesRepository: GuidesRepository,
@@ -20,14 +19,8 @@ class UpdateGuideUseCaseImpl(
         restaurantIds: List<String>,
         visibility: GuideVisibility,
     ): Result<Guide> {
-        validateGuideInput(
-            title = title,
-            description = description,
-            visibility = visibility,
-            restaurantIds = restaurantIds,
-        )?.let { return Result.Error(it) }
-
-        val userId = userRepository.currentUser.first()?.id ?: return Result.Error(ErrorEntity.Unknown)
+        val userId = userRepository.currentUser.first()?.id
+            ?: return Result.Failure(DataError.Network(IllegalStateException("No current user")))
 
         return guidesRepository.update(
             id = id,

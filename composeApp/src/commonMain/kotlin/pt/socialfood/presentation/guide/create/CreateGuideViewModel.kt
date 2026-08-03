@@ -2,8 +2,6 @@ package pt.socialfood.presentation.guide.create
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,6 +15,8 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.use_case.guide.CreateGuideUseCase
 import pt.socialfood.domain.use_case.photo.UploadPhotoUseCase
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 class CreateGuideViewModel(
     private val createGuide: CreateGuideUseCase,
@@ -77,14 +77,19 @@ class CreateGuideViewModel(
         viewModelScope.launch {
             _state.value = CreateGuideUiState.Loading
 
-            val guide = when (val result = createGuide(
-                title = idle.title,
-                description = idle.description,
-                visibility = GuideVisibility.PRIVATE,
-                restaurantIds = emptyList(),
-            )) {
+            val guide = when (
+                val result = createGuide(
+                    title = idle.title,
+                    description = idle.description,
+                    visibility = GuideVisibility.PRIVATE,
+                    restaurantIds = emptyList(),
+                )
+            ) {
                 is Result.Success -> result.data
-                is Result.Error -> { handleError(result.error, idle); return@launch }
+                is Result.Failure -> {
+                    _state.value = CreateGuideUiState.Error
+                    return@launch
+                }
             }
 
             if (idle.pendingImage != null) {
@@ -104,15 +109,6 @@ class CreateGuideViewModel(
             }
 
             _events.emit(UiEvent.GuideCreated(guide.id))
-        }
-    }
-
-    private fun handleError(error: ErrorEntity, previousIdle: CreateGuideUiState.Idle) {
-        _state.value = when (error) {
-            ErrorEntity.Validation.EmptyTitle -> previousIdle.copy(titleError = true)
-            ErrorEntity.Validation.EmptyDescription -> previousIdle.copy(descriptionError = true)
-            ErrorEntity.Validation.PublicGuideNeedsMoreRestaurants -> previousIdle
-            else -> CreateGuideUiState.Error
         }
     }
 

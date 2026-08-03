@@ -5,19 +5,17 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import io.ktor.client.plugins.ResponseException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.io.IOException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.GuidesApi
 import pt.socialfood.data.local.dao.GuideDao
 import pt.socialfood.data.local.dao.GuideRemoteKeyDao
-import pt.socialfood.data.network.extensions.toErrorEntity
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.paging.GUIDES_ALL_SCOPE
 import pt.socialfood.data.paging.GuideCacheTransactionRunner
 import pt.socialfood.data.paging.GuideRemoteMediator
+import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.PagedGuides
@@ -39,59 +37,36 @@ class GuidesRepositoryImpl(
         description: String,
         userId: String,
     ): Result<Guide> {
-        return try {
-            val guide = guideApi.create(
+        return safeApiCall {
+            guideApi.create(
                 name = name,
                 description = description,
                 userId = userId
             ).toGuide()
-            Result.Success(guide)
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
         }
     }
 
     override suspend fun delete(id: String): Result<Boolean> {
-        return try {
+        return safeApiCall {
             guideApi.delete(id)
-            Result.Success(true)
-
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
+            true
         }
     }
 
     override suspend fun findGuides(): Result<List<Guide>> {
-        return try {
-            val guides = guideApi.findAll().map { it.toGuide() }
-            Result.Success(guides)
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
-        }
+        return safeApiCall { guideApi.findAll().map { it.toGuide() } }
     }
 
     override suspend fun findGuidesPaged(page: Int, limit: Int, query: String?, userId: String?): Result<PagedGuides> {
-        return try {
+        return safeApiCall {
             val response = guideApi.findGuides(page = page, limit = limit, query = query, userId = userId)
             val hasMore = response.page * response.limit < response.total
-            Result.Success(
-                PagedGuides(
-                    guides = response.items.map { it.toGuide() },
-                    page = response.page,
-                    total = response.total,
-                    hasMore = hasMore,
-                )
+            PagedGuides(
+                guides = response.items.map { it.toGuide() },
+                page = response.page,
+                total = response.total,
+                hasMore = hasMore,
             )
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -103,8 +78,8 @@ class GuidesRepositoryImpl(
         restaurantIds: List<String>,
         visibility: GuideVisibility,
     ): Result<Guide> {
-        return try {
-            val guide = guideApi.update(
+        return safeApiCall {
+            guideApi.update(
                 id = id,
                 name = name,
                 userId = userId,
@@ -112,24 +87,11 @@ class GuidesRepositoryImpl(
                 restaurantIds = restaurantIds,
                 visibility = visibility.name,
             ).toGuide()
-            Result.Success(guide)
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
         }
     }
 
     override suspend fun findById(id: String): Result<Guide> {
-        return try {
-            val guide = guideApi.findById(id).toGuide()
-            Result.Success(guide)
-
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
-        }
+        return safeApiCall { guideApi.findById(id).toGuide() }
     }
 
     override suspend fun getPhotoPresignedUrl(
@@ -137,7 +99,7 @@ class GuidesRepositoryImpl(
         fileName: String,
         mimeType: String,
     ): Result<PresignedUrlData> {
-        return try {
+        return safeApiCall {
             val response = guideApi.getGuidePhotoPresignedUrl(
                 guideId = guideId,
                 request = PresignedUrlRequest(
@@ -146,16 +108,10 @@ class GuidesRepositoryImpl(
                     context = "guide",
                 ),
             )
-            Result.Success(
-                PresignedUrlData(
-                    uploadUrl = response.uploadUrl,
-                    publicUrl = response.publicUrl,
-                )
+            PresignedUrlData(
+                uploadUrl = response.uploadUrl,
+                publicUrl = response.publicUrl,
             )
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -164,16 +120,11 @@ class GuidesRepositoryImpl(
         userId: String,
         placeId: String?
     ): Result<Guide> {
-        return try {
-            val guide = guideApi.addRestaurantGuide(
+        return safeApiCall {
+            guideApi.addRestaurantGuide(
                 guideId = guideId,
                 placeId = placeId
             ).toGuide()
-            Result.Success(guide)
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
         }
     }
 
@@ -181,29 +132,19 @@ class GuidesRepositoryImpl(
         guideId: String,
         imageUrl: String
     ): Result<Boolean> {
-        return try {
+        return safeApiCall {
             guideApi.addPhoto(
                 guideId = guideId,
                 imageUrl = imageUrl
             )
-            Result.Success(true)
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
+            true
         }
     }
 
     override suspend fun deletePhoto(guideId: String): Result<Boolean> {
-        return try {
-            guideApi.deletePhoto(
-                guideId = guideId,
-            ).toGuide()
-            Result.Success(true)
-        } catch (e: IOException) {
-            Result.Error(e.toErrorEntity())
-        } catch (e: ResponseException) {
-            Result.Error(e.toErrorEntity())
+        return safeApiCall {
+            guideApi.deletePhoto(guideId = guideId)
+            true
         }
     }
 

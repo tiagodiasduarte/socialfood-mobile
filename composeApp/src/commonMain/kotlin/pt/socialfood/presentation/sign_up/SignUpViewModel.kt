@@ -32,7 +32,7 @@ class SignUpViewModel(
 
             when (register(name, email, password)) {
                 is Result.Success -> _state.value = SignUpUiState.Success(email)
-                is Result.Error -> _state.value = SignUpUiState.Error(ErrorEntity.Unknown)
+                is Result.Failure -> _state.value = SignUpUiState.Error(ErrorEntity.Unknown)
             }
         }
     }

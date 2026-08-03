@@ -161,7 +161,7 @@ class FavouriteRestaurantsRepositoryImplTest {
             val result = repo.syncFavourites()
 
             // Then
-            assertIs<Result.Error>(result)
+            assertIs<Result.Failure>(result)
             assertEquals(null, settings.getLastFavouriteRestaurantsSyncedAt())
         }
 

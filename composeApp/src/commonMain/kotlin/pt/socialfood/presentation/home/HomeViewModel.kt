@@ -101,7 +101,7 @@ class HomeViewModel(
                         favouriteGuideIds = favouriteGuideIds,
                     )
             }
-            is Result.Error -> _state.value = HomeUiState.Error
+            is Result.Failure -> _state.value = HomeUiState.Error
         }
     }
 
@@ -123,7 +123,7 @@ class HomeViewModel(
                 } else {
                     markRestaurantFavourite(restaurant)
                 }
-            if (result is Result.Error) {
+            if (result is Result.Failure) {
                 val stateNow = _state.value as? HomeUiState.Loaded ?: return@launch
                 val revertedIds =
                     if (isFavourite) {
@@ -149,7 +149,7 @@ class HomeViewModel(
                 } else {
                     markGuideFavourite(guide)
                 }
-            if (result is Result.Error) {
+            if (result is Result.Failure) {
                 val stateNow = _state.value as? HomeUiState.Loaded ?: return@launch
                 val revertedIds =
                     if (isFavourite) {

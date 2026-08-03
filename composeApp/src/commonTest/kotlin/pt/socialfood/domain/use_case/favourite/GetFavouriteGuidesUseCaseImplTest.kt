@@ -2,7 +2,7 @@ package pt.socialfood.domain.use_case.favourite
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.PagedFavouriteGuides
 import pt.socialfood.domain.use_case.favourite.guide.GetFavouriteGuidesUseCaseImpl
 import pt.socialfood.fakes.FakeFavouritesRepository
@@ -34,13 +34,14 @@ class GetFavouriteGuidesUseCaseImplTest {
     fun `given repository fails when invoked then returns Error`() =
         runTest {
             // Given
-            val repository = FakeFavouritesRepository(pagedResult = Result.Error(ErrorEntity.Unknown))
+            val repository =
+                FakeFavouritesRepository(pagedResult = Result.Failure(DataError.Network(Exception("test error"))))
             val useCase = GetFavouriteGuidesUseCaseImpl(repository)
 
             // When
             val result = useCase(page = 1, limit = 10)
 
             // Then
-            assertIs<Result.Error>(result)
+            assertIs<Result.Failure>(result)
         }
 }

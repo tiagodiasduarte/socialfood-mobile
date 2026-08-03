@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.displayMessage
 import pt.socialfood.domain.use_case.login.LoginUseCase
 import pt.socialfood.domain.use_case.login.LoginWithGoogleUseCase
 
@@ -32,9 +33,12 @@ class SignInViewModel(
 
             _state.value = SignInUiState.Loading
 
-            when (login(email, password)) {
+            when (val result = login(email, password)) {
                 is Result.Success -> _state.value = SignInUiState.Success
-                is Result.Error -> _state.value = SignInUiState.Error(ErrorEntity.Unknown)
+                is Result.Failure -> _state.value = SignInUiState.Error(
+                    error = ErrorEntity.Unknown,
+                    message = result.error.displayMessage(),
+                )
             }
         }
     }
@@ -42,9 +46,12 @@ class SignInViewModel(
     fun onGoogleSignIn(idToken: String) {
         viewModelScope.launch {
             _state.value = SignInUiState.Loading
-            when (loginWithGoogle(idToken)) {
+            when (val result = loginWithGoogle(idToken)) {
                 is Result.Success -> _state.value = SignInUiState.Success
-                is Result.Error -> _state.value = SignInUiState.Error(ErrorEntity.Unknown)
+                is Result.Failure -> _state.value = SignInUiState.Error(
+                    error = ErrorEntity.Unknown,
+                    message = result.error.displayMessage(),
+                )
             }
         }
     }

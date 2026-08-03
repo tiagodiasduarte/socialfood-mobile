@@ -2,7 +2,7 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.DataError
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -34,8 +34,8 @@ class AuthRepositoryImplTest {
         val result = repo.login("user@test.com", "password")
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     @Test
@@ -59,8 +59,8 @@ class AuthRepositoryImplTest {
         val result = repo.register("name", "user@test.com", "password")
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     @Test
@@ -85,8 +85,8 @@ class AuthRepositoryImplTest {
         val result = repo.validateCode("user@test.com", "sometoken")
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     @Test
@@ -110,8 +110,8 @@ class AuthRepositoryImplTest {
         val result = repo.resendVerificationCode("user@test.com")
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     @Test
@@ -136,8 +136,8 @@ class AuthRepositoryImplTest {
         val result = repo.loginWithGoogle("google_id_token")
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     @Test
@@ -162,7 +162,7 @@ class AuthRepositoryImplTest {
         val result = repo.logout()
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 }

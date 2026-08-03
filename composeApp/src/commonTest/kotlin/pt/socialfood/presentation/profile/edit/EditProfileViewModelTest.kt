@@ -3,7 +3,7 @@ package pt.socialfood.presentation.profile.edit
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.PresignedUrlData
 import pt.socialfood.domain.model.User
 import pt.socialfood.fakes.FakeGetPresignedUrlUseCase
@@ -105,7 +105,7 @@ class EditProfileViewModelTest {
     fun `given the S3 upload fails when save is called then the user photo is not updated`() =
         runTestWithMainDispatcher {
             // Given
-            val uploadPhoto = FakeUploadPhotoUseCase(Result.Error(ErrorEntity.Unknown))
+            val uploadPhoto = FakeUploadPhotoUseCase(Result.Failure(DataError.Network(Exception("test error"))))
             val updateUserPhoto = FakeUpdateUserPhotoUseCase(Result.Success(true))
             val imageCache = FakeImageCache()
             val vm =
@@ -143,7 +143,7 @@ class EditProfileViewModelTest {
     @Test
     fun `given updateUser fails when save is called then saveError is set`() = runTestWithMainDispatcher {
         // Given
-        val updateUser = FakeUpdateUserUseCase(Result.Error(ErrorEntity.Unknown))
+        val updateUser = FakeUpdateUserUseCase(Result.Failure(DataError.Network(Exception("test error"))))
         val vm = createViewModel(updateUser = updateUser)
 
         vm.state.test {
@@ -167,7 +167,7 @@ class EditProfileViewModelTest {
     fun `given saveError is true when dismissSaveError is called then saveError is cleared`() =
         runTestWithMainDispatcher {
             // Given
-            val updateUser = FakeUpdateUserUseCase(Result.Error(ErrorEntity.Unknown))
+            val updateUser = FakeUpdateUserUseCase(Result.Failure(DataError.Network(Exception("test error"))))
             val vm = createViewModel(updateUser = updateUser)
 
             vm.state.test {

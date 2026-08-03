@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.fakes.FakeGetRestaurantByIdUseCase
 import pt.socialfood.fakes.FakeIsRestaurantFavouriteUseCase
@@ -132,7 +132,8 @@ class RestaurantDetailViewModelTest {
                 RestaurantDetailViewModel(
                     getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
                     isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
-                    markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(Result.Error(ErrorEntity.Unknown)),
+                    markRestaurantFavourite =
+                        FakeMarkRestaurantFavouriteUseCase(Result.Failure(DataError.Network(Exception("test error")))),
                     unmarkRestaurantFavourite = FakeUnmarkRestaurantFavouriteUseCase(),
                     restaurantId = fakeRestaurant.id,
                 )

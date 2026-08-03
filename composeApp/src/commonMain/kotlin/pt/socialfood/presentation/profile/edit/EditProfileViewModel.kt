@@ -61,7 +61,7 @@ class EditProfileViewModel(
                     )
                 }
 
-                is Result.Error -> _state.value = EditProfileUiState.Error
+                is Result.Failure -> _state.value = EditProfileUiState.Error
             }
         }
     }
@@ -97,13 +97,13 @@ class EditProfileViewModel(
                     )
                 ) {
                     is Result.Success -> result.data
-                    is Result.Error -> {
+                    is Result.Failure -> {
                         loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = true) }
                         return@launch
                     }
                 }
 
-                if (uploadPhoto(presigned = presigned, bytes = bytes, mimeType = mimeType) is Result.Error) {
+                if (uploadPhoto(presigned = presigned, bytes = bytes, mimeType = mimeType) is Result.Failure) {
                     loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = true) }
                     return@launch
                 }
@@ -115,7 +115,7 @@ class EditProfileViewModel(
                             copy(isUploadingPhoto = false, pendingImage = null, imageUrl = presigned.publicUrl)
                         }
                     }
-                    is Result.Error -> {
+                    is Result.Failure -> {
                         loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = true) }
                         return@launch
                     }
@@ -134,7 +134,7 @@ class EditProfileViewModel(
                 )
             ) {
                 is Result.Success -> loaded { copy(isSaving = false, saveSuccess = true) }
-                is Result.Error -> loaded { copy(isSaving = false, saveError = true) }
+                is Result.Failure -> loaded { copy(isSaving = false, saveError = true) }
             }
         }
     }

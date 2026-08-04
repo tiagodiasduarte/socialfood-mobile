@@ -2,6 +2,7 @@ package pt.socialfood.presentation.guide.edit
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
@@ -106,8 +107,7 @@ class EditGuideViewModelTest {
         val getGuideById = FakeGetGuideByIdUseCase(Result.Success(guide()))
         val vm = createViewModel(getGuideById = getGuideById)
         vm.state.test {
-            awaitItem()
-            awaitItem()
+            skipItems(2)
 
             // When
             vm.onRetry()
@@ -125,10 +125,10 @@ class EditGuideViewModelTest {
             // Given
             val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
             val vm = createViewModel(updateGuide = updateGuide)
-            vm.state.test {
-                awaitItem()
-                awaitItem()
-            }
+
+            advanceUntilIdle()
+            advanceUntilIdle()
+
             vm.onTitleChange("")
 
             // When
@@ -147,10 +147,10 @@ class EditGuideViewModelTest {
             // Given
             val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
             val vm = createViewModel(updateGuide = updateGuide)
-            vm.state.test {
-                awaitItem()
-                awaitItem()
-            }
+
+            advanceUntilIdle()
+            advanceUntilIdle()
+
             vm.onDescriptionChange("")
 
             // When
@@ -172,10 +172,9 @@ class EditGuideViewModelTest {
                 getGuideById = FakeGetGuideByIdUseCase(Result.Success(guide(visibility = GuideVisibility.PUBLIC))),
                 updateGuide = updateGuide,
             )
-            vm.state.test {
-                awaitItem()
-                awaitItem()
-            }
+
+            advanceUntilIdle()
+            advanceUntilIdle()
 
             // When
             vm.onSave()
@@ -193,10 +192,10 @@ class EditGuideViewModelTest {
         val vm = createViewModel(
             getGuideById = FakeGetGuideByIdUseCase(Result.Success(guide(visibility = GuideVisibility.PUBLIC))),
         )
-        vm.state.test {
-            awaitItem()
-            awaitItem()
-        }
+
+        advanceUntilIdle()
+        advanceUntilIdle()
+
         vm.onSave()
         assertTrue(assertIs<EditGuideUiState.Loaded>(vm.state.value).validationErrors.isNotEmpty())
 
@@ -213,10 +212,9 @@ class EditGuideViewModelTest {
             // Given
             val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
             val vm = createViewModel(updateGuide = updateGuide)
-            vm.state.test {
-                awaitItem()
-                awaitItem()
-            }
+
+            advanceUntilIdle()
+            advanceUntilIdle()
 
             vm.events.test {
                 // When
@@ -234,15 +232,14 @@ class EditGuideViewModelTest {
         val updateGuide = FakeUpdateGuideUseCase(Result.Failure(DataError.Network(Exception("test error"))))
         val vm = createViewModel(updateGuide = updateGuide)
         vm.state.test {
-            awaitItem()
-            awaitItem()
+            skipItems(2)
 
             // When
             vm.onSave()
 
             // Then
-            assertIs<EditGuideUiState.Loaded>(awaitItem()).let { assertTrue(it.isSaving) }
-            assertIs<EditGuideUiState.Loaded>(awaitItem()).let { assertEquals(false, it.isSaving) }
+            assertTrue(assertIs<EditGuideUiState.Loaded>(awaitItem()).isSaving)
+            assertEquals(false, assertIs<EditGuideUiState.Loaded>(awaitItem()).isSaving)
         }
     }
 
@@ -258,10 +255,9 @@ class EditGuideViewModelTest {
                 uploadPhoto = uploadPhoto,
                 guidesRepository = guidesRepository,
             )
-            vm.state.test {
-                awaitItem()
-                awaitItem()
-            }
+            advanceUntilIdle()
+            advanceUntilIdle()
+
             vm.onPhotoSelected(byteArrayOf(1, 2, 3), "image/png")
 
             vm.events.test {
@@ -280,10 +276,9 @@ class EditGuideViewModelTest {
         // Given
         val deleteGuide = FakeDeleteGuideUseCase(Result.Success(true))
         val vm = createViewModel(deleteGuide = deleteGuide)
-        vm.state.test {
-            awaitItem()
-            awaitItem()
-        }
+
+        advanceUntilIdle()
+        advanceUntilIdle()
 
         vm.events.test {
             // When
@@ -301,15 +296,14 @@ class EditGuideViewModelTest {
         val deleteGuide = FakeDeleteGuideUseCase(Result.Failure(DataError.Network(Exception("test error"))))
         val vm = createViewModel(deleteGuide = deleteGuide)
         vm.state.test {
-            awaitItem()
-            awaitItem()
+            skipItems(2)
 
             // When
             vm.onDelete()
 
             // Then
-            assertIs<EditGuideUiState.Loaded>(awaitItem()).let { assertTrue(it.isDeleting) }
-            assertIs<EditGuideUiState.Loaded>(awaitItem()).let { assertEquals(false, it.isDeleting) }
+            assertTrue(assertIs<EditGuideUiState.Loaded>(awaitItem()).isDeleting)
+            assertEquals(false, assertIs<EditGuideUiState.Loaded>(awaitItem()).isDeleting)
         }
     }
 
@@ -319,8 +313,7 @@ class EditGuideViewModelTest {
             // Given
             val vm = createViewModel()
             vm.state.test {
-                awaitItem()
-                awaitItem()
+                skipItems(2)
 
                 // When
                 vm.onRestaurantAdded(restaurant("r1"))
@@ -339,8 +332,7 @@ class EditGuideViewModelTest {
                 getGuideById = FakeGetGuideByIdUseCase(Result.Success(guide(restaurants = listOf(restaurant("r1"))))),
             )
             vm.state.test {
-                awaitItem()
-                awaitItem()
+                skipItems(2)
 
                 // When
                 vm.onRestaurantAdded(restaurant("r1"))
@@ -358,8 +350,7 @@ class EditGuideViewModelTest {
                 getGuideById = FakeGetGuideByIdUseCase(Result.Success(guide(restaurants = listOf(restaurant("r1"))))),
             )
             vm.state.test {
-                awaitItem()
-                awaitItem()
+                skipItems(2)
 
                 // When
                 vm.onRestaurantRemoved("r1")

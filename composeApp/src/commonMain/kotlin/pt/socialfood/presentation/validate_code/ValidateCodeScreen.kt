@@ -43,6 +43,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.presentation.error.stringResource
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.validate_code_button
 import socialfood.composeapp.generated.resources.validate_code_resend_button
@@ -93,6 +94,7 @@ private fun ValidateCodeContent(
     ) {
         when (state) {
             is ValidateCodeUiState.Error,
+            is ValidateCodeUiState.ValidationError,
             ValidateCodeUiState.Idle -> ValidateCodeFormView(
                 state = state,
                 onValidateClick = onValidateClick,
@@ -163,10 +165,15 @@ private fun ValidateCodeFormView(
                 modifier = Modifier.fillMaxWidth(),
             )
 
-            if (state is ValidateCodeUiState.Error) {
+            val errorMessage = when (state) {
+                is ValidateCodeUiState.Error -> stringResource(state.errorCode.stringResource())
+                is ValidateCodeUiState.ValidationError -> stringResource(state.message)
+                else -> null
+            }
+            if (errorMessage != null) {
                 Spacer(modifier = Modifier.height(SpaceSize.small))
                 Text(
-                    text = state.message,
+                    text = errorMessage,
                     color = colorScheme.error,
                     style = MaterialTheme.typography.bodySmall,
                 )

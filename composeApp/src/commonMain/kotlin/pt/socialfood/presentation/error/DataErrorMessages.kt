@@ -1,7 +1,6 @@
 package pt.socialfood.presentation.error
 
 import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.getString
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
 import socialfood.composeapp.generated.resources.Res
@@ -73,10 +72,4 @@ fun DataError.toErrorCode(): ErrorCode = when (this) {
     is DataError.Known -> errorCode
     is DataError.Unknown -> ErrorCode.UNKNOWN
     is DataError.Network -> ErrorCode.NETWORK
-}
-
-suspend fun DataError.displayMessage(): String = when (this) {
-    is DataError.Known -> getString(errorCode.stringResource())
-    is DataError.Unknown -> message ?: getString(Res.string.error_code_unknown)
-    is DataError.Network -> getString(Res.string.error_network_message)
 }

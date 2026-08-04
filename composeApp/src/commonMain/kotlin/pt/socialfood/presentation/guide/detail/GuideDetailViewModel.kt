@@ -12,7 +12,7 @@ import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
 import pt.socialfood.domain.use_case.guide.GetGuideByIdUseCase
 import pt.socialfood.domain.use_case.user.GetUserMeUseCase
-import pt.socialfood.presentation.error.displayMessage
+import pt.socialfood.presentation.error.toErrorCode
 
 class GuideDetailViewModel(
     private val getGuideById: GetGuideByIdUseCase,
@@ -45,7 +45,7 @@ class GuideDetailViewModel(
                     currentUserId = (userResult as? Result.Success)?.data?.id,
                     isFavourite = (isFavouriteResult as? Result.Success)?.data ?: false,
                 )
-                is Result.Failure -> GuideDetailUiState.Error(guideResult.error.displayMessage())
+                is Result.Failure -> GuideDetailUiState.Error(guideResult.error.toErrorCode())
             }
         }
     }

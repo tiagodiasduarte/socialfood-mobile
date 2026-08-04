@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
@@ -96,6 +97,7 @@ private fun SignUpScreenContent(
 ) {
     when (state) {
         is SignUpUiState.Error,
+        is SignUpUiState.ValidationError,
         SignUpUiState.Idle,
         ->
             SignUpFormView(
@@ -381,7 +383,7 @@ private fun SignUpFormView(
                 colors =
                     OutlinedTextFieldDefaults.colors(
                         unfocusedBorderColor =
-                            if (state is SignUpUiState.Error) {
+                            if (state is SignUpUiState.Error || state is SignUpUiState.ValidationError) {
                                 colorScheme.error
                             } else {
                                 colorScheme.outlineVariant
@@ -391,10 +393,15 @@ private fun SignUpFormView(
                 modifier = Modifier.fillMaxWidth(),
             )
 
-            if (state is SignUpUiState.Error) {
+            val errorMessage = when (state) {
+                is SignUpUiState.Error -> stringResource(state.errorCode.stringResource())
+                is SignUpUiState.ValidationError -> stringResource(state.message)
+                else -> null
+            }
+            if (errorMessage != null) {
                 Spacer(modifier = Modifier.height(SpaceSize.small))
                 Text(
-                    text = state.message,
+                    text = errorMessage,
                     color = colorScheme.error,
                     style = MaterialTheme.typography.bodyMedium,
                 )

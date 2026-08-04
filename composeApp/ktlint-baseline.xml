@@ -1922,10 +1922,10 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_in/SignInViewModel.kt">
         <error line="1" column="9" source="standard:package-name" />
-        <error line="14" column="5" source="standard:class-signature" />
-        <error line="15" column="5" source="standard:class-signature" />
-        <error line="15" column="57" source="standard:class-signature" />
-        <error line="16" column="5" source="standard:class-signature" />
+        <error line="18" column="5" source="standard:class-signature" />
+        <error line="19" column="5" source="standard:class-signature" />
+        <error line="19" column="57" source="standard:class-signature" />
+        <error line="20" column="5" source="standard:class-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_up/SignUpScreen.kt">
         <error line="1" column="9" source="standard:package-name" />

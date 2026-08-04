@@ -5,10 +5,14 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 import pt.socialfood.core.Result
 import pt.socialfood.domain.use_case.login.LoginUseCase
 import pt.socialfood.domain.use_case.login.LoginWithGoogleUseCase
 import pt.socialfood.presentation.error.displayMessage
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.sign_in_invalid_email
+import socialfood.composeapp.generated.resources.sign_in_invalid_password
 
 class SignInViewModel(
     private val login: LoginUseCase,
@@ -21,12 +25,12 @@ class SignInViewModel(
     fun onSignIn(email: String, password: String) {
         viewModelScope.launch {
             if (email.isEmpty()) {
-                _state.value = SignInUiState.Error("Please enter your email")
+                _state.value = SignInUiState.Error(getString(Res.string.sign_in_invalid_email))
                 return@launch
             }
 
             if (password.isEmpty()) {
-                _state.value = SignInUiState.Error("Please enter your password")
+                _state.value = SignInUiState.Error(getString(Res.string.sign_in_invalid_password))
                 return@launch
             }
 

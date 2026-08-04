@@ -17,6 +17,8 @@
     <string name="sign_in_google_button_description">Google icon</string>
     <string name="sign_in_no_account_label">Don't have an account?</string>
     <string name="sign_in_sign_up_button">Sign Up</string>
+    <string name="sign_in_invalid_email">Please enter your email</string>
+    <string name="sign_in_invalid_password">Please enter your password</string>
 
     <string name="sign_up_title_label">Create account</string>
     <string name="sign_up_subtitle_label">Join us to explore the best restaurants</string>

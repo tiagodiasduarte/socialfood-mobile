@@ -76,40 +76,38 @@ class SignInViewModelTest {
         }
 
     @Test
-    fun `given valid credentials when sign in is called then state is Success`() =
-        runTestWithMainDispatcher {
-            // Given
-            val vm = createViewModel(Result.Success("token"))
+    fun `given valid credentials when sign in is called then state is Success`() = runTestWithMainDispatcher {
+        // Given
+        val vm = createViewModel(Result.Success("token"))
 
-            vm.state.test {
-                assertEquals(SignInUiState.Idle, awaitItem())
+        vm.state.test {
+            assertEquals(SignInUiState.Idle, awaitItem())
 
-                // When
-                vm.onSignIn("user@test.com", "password")
+            // When
+            vm.onSignIn("user@test.com", "password")
 
-                // Then
-                assertEquals(SignInUiState.Loading, awaitItem())
-                assertEquals(SignInUiState.Success, awaitItem())
-            }
+            // Then
+            assertEquals(SignInUiState.Loading, awaitItem())
+            assertEquals(SignInUiState.Success, awaitItem())
         }
+    }
 
     @Test
-    fun `given a failing sign in when sign in is called then state is Unknown error`() =
-        runTestWithMainDispatcher {
-            // Given
-            val vm = createViewModel(Result.Failure(DataError.Network(Exception("test error"))))
+    fun `given a failing sign in when sign in is called then state is Unknown error`() = runTestWithMainDispatcher {
+        // Given
+        val vm = createViewModel(Result.Failure(DataError.Network(Exception("test error"))))
 
-            vm.state.test {
-                assertEquals(SignInUiState.Idle, awaitItem())
+        vm.state.test {
+            assertEquals(SignInUiState.Idle, awaitItem())
 
-                // When
-                vm.onSignIn("user@test.com", "password")
+            // When
+            vm.onSignIn("user@test.com", "password")
 
-                // Then
-                assertEquals(SignInUiState.Loading, awaitItem())
-                val state = awaitItem()
-                assertIs<SignInUiState.Error>(state)
-                assertEquals("Something went wrong. Please try again.", state.message)
-            }
+            // Then
+            assertEquals(SignInUiState.Loading, awaitItem())
+            val state = awaitItem()
+            assertIs<SignInUiState.Error>(state)
+            assertEquals("Something went wrong. Please try again.", state.message)
         }
+    }
 }

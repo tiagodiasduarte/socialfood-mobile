@@ -32,7 +32,7 @@ Clean Architecture with three layers inside `composeApp/src/commonMain/`:
 
 ```
 data/          – API clients (Ktor), repository implementations, network models
-domain/        – Repository interfaces, use cases, domain models, ErrorEntity
+domain/        – Repository interfaces, use cases, domain models, DataError/ErrorCode
 presentation/  – Screens, ViewModels, UI state classes, navigation
 mapper/        – Network model → domain model converters
 di/            – Koin DI module definitions
@@ -40,7 +40,9 @@ di/            – Koin DI module definitions
 
 **Data flow:** `Screen` → `ViewModel` → `UseCase` → `RepositoryImpl` → `Api` (Ktor) → backend
 
-**Result type:** All use cases and repositories return `core.Result<T>` (either `Success(data)` or `Error(ErrorEntity)`). Never throw across layer boundaries — catch in `RepositoryImpl` and convert with `Exception.toErrorEntity()`.
+**Result type:** All use cases and repositories return `core.Result<T>` (either `Success(data)` or `Failure(DataError)`). Never throw across layer boundaries — `safeApiCall` (`domain/error/safeApiCall.kt`) wraps Ktor calls and converts exceptions via `Throwable.toDataError()` (`data/network/extensions/ThrowableExceptions.kt`) into `DataError.Known` (structured backend error carrying an `ErrorCode`), `DataError.Unknown` (unparsed HTTP error), or `DataError.Network` (connectivity/IO failure).
+
+**Error messages:** Resolve error copy in Compose, not in the ViewModel — store `ErrorCode` in UI state (via `DataError.toErrorCode()`) and resolve the string at render time with `stringResource(errorCode.stringResource())` (`presentation/error/DataErrorMessages.kt`). This keeps ViewModel tests on plain JVM without needing Robolectric, since no Android resource APIs are touched outside `@Composable` scope. `SignInViewModel`, `EditProfileViewModel`, `FavouriteGuidesViewModel`, and `FavouriteRestaurantsViewModel` follow this pattern; other ViewModels still use the older suspend `DataError.displayMessage()`, which resolves the string inside the ViewModel and hasn't been migrated yet.
 
 **Naming convention:** Each use case has an interface (`GetGuidesUseCase`) and an `Impl` class (`GetGuidesUseCaseImpl`). Same for repositories.
 

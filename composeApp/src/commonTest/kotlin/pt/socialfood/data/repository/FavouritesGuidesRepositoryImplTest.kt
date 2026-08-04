@@ -8,7 +8,7 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.PagedFavouriteGuides
 import pt.socialfood.fakes.FakeFavouriteDao
-import pt.socialfood.fakes.FakeFavouritesApi
+import pt.socialfood.fakes.FakeFavouritesGuidesApi
 import pt.socialfood.fakes.FakeSettingsRepository
 import pt.socialfood.mapper.toFavouriteGuideEntity
 import kotlin.test.Test
@@ -18,7 +18,7 @@ import kotlin.test.assertTrue
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
-class FavouritesRepositoryImplTest {
+class FavouritesGuidesRepositoryImplTest {
     private val fakeGuide =
         Guide(
             id = "guide-id",
@@ -34,11 +34,11 @@ class FavouritesRepositoryImplTest {
     private fun now(): Long = Clock.System.now().toEpochMilliseconds()
 
     private fun createRepository(
-        api: FakeFavouritesApi = FakeFavouritesApi(),
+        api: FakeFavouritesGuidesApi = FakeFavouritesGuidesApi(),
         dao: FakeFavouriteDao = FakeFavouriteDao(),
         settings: FakeSettingsRepository = FakeSettingsRepository(),
-    ): Triple<FavouritesRepositoryImpl, FakeFavouriteDao, FakeSettingsRepository> =
-        Triple(FavouritesRepositoryImpl(api, dao, settings), dao, settings)
+    ): Triple<FavouritesGuidesRepositoryImpl, FakeFavouriteDao, FakeSettingsRepository> =
+        Triple(FavouritesGuidesRepositoryImpl(api, dao, settings), dao, settings)
 
     // markFavourite
 
@@ -61,7 +61,7 @@ class FavouritesRepositoryImplTest {
     fun `given api throws when markFavourite is called then still returns Success with entity left PENDING_ADD`() =
         runTest {
             // Given
-            val (repo, dao, _) = createRepository(api = FakeFavouritesApi(shouldThrow = true))
+            val (repo, dao, _) = createRepository(api = FakeFavouritesGuidesApi(shouldThrow = true))
 
             // When
             val result = repo.markFavourite(fakeGuide)
@@ -93,7 +93,7 @@ class FavouritesRepositoryImplTest {
     fun `given api throws when unmarkFavourite is called then still returns Success with entity left PENDING_REMOVE`() =
         runTest {
             // Given
-            val (repo, dao, _) = createRepository(api = FakeFavouritesApi(shouldThrow = true))
+            val (repo, dao, _) = createRepository(api = FakeFavouritesGuidesApi(shouldThrow = true))
             dao.upsert(fakeGuide.toFavouriteGuideEntityForTest(FavouriteSyncState.SYNCED))
 
             // When
@@ -111,7 +111,7 @@ class FavouritesRepositoryImplTest {
     fun `given cached favourites when getFavouritesPaged is called then reads from DAO only and never calls the API`() =
         runTest {
             // Given
-            val (repo, dao, _) = createRepository(api = FakeFavouritesApi(shouldThrow = true))
+            val (repo, dao, _) = createRepository(api = FakeFavouritesGuidesApi(shouldThrow = true))
             dao.upsert(fakeGuide.toFavouriteGuideEntityForTest(FavouriteSyncState.SYNCED))
 
             // When
@@ -166,7 +166,7 @@ class FavouritesRepositoryImplTest {
     fun `given last sync attempt was recent when syncFavourites is called then returns early without calling the API`() =
         runTest {
             // Given
-            val (repo, _, settings) = createRepository(api = FakeFavouritesApi(shouldThrow = true))
+            val (repo, _, settings) = createRepository(api = FakeFavouritesGuidesApi(shouldThrow = true))
             settings.saveLastFavouritesSyncAttemptAt(now())
 
             // When

@@ -10,9 +10,9 @@ import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
 
-class FavouritesApiImpl(
+class FavouritesGuidesApiImpl(
     private val client: HttpClient
-) : FavouritesApi {
+) : FavouritesGuidesApi {
 
     override suspend fun markFavourite(guideId: String) {
         client.post("guides/$guideId/favourite")

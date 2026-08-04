@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.flowOf
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.PagedFavouriteGuides
-import pt.socialfood.domain.repository.FavouritesRepository
+import pt.socialfood.domain.repository.FavouritesGuidesRepository
 
-class FakeFavouritesRepository(
+class FakeFavouritesGuidesRepository(
     private val markResult: Result<Unit> = Result.Success(Unit),
     private val unmarkResult: Result<Unit> = Result.Success(Unit),
     private val pagedResult: Result<PagedFavouriteGuides> = Result.Success(
@@ -16,7 +16,7 @@ class FakeFavouritesRepository(
     private val isFavouriteResult: Result<Boolean> = Result.Success(false),
     private val favouriteGuideIds: Flow<Set<String>> = flowOf(emptySet()),
     private val syncResult: Result<Unit> = Result.Success(Unit),
-) : FavouritesRepository {
+) : FavouritesGuidesRepository {
 
     var lastMarkedGuide: Guide? = null
         private set

@@ -2431,8 +2431,7 @@
         <error line="7" column="64" source="standard:class-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/favourite/FavouriteGuidesViewModelTest.kt">
-        <error line="26" column="40" source="standard:function-signature" />
-        <error line="29" column="1" source="standard:indent" />
+        <error line="27" column="40" source="standard:function-signature" />
         <error line="30" column="1" source="standard:indent" />
         <error line="31" column="1" source="standard:indent" />
         <error line="32" column="1" source="standard:indent" />
@@ -2440,14 +2439,14 @@
         <error line="34" column="1" source="standard:indent" />
         <error line="35" column="1" source="standard:indent" />
         <error line="36" column="1" source="standard:indent" />
-        <error line="41" column="90" source="standard:function-signature" />
-        <error line="67" column="68" source="standard:function-signature" />
-        <error line="127" column="86" source="standard:function-signature" />
-        <error line="190" column="93" source="standard:function-signature" />
+        <error line="37" column="1" source="standard:indent" />
+        <error line="42" column="90" source="standard:function-signature" />
+        <error line="70" column="68" source="standard:function-signature" />
+        <error line="130" column="86" source="standard:function-signature" />
+        <error line="193" column="93" source="standard:function-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/favourite/restaurant/FavouriteRestaurantsViewModelTest.kt">
-        <error line="22" column="40" source="standard:function-signature" />
-        <error line="25" column="1" source="standard:indent" />
+        <error line="23" column="40" source="standard:function-signature" />
         <error line="26" column="1" source="standard:indent" />
         <error line="27" column="1" source="standard:indent" />
         <error line="28" column="1" source="standard:indent" />
@@ -2462,9 +2461,10 @@
         <error line="37" column="1" source="standard:indent" />
         <error line="38" column="1" source="standard:indent" />
         <error line="39" column="1" source="standard:indent" />
-        <error line="44" column="90" source="standard:function-signature" />
-        <error line="70" column="68" source="standard:function-signature" />
-        <error line="131" column="86" source="standard:function-signature" />
+        <error line="40" column="1" source="standard:indent" />
+        <error line="45" column="90" source="standard:function-signature" />
+        <error line="73" column="68" source="standard:function-signature" />
+        <error line="134" column="86" source="standard:function-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/guide/GuidesViewModelTest.kt">
         <error line="30" column="36" source="standard:function-signature" />
@@ -2499,8 +2499,8 @@
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/sign_in/SignInViewModelTest.kt">
         <error line="1" column="9" source="standard:package-name" />
-        <error line="16" column="1" source="standard:no-unused-imports" />
-        <error line="29" column="69" source="standard:function-signature" />
+        <error line="17" column="1" source="standard:no-unused-imports" />
+        <error line="30" column="69" source="standard:function-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/startup/StartupViewModelTest.kt">
         <error line="20" column="121" source="standard:max-line-length" />

@@ -2,9 +2,10 @@ package pt.socialfood.random
 
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.PagedAuthors
+import kotlin.random.Random
 
-fun randomPagedAuthors(
-    authors: List<Author> = randomList { randomAuthor() },
-    page: Int = randomInt(1, 10),
-    hasMore: Boolean = randomBoolean(),
+fun Random.nextPagedAuthors(
+    authors: List<Author> = nextList { nextAuthor() },
+    page: Int = nextInt(1, 10),
+    hasMore: Boolean = nextBoolean(),
 ) = PagedAuthors(authors = authors, page = page, hasMore = hasMore)

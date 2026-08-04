@@ -1,20 +1,21 @@
 package pt.socialfood.random
 
 import pt.socialfood.domain.model.AuthorDetail
+import kotlin.random.Random
 
 @Suppress("LongParameterList")
-fun randomAuthorDetail(
-    id: String = randomString(),
-    name: String = randomString(),
-    username: String = randomString(),
-    imageUrl: String? = randomNullable { randomUrl() },
-    guidesCount: Int = randomInt(0, 100),
-    followersCount: Int = randomInt(0, 10_000),
-    followingCount: Int = randomInt(0, 10_000),
-    facebookUrl: String? = randomNullable { randomUrl() },
-    instagramUrl: String? = randomNullable { randomUrl() },
-    youtubeUrl: String? = randomNullable { randomUrl() },
-    guides: List<AuthorDetail.Guide> = randomList { randomAuthorDetailGuide() },
+fun Random.nextAuthorDetail(
+    id: String = nextString(),
+    name: String = nextString(),
+    username: String = nextString(),
+    imageUrl: String? = nextNullable { nextUrl() },
+    guidesCount: Int = nextInt(0, 100),
+    followersCount: Int = nextInt(0, 10_000),
+    followingCount: Int = nextInt(0, 10_000),
+    facebookUrl: String? = nextNullable { nextUrl() },
+    instagramUrl: String? = nextNullable { nextUrl() },
+    youtubeUrl: String? = nextNullable { nextUrl() },
+    guides: List<AuthorDetail.Guide> = nextList { nextAuthorDetailGuide() },
 ) = AuthorDetail(
     id = id,
     name = name,
@@ -29,12 +30,12 @@ fun randomAuthorDetail(
     guides = guides,
 )
 
-fun randomAuthorDetailGuide(
-    id: String = randomString(),
-    imageUrl: String? = randomNullable { randomUrl() },
-    name: String = randomString(),
-    description: String = randomString(),
-    numberOfRestaurant: Int = randomInt(0, 50),
+fun Random.nextAuthorDetailGuide(
+    id: String = nextString(),
+    imageUrl: String? = nextNullable { nextUrl() },
+    name: String = nextString(),
+    description: String = nextString(),
+    numberOfRestaurant: Int = nextInt(0, 50),
 ) = AuthorDetail.Guide(
     id = id,
     imageUrl = imageUrl,

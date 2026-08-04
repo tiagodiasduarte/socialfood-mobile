@@ -1,10 +1,11 @@
 package pt.socialfood.random
 
 import pt.socialfood.domain.model.Author
+import kotlin.random.Random
 
-fun randomAuthor(
-    id: String = randomString(),
-    name: String = randomString(),
-    username: String = randomString(),
-    imageUrl: String? = randomNullable { randomUrl() },
+fun Random.nextAuthor(
+    id: String = nextString(),
+    name: String = nextString(),
+    username: String = nextString(),
+    imageUrl: String? = nextNullable { nextUrl() },
 ) = Author(id = id, name = name, username = username, imageUrl = imageUrl)

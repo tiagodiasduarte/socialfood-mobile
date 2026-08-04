@@ -33,80 +33,71 @@ class FavouritesGuidesRepositoryImpl(
     private val settingsRepository: SettingsRepository,
 ) : FavouritesGuidesRepository {
 
-    override suspend fun markFavourite(guide: Guide): Result<Unit> {
-        return try {
-            val entity = guide.toFavouriteGuideEntity(
-                favouritedAt = currentTimeMillis(),
-                syncState = FavouriteSyncState.PENDING_ADD,
-            )
-            favouriteDao.upsert(entity)
+    override suspend fun markFavourite(guide: Guide): Result<Unit> = try {
+        val entity = guide.toFavouriteGuideEntity(
+            favouritedAt = currentTimeMillis(),
+            syncState = FavouriteSyncState.PENDING_ADD,
+        )
+        favouriteDao.upsert(entity)
 
-            when (val result = safeApiCall { favouritesApi.markFavourite(guide.id) }) {
-                is Result.Failure ->
-                    println(
-                        "markFavourite(${guide.id}) failed (${result.error}); " +
-                            "row stays PENDING_ADD, retried by the next syncFavourites().",
-                    )
-                is Result.Success -> {
-                    favouriteDao.updateSyncState(guide.id, FavouriteSyncState.SYNCED.name)
-                }
+        when (val result = safeApiCall { favouritesApi.markFavourite(guide.id) }) {
+            is Result.Failure ->
+                println(
+                    "markFavourite(${guide.id}) failed (${result.error}); " +
+                        "row stays PENDING_ADD, retried by the next syncFavourites().",
+                )
+            is Result.Success -> {
+                favouriteDao.updateSyncState(guide.id, FavouriteSyncState.SYNCED.name)
             }
-
-            Result.Success(Unit)
-        } catch (e: SQLiteException) {
-            Result.Failure(e.toDataError())
         }
+
+        Result.Success(Unit)
+    } catch (e: SQLiteException) {
+        Result.Failure(e.toDataError())
     }
 
-    override suspend fun unmarkFavourite(guideId: String): Result<Unit> {
-        return try {
-            favouriteDao.updateSyncState(guideId, FavouriteSyncState.PENDING_REMOVE.name)
+    override suspend fun unmarkFavourite(guideId: String): Result<Unit> = try {
+        favouriteDao.updateSyncState(guideId, FavouriteSyncState.PENDING_REMOVE.name)
 
-            when (val result = safeApiCall { favouritesApi.unmarkFavourite(guideId) }) {
-                is Result.Failure ->
-                    println(
-                        "unmarkFavourite($guideId) failed (${result.error}); " +
-                            "row stays PENDING_REMOVE, retried by the next syncFavourites().",
-                    )
-                is Result.Success -> {
-                    favouriteDao.deleteByGuideId(guideId)
-                }
+        when (val result = safeApiCall { favouritesApi.unmarkFavourite(guideId) }) {
+            is Result.Failure ->
+                println(
+                    "unmarkFavourite($guideId) failed (${result.error}); " +
+                        "row stays PENDING_REMOVE, retried by the next syncFavourites().",
+                )
+            is Result.Success -> {
+                favouriteDao.deleteByGuideId(guideId)
             }
-
-            Result.Success(Unit)
-        } catch (e: SQLiteException) {
-            Result.Failure(e.toDataError())
         }
+
+        Result.Success(Unit)
+    } catch (e: SQLiteException) {
+        Result.Failure(e.toDataError())
     }
 
-    override suspend fun getFavouritesPaged(page: Int, limit: Int): Result<PagedFavouriteGuides> {
-        return try {
-            val offset = (page - 1) * limit
-            val entities = favouriteDao.getPaged(limit = limit, offset = offset)
-            val total = favouriteDao.countAll()
-            Result.Success(
-                PagedFavouriteGuides(
-                    favourites = entities.map { it.toFavouriteGuide() },
-                    page = page,
-                    total = total,
-                    hasMore = page * limit < total,
-                ),
-            )
-        } catch (e: SQLiteException) {
-            Result.Failure(e.toDataError())
-        }
+    override suspend fun getFavouritesPaged(page: Int, limit: Int): Result<PagedFavouriteGuides> = try {
+        val offset = (page - 1) * limit
+        val entities = favouriteDao.getPaged(limit = limit, offset = offset)
+        val total = favouriteDao.countAll()
+        Result.Success(
+            PagedFavouriteGuides(
+                favourites = entities.map { it.toFavouriteGuide() },
+                page = page,
+                total = total,
+                hasMore = page * limit < total,
+            ),
+        )
+    } catch (e: SQLiteException) {
+        Result.Failure(e.toDataError())
     }
 
-    override suspend fun isFavourite(guideId: String): Result<Boolean> {
-        return try {
-            Result.Success(favouriteDao.getByGuideId(guideId) != null)
-        } catch (e: SQLiteException) {
-            Result.Failure(e.toDataError())
-        }
+    override suspend fun isFavourite(guideId: String): Result<Boolean> = try {
+        Result.Success(favouriteDao.getByGuideId(guideId) != null)
+    } catch (e: SQLiteException) {
+        Result.Failure(e.toDataError())
     }
 
-    override fun observeFavouriteGuideIds(): Flow<Set<String>> =
-        favouriteDao.observeAllIds().map { it.toSet() }
+    override fun observeFavouriteGuideIds(): Flow<Set<String>> = favouriteDao.observeAllIds().map { it.toSet() }
 
     @Suppress("ReturnCount")
     override suspend fun syncFavourites(): Result<Unit> {

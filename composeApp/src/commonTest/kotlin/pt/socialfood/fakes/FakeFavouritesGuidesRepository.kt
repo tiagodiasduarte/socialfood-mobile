@@ -11,7 +11,7 @@ class FakeFavouritesGuidesRepository(
     private val markResult: Result<Unit> = Result.Success(Unit),
     private val unmarkResult: Result<Unit> = Result.Success(Unit),
     private val pagedResult: Result<PagedFavouriteGuides> = Result.Success(
-        PagedFavouriteGuides(favourites = emptyList(), page = 1, total = 0, hasMore = false)
+        PagedFavouriteGuides(favourites = emptyList(), page = 1, total = 0, hasMore = false),
     ),
     private val isFavouriteResult: Result<Boolean> = Result.Success(false),
     private val favouriteGuideIds: Flow<Set<String>> = flowOf(emptySet()),

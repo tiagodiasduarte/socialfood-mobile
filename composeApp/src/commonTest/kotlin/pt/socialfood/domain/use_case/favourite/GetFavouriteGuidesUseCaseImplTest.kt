@@ -11,37 +11,35 @@ import kotlin.test.assertIs
 
 class GetFavouriteGuidesUseCaseImplTest {
     @Test
-    fun `given repository succeeds when invoked then returns Success with PagedFavouriteGuides`() =
-        runTest {
-            // Given
-            val repository =
-                FakeFavouritesGuidesRepository(
-                    pagedResult =
-                        Result.Success(
-                            PagedFavouriteGuides(favourites = emptyList(), page = 1, total = 0, hasMore = false),
-                        ),
-                )
-            val useCase = GetFavouriteGuidesUseCaseImpl(repository)
+    fun `given repository succeeds when invoked then returns Success with PagedFavouriteGuides`() = runTest {
+        // Given
+        val repository =
+            FakeFavouritesGuidesRepository(
+                pagedResult =
+                Result.Success(
+                    PagedFavouriteGuides(favourites = emptyList(), page = 1, total = 0, hasMore = false),
+                ),
+            )
+        val useCase = GetFavouriteGuidesUseCaseImpl(repository)
 
-            // When
-            val result = useCase(page = 1, limit = 10)
+        // When
+        val result = useCase(page = 1, limit = 10)
 
-            // Then
-            assertIs<Result.Success<PagedFavouriteGuides>>(result)
-        }
+        // Then
+        assertIs<Result.Success<PagedFavouriteGuides>>(result)
+    }
 
     @Test
-    fun `given repository fails when invoked then returns Error`() =
-        runTest {
-            // Given
-            val repository =
-                FakeFavouritesGuidesRepository(pagedResult = Result.Failure(DataError.Network(Exception("test error"))))
-            val useCase = GetFavouriteGuidesUseCaseImpl(repository)
+    fun `given repository fails when invoked then returns Error`() = runTest {
+        // Given
+        val repository =
+            FakeFavouritesGuidesRepository(pagedResult = Result.Failure(DataError.Network(Exception("test error"))))
+        val useCase = GetFavouriteGuidesUseCaseImpl(repository)
 
-            // When
-            val result = useCase(page = 1, limit = 10)
+        // When
+        val result = useCase(page = 1, limit = 10)
 
-            // Then
-            assertIs<Result.Failure>(result)
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+    }
 }

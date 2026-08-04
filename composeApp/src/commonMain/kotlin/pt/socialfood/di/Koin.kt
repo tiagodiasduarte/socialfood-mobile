@@ -231,7 +231,9 @@ val repositoryModule =
         single<FavouriteRestaurantsRepository> {
             FavouriteRestaurantsRepositoryImpl(get(), get<AppDatabase>().favouriteRestaurantDao(), get())
         }
-        single<FavouritesGuidesRepository> { FavouritesGuidesRepositoryImpl(get(), get<AppDatabase>().favouriteDao(), get()) }
+        single<FavouritesGuidesRepository> {
+            FavouritesGuidesRepositoryImpl(get(), get<AppDatabase>().favouriteDao(), get())
+        }
         single<GuidesRepository> {
             GuidesRepositoryImpl(
                 guideApi = get(),

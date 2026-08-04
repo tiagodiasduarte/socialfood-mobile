@@ -43,19 +43,18 @@ class FavouritesGuidesRepositoryImplTest {
     // markFavourite
 
     @Test
-    fun `given api succeeds when markFavourite is called then persists SYNCED entity and returns Success`() =
-        runTest {
-            // Given
-            val (repo, dao, _) = createRepository()
+    fun `given api succeeds when markFavourite is called then persists SYNCED entity and returns Success`() = runTest {
+        // Given
+        val (repo, dao, _) = createRepository()
 
-            // When
-            val result = repo.markFavourite(fakeGuide)
+        // When
+        val result = repo.markFavourite(fakeGuide)
 
-            // Then
-            assertIs<Result.Success<Unit>>(result)
-            val stored = dao.getByGuideId(fakeGuide.id)
-            assertEquals(FavouriteSyncState.SYNCED.name, stored?.syncState)
-        }
+        // Then
+        assertIs<Result.Success<Unit>>(result)
+        val stored = dao.getByGuideId(fakeGuide.id)
+        assertEquals(FavouriteSyncState.SYNCED.name, stored?.syncState)
+    }
 
     @Test
     fun `given api throws when markFavourite is called then still returns Success with entity left PENDING_ADD`() =
@@ -75,19 +74,18 @@ class FavouritesGuidesRepositoryImplTest {
     // unmarkFavourite
 
     @Test
-    fun `given api succeeds when unmarkFavourite is called then removes entity and returns Success`() =
-        runTest {
-            // Given
-            val (repo, dao, _) = createRepository()
-            dao.upsert(fakeGuide.toFavouriteGuideEntityForTest(FavouriteSyncState.SYNCED))
+    fun `given api succeeds when unmarkFavourite is called then removes entity and returns Success`() = runTest {
+        // Given
+        val (repo, dao, _) = createRepository()
+        dao.upsert(fakeGuide.toFavouriteGuideEntityForTest(FavouriteSyncState.SYNCED))
 
-            // When
-            val result = repo.unmarkFavourite(fakeGuide.id)
+        // When
+        val result = repo.unmarkFavourite(fakeGuide.id)
 
-            // Then
-            assertIs<Result.Success<Unit>>(result)
-            assertEquals(null, dao.getByGuideId(fakeGuide.id))
-        }
+        // Then
+        assertIs<Result.Success<Unit>>(result)
+        assertEquals(null, dao.getByGuideId(fakeGuide.id))
+    }
 
     @Test
     fun `given api throws when unmarkFavourite is called then still returns Success with entity left PENDING_REMOVE`() =
@@ -131,35 +129,33 @@ class FavouritesGuidesRepositoryImplTest {
     // syncFavourites
 
     @Test
-    fun `given changes available when syncFavourites is called then applies them and advances syncedAt`() =
-        runTest {
-            // Given
-            val (repo, dao, settings) = createRepository()
-            settings.saveLastFavouritesSyncAttemptAt(0L)
+    fun `given changes available when syncFavourites is called then applies them and advances syncedAt`() = runTest {
+        // Given
+        val (repo, dao, settings) = createRepository()
+        settings.saveLastFavouritesSyncAttemptAt(0L)
 
-            // When
-            val result = repo.syncFavourites()
+        // When
+        val result = repo.syncFavourites()
 
-            // Then
-            assertIs<Result.Success<Unit>>(result)
-            assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouritesSyncedAt())
-            assertTrue(dao.getPaged(limit = 10, offset = 0).isNotEmpty())
-        }
+        // Then
+        assertIs<Result.Success<Unit>>(result)
+        assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouritesSyncedAt())
+        assertTrue(dao.getPaged(limit = 10, offset = 0).isNotEmpty())
+    }
 
     @Test
-    fun `given DAO write throws when syncFavourites is called then does not advance syncedAt`() =
-        runTest {
-            // Given
-            val (repo, _, settings) = createRepository(dao = FakeFavouriteDao(shouldThrowOnWrite = true))
-            settings.saveLastFavouritesSyncAttemptAt(0L)
+    fun `given DAO write throws when syncFavourites is called then does not advance syncedAt`() = runTest {
+        // Given
+        val (repo, _, settings) = createRepository(dao = FakeFavouriteDao(shouldThrowOnWrite = true))
+        settings.saveLastFavouritesSyncAttemptAt(0L)
 
-            // When
-            val result = repo.syncFavourites()
+        // When
+        val result = repo.syncFavourites()
 
-            // Then
-            assertIs<Result.Failure>(result)
-            assertEquals(null, settings.getLastFavouritesSyncedAt())
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+        assertEquals(null, settings.getLastFavouritesSyncedAt())
+    }
 
     @Test
     @Suppress("MaxLineLength")
@@ -178,24 +174,22 @@ class FavouritesGuidesRepositoryImplTest {
         }
 
     @Test
-    fun `given last sync attempt was long ago when syncFavourites is called then proceeds`() =
-        runTest {
-            // Given
-            val (repo, _, settings) = createRepository()
-            settings.saveLastFavouritesSyncAttemptAt(0L)
+    fun `given last sync attempt was long ago when syncFavourites is called then proceeds`() = runTest {
+        // Given
+        val (repo, _, settings) = createRepository()
+        settings.saveLastFavouritesSyncAttemptAt(0L)
 
-            // When
-            val result = repo.syncFavourites()
+        // When
+        val result = repo.syncFavourites()
 
-            // Then
-            assertIs<Result.Success<Unit>>(result)
-            assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouritesSyncedAt())
-        }
+        // Then
+        assertIs<Result.Success<Unit>>(result)
+        assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouritesSyncedAt())
+    }
 }
 
 @OptIn(ExperimentalTime::class)
-private fun Guide.toFavouriteGuideEntityForTest(syncState: FavouriteSyncState) =
-    this.toFavouriteGuideEntity(
-        favouritedAt = Clock.System.now().toEpochMilliseconds(),
-        syncState = syncState,
-    )
+private fun Guide.toFavouriteGuideEntityForTest(syncState: FavouriteSyncState) = this.toFavouriteGuideEntity(
+    favouritedAt = Clock.System.now().toEpochMilliseconds(),
+    syncState = syncState,
+)

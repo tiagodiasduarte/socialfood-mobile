@@ -1716,8 +1716,8 @@
         <error line="159" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/EditProfileScreen.kt">
-        <error line="58" column="5" source="standard:function-naming" />
-        <error line="93" column="13" source="standard:function-naming" />
+        <error line="57" column="5" source="standard:function-naming" />
+        <error line="92" column="13" source="standard:function-naming" />
         <error line="170" column="13" source="standard:function-naming" />
         <error line="180" column="13" source="standard:function-naming" />
         <error line="230" column="13" source="standard:function-naming" />

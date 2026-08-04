@@ -49,7 +49,6 @@ import socialfood.composeapp.generated.resources.back_button_description
 import socialfood.composeapp.generated.resources.edit_profile_google_info
 import socialfood.composeapp.generated.resources.edit_profile_save_button
 import socialfood.composeapp.generated.resources.edit_profile_save_error_dismiss
-import socialfood.composeapp.generated.resources.edit_profile_save_error_message
 import socialfood.composeapp.generated.resources.edit_profile_save_error_title
 import socialfood.composeapp.generated.resources.edit_profile_title
 
@@ -88,7 +87,7 @@ fun EditProfileScreen(onBackClick: () -> Unit, viewModel: EditProfileViewModel =
     }
 }
 
-@Suppress("LongParameterList")
+@Suppress("LongParameterList", "LongMethod")
 @Composable
 private fun EditProfileContent(
     state: EditProfileUiState.Loaded,
@@ -102,8 +101,9 @@ private fun EditProfileContent(
     onYoutubeUrlChange: (String) -> Unit,
     onDismissSaveError: () -> Unit,
 ) {
-    if (state.saveError) {
-        SaveErrorDialog(onDismiss = onDismissSaveError)
+    val saveError = state.saveError
+    if (saveError != null) {
+        SaveErrorDialog(message = saveError, onDismiss = onDismissSaveError)
     }
 
     Column(
@@ -167,10 +167,10 @@ private fun EditProfileContent(
 }
 
 @Composable
-private fun SaveErrorDialog(onDismiss: () -> Unit) {
+private fun SaveErrorDialog(message: String, onDismiss: () -> Unit) {
     ErrorAlertDialog(
         title = stringResource(Res.string.edit_profile_save_error_title),
-        message = stringResource(Res.string.edit_profile_save_error_message),
+        message = message,
         confirmButtonText = stringResource(Res.string.edit_profile_save_error_dismiss),
         onDismiss = onDismiss,
     )

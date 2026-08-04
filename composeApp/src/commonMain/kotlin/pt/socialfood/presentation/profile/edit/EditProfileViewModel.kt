@@ -73,69 +73,79 @@ class EditProfileViewModel(
         loaded { copy(pendingImage = Pair(bytes, mimeType)) }
     }
 
-    fun dismissSaveError() = loaded { copy(saveError = false) }
+    fun dismissSaveError() = loaded { copy(saveError = null) }
 
+    @Suppress("ReturnCount")
     @OptIn(ExperimentalTime::class)
+    private suspend fun uploadPendingPhoto(state: EditProfileUiState.Loaded): Boolean {
+        val pendingImage = state.pendingImage ?: return true
+        loaded { copy(isUploadingPhoto = true) }
+
+        val (bytes, mimeType) = pendingImage
+        val ext = mimeType.substringAfter("/", "jpg").substringBefore(";")
+        val fileName = "photo_${Clock.System.now().toEpochMilliseconds()}.$ext"
+
+        val presigned = when (
+            val result = getPresignedUrl(
+                userId = state.userId,
+                fileName = fileName,
+                mimeType = mimeType,
+                context = "profile",
+            )
+        ) {
+            is Result.Success -> result.data
+            is Result.Failure -> {
+                val message = result.error.displayMessage()
+                loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = message) }
+                return false
+            }
+        }
+
+        val uploadResult = uploadPhoto(presigned = presigned, bytes = bytes, mimeType = mimeType)
+        if (uploadResult is Result.Failure) {
+            val message = uploadResult.error.displayMessage()
+            loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = message) }
+            return false
+        }
+
+        return when (val photoResult = updateUserPhoto(id = state.userId, imageUrl = presigned.publicUrl)) {
+            is Result.Success -> {
+                imageCache.clear(presigned.publicUrl)
+                loaded { copy(isUploadingPhoto = false, pendingImage = null, imageUrl = presigned.publicUrl) }
+                true
+            }
+            is Result.Failure -> {
+                val message = photoResult.error.displayMessage()
+                loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = message) }
+                false
+            }
+        }
+    }
+
     fun save() {
         val state = _state.value as? EditProfileUiState.Loaded ?: return
         if (state.isSaving) return
         viewModelScope.launch {
             loaded { copy(isSaving = true) }
 
-            if (state.pendingImage != null) {
-                loaded { copy(isUploadingPhoto = true) }
-
-                val (bytes, mimeType) = state.pendingImage
-                val ext = mimeType.substringAfter("/", "jpg").substringBefore(";")
-                val fileName = "photo_${Clock.System.now().toEpochMilliseconds()}.$ext"
-
-                val presigned = when (
-                    val result = getPresignedUrl(
-                        userId = state.userId,
-                        fileName = fileName,
-                        mimeType = mimeType,
-                        context = "profile",
-                    )
-                ) {
-                    is Result.Success -> result.data
-                    is Result.Failure -> {
-                        loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = true) }
-                        return@launch
-                    }
-                }
-
-                if (uploadPhoto(presigned = presigned, bytes = bytes, mimeType = mimeType) is Result.Failure) {
-                    loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = true) }
-                    return@launch
-                }
-
-                when (updateUserPhoto(id = state.userId, imageUrl = presigned.publicUrl)) {
-                    is Result.Success -> {
-                        imageCache.clear(presigned.publicUrl)
-                        loaded {
-                            copy(isUploadingPhoto = false, pendingImage = null, imageUrl = presigned.publicUrl)
-                        }
-                    }
-                    is Result.Failure -> {
-                        loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = true) }
-                        return@launch
-                    }
-                }
-            }
+            if (!uploadPendingPhoto(state)) return@launch
 
             val current = _state.value as? EditProfileUiState.Loaded ?: return@launch
             when (
-                updateUser(
+                val result = updateUser(
                     id = current.userId,
                     name = current.name.ifBlank { null },
                     username = current.username.ifBlank { null },
-                    facebookUrl = current.facebookUrl.ifBlank { null },
-                    instagramUrl = current.instagramUrl.ifBlank { null },
-                    youtubeUrl = current.youtubeUrl.ifBlank { null },
+                    facebookUrl = current.facebookUrl,
+                    instagramUrl = current.instagramUrl,
+                    youtubeUrl = current.youtubeUrl,
                 )
             ) {
                 is Result.Success -> loaded { copy(isSaving = false, saveSuccess = true) }
-                is Result.Failure -> loaded { copy(isSaving = false, saveError = true) }
+                is Result.Failure -> {
+                    val message = result.error.displayMessage()
+                    loaded { copy(isSaving = false, saveError = message) }
+                }
             }
         }
     }

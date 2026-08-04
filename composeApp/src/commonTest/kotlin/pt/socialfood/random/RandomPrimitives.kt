@@ -16,8 +16,6 @@ fun randomDouble(from: Double = 0.0, until: Double = 5.0): Double = Random.nextD
 
 fun randomBoolean(): Boolean = Random.nextBoolean()
 
-fun randomId(prefix: String = "id"): String = "$prefix-${randomString()}"
-
 fun randomEmail(): String = "${randomString(6)}@${randomString(5)}.com"
 
 fun randomUrl(): String = "https://${randomString(6)}.com/${randomString(6)}"

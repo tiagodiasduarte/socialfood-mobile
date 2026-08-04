@@ -4,7 +4,7 @@ import pt.socialfood.domain.model.Restaurant
 
 @Suppress("LongParameterList")
 fun randomRestaurant(
-    id: String = randomId("restaurant"),
+    id: String = randomString(),
     name: String = randomString(),
     description: String? = randomNullable { randomString(20) },
     city: String = randomString(),

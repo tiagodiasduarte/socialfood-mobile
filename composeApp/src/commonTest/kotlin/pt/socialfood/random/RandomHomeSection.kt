@@ -10,7 +10,7 @@ import pt.socialfood.domain.model.Restaurant
 
 @Suppress("LongParameterList")
 fun randomHomeSection(
-    id: String = randomId("section"),
+    id: String = randomString(),
     title: String = randomString(),
     type: HomeSectionType = randomEnum(),
     position: Int = randomInt(0, 10),
@@ -27,9 +27,9 @@ fun randomHomeSection(
 
 @Suppress("LongParameterList")
 fun randomHomeSectionItem(
-    id: String = randomId("item"),
-    sectionId: String = randomId("section"),
-    itemId: String = randomId("item"),
+    id: String = randomString(),
+    sectionId: String = randomString(),
+    itemId: String = randomString(),
     itemType: HomeItemType = randomEnum(),
     position: Int = randomInt(0, 10),
     restaurant: Restaurant? = null,

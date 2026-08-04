@@ -6,13 +6,15 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.domain.model.Author
+import pt.socialfood.domain.model.FavouriteGuide
+import pt.socialfood.domain.model.Guide
+import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.PagedFavouriteGuides
 import pt.socialfood.fakes.FakeGetFavouriteGuidesUseCase
 import pt.socialfood.fakes.FakeUnmarkGuideFavouriteUseCase
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesUiState
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesViewModel
-import pt.socialfood.random.randomFavouriteGuide
-import pt.socialfood.random.randomGuide
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -22,7 +24,19 @@ import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FavouriteGuidesViewModelTest {
-    private fun favourite(id: String) = randomFavouriteGuide(guide = randomGuide(id = id))
+    private fun favourite(id: String) =
+        FavouriteGuide(
+            guide =
+            Guide(
+                id = id,
+                name = "Guide $id",
+                description = "",
+                visibility = GuideVisibility.PUBLIC,
+                author = Author(id = "author-id", name = "Author", username = "author"),
+                numberOfRestaurant = 0,
+            ),
+            favouritedAt = 0L,
+        )
 
     @Test
     fun `given favourites exist when created then loads first page into Loaded state`() =

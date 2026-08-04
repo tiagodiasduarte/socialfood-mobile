@@ -7,7 +7,7 @@ import pt.socialfood.domain.model.Restaurant
 
 @Suppress("LongParameterList")
 fun randomGuide(
-    id: String = randomId("guide"),
+    id: String = randomString(),
     name: String = randomString(),
     description: String = randomString(),
     visibility: GuideVisibility = randomEnum(),

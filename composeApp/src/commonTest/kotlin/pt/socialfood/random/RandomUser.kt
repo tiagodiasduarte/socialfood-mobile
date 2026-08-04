@@ -5,7 +5,7 @@ import pt.socialfood.domain.model.UserRole
 
 @Suppress("LongParameterList")
 fun randomUser(
-    id: String = randomId("user"),
+    id: String = randomString(),
     email: String = randomEmail(),
     name: String = randomString(),
     username: String = randomString(),

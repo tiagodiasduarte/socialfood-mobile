@@ -1,6 +1,7 @@
 package pt.socialfood.presentation.guide.create
 
 import org.jetbrains.compose.resources.StringResource
+import pt.socialfood.domain.error.ErrorCode
 
 sealed interface CreateGuideUiState {
     data class Idle(
@@ -14,5 +15,5 @@ sealed interface CreateGuideUiState {
 
     data object Loading : CreateGuideUiState
 
-    data class Error(val message: String) : CreateGuideUiState
+    data class Error(val errorCode: ErrorCode) : CreateGuideUiState
 }

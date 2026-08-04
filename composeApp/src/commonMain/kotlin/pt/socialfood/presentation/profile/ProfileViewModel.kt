@@ -10,6 +10,7 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.use_case.login.LogoutUseCase
 import pt.socialfood.domain.use_case.user.GetUserMeUseCase
 import pt.socialfood.domain.use_case.user.ObserveUserUseCase
+import pt.socialfood.presentation.error.displayMessage
 
 class ProfileViewModel(
     private val getUserMe: GetUserMeUseCase,
@@ -33,7 +34,7 @@ class ProfileViewModel(
         viewModelScope.launch {
             _state.value = when (val result = getUserMe()) {
                 is Result.Success -> ProfileUiState.Loaded(result.data)
-                is Result.Failure -> ProfileUiState.Error
+                is Result.Failure -> ProfileUiState.Error(result.error.displayMessage())
             }
         }
     }

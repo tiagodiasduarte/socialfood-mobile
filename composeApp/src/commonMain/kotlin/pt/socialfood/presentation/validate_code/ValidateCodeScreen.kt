@@ -166,7 +166,7 @@ private fun ValidateCodeFormView(
             if (state is ValidateCodeUiState.Error) {
                 Spacer(modifier = Modifier.height(SpaceSize.small))
                 Text(
-                    text = state.error.toString(),
+                    text = state.message,
                     color = colorScheme.error,
                     style = MaterialTheme.typography.bodySmall,
                 )

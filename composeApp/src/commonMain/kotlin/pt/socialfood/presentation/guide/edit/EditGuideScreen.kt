@@ -145,7 +145,7 @@ private fun EditGuideContent(
         )
 
         when (state) {
-            EditGuideUiState.Error -> {
+            is EditGuideUiState.Error -> {
                 ErrorContent(modifier = Modifier.fillMaxSize(), onRetryClick = onRetry)
             }
 

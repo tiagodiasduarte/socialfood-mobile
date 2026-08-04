@@ -68,7 +68,7 @@ private fun AuthorDetailContent(
             onGuideClick = onGuideClick,
         )
 
-        AuthorDetailUiState.Error -> AuthorDetailError(
+        is AuthorDetailUiState.Error -> AuthorDetailError(
             onBackClick = onBackClick,
             onRetry = onRetry,
         )

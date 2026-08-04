@@ -110,7 +110,7 @@ private fun CreateGuideContent(
         )
 
         when (state) {
-            CreateGuideUiState.Error -> {}
+            is CreateGuideUiState.Error -> {}
             is CreateGuideUiState.Idle -> {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
@@ -132,6 +132,7 @@ private fun CreateGuideContent(
                     }
                 }
             }
+
             CreateGuideUiState.Loading -> {
                 Box(
                     Modifier.fillMaxSize(),
@@ -184,7 +185,7 @@ private fun TopBar(
             ),
             contentPadding = PaddingValues(
                 horizontal = SpaceSize.large,
-                vertical = SpaceSize.medium
+                vertical = SpaceSize.medium,
             ),
         ) {
             if (isLoading) {

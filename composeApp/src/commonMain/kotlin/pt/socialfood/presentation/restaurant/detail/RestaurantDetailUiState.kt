@@ -8,5 +8,5 @@ sealed interface RestaurantDetailUiState {
         val restaurant: Restaurant,
         val isFavourite: Boolean = false,
     ) : RestaurantDetailUiState
-    data object Error : RestaurantDetailUiState
+    data class Error(val message: String) : RestaurantDetailUiState
 }

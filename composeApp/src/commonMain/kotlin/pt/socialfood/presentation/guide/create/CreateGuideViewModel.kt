@@ -9,12 +9,15 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.use_case.guide.CreateGuideUseCase
 import pt.socialfood.domain.use_case.photo.UploadPhotoUseCase
+import pt.socialfood.presentation.error.displayMessage
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.edit_guide_details_description_error
+import socialfood.composeapp.generated.resources.edit_guide_details_title_error
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -60,14 +63,14 @@ class CreateGuideViewModel(
         val idle = _state.value as? CreateGuideUiState.Idle ?: return
 
         val errors = buildList {
-            if (idle.title.isBlank()) add(ErrorEntity.Validation.EmptyTitle)
-            if (idle.description.isBlank()) add(ErrorEntity.Validation.EmptyDescription)
+            if (idle.title.isBlank()) add(Res.string.edit_guide_details_title_error)
+            if (idle.description.isBlank()) add(Res.string.edit_guide_details_description_error)
         }
         if (errors.isNotEmpty()) {
             updateIdle {
                 copy(
-                    titleError = ErrorEntity.Validation.EmptyTitle in errors,
-                    descriptionError = ErrorEntity.Validation.EmptyDescription in errors,
+                    titleError = Res.string.edit_guide_details_title_error in errors,
+                    descriptionError = Res.string.edit_guide_details_description_error in errors,
                     validationErrors = errors,
                 )
             }
@@ -87,7 +90,7 @@ class CreateGuideViewModel(
             ) {
                 is Result.Success -> result.data
                 is Result.Failure -> {
-                    _state.value = CreateGuideUiState.Error
+                    _state.value = CreateGuideUiState.Error(result.error.displayMessage())
                     return@launch
                 }
             }

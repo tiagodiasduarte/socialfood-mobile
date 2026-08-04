@@ -104,7 +104,7 @@ private fun FavouriteRestaurantsContent(
         when (state) {
             FavouriteRestaurantsUiState.Loading -> FavouriteRestaurantsPlaceholder(modifier = Modifier.fillMaxSize())
 
-            FavouriteRestaurantsUiState.Error -> ErrorContent(
+            is FavouriteRestaurantsUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),
                 onRetryClick = onRetry,
             )

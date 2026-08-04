@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.use_case.favourite.guide.GetFavouriteGuidesUseCase
 import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.presentation.error.displayMessage
+import pt.socialfood.presentation.error.toErrorCode
 
 private const val PAGE_SIZE = 20
 
@@ -42,7 +42,7 @@ class FavouriteGuidesViewModel(
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Failure -> _state.value = FavouriteGuidesUiState.Error(result.error.displayMessage())
+                is Result.Failure -> _state.value = FavouriteGuidesUiState.Error(result.error.toErrorCode())
             }
         }
     }
@@ -59,7 +59,7 @@ class FavouriteGuidesViewModel(
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Failure -> _state.value = FavouriteGuidesUiState.Error(result.error.displayMessage())
+                is Result.Failure -> _state.value = FavouriteGuidesUiState.Error(result.error.toErrorCode())
             }
             _isRefreshing.value = false
         }

@@ -54,6 +54,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.presentation.google.rememberGoogleSignInLauncher
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
@@ -299,7 +300,7 @@ private fun SignInFormView(
             if (state is SignInUiState.Error) {
                 Spacer(modifier = Modifier.height(SpaceSize.small))
                 Text(
-                    text = state.message,
+                    text = stringResource(state.errorCode.stringResource()),
                     color = colorScheme.error,
                     style = MaterialTheme.typography.bodyMedium,
                 )

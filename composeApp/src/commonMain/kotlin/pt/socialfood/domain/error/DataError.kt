@@ -48,9 +48,14 @@ enum class ErrorCode {
     FORBIDDEN,
     INVALID_REQUEST,
     INTERNAL_ERROR,
+    NETWORK,
 
     // User
     INVALID_SOCIAL_LINK,
+
+    // Client-side validation
+    EMPTY_EMAIL,
+    EMPTY_PASSWORD,
 
     UNKNOWN,
     ;

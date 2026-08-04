@@ -31,6 +31,7 @@ import socialfood.composeapp.generated.resources.error_code_restaurant_not_in_gu
 import socialfood.composeapp.generated.resources.error_code_unknown
 import socialfood.composeapp.generated.resources.error_code_user_already_exists
 import socialfood.composeapp.generated.resources.error_code_user_not_found
+import socialfood.composeapp.generated.resources.error_network_message
 
 private val errorCodeStringResources: Map<ErrorCode, StringResource> = mapOf(
     ErrorCode.USER_ALREADY_EXISTS to Res.string.error_code_user_already_exists,
@@ -63,10 +64,8 @@ private val errorCodeStringResources: Map<ErrorCode, StringResource> = mapOf(
 
 fun ErrorCode.stringResource(): StringResource = errorCodeStringResources.getValue(this)
 
-private const val GENERIC_ERROR_MESSAGE = "Something went wrong. Please try again."
-
 suspend fun DataError.displayMessage(): String = when (this) {
     is DataError.Known -> getString(errorCode.stringResource())
-    is DataError.Unknown -> message ?: GENERIC_ERROR_MESSAGE
-    is DataError.Network -> GENERIC_ERROR_MESSAGE
+    is DataError.Unknown -> message ?: getString(Res.string.error_code_unknown)
+    is DataError.Network -> getString(Res.string.error_network_message)
 }

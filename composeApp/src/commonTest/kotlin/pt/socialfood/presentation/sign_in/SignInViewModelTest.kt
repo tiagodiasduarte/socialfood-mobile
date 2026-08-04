@@ -107,7 +107,7 @@ class SignInViewModelTest {
             assertEquals(SignInUiState.Loading, awaitItem())
             val state = awaitItem()
             assertIs<SignInUiState.Error>(state)
-            assertEquals("Something went wrong. Please try again.", state.message)
+            assertEquals("No internet connection. Please check your connection and try again.", state.message)
         }
     }
 }

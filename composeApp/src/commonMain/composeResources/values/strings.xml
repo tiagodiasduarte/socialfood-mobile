@@ -230,5 +230,6 @@
     <string name="error_code_internal_error">Something went wrong on our end. Please try again.</string>
     <string name="error_code_invalid_social_link">That social link doesn\'t look valid.</string>
     <string name="error_code_unknown">Something went wrong. Please try again.</string>
+    <string name="error_network_message">No internet connection. Please check your connection and try again.</string>
 
 </resources>

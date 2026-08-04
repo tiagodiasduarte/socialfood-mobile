@@ -5,14 +5,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.getString
 import pt.socialfood.core.Result
+import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.use_case.login.LoginUseCase
 import pt.socialfood.domain.use_case.login.LoginWithGoogleUseCase
-import pt.socialfood.presentation.error.displayMessage
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.sign_in_invalid_email
-import socialfood.composeapp.generated.resources.sign_in_invalid_password
+import pt.socialfood.presentation.error.toErrorCode
 
 class SignInViewModel(
     private val login: LoginUseCase,
@@ -25,12 +22,12 @@ class SignInViewModel(
     fun onSignIn(email: String, password: String) {
         viewModelScope.launch {
             if (email.isEmpty()) {
-                _state.value = SignInUiState.Error(getString(Res.string.sign_in_invalid_email))
+                _state.value = SignInUiState.Error(ErrorCode.EMPTY_EMAIL)
                 return@launch
             }
 
             if (password.isEmpty()) {
-                _state.value = SignInUiState.Error(getString(Res.string.sign_in_invalid_password))
+                _state.value = SignInUiState.Error(ErrorCode.EMPTY_PASSWORD)
                 return@launch
             }
 
@@ -38,7 +35,7 @@ class SignInViewModel(
 
             when (val result = login(email, password)) {
                 is Result.Success -> _state.value = SignInUiState.Success
-                is Result.Failure -> _state.value = SignInUiState.Error(result.error.displayMessage())
+                is Result.Failure -> _state.value = SignInUiState.Error(result.error.toErrorCode())
             }
         }
     }
@@ -48,13 +45,14 @@ class SignInViewModel(
             _state.value = SignInUiState.Loading
             when (val result = loginWithGoogle(idToken)) {
                 is Result.Success -> _state.value = SignInUiState.Success
-                is Result.Failure -> _state.value = SignInUiState.Error(result.error.displayMessage())
+                is Result.Failure -> _state.value = SignInUiState.Error(result.error.toErrorCode())
             }
         }
     }
 
+    @Suppress("UnusedParameter")
     fun onGoogleSignInError(message: String) {
-        _state.value = SignInUiState.Error(message)
+        _state.value = SignInUiState.Error(ErrorCode.UNKNOWN)
     }
 
     fun resetState() {

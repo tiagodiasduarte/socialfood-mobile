@@ -34,8 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.presentation.components.ErrorAlertDialog
 import pt.socialfood.presentation.components.ErrorContent
+import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
 import pt.socialfood.presentation.profile.edit.card.ProfilePictureCard
 import pt.socialfood.presentation.profile.edit.card.SocialNetworkCard
@@ -99,7 +101,7 @@ private fun EditProfileContent(
 ) {
     val saveError = state.saveError
     if (saveError != null) {
-        SaveErrorDialog(message = saveError, onDismiss = onDismissSaveError)
+        SaveErrorDialog(errorCode = saveError, onDismiss = onDismissSaveError)
     }
 
     Column(
@@ -140,10 +142,10 @@ private fun EditProfileContent(
 }
 
 @Composable
-private fun SaveErrorDialog(message: String, onDismiss: () -> Unit) {
+private fun SaveErrorDialog(errorCode: ErrorCode, onDismiss: () -> Unit) {
     ErrorAlertDialog(
         title = stringResource(Res.string.edit_profile_save_error_title),
-        message = message,
+        message = stringResource(errorCode.stringResource()),
         confirmButtonText = stringResource(Res.string.edit_profile_save_error_dismiss),
         onDismiss = onDismiss,
     )

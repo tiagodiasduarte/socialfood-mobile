@@ -6,15 +6,14 @@ import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.network.SessionManager
 import pt.socialfood.domain.error.DataError
+import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.use_case.login.LoginUseCaseImpl
 import pt.socialfood.domain.use_case.login.LoginWithGoogleUseCaseImpl
 import pt.socialfood.fakes.FakeAuthRepository
 import pt.socialfood.fakes.FakeSettingsRepository
 import pt.socialfood.runner.runTestWithMainDispatcher
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SignInViewModelTest {
@@ -38,8 +37,6 @@ class SignInViewModelTest {
             }
         }
 
-    // TODO(robolectric): remove @Ignore and uncomment the assertions once Robolectric is added
-    @Ignore
     @Test
     fun `given an empty email when sign in is called then state is InvalidCredentials error`() =
         runTestWithMainDispatcher {
@@ -53,15 +50,10 @@ class SignInViewModelTest {
                 vm.onSignIn("", "password")
 
                 // Then
-                // TODO(robolectric): uncomment once Robolectric is added
-                // val state = awaitItem()
-                // assertIs<SignInUiState.Error>(state)
-                // assertEquals("Please enter your email", state.message)
+                assertEquals(SignInUiState.Error(ErrorCode.EMPTY_EMAIL), awaitItem())
             }
         }
 
-    // TODO(robolectric): remove @Ignore and uncomment the assertions once Robolectric is added
-    @Ignore
     @Test
     fun `given an empty password when sign in is called then state is InvalidCredentials error`() =
         runTestWithMainDispatcher {
@@ -75,10 +67,7 @@ class SignInViewModelTest {
                 vm.onSignIn("user@test.com", "")
 
                 // Then
-                // TODO(robolectric): uncomment once Robolectric is added
-                // val state = awaitItem()
-                // assertIs<SignInUiState.Error>(state)
-                // assertEquals("Please enter your password", state.message)
+                assertEquals(SignInUiState.Error(ErrorCode.EMPTY_PASSWORD), awaitItem())
             }
         }
 
@@ -99,8 +88,6 @@ class SignInViewModelTest {
         }
     }
 
-    // TODO(robolectric): remove @Ignore and uncomment the assertions once Robolectric is added
-    @Ignore
     @Test
     fun `given a failing sign in when sign in is called then state is Unknown error`() = runTestWithMainDispatcher {
         // Given
@@ -114,10 +101,7 @@ class SignInViewModelTest {
 
             // Then
             assertEquals(SignInUiState.Loading, awaitItem())
-            // TODO(robolectric): uncomment once Robolectric is added
-            // val state = awaitItem()
-            // assertIs<SignInUiState.Error>(state)
-            // assertEquals("No internet connection. Please check your connection and try again.", state.message)
+            assertEquals(SignInUiState.Error(ErrorCode.NETWORK), awaitItem())
         }
     }
 }

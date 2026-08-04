@@ -1,11 +1,13 @@
 package pt.socialfood.presentation.profile.edit
 
+import pt.socialfood.domain.error.ErrorCode
+
 sealed interface EditProfileUiState {
     data object Loading : EditProfileUiState
     data class Loaded(
         val isSaving: Boolean = false,
         val saveSuccess: Boolean = false,
-        val saveError: String? = null,
+        val saveError: ErrorCode? = null,
         val isUploadingPhoto: Boolean = false,
         val userId: String = "",
         val name: String = "",
@@ -17,5 +19,5 @@ sealed interface EditProfileUiState {
         val pendingImage: Pair<ByteArray, String>? = null,
         val isGoogleConnected: Boolean = false,
     ) : EditProfileUiState
-    data class Error(val message: String) : EditProfileUiState
+    data class Error(val errorCode: ErrorCode) : EditProfileUiState
 }

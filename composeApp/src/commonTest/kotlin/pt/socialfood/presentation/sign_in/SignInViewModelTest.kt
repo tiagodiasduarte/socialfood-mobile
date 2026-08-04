@@ -12,6 +12,9 @@ import pt.socialfood.domain.use_case.login.LoginWithGoogleUseCaseImpl
 import pt.socialfood.fakes.FakeAuthRepository
 import pt.socialfood.fakes.FakeSettingsRepository
 import pt.socialfood.runner.runTestWithMainDispatcher
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.sign_in_invalid_email
+import socialfood.composeapp.generated.resources.sign_in_invalid_password
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -50,7 +53,7 @@ class SignInViewModelTest {
                 vm.onSignIn("", "password")
 
                 // Then
-                assertEquals(SignInUiState.Error(ErrorCode.EMPTY_EMAIL), awaitItem())
+                assertEquals(SignInUiState.ValidationError(Res.string.sign_in_invalid_email), awaitItem())
             }
         }
 
@@ -67,7 +70,7 @@ class SignInViewModelTest {
                 vm.onSignIn("user@test.com", "")
 
                 // Then
-                assertEquals(SignInUiState.Error(ErrorCode.EMPTY_PASSWORD), awaitItem())
+                assertEquals(SignInUiState.ValidationError(Res.string.sign_in_invalid_password), awaitItem())
             }
         }
 

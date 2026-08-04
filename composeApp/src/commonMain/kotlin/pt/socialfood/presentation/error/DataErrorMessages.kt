@@ -31,8 +31,6 @@ import socialfood.composeapp.generated.resources.error_code_unknown
 import socialfood.composeapp.generated.resources.error_code_user_already_exists
 import socialfood.composeapp.generated.resources.error_code_user_not_found
 import socialfood.composeapp.generated.resources.error_network_message
-import socialfood.composeapp.generated.resources.sign_in_invalid_email
-import socialfood.composeapp.generated.resources.sign_in_invalid_password
 
 private val errorCodeStringResources: Map<ErrorCode, StringResource> = mapOf(
     ErrorCode.USER_ALREADY_EXISTS to Res.string.error_code_user_already_exists,
@@ -61,8 +59,6 @@ private val errorCodeStringResources: Map<ErrorCode, StringResource> = mapOf(
     ErrorCode.INTERNAL_ERROR to Res.string.error_code_internal_error,
     ErrorCode.INVALID_SOCIAL_LINK to Res.string.error_code_invalid_social_link,
     ErrorCode.NETWORK to Res.string.error_network_message,
-    ErrorCode.EMPTY_EMAIL to Res.string.sign_in_invalid_email,
-    ErrorCode.EMPTY_PASSWORD to Res.string.sign_in_invalid_password,
     ErrorCode.UNKNOWN to Res.string.error_code_unknown,
 )
 

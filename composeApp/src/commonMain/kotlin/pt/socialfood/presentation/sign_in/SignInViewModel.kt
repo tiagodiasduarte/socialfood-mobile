@@ -10,6 +10,9 @@ import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.use_case.login.LoginUseCase
 import pt.socialfood.domain.use_case.login.LoginWithGoogleUseCase
 import pt.socialfood.presentation.error.toErrorCode
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.sign_in_invalid_email
+import socialfood.composeapp.generated.resources.sign_in_invalid_password
 
 class SignInViewModel(
     private val login: LoginUseCase,
@@ -22,12 +25,12 @@ class SignInViewModel(
     fun onSignIn(email: String, password: String) {
         viewModelScope.launch {
             if (email.isEmpty()) {
-                _state.value = SignInUiState.Error(ErrorCode.EMPTY_EMAIL)
+                _state.value = SignInUiState.ValidationError(Res.string.sign_in_invalid_email)
                 return@launch
             }
 
             if (password.isEmpty()) {
-                _state.value = SignInUiState.Error(ErrorCode.EMPTY_PASSWORD)
+                _state.value = SignInUiState.ValidationError(Res.string.sign_in_invalid_password)
                 return@launch
             }
 

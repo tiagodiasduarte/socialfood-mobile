@@ -1864,71 +1864,71 @@
         <error line="82" column="5" source="standard:function-signature" />
         <error line="82" column="36" source="standard:function-signature" />
         <error line="109" column="13" source="standard:function-naming" />
-        <error line="134" column="13" source="standard:function-naming" />
-        <error line="148" column="1" source="standard:indent" />
+        <error line="135" column="13" source="standard:function-naming" />
         <error line="149" column="1" source="standard:indent" />
         <error line="150" column="1" source="standard:indent" />
         <error line="151" column="1" source="standard:indent" />
-        <error line="157" column="1" source="standard:indent" />
+        <error line="152" column="1" source="standard:indent" />
         <error line="158" column="1" source="standard:indent" />
         <error line="159" column="1" source="standard:indent" />
         <error line="160" column="1" source="standard:indent" />
-        <error line="227" column="1" source="standard:indent" />
+        <error line="161" column="1" source="standard:indent" />
         <error line="228" column="1" source="standard:indent" />
         <error line="229" column="1" source="standard:indent" />
         <error line="230" column="1" source="standard:indent" />
-        <error line="256" column="1" source="standard:indent" />
+        <error line="231" column="1" source="standard:indent" />
         <error line="257" column="1" source="standard:indent" />
         <error line="258" column="1" source="standard:indent" />
         <error line="259" column="1" source="standard:indent" />
         <error line="260" column="1" source="standard:indent" />
-        <error line="274" column="1" source="standard:indent" />
+        <error line="261" column="1" source="standard:indent" />
         <error line="275" column="1" source="standard:indent" />
         <error line="276" column="1" source="standard:indent" />
         <error line="277" column="1" source="standard:indent" />
         <error line="278" column="1" source="standard:indent" />
-        <error line="280" column="1" source="standard:indent" />
+        <error line="279" column="1" source="standard:indent" />
         <error line="281" column="1" source="standard:indent" />
         <error line="282" column="1" source="standard:indent" />
         <error line="283" column="1" source="standard:indent" />
         <error line="284" column="1" source="standard:indent" />
         <error line="285" column="1" source="standard:indent" />
         <error line="286" column="1" source="standard:indent" />
-        <error line="293" column="1" source="standard:indent" />
+        <error line="287" column="1" source="standard:indent" />
         <error line="294" column="1" source="standard:indent" />
         <error line="295" column="1" source="standard:indent" />
         <error line="296" column="1" source="standard:indent" />
-        <error line="314" column="1" source="standard:indent" />
-        <error line="315" column="1" source="standard:indent" />
-        <error line="316" column="1" source="standard:indent" />
-        <error line="319" column="1" source="standard:indent" />
+        <error line="297" column="1" source="standard:indent" />
         <error line="320" column="1" source="standard:indent" />
         <error line="321" column="1" source="standard:indent" />
         <error line="322" column="1" source="standard:indent" />
-        <error line="359" column="1" source="standard:indent" />
-        <error line="360" column="1" source="standard:indent" />
-        <error line="361" column="1" source="standard:indent" />
-        <error line="385" column="1" source="standard:indent" />
-        <error line="386" column="1" source="standard:indent" />
-        <error line="387" column="1" source="standard:indent" />
-        <error line="398" column="1" source="standard:indent" />
-        <error line="399" column="1" source="standard:indent" />
-        <error line="400" column="1" source="standard:indent" />
-        <error line="411" column="13" source="standard:function-naming" />
-        <error line="414" column="1" source="standard:indent" />
-        <error line="415" column="1" source="standard:indent" />
-        <error line="416" column="1" source="standard:indent" />
-        <error line="429" column="5" source="standard:function-naming" />
+        <error line="325" column="1" source="standard:indent" />
+        <error line="326" column="1" source="standard:indent" />
+        <error line="327" column="1" source="standard:indent" />
+        <error line="328" column="1" source="standard:indent" />
+        <error line="365" column="1" source="standard:indent" />
+        <error line="366" column="1" source="standard:indent" />
+        <error line="367" column="1" source="standard:indent" />
+        <error line="391" column="1" source="standard:indent" />
+        <error line="392" column="1" source="standard:indent" />
+        <error line="393" column="1" source="standard:indent" />
+        <error line="404" column="1" source="standard:indent" />
+        <error line="405" column="1" source="standard:indent" />
+        <error line="406" column="1" source="standard:indent" />
+        <error line="417" column="13" source="standard:function-naming" />
+        <error line="420" column="1" source="standard:indent" />
+        <error line="421" column="1" source="standard:indent" />
+        <error line="422" column="1" source="standard:indent" />
+        <error line="435" column="5" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_in/SignInUiState.kt">
         <error line="1" column="9" source="standard:package-name" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_in/SignInViewModel.kt">
         <error line="1" column="9" source="standard:package-name" />
-        <error line="15" column="5" source="standard:class-signature" />
-        <error line="16" column="5" source="standard:class-signature" />
-        <error line="16" column="57" source="standard:class-signature" />
-        <error line="17" column="5" source="standard:class-signature" />
+        <error line="18" column="5" source="standard:class-signature" />
+        <error line="19" column="5" source="standard:class-signature" />
+        <error line="19" column="57" source="standard:class-signature" />
+        <error line="20" column="5" source="standard:class-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_up/SignUpScreen.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -2493,7 +2493,7 @@
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/sign_in/SignInViewModelTest.kt">
         <error line="1" column="9" source="standard:package-name" />
-        <error line="29" column="69" source="standard:function-signature" />
+        <error line="32" column="69" source="standard:function-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/startup/StartupViewModelTest.kt">
         <error line="20" column="121" source="standard:max-line-length" />

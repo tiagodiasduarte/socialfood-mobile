@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -27,7 +26,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -46,14 +44,11 @@ import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
-import socialfood.composeapp.generated.resources.edit_profile_google_info
 import socialfood.composeapp.generated.resources.edit_profile_save_button
 import socialfood.composeapp.generated.resources.edit_profile_save_error_dismiss
-import socialfood.composeapp.generated.resources.edit_profile_save_error_message
 import socialfood.composeapp.generated.resources.edit_profile_save_error_title
 import socialfood.composeapp.generated.resources.edit_profile_title
 
-@Suppress("LongParameterList")
 @Composable
 fun EditProfileScreen(onBackClick: () -> Unit, viewModel: EditProfileViewModel = koinViewModel()) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -102,8 +97,9 @@ private fun EditProfileContent(
     onYoutubeUrlChange: (String) -> Unit,
     onDismissSaveError: () -> Unit,
 ) {
-    if (state.saveError) {
-        SaveErrorDialog(onDismiss = onDismissSaveError)
+    val saveError = state.saveError
+    if (saveError != null) {
+        SaveErrorDialog(message = saveError, onDismiss = onDismissSaveError)
     }
 
     Column(
@@ -127,29 +123,6 @@ private fun EditProfileContent(
         ) {
             ProfilePictureCard(state = state, onPhotoSelected = onPhotoSelected)
 
-            if (state.isGoogleConnected) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(SpaceSize.medium))
-                        .background(Color(0xFFEFF6FF))
-                        .padding(SpaceSize.large),
-                    horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = null,
-                        tint = Color(0xFF3B82F6),
-                        modifier = Modifier.size(20.dp),
-                    )
-                    Text(
-                        text = stringResource(Res.string.edit_profile_google_info),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color(0xFF1E40AF),
-                    )
-                }
-            }
-
             PersonalDetailsCard(
                 state = state,
                 onNameChange = onNameChange,
@@ -167,10 +140,10 @@ private fun EditProfileContent(
 }
 
 @Composable
-private fun SaveErrorDialog(onDismiss: () -> Unit) {
+private fun SaveErrorDialog(message: String, onDismiss: () -> Unit) {
     ErrorAlertDialog(
         title = stringResource(Res.string.edit_profile_save_error_title),
-        message = stringResource(Res.string.edit_profile_save_error_message),
+        message = message,
         confirmButtonText = stringResource(Res.string.edit_profile_save_error_dismiss),
         onDismiss = onDismiss,
     )

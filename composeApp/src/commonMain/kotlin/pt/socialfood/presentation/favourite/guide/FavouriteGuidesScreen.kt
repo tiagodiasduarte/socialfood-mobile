@@ -106,7 +106,7 @@ private fun FavouriteGuidesContent(
         when (state) {
             FavouriteGuidesUiState.Loading -> FavouriteGuidesPlaceholder(modifier = Modifier.fillMaxSize())
 
-            FavouriteGuidesUiState.Error -> ErrorContent(
+            is FavouriteGuidesUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),
                 onRetryClick = onRetry,
             )

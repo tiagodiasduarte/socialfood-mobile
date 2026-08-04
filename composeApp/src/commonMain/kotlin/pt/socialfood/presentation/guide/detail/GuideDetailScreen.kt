@@ -117,7 +117,7 @@ private fun GuideDetailContent(
                 onToggleFavourite = onToggleFavourite,
             )
 
-        GuideDetailUiState.Error ->
+        is GuideDetailUiState.Error ->
             GuideDetailError(
                 onBackClick = onBackClick,
                 onRetry = onRetry,

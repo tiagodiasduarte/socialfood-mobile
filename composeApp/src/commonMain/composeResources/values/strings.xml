@@ -17,6 +17,8 @@
     <string name="sign_in_google_button_description">Google icon</string>
     <string name="sign_in_no_account_label">Don't have an account?</string>
     <string name="sign_in_sign_up_button">Sign Up</string>
+    <string name="sign_in_invalid_email">Please enter your email</string>
+    <string name="sign_in_invalid_password">Please enter your password</string>
 
     <string name="sign_up_title_label">Create account</string>
     <string name="sign_up_subtitle_label">Join us to explore the best restaurants</string>
@@ -27,6 +29,8 @@
     <string name="sign_up_confirm_password_placeholder_label">••••••••</string>
     <string name="sign_up_already_have_account_label">Already have an account?</string>
     <string name="sign_up_sign_in_label">Sign In</string>
+    <string name="sign_up_fill_all_fields">Please fill in all fields</string>
+    <string name="sign_up_password_mismatch">Passwords don\'t match</string>
 
     <string name="validate_code_title_label">Verify your email</string>
     <string name="validate_code_subtitle_label">Enter the 6-digit code we sent to your email</string>
@@ -34,6 +38,7 @@
     <string name="validate_code_resend_label">Didn\'t receive the code?</string>
     <string name="validate_code_resend_button">Resend code</string>
     <string name="validate_code_restart_signup_label">Not you? Restart sign up</string>
+    <string name="validate_code_empty_code">Please enter the code</string>
 
     <string name="home_title_label">Discover dining</string>
     <string name="home_subtitle_label">Find your next favorite restaurant</string>
@@ -225,5 +230,6 @@
     <string name="error_code_internal_error">Something went wrong on our end. Please try again.</string>
     <string name="error_code_invalid_social_link">That social link doesn\'t look valid.</string>
     <string name="error_code_unknown">Something went wrong. Please try again.</string>
+    <string name="error_network_message">No internet connection. Please check your connection and try again.</string>
 
 </resources>

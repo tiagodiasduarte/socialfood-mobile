@@ -5,11 +5,14 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.getString
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.use_case.login.ResendVerificationCodeUseCase
 import pt.socialfood.domain.use_case.login.RestartSignUpUseCase
 import pt.socialfood.domain.use_case.login.ValidateCodeUseCase
+import pt.socialfood.presentation.error.displayMessage
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.validate_code_empty_code
 
 class ValidateCodeViewModel(
     private val validateCode: ValidateCodeUseCase,
@@ -24,15 +27,15 @@ class ValidateCodeViewModel(
     fun onValidate(code: String) {
         viewModelScope.launch {
             if (code.isEmpty()) {
-                _state.value = ValidateCodeUiState.Error(ErrorEntity.InvalidCredentials)
+                _state.value = ValidateCodeUiState.Error(getString(Res.string.validate_code_empty_code))
                 return@launch
             }
 
             _state.value = ValidateCodeUiState.Loading
 
-            when (validateCode(email = email, code = code)) {
+            when (val result = validateCode(email = email, code = code)) {
                 is Result.Success -> _state.value = ValidateCodeUiState.Success
-                is Result.Failure -> _state.value = ValidateCodeUiState.Error(ErrorEntity.Unknown)
+                is Result.Failure -> _state.value = ValidateCodeUiState.Error(result.error.displayMessage())
             }
         }
     }

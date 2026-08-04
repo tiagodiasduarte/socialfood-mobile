@@ -394,7 +394,7 @@ private fun SignUpFormView(
             if (state is SignUpUiState.Error) {
                 Spacer(modifier = Modifier.height(SpaceSize.small))
                 Text(
-                    text = state.error.toString(),
+                    text = state.message,
                     color = colorScheme.error,
                     style = MaterialTheme.typography.bodyMedium,
                 )

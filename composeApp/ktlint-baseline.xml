@@ -405,6 +405,9 @@
         <error line="17" column="97" source="standard:class-signature" />
         <error line="21" column="72" source="standard:function-expression-body" />
     </file>
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/error/safeApiCall.kt">
+        <error line="1" column="1" source="standard:filename" />
+    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/model/Author.kt">
         <error line="4" column="5" source="standard:class-signature" />
         <error line="5" column="5" source="standard:class-signature" />
@@ -1716,11 +1719,11 @@
         <error line="159" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/EditProfileScreen.kt">
-        <error line="57" column="5" source="standard:function-naming" />
-        <error line="92" column="13" source="standard:function-naming" />
-        <error line="170" column="13" source="standard:function-naming" />
-        <error line="180" column="13" source="standard:function-naming" />
-        <error line="230" column="13" source="standard:function-naming" />
+        <error line="53" column="5" source="standard:function-naming" />
+        <error line="88" column="13" source="standard:function-naming" />
+        <error line="143" column="13" source="standard:function-naming" />
+        <error line="153" column="13" source="standard:function-naming" />
+        <error line="203" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/ProfileTextField.kt">
         <error line="22" column="5" source="standard:function-naming" />

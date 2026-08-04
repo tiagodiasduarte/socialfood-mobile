@@ -1,5 +1,6 @@
 package pt.socialfood.presentation.guide.detail
 
+import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Guide
 
 sealed interface GuideDetailUiState {
@@ -9,5 +10,5 @@ sealed interface GuideDetailUiState {
         val currentUserId: String?,
         val isFavourite: Boolean = false,
     ) : GuideDetailUiState
-    data class Error(val message: String) : GuideDetailUiState
+    data class Error(val errorCode: ErrorCode) : GuideDetailUiState
 }

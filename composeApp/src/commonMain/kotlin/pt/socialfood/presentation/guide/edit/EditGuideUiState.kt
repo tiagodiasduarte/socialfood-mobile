@@ -1,6 +1,7 @@
 package pt.socialfood.presentation.guide.edit
 
 import org.jetbrains.compose.resources.StringResource
+import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Restaurant
@@ -22,5 +23,5 @@ sealed interface EditGuideUiState {
         val isDeleting: Boolean = false,
         val validationErrors: List<StringResource> = emptyList(),
     ) : EditGuideUiState
-    data class Error(val message: String) : EditGuideUiState
+    data class Error(val errorCode: ErrorCode) : EditGuideUiState
 }

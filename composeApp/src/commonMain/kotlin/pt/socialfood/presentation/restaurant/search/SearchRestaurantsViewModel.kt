@@ -18,7 +18,7 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.use_case.SearchPlacesUseCase
 import pt.socialfood.domain.use_case.restaurant.AddRestaurantByPlaceIdUseCase
 import pt.socialfood.domain.use_case.restaurant.AwaitEnrichedRestaurantByPlaceIdUseCase
-import pt.socialfood.presentation.error.displayMessage
+import pt.socialfood.presentation.error.toErrorCode
 import kotlin.time.Duration.Companion.milliseconds
 
 class SearchRestaurantsViewModel(
@@ -57,7 +57,7 @@ class SearchRestaurantsViewModel(
             _state.value = SearchRestaurantsUiState.Loading
             when (val result = searchPlaces(query)) {
                 is Result.Success -> _state.value = SearchRestaurantsUiState.Loaded(result.data)
-                is Result.Failure -> _state.value = SearchRestaurantsUiState.Error(result.error.displayMessage())
+                is Result.Failure -> _state.value = SearchRestaurantsUiState.Error(result.error.toErrorCode())
             }
         }
     }

@@ -114,6 +114,7 @@ private fun SignInScreenContent(
 ) {
     when (state) {
         is SignInUiState.Error,
+        is SignInUiState.ValidationError,
         SignInUiState.Idle,
         -> {
             SignInFormView(
@@ -297,10 +298,15 @@ private fun SignInFormView(
                 modifier = Modifier.fillMaxWidth(),
             )
 
-            if (state is SignInUiState.Error) {
+            val errorMessage = when (state) {
+                is SignInUiState.Error -> stringResource(state.errorCode.stringResource())
+                is SignInUiState.ValidationError -> stringResource(state.message)
+                else -> null
+            }
+            if (errorMessage != null) {
                 Spacer(modifier = Modifier.height(SpaceSize.small))
                 Text(
-                    text = stringResource(state.errorCode.stringResource()),
+                    text = errorMessage,
                     color = colorScheme.error,
                     style = MaterialTheme.typography.bodyMedium,
                 )

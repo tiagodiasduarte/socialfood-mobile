@@ -53,10 +53,6 @@ enum class ErrorCode {
     // User
     INVALID_SOCIAL_LINK,
 
-    // Client-side validation
-    EMPTY_EMAIL,
-    EMPTY_PASSWORD,
-
     UNKNOWN,
     ;
 

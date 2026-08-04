@@ -4,7 +4,7 @@ import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
 
-interface FavouritesApi {
+interface FavouritesGuidesApi {
     suspend fun markFavourite(guideId: String)
 
     suspend fun unmarkFavourite(guideId: String)

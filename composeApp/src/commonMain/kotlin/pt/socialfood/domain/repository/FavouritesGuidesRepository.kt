@@ -5,7 +5,7 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.PagedFavouriteGuides
 
-interface FavouritesRepository {
+interface FavouritesGuidesRepository {
     suspend fun markFavourite(guide: Guide): Result<Unit>
 
     suspend fun unmarkFavourite(guideId: String): Result<Unit>

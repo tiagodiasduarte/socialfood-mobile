@@ -37,8 +37,11 @@ class FindGuidesUseCaseImplTest {
     @Test
     fun `given repository fails when invoked then returns Failure`() = runTest {
         // Given
-        val repository =
-            FakeGuidesRepository(findGuidesPagedResult = Result.Failure(DataError.Network(Exception("test error"))))
+        val repository = FakeGuidesRepository(
+            findGuidesPagedResult = Result.Failure(
+                DataError.Network(Exception("test error")),
+            ),
+        )
         val useCase = FindGuidesUseCaseImpl(repository)
 
         // When

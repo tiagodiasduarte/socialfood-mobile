@@ -51,10 +51,9 @@ class AddRestaurantGuideUseCaseImplTest {
     @Test
     fun `given the repository fails when invoked then returns Failure`() = runTest {
         // Given
-        val guidesRepository =
-            FakeGuidesRepository(
-                addRestaurantGuideResult = Result.Failure(DataError.Network(Exception("test error"))),
-            )
+        val guidesRepository = FakeGuidesRepository(
+            addRestaurantGuideResult = Result.Failure(DataError.Network(Exception("test error"))),
+        )
         val usersRepository = FakeUsersRepository(currentUser = Random.nextUser())
         val useCase = AddRestaurantGuideUseCaseImpl(guidesRepository, usersRepository)
 

@@ -22,8 +22,11 @@ class CreateGuideUseCaseImplTest {
         val useCase = CreateGuideUseCaseImpl(guidesRepository, FakeUsersRepository(currentUser = null))
 
         // When
-        val result =
-            useCase(title = Random.nextString(), description = Random.nextString(), visibility = GuideVisibility.PUBLIC)
+        val result = useCase(
+            title = Random.nextString(),
+            description = Random.nextString(),
+            visibility = GuideVisibility.PUBLIC,
+        )
 
         // Then
         assertIs<Result.Failure>(result)
@@ -53,14 +56,18 @@ class CreateGuideUseCaseImplTest {
     @Test
     fun `given the repository fails when invoked then returns Failure`() = runTest {
         // Given
-        val guidesRepository =
-            FakeGuidesRepository(createResult = Result.Failure(DataError.Network(Exception("test error"))))
+        val guidesRepository = FakeGuidesRepository(
+            createResult = Result.Failure(DataError.Network(Exception("test error"))),
+        )
         val usersRepository = FakeUsersRepository(currentUser = Random.nextUser())
         val useCase = CreateGuideUseCaseImpl(guidesRepository, usersRepository)
 
         // When
-        val result =
-            useCase(title = Random.nextString(), description = Random.nextString(), visibility = GuideVisibility.PUBLIC)
+        val result = useCase(
+            title = Random.nextString(),
+            description = Random.nextString(),
+            visibility = GuideVisibility.PUBLIC,
+        )
 
         // Then
         assertIs<Result.Failure>(result)

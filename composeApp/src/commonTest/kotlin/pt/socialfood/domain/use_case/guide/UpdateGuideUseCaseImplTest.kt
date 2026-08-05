@@ -22,14 +22,13 @@ class UpdateGuideUseCaseImplTest {
         val useCase = UpdateGuideUseCaseImpl(guidesRepository, FakeUsersRepository(currentUser = null))
 
         // When
-        val result =
-            useCase(
-                id = Random.nextString(),
-                title = Random.nextString(),
-                description = Random.nextString(),
-                restaurantIds = listOf(Random.nextString()),
-                visibility = GuideVisibility.PUBLIC,
-            )
+        val result = useCase(
+            id = Random.nextString(),
+            title = Random.nextString(),
+            description = Random.nextString(),
+            restaurantIds = listOf(Random.nextString()),
+            visibility = GuideVisibility.PUBLIC,
+        )
 
         // Then
         assertIs<Result.Failure>(result)
@@ -49,14 +48,13 @@ class UpdateGuideUseCaseImplTest {
         val useCase = UpdateGuideUseCaseImpl(guidesRepository, FakeUsersRepository(currentUser = user))
 
         // When
-        val result =
-            useCase(
-                id = id,
-                title = title,
-                description = description,
-                restaurantIds = restaurantIds,
-                visibility = GuideVisibility.PRIVATE,
-            )
+        val result = useCase(
+            id = id,
+            title = title,
+            description = description,
+            restaurantIds = restaurantIds,
+            visibility = GuideVisibility.PRIVATE,
+        )
 
         // Then
         assertEquals(Result.Success(guide), result)
@@ -71,20 +69,20 @@ class UpdateGuideUseCaseImplTest {
     @Test
     fun `given the repository fails when invoked then returns Failure`() = runTest {
         // Given
-        val guidesRepository =
-            FakeGuidesRepository(updateResult = Result.Failure(DataError.Network(Exception("test error"))))
+        val guidesRepository = FakeGuidesRepository(
+            updateResult = Result.Failure(DataError.Network(Exception("test error"))),
+        )
         val usersRepository = FakeUsersRepository(currentUser = Random.nextUser())
         val useCase = UpdateGuideUseCaseImpl(guidesRepository, usersRepository)
 
         // When
-        val result =
-            useCase(
-                id = Random.nextString(),
-                title = Random.nextString(),
-                description = Random.nextString(),
-                restaurantIds = emptyList(),
-                visibility = GuideVisibility.PUBLIC,
-            )
+        val result = useCase(
+            id = Random.nextString(),
+            title = Random.nextString(),
+            description = Random.nextString(),
+            restaurantIds = emptyList(),
+            visibility = GuideVisibility.PUBLIC,
+        )
 
         // Then
         assertIs<Result.Failure>(result)

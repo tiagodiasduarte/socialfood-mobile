@@ -30,8 +30,7 @@ class DeleteGuideUseCaseImplTest {
     @Test
     fun `given repository fails when invoked then returns Failure`() = runTest {
         // Given
-        val repository =
-            FakeGuidesRepository(deleteResult = Result.Failure(DataError.Network(Exception("test error"))))
+        val repository = FakeGuidesRepository(deleteResult = Result.Failure(DataError.Network(Exception("test error"))))
         val useCase = DeleteGuideUseCaseImpl(repository)
 
         // When

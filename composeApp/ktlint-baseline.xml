@@ -2553,7 +2553,7 @@
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/restaurant/search/SearchRestaurantsViewModelTest.kt">
         <error line="24" column="121" source="standard:max-line-length" />
         <error line="48" column="121" source="standard:max-line-length" />
-        <error line="67" column="121" source="standard:max-line-length" />
+        <error line="68" column="121" source="standard:max-line-length" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/sign_in/SignInViewModelTest.kt">
         <error line="1" column="9" source="standard:package-name" />

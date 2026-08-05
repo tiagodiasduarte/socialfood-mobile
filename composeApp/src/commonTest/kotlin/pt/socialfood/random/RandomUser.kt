@@ -2,21 +2,22 @@ package pt.socialfood.random
 
 import pt.socialfood.domain.model.User
 import pt.socialfood.domain.model.UserRole
+import kotlin.random.Random
 
 @Suppress("LongParameterList")
-fun randomUser(
-    id: String = randomString(),
-    email: String = randomEmail(),
-    name: String = randomString(),
-    username: String = randomString(),
-    imageUrl: String? = randomNullable { randomUrl() },
-    role: UserRole = randomEnum(),
-    city: String? = randomNullable { randomString() },
-    country: String? = randomNullable { randomString() },
-    facebookUrl: String? = randomNullable { randomUrl() },
-    instagramUrl: String? = randomNullable { randomUrl() },
-    youtubeUrl: String? = randomNullable { randomUrl() },
-    isVerified: Boolean = randomBoolean(),
+fun Random.nextUser(
+    id: String = nextString(),
+    email: String = nextEmail(),
+    name: String = nextString(),
+    username: String = nextString(),
+    imageUrl: String? = nextNullable { nextUrl() },
+    role: UserRole = nextEnum(),
+    city: String? = nextNullable { nextString() },
+    country: String? = nextNullable { nextString() },
+    facebookUrl: String? = nextNullable { nextUrl() },
+    instagramUrl: String? = nextNullable { nextUrl() },
+    youtubeUrl: String? = nextNullable { nextUrl() },
+    isVerified: Boolean = nextBoolean(),
 ) = User(
     id = id,
     email = email,

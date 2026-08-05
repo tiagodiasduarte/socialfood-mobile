@@ -2218,6 +2218,30 @@
     <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/UnmarkRestaurantFavouriteUseCaseImplTest.kt">
         <error line="1" column="9" source="standard:package-name" />
     </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/AddHomeSectionItemUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/CreateHomeSectionUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/DeleteHomeSectionUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/GetHomeSectionByIdUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/GetHomeSectionsUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/ObserveHomeSectionsUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/RemoveHomeSectionItemUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/UpdateHomeSectionUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
     <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/login/LogoutUseCaseImplTest.kt">
         <error line="1" column="9" source="standard:package-name" />
     </file>

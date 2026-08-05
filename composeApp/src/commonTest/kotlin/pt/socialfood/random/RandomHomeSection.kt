@@ -7,14 +7,15 @@ import pt.socialfood.domain.model.HomeSection
 import pt.socialfood.domain.model.HomeSectionItem
 import pt.socialfood.domain.model.HomeSectionType
 import pt.socialfood.domain.model.Restaurant
+import kotlin.random.Random
 
 @Suppress("LongParameterList")
-fun randomHomeSection(
-    id: String = randomString(),
-    title: String = randomString(),
-    type: HomeSectionType = randomEnum(),
-    position: Int = randomInt(0, 10),
-    isActive: Boolean = randomBoolean(),
+fun Random.nextHomeSection(
+    id: String = nextString(),
+    title: String = nextString(),
+    type: HomeSectionType = nextEnum(),
+    position: Int = nextInt(0, 10),
+    isActive: Boolean = nextBoolean(),
     items: List<HomeSectionItem> = emptyList(),
 ) = HomeSection(
     id = id,
@@ -26,12 +27,12 @@ fun randomHomeSection(
 )
 
 @Suppress("LongParameterList")
-fun randomHomeSectionItem(
-    id: String = randomString(),
-    sectionId: String = randomString(),
-    itemId: String = randomString(),
-    itemType: HomeItemType = randomEnum(),
-    position: Int = randomInt(0, 10),
+fun Random.nextHomeSectionItem(
+    id: String = nextString(),
+    sectionId: String = nextString(),
+    itemId: String = nextString(),
+    itemType: HomeItemType = nextEnum(),
+    position: Int = nextInt(0, 10),
     restaurant: Restaurant? = null,
     guide: Guide? = null,
     event: Event? = null,

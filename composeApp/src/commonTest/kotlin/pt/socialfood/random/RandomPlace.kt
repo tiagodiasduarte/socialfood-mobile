@@ -1,10 +1,11 @@
 package pt.socialfood.random
 
 import pt.socialfood.domain.model.Place
+import kotlin.random.Random
 
-fun randomPlace(
-    id: String = randomString(),
-    name: String = randomString(),
-    address: String = randomString(12),
-    imageUrl: String? = randomNullable { randomUrl() },
+fun Random.nextPlace(
+    id: String = nextString(),
+    name: String = nextString(),
+    address: String = nextString(12),
+    imageUrl: String? = nextNullable { nextUrl() },
 ) = Place(id = id, name = name, address = address, imageUrl = imageUrl)

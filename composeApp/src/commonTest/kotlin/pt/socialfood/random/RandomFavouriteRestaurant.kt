@@ -2,6 +2,7 @@ package pt.socialfood.random
 
 import pt.socialfood.domain.model.FavouriteRestaurant
 import pt.socialfood.domain.model.Restaurant
+import kotlin.random.Random
 
-fun randomFavouriteRestaurant(restaurant: Restaurant = randomRestaurant(), favouritedAt: Long = randomLong()) =
+fun Random.nextFavouriteRestaurant(restaurant: Restaurant = nextRestaurant(), favouritedAt: Long = nextLong()) =
     FavouriteRestaurant(restaurant = restaurant, favouritedAt = favouritedAt)

@@ -16,8 +16,8 @@ import pt.socialfood.data.api.ConfigsApi
 import pt.socialfood.data.api.ConfigsApiImpl
 import pt.socialfood.data.api.FavouriteRestaurantsApi
 import pt.socialfood.data.api.FavouriteRestaurantsApiImpl
-import pt.socialfood.data.api.FavouritesApi
-import pt.socialfood.data.api.FavouritesApiImpl
+import pt.socialfood.data.api.FavouritesGuidesApi
+import pt.socialfood.data.api.FavouritesGuidesApiImpl
 import pt.socialfood.data.api.GuidesApi
 import pt.socialfood.data.api.GuidesApiImpl
 import pt.socialfood.data.api.HomeApi
@@ -42,7 +42,7 @@ import pt.socialfood.data.repository.AuthRepositoryImpl
 import pt.socialfood.data.repository.AuthorsRepositoryImpl
 import pt.socialfood.data.repository.ConfigsRepositoryImpl
 import pt.socialfood.data.repository.FavouriteRestaurantsRepositoryImpl
-import pt.socialfood.data.repository.FavouritesRepositoryImpl
+import pt.socialfood.data.repository.FavouritesGuidesRepositoryImpl
 import pt.socialfood.data.repository.GuidesRepositoryImpl
 import pt.socialfood.data.repository.HomeRepositoryImpl
 import pt.socialfood.data.repository.PhotosRepositoryImpl
@@ -53,7 +53,7 @@ import pt.socialfood.domain.repository.AuthRepository
 import pt.socialfood.domain.repository.AuthorsRepository
 import pt.socialfood.domain.repository.ConfigsRepository
 import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
-import pt.socialfood.domain.repository.FavouritesRepository
+import pt.socialfood.domain.repository.FavouritesGuidesRepository
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.repository.HomeRepository
 import pt.socialfood.domain.repository.PhotosRepository
@@ -201,7 +201,7 @@ val networkModule =
         single<AuthorsApi> { AuthorsApiImpl(get()) }
         single<ConfigsApi> { ConfigsApiImpl(get()) }
         single<FavouriteRestaurantsApi> { FavouriteRestaurantsApiImpl(get()) }
-        single<FavouritesApi> { FavouritesApiImpl(get()) }
+        single<FavouritesGuidesApi> { FavouritesGuidesApiImpl(get()) }
         single<GuidesApi> { GuidesApiImpl(get()) }
         single<HomeApi> { HomeApiImpl(get()) }
         single<HttpClient> { get<KtorHttpClient>().client }
@@ -231,7 +231,9 @@ val repositoryModule =
         single<FavouriteRestaurantsRepository> {
             FavouriteRestaurantsRepositoryImpl(get(), get<AppDatabase>().favouriteRestaurantDao(), get())
         }
-        single<FavouritesRepository> { FavouritesRepositoryImpl(get(), get<AppDatabase>().favouriteDao(), get()) }
+        single<FavouritesGuidesRepository> {
+            FavouritesGuidesRepositoryImpl(get(), get<AppDatabase>().favouriteDao(), get())
+        }
         single<GuidesRepository> {
             GuidesRepositoryImpl(
                 guideApi = get(),

@@ -7,7 +7,7 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCaseImpl
-import pt.socialfood.fakes.FakeFavouritesRepository
+import pt.socialfood.fakes.FakeFavouritesGuidesRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -26,7 +26,7 @@ class MarkGuideFavouriteUseCaseImplTest {
     @Test
     fun `given repository succeeds when invoked then delegates guide and returns Success`() = runTest {
         // Given
-        val repository = FakeFavouritesRepository(markResult = Result.Success(Unit))
+        val repository = FakeFavouritesGuidesRepository(markResult = Result.Success(Unit))
         val useCase = MarkGuideFavouriteUseCaseImpl(repository)
 
         // When
@@ -41,7 +41,7 @@ class MarkGuideFavouriteUseCaseImplTest {
     fun `given repository fails when invoked then returns Error`() = runTest {
         // Given
         val repository =
-            FakeFavouritesRepository(markResult = Result.Failure(DataError.Network(Exception("test error"))))
+            FakeFavouritesGuidesRepository(markResult = Result.Failure(DataError.Network(Exception("test error"))))
         val useCase = MarkGuideFavouriteUseCaseImpl(repository)
 
         // When

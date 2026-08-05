@@ -2230,6 +2230,15 @@
     <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/UnmarkRestaurantFavouriteUseCaseImplTest.kt">
         <error line="1" column="9" source="standard:package-name" />
     </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/guide/IsGuideFavouriteUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/guide/ObserveFavouriteGuideIdsUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/restaurant/IsRestaurantFavouriteUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
     <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/guide/AddRestaurantGuideUseCaseImplTest.kt">
         <error line="1" column="9" source="standard:package-name" />
     </file>

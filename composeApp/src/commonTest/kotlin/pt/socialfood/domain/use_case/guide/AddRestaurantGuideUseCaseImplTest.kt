@@ -6,6 +6,7 @@ import pt.socialfood.domain.error.DataError
 import pt.socialfood.fakes.FakeGuidesRepository
 import pt.socialfood.fakes.FakeUsersRepository
 import pt.socialfood.random.nextGuide
+import pt.socialfood.random.nextString
 import pt.socialfood.random.nextUser
 import kotlin.random.Random
 import kotlin.test.Test
@@ -20,7 +21,7 @@ class AddRestaurantGuideUseCaseImplTest {
         val useCase = AddRestaurantGuideUseCaseImpl(guidesRepository, FakeUsersRepository(currentUser = null))
 
         // When
-        val result = useCase(guideId = "guide-id", placeId = "place-id")
+        val result = useCase(guideId = Random.nextString(), placeId = Random.nextString())
 
         // Then
         assertIs<Result.Failure>(result)
@@ -32,17 +33,19 @@ class AddRestaurantGuideUseCaseImplTest {
         // Given
         val user = Random.nextUser()
         val guide = Random.nextGuide()
+        val guideId = Random.nextString()
+        val placeId = Random.nextString()
         val guidesRepository = FakeGuidesRepository(addRestaurantGuideResult = Result.Success(guide))
         val useCase = AddRestaurantGuideUseCaseImpl(guidesRepository, FakeUsersRepository(currentUser = user))
 
         // When
-        val result = useCase(guideId = "guide-id", placeId = "place-id")
+        val result = useCase(guideId = guideId, placeId = placeId)
 
         // Then
         assertEquals(Result.Success(guide), result)
-        assertEquals("guide-id", guidesRepository.lastAddRestaurantGuideId)
+        assertEquals(guideId, guidesRepository.lastAddRestaurantGuideId)
         assertEquals(user.id, guidesRepository.lastAddRestaurantUserId)
-        assertEquals("place-id", guidesRepository.lastAddRestaurantPlaceId)
+        assertEquals(placeId, guidesRepository.lastAddRestaurantPlaceId)
     }
 
     @Test
@@ -56,7 +59,7 @@ class AddRestaurantGuideUseCaseImplTest {
         val useCase = AddRestaurantGuideUseCaseImpl(guidesRepository, usersRepository)
 
         // When
-        val result = useCase(guideId = "guide-id", placeId = null)
+        val result = useCase(guideId = Random.nextString(), placeId = null)
 
         // Then
         assertIs<Result.Failure>(result)

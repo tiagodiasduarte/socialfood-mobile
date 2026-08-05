@@ -7,6 +7,7 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.fakes.FakeGuidesRepository
 import pt.socialfood.fakes.FakeUsersRepository
 import pt.socialfood.random.nextGuide
+import pt.socialfood.random.nextString
 import pt.socialfood.random.nextUser
 import kotlin.random.Random
 import kotlin.test.Test
@@ -23,10 +24,10 @@ class UpdateGuideUseCaseImplTest {
         // When
         val result =
             useCase(
-                id = "guide-id",
-                title = "Title",
-                description = "Description",
-                restaurantIds = listOf("restaurant-id"),
+                id = Random.nextString(),
+                title = Random.nextString(),
+                description = Random.nextString(),
+                restaurantIds = listOf(Random.nextString()),
                 visibility = GuideVisibility.PUBLIC,
             )
 
@@ -40,26 +41,30 @@ class UpdateGuideUseCaseImplTest {
         // Given
         val user = Random.nextUser()
         val guide = Random.nextGuide()
+        val id = Random.nextString()
+        val title = Random.nextString()
+        val description = Random.nextString()
+        val restaurantIds = listOf(Random.nextString())
         val guidesRepository = FakeGuidesRepository(updateResult = Result.Success(guide))
         val useCase = UpdateGuideUseCaseImpl(guidesRepository, FakeUsersRepository(currentUser = user))
 
         // When
         val result =
             useCase(
-                id = "guide-id",
-                title = "Title",
-                description = "Description",
-                restaurantIds = listOf("restaurant-id"),
+                id = id,
+                title = title,
+                description = description,
+                restaurantIds = restaurantIds,
                 visibility = GuideVisibility.PRIVATE,
             )
 
         // Then
         assertEquals(Result.Success(guide), result)
-        assertEquals("guide-id", guidesRepository.lastUpdateId)
-        assertEquals("Title", guidesRepository.lastUpdateName)
+        assertEquals(id, guidesRepository.lastUpdateId)
+        assertEquals(title, guidesRepository.lastUpdateName)
         assertEquals(user.id, guidesRepository.lastUpdateUserId)
-        assertEquals("Description", guidesRepository.lastUpdateDescription)
-        assertEquals(listOf("restaurant-id"), guidesRepository.lastUpdateRestaurantIds)
+        assertEquals(description, guidesRepository.lastUpdateDescription)
+        assertEquals(restaurantIds, guidesRepository.lastUpdateRestaurantIds)
         assertEquals(GuideVisibility.PRIVATE, guidesRepository.lastUpdateVisibility)
     }
 
@@ -74,9 +79,9 @@ class UpdateGuideUseCaseImplTest {
         // When
         val result =
             useCase(
-                id = "guide-id",
-                title = "Title",
-                description = "Description",
+                id = Random.nextString(),
+                title = Random.nextString(),
+                description = Random.nextString(),
                 restaurantIds = emptyList(),
                 visibility = GuideVisibility.PUBLIC,
             )

@@ -5,6 +5,7 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.fakes.FakeGuidesRepository
 import pt.socialfood.random.nextPagedGuides
+import pt.socialfood.random.nextString
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,18 +16,22 @@ class FindGuidesUseCaseImplTest {
     fun `given repository succeeds when invoked then forwards page, limit, query and userId`() = runTest {
         // Given
         val paged = Random.nextPagedGuides()
+        val page = Random.nextInt(1, 10)
+        val limit = Random.nextInt(10, 50)
+        val query = Random.nextString()
+        val userId = Random.nextString()
         val repository = FakeGuidesRepository(findGuidesPagedResult = Result.Success(paged))
         val useCase = FindGuidesUseCaseImpl(repository)
 
         // When
-        val result = useCase(page = 2, limit = 20, query = "pizza", userId = "author-id")
+        val result = useCase(page = page, limit = limit, query = query, userId = userId)
 
         // Then
         assertEquals(Result.Success(paged), result)
-        assertEquals(2, repository.lastFindGuidesPagedPage)
-        assertEquals(20, repository.lastFindGuidesPagedLimit)
-        assertEquals("pizza", repository.lastFindGuidesPagedQuery)
-        assertEquals("author-id", repository.lastFindGuidesPagedUserId)
+        assertEquals(page, repository.lastFindGuidesPagedPage)
+        assertEquals(limit, repository.lastFindGuidesPagedLimit)
+        assertEquals(query, repository.lastFindGuidesPagedQuery)
+        assertEquals(userId, repository.lastFindGuidesPagedUserId)
     }
 
     @Test
@@ -37,7 +42,7 @@ class FindGuidesUseCaseImplTest {
         val useCase = FindGuidesUseCaseImpl(repository)
 
         // When
-        val result = useCase(page = 1, limit = 10)
+        val result = useCase(page = Random.nextInt(1, 10), limit = Random.nextInt(10, 50))
 
         // Then
         assertIs<Result.Failure>(result)

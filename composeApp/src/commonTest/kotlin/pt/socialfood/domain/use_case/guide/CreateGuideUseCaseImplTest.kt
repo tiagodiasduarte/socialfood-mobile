@@ -7,6 +7,7 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.fakes.FakeGuidesRepository
 import pt.socialfood.fakes.FakeUsersRepository
 import pt.socialfood.random.nextGuide
+import pt.socialfood.random.nextString
 import pt.socialfood.random.nextUser
 import kotlin.random.Random
 import kotlin.test.Test
@@ -21,7 +22,8 @@ class CreateGuideUseCaseImplTest {
         val useCase = CreateGuideUseCaseImpl(guidesRepository, FakeUsersRepository(currentUser = null))
 
         // When
-        val result = useCase(title = "Guide Title", description = "Description", visibility = GuideVisibility.PUBLIC)
+        val result =
+            useCase(title = Random.nextString(), description = Random.nextString(), visibility = GuideVisibility.PUBLIC)
 
         // Then
         assertIs<Result.Failure>(result)
@@ -33,16 +35,18 @@ class CreateGuideUseCaseImplTest {
         // Given
         val user = Random.nextUser()
         val guide = Random.nextGuide()
+        val title = Random.nextString()
+        val description = Random.nextString()
         val guidesRepository = FakeGuidesRepository(createResult = Result.Success(guide))
         val useCase = CreateGuideUseCaseImpl(guidesRepository, FakeUsersRepository(currentUser = user))
 
         // When
-        val result = useCase(title = "Guide Title", description = "Description", visibility = GuideVisibility.PRIVATE)
+        val result = useCase(title = title, description = description, visibility = GuideVisibility.PRIVATE)
 
         // Then
         assertEquals(Result.Success(guide), result)
-        assertEquals("Guide Title", guidesRepository.lastCreateName)
-        assertEquals("Description", guidesRepository.lastCreateDescription)
+        assertEquals(title, guidesRepository.lastCreateName)
+        assertEquals(description, guidesRepository.lastCreateDescription)
         assertEquals(user.id, guidesRepository.lastCreateUserId)
     }
 
@@ -55,7 +59,8 @@ class CreateGuideUseCaseImplTest {
         val useCase = CreateGuideUseCaseImpl(guidesRepository, usersRepository)
 
         // When
-        val result = useCase(title = "Guide Title", description = "Description", visibility = GuideVisibility.PUBLIC)
+        val result =
+            useCase(title = Random.nextString(), description = Random.nextString(), visibility = GuideVisibility.PUBLIC)
 
         // Then
         assertIs<Result.Failure>(result)

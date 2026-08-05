@@ -5,6 +5,7 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.fakes.FakeGuidesRepository
 import pt.socialfood.random.nextGuide
+import pt.socialfood.random.nextString
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -34,7 +35,7 @@ class GetGuideByIdUseCaseImplTest {
         val useCase = GetGuideByIdUseCaseImpl(repository)
 
         // When
-        val result = useCase("guide-id")
+        val result = useCase(Random.nextString())
 
         // Then
         assertIs<Result.Failure>(result)

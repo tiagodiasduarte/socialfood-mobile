@@ -2453,6 +2453,9 @@
         <error line="1" column="9" source="standard:package-name" />
         <error line="32" column="69" source="standard:function-signature" />
     </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/presentation/sign_up/SignUpViewModelTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/startup/StartupViewModelTest.kt">
         <error line="20" column="121" source="standard:max-line-length" />
         <error line="60" column="121" source="standard:max-line-length" />

@@ -218,6 +218,9 @@ tasks.withType<Detekt>().configureEach {
 }
 
 kover {
+    currentProject {
+        copyVariant("businessLogic", "debug")
+    }
     reports {
         filters {
             excludes {
@@ -256,8 +259,27 @@ kover {
                 onCheck = true
             }
         }
+        variant("businessLogic") {
+            filters {
+                includes {
+                    classes(
+                        "*RepositoryImpl",
+                        $$"*RepositoryImpl$*",
+                        "*UseCaseImpl",
+                        $$"*UseCaseImpl$*",
+                        "*ViewModel",
+                        $$"*ViewModel$*",
+                    )
+                }
+            }
+            verify {
+                rule("Repository, use case and ViewModel coverage") {
+                    minBound(minValue = 85, coverageUnits = CoverageUnit.LINE)
+                }
+            }
+        }
         verify {
-            rule {
+            rule("Overall coverage") {
                 minBound(minValue = 19, coverageUnits = CoverageUnit.LINE)
             }
         }

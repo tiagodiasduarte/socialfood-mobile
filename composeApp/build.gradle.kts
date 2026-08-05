@@ -241,7 +241,7 @@ kover {
             }
         }
         verify {
-            rule {
+            rule("Overall coverage") {
                 minBound(minValue = 19, coverageUnits = CoverageUnit.LINE)
             }
         }

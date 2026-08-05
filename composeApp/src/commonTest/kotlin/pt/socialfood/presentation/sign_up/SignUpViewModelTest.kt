@@ -6,10 +6,13 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.fakes.FakeRegisterUseCase
+import pt.socialfood.random.nextEmail
+import pt.socialfood.random.nextString
 import pt.socialfood.runner.runTestWithMainDispatcher
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.sign_up_fill_all_fields
 import socialfood.composeapp.generated.resources.sign_up_password_mismatch
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -20,12 +23,13 @@ class SignUpViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val vm = SignUpViewModel(FakeRegisterUseCase())
+            val password = Random.nextString()
 
             vm.state.test {
                 assertEquals(SignUpUiState.Idle, awaitItem())
 
                 // When
-                vm.onSignUp(name = "", email = "user@test.com", password = "password", confirmPassword = "password")
+                vm.onSignUp(name = "", email = Random.nextEmail(), password = password, confirmPassword = password)
 
                 // Then
                 assertEquals(SignUpUiState.ValidationError(Res.string.sign_up_fill_all_fields), awaitItem())
@@ -42,7 +46,12 @@ class SignUpViewModelTest {
                 assertEquals(SignUpUiState.Idle, awaitItem())
 
                 // When
-                vm.onSignUp(name = "John", email = "user@test.com", password = "password", confirmPassword = "other")
+                vm.onSignUp(
+                    name = Random.nextString(),
+                    email = Random.nextEmail(),
+                    password = Random.nextString(),
+                    confirmPassword = Random.nextString(),
+                )
 
                 // Then
                 assertEquals(SignUpUiState.ValidationError(Res.string.sign_up_password_mismatch), awaitItem())
@@ -55,24 +64,22 @@ class SignUpViewModelTest {
             // Given
             val useCase = FakeRegisterUseCase(Result.Success(true))
             val vm = SignUpViewModel(useCase)
+            val name = Random.nextString()
+            val email = Random.nextEmail()
+            val password = Random.nextString()
 
             vm.state.test {
                 assertEquals(SignUpUiState.Idle, awaitItem())
 
                 // When
-                vm.onSignUp(
-                    name = "John",
-                    email = "user@test.com",
-                    password = "password",
-                    confirmPassword = "password",
-                )
+                vm.onSignUp(name = name, email = email, password = password, confirmPassword = password)
 
                 // Then
                 assertEquals(SignUpUiState.Loading, awaitItem())
-                assertEquals(SignUpUiState.Success("user@test.com"), awaitItem())
+                assertEquals(SignUpUiState.Success(email), awaitItem())
             }
-            assertEquals("John", useCase.lastName)
-            assertEquals("password", useCase.lastPassword)
+            assertEquals(name, useCase.lastName)
+            assertEquals(password, useCase.lastPassword)
         }
 
     @Test
@@ -80,17 +87,15 @@ class SignUpViewModelTest {
         // Given
         val useCase = FakeRegisterUseCase(Result.Failure(DataError.Network(Exception("test error"))))
         val vm = SignUpViewModel(useCase)
+        val name = Random.nextString()
+        val email = Random.nextEmail()
+        val password = Random.nextString()
 
         vm.state.test {
             assertEquals(SignUpUiState.Idle, awaitItem())
 
             // When
-            vm.onSignUp(
-                name = "John",
-                email = "user@test.com",
-                password = "password",
-                confirmPassword = "password",
-            )
+            vm.onSignUp(name = name, email = email, password = password, confirmPassword = password)
 
             // Then
             assertEquals(SignUpUiState.Loading, awaitItem())

@@ -6,44 +6,43 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.model.User
 import pt.socialfood.fakes.FakeGetUserMeUseCase
 import pt.socialfood.fakes.FakeLogoutUseCase
 import pt.socialfood.fakes.FakeObserveUserUseCase
+import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ProfileViewModelTest {
-    private val fakeUser = User(id = "user-id", email = "user@test.com", name = "Test User", username = "testuser")
 
     @Test
     fun `given getUserMe succeeds when created then state is Loaded with user`() = runTestWithMainDispatcher {
         // Given
-        val vm =
-            ProfileViewModel(
-                getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
-                logout = FakeLogoutUseCase(),
-                observeUser = FakeObserveUserUseCase(),
-            )
+        val user = Random.nextUser()
+        val vm = ProfileViewModel(
+            getUserMe = FakeGetUserMeUseCase(Result.Success(user)),
+            logout = FakeLogoutUseCase(),
+            observeUser = FakeObserveUserUseCase(),
+        )
 
         // When / Then
         vm.state.test {
             assertEquals(ProfileUiState.Loading, awaitItem())
-            assertEquals(ProfileUiState.Loaded(fakeUser), awaitItem())
+            assertEquals(ProfileUiState.Loaded(user), awaitItem())
         }
     }
 
     @Test
     fun `given getUserMe fails when created then state is Error`() = runTestWithMainDispatcher {
         // Given
-        val vm =
-            ProfileViewModel(
-                getUserMe = FakeGetUserMeUseCase(Result.Failure(DataError.Network(Exception("test error")))),
-                logout = FakeLogoutUseCase(),
-                observeUser = FakeObserveUserUseCase(),
-            )
+        val vm = ProfileViewModel(
+            getUserMe = FakeGetUserMeUseCase(Result.Failure(DataError.Network(Exception("test error")))),
+            logout = FakeLogoutUseCase(),
+            observeUser = FakeObserveUserUseCase(),
+        )
 
         // When / Then
         vm.state.test {
@@ -56,19 +55,20 @@ class ProfileViewModelTest {
     fun `given observeUser emits an updated user when collected then state reflects the new user`() =
         runTestWithMainDispatcher {
             // Given
+            val user = Random.nextUser()
             val observeUser = FakeObserveUserUseCase()
-            val vm =
-                ProfileViewModel(
-                    getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
-                    logout = FakeLogoutUseCase(),
-                    observeUser = observeUser,
-                )
-            val updatedUser = fakeUser.copy(name = "Updated Name")
+
+            val vm = ProfileViewModel(
+                getUserMe = FakeGetUserMeUseCase(Result.Success(user)),
+                logout = FakeLogoutUseCase(),
+                observeUser = observeUser,
+            )
+            val updatedUser = user.copy(name = "Updated Name")
 
             // When / Then
             vm.state.test {
                 assertEquals(ProfileUiState.Loading, awaitItem())
-                assertEquals(ProfileUiState.Loaded(fakeUser), awaitItem())
+                assertEquals(ProfileUiState.Loaded(user), awaitItem())
 
                 observeUser.emit(updatedUser)
 
@@ -80,17 +80,17 @@ class ProfileViewModelTest {
     fun `given logout is called then invokes logout use case and state becomes LoggedOut`() =
         runTestWithMainDispatcher {
             // Given
+            val user = Random.nextUser()
             val logout = FakeLogoutUseCase()
-            val vm =
-                ProfileViewModel(
-                    getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
-                    logout = logout,
-                    observeUser = FakeObserveUserUseCase(),
-                )
+            val vm = ProfileViewModel(
+                getUserMe = FakeGetUserMeUseCase(Result.Success(user)),
+                logout = logout,
+                observeUser = FakeObserveUserUseCase(),
+            )
 
             vm.state.test {
                 assertEquals(ProfileUiState.Loading, awaitItem())
-                assertEquals(ProfileUiState.Loaded(fakeUser), awaitItem())
+                assertEquals(ProfileUiState.Loaded(user), awaitItem())
 
                 // When
                 vm.logout()

@@ -29,16 +29,15 @@ class SignInViewModelTest {
     }
 
     @Test
-    fun `given a new view model when created then state is Idle`() =
-        runTest {
-            // Given
-            val vm = createViewModel(Result.Success("token"))
+    fun `given a new view model when created then state is Idle`() = runTest {
+        // Given
+        val vm = createViewModel(Result.Success("token"))
 
-            // When / Then
-            vm.state.test {
-                assertEquals(SignInUiState.Idle, awaitItem())
-            }
+        // When / Then
+        vm.state.test {
+            assertEquals(SignInUiState.Idle, awaitItem())
         }
+    }
 
     @Test
     fun `given an empty email when sign in is called then state is InvalidCredentials error`() =
@@ -105,6 +104,76 @@ class SignInViewModelTest {
             // Then
             assertEquals(SignInUiState.Loading, awaitItem())
             assertEquals(SignInUiState.Error(ErrorCode.NETWORK), awaitItem())
+        }
+    }
+
+    @Test
+    fun `given google sign in succeeds when onGoogleSignIn is called then state is Success`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm = createViewModel(Result.Success("token"))
+
+            vm.state.test {
+                assertEquals(SignInUiState.Idle, awaitItem())
+
+                // When
+                vm.onGoogleSignIn("id-token")
+
+                // Then
+                assertEquals(SignInUiState.Loading, awaitItem())
+                assertEquals(SignInUiState.Success, awaitItem())
+            }
+        }
+
+    @Test
+    fun `given google sign in fails when onGoogleSignIn is called then state is Error`() = runTestWithMainDispatcher {
+        // Given
+        val vm = createViewModel(Result.Failure(DataError.Network(Exception("test error"))))
+
+        vm.state.test {
+            assertEquals(SignInUiState.Idle, awaitItem())
+
+            // When
+            vm.onGoogleSignIn("id-token")
+
+            // Then
+            assertEquals(SignInUiState.Loading, awaitItem())
+            assertEquals(SignInUiState.Error(ErrorCode.NETWORK), awaitItem())
+        }
+    }
+
+    @Test
+    fun `given onGoogleSignInError is called then state is Error UNKNOWN`() = runTestWithMainDispatcher {
+        // Given
+        val vm = createViewModel(Result.Success("token"))
+
+        vm.state.test {
+            assertEquals(SignInUiState.Idle, awaitItem())
+
+            // When
+            vm.onGoogleSignInError("cancelled")
+
+            // Then
+            assertEquals(SignInUiState.Error(ErrorCode.UNKNOWN), awaitItem())
+        }
+    }
+
+    @Test
+    fun `given an error state when resetState is called then state becomes Idle`() = runTestWithMainDispatcher {
+        // Given
+        val vm = createViewModel(Result.Failure(DataError.Network(Exception("test error"))))
+
+        vm.state.test {
+            assertEquals(SignInUiState.Idle, awaitItem())
+            vm.onSignIn("user@test.com", "password")
+            assertEquals(SignInUiState.Loading, awaitItem())
+            assertEquals(SignInUiState.Error(ErrorCode.NETWORK), awaitItem())
+
+            // When
+            vm.resetState()
+
+            // Then
+            assertEquals(SignInUiState.Idle, awaitItem())
         }
     }
 }

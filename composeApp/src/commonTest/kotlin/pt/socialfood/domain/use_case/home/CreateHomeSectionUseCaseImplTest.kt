@@ -15,7 +15,7 @@ import kotlin.test.assertIs
 
 class CreateHomeSectionUseCaseImplTest {
     @Test
-    fun `given repository succeeds when invoked then forwards title, type and position`() = runTest {
+    fun `given repository succeeds when invoked then forwards title type and position`() = runTest {
         // Given
         val section = Random.nextHomeSection()
         val title = Random.nextString()

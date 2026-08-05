@@ -2305,6 +2305,30 @@
     <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/restaurant/UpdateRestaurantUseCaseImplTest.kt">
         <error line="1" column="9" source="standard:package-name" />
     </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/FindUsersUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/GetPresignedUrlUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/GetUserByIdUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/GetUserMeUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/GetUsersUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/ObserveUserUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/UpdateUserPhotoUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/UpdateUserUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
     <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeAddRestaurantByPlaceIdUseCase.kt">
         <error line="7" column="5" source="standard:class-signature" />
         <error line="7" column="61" source="standard:class-signature" />

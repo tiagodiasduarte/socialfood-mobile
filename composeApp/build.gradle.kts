@@ -231,6 +231,22 @@ kover {
                     "$appNamespace.di.*",
                     "$appNamespace.data.network.model.*",
                     "$appNamespace.presentation.navigation.Route*",
+                    // Presentational-only: no ViewModel or business logic, just Composable UI.
+                    "$appNamespace.presentation.components.*",
+                    "$appNamespace.ui.theme.*",
+                    "$appNamespace.presentation.author.follow.*",
+                    "$appNamespace.presentation.guide.create.restaurants.*",
+                    "$appNamespace.presentation.guide.detail.author.*",
+                    "$appNamespace.presentation.guide.detail.restaurant.*",
+                    "$appNamespace.presentation.guide.edit.card.*",
+                    "$appNamespace.presentation.profile.edit.card.*",
+                    "$appNamespace.presentation.google.*",
+                    "$appNamespace.presentation.image_picker.*",
+                    "$appNamespace.presentation.splash.*",
+                    "$appNamespace.presentation.restaurant.RestaurantCardKt",
+                    "$appNamespace.presentation.navigation.BottomNavItemKt",
+                    "$appNamespace.presentation.navigation.BottomNavigationBarKt",
+                    "$appNamespace.presentation.navigation.NavigationRootKt",
                 )
                 annotatedBy("androidx.compose.ui.tooling.preview.Preview")
             }

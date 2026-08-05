@@ -29,7 +29,7 @@ class AddRestaurantGuideUseCaseImplTest {
     }
 
     @Test
-    fun `given a current user when invoked then forwards guideId, userId and placeId to the repository`() = runTest {
+    fun `given a current user when invoked then forwards guideId userId and placeId to the repository`() = runTest {
         // Given
         val user = Random.nextUser()
         val guide = Random.nextGuide()

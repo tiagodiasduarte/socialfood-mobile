@@ -13,7 +13,7 @@ import kotlin.test.assertIs
 
 class FindGuidesUseCaseImplTest {
     @Test
-    fun `given repository succeeds when invoked then forwards page, limit, query and userId`() = runTest {
+    fun `given repository succeeds when invoked then forwards page limit query and userId`() = runTest {
         // Given
         val paged = Random.nextPagedGuides()
         val page = Random.nextInt(1, 10)

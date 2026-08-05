@@ -34,7 +34,7 @@ class CreateGuideUseCaseImplTest {
     }
 
     @Test
-    fun `given a current user when invoked then forwards title, description and userId to the repository`() = runTest {
+    fun `given a current user when invoked then forwards title description and userId to the repository`() = runTest {
         // Given
         val user = Random.nextUser()
         val guide = Random.nextGuide()

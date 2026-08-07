@@ -1,5 +1,6 @@
 package pt.socialfood.presentation.guide
 
+import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -131,6 +132,19 @@ class GuidesViewModelTest {
             assertEquals(otherUser.id, getGuidesPaging.lastUserId)
             job.cancel()
         }
+
+    @Test
+    fun `given the current user is observed then user reflects the emitted value`() = runTestWithMainDispatcher {
+        // Given
+        val observeUser = FakeObserveUserUseCase(initial = fakeUser)
+
+        // When / Then
+        val vm = createViewModel(observeUser = observeUser)
+        vm.user.test {
+            awaitItem()
+            assertEquals(fakeUser, awaitItem())
+        }
+    }
 
     @Test
     fun `given favourite ids are observed then favouriteGuideIds reflects them`() =

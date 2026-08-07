@@ -17,18 +17,21 @@ import pt.socialfood.domain.use_case.favourite.restaurant.MarkRestaurantFavourit
 import pt.socialfood.domain.use_case.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
 import pt.socialfood.domain.use_case.home.GetHomeSectionsUseCase
 import pt.socialfood.domain.use_case.home.ObserveHomeSectionsUseCase
+import pt.socialfood.domain.use_case.user.ObserveUserUseCase
 import pt.socialfood.fakes.FakeGetHomeSectionsUseCase
 import pt.socialfood.fakes.FakeIsGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeIsRestaurantFavouriteUseCase
 import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeMarkRestaurantFavouriteUseCase
 import pt.socialfood.fakes.FakeObserveHomeSectionsUseCase
+import pt.socialfood.fakes.FakeObserveUserUseCase
 import pt.socialfood.fakes.FakeUnmarkGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeUnmarkRestaurantFavouriteUseCase
 import pt.socialfood.random.nextGuide
 import pt.socialfood.random.nextHomeSection
 import pt.socialfood.random.nextHomeSectionItem
 import pt.socialfood.random.nextRestaurant
+import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.random.Random
 import kotlin.test.Test
@@ -48,6 +51,7 @@ class HomeViewModelTest {
         isActive = true,
     )
 
+    @Suppress("LongParameterList")
     private fun createViewModel(
         getHomeSections: GetHomeSectionsUseCase = FakeGetHomeSectionsUseCase(),
         isRestaurantFavourite: IsRestaurantFavouriteUseCase = FakeIsRestaurantFavouriteUseCase(),
@@ -56,6 +60,7 @@ class HomeViewModelTest {
         isGuideFavourite: IsGuideFavouriteUseCase = FakeIsGuideFavouriteUseCase(),
         markGuideFavourite: MarkGuideFavouriteUseCase = FakeMarkGuideFavouriteUseCase(),
         unmarkGuideFavourite: UnmarkGuideFavouriteUseCase = FakeUnmarkGuideFavouriteUseCase(),
+        observeUser: ObserveUserUseCase = FakeObserveUserUseCase(),
         observeHomeSections: ObserveHomeSectionsUseCase = FakeObserveHomeSectionsUseCase(),
     ) = HomeViewModel(
         getHomeSections,
@@ -65,8 +70,41 @@ class HomeViewModelTest {
         isGuideFavourite,
         markGuideFavourite,
         unmarkGuideFavourite,
+        observeUser,
         observeHomeSections,
     )
+
+    @Test
+    fun `given the current user is observed then user reflects the emitted value`() = runTestWithMainDispatcher {
+        // Given
+        val currentUser = Random.nextUser()
+        val observeUser = FakeObserveUserUseCase(initial = currentUser)
+
+        // When / Then
+        val vm = createViewModel(observeUser = observeUser)
+        vm.user.test {
+            awaitItem()
+            assertEquals(currentUser, awaitItem())
+        }
+    }
+
+    @Test
+    fun `given the current user changes when a new value is emitted then user updates`() = runTestWithMainDispatcher {
+        // Given
+        val observeUser = FakeObserveUserUseCase()
+        val vm = createViewModel(observeUser = observeUser)
+
+        vm.user.test {
+            awaitItem()
+
+            // When
+            val updated = Random.nextUser()
+            observeUser.emit(updated)
+
+            // Then
+            assertEquals(updated, awaitItem())
+        }
+    }
 
     @Test
     fun `given the cache is observed then sections reflects the emitted values`() = runTestWithMainDispatcher {

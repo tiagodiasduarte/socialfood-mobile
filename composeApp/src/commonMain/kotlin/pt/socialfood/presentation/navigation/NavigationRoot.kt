@@ -109,6 +109,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                     ),
                                 )
                             },
+                            onProfileClick = { navigator.navigate(Route.Profile) },
                         )
                     }
                     entry<Route.CreateGuide> {
@@ -147,6 +148,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         GuidesScreen(
                             onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                             onAddClick = { navigator.navigate(Route.CreateGuide) },
+                            onProfileClick = { navigator.navigate(Route.Profile) },
                         )
                     }
                     entry<Route.FavouriteGuides> {
@@ -169,6 +171,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             onRestaurantClick = { restaurantId ->
                                 navigator.navigate(Route.RestaurantDetail(restaurantId))
                             },
+                            onProfileClick = { navigator.navigate(Route.Profile) },
                         )
                     }
                     entry<Route.Profile> {

@@ -14,6 +14,7 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.HomeSection
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.domain.model.User
 import pt.socialfood.domain.use_case.favourite.guide.IsGuideFavouriteUseCase
 import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
@@ -22,8 +23,10 @@ import pt.socialfood.domain.use_case.favourite.restaurant.MarkRestaurantFavourit
 import pt.socialfood.domain.use_case.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
 import pt.socialfood.domain.use_case.home.GetHomeSectionsUseCase
 import pt.socialfood.domain.use_case.home.ObserveHomeSectionsUseCase
+import pt.socialfood.domain.use_case.user.ObserveUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
+@Suppress("LongParameterList")
 class HomeViewModel(
     private val getHomeSections: GetHomeSectionsUseCase,
     private val isRestaurantFavourite: IsRestaurantFavouriteUseCase,
@@ -32,6 +35,7 @@ class HomeViewModel(
     private val isGuideFavourite: IsGuideFavouriteUseCase,
     private val markGuideFavourite: MarkGuideFavouriteUseCase,
     private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
+    observeUser: ObserveUserUseCase,
     observeHomeSections: ObserveHomeSectionsUseCase,
 ) : ViewModel() {
     private val _state = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -39,6 +43,10 @@ class HomeViewModel(
 
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing
+
+    val user: StateFlow<User?> =
+        observeUser()
+            .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     val sections: StateFlow<List<HomeSection>> =
         observeHomeSections()
@@ -102,6 +110,7 @@ class HomeViewModel(
                         favouriteGuideIds = favouriteGuideIds,
                     )
             }
+
             is Result.Failure -> _state.value = HomeUiState.Error(result.error.toErrorCode())
         }
     }

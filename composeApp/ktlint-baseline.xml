@@ -1103,8 +1103,8 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/author/list/AuthorsScreen.kt">
         <error line="39" column="5" source="standard:function-naming" />
-        <error line="57" column="13" source="standard:function-naming" />
-        <error line="135" column="13" source="standard:function-naming" />
+        <error line="58" column="13" source="standard:function-naming" />
+        <error line="136" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/author/list/AuthorsViewModel.kt">
         <error line="17" column="5" source="standard:class-signature" />

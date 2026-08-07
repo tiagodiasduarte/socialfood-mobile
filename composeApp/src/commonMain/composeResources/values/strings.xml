@@ -45,21 +45,23 @@
     <string name="home_list_see_all_label">See All</string>
     <string name="home_list_view_all_label">View All</string>
 
-    <string name="profile_contact_card_title_label">Contact Information</string>
     <string name="profile_stat_guides_label">Guides</string>
     <string name="profile_stat_followers_label">Followers</string>
     <string name="profile_stat_following_label">Following</string>
-    <string name="profile_guides_button">Guides</string>
-    <string name="profile_guides_button_description">Guides button</string>
     <string name="profile_favorite_guides_button">Favorite Guides</string>
     <string name="profile_favorite_guides_button_description">Favorite Guides button</string>
     <string name="profile_favorites_restaurants_button">Favorites Restaurants</string>
     <string name="profile_favorites_restaurants_button_description">Favorites Restaurants button</string>
+    <string name="profile_top_restaurants_button">Top Restaurants</string>
+    <string name="profile_top_restaurants_button_description">Top Restaurants button</string>
+    <string name="profile_settings_button">Settings</string>
+    <string name="profile_settings_button_description">Settings button</string>
     <string name="profile_logout_button">Log Out</string>
     <string name="profile_logout_button_description">Log Out button</string>
 
     <string name="profile_edit_profile_button">Edit Profile</string>
     <string name="profile_edit_profile_button_description">Edit profile button</string>
+    <string name="profile_drawer_close_button_description">Close menu</string>
 
     <string name="guide_detail_error_label">Failed to load guide</string>
     <string name="guide_detail_restaurants_section_title">Restaurants in this guide</string>

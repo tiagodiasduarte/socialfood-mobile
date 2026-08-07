@@ -319,7 +319,7 @@ val useCaseModule =
 val viewModelModule =
     module {
         factory { (authorId: String) -> AuthorDetailViewModel(get(), authorId) }
-        factory { AuthorsViewModel(get()) }
+        factory { AuthorsViewModel(get(), get()) }
         factory { CreateGuideViewModel(get(), get(), get()) }
         factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), get(), guideId) }
         factory { EditProfileViewModel(get(), get(), get(), get(), get(), get()) }
@@ -327,7 +327,7 @@ val viewModelModule =
         factory { FavouriteRestaurantsViewModel(get(), get()) }
         factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
         factory { GuidesViewModel(get(), get(), get(), get(), get()) }
-        factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
+        factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
         factory { ProfileViewModel(get(), get(), get()) }
         factory { (restaurantId: String) -> RestaurantDetailViewModel(get(), get(), get(), get(), restaurantId) }
         factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }

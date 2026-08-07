@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pt.socialfood.domain.model.Guide
+import pt.socialfood.domain.model.User
 import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.use_case.favourite.guide.ObserveFavouriteGuideIdsUseCase
 import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
@@ -36,6 +37,9 @@ class GuidesViewModel(
 
     private val _selectedTab = MutableStateFlow(ALL_GUIDES_TAB)
     val selectedTab: StateFlow<Int> = _selectedTab.asStateFlow()
+
+    val user: StateFlow<User?> = observeUser()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     val guides: Flow<PagingData<Guide>> = combine(_selectedTab, observeUser()) { tab, user ->
         if (tab == MY_GUIDES_TAB) user?.id else null

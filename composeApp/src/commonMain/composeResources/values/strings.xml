@@ -171,9 +171,12 @@
     <string name="social_youtube_icon_description">YouTube</string>
 
     <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_search">Search</string>
     <string name="bottom_nav_guides">Guides</string>
     <string name="bottom_nav_authors">Authors</string>
     <string name="bottom_nav_profile">Profile</string>
+
+    <string name="search_search_placeholder">Search…</string>
 
     <string name="no_results_title">No Results Found</string>
     <string name="no_results_subtitle">We couldn’t find any matches for your search.</string>

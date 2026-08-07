@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Logout
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.outlined.EmojiEvents
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Restaurant
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.CircularProgressIndicator
@@ -27,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -57,6 +60,8 @@ import socialfood.composeapp.generated.resources.profile_favorites_restaurants_b
 import socialfood.composeapp.generated.resources.profile_favorites_restaurants_button_description
 import socialfood.composeapp.generated.resources.profile_logout_button
 import socialfood.composeapp.generated.resources.profile_logout_button_description
+import socialfood.composeapp.generated.resources.profile_profile_button
+import socialfood.composeapp.generated.resources.profile_profile_button_description
 import socialfood.composeapp.generated.resources.profile_settings_button
 import socialfood.composeapp.generated.resources.profile_settings_button_description
 import socialfood.composeapp.generated.resources.profile_stat_followers_label
@@ -66,6 +71,7 @@ import socialfood.composeapp.generated.resources.profile_top_restaurants_button
 import socialfood.composeapp.generated.resources.profile_top_restaurants_button_description
 
 private val DrawerAvatarSize = 64.dp
+private val DrawerAvatarRingSize = 72.dp
 
 @Composable
 fun ProfileDrawerContent(
@@ -147,7 +153,15 @@ private fun DrawerUserContent(
             }
 
             Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.medium)) {
-                UserImage(name = user.name, imageUrl = user.imageUrl, imageSize = DrawerAvatarSize)
+                Box(
+                    modifier = Modifier
+                        .size(DrawerAvatarRingSize)
+                        .clip(CircleShape)
+                        .background(Color.White),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    UserImage(name = user.name, imageUrl = user.imageUrl, imageSize = DrawerAvatarSize)
+                }
 
                 Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.small)) {
                     Text(
@@ -169,6 +183,11 @@ private fun DrawerUserContent(
         Column(
             modifier = Modifier.padding(vertical = SpaceSize.medium),
         ) {
+            DrawerMenuRow(
+                icon = Icons.Outlined.Person,
+                label = stringResource(Res.string.profile_profile_button),
+                contentDescription = stringResource(Res.string.profile_profile_button_description),
+            )
             DrawerMenuRow(
                 icon = Icons.Outlined.EmojiEvents,
                 label = stringResource(Res.string.profile_top_restaurants_button),

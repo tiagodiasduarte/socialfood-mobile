@@ -223,7 +223,13 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             )
                         }
                         entry<Route.Search> {
-                            SearchScreen()
+                            SearchScreen(
+                                onAuthorClick = { authorId -> navigator.navigate(Route.AuthorDetail(authorId)) },
+                                onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+                                onRestaurantClick = { restaurantId ->
+                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
+                                },
+                            )
                         }
                     },
                 ),

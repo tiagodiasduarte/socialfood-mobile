@@ -88,13 +88,13 @@ class KtorHttpClient(
                     val body = try {
                         response.body<ErrorResponse>()
                     } catch (@Suppress("TooGenericExceptionCaught") _: Exception) {
-                        return@validateResponse
+                        null
                     }
 
                     throw ApiException(
                         response = response,
-                        errorCode = ErrorCode.from(body.error),
-                        message = body.message,
+                        errorCode = body?.let { ErrorCode.from(it.error) } ?: ErrorCode.UNKNOWN,
+                        message = body?.message ?: response.status.description,
                     )
                 }
             }

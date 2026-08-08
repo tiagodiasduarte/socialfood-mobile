@@ -1795,9 +1795,9 @@
         <error line="169" column="5" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchAuthorItem.kt">
-        <error line="36" column="5" source="standard:function-naming" />
-        <error line="74" column="13" source="standard:function-naming" />
-        <error line="93" column="13" source="standard:function-naming" />
+        <error line="38" column="5" source="standard:function-naming" />
+        <error line="78" column="13" source="standard:function-naming" />
+        <error line="97" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchGuideItem.kt">
         <error line="42" column="5" source="standard:function-naming" />

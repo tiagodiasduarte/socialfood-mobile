@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import pt.socialfood.ui.theme.AppTypography
@@ -33,7 +32,7 @@ internal fun SearchSectionHeader(icon: ImageVector, title: String, modifier: Mod
 
         Text(
             text = title.uppercase(),
-            style = AppTypography.labelLarge.copy(fontWeight = FontWeight.Bold, letterSpacing = 0.5.sp),
+            style = AppTypography.labelLarge.copy(letterSpacing = 1.sp),
             color = MaterialTheme.colorScheme.primary,
         )
     }

@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -37,7 +37,7 @@ import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.ui.theme.StarColor
 
-private val ThumbnailSize = 64.dp
+private val ThumbnailSize = 75.dp
 
 @Suppress("LongMethod")
 @Composable
@@ -49,7 +49,7 @@ fun SearchRestaurantItem(restaurant: Restaurant, onClick: () -> Unit = {}, modif
         elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = SpaceSize.medium, vertical = SpaceSize.large),
+            modifier = Modifier.padding(SpaceSize.large),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
         ) {
@@ -69,7 +69,10 @@ fun SearchRestaurantItem(restaurant: Restaurant, onClick: () -> Unit = {}, modif
                 }
             }
 
-            Column(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+            ) {
                 Text(
                     text = restaurant.name,
                     style = AppTypography.bodyLarge,
@@ -77,9 +80,6 @@ fun SearchRestaurantItem(restaurant: Restaurant, onClick: () -> Unit = {}, modif
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-
-                Spacer(Modifier.height(SpaceSize.medium))
-
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Row(
                         modifier = Modifier.weight(1f),
@@ -101,24 +101,29 @@ fun SearchRestaurantItem(restaurant: Restaurant, onClick: () -> Unit = {}, modif
                             overflow = TextOverflow.Ellipsis,
                         )
                     }
+                }
 
-                    Row(
-                        modifier = Modifier.padding(horizontal = SpaceSize.small),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Star,
-                            contentDescription = null,
-                            tint = StarColor,
-                            modifier = Modifier.size(14.dp),
-                        )
-                        Text(
-                            text = restaurant.rating.toString(),
-                            style = AppTypography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-                    }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Star,
+                        contentDescription = null,
+                        tint = StarColor,
+                        modifier = Modifier.size(14.dp),
+                    )
+                    Text(
+                        text = restaurant.rating.toString(),
+                        style = AppTypography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                    Spacer(Modifier.width(SpaceSize.small))
+                    Text(
+                        text = "(${restaurant.userRatingCount})",
+                        style = AppTypography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
             }
         }

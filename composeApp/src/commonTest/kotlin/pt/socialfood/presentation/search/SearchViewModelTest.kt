@@ -24,10 +24,11 @@ class SearchViewModelTest {
 
             // When
             vm.onSearchQueryChange("   ")
+            advanceUntilIdle()
 
             // Then
             assertEquals(SearchUiState.Loaded(emptyList()), vm.state.value)
-            assertEquals("   ", vm.searchQuery)
+            assertEquals("   ", vm.query.value)
         }
 
     @Test
@@ -43,7 +44,7 @@ class SearchViewModelTest {
 
             // Then
             assertEquals(0, search.invokeCount)
-            assertEquals("a", vm.searchQuery)
+            assertEquals("a", vm.query.value)
         }
 
     @Test
@@ -98,6 +99,6 @@ class SearchViewModelTest {
 
             // Then
             assertEquals(1, search.invokeCount)
-            assertEquals("pizza", vm.searchQuery)
+            assertEquals("pizza", vm.query.value)
         }
 }

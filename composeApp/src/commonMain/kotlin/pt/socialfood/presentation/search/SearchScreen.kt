@@ -49,9 +49,10 @@ fun SearchScreen(
     onRestaurantClick: (restaurantId: String) -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val searchQuery by viewModel.query.collectAsStateWithLifecycle()
 
     SearchScreenContent(
-        searchQuery = viewModel.searchQuery,
+        searchQuery = searchQuery,
         state = state,
         onQueryChange = viewModel::onSearchQueryChange,
         onResultClick = { result ->

@@ -1806,16 +1806,16 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchRestaurantItem.kt">
         <error line="44" column="5" source="standard:function-naming" />
-        <error line="130" column="13" source="standard:function-naming" />
+        <error line="135" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchScreen.kt">
         <error line="45" column="5" source="standard:function-naming" />
-        <error line="69" column="5" source="standard:function-naming" />
-        <error line="114" column="13" source="standard:function-naming" />
-        <error line="176" column="13" source="standard:function-naming" />
+        <error line="70" column="5" source="standard:function-naming" />
+        <error line="115" column="13" source="standard:function-naming" />
+        <error line="177" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchSectionHeader.kt">
-        <error line="21" column="14" source="standard:function-naming" />
+        <error line="20" column="14" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_in/SignInScreen.kt">
         <error line="1" column="9" source="standard:package-name" />

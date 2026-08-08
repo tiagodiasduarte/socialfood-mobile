@@ -1,13 +1,11 @@
 package pt.socialfood.mapper
 
-import pt.socialfood.data.api.PlacesApi.Companion.buildImageUrl
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.author.AuthorResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.data.network.model.search.SearchResponse
 import pt.socialfood.domain.model.Search
-import pt.socialfood.domain.model.SearchResultType
 import pt.socialfood.random.nextEnum
 import pt.socialfood.random.nextNullable
 import pt.socialfood.random.nextString
@@ -15,6 +13,7 @@ import pt.socialfood.random.nextUrl
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class SearchMapperTest {
     private fun randomAuthorResponse() = AuthorResponse(
@@ -73,34 +72,16 @@ class SearchMapperTest {
         // Then
         assertEquals(
             listOf(
-                Search(
-                    id = authorResponse.id,
-                    name = authorResponse.name,
-                    description = "@${authorResponse.username}",
-                    imageUrl = authorResponse.imageUrl,
-                    type = SearchResultType.AUTHOR,
-                ),
-                Search(
-                    id = guideResponse.id,
-                    name = guideResponse.name,
-                    description = guideResponse.description,
-                    imageUrl = guideResponse.imageUrl,
-                    type = SearchResultType.GUIDE,
-                ),
-                Search(
-                    id = restaurantResponse.id,
-                    name = restaurantResponse.name,
-                    description = restaurantResponse.description.orEmpty(),
-                    imageUrl = buildImageUrl(restaurantResponse.photoNames.first()),
-                    type = SearchResultType.RESTAURANT,
-                ),
+                Search.AuthorResult(authorResponse.toAuthor()),
+                Search.GuideResult(guideResponse.toGuide()),
+                Search.RestaurantResult(restaurantResponse.toRestaurant()),
             ),
             result,
         )
     }
 
     @Test
-    fun `given a restaurant with no photos when mapped then the Search result has a null imageUrl`() {
+    fun `given a restaurant with no photos when mapped then the RestaurantResult has an empty photoNames list`() {
         // Given
         val restaurantResponse = randomRestaurantResponse(photoNames = emptyList())
         val response = SearchResponse(
@@ -113,6 +94,7 @@ class SearchMapperTest {
         val result = response.toSearchResults()
 
         // Then
-        assertEquals(null, result.single().imageUrl)
+        val restaurantResult = assertIs<Search.RestaurantResult>(result.single())
+        assertEquals(emptyList(), restaurantResult.restaurant.photoNames)
     }
 }

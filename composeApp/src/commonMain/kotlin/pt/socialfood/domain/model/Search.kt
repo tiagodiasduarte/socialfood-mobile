@@ -1,11 +1,17 @@
 package pt.socialfood.domain.model
 
-data class Search(
-    val id: String,
-    val name: String,
-    val description: String,
-    val imageUrl: String? = null,
-    val type: SearchResultType,
-)
+sealed interface Search {
+    val id: String
 
-enum class SearchResultType { AUTHOR, GUIDE, RESTAURANT }
+    data class AuthorResult(val author: Author) : Search {
+        override val id: String = author.id
+    }
+
+    data class GuideResult(val guide: Guide) : Search {
+        override val id: String = guide.id
+    }
+
+    data class RestaurantResult(val restaurant: Restaurant) : Search {
+        override val id: String = restaurant.id
+    }
+}

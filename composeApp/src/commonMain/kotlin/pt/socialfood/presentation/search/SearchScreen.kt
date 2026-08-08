@@ -10,6 +10,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.MenuBook
+import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,8 +24,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.domain.model.Author
+import pt.socialfood.domain.model.Guide
+import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.Search
-import pt.socialfood.domain.model.SearchResultType
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.SearchBar
@@ -30,6 +37,9 @@ import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.search_search_placeholder
+import socialfood.composeapp.generated.resources.search_section_authors_title
+import socialfood.composeapp.generated.resources.search_section_guides_title
+import socialfood.composeapp.generated.resources.search_section_restaurants_title
 
 @Composable
 fun SearchScreen(
@@ -45,15 +55,16 @@ fun SearchScreen(
         state = state,
         onQueryChange = viewModel::onSearchQueryChange,
         onResultClick = { result ->
-            when (result.type) {
-                SearchResultType.AUTHOR -> onAuthorClick(result.id)
-                SearchResultType.GUIDE -> onGuideClick(result.id)
-                SearchResultType.RESTAURANT -> onRestaurantClick(result.id)
+            when (result) {
+                is Search.AuthorResult -> onAuthorClick(result.author.id)
+                is Search.GuideResult -> onGuideClick(result.guide.id)
+                is Search.RestaurantResult -> onRestaurantClick(result.restaurant.id)
             }
         },
     )
 }
 
+@Suppress("LongMethod")
 @Composable
 fun SearchScreenContent(
     searchQuery: String,
@@ -93,18 +104,68 @@ fun SearchScreenContent(
                     NoResultsContent(modifier = Modifier.fillMaxSize())
                 }
             } else {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize().background(Color.White),
-                    verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
-                    contentPadding = PaddingValues(vertical = SpaceSize.medium),
-                ) {
-                    items(state.results, key = { "${it.type}_${it.id}" }) { result ->
-                        SearchResultItem(
-                            result = result,
-                            onClick = { onResultClick(result) },
-                        )
-                    }
-                }
+                SearchResultsList(results = state.results, onResultClick = onResultClick)
+            }
+        }
+    }
+}
+
+@Composable
+private fun SearchResultsList(results: List<Search>, onResultClick: (Search) -> Unit) {
+    val restaurants = results.filterIsInstance<Search.RestaurantResult>()
+    val guides = results.filterIsInstance<Search.GuideResult>()
+    val authors = results.filterIsInstance<Search.AuthorResult>()
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+        contentPadding = PaddingValues(vertical = SpaceSize.medium),
+    ) {
+        if (restaurants.isNotEmpty()) {
+            item {
+                SearchSectionHeader(
+                    icon = Icons.Outlined.LocationOn,
+                    title = stringResource(Res.string.search_section_restaurants_title),
+                )
+            }
+            items(restaurants, key = { it.id }) { result ->
+                SearchRestaurantItem(
+                    restaurant = result.restaurant,
+                    modifier = Modifier.padding(horizontal = SpaceSize.large),
+                    onClick = { onResultClick(result) },
+                )
+            }
+        }
+
+        if (guides.isNotEmpty()) {
+            item {
+                SearchSectionHeader(
+                    icon = Icons.AutoMirrored.Outlined.MenuBook,
+                    title = stringResource(Res.string.search_section_guides_title),
+                )
+            }
+            items(guides, key = { it.id }) { result ->
+                SearchGuideItem(
+                    guide = result.guide,
+                    modifier = Modifier.padding(horizontal = SpaceSize.large),
+                    onClick = { onResultClick(result) },
+                )
+            }
+        }
+
+        if (authors.isNotEmpty()) {
+            item {
+                SearchSectionHeader(
+                    icon = Icons.Outlined.Person,
+                    title = stringResource(Res.string.search_section_authors_title),
+                )
+            }
+            items(authors, key = { it.id }) { result ->
+                SearchAuthorItem(
+                    author = result.author,
+                    modifier = Modifier.padding(horizontal = SpaceSize.large),
+                    onClick = { onResultClick(result) },
+                )
             }
         }
     }
@@ -118,23 +179,35 @@ private fun SearchScreenPreview() {
             searchQuery = "belcanto",
             state = SearchUiState.Loaded(
                 listOf(
-                    Search(
-                        id = "1",
-                        name = "Belcanto",
-                        description = "Fine dining in Lisbon",
-                        type = SearchResultType.RESTAURANT,
+                    Search.RestaurantResult(
+                        Restaurant(
+                            id = "1",
+                            name = "Terra",
+                            description = "Italian",
+                            city = "Porto",
+                            country = "Portugal",
+                            countryCode = "PT",
+                            postalCode = null,
+                            photoNames = emptyList(),
+                            address = "Rua de Cedofeita",
+                            rating = 4.7,
+                            userRatingCount = 500,
+                            websiteUrl = null,
+                            phoneNumber = "+351000000000",
+                        ),
                     ),
-                    Search(
-                        id = "2",
-                        name = "Michelin Star Favorites",
-                        description = "The finest dining experiences",
-                        type = SearchResultType.GUIDE,
+                    Search.GuideResult(
+                        Guide(
+                            id = "2",
+                            name = "Michelin Star Favorites",
+                            description = "The finest dining experiences",
+                            visibility = GuideVisibility.PUBLIC,
+                            author = Author(id = "a1", name = "Sarah M.", username = "sarahm"),
+                            numberOfRestaurant = 8,
+                        ),
                     ),
-                    Search(
-                        id = "3",
-                        name = "Sarah M.",
-                        description = "@sarahm",
-                        type = SearchResultType.AUTHOR,
+                    Search.AuthorResult(
+                        Author(id = "3", name = "Sarah M.", username = "sarahm"),
                     ),
                 ),
             ),

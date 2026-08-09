@@ -929,6 +929,12 @@
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="51" source="standard:class-signature" />
     </file>
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/search/SearchUseCase.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/search/SearchUseCaseImpl.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/FindUsersUseCase.kt">
         <error line="1" column="9" source="standard:package-name" />
     </file>
@@ -1163,9 +1169,9 @@
         <error line="40" column="51" source="standard:trailing-comma-on-call-site" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/SearchBar.kt">
-        <error line="24" column="5" source="standard:function-naming" />
-        <error line="68" column="47" source="standard:trailing-comma-on-call-site" />
-        <error line="69" column="14" source="standard:trailing-comma-on-call-site" />
+        <error line="29" column="5" source="standard:function-naming" />
+        <error line="87" column="47" source="standard:trailing-comma-on-call-site" />
+        <error line="88" column="14" source="standard:trailing-comma-on-call-site" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/ShimmerBox.kt">
         <error line="38" column="5" source="standard:function-naming" />
@@ -1591,7 +1597,7 @@
         <error line="22" column="34" source="standard:trailing-comma-on-declaration-site" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/NavigationRoot.kt">
-        <error line="40" column="5" source="standard:function-naming" />
+        <error line="41" column="5" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/NavigationState.kt">
         <error line="28" column="54" source="standard:trailing-comma-on-declaration-site" />
@@ -1787,6 +1793,29 @@
         <error line="75" column="13" source="standard:function-naming" />
         <error line="143" column="13" source="standard:function-naming" />
         <error line="169" column="5" source="standard:function-naming" />
+    </file>
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchAuthorItem.kt">
+        <error line="38" column="5" source="standard:function-naming" />
+        <error line="78" column="13" source="standard:function-naming" />
+        <error line="97" column="13" source="standard:function-naming" />
+    </file>
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchGuideItem.kt">
+        <error line="42" column="5" source="standard:function-naming" />
+        <error line="135" column="13" source="standard:function-naming" />
+        <error line="197" column="13" source="standard:function-naming" />
+    </file>
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchRestaurantItem.kt">
+        <error line="44" column="5" source="standard:function-naming" />
+        <error line="135" column="13" source="standard:function-naming" />
+    </file>
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchScreen.kt">
+        <error line="45" column="5" source="standard:function-naming" />
+        <error line="70" column="5" source="standard:function-naming" />
+        <error line="115" column="13" source="standard:function-naming" />
+        <error line="177" column="13" source="standard:function-naming" />
+    </file>
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchSectionHeader.kt">
+        <error line="20" column="14" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_in/SignInScreen.kt">
         <error line="1" column="9" source="standard:package-name" />
@@ -2035,7 +2064,6 @@
         <error line="34" column="81" source="standard:trailing-comma-on-call-site" />
         <error line="39" column="28" source="standard:trailing-comma-on-call-site" />
         <error line="58" column="105" source="standard:function-signature" />
-        <error line="97" column="105" source="standard:function-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/data/paging/AuthorRemoteMediatorTest.kt">
         <error line="34" column="45" source="standard:function-signature" />
@@ -2283,6 +2311,9 @@
         <error line="1" column="9" source="standard:package-name" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/restaurant/UpdateRestaurantUseCaseImplTest.kt">
+        <error line="1" column="9" source="standard:package-name" />
+    </file>
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/search/SearchUseCaseImplTest.kt">
         <error line="1" column="9" source="standard:package-name" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/FindUsersUseCaseImplTest.kt">

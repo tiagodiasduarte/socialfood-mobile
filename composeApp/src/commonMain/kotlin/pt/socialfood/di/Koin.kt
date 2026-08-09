@@ -28,6 +28,8 @@ import pt.socialfood.data.api.RestaurantApi
 import pt.socialfood.data.api.RestaurantApiImpl
 import pt.socialfood.data.api.S3Api
 import pt.socialfood.data.api.S3ApiImpl
+import pt.socialfood.data.api.SearchApi
+import pt.socialfood.data.api.SearchApiImpl
 import pt.socialfood.data.api.UserApi
 import pt.socialfood.data.api.UserApiImpl
 import pt.socialfood.data.local.AppDatabase
@@ -48,6 +50,7 @@ import pt.socialfood.data.repository.HomeRepositoryImpl
 import pt.socialfood.data.repository.PhotosRepositoryImpl
 import pt.socialfood.data.repository.PlacesRepositoryImpl
 import pt.socialfood.data.repository.RestaurantsRepositoryImpl
+import pt.socialfood.data.repository.SearchRepositoryImpl
 import pt.socialfood.data.repository.UsersRepositoryImpl
 import pt.socialfood.domain.repository.AuthRepository
 import pt.socialfood.domain.repository.AuthorsRepository
@@ -59,6 +62,7 @@ import pt.socialfood.domain.repository.HomeRepository
 import pt.socialfood.domain.repository.PhotosRepository
 import pt.socialfood.domain.repository.PlacesRepository
 import pt.socialfood.domain.repository.RestaurantsRepository
+import pt.socialfood.domain.repository.SearchRepository
 import pt.socialfood.domain.repository.UsersRepository
 import pt.socialfood.domain.use_case.SearchPlacesUseCase
 import pt.socialfood.domain.use_case.SearchPlacesUseCaseImpl
@@ -158,6 +162,8 @@ import pt.socialfood.domain.use_case.restaurant.GetRestaurantsUseCase
 import pt.socialfood.domain.use_case.restaurant.GetRestaurantsUseCaseImpl
 import pt.socialfood.domain.use_case.restaurant.UpdateRestaurantUseCase
 import pt.socialfood.domain.use_case.restaurant.UpdateRestaurantUseCaseImpl
+import pt.socialfood.domain.use_case.search.SearchUseCase
+import pt.socialfood.domain.use_case.search.SearchUseCaseImpl
 import pt.socialfood.domain.use_case.user.FindUsersUseCase
 import pt.socialfood.domain.use_case.user.FindUsersUseCaseImpl
 import pt.socialfood.domain.use_case.user.GetPresignedUrlUseCase
@@ -187,6 +193,7 @@ import pt.socialfood.presentation.profile.ProfileViewModel
 import pt.socialfood.presentation.profile.edit.EditProfileViewModel
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
+import pt.socialfood.presentation.search.SearchViewModel
 import pt.socialfood.presentation.sign_in.SignInViewModel
 import pt.socialfood.presentation.sign_up.SignUpViewModel
 import pt.socialfood.presentation.startup.StartupViewModel
@@ -212,6 +219,7 @@ val networkModule =
         single<RestaurantApi> { RestaurantApiImpl(get()) }
         single<S3Api> { S3ApiImpl(get<S3HttpClient>().client) }
         single { S3HttpClient() }
+        single<SearchApi> { SearchApiImpl(get()) }
         single { SessionManager(get()) }
         single<UserApi> { UserApiImpl(get()) }
     }
@@ -252,6 +260,7 @@ val repositoryModule =
         single<PhotosRepository> { PhotosRepositoryImpl(get()) }
         single<PlacesRepository> { PlacesRepositoryImpl(get()) }
         single<RestaurantsRepository> { RestaurantsRepositoryImpl(get()) }
+        single<SearchRepository> { SearchRepositoryImpl(get()) }
         single<UsersRepository> { UsersRepositoryImpl(get()) }
     }
 
@@ -303,6 +312,7 @@ val useCaseModule =
         factory<ResendVerificationCodeUseCase> { ResendVerificationCodeUseCaseImpl(get()) }
         factory<RestartSignUpUseCase> { RestartSignUpUseCaseImpl(get()) }
         factory<SearchPlacesUseCase> { SearchPlacesUseCaseImpl(get()) }
+        factory<SearchUseCase> { SearchUseCaseImpl(get()) }
         factory<SyncFavouriteRestaurantsUseCase> { SyncFavouriteRestaurantsUseCaseImpl(get()) }
         factory<SyncFavouritesUseCase> { SyncFavouritesUseCaseImpl(get()) }
         factory<UnmarkGuideFavouriteUseCase> { UnmarkGuideFavouriteUseCaseImpl(get()) }
@@ -331,6 +341,7 @@ val viewModelModule =
         factory { ProfileViewModel(get(), get(), get()) }
         factory { (restaurantId: String) -> RestaurantDetailViewModel(get(), get(), get(), get(), restaurantId) }
         factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
+        factory { SearchViewModel(get()) }
         factory { SignInViewModel(get(), get()) }
         factory { SignUpViewModel(get()) }
         factory { StartupViewModel(get(), get(), get()) }

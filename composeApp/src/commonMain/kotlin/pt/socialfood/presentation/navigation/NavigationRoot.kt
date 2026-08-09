@@ -32,6 +32,7 @@ import pt.socialfood.presentation.profile.ProfileDrawerContent
 import pt.socialfood.presentation.profile.edit.EditProfileScreen
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailScreen
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsScreen
+import pt.socialfood.presentation.search.SearchScreen
 
 private const val NAVIGATION_TRANSITION_DURATION_MILLIS = 300
 
@@ -219,6 +220,15 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             RestaurantDetailScreen(
                                 restaurantId = route.restaurantId,
                                 onBackClick = navigator::goBack,
+                            )
+                        }
+                        entry<Route.Search> {
+                            SearchScreen(
+                                onAuthorClick = { authorId -> navigator.navigate(Route.AuthorDetail(authorId)) },
+                                onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+                                onRestaurantClick = { restaurantId ->
+                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
+                                },
                             )
                         }
                     },

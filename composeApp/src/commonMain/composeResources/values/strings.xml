@@ -4,6 +4,7 @@
     <string name="back_button_description">Back button</string>
     <string name="show_password_content_description">Show password</string>
     <string name="hide_password_content_description">Hide password</string>
+    <string name="search_bar_clear_button_description">Clear search</string>
 
     <string name="sign_in_title_label">Welcome back</string>
     <string name="sign_in_subtitle_label">Sign in to continue exploring</string>
@@ -171,9 +172,15 @@
     <string name="social_youtube_icon_description">YouTube</string>
 
     <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_search">Search</string>
     <string name="bottom_nav_guides">Guides</string>
     <string name="bottom_nav_authors">Authors</string>
     <string name="bottom_nav_profile">Profile</string>
+
+    <string name="search_search_placeholder">Search…</string>
+    <string name="search_section_restaurants_title">Restaurants</string>
+    <string name="search_section_guides_title">Guides</string>
+    <string name="search_section_authors_title">Authors</string>
 
     <string name="no_results_title">No Results Found</string>
     <string name="no_results_subtitle">We couldn’t find any matches for your search.</string>

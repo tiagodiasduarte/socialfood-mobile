@@ -70,6 +70,7 @@ val serializersConfig = SavedStateConfiguration {
             subclass(Route.Authors::class, Route.Authors.serializer())
             subclass(Route.Home::class, Route.Home.serializer())
             subclass(Route.Guides::class, Route.Guides.serializer())
+            subclass(Route.Search::class, Route.Search.serializer())
         }
     }
 }

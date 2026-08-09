@@ -7,16 +7,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Logout
-import androidx.compose.material.icons.automirrored.outlined.MenuBook
-import androidx.compose.material.icons.outlined.EmojiEvents
-import androidx.compose.material.icons.outlined.Restaurant
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -27,14 +28,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -51,12 +53,17 @@ import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.guide_detail_edit_button_description
 import socialfood.composeapp.generated.resources.guide_edit_icon
+import socialfood.composeapp.generated.resources.guides_icon
+import socialfood.composeapp.generated.resources.logout_icon
 import socialfood.composeapp.generated.resources.profile_favorite_guides_button
 import socialfood.composeapp.generated.resources.profile_favorite_guides_button_description
 import socialfood.composeapp.generated.resources.profile_favorites_restaurants_button
 import socialfood.composeapp.generated.resources.profile_favorites_restaurants_button_description
+import socialfood.composeapp.generated.resources.profile_icon
 import socialfood.composeapp.generated.resources.profile_logout_button
 import socialfood.composeapp.generated.resources.profile_logout_button_description
+import socialfood.composeapp.generated.resources.profile_profile_button
+import socialfood.composeapp.generated.resources.profile_profile_button_description
 import socialfood.composeapp.generated.resources.profile_settings_button
 import socialfood.composeapp.generated.resources.profile_settings_button_description
 import socialfood.composeapp.generated.resources.profile_stat_followers_label
@@ -64,8 +71,12 @@ import socialfood.composeapp.generated.resources.profile_stat_following_label
 import socialfood.composeapp.generated.resources.profile_stat_guides_label
 import socialfood.composeapp.generated.resources.profile_top_restaurants_button
 import socialfood.composeapp.generated.resources.profile_top_restaurants_button_description
+import socialfood.composeapp.generated.resources.restaurants_icon
+import socialfood.composeapp.generated.resources.settings_icon
+import socialfood.composeapp.generated.resources.top_restaurants_icon
 
 private val DrawerAvatarSize = 64.dp
+private val DrawerAvatarRingSize = 68.dp
 
 @Composable
 fun ProfileDrawerContent(
@@ -94,7 +105,7 @@ private fun ProfileDrawerSheet(
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
 ) {
-    ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.surface) {
+    ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.surface, windowInsets = WindowInsets(0.dp)) {
         when (state) {
             is ProfileUiState.Loaded -> DrawerUserContent(
                 user = state.user,
@@ -116,7 +127,7 @@ private fun ProfileDrawerSheet(
     }
 }
 
-@Suppress("LongParameterList", "LongMethod")
+@Suppress("LongParameterList")
 @Composable
 private fun DrawerUserContent(
     user: User,
@@ -126,62 +137,29 @@ private fun DrawerUserContent(
     onFavouriteRestaurantsClick: () -> Unit = {},
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    Brush.verticalGradient(colors = listOf(ProfileGradientStart, ProfileGradientEnd)),
-                )
-                .padding(SpaceSize.large),
-        ) {
-            ActionButton(
-                modifier = Modifier.align(Alignment.TopEnd),
-                onClick = onEditProfileClick,
-            ) {
-                Icon(
-                    painter = painterResource(Res.drawable.guide_edit_icon),
-                    contentDescription = stringResource(Res.string.guide_detail_edit_button_description),
-                    tint = Color.White,
-                    modifier = Modifier.size(20.dp),
-                )
-            }
-
-            Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.medium)) {
-                UserImage(name = user.name, imageUrl = user.imageUrl, imageSize = DrawerAvatarSize)
-
-                Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.small)) {
-                    Text(
-                        text = user.name,
-                        style = AppTypography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                        color = Color.White,
-                    )
-                    Text(
-                        text = "@${user.username}",
-                        style = AppTypography.bodyMedium,
-                        color = Color.White.copy(alpha = 0.85f),
-                    )
-                }
-
-                DrawerStatsRow()
-            }
-        }
+        DrawerHeader(user = user, onEditProfileClick = onEditProfileClick)
 
         Column(
             modifier = Modifier.padding(vertical = SpaceSize.medium),
         ) {
             DrawerMenuRow(
-                icon = Icons.Outlined.EmojiEvents,
+                icon = Res.drawable.profile_icon,
+                label = stringResource(Res.string.profile_profile_button),
+                contentDescription = stringResource(Res.string.profile_profile_button_description),
+            )
+            DrawerMenuRow(
+                icon = Res.drawable.top_restaurants_icon,
                 label = stringResource(Res.string.profile_top_restaurants_button),
                 contentDescription = stringResource(Res.string.profile_top_restaurants_button_description),
             )
             DrawerMenuRow(
-                icon = Icons.AutoMirrored.Outlined.MenuBook,
+                icon = Res.drawable.guides_icon,
                 label = stringResource(Res.string.profile_favorite_guides_button),
                 contentDescription = stringResource(Res.string.profile_favorite_guides_button_description),
                 onClick = onFavouriteGuidesClick,
             )
             DrawerMenuRow(
-                icon = Icons.Outlined.Restaurant,
+                icon = Res.drawable.restaurants_icon,
                 label = stringResource(Res.string.profile_favorites_restaurants_button),
                 contentDescription = stringResource(Res.string.profile_favorites_restaurants_button_description),
                 onClick = onFavouriteRestaurantsClick,
@@ -192,14 +170,14 @@ private fun DrawerUserContent(
 
         HorizontalDivider()
 
-        Column(modifier = Modifier.padding(vertical = SpaceSize.medium)) {
+        Column(modifier = Modifier.navigationBarsPadding().padding(vertical = SpaceSize.medium)) {
             DrawerMenuRow(
-                icon = Icons.Outlined.Settings,
+                icon = Res.drawable.settings_icon,
                 label = stringResource(Res.string.profile_settings_button),
                 contentDescription = stringResource(Res.string.profile_settings_button_description),
             )
             DrawerMenuRow(
-                icon = Icons.AutoMirrored.Outlined.Logout,
+                icon = Res.drawable.logout_icon,
                 label = stringResource(Res.string.profile_logout_button),
                 contentDescription = stringResource(Res.string.profile_logout_button_description),
                 color = MaterialTheme.colorScheme.primary,
@@ -220,25 +198,103 @@ private fun DrawerUserContent(
 }
 
 @Composable
-private fun DrawerStatsRow() {
-    Row(horizontalArrangement = Arrangement.spacedBy(SpaceSize.large)) {
-        DrawerStatItem(value = "-", label = stringResource(Res.string.profile_stat_guides_label))
-        DrawerStatItem(value = "-", label = stringResource(Res.string.profile_stat_followers_label))
-        DrawerStatItem(value = "-", label = stringResource(Res.string.profile_stat_following_label))
+private fun DrawerHeader(user: User, onEditProfileClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                Brush.verticalGradient(colors = listOf(ProfileGradientStart, ProfileGradientEnd)),
+            )
+            .windowInsetsPadding(WindowInsets.statusBars)
+            .padding(SpaceSize.large),
+    ) {
+        ActionButton(
+            modifier = Modifier.align(Alignment.TopEnd),
+            onClick = onEditProfileClick,
+        ) {
+            Icon(
+                painter = painterResource(Res.drawable.guide_edit_icon),
+                contentDescription = stringResource(Res.string.guide_detail_edit_button_description),
+                tint = Color.White,
+                modifier = Modifier.size(20.dp),
+            )
+        }
+
+        Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.medium)) {
+            Box(
+                modifier = Modifier
+                    .size(DrawerAvatarRingSize)
+                    .clip(CircleShape)
+                    .background(Color.White),
+                contentAlignment = Alignment.Center,
+            ) {
+                UserImage(name = user.name, imageUrl = user.imageUrl, imageSize = DrawerAvatarSize)
+            }
+
+            Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.small)) {
+                Text(
+                    text = user.name,
+                    style = AppTypography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    color = Color.White,
+                )
+                Text(
+                    text = "@${user.username}",
+                    style = AppTypography.bodyMedium,
+                    color = Color.White.copy(alpha = 0.85f),
+                )
+            }
+
+            Spacer(Modifier.height(SpaceSize.medium))
+
+            DrawerStatsRow()
+        }
     }
 }
 
 @Composable
-private fun DrawerStatItem(value: String, label: String) {
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(SpaceSize.small)) {
-        Text(text = value, style = AppTypography.labelLarge.copy(fontWeight = FontWeight.Bold), color = Color.White)
+private fun DrawerStatsRow() {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        DrawerStatItem(
+            value = "-",
+            label = stringResource(Res.string.profile_stat_guides_label),
+            modifier = Modifier.weight(1f),
+        )
+        DrawerStatDivider()
+        DrawerStatItem(
+            value = "-",
+            label = stringResource(Res.string.profile_stat_followers_label),
+            modifier = Modifier.weight(1f),
+        )
+        DrawerStatDivider()
+        DrawerStatItem(
+            value = "-",
+            label = stringResource(Res.string.profile_stat_following_label),
+            modifier = Modifier.weight(1f),
+        )
+    }
+}
+
+@Composable
+private fun DrawerStatItem(value: String, label: String, modifier: Modifier = Modifier) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(text = value, style = AppTypography.titleLarge.copy(fontWeight = FontWeight.Bold), color = Color.White)
         Text(text = label, style = AppTypography.bodySmall, color = Color.White.copy(alpha = 0.85f))
     }
 }
 
 @Composable
+private fun DrawerStatDivider() {
+    Box(
+        modifier = Modifier
+            .width(1.dp)
+            .height(SpaceSize.xxlarge)
+            .background(Color.White.copy(alpha = 0.3f)),
+    )
+}
+
+@Composable
 private fun DrawerMenuRow(
-    icon: ImageVector,
+    icon: DrawableResource,
     label: String,
     contentDescription: String,
     color: Color = MaterialTheme.colorScheme.onBackground,
@@ -248,12 +304,12 @@ private fun DrawerMenuRow(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(horizontal = SpaceSize.large, vertical = SpaceSize.medium),
+            .padding(SpaceSize.large),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
     ) {
         Icon(
-            imageVector = icon,
+            painter = painterResource(icon),
             contentDescription = contentDescription,
             tint = color,
             modifier = Modifier.size(22.dp),

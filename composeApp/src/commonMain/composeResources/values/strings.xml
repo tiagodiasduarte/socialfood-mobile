@@ -53,7 +53,7 @@
     <string name="profile_profile_button_description">Profile button</string>
     <string name="profile_favorite_guides_button">Favorite Guides</string>
     <string name="profile_favorite_guides_button_description">Favorite Guides button</string>
-    <string name="profile_favorites_restaurants_button">Favorites Restaurants</string>
+    <string name="profile_favorites_restaurants_button">Favorite Restaurants</string>
     <string name="profile_favorites_restaurants_button_description">Favorites Restaurants button</string>
     <string name="profile_top_restaurants_button">Top Restaurants</string>
     <string name="profile_top_restaurants_button_description">Top Restaurants button</string>

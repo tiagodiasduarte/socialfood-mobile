@@ -1627,13 +1627,15 @@
         <error line="19" column="24" source="standard:colon-spacing" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/ProfileDrawerContent.kt">
-        <error line="77" column="5" source="standard:function-naming" />
-        <error line="96" column="13" source="standard:function-naming" />
-        <error line="127" column="13" source="standard:function-naming" />
-        <error line="242" column="13" source="standard:function-naming" />
-        <error line="251" column="13" source="standard:function-naming" />
-        <error line="259" column="13" source="standard:function-naming" />
+        <error line="82" column="5" source="standard:function-naming" />
+        <error line="101" column="13" source="standard:function-naming" />
+        <error line="132" column="13" source="standard:function-naming" />
+        <error line="201" column="13" source="standard:function-naming" />
+        <error line="255" column="13" source="standard:function-naming" />
+        <error line="278" column="13" source="standard:function-naming" />
         <error line="286" column="13" source="standard:function-naming" />
+        <error line="296" column="13" source="standard:function-naming" />
+        <error line="323" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/EditProfilePlaceholder.kt">
         <error line="33" column="14" source="standard:function-naming" />

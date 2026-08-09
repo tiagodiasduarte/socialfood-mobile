@@ -83,13 +83,11 @@
     <string name="favourites_restaurants_title">Favourite Restaurants</string>
 
     <string name="guides_title">Guides</string>
-    <string name="guides_search_placeholder">Search guides…</string>
     <string name="guides_tab_all">All Guides</string>
     <string name="guides_tab_my">My Guides</string>
     <string name="guides_add_button_description">Add guide</string>
 
     <string name="authors_title">Authors</string>
-    <string name="authors_search_placeholder">Search authors…</string>
     <string name="authors_error_label">Failed to load authors</string>
     <string name="authors_follow_button">Follow</string>
     <string name="authors_following_button">Following</string>

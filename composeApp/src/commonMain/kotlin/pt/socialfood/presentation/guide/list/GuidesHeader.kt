@@ -22,7 +22,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.presentation.components.SearchBar
 import pt.socialfood.presentation.components.TopTabs
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.ui.theme.AppTheme
@@ -30,7 +29,6 @@ import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.guides_add_button_description
-import socialfood.composeapp.generated.resources.guides_search_placeholder
 import socialfood.composeapp.generated.resources.guides_tab_all
 import socialfood.composeapp.generated.resources.guides_tab_my
 import socialfood.composeapp.generated.resources.guides_title
@@ -89,12 +87,6 @@ fun GuidesHeader(
         }
 
         Spacer(Modifier.height(SpaceSize.medium))
-
-        SearchBar(
-            placeholder = stringResource(Res.string.guides_search_placeholder),
-        )
-
-        Spacer(Modifier.height(SpaceSize.large))
 
         TopTabs(
             selectedTab = selectedTab,

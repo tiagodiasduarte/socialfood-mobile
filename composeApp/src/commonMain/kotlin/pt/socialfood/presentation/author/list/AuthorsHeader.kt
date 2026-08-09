@@ -18,12 +18,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.presentation.components.SearchBar
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.authors_search_placeholder
 import socialfood.composeapp.generated.resources.authors_title
 
 @Composable
@@ -33,7 +31,6 @@ fun AuthorsHeader(
     onProfileClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
-
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -65,12 +62,6 @@ fun AuthorsHeader(
         }
 
         Spacer(Modifier.height(SpaceSize.medium))
-
-        SearchBar(
-            placeholder = stringResource(Res.string.authors_search_placeholder),
-        )
-
-        Spacer(Modifier.height(SpaceSize.large))
     }
 }
 

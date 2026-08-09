@@ -1099,9 +1099,8 @@
         <error line="83" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/author/list/AuthorsHeader.kt">
-        <error line="30" column="5" source="standard:function-naming" />
-        <error line="36" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="79" column="5" source="standard:function-naming" />
+        <error line="28" column="5" source="standard:function-naming" />
+        <error line="70" column="5" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/author/list/AuthorsPlaceholder.kt">
         <error line="14" column="5" source="standard:function-naming" />
@@ -1525,8 +1524,8 @@
         <error line="184" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/list/GuidesHeader.kt">
-        <error line="40" column="5" source="standard:function-naming" />
-        <error line="111" column="5" source="standard:function-naming" />
+        <error line="38" column="5" source="standard:function-naming" />
+        <error line="103" column="5" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/list/GuidesPlaceholder.kt">
         <error line="19" column="5" source="standard:function-naming" />

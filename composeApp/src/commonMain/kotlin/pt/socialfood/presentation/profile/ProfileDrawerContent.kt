@@ -81,6 +81,7 @@ private val DrawerAvatarRingSize = 68.dp
 @Composable
 fun ProfileDrawerContent(
     viewModel: ProfileViewModel = koinViewModel(),
+    onProfileClick: (authorId: String) -> Unit = {},
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
@@ -90,6 +91,7 @@ fun ProfileDrawerContent(
     ProfileDrawerSheet(
         state = state,
         onLogoutClick = { viewModel.logout() },
+        onProfileClick = onProfileClick,
         onEditProfileClick = onEditProfileClick,
         onFavouriteGuidesClick = onFavouriteGuidesClick,
         onFavouriteRestaurantsClick = onFavouriteRestaurantsClick,
@@ -101,6 +103,7 @@ fun ProfileDrawerContent(
 private fun ProfileDrawerSheet(
     state: ProfileUiState,
     onLogoutClick: () -> Unit,
+    onProfileClick: (authorId: String) -> Unit = {},
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
@@ -110,6 +113,7 @@ private fun ProfileDrawerSheet(
             is ProfileUiState.Loaded -> DrawerUserContent(
                 user = state.user,
                 onLogoutClick = onLogoutClick,
+                onProfileClick = onProfileClick,
                 onEditProfileClick = onEditProfileClick,
                 onFavouriteGuidesClick = onFavouriteGuidesClick,
                 onFavouriteRestaurantsClick = onFavouriteRestaurantsClick,
@@ -132,6 +136,7 @@ private fun ProfileDrawerSheet(
 private fun DrawerUserContent(
     user: User,
     onLogoutClick: () -> Unit,
+    onProfileClick: (authorId: String) -> Unit = {},
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
@@ -146,6 +151,7 @@ private fun DrawerUserContent(
                 icon = Res.drawable.profile_icon,
                 label = stringResource(Res.string.profile_profile_button),
                 contentDescription = stringResource(Res.string.profile_profile_button_description),
+                onClick = { onProfileClick(user.id) },
             )
             DrawerMenuRow(
                 icon = Res.drawable.top_restaurants_icon,

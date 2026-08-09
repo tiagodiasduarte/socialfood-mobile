@@ -60,6 +60,10 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
             ProfileDrawerContent(
+                onProfileClick = { authorId ->
+                    scope.launch { drawerState.close() }
+                    navigator.navigate(Route.AuthorDetail(authorId))
+                },
                 onEditProfileClick = {
                     scope.launch { drawerState.close() }
                     navigator.navigate(Route.EditProfile)

@@ -1416,6 +1416,10 @@
         <error line="44" column="30" source="standard:function-signature" />
         <error line="132" column="5" source="standard:function-naming" />
     </file>
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/detail/restaurant/RestaurantItemCardPlaceholder.kt">
+        <error line="27" column="5" source="standard:function-naming" />
+        <error line="65" column="13" source="standard:function-naming" />
+    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/edit/EditGuideScreen.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="71" column="5" source="standard:function-naming" />

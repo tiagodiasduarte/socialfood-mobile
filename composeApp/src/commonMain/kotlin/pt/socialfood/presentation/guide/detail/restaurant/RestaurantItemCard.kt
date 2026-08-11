@@ -37,14 +37,11 @@ import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.ui.theme.StarColor
 
+@Suppress("LongMethod")
 @Composable
-fun RestaurantItemCard(
-    restaurant: Restaurant,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
-) {
+fun RestaurantItemCard(restaurant: Restaurant, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     Card(
-        modifier = modifier.width(400.dp).clickable(onClick = onClick),
+        modifier = modifier.fillMaxWidth().clickable(onClick = onClick),
         shape = RoundedCornerShape(SpaceSize.large),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
@@ -52,7 +49,7 @@ fun RestaurantItemCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = SpaceSize.large, vertical = SpaceSize.large),
+                .padding(SpaceSize.large),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {

@@ -1812,8 +1812,13 @@
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchScreen.kt">
         <error line="45" column="5" source="standard:function-naming" />
         <error line="70" column="5" source="standard:function-naming" />
-        <error line="115" column="13" source="standard:function-naming" />
-        <error line="177" column="13" source="standard:function-naming" />
+        <error line="117" column="13" source="standard:function-naming" />
+        <error line="179" column="13" source="standard:function-naming" />
+    </file>
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchSuggestionsContent.kt">
+        <error line="47" column="5" source="standard:function-naming" />
+        <error line="90" column="13" source="standard:function-naming" />
+        <error line="127" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchSectionHeader.kt">
         <error line="20" column="14" source="standard:function-naming" />

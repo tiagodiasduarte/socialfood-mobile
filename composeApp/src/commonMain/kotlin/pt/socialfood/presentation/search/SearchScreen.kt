@@ -103,6 +103,8 @@ fun SearchScreenContent(
             is SearchUiState.Loaded -> if (state.results.isEmpty()) {
                 if (searchQuery.isNotBlank()) {
                     NoResultsContent(modifier = Modifier.fillMaxSize())
+                } else {
+                    SearchSuggestionsContent(modifier = Modifier.fillMaxSize())
                 }
             } else {
                 SearchResultsList(results = state.results, onResultClick = onResultClick)

@@ -62,12 +62,12 @@ fun SearchSuggestionsContent(
             style = AppTypography.labelLarge.copy(letterSpacing = 1.sp),
             color = MaterialTheme.colorScheme.onBackground,
         )
+        Spacer(Modifier.height(SpaceSize.medium))
         SearchSuggestionItem(
             icon = painterResource(Res.drawable.guides_icon),
             label = stringResource(Res.string.search_suggestion_favorite_guides),
             onClick = onFavoriteGuidesClick,
         )
-        Spacer(Modifier.height(SpaceSize.large))
         SearchSuggestionItem(
             icon = painterResource(Res.drawable.restaurants_icon),
             label = stringResource(Res.string.search_suggestion_favorite_restaurants),

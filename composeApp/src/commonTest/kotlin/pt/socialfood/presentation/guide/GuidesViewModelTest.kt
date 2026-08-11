@@ -8,11 +8,11 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.User
-import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.guide.ObserveFavouriteGuideIdsUseCase
-import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.guide.GetGuidesPagingUseCase
-import pt.socialfood.domain.use_case.user.ObserveUserUseCase
+import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
+import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
+import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.fakes.FakeGetGuidesPagingUseCase
 import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeObserveFavouriteGuideIdsUseCase

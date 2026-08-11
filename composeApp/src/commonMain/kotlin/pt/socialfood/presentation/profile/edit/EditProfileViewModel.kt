@@ -8,11 +8,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.di.ImageCache
-import pt.socialfood.domain.use_case.photo.UploadPhotoUseCase
-import pt.socialfood.domain.use_case.user.GetPresignedUrlUseCase
-import pt.socialfood.domain.use_case.user.GetUserMeUseCase
-import pt.socialfood.domain.use_case.user.UpdateUserPhotoUseCase
-import pt.socialfood.domain.use_case.user.UpdateUserUseCase
+import pt.socialfood.domain.usecase.photo.UploadPhotoUseCase
+import pt.socialfood.domain.usecase.user.GetPresignedUrlUseCase
+import pt.socialfood.domain.usecase.user.GetUserMeUseCase
+import pt.socialfood.domain.usecase.user.UpdateUserPhotoUseCase
+import pt.socialfood.domain.usecase.user.UpdateUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime

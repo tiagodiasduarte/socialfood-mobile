@@ -2,7 +2,7 @@ package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.PresignedUrlData
-import pt.socialfood.domain.use_case.photo.UploadPhotoUseCase
+import pt.socialfood.domain.usecase.photo.UploadPhotoUseCase
 
 class FakeUploadPhotoUseCase(
     private val result: Result<Unit>,

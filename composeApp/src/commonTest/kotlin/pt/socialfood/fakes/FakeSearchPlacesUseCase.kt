@@ -2,7 +2,7 @@ package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Place
-import pt.socialfood.domain.use_case.SearchPlacesUseCase
+import pt.socialfood.domain.usecase.SearchPlacesUseCase
 
 class FakeSearchPlacesUseCase(
     private val result: Result<List<Place>> = Result.Success(emptyList()),

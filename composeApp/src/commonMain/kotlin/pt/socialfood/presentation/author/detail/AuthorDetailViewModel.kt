@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.author.GetAuthorByIdUseCase
+import pt.socialfood.domain.usecase.author.GetAuthorByIdUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
 class AuthorDetailViewModel(

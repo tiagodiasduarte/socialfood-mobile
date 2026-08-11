@@ -3,7 +3,7 @@ package pt.socialfood.fakes
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.use_case.restaurant.GetRestaurantByIdUseCase
+import pt.socialfood.domain.usecase.restaurant.GetRestaurantByIdUseCase
 
 class FakeGetRestaurantByIdUseCase(
     private val result: Result<Restaurant> = Result.Failure(DataError.Network(Exception("test error"))),

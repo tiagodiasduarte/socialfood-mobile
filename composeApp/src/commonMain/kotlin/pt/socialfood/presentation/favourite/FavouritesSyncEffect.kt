@@ -8,8 +8,8 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import pt.socialfood.data.network.ConnectivityObserver
-import pt.socialfood.domain.use_case.favourite.SyncFavouriteRestaurantsUseCase
-import pt.socialfood.domain.use_case.favourite.SyncFavouritesUseCase
+import pt.socialfood.domain.usecase.favourite.SyncFavouriteRestaurantsUseCase
+import pt.socialfood.domain.usecase.favourite.SyncFavouritesUseCase
 
 /**
  * Triggers a (debounced, incremental) favourites sync — guides and restaurants — on

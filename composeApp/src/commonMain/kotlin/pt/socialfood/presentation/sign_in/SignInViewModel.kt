@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.use_case.login.LoginUseCase
-import pt.socialfood.domain.use_case.login.LoginWithGoogleUseCase
+import pt.socialfood.domain.usecase.login.LoginUseCase
+import pt.socialfood.domain.usecase.login.LoginWithGoogleUseCase
 import pt.socialfood.presentation.error.toErrorCode
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.sign_in_invalid_email

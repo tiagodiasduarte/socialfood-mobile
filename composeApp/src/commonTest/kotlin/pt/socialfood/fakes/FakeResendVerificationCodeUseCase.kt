@@ -1,7 +1,7 @@
 package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.login.ResendVerificationCodeUseCase
+import pt.socialfood.domain.usecase.login.ResendVerificationCodeUseCase
 
 class FakeResendVerificationCodeUseCase(private val result: Result<Unit> = Result.Success(Unit)) :
     ResendVerificationCodeUseCase {

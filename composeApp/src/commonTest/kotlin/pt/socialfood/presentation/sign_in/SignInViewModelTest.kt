@@ -7,8 +7,8 @@ import pt.socialfood.core.Result
 import pt.socialfood.data.network.SessionManager
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.use_case.login.LoginUseCaseImpl
-import pt.socialfood.domain.use_case.login.LoginWithGoogleUseCaseImpl
+import pt.socialfood.domain.usecase.login.LoginUseCaseImpl
+import pt.socialfood.domain.usecase.login.LoginWithGoogleUseCaseImpl
 import pt.socialfood.fakes.FakeAuthRepository
 import pt.socialfood.fakes.FakeSettingsRepository
 import pt.socialfood.runner.runTestWithMainDispatcher

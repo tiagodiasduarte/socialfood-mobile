@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,7 +31,7 @@ private val CardHeight = 80.dp
 fun AuthorItemCardPlaceholder(alpha: Float, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .width(400.dp)
+            .fillMaxWidth()
             .height(CardHeight)
             .clip(RoundedCornerShape(SpaceSize.large))
             .background(MaterialTheme.colorScheme.surface),

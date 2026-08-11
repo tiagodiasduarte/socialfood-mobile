@@ -1409,12 +1409,12 @@
         <error line="54" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/detail/restaurant/RestaurantItemCard.kt">
-        <error line="38" column="5" source="standard:function-naming" />
-        <error line="39" column="5" source="standard:function-signature" />
-        <error line="40" column="5" source="standard:function-signature" />
-        <error line="41" column="5" source="standard:function-signature" />
-        <error line="41" column="30" source="standard:function-signature" />
-        <error line="107" column="5" source="standard:function-naming" />
+        <error line="41" column="5" source="standard:function-naming" />
+        <error line="42" column="5" source="standard:function-signature" />
+        <error line="43" column="5" source="standard:function-signature" />
+        <error line="44" column="5" source="standard:function-signature" />
+        <error line="44" column="30" source="standard:function-signature" />
+        <error line="132" column="5" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/edit/EditGuideScreen.kt">
         <error line="3" column="1" source="standard:import-ordering" />

@@ -87,25 +87,27 @@ fun SearchScreenContent(
             )
         }
 
-        when (state) {
-            is SearchUiState.Loading -> Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
-            ) {
-                CircularProgressIndicator()
-            }
-
-            is SearchUiState.Error -> ErrorContent(
-                modifier = Modifier.fillMaxSize(),
-                onRetryClick = { onQueryChange(searchQuery) },
-            )
-
-            is SearchUiState.Loaded -> if (state.results.isEmpty()) {
-                if (searchQuery.isNotBlank()) {
-                    NoResultsContent(modifier = Modifier.fillMaxSize())
+        if (searchQuery.length < MIN_QUERY_LENGTH) {
+            SearchSuggestionsContent(modifier = Modifier.fillMaxSize())
+        } else {
+            when (state) {
+                is SearchUiState.Loading -> Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator()
                 }
-            } else {
-                SearchResultsList(results = state.results, onResultClick = onResultClick)
+
+                is SearchUiState.Error -> ErrorContent(
+                    modifier = Modifier.fillMaxSize(),
+                    onRetryClick = { onQueryChange(searchQuery) },
+                )
+
+                is SearchUiState.Loaded -> if (state.results.isEmpty()) {
+                    NoResultsContent(modifier = Modifier.fillMaxSize())
+                } else {
+                    SearchResultsList(results = state.results, onResultClick = onResultClick)
+                }
             }
         }
     }

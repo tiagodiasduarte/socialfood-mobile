@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import pt.socialfood.core.Result
 import pt.socialfood.domain.usecase.search.SearchUseCase
@@ -22,7 +21,7 @@ import pt.socialfood.presentation.error.toErrorCode
 import kotlin.time.Duration.Companion.milliseconds
 
 private const val PAGE_SIZE = 50
-private const val MIN_QUERY_LENGTH = 3
+internal const val MIN_QUERY_LENGTH = 3
 private val SEARCH_DEBOUNCE_MS = 300.milliseconds
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
@@ -35,11 +34,7 @@ class SearchViewModel(private val search: SearchUseCase) : ViewModel() {
         .debounce(SEARCH_DEBOUNCE_MS)
         .distinctUntilChanged()
         .flatMapLatest { query ->
-            when {
-                query.isBlank() -> flowOf(SearchUiState.Loaded(emptyList()))
-                query.length < MIN_QUERY_LENGTH -> emptyFlow()
-                else -> performSearch(query)
-            }
+            if (query.length >= MIN_QUERY_LENGTH) performSearch(query) else emptyFlow()
         }
         .stateIn(viewModelScope, SharingStarted.Eagerly, SearchUiState.Loaded(emptyList()))
 

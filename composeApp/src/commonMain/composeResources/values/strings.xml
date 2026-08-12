@@ -181,6 +181,10 @@
     <string name="search_section_restaurants_title">Restaurants</string>
     <string name="search_section_guides_title">Guides</string>
     <string name="search_section_authors_title">Authors</string>
+    <string name="search_suggestions_title">Suggestions</string>
+    <string name="search_suggestion_favorite_guides">Top favorite guides</string>
+    <string name="search_suggestion_favorite_restaurants">Top favorite restaurants</string>
+    <string name="search_suggestion_most_followed">Most followed</string>
 
     <string name="no_results_title">No Results Found</string>
     <string name="no_results_subtitle">We couldn’t find any matches for your search.</string>

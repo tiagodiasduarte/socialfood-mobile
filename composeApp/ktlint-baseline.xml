@@ -1959,8 +1959,7 @@
         <error line="11" column="12" source="standard:function-naming" />
         <error line="19" column="14" source="standard:function-naming" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/validate_code/ValidateCodeScreen.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/validatecode/ValidateCodeScreen.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="61" column="5" source="standard:function-naming" />
         <error line="80" column="13" source="standard:function-naming" />
@@ -1980,10 +1979,10 @@
         <error line="299" column="13" source="standard:function-naming" />
         <error line="316" column="5" source="standard:function-naming" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/validate_code/ValidateCodeUiState.kt">
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/validatecode/ValidateCodeUiState.kt">
         <error line="1" column="9" source="standard:package-name" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/validate_code/ValidateCodeViewModel.kt">
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/validatecode/ValidateCodeViewModel.kt">
         <error line="1" column="9" source="standard:package-name" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/ui/theme/AppTheme.kt">
@@ -2525,7 +2524,7 @@
         <error line="103" column="121" source="standard:max-line-length" />
         <error line="143" column="58" source="standard:function-signature" />
     </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/presentation/validate_code/ValidateCodeViewModelTest.kt">
+    <file name="src/commonTest/kotlin/pt/socialfood/presentation/validatecode/ValidateCodeViewModelTest.kt">
         <error line="1" column="9" source="standard:package-name" />
         <error line="118" column="121" source="standard:max-line-length" />
     </file>

@@ -14,7 +14,7 @@ import pt.socialfood.presentation.signin.SignInScreen
 import pt.socialfood.presentation.signup.SignUpScreen
 import pt.socialfood.presentation.splash.SplashScreen
 import pt.socialfood.presentation.startup.StartupViewModel
-import pt.socialfood.presentation.validate_code.ValidateCodeScreen
+import pt.socialfood.presentation.validatecode.ValidateCodeScreen
 import pt.socialfood.ui.theme.AppTheme
 
 private sealed class AppDestination {

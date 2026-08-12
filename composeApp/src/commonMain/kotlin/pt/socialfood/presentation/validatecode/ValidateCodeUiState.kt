@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.validate_code
+package pt.socialfood.presentation.validatecode
 
 import org.jetbrains.compose.resources.StringResource
 import pt.socialfood.domain.error.ErrorCode

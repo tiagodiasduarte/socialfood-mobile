@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.validate_code
+package pt.socialfood.presentation.validatecode
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi

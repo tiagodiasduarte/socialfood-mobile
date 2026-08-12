@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.sign_in
+package pt.socialfood.presentation.signin
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

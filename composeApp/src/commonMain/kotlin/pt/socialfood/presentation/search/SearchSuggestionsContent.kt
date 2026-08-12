@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.TrendingUp
+import androidx.compose.material.icons.outlined.Lightbulb
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -17,10 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.ui.theme.AppTheme
@@ -33,7 +31,6 @@ import socialfood.composeapp.generated.resources.restaurants_icon
 import socialfood.composeapp.generated.resources.search_suggestion_favorite_guides
 import socialfood.composeapp.generated.resources.search_suggestion_favorite_restaurants
 import socialfood.composeapp.generated.resources.search_suggestion_most_followed
-import socialfood.composeapp.generated.resources.search_suggestion_trending_guides
 import socialfood.composeapp.generated.resources.search_suggestions_title
 
 @Composable
@@ -41,15 +38,12 @@ fun SearchSuggestionsContent(
     modifier: Modifier = Modifier,
     onFavoriteGuidesClick: () -> Unit = {},
     onFavoriteRestaurantsClick: () -> Unit = {},
-    onTrendingGuidesClick: () -> Unit = {},
     onMostFollowedClick: () -> Unit = {},
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
-        Text(
-            text = stringResource(Res.string.search_suggestions_title).uppercase(),
-            style = AppTypography.labelLarge.copy(letterSpacing = 1.sp),
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.padding(horizontal = SpaceSize.large, vertical = SpaceSize.large),
+        SearchSectionHeader(
+            icon = Icons.Outlined.Lightbulb,
+            title = stringResource(Res.string.search_suggestions_title),
         )
 
         SearchSuggestionItem(
@@ -62,12 +56,6 @@ fun SearchSuggestionsContent(
             icon = painterResource(Res.drawable.restaurants_icon),
             label = stringResource(Res.string.search_suggestion_favorite_restaurants),
             onClick = onFavoriteRestaurantsClick,
-        )
-        HorizontalDivider()
-        SearchSuggestionItem(
-            icon = rememberVectorPainter(Icons.AutoMirrored.Filled.TrendingUp),
-            label = stringResource(Res.string.search_suggestion_trending_guides),
-            onClick = onTrendingGuidesClick,
         )
         HorizontalDivider()
         SearchSuggestionItem(

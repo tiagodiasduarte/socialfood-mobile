@@ -1503,9 +1503,9 @@
         <error line="179" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchSuggestionsContent.kt">
-        <error line="40" column="5" source="standard:function-naming" />
-        <error line="83" column="13" source="standard:function-naming" />
-        <error line="108" column="13" source="standard:function-naming" />
+        <error line="37" column="5" source="standard:function-naming" />
+        <error line="71" column="13" source="standard:function-naming" />
+        <error line="96" column="13" source="standard:function-naming" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchSectionHeader.kt">
         <error line="20" column="14" source="standard:function-naming" />

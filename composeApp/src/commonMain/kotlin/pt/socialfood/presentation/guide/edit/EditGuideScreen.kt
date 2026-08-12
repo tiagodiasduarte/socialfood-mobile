@@ -57,7 +57,7 @@ import pt.socialfood.presentation.components.buttons.IconTextButton
 import pt.socialfood.presentation.guide.edit.card.GuideDetailsCard
 import pt.socialfood.presentation.guide.edit.card.GuideRestaurantsCard
 import pt.socialfood.presentation.guide.edit.card.GuideStatusCard
-import pt.socialfood.presentation.image_picker.rememberImagePickerLauncher
+import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize

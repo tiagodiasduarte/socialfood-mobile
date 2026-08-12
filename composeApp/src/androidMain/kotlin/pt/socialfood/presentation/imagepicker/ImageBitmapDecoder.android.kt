@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.image_picker
+package pt.socialfood.presentation.imagepicker
 
 import android.graphics.BitmapFactory
 import androidx.compose.ui.graphics.ImageBitmap

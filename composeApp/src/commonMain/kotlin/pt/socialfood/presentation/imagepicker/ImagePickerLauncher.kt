@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.image_picker
+package pt.socialfood.presentation.imagepicker
 
 import androidx.compose.runtime.Composable
 

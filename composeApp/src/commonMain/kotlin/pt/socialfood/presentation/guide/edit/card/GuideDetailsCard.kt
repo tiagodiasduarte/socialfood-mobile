@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.presentation.components.card.SectionCard
-import pt.socialfood.presentation.image_picker.toImageBitmap
+import pt.socialfood.presentation.imagepicker.toImageBitmap
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res

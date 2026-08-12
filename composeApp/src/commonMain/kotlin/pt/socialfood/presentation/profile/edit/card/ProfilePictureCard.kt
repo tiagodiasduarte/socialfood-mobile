@@ -34,8 +34,8 @@ import socialfood.composeapp.generated.resources.edit_profile_picture_section_ti
 import socialfood.composeapp.generated.resources.edit_profile_picture_upload_label
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.presentation.components.card.SectionCard
-import pt.socialfood.presentation.image_picker.rememberImagePickerLauncher
-import pt.socialfood.presentation.image_picker.toImageBitmap
+import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
+import pt.socialfood.presentation.imagepicker.toImageBitmap
 import pt.socialfood.presentation.profile.edit.EditProfileUiState
 import pt.socialfood.ui.theme.SpaceSize
 

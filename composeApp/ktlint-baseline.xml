@@ -15,12 +15,10 @@
         <error line="20" column="5" source="standard:function-signature" />
         <error line="20" column="31" source="standard:function-signature" />
     </file>
-    <file name="src/androidMain/kotlin/pt/socialfood/presentation/image_picker/ImageBitmapDecoder.android.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/androidMain/kotlin/pt/socialfood/presentation/imagepicker/ImageBitmapDecoder.android.kt">
         <error line="7" column="52" source="standard:function-signature" />
     </file>
-    <file name="src/androidMain/kotlin/pt/socialfood/presentation/image_picker/ImagePickerLauncher.android.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/androidMain/kotlin/pt/socialfood/presentation/imagepicker/ImagePickerLauncher.android.kt">
         <error line="11" column="5" source="standard:function-signature" />
         <error line="11" column="60" source="standard:function-signature" />
     </file>
@@ -511,292 +509,134 @@
         <error line="41" column="9" source="standard:function-signature" />
         <error line="41" column="26" source="standard:function-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/SearchPlacesUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/SearchPlacesUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/SearchPlacesUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="46" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/author/FindAuthorsUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/author/FindAuthorsUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/author/FindAuthorsUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="47" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/author/GetAuthorByIdUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/author/GetAuthorByIdUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/author/GetAuthorByIdUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="47" source="standard:class-signature" />
         <error line="10" column="68" source="standard:function-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/author/GetAuthorsPagingUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/author/GetAuthorsPagingUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/author/GetAuthorsPagingUseCaseImpl.kt">
         <error line="9" column="5" source="standard:class-signature" />
         <error line="9" column="47" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/author/GetAuthorsUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/author/GetAuthorsUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/author/GetAuthorsUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="47" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/configs/GetConfigsUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/configs/GetConfigsUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/configs/GetConfigsUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="46" source="standard:class-signature" />
         <error line="8" column="46" source="standard:trailing-comma-on-declaration-site" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/SyncFavouriteRestaurantsUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/SyncFavouriteRestaurantsUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/favourite/SyncFavouriteRestaurantsUseCaseImpl.kt">
         <error line="7" column="5" source="standard:class-signature" />
         <error line="7" column="60" source="standard:class-signature" />
         <error line="8" column="5" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/SyncFavouritesUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/SyncFavouritesUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/guide/GetFavouriteGuidesUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/guide/GetFavouriteGuidesUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/guide/IsGuideFavouriteUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/guide/IsGuideFavouriteUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/guide/MarkGuideFavouriteUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/guide/MarkGuideFavouriteUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/guide/ObserveFavouriteGuideIdsUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/guide/ObserveFavouriteGuideIdsUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/guide/UnmarkGuideFavouriteUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/guide/UnmarkGuideFavouriteUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/restaurant/GetFavouriteRestaurantsUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/restaurant/GetFavouriteRestaurantsUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/favourite/restaurant/GetFavouriteRestaurantsUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="60" source="standard:class-signature" />
         <error line="9" column="5" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/restaurant/IsRestaurantFavouriteUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/restaurant/IsRestaurantFavouriteUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/favourite/restaurant/IsRestaurantFavouriteUseCaseImpl.kt">
         <error line="7" column="5" source="standard:class-signature" />
         <error line="7" column="60" source="standard:class-signature" />
         <error line="8" column="5" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/restaurant/MarkRestaurantFavouriteUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/restaurant/MarkRestaurantFavouriteUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/favourite/restaurant/MarkRestaurantFavouriteUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="60" source="standard:class-signature" />
         <error line="9" column="5" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/restaurant/UnmarkRestaurantFavouriteUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/favourite/restaurant/UnmarkRestaurantFavouriteUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/favourite/restaurant/UnmarkRestaurantFavouriteUseCaseImpl.kt">
         <error line="7" column="5" source="standard:class-signature" />
         <error line="7" column="60" source="standard:class-signature" />
         <error line="8" column="5" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/AddRestaurantGuideUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/guide/AddRestaurantGuideUseCase.kt">
         <error line="8" column="9" source="standard:function-signature" />
         <error line="9" column="9" source="standard:function-signature" />
         <error line="9" column="26" source="standard:function-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/AddRestaurantGuideUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/guide/AddRestaurantGuideUseCaseImpl.kt">
         <error line="15" column="9" source="standard:function-signature" />
         <error line="16" column="9" source="standard:function-signature" />
         <error line="16" column="26" source="standard:function-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/CreateGuideUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/CreateGuideUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/DeleteGuideUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/DeleteGuideUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/guide/DeleteGuideUseCaseImpl.kt">
         <error line="7" column="5" source="standard:class-signature" />
         <error line="7" column="46" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/FindGuidesUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/FindGuidesUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/guide/FindGuidesUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="52" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/GetGuideByIdUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/GetGuideByIdUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/guide/GetGuideByIdUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="46" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/GetGuidesPagingUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/GetGuidesPagingUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/guide/GetGuidesPagingUseCaseImpl.kt">
         <error line="9" column="5" source="standard:class-signature" />
         <error line="9" column="46" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/GetGuidesUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/GetGuidesUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/guide/GetGuidesUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="46" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/UpdateGuideUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/guide/UpdateGuideUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/AddHomeSectionItemUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/AddHomeSectionItemUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/home/AddHomeSectionItemUseCaseImpl.kt">
         <error line="9" column="5" source="standard:class-signature" />
         <error line="9" column="44" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/CreateHomeSectionUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/CreateHomeSectionUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/home/CreateHomeSectionUseCaseImpl.kt">
         <error line="9" column="5" source="standard:class-signature" />
         <error line="9" column="44" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/DeleteHomeSectionUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/DeleteHomeSectionUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/home/DeleteHomeSectionUseCaseImpl.kt">
         <error line="7" column="5" source="standard:class-signature" />
         <error line="7" column="44" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/GetHomeSectionByIdUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/GetHomeSectionByIdUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/home/GetHomeSectionByIdUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="44" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/GetHomeSectionsUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/GetHomeSectionsUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/home/GetHomeSectionsUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="44" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/ObserveHomeSectionsUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/ObserveHomeSectionsUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/home/ObserveHomeSectionsUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="44" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/RemoveHomeSectionItemUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/RemoveHomeSectionItemUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/home/RemoveHomeSectionItemUseCaseImpl.kt">
         <error line="7" column="5" source="standard:class-signature" />
         <error line="7" column="44" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/UpdateHomeSectionUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/home/UpdateHomeSectionUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/home/UpdateHomeSectionUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="44" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/LoginUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/LoginUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/login/LoginUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="9" column="5" source="standard:class-signature" />
         <error line="9" column="44" source="standard:class-signature" />
         <error line="10" column="5" source="standard:class-signature" />
         <error line="11" column="92" source="standard:function-expression-body" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/LoginWithGoogleUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/LoginWithGoogleUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/login/LoginWithGoogleUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="9" column="5" source="standard:class-signature" />
         <error line="9" column="44" source="standard:class-signature" />
         <error line="10" column="5" source="standard:class-signature" />
         <error line="11" column="76" source="standard:function-expression-body" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/LogoutUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/LogoutUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/login/LogoutUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="9" column="5" source="standard:class-signature" />
         <error line="9" column="44" source="standard:class-signature" />
@@ -804,11 +644,7 @@
         <error line="10" column="9" source="standard:class-signature" />
         <error line="13" column="32" source="standard:no-multi-spaces" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/RegisterUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/RegisterUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/login/RegisterUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="9" column="5" source="standard:class-signature" />
         <error line="9" column="56" source="standard:class-signature" />
@@ -820,39 +656,25 @@
         <error line="14" column="25" source="standard:trailing-comma-on-declaration-site" />
         <error line="15" column="24" source="standard:function-expression-body" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/ResendVerificationCodeUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/ResendVerificationCodeUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/login/ResendVerificationCodeUseCaseImpl.kt">
         <error line="7" column="5" source="standard:class-signature" />
         <error line="7" column="44" source="standard:class-signature" />
         <error line="9" column="72" source="standard:function-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/RestartSignUpUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/RestartSignUpUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/login/RestartSignUpUseCaseImpl.kt">
         <error line="7" column="5" source="standard:class-signature" />
         <error line="7" column="56" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/ValidateCodeUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/login/ValidateCodeUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/login/ValidateCodeUseCaseImpl.kt">
         <error line="13" column="88" source="standard:function-expression-body" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/photo/UploadPhotoUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/photo/UploadPhotoUseCase.kt">
         <error line="8" column="9" source="standard:function-signature" />
         <error line="9" column="9" source="standard:function-signature" />
         <error line="10" column="9" source="standard:function-signature" />
         <error line="10" column="26" source="standard:function-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/photo/UploadPhotoUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/photo/UploadPhotoUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="52" source="standard:class-signature" />
         <error line="12" column="9" source="standard:function-signature" />
@@ -862,141 +684,71 @@
         <error line="15" column="23" source="standard:function-signature" />
         <error line="16" column="1" source="standard:no-blank-line-before-rbrace" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/AddRestaurantByPlaceIdUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/AddRestaurantByPlaceIdUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/restaurant/AddRestaurantByPlaceIdUseCaseImpl.kt">
         <error line="7" column="5" source="standard:class-signature" />
         <error line="7" column="51" source="standard:class-signature" />
         <error line="8" column="5" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/AwaitEnrichedRestaurantByPlaceIdUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/AwaitEnrichedRestaurantByPlaceIdUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/restaurant/AwaitEnrichedRestaurantByPlaceIdUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="51" source="standard:class-signature" />
         <error line="9" column="5" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/DeleteRestaurantUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/DeleteRestaurantUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/restaurant/DeleteRestaurantUseCaseImpl.kt">
         <error line="7" column="5" source="standard:class-signature" />
         <error line="7" column="51" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/FindRestaurantsUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/FindRestaurantsUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/restaurant/FindRestaurantsUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="62" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/GetRestaurantByIdUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/GetRestaurantByIdUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/restaurant/GetRestaurantByIdUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="51" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/GetRestaurantByPlaceIdUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/GetRestaurantByPlaceIdUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/restaurant/GetRestaurantByPlaceIdUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="51" source="standard:class-signature" />
         <error line="9" column="5" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/GetRestaurantsUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/GetRestaurantsUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/restaurant/GetRestaurantsUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="51" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/UpdateRestaurantUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/restaurant/UpdateRestaurantUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/restaurant/UpdateRestaurantUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="51" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/search/SearchUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/search/SearchUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/FindUsersUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/FindUsersUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/user/FindUsersUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="50" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/GetPresignedUrlUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/user/GetPresignedUrlUseCase.kt">
         <error line="11" column="24" source="standard:trailing-comma-on-declaration-site" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/GetPresignedUrlUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/user/GetPresignedUrlUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="45" source="standard:class-signature" />
         <error line="14" column="24" source="standard:trailing-comma-on-declaration-site" />
         <error line="19" column="26" source="standard:trailing-comma-on-call-site" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/GetUserByIdUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/GetUserByIdUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/user/GetUserByIdUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="45" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/GetUserMeUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/GetUserMeUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/user/GetUserMeUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="45" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/GetUsersUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/GetUsersUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/user/GetUsersUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="45" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/ObserveUserUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/ObserveUserUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/UpdateUserPhotoUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/UpdateUserPhotoUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/user/UpdateUserPhotoUseCaseImpl.kt">
         <error line="7" column="5" source="standard:class-signature" />
         <error line="7" column="45" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/UpdateUserUseCase.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/use_case/user/UpdateUserUseCaseImpl.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/user/UpdateUserUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
         <error line="8" column="45" source="standard:class-signature" />
     </file>
@@ -1511,7 +1263,6 @@
         <error line="55" column="38" source="standard:trailing-comma-on-call-site" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/home/HomeHeader.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
         <error line="33" column="5" source="standard:function-naming" />
         <error line="35" column="70" source="standard:trailing-comma-on-call-site" />
         <error line="41" column="41" source="standard:trailing-comma-on-call-site" />
@@ -1542,18 +1293,9 @@
         <error line="64" column="47" source="standard:trailing-comma-on-call-site" />
         <error line="65" column="14" source="standard:trailing-comma-on-call-site" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/image_picker/ImageBitmapDecoder.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/image_picker/ImagePickerLauncher.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/imagepicker/ImagePickerLauncher.kt">
         <error line="7" column="5" source="standard:function-signature" />
         <error line="7" column="60" source="standard:function-signature" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/BottomNavItem.kt">
-        <error line="16" column="5" source="standard:class-signature" />
-        <error line="17" column="5" source="standard:class-signature" />
-        <error line="17" column="31" source="standard:class-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/BottomNavigationBar.kt">
         <error line="19" column="5" source="standard:function-naming" />
@@ -1566,32 +1308,9 @@
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/NavigationRoot.kt">
         <error line="41" column="5" source="standard:function-naming" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/NavigationState.kt">
-        <error line="28" column="54" source="standard:trailing-comma-on-declaration-site" />
-        <error line="33" column="19" source="standard:keyword-spacing" />
-        <error line="42" column="5" source="standard:function-signature" />
-        <error line="43" column="5" source="standard:function-signature" />
-        <error line="43" column="32" source="standard:function-signature" />
-        <error line="43" column="32" source="standard:trailing-comma-on-declaration-site" />
-        <error line="49" column="82" source="standard:trailing-comma-on-call-site" />
-        <error line="57" column="16" source="standard:trailing-comma-on-call-site" />
-        <error line="65" column="36" source="standard:trailing-comma-on-call-site" />
-        <error line="83" column="5" source="standard:function-signature" />
-        <error line="83" column="48" source="standard:function-signature" />
-        <error line="83" column="48" source="standard:trailing-comma-on-declaration-site" />
-        <error line="88" column="54" source="standard:trailing-comma-on-call-site" />
-        <error line="93" column="42" source="standard:trailing-comma-on-call-site" />
-    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/Navigator.kt">
         <error line="8" column="11" source="standard:keyword-spacing" />
         <error line="20" column="11" source="standard:keyword-spacing" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/Route.kt">
-        <error line="7" column="23" source="standard:colon-spacing" />
-        <error line="10" column="24" source="standard:colon-spacing" />
-        <error line="13" column="23" source="standard:colon-spacing" />
-        <error line="16" column="21" source="standard:colon-spacing" />
-        <error line="19" column="24" source="standard:colon-spacing" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/ProfileDrawerContent.kt">
         <error line="82" column="5" source="standard:function-naming" />
@@ -1791,8 +1510,7 @@
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/search/SearchSectionHeader.kt">
         <error line="20" column="14" source="standard:function-naming" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_in/SignInScreen.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/signin/SignInScreen.kt">
         <error line="80" column="5" source="standard:function-naming" />
         <error line="81" column="5" source="standard:function-signature" />
         <error line="82" column="5" source="standard:function-signature" />
@@ -1854,18 +1572,13 @@
         <error line="422" column="1" source="standard:indent" />
         <error line="435" column="5" source="standard:function-naming" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_in/SignInUiState.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_in/SignInViewModel.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/signin/SignInViewModel.kt">
         <error line="18" column="5" source="standard:class-signature" />
         <error line="19" column="5" source="standard:class-signature" />
         <error line="19" column="57" source="standard:class-signature" />
         <error line="20" column="5" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_up/SignUpScreen.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/signup/SignUpScreen.kt">
         <error line="74" column="5" source="standard:function-naming" />
         <error line="75" column="5" source="standard:function-signature" />
         <error line="76" column="5" source="standard:function-signature" />
@@ -1954,11 +1667,7 @@
         <error line="468" column="1" source="standard:indent" />
         <error line="481" column="5" source="standard:function-naming" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_up/SignUpUiState.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_up/SignUpViewModel.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/signup/SignUpViewModel.kt">
         <error line="16" column="5" source="standard:class-signature" />
         <error line="16" column="43" source="standard:class-signature" />
     </file>
@@ -1966,8 +1675,7 @@
         <error line="11" column="12" source="standard:function-naming" />
         <error line="19" column="14" source="standard:function-naming" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/validate_code/ValidateCodeScreen.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/validatecode/ValidateCodeScreen.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="61" column="5" source="standard:function-naming" />
         <error line="80" column="13" source="standard:function-naming" />
@@ -1986,12 +1694,6 @@
         <error line="284" column="24" source="standard:multiline-if-else" />
         <error line="299" column="13" source="standard:function-naming" />
         <error line="316" column="5" source="standard:function-naming" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/validate_code/ValidateCodeUiState.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/validate_code/ValidateCodeViewModel.kt">
-        <error line="1" column="9" source="standard:package-name" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/ui/theme/AppTheme.kt">
         <error line="8" column="5" source="standard:function-naming" />
@@ -2150,169 +1852,21 @@
         <error line="276" column="89" source="standard:function-signature" />
         <error line="297" column="86" source="standard:function-signature" />
     </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/author/FindAuthorsUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/author/GetAuthorByIdUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/author/GetAuthorsPagingUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/author/GetAuthorsUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/GetFavouriteGuidesUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/GetFavouriteRestaurantsUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/usecase/favourite/GetFavouriteRestaurantsUseCaseImplTest.kt">
         <error line="14" column="105" source="standard:function-signature" />
         <error line="20" column="1" source="standard:indent" />
         <error line="21" column="1" source="standard:indent" />
         <error line="22" column="1" source="standard:indent" />
         <error line="34" column="69" source="standard:function-signature" />
     </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/MarkGuideFavouriteUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/MarkRestaurantFavouriteUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/SyncFavouriteRestaurantsUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/SyncFavouritesUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/UnmarkGuideFavouriteUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/UnmarkRestaurantFavouriteUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/guide/IsGuideFavouriteUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/guide/ObserveFavouriteGuideIdsUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/favourite/restaurant/IsRestaurantFavouriteUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/guide/AddRestaurantGuideUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/guide/CreateGuideUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/guide/DeleteGuideUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/guide/FindGuidesUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/guide/GetGuideByIdUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/guide/GetGuidesPagingUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/guide/GetGuidesUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/guide/UpdateGuideUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/AddHomeSectionItemUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/CreateHomeSectionUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/DeleteHomeSectionUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/GetHomeSectionByIdUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/GetHomeSectionsUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/ObserveHomeSectionsUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/RemoveHomeSectionItemUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/home/UpdateHomeSectionUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/login/LogoutUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/login/RegisterUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/usecase/login/RegisterUseCaseImplTest.kt">
         <error line="35" column="110" source="standard:function-signature" />
     </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/login/RestartSignUpUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/usecase/login/RestartSignUpUseCaseImplTest.kt">
         <error line="13" column="121" source="standard:max-line-length" />
     </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/login/ValidateCodeUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonTest/kotlin/pt/socialfood/domain/usecase/login/ValidateCodeUseCaseImplTest.kt">
         <error line="35" column="110" source="standard:function-signature" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/restaurant/AddRestaurantByPlaceIdUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/restaurant/AwaitEnrichedRestaurantByPlaceIdUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/restaurant/DeleteRestaurantUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/restaurant/FindRestaurantsUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/restaurant/GetRestaurantByIdUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/restaurant/GetRestaurantByPlaceIdUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/restaurant/GetRestaurantsUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/restaurant/UpdateRestaurantUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/search/SearchUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/FindUsersUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/GetPresignedUrlUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/GetUserByIdUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/GetUserMeUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/GetUsersUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/ObserveUserUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/UpdateUserPhotoUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/use_case/user/UpdateUserUseCaseImplTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeAddRestaurantByPlaceIdUseCase.kt">
         <error line="7" column="5" source="standard:class-signature" />
@@ -2428,11 +1982,6 @@
         <error line="17" column="18" source="standard:trailing-comma-on-call-site" />
         <error line="18" column="14" source="standard:trailing-comma-on-call-site" />
     </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeResendVerificationCodeUseCase.kt">
-        <error line="7" column="5" source="standard:class-signature" />
-        <error line="7" column="61" source="standard:class-signature" />
-        <error line="8" column="5" source="standard:class-signature" />
-    </file>
     <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeRestartSignUpUseCase.kt">
         <error line="7" column="5" source="standard:class-signature" />
         <error line="7" column="64" source="standard:class-signature" />
@@ -2467,10 +2016,6 @@
         <error line="17" column="9" source="standard:function-signature" />
         <error line="18" column="9" source="standard:function-signature" />
         <error line="18" column="26" source="standard:function-signature" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeValidateCodeUseCase.kt">
-        <error line="7" column="5" source="standard:class-signature" />
-        <error line="7" column="64" source="standard:class-signature" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/favourite/FavouriteGuidesViewModelTest.kt">
         <error line="27" column="40" source="standard:function-signature" />
@@ -2519,21 +2064,13 @@
         <error line="48" column="121" source="standard:max-line-length" />
         <error line="68" column="121" source="standard:max-line-length" />
     </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/presentation/sign_in/SignInViewModelTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-        <error line="32" column="69" source="standard:function-signature" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/presentation/sign_up/SignUpViewModelTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
-    </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/startup/StartupViewModelTest.kt">
         <error line="20" column="121" source="standard:max-line-length" />
         <error line="60" column="121" source="standard:max-line-length" />
         <error line="103" column="121" source="standard:max-line-length" />
         <error line="143" column="58" source="standard:function-signature" />
     </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/presentation/validate_code/ValidateCodeViewModelTest.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonTest/kotlin/pt/socialfood/presentation/validatecode/ValidateCodeViewModelTest.kt">
         <error line="118" column="121" source="standard:max-line-length" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/runner/runTestWithMainDispatcher.kt">
@@ -2558,12 +2095,10 @@
         <error line="17" column="31" source="standard:function-signature" />
         <error line="18" column="17" source="standard:function-signature" />
     </file>
-    <file name="src/iosMain/kotlin/pt/socialfood/presentation/image_picker/ImageBitmapDecoder.ios.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/iosMain/kotlin/pt/socialfood/presentation/imagepicker/ImageBitmapDecoder.ios.kt">
         <error line="7" column="52" source="standard:function-signature" />
     </file>
-    <file name="src/iosMain/kotlin/pt/socialfood/presentation/image_picker/ImagePickerLauncher.ios.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/iosMain/kotlin/pt/socialfood/presentation/imagepicker/ImagePickerLauncher.ios.kt">
         <error line="54" column="5" source="standard:function-signature" />
         <error line="54" column="60" source="standard:function-signature" />
         <error line="55" column="17" source="standard:function-signature" />

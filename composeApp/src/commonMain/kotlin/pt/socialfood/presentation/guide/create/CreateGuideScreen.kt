@@ -41,7 +41,7 @@ import socialfood.composeapp.generated.resources.create_guide_create_title
 import socialfood.composeapp.generated.resources.create_guide_save_button
 import pt.socialfood.presentation.guide.GuideValidationErrorDialog
 import pt.socialfood.presentation.guide.edit.card.GuideDetailsCard
-import pt.socialfood.presentation.image_picker.rememberImagePickerLauncher
+import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize

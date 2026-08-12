@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.search.SearchUseCase
+import pt.socialfood.domain.usecase.search.SearchUseCase
 import pt.socialfood.presentation.error.toErrorCode
 import kotlin.time.Duration.Companion.milliseconds
 

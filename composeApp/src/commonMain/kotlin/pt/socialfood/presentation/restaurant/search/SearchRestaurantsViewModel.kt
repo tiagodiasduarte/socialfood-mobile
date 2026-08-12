@@ -15,9 +15,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.use_case.SearchPlacesUseCase
-import pt.socialfood.domain.use_case.restaurant.AddRestaurantByPlaceIdUseCase
-import pt.socialfood.domain.use_case.restaurant.AwaitEnrichedRestaurantByPlaceIdUseCase
+import pt.socialfood.domain.usecase.SearchPlacesUseCase
+import pt.socialfood.domain.usecase.restaurant.AddRestaurantByPlaceIdUseCase
+import pt.socialfood.domain.usecase.restaurant.AwaitEnrichedRestaurantByPlaceIdUseCase
 import pt.socialfood.presentation.error.toErrorCode
 import kotlin.time.Duration.Companion.milliseconds
 

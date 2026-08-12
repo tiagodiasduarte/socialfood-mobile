@@ -2,7 +2,7 @@ package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Search
-import pt.socialfood.domain.use_case.search.SearchUseCase
+import pt.socialfood.domain.usecase.search.SearchUseCase
 
 class FakeSearchUseCase(private val result: Result<List<Search>> = Result.Success(emptyList())) : SearchUseCase {
     var invokeCount: Int = 0

@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.favourite.guide.IsGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.guide.GetGuideByIdUseCase
-import pt.socialfood.domain.use_case.user.GetUserMeUseCase
+import pt.socialfood.domain.usecase.favourite.guide.IsGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCase
+import pt.socialfood.domain.usecase.user.GetUserMeUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
 class GuideDetailViewModel(

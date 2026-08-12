@@ -19,7 +19,7 @@ SocialFood is a Kotlin Multiplatform (KMP) app targeting **Android** and **iOS**
 ./gradlew :composeApp:allTests
 
 # Run a specific test class
-./gradlew :composeApp:testDebugUnitTest --tests "pt.socialfood.presentation.sign_in.SignInViewModelTest"
+./gradlew :composeApp:testDebugUnitTest --tests "pt.socialfood.presentation.signin.SignInViewModelTest"
 ```
 
 For iOS: open `iosApp/` in Xcode and run from there.

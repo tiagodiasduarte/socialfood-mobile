@@ -1,7 +1,7 @@
 package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.guide.DeleteGuideUseCase
+import pt.socialfood.domain.usecase.guide.DeleteGuideUseCase
 
 class FakeDeleteGuideUseCase(private val result: Result<Boolean>) : DeleteGuideUseCase {
     var invokeCount: Int = 0

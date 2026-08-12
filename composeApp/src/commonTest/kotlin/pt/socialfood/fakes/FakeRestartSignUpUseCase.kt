@@ -1,7 +1,7 @@
 package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.login.RestartSignUpUseCase
+import pt.socialfood.domain.usecase.login.RestartSignUpUseCase
 
 class FakeRestartSignUpUseCase(
     private val result: Result<Boolean> = Result.Success(true),

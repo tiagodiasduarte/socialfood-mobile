@@ -17,11 +17,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.User
-import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.guide.ObserveFavouriteGuideIdsUseCase
-import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.guide.GetGuidesPagingUseCase
-import pt.socialfood.domain.use_case.user.ObserveUserUseCase
+import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
+import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
+import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 
 const val ALL_GUIDES_TAB = 0
 const val MY_GUIDES_TAB = 1

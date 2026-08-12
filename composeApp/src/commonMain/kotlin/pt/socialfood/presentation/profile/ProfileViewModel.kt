@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.login.LogoutUseCase
-import pt.socialfood.domain.use_case.user.GetUserMeUseCase
-import pt.socialfood.domain.use_case.user.ObserveUserUseCase
+import pt.socialfood.domain.usecase.login.LogoutUseCase
+import pt.socialfood.domain.usecase.user.GetUserMeUseCase
+import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
 class ProfileViewModel(

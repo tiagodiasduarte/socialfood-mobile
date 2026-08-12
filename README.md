@@ -49,7 +49,7 @@ SocialFood follows Clean Architecture, detailed in full on the [Architecture wik
 ./gradlew :composeApp:allTests
 
 # A single test class
-./gradlew :composeApp:testDebugUnitTest --tests "pt.socialfood.presentation.sign_in.SignInViewModelTest"
+./gradlew :composeApp:testDebugUnitTest --tests "pt.socialfood.presentation.signin.SignInViewModelTest"
 
 # iOS simulator target
 ./gradlew :composeApp:iosSimulatorArm64Test

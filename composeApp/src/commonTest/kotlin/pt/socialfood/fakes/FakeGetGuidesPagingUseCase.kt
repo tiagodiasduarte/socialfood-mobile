@@ -4,7 +4,7 @@ import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.use_case.guide.GetGuidesPagingUseCase
+import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
 
 class FakeGetGuidesPagingUseCase(
     private val result: (userId: String?) -> Flow<PagingData<Guide>> = { flowOf(PagingData.empty()) },

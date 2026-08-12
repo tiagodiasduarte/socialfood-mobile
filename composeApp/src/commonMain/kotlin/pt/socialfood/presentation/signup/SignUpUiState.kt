@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.sign_up
+package pt.socialfood.presentation.signup
 
 import org.jetbrains.compose.resources.StringResource
 import pt.socialfood.domain.error.ErrorCode

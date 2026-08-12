@@ -11,7 +11,7 @@ import pt.socialfood.data.network.SessionManager
 import pt.socialfood.presentation.favourite.FavouritesSyncEffect
 import pt.socialfood.presentation.navigation.NavigationRoot
 import pt.socialfood.presentation.sign_in.SignInScreen
-import pt.socialfood.presentation.sign_up.SignUpScreen
+import pt.socialfood.presentation.signup.SignUpScreen
 import pt.socialfood.presentation.splash.SplashScreen
 import pt.socialfood.presentation.startup.StartupViewModel
 import pt.socialfood.presentation.validate_code.ValidateCodeScreen

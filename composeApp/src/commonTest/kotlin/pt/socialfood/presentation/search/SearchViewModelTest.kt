@@ -6,7 +6,10 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.domain.model.Search
+import pt.socialfood.fakes.FakeGetRestaurantSuggestionsUseCase
 import pt.socialfood.fakes.FakeSearchUseCase
+import pt.socialfood.random.nextRestaurantSuggestions
 import pt.socialfood.random.nextSearch
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.random.Random
@@ -20,7 +23,7 @@ class SearchViewModelTest {
     fun `given a blank query when onSearchQueryChange is called then state is Loaded with empty results`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = SearchViewModel(FakeSearchUseCase())
+            val vm = SearchViewModel(FakeSearchUseCase(), FakeGetRestaurantSuggestionsUseCase())
 
             // When
             vm.onSearchQueryChange("   ")
@@ -36,7 +39,7 @@ class SearchViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val search = FakeSearchUseCase()
-            val vm = SearchViewModel(search)
+            val vm = SearchViewModel(search, FakeGetRestaurantSuggestionsUseCase())
 
             // When
             vm.onSearchQueryChange("a")
@@ -53,7 +56,7 @@ class SearchViewModelTest {
             // Given
             val results = listOf(Random.nextSearch())
             val search = FakeSearchUseCase(Result.Success(results))
-            val vm = SearchViewModel(search)
+            val vm = SearchViewModel(search, FakeGetRestaurantSuggestionsUseCase())
 
             // When / Then
             vm.state.test {
@@ -71,7 +74,7 @@ class SearchViewModelTest {
     fun `given search fails when onSearchQueryChange is called then state is Error`() = runTestWithMainDispatcher {
         // Given
         val search = FakeSearchUseCase(Result.Failure(DataError.Network(Exception("test error"))))
-        val vm = SearchViewModel(search)
+        val vm = SearchViewModel(search, FakeGetRestaurantSuggestionsUseCase())
 
         // When / Then
         vm.state.test {
@@ -90,7 +93,7 @@ class SearchViewModelTest {
             // Given
             val results = listOf(Random.nextSearch())
             val search = FakeSearchUseCase(Result.Success(results))
-            val vm = SearchViewModel(search)
+            val vm = SearchViewModel(search, FakeGetRestaurantSuggestionsUseCase())
 
             // When
             vm.onSearchQueryChange("pi")
@@ -100,5 +103,68 @@ class SearchViewModelTest {
             // Then
             assertEquals(1, search.invokeCount)
             assertEquals("pizza", vm.query.value)
+        }
+
+    @Test
+    fun `given suggestions succeed when onFavoriteRestaurantsClick is called then state is Loaded with restaurants`() =
+        runTestWithMainDispatcher {
+            // Given
+            val suggestions = Random.nextRestaurantSuggestions()
+            val getRestaurantSuggestions = FakeGetRestaurantSuggestionsUseCase(Result.Success(suggestions))
+            val vm = SearchViewModel(FakeSearchUseCase(), getRestaurantSuggestions)
+
+            // When / Then
+            vm.state.test {
+                assertEquals(SearchUiState.Loaded(emptyList()), awaitItem())
+
+                vm.onFavoriteRestaurantsClick()
+
+                assertEquals(SearchUiState.Loading, awaitItem())
+                assertEquals(
+                    SearchUiState.Loaded(suggestions.restaurants.map { Search.RestaurantResult(it) }),
+                    awaitItem(),
+                )
+                cancelAndIgnoreRemainingEvents()
+            }
+            advanceUntilIdle()
+            assertEquals(true, vm.suggestionResultsRequested.value)
+            assertEquals(1, getRestaurantSuggestions.invokeCount)
+        }
+
+    @Test
+    fun `given suggestions fail when onFavoriteRestaurantsClick is called then state is Error`() =
+        runTestWithMainDispatcher {
+            // Given
+            val getRestaurantSuggestions = FakeGetRestaurantSuggestionsUseCase(
+                Result.Failure(DataError.Network(Exception("test error"))),
+            )
+            val vm = SearchViewModel(FakeSearchUseCase(), getRestaurantSuggestions)
+
+            // When / Then
+            vm.state.test {
+                assertEquals(SearchUiState.Loaded(emptyList()), awaitItem())
+
+                vm.onFavoriteRestaurantsClick()
+
+                assertEquals(SearchUiState.Loading, awaitItem())
+                assertEquals(SearchUiState.Error(ErrorCode.NETWORK), awaitItem())
+                cancelAndIgnoreRemainingEvents()
+            }
+            advanceUntilIdle()
+        }
+
+    @Test
+    fun `given suggestion results requested when onSearchQueryChange is called then the flag resets`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm = SearchViewModel(FakeSearchUseCase(), FakeGetRestaurantSuggestionsUseCase())
+            vm.onFavoriteRestaurantsClick()
+            advanceUntilIdle()
+
+            // When
+            vm.onSearchQueryChange("pizza")
+
+            // Then
+            assertEquals(false, vm.suggestionResultsRequested.value)
         }
 }

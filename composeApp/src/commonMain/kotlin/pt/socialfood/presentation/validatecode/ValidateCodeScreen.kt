@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.validate_code
+package pt.socialfood.presentation.validatecode
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

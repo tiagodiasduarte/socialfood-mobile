@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.validate_code
+package pt.socialfood.presentation.validatecode
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

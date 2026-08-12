@@ -197,7 +197,7 @@ import pt.socialfood.presentation.search.SearchViewModel
 import pt.socialfood.presentation.signin.SignInViewModel
 import pt.socialfood.presentation.signup.SignUpViewModel
 import pt.socialfood.presentation.startup.StartupViewModel
-import pt.socialfood.presentation.validate_code.ValidateCodeViewModel
+import pt.socialfood.presentation.validatecode.ValidateCodeViewModel
 
 expect val platformModule: Module
 

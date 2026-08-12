@@ -2,7 +2,7 @@ package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.AuthorDetail
-import pt.socialfood.domain.use_case.author.GetAuthorByIdUseCase
+import pt.socialfood.domain.usecase.author.GetAuthorByIdUseCase
 
 class FakeGetAuthorByIdUseCase(private val result: Result<AuthorDetail>) : GetAuthorByIdUseCase {
     var invokeCount: Int = 0

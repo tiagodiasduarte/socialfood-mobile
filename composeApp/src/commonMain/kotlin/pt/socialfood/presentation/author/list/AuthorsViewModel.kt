@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.User
-import pt.socialfood.domain.use_case.author.GetAuthorsPagingUseCase
-import pt.socialfood.domain.use_case.user.ObserveUserUseCase
+import pt.socialfood.domain.usecase.author.GetAuthorsPagingUseCase
+import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 
 class AuthorsViewModel(
     getAuthorsPaging: GetAuthorsPagingUseCase,

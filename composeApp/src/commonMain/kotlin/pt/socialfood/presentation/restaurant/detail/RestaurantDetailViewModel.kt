@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.favourite.restaurant.IsRestaurantFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.restaurant.MarkRestaurantFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
-import pt.socialfood.domain.use_case.restaurant.GetRestaurantByIdUseCase
+import pt.socialfood.domain.usecase.favourite.restaurant.IsRestaurantFavouriteUseCase
+import pt.socialfood.domain.usecase.favourite.restaurant.MarkRestaurantFavouriteUseCase
+import pt.socialfood.domain.usecase.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
+import pt.socialfood.domain.usecase.restaurant.GetRestaurantByIdUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
 class RestaurantDetailViewModel(

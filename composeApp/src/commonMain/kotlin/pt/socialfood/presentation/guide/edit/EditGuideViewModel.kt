@@ -12,10 +12,10 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.repository.GuidesRepository
-import pt.socialfood.domain.use_case.guide.DeleteGuideUseCase
-import pt.socialfood.domain.use_case.guide.GetGuideByIdUseCase
-import pt.socialfood.domain.use_case.guide.UpdateGuideUseCase
-import pt.socialfood.domain.use_case.photo.UploadPhotoUseCase
+import pt.socialfood.domain.usecase.guide.DeleteGuideUseCase
+import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCase
+import pt.socialfood.domain.usecase.guide.UpdateGuideUseCase
+import pt.socialfood.domain.usecase.photo.UploadPhotoUseCase
 import pt.socialfood.presentation.error.toErrorCode
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.edit_guide_details_description_error

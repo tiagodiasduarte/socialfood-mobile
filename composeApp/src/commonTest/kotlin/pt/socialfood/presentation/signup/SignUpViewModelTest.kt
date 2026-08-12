@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.sign_up
+package pt.socialfood.presentation.signup
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi

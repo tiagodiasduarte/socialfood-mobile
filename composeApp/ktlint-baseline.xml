@@ -1858,8 +1858,7 @@
         <error line="19" column="57" source="standard:class-signature" />
         <error line="20" column="5" source="standard:class-signature" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_up/SignUpScreen.kt">
-        <error line="1" column="9" source="standard:package-name" />
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/signup/SignUpScreen.kt">
         <error line="74" column="5" source="standard:function-naming" />
         <error line="75" column="5" source="standard:function-signature" />
         <error line="76" column="5" source="standard:function-signature" />
@@ -1948,10 +1947,10 @@
         <error line="468" column="1" source="standard:indent" />
         <error line="481" column="5" source="standard:function-naming" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_up/SignUpUiState.kt">
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/signup/SignUpUiState.kt">
         <error line="1" column="9" source="standard:package-name" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/sign_up/SignUpViewModel.kt">
+    <file name="src/commonMain/kotlin/pt/socialfood/presentation/signup/SignUpViewModel.kt">
         <error line="1" column="9" source="standard:package-name" />
         <error line="16" column="5" source="standard:class-signature" />
         <error line="16" column="43" source="standard:class-signature" />
@@ -2517,7 +2516,7 @@
         <error line="1" column="9" source="standard:package-name" />
         <error line="32" column="69" source="standard:function-signature" />
     </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/presentation/sign_up/SignUpViewModelTest.kt">
+    <file name="src/commonTest/kotlin/pt/socialfood/presentation/signup/SignUpViewModelTest.kt">
         <error line="1" column="9" source="standard:package-name" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/startup/StartupViewModelTest.kt">

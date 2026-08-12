@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.sign_up
+package pt.socialfood.presentation.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

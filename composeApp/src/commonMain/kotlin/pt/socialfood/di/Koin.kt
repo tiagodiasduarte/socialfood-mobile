@@ -194,8 +194,8 @@ import pt.socialfood.presentation.profile.edit.EditProfileViewModel
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
 import pt.socialfood.presentation.search.SearchViewModel
-import pt.socialfood.presentation.sign_up.SignUpViewModel
 import pt.socialfood.presentation.signin.SignInViewModel
+import pt.socialfood.presentation.signup.SignUpViewModel
 import pt.socialfood.presentation.startup.StartupViewModel
 import pt.socialfood.presentation.validate_code.ValidateCodeViewModel
 

@@ -1,6 +1,7 @@
 package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
+import pt.socialfood.domain.model.GuideSuggestions
 import pt.socialfood.domain.model.RestaurantSuggestions
 import pt.socialfood.domain.model.Search
 import pt.socialfood.domain.repository.SearchRepository
@@ -9,6 +10,9 @@ class FakeSearchRepository(
     private val result: Result<List<Search>> = Result.Success(emptyList()),
     private val restaurantSuggestionsResult: Result<RestaurantSuggestions> = Result.Success(
         RestaurantSuggestions(restaurants = emptyList(), generatedAt = ""),
+    ),
+    private val guideSuggestionsResult: Result<GuideSuggestions> = Result.Success(
+        GuideSuggestions(guides = emptyList(), generatedAt = ""),
     ),
 ) : SearchRepository {
     var lastPage: Int? = null
@@ -26,4 +30,6 @@ class FakeSearchRepository(
     }
 
     override suspend fun getRestaurantSuggestions(): Result<RestaurantSuggestions> = restaurantSuggestionsResult
+
+    override suspend fun getGuideSuggestions(): Result<GuideSuggestions> = guideSuggestionsResult
 }

@@ -3,9 +3,11 @@ package pt.socialfood.data.repository
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.SearchApi
 import pt.socialfood.domain.error.safeApiCall
+import pt.socialfood.domain.model.GuideSuggestions
 import pt.socialfood.domain.model.RestaurantSuggestions
 import pt.socialfood.domain.model.Search
 import pt.socialfood.domain.repository.SearchRepository
+import pt.socialfood.mapper.toGuideSuggestions
 import pt.socialfood.mapper.toRestaurantSuggestions
 import pt.socialfood.mapper.toSearchResults
 
@@ -16,4 +18,7 @@ class SearchRepositoryImpl(private val searchApi: SearchApi) : SearchRepository 
 
     override suspend fun getRestaurantSuggestions(): Result<RestaurantSuggestions> =
         safeApiCall { searchApi.getRestaurantSuggestions().toRestaurantSuggestions() }
+
+    override suspend fun getGuideSuggestions(): Result<GuideSuggestions> =
+        safeApiCall { searchApi.getGuideSuggestions().toGuideSuggestions() }
 }

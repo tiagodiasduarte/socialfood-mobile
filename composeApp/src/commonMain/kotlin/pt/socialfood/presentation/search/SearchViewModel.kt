@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Search
+import pt.socialfood.domain.usecase.search.GetGuideSuggestionsUseCase
 import pt.socialfood.domain.usecase.search.GetRestaurantSuggestionsUseCase
 import pt.socialfood.domain.usecase.search.SearchUseCase
 import pt.socialfood.presentation.error.toErrorCode
@@ -31,6 +32,7 @@ private val SEARCH_DEBOUNCE_MS = 300.milliseconds
 class SearchViewModel(
     private val search: SearchUseCase,
     private val getRestaurantSuggestions: GetRestaurantSuggestionsUseCase,
+    private val getGuideSuggestions: GetGuideSuggestionsUseCase,
 ) : ViewModel() {
 
     private val _query = MutableStateFlow("")
@@ -42,7 +44,8 @@ class SearchViewModel(
     private val _state = MutableStateFlow<SearchUiState>(SearchUiState.Loaded(emptyList()))
     val state: StateFlow<SearchUiState> = _state.asStateFlow()
 
-    private var restaurantSuggestionsJob: Job? = null
+    private var suggestionsJob: Job? = null
+    private var lastSuggestionsAction: (() -> Unit)? = null
 
     init {
         _query
@@ -61,11 +64,23 @@ class SearchViewModel(
     }
 
     fun onFavoriteRestaurantsClick() {
+        lastSuggestionsAction = ::onFavoriteRestaurantsClick
+        requestSuggestions { performRestaurantSuggestions() }
+    }
+
+    fun onFavoriteGuidesClick() {
+        lastSuggestionsAction = ::onFavoriteGuidesClick
+        requestSuggestions { performGuideSuggestions() }
+    }
+
+    fun retrySuggestions() {
+        lastSuggestionsAction?.invoke()
+    }
+
+    private fun requestSuggestions(perform: () -> Flow<SearchUiState>) {
         _suggestionResultsRequested.value = true
-        restaurantSuggestionsJob?.cancel()
-        restaurantSuggestionsJob = performRestaurantSuggestions()
-            .onEach { _state.value = it }
-            .launchIn(viewModelScope)
+        suggestionsJob?.cancel()
+        suggestionsJob = perform().onEach { _state.value = it }.launchIn(viewModelScope)
     }
 
     private fun performSearch(query: String): Flow<SearchUiState> = flow {
@@ -81,6 +96,16 @@ class SearchViewModel(
         when (val result = getRestaurantSuggestions()) {
             is Result.Success -> emit(
                 SearchUiState.Loaded(result.data.restaurants.map { Search.RestaurantResult(it) }),
+            )
+            is Result.Failure -> emit(SearchUiState.Error(result.error.toErrorCode()))
+        }
+    }
+
+    private fun performGuideSuggestions(): Flow<SearchUiState> = flow {
+        emit(SearchUiState.Loading)
+        when (val result = getGuideSuggestions()) {
+            is Result.Success -> emit(
+                SearchUiState.Loaded(result.data.guides.map { Search.GuideResult(it) }),
             )
             is Result.Failure -> emit(SearchUiState.Error(result.error.toErrorCode()))
         }

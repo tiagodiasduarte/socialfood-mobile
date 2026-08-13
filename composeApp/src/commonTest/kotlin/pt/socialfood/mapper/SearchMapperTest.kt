@@ -4,6 +4,7 @@ import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.author.AuthorResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
+import pt.socialfood.data.network.model.search.GuideSuggestionsResponse
 import pt.socialfood.data.network.model.search.RestaurantSuggestionsResponse
 import pt.socialfood.data.network.model.search.SearchResponse
 import pt.socialfood.domain.model.Search
@@ -114,6 +115,24 @@ class SearchMapperTest {
 
         // Then
         assertEquals(listOf(restaurantResponse.toRestaurant()), result.restaurants)
+        assertEquals(generatedAt, result.generatedAt)
+    }
+
+    @Test
+    fun `given a GuideSuggestionsResponse when mapped then returns the mapped guides and generatedAt`() {
+        // Given
+        val guideResponse = randomGuideResponse()
+        val generatedAt = Random.nextString()
+        val response = GuideSuggestionsResponse(
+            guides = listOf(guideResponse),
+            generatedAt = generatedAt,
+        )
+
+        // When
+        val result = response.toGuideSuggestions()
+
+        // Then
+        assertEquals(listOf(guideResponse.toGuide()), result.guides)
         assertEquals(generatedAt, result.generatedAt)
     }
 }

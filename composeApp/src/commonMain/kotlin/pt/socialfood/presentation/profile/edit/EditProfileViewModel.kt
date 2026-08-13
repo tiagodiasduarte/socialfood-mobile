@@ -8,12 +8,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.di.ImageCache
-import pt.socialfood.domain.use_case.photo.UploadPhotoUseCase
-import pt.socialfood.domain.use_case.user.GetPresignedUrlUseCase
-import pt.socialfood.domain.use_case.user.GetUserMeUseCase
-import pt.socialfood.domain.use_case.user.UpdateUserPhotoUseCase
-import pt.socialfood.domain.use_case.user.UpdateUserUseCase
-import pt.socialfood.presentation.error.displayMessage
+import pt.socialfood.domain.usecase.photo.UploadPhotoUseCase
+import pt.socialfood.domain.usecase.user.GetPresignedUrlUseCase
+import pt.socialfood.domain.usecase.user.GetUserMeUseCase
+import pt.socialfood.domain.usecase.user.UpdateUserPhotoUseCase
+import pt.socialfood.domain.usecase.user.UpdateUserUseCase
+import pt.socialfood.presentation.error.toErrorCode
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -62,7 +62,7 @@ class EditProfileViewModel(
                     )
                 }
 
-                is Result.Failure -> _state.value = EditProfileUiState.Error(result.error.displayMessage())
+                is Result.Failure -> _state.value = EditProfileUiState.Error(result.error.toErrorCode())
             }
         }
     }
@@ -95,16 +95,14 @@ class EditProfileViewModel(
         ) {
             is Result.Success -> result.data
             is Result.Failure -> {
-                val message = result.error.displayMessage()
-                loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = message) }
+                loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = result.error.toErrorCode()) }
                 return false
             }
         }
 
         val uploadResult = uploadPhoto(presigned = presigned, bytes = bytes, mimeType = mimeType)
         if (uploadResult is Result.Failure) {
-            val message = uploadResult.error.displayMessage()
-            loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = message) }
+            loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = uploadResult.error.toErrorCode()) }
             return false
         }
 
@@ -115,8 +113,7 @@ class EditProfileViewModel(
                 true
             }
             is Result.Failure -> {
-                val message = photoResult.error.displayMessage()
-                loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = message) }
+                loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = photoResult.error.toErrorCode()) }
                 false
             }
         }
@@ -142,10 +139,7 @@ class EditProfileViewModel(
                 )
             ) {
                 is Result.Success -> loaded { copy(isSaving = false, saveSuccess = true) }
-                is Result.Failure -> {
-                    val message = result.error.displayMessage()
-                    loaded { copy(isSaving = false, saveError = message) }
-                }
+                is Result.Failure -> loaded { copy(isSaving = false, saveError = result.error.toErrorCode()) }
             }
         }
     }

@@ -8,11 +8,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.favourite.restaurant.IsRestaurantFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.restaurant.MarkRestaurantFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
-import pt.socialfood.domain.use_case.restaurant.GetRestaurantByIdUseCase
-import pt.socialfood.presentation.error.displayMessage
+import pt.socialfood.domain.usecase.favourite.restaurant.IsRestaurantFavouriteUseCase
+import pt.socialfood.domain.usecase.favourite.restaurant.MarkRestaurantFavouriteUseCase
+import pt.socialfood.domain.usecase.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
+import pt.socialfood.domain.usecase.restaurant.GetRestaurantByIdUseCase
+import pt.socialfood.presentation.error.toErrorCode
 
 class RestaurantDetailViewModel(
     private val getRestaurantById: GetRestaurantByIdUseCase,
@@ -41,7 +41,7 @@ class RestaurantDetailViewModel(
                     restaurant = restaurantResult.data,
                     isFavourite = (isFavouriteResult as? Result.Success)?.data ?: false,
                 )
-                is Result.Failure -> RestaurantDetailUiState.Error(restaurantResult.error.displayMessage())
+                is Result.Failure -> RestaurantDetailUiState.Error(restaurantResult.error.toErrorCode())
             }
         }
     }

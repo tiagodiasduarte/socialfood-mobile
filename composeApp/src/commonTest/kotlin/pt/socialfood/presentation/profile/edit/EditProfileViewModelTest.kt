@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
+import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.PresignedUrlData
 import pt.socialfood.domain.model.User
 import pt.socialfood.fakes.FakeGetPresignedUrlUseCase
@@ -13,7 +14,6 @@ import pt.socialfood.fakes.FakeUpdateUserPhotoUseCase
 import pt.socialfood.fakes.FakeUpdateUserUseCase
 import pt.socialfood.fakes.FakeUploadPhotoUseCase
 import pt.socialfood.runner.runTestWithMainDispatcher
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -35,14 +35,16 @@ class EditProfileViewModelTest {
             publicUrl = "https://cdn.socialfood.pt/new.png",
         )
 
+    @Suppress("LongParameterList")
     private fun createViewModel(
+        getUserMe: FakeGetUserMeUseCase = FakeGetUserMeUseCase(Result.Success(sampleUser)),
         getPresignedUrl: FakeGetPresignedUrlUseCase = FakeGetPresignedUrlUseCase(Result.Success(presignedUrlData)),
         uploadPhoto: FakeUploadPhotoUseCase = FakeUploadPhotoUseCase(Result.Success(Unit)),
         updateUserPhoto: FakeUpdateUserPhotoUseCase = FakeUpdateUserPhotoUseCase(Result.Success(true)),
         updateUser: FakeUpdateUserUseCase = FakeUpdateUserUseCase(Result.Success(sampleUser)),
         imageCache: FakeImageCache = FakeImageCache(),
     ) = EditProfileViewModel(
-        getUserMe = FakeGetUserMeUseCase(Result.Success(sampleUser)),
+        getUserMe = getUserMe,
         updateUser = updateUser,
         uploadPhoto = uploadPhoto,
         updateUserPhoto = updateUserPhoto,
@@ -102,8 +104,6 @@ class EditProfileViewModelTest {
         }
     }
 
-    // TODO(robolectric): remove @Ignore once Robolectric is added
-    @Ignore
     @Test
     fun `given the S3 upload fails when save is called then the user photo is not updated`() =
         runTestWithMainDispatcher {
@@ -136,15 +136,13 @@ class EditProfileViewModelTest {
                 assertEquals(0, updateUserPhoto.invokeCount)
                 assertEquals(false, failed.isSaving)
                 assertEquals(false, failed.isUploadingPhoto)
-                assertEquals("No internet connection. Please check your connection and try again.", failed.saveError)
+                assertEquals(ErrorCode.NETWORK, failed.saveError)
                 assertEquals(emptyList(), imageCache.clearedUrls)
 
                 cancelAndIgnoreRemainingEvents()
             }
         }
 
-    // TODO(robolectric): remove @Ignore once Robolectric is added
-    @Ignore
     @Test
     fun `given updateUser fails when save is called then saveError is set`() = runTestWithMainDispatcher {
         // Given
@@ -162,14 +160,12 @@ class EditProfileViewModelTest {
             assertIs<EditProfileUiState.Loaded>(awaitItem()).let { assertEquals(true, it.isSaving) }
             val failed = assertIs<EditProfileUiState.Loaded>(awaitItem())
             assertEquals(false, failed.isSaving)
-            assertEquals("No internet connection. Please check your connection and try again.", failed.saveError)
+            assertEquals(ErrorCode.NETWORK, failed.saveError)
 
             cancelAndIgnoreRemainingEvents()
         }
     }
 
-    // TODO(robolectric): remove @Ignore once Robolectric is added
-    @Ignore
     @Test
     fun `given saveError is true when dismissSaveError is called then saveError is cleared`() =
         runTestWithMainDispatcher {
@@ -183,7 +179,7 @@ class EditProfileViewModelTest {
 
                 vm.save()
                 awaitItem() // isSaving = true
-                assertIs<EditProfileUiState.Loaded>(awaitItem()).let { assertEquals(true, it.saveError != null) }
+                assertIs<EditProfileUiState.Loaded>(awaitItem()).let { assertEquals(ErrorCode.NETWORK, it.saveError) }
 
                 // When
                 vm.dismissSaveError()
@@ -194,4 +190,129 @@ class EditProfileViewModelTest {
                 cancelAndIgnoreRemainingEvents()
             }
         }
+
+    @Test
+    fun `given getUserMe fails when created then state is Error`() = runTestWithMainDispatcher {
+        // Given
+        val vm = createViewModel(
+            getUserMe = FakeGetUserMeUseCase(Result.Failure(DataError.Network(Exception("test error")))),
+        )
+
+        // When / Then
+        vm.state.test {
+            assertEquals(EditProfileUiState.Loading, awaitItem())
+            assertEquals(EditProfileUiState.Error(ErrorCode.NETWORK), awaitItem())
+        }
+    }
+
+    @Test
+    fun `given a loaded state when retry is called then reloads the user`() = runTestWithMainDispatcher {
+        // Given
+        val getUserMe = FakeGetUserMeUseCase(Result.Success(sampleUser))
+        val vm = createViewModel(getUserMe = getUserMe)
+
+        vm.state.test {
+            assertEquals(EditProfileUiState.Loading, awaitItem())
+            assertIs<EditProfileUiState.Loaded>(awaitItem())
+
+            // When
+            vm.retry()
+
+            // Then
+            assertEquals(EditProfileUiState.Loading, awaitItem())
+            assertIs<EditProfileUiState.Loaded>(awaitItem())
+        }
+        assertEquals(2, getUserMe.invokeCount)
+    }
+
+    @Test
+    fun `given field change functions are called then the Loaded state reflects the new values`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm = createViewModel()
+
+            vm.state.test {
+                assertEquals(EditProfileUiState.Loading, awaitItem())
+                assertIs<EditProfileUiState.Loaded>(awaitItem())
+
+                // When / Then
+                vm.onNameChange("New Name")
+                assertEquals("New Name", assertIs<EditProfileUiState.Loaded>(awaitItem()).name)
+
+                vm.onUsernameChange("newusername")
+                assertEquals("newusername", assertIs<EditProfileUiState.Loaded>(awaitItem()).username)
+
+                vm.onFacebookUrlChange("https://facebook.com/new")
+                assertEquals(
+                    "https://facebook.com/new",
+                    assertIs<EditProfileUiState.Loaded>(awaitItem()).facebookUrl,
+                )
+
+                vm.onInstagramUrlChange("https://instagram.com/new")
+                assertEquals(
+                    "https://instagram.com/new",
+                    assertIs<EditProfileUiState.Loaded>(awaitItem()).instagramUrl,
+                )
+
+                vm.onYoutubeUrlChange("https://youtube.com/new")
+                assertEquals(
+                    "https://youtube.com/new",
+                    assertIs<EditProfileUiState.Loaded>(awaitItem()).youtubeUrl,
+                )
+            }
+        }
+
+    @Test
+    fun `given getPresignedUrl fails when save is called with a pending photo then saveError is set`() =
+        runTestWithMainDispatcher {
+            // Given
+            val getPresignedUrl = FakeGetPresignedUrlUseCase(Result.Failure(DataError.Network(Exception("test error"))))
+            val uploadPhoto = FakeUploadPhotoUseCase(Result.Success(Unit))
+            val vm = createViewModel(getPresignedUrl = getPresignedUrl, uploadPhoto = uploadPhoto)
+
+            vm.state.test {
+                assertEquals(EditProfileUiState.Loading, awaitItem())
+                assertIs<EditProfileUiState.Loaded>(awaitItem())
+
+                // When
+                vm.onPhotoSelected(byteArrayOf(1, 2, 3), "image/png")
+                awaitItem() // pendingImage set
+                vm.save()
+
+                // Then
+                assertIs<EditProfileUiState.Loaded>(awaitItem()).let { assertEquals(true, it.isSaving) }
+                assertIs<EditProfileUiState.Loaded>(awaitItem()).let { assertEquals(true, it.isUploadingPhoto) }
+
+                val failed = assertIs<EditProfileUiState.Loaded>(awaitItem())
+                assertEquals(1, getPresignedUrl.invokeCount)
+                assertEquals(0, uploadPhoto.invokeCount)
+                assertEquals(false, failed.isSaving)
+                assertEquals(false, failed.isUploadingPhoto)
+                assertEquals(ErrorCode.NETWORK, failed.saveError)
+
+                cancelAndIgnoreRemainingEvents()
+            }
+        }
+
+    @Test
+    fun `given already saving when save is called again then the second call is ignored`() = runTestWithMainDispatcher {
+        // Given
+        val updateUser = FakeUpdateUserUseCase(Result.Success(sampleUser))
+        val vm = createViewModel(updateUser = updateUser)
+
+        vm.state.test {
+            assertEquals(EditProfileUiState.Loading, awaitItem())
+            assertIs<EditProfileUiState.Loaded>(awaitItem())
+
+            // When
+            vm.save()
+            assertIs<EditProfileUiState.Loaded>(awaitItem()).let { assertEquals(true, it.isSaving) }
+            vm.save()
+
+            // Then
+            assertIs<EditProfileUiState.Loaded>(awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+        assertEquals(1, updateUser.invokeCount)
+    }
 }

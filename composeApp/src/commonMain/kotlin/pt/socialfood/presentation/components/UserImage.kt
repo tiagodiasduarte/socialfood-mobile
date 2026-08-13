@@ -21,7 +21,7 @@ import pt.socialfood.ui.theme.ProfileGradientEnd
 import pt.socialfood.ui.theme.ProfileGradientStart
 
 @Composable
-fun UserImage(name: String, imageUrl: String?, imageSize: Dp) {
+fun UserImage(name: String, imageUrl: String?, imageSize: Dp, modifier: Modifier = Modifier) {
     val initials = name
         .trim()
         .split(" ")
@@ -31,7 +31,7 @@ fun UserImage(name: String, imageUrl: String?, imageSize: Dp) {
         .ifEmpty { "?" }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(imageSize)
             .clip(CircleShape)
             .background(

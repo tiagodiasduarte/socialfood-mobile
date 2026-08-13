@@ -48,6 +48,7 @@ enum class ErrorCode {
     FORBIDDEN,
     INVALID_REQUEST,
     INTERNAL_ERROR,
+    NETWORK,
 
     // User
     INVALID_SOCIAL_LINK,

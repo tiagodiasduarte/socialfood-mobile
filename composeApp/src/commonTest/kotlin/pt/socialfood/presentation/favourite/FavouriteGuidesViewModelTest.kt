@@ -5,6 +5,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
+import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.FavouriteGuide
 import pt.socialfood.domain.model.Guide
@@ -15,7 +16,6 @@ import pt.socialfood.fakes.FakeUnmarkGuideFavouriteUseCase
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesUiState
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesViewModel
 import pt.socialfood.runner.runTestWithMainDispatcher
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -27,14 +27,14 @@ class FavouriteGuidesViewModelTest {
     private fun favourite(id: String) =
         FavouriteGuide(
             guide =
-                Guide(
-                    id = id,
-                    name = "Guide $id",
-                    description = "",
-                    visibility = GuideVisibility.PUBLIC,
-                    author = Author(id = "author-id", name = "Author", username = "author"),
-                    numberOfRestaurant = 0,
-                ),
+            Guide(
+                id = id,
+                name = "Guide $id",
+                description = "",
+                visibility = GuideVisibility.PUBLIC,
+                author = Author(id = "author-id", name = "Author", username = "author"),
+                numberOfRestaurant = 0,
+            ),
             favouritedAt = 0L,
         )
 
@@ -64,22 +64,18 @@ class FavouriteGuidesViewModelTest {
             }
         }
 
-    // TODO(robolectric): remove @Ignore and uncomment the assertion once Robolectric is added
-    @Ignore
     @Test
-    fun `given use case fails when created then state is Error`() =
-        runTestWithMainDispatcher {
-            // Given
-            val useCase = FakeGetFavouriteGuidesUseCase { Result.Failure(DataError.Network(Exception("test error"))) }
+    fun `given use case fails when created then state is Error`() = runTestWithMainDispatcher {
+        // Given
+        val useCase = FakeGetFavouriteGuidesUseCase { Result.Failure(DataError.Network(Exception("test error"))) }
 
-            // When / Then
-            val vm = FavouriteGuidesViewModel(useCase, FakeUnmarkGuideFavouriteUseCase())
-            vm.state.test {
-                assertEquals(FavouriteGuidesUiState.Loading, awaitItem())
-                // TODO(robolectric): uncomment once Robolectric is added
-                // assertIs<FavouriteGuidesUiState.Error>(awaitItem())
-            }
+        // When / Then
+        val vm = FavouriteGuidesViewModel(useCase, FakeUnmarkGuideFavouriteUseCase())
+        vm.state.test {
+            assertEquals(FavouriteGuidesUiState.Loading, awaitItem())
+            assertEquals(FavouriteGuidesUiState.Error(ErrorCode.NETWORK), awaitItem())
         }
+    }
 
     @Test
     fun `given more pages available when loadMore is called then appends guides and updates hasMore`() =

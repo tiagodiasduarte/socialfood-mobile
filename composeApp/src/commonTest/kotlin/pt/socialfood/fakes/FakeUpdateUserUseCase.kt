@@ -2,7 +2,7 @@ package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.User
-import pt.socialfood.domain.use_case.user.UpdateUserUseCase
+import pt.socialfood.domain.usecase.user.UpdateUserUseCase
 
 class FakeUpdateUserUseCase(
     private val result: Result<User>,

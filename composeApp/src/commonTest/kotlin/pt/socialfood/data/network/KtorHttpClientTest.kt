@@ -94,29 +94,52 @@ class KtorHttpClientTest {
         }
 
     @Test
-    fun `given a 400 error body with a known error code when body is read then errorCode matches it`() =
-        runTest {
-            // Given
-            val engine = MockEngine {
-                respond(
-                    content = """{"error":"INVALID_REQUEST","message":"Username already taken"}""",
-                    status = HttpStatusCode.BadRequest,
-                    headers = headersOf(HttpHeaders.ContentType, "application/json"),
-                )
-            }
-            val client = KtorHttpClient(
-                sessionManager = SessionManager(FakeSettingsRepository()),
-                engine = engine,
-            ).client
-
-            // When
-            val exception = assertFailsWith<ApiException> {
-                client.get("users/me").body<UnrelatedSuccessDto>()
-            }
-
-            // Then
-            assertEquals(ErrorCode.INVALID_REQUEST, exception.errorCode)
+    fun `given an error body that does not match ErrorResponse when body is read then it still throws`() = runTest {
+        // Given
+        val engine = MockEngine {
+            respond(
+                content = "<html><body>502 Bad Gateway</body></html>",
+                status = HttpStatusCode.BadGateway,
+                headers = headersOf(HttpHeaders.ContentType, "text/html"),
+            )
         }
+        val client = KtorHttpClient(
+            sessionManager = SessionManager(FakeSettingsRepository()),
+            engine = engine,
+        ).client
+
+        // When
+        val exception = assertFailsWith<ApiException> {
+            client.get("search").body<UnrelatedSuccessDto>()
+        }
+
+        // Then
+        assertEquals(ErrorCode.UNKNOWN, exception.errorCode)
+    }
+
+    @Test
+    fun `given a 400 error body with a known error code when body is read then errorCode matches it`() = runTest {
+        // Given
+        val engine = MockEngine {
+            respond(
+                content = """{"error":"INVALID_REQUEST","message":"Username already taken"}""",
+                status = HttpStatusCode.BadRequest,
+                headers = headersOf(HttpHeaders.ContentType, "application/json"),
+            )
+        }
+        val client = KtorHttpClient(
+            sessionManager = SessionManager(FakeSettingsRepository()),
+            engine = engine,
+        ).client
+
+        // When
+        val exception = assertFailsWith<ApiException> {
+            client.get("users/me").body<UnrelatedSuccessDto>()
+        }
+
+        // Then
+        assertEquals(ErrorCode.INVALID_REQUEST, exception.errorCode)
+    }
 }
 
 @Serializable

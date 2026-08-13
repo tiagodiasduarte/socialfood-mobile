@@ -1,5 +1,6 @@
 package pt.socialfood.presentation.guide
 
+import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -7,11 +8,11 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.User
-import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.guide.ObserveFavouriteGuideIdsUseCase
-import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.guide.GetGuidesPagingUseCase
-import pt.socialfood.domain.use_case.user.ObserveUserUseCase
+import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
+import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
+import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.fakes.FakeGetGuidesPagingUseCase
 import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeObserveFavouriteGuideIdsUseCase
@@ -131,6 +132,19 @@ class GuidesViewModelTest {
             assertEquals(otherUser.id, getGuidesPaging.lastUserId)
             job.cancel()
         }
+
+    @Test
+    fun `given the current user is observed then user reflects the emitted value`() = runTestWithMainDispatcher {
+        // Given
+        val observeUser = FakeObserveUserUseCase(initial = fakeUser)
+
+        // When / Then
+        val vm = createViewModel(observeUser = observeUser)
+        vm.user.test {
+            awaitItem()
+            assertEquals(fakeUser, awaitItem())
+        }
+    }
 
     @Test
     fun `given favourite ids are observed then favouriteGuideIds reflects them`() =

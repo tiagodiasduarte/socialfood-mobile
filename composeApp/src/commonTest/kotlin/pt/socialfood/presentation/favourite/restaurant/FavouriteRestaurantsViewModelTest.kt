@@ -5,13 +5,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
+import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.FavouriteRestaurant
 import pt.socialfood.domain.model.PagedFavouriteRestaurants
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.fakes.FakeGetFavouriteRestaurantsUseCase
 import pt.socialfood.fakes.FakeUnmarkRestaurantFavouriteUseCase
 import pt.socialfood.runner.runTestWithMainDispatcher
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -67,8 +67,6 @@ class FavouriteRestaurantsViewModelTest {
             }
         }
 
-    // TODO(robolectric): remove @Ignore and uncomment the assertion once Robolectric is added
-    @Ignore
     @Test
     fun `given use case fails when created then state is Error`() =
         runTestWithMainDispatcher {
@@ -80,8 +78,7 @@ class FavouriteRestaurantsViewModelTest {
             val vm = FavouriteRestaurantsViewModel(useCase, FakeUnmarkRestaurantFavouriteUseCase())
             vm.state.test {
                 assertEquals(FavouriteRestaurantsUiState.Loading, awaitItem())
-                // TODO(robolectric): uncomment once Robolectric is added
-                // assertIs<FavouriteRestaurantsUiState.Error>(awaitItem())
+                assertEquals(FavouriteRestaurantsUiState.Error(ErrorCode.NETWORK), awaitItem())
             }
         }
 

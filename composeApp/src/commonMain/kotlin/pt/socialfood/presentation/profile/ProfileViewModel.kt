@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.login.LogoutUseCase
-import pt.socialfood.domain.use_case.user.GetUserMeUseCase
-import pt.socialfood.domain.use_case.user.ObserveUserUseCase
-import pt.socialfood.presentation.error.displayMessage
+import pt.socialfood.domain.usecase.login.LogoutUseCase
+import pt.socialfood.domain.usecase.user.GetUserMeUseCase
+import pt.socialfood.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.presentation.error.toErrorCode
 
 class ProfileViewModel(
     private val getUserMe: GetUserMeUseCase,
@@ -34,7 +34,7 @@ class ProfileViewModel(
         viewModelScope.launch {
             _state.value = when (val result = getUserMe()) {
                 is Result.Success -> ProfileUiState.Loaded(result.data)
-                is Result.Failure -> ProfileUiState.Error(result.error.displayMessage())
+                is Result.Failure -> ProfileUiState.Error(result.error.toErrorCode())
             }
         }
     }

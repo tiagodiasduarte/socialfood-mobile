@@ -21,6 +21,9 @@ class FakeFavouriteRestaurantsRepository(
     var lastUnmarkedRestaurantId: String? = null
         private set
 
+    var lastIsFavouriteRestaurantId: String? = null
+        private set
+
     override suspend fun markFavourite(restaurant: Restaurant): Result<Unit> {
         lastMarkedRestaurant = restaurant
         return markResult
@@ -33,7 +36,10 @@ class FakeFavouriteRestaurantsRepository(
 
     override suspend fun getFavouritesPaged(page: Int, limit: Int): Result<PagedFavouriteRestaurants> = pagedResult
 
-    override suspend fun isFavourite(restaurantId: String): Result<Boolean> = isFavouriteResult
+    override suspend fun isFavourite(restaurantId: String): Result<Boolean> {
+        lastIsFavouriteRestaurantId = restaurantId
+        return isFavouriteResult
+    }
 
     override suspend fun syncFavourites(): Result<Unit> = syncResult
 }

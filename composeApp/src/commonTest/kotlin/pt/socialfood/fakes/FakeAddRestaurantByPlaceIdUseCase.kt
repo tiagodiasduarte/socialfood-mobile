@@ -1,7 +1,7 @@
 package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.restaurant.AddRestaurantByPlaceIdUseCase
+import pt.socialfood.domain.usecase.restaurant.AddRestaurantByPlaceIdUseCase
 
 class FakeAddRestaurantByPlaceIdUseCase(
     private val result: Result<Unit> = Result.Success(Unit),

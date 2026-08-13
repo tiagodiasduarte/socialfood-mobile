@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.favourite.restaurant.GetFavouriteRestaurantsUseCase
-import pt.socialfood.domain.use_case.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
-import pt.socialfood.presentation.error.displayMessage
+import pt.socialfood.domain.usecase.favourite.restaurant.GetFavouriteRestaurantsUseCase
+import pt.socialfood.domain.usecase.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
+import pt.socialfood.presentation.error.toErrorCode
 
 private const val PAGE_SIZE = 20
 
@@ -42,7 +42,7 @@ class FavouriteRestaurantsViewModel(
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Failure -> _state.value = FavouriteRestaurantsUiState.Error(result.error.displayMessage())
+                is Result.Failure -> _state.value = FavouriteRestaurantsUiState.Error(result.error.toErrorCode())
             }
         }
     }
@@ -59,7 +59,7 @@ class FavouriteRestaurantsViewModel(
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Failure -> _state.value = FavouriteRestaurantsUiState.Error(result.error.displayMessage())
+                is Result.Failure -> _state.value = FavouriteRestaurantsUiState.Error(result.error.toErrorCode())
             }
             _isRefreshing.value = false
         }

@@ -1,7 +1,6 @@
 package pt.socialfood.presentation.error
 
 import org.jetbrains.compose.resources.StringResource
-import org.jetbrains.compose.resources.getString
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
 import socialfood.composeapp.generated.resources.Res
@@ -59,13 +58,14 @@ private val errorCodeStringResources: Map<ErrorCode, StringResource> = mapOf(
     ErrorCode.INVALID_REQUEST to Res.string.error_code_invalid_request,
     ErrorCode.INTERNAL_ERROR to Res.string.error_code_internal_error,
     ErrorCode.INVALID_SOCIAL_LINK to Res.string.error_code_invalid_social_link,
+    ErrorCode.NETWORK to Res.string.error_network_message,
     ErrorCode.UNKNOWN to Res.string.error_code_unknown,
 )
 
 fun ErrorCode.stringResource(): StringResource = errorCodeStringResources.getValue(this)
 
-suspend fun DataError.displayMessage(): String = when (this) {
-    is DataError.Known -> getString(errorCode.stringResource())
-    is DataError.Unknown -> message ?: getString(Res.string.error_code_unknown)
-    is DataError.Network -> getString(Res.string.error_network_message)
+fun DataError.toErrorCode(): ErrorCode = when (this) {
+    is DataError.Known -> errorCode
+    is DataError.Unknown -> ErrorCode.UNKNOWN
+    is DataError.Network -> ErrorCode.NETWORK
 }

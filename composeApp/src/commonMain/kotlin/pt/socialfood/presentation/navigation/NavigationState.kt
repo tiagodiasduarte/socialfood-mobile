@@ -25,12 +25,12 @@ import kotlinx.serialization.modules.polymorphic
 class NavigationState(
     val startRoute: NavKey,
     topLevelRoute: MutableState<NavKey>,
-    val backStacks: Map<NavKey, NavBackStack<NavKey>>
+    val backStacks: Map<NavKey, NavBackStack<NavKey>>,
 ) {
     var topLevelRoute by topLevelRoute
 
     val stacksInUse: List<NavKey>
-        get() = if(topLevelRoute == startRoute) {
+        get() = if (topLevelRoute == startRoute) {
             listOf(startRoute)
         } else {
             listOf(startRoute, topLevelRoute)
@@ -38,15 +38,12 @@ class NavigationState(
 }
 
 @Composable
-fun rememberNavigationState(
-    startRoute: NavKey,
-    topLevelRoutes: Set<NavKey>
-): NavigationState {
+fun rememberNavigationState(startRoute: NavKey, topLevelRoutes: Set<NavKey>): NavigationState {
     val topLevelRoute = rememberSerializable(
         startRoute,
         topLevelRoutes,
         configuration = serializersConfig,
-        serializer = MutableStateSerializer(PolymorphicSerializer(NavKey::class))
+        serializer = MutableStateSerializer(PolymorphicSerializer(NavKey::class)),
     ) {
         mutableStateOf(startRoute)
     }
@@ -54,7 +51,7 @@ fun rememberNavigationState(
     val backStacks = topLevelRoutes.associateWith { key ->
         rememberNavBackStack(
             configuration = serializersConfig,
-            key
+            key,
         )
     }
 
@@ -62,7 +59,7 @@ fun rememberNavigationState(
         NavigationState(
             startRoute = startRoute,
             topLevelRoute = topLevelRoute,
-            backStacks = backStacks
+            backStacks = backStacks,
         )
     }
 }
@@ -73,24 +70,22 @@ val serializersConfig = SavedStateConfiguration {
             subclass(Route.Authors::class, Route.Authors.serializer())
             subclass(Route.Home::class, Route.Home.serializer())
             subclass(Route.Guides::class, Route.Guides.serializer())
-            subclass(Route.Profile::class, Route.Profile.serializer())
+            subclass(Route.Search::class, Route.Search.serializer())
         }
     }
 }
 
 @Composable
-fun NavigationState.toEntries(
-    entryProvider: (NavKey) -> NavEntry<NavKey>
-): SnapshotStateList<NavEntry<NavKey>> {
+fun NavigationState.toEntries(entryProvider: (NavKey) -> NavEntry<NavKey>): SnapshotStateList<NavEntry<NavKey>> {
     val decoratedEntries = backStacks.mapValues { (_, stack) ->
         val decorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator<NavKey>(),
-            rememberViewModelStoreNavEntryDecorator()
+            rememberViewModelStoreNavEntryDecorator(),
         )
         rememberDecoratedNavEntries(
             backStack = stack,
             entryDecorators = decorators,
-            entryProvider = entryProvider
+            entryProvider = entryProvider,
         )
     }
 

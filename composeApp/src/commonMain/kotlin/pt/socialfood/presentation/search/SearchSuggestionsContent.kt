@@ -4,7 +4,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -41,11 +43,12 @@ fun SearchSuggestionsContent(
     onMostFollowedClick: () -> Unit = {},
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
+        Spacer(modifier = Modifier.height(SpaceSize.medium))
         SearchSectionHeader(
             icon = Icons.Outlined.Lightbulb,
             title = stringResource(Res.string.search_suggestions_title),
         )
-
+        Spacer(modifier = Modifier.height(SpaceSize.medium))
         SearchSuggestionItem(
             icon = painterResource(Res.drawable.guides_icon),
             label = stringResource(Res.string.search_suggestion_favorite_guides),

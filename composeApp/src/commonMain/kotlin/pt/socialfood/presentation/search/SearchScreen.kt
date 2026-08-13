@@ -50,11 +50,14 @@ fun SearchScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val searchQuery by viewModel.query.collectAsStateWithLifecycle()
+    val suggestionResultsRequested by viewModel.suggestionResultsRequested.collectAsStateWithLifecycle()
 
     SearchScreenContent(
         searchQuery = searchQuery,
         state = state,
+        suggestionResultsRequested = suggestionResultsRequested,
         onQueryChange = viewModel::onSearchQueryChange,
+        onFavoriteRestaurantsClick = viewModel::onFavoriteRestaurantsClick,
         onResultClick = { result ->
             when (result) {
                 is Search.AuthorResult -> onAuthorClick(result.author.id)
@@ -65,12 +68,14 @@ fun SearchScreen(
     )
 }
 
-@Suppress("LongMethod")
+@Suppress("LongMethod", "LongParameterList")
 @Composable
 fun SearchScreenContent(
     searchQuery: String,
     state: SearchUiState,
+    suggestionResultsRequested: Boolean = false,
     onQueryChange: (String) -> Unit = {},
+    onFavoriteRestaurantsClick: () -> Unit = {},
     onResultClick: (Search) -> Unit = {},
 ) {
     Column(modifier = Modifier.fillMaxSize().background(GreyBackground)) {
@@ -87,8 +92,11 @@ fun SearchScreenContent(
             )
         }
 
-        if (searchQuery.length < MIN_QUERY_LENGTH) {
-            SearchSuggestionsContent(modifier = Modifier.fillMaxSize())
+        if (searchQuery.length < MIN_QUERY_LENGTH && !suggestionResultsRequested) {
+            SearchSuggestionsContent(
+                modifier = Modifier.fillMaxSize(),
+                onFavoriteRestaurantsClick = onFavoriteRestaurantsClick,
+            )
         } else {
             when (state) {
                 is SearchUiState.Loading -> Box(
@@ -100,7 +108,9 @@ fun SearchScreenContent(
 
                 is SearchUiState.Error -> ErrorContent(
                     modifier = Modifier.fillMaxSize(),
-                    onRetryClick = { onQueryChange(searchQuery) },
+                    onRetryClick = {
+                        if (suggestionResultsRequested) onFavoriteRestaurantsClick() else onQueryChange(searchQuery)
+                    },
                 )
 
                 is SearchUiState.Loaded -> if (state.results.isEmpty()) {

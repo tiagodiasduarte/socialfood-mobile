@@ -162,6 +162,8 @@ import pt.socialfood.domain.usecase.restaurant.GetRestaurantsUseCase
 import pt.socialfood.domain.usecase.restaurant.GetRestaurantsUseCaseImpl
 import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCase
 import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCaseImpl
+import pt.socialfood.domain.usecase.search.GetRestaurantSuggestionsUseCase
+import pt.socialfood.domain.usecase.search.GetRestaurantSuggestionsUseCaseImpl
 import pt.socialfood.domain.usecase.search.SearchUseCase
 import pt.socialfood.domain.usecase.search.SearchUseCaseImpl
 import pt.socialfood.domain.usecase.user.FindUsersUseCase
@@ -293,6 +295,7 @@ val useCaseModule =
         factory<GetPresignedUrlUseCase> { GetPresignedUrlUseCaseImpl(get()) }
         factory<GetRestaurantByIdUseCase> { GetRestaurantByIdUseCaseImpl(get()) }
         factory<GetRestaurantByPlaceIdUseCase> { GetRestaurantByPlaceIdUseCaseImpl(get()) }
+        factory<GetRestaurantSuggestionsUseCase> { GetRestaurantSuggestionsUseCaseImpl(get()) }
         factory<GetRestaurantsUseCase> { GetRestaurantsUseCaseImpl(get()) }
         factory<GetUserByIdUseCase> { GetUserByIdUseCaseImpl(get()) }
         factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
@@ -341,7 +344,7 @@ val viewModelModule =
         factory { ProfileViewModel(get(), get(), get()) }
         factory { (restaurantId: String) -> RestaurantDetailViewModel(get(), get(), get(), get(), restaurantId) }
         factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
-        factory { SearchViewModel(get()) }
+        factory { SearchViewModel(get(), get()) }
         factory { SignInViewModel(get(), get()) }
         factory { SignUpViewModel(get()) }
         factory { StartupViewModel(get(), get(), get()) }

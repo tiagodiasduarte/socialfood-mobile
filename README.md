@@ -7,7 +7,7 @@
 
 A Kotlin Multiplatform app for discovering and sharing restaurant guides, built with a single Compose Multiplatform codebase for **Android** and **iOS**.
 
-📖 Deeper docs (architecture, CI/CD internals, SDK inventory, testing conventions) live in the [project wiki](https://github.com/tiagodiasduarte/socialfood-mobile/wiki).
+📖 Deeper docs (architecture, CI/CD internals, SDK inventory and testing) live in the [project wiki](https://github.com/tiagodiasduarte/socialfood-mobile/wiki).
 
 ## Features
 
@@ -40,7 +40,7 @@ A Kotlin Multiplatform app for discovering and sharing restaurant guides, built 
 
 SocialFood follows Clean Architecture, detailed in full on the [Architecture wiki page](https://github.com/tiagodiasduarte/socialfood-mobile/wiki/Architecture).
 
-### Tests
+## Testing
 
 ```bash
 # Full build: compiles, lints, and runs tests
@@ -60,11 +60,11 @@ See the [Testing wiki page](https://github.com/tiagodiasduarte/socialfood-mobile
 
 ## CI/CD
 
-- **CI** (`ci.yml`) — runs on every PR into `develop`/`main`: Android build + unit tests (with Kover coverage report/gate), iOS build + unit tests, and static analysis (ktlint + Detekt + Android Lint). Comment `/retest` on a PR to re-run just its failed jobs.
+- **CI** (`ci.yml`) — runs on every PR into `develop`/`main`: Android build + unit tests, iOS build + unit tests, and static analysis (ktlint + Detekt + Android Lint).
 - **Firebase** (`firebase.yml`) — signed release AAB distributed via Firebase App Distribution.
 - **TestFlight** (`testflight.yml`) — signed iOS build uploaded via Fastlane.
 
-Full breakdown, including the nightly-schedule trigger setup, is in the [CI/CD wiki page](  https://github.com/tiagodiasduarte/socialfood-mobile/wiki/CI-CD).
+Full breakdown, including the daily-schedule trigger setup, is in the [CI/CD wiki page](https://github.com/tiagodiasduarte/socialfood-mobile/wiki/CI-CD).
 
 ## License
 SocialFood is distributed under the terms of the MIT [License](./LICENSE). See the license for more information.

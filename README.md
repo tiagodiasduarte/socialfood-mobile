@@ -71,7 +71,7 @@ See the [Testing wiki page](https://github.com/tiagodiasduarte/socialfood-mobile
 
 ## CI/CD
 
-- **CI** (`ci.yml`) — runs on every PR into `develop`/`main`: Android build + unit tests, iOS build + unit tests, and static analysis (ktlint + Detekt + Android Lint).
+- **CI** (`ci.yml`) — runs on every PR into `develop`/`main`.
 - **Firebase** (`firebase.yml`) — signed release AAB distributed via Firebase App Distribution.
 - **TestFlight** (`testflight.yml`) — signed iOS build uploaded via Fastlane.
 

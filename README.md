@@ -13,6 +13,7 @@ A Kotlin Multiplatform app for discovering and sharing restaurant guides, built 
 
 - 🔐 Email sign-up/sign-in with code verification, plus Google Sign-In
 - 📍 Restaurant guides — browse, search, build your own, and favourite guides and restaurants for quick access
+- 🔎 Global search across guides, restaurants, and authors, with top-favorites suggestion shortcuts when the query is empty
 - 👥 Authors — browse and search profiles, follow them, and see the guides they've created
 - 🗺️ Place search and enrichment when adding restaurants to a guide
 - 🖼️ Photo uploads for guides and profiles, served straight to S3
@@ -20,20 +21,20 @@ A Kotlin Multiplatform app for discovering and sharing restaurant guides, built 
 
 ## Tech Stack
 
-| Layer           | Tech                                                                                |
-|-----------------|-------------------------------------------------------------------------------------|
-| UI              | [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) 1.10   |
-| Language        | Kotlin 2.3 (Multiplatform)                                                          |
-| Networking      | [Ktor](https://ktor.io) 3.4 (OkHttp on Android, Darwin on iOS)                      |
-| DI              | [Koin](https://insert-koin.io) 4.2                                                  |
-| Navigation      | JetBrains Navigation 3                                                              |
-| Images          | [Coil](https://coil-kt.github.io/coil/) 3.4                                         |
-| Serialization   | kotlinx.serialization                                                               |
-| Local cache     | Room                                                                                |
-| Crash reporting | Firebase Crashlytics (native on both platforms)                                     |
-| Coverage        | [Kover](https://github.com/Kotlin/kotlinx-kover)                                    |
-| Static analysis | ktlint + Detekt                                                                     |
-| Testing         | kotlin-test, kotlinx-coroutines-test, [Turbine](https://github.com/cashapp/turbine) |
+| Layer           | Tech                                                                                                                                                                                                                      |
+|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| UI              | [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) 1.10                                                                                                                                         |
+| Language        | [Kotlin](https://kotlinlang.org) 2.3 (Multiplatform)                                                                                                                                                                      |
+| Networking      | [Ktor](https://ktor.io) 3.4 (OkHttp on Android, Darwin on iOS)                                                                                                                                                            |
+| DI              | [Koin](https://insert-koin.io) 4.2                                                                                                                                                                                        |
+| Navigation      | [JetBrains Navigation 3](https://developer.android.com/guide/navigation/navigation-3)                                                                                                                                     |
+| Images          | [Coil](https://coil-kt.github.io/coil/) 3.4                                                                                                                                                                               |
+| Serialization   | [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization)                                                                                                                                                  |
+| Local cache     | [Room](https://developer.android.com/kotlin/multiplatform/room)                                                                                                                                                           |
+| Crash reporting | [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics) (native on both platforms)                                                                                                                           |
+| Coverage        | [Kover](https://github.com/Kotlin/kotlinx-kover)                                                                                                                                                                          |
+| Static analysis | [ktlint](https://pinterest.github.io/ktlint/) + [Detekt](https://detekt.dev)                                                                                                                                              |
+| Testing         | [kotlin-test](https://kotlinlang.org/api/latest/kotlin.test/), [kotlinx-coroutines-test](https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-test), [Turbine](https://github.com/cashapp/turbine) |
 
 ## Architecture
 
@@ -42,7 +43,7 @@ SocialFood follows Clean Architecture, detailed in full on the [Architecture wik
 ### Tests
 
 ```bash
-# All tests (Android + build)
+# Full build: compiles, lints, and runs tests
 ./gradlew build
 
 # Shared/unit tests only
@@ -55,7 +56,7 @@ SocialFood follows Clean Architecture, detailed in full on the [Architecture wik
 ./gradlew :composeApp:iosSimulatorArm64Test
 ```
 
-See the [Testing Conventions wiki page](https://github.com/tiagodiasduarte/socialfood-mobile/wiki/Testing-Conventions) for the Given-When-Then format and fakes-over-mocks pattern.
+See the [Testing wiki page](https://github.com/tiagodiasduarte/socialfood-mobile/wiki/Testing) for the Given-When-Then format and fakes-over-mocks pattern.
 
 ## CI/CD
 
@@ -63,8 +64,7 @@ See the [Testing Conventions wiki page](https://github.com/tiagodiasduarte/socia
 - **Firebase** (`firebase.yml`) — signed release AAB distributed via Firebase App Distribution.
 - **TestFlight** (`testflight.yml`) — signed iOS build uploaded via Fastlane.
 
-Full breakdown, including the nightly-schedule trigger setup, is in the [CI/CD wiki page](https://github.com/tiagodiasduarte/socialfood-mobile/wiki/CI-CD).
+Full breakdown, including the nightly-schedule trigger setup, is in the [CI/CD wiki page](  https://github.com/tiagodiasduarte/socialfood-mobile/wiki/CI-CD).
 
 ## License
-
-MIT — see [LICENSE](./LICENSE).
+SocialFood is distributed under the terms of the MIT [License](./LICENSE). See the license for more information.

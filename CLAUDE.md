@@ -8,23 +8,29 @@ SocialFood is a Kotlin Multiplatform (KMP) app targeting **Android** and **iOS**
 
 ## Build Commands
 
-```bash 
+```bash
 # Build Android debug APK
 ./gradlew :composeApp:assembleDebug
 
-# Run all tests
-./gradlew build
-
-# Run tests only (no build)
+# Run all tests (Android + iOS simulator)
 ./gradlew :composeApp:allTests
+
+# Run Android unit tests only
+./gradlew :composeApp:testDebugUnitTest
 
 # Run a specific test class
 ./gradlew :composeApp:testDebugUnitTest --tests "pt.socialfood.presentation.signin.SignInViewModelTest"
+
+# Lint (ktlint + detekt) — must pass before every commit
+./gradlew ktlintCheck detekt
+
+# Full build (compiles, lints, tests) — closest to what CI runs end-to-end
+./gradlew build
 ```
 
 For iOS: open `iosApp/` in Xcode and run from there.
 
-CI runs `./gradlew build` on PRs targeting `develop`.
+CI (`.github/workflows/ci.yml`) runs on PRs targeting `develop` or `main`, as five parallel jobs: Android build, Android unit tests + Kover coverage verification (`koverVerify`), iOS build, iOS unit tests, and Static Analysis (`ktlintCheck detekt :composeApp:lintDebug`). Release builds/distribution are handled separately by `firebase.yml` (Firebase App Distribution) and `testflight.yml` (TestFlight).
 
 ## Architecture
 
@@ -44,7 +50,9 @@ di/            – Koin DI module definitions
 
 **Error messages:** Resolve error copy in Compose, not in the ViewModel — store `ErrorCode` in UI state (via `DataError.toErrorCode()`) and resolve the string at render time with `stringResource(errorCode.stringResource())` (`presentation/error/DataErrorMessages.kt`). This keeps ViewModel tests on plain JVM without needing Robolectric, since no Android resource APIs are touched outside `@Composable` scope. `SignInViewModel`, `EditProfileViewModel`, `FavouriteGuidesViewModel`, and `FavouriteRestaurantsViewModel` follow this pattern; other ViewModels still use the older suspend `DataError.displayMessage()`, which resolves the string inside the ViewModel and hasn't been migrated yet.
 
-**Naming convention:** Each use case has an interface (`GetGuidesUseCase`) and an `Impl` class (`GetGuidesUseCaseImpl`). Same for repositories.
+**Naming convention:** Each use case has an interface (`GetGuidesUseCase`) and an `Impl` class (`GetGuidesUseCaseImpl`). Same for repositories. Packages are camelCase, never snake_case (e.g. `presentation/signin`, `domain/usecase` — not `sign_in`/`use_case`).
+
+**Lint:** `@Composable` functions are allowed PascalCase names (exempted via `ktlint_function_naming_ignore_when_annotated_with = Composable` in `.editorconfig`); everything else follows standard ktlint naming rules. Pre-existing ktlint violations not yet fixed are tracked in `composeApp/ktlint-baseline.xml`, keyed by exact line/column, so an edit that shifts lines in a baselined file needs the corresponding entry updated (or the whole file regenerated via `./gradlew ktlintGenerateBaseline` if drift is large). Detekt's equivalent baseline is `composeApp/config/detekt/baseline.xml`.
 
 ## Dependency Injection (Koin)
 
@@ -77,3 +85,9 @@ Photo uploads use a separate `S3HttpClient` (unsigned requests) distinct from th
 | Coil 3.4                   | Async image loading                            |
 | kotlinx.serialization      | JSON + route serialization                     |
 | Firebase (BOM 34)          | Analytics (Android only)                       |
+
+## Claude Code Tooling
+
+- `.claude/rules/git-conventions.md` — branch naming, commit message, and PR title/description conventions (loaded automatically as project instructions).
+- `.claude/rules/test-conventions.md` — Given-When-Then test structure, fakes-over-mocks, where fakes/random-data generators live (loaded automatically as project instructions).
+- `.claude/agents/` — a Jira-integrated pipeline (`jira-planner` → `coder` → `code-reviewer`, orchestrated by `pipeline`) plus `jira-refine` for backlog grooming. Invoke with `@pipeline` (optionally `--ticket <ID>`) or run an individual agent directly; Jira operations go through `scripts/jira.sh`.

@@ -56,6 +56,9 @@ No mocking library — dependencies are faked with hand-rolled classes that impl
 # Android unit tests only
 ./gradlew :composeApp:testDebugUnitTest
 
+# Lint (ktlint + detekt) + Android unit tests — run before every commit
+./gradlew ktlintCheck detekt :composeApp:testDebugUnitTest
+
 # iOS simulator target — requires Xcode + a simulator, macOS only
 ./gradlew :composeApp:iosSimulatorArm64Test
 ```

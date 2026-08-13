@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import pt.socialfood.ui.theme.SpaceSize
 
+@Suppress("LongParameterList")
 @Composable
 fun ProfileTextField(
     icon: ImageVector? = null,
@@ -25,6 +26,7 @@ fun ProfileTextField(
     value: String,
     placeholder: String,
     onValueChange: (String) -> Unit,
+    enabled: Boolean = true,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.small)) {
         Row(
@@ -50,6 +52,7 @@ fun ProfileTextField(
             value = value,
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
             placeholder = {
                 Text(
                     text = placeholder,
@@ -62,6 +65,8 @@ fun ProfileTextField(
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
                 focusedBorderColor = MaterialTheme.colorScheme.primary,
+                disabledBorderColor = MaterialTheme.colorScheme.outlineVariant,
+                disabledTextColor = MaterialTheme.colorScheme.onSurface,
             ),
         )
     }

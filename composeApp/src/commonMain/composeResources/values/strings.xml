@@ -155,6 +155,7 @@
     <string name="edit_profile_personal_details_title">Personal Details</string>
     <string name="edit_profile_name_label">Name</string>
     <string name="edit_profile_name_placeholder">John Doe</string>
+    <string name="edit_profile_email_label">Email</string>
     <string name="edit_profile_username_label">Username</string>
     <string name="edit_profile_username_placeholder">johndoe</string>
     <string name="edit_profile_social_title">Social Networks</string>

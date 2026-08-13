@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.resources.stringResource
 import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.edit_profile_email_label
 import socialfood.composeapp.generated.resources.edit_profile_name_label
 import socialfood.composeapp.generated.resources.edit_profile_name_placeholder
 import socialfood.composeapp.generated.resources.edit_profile_personal_details_title
@@ -39,6 +40,16 @@ fun PersonalDetailsCard(
             value = state.name,
             placeholder = stringResource(Res.string.edit_profile_name_placeholder),
             onValueChange = onNameChange,
+        )
+
+        Spacer(Modifier.height(SpaceSize.large))
+
+        ProfileTextField(
+            label = stringResource(Res.string.edit_profile_email_label),
+            value = state.email,
+            placeholder = "",
+            onValueChange = {},
+            enabled = false,
         )
 
         Spacer(Modifier.height(SpaceSize.large))

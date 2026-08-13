@@ -1,9 +1,9 @@
 # SocialFood
 
-[![CI](https://github.com/tiagodiasduarte/socialfood-mobile/actions/workflows/ci.yml/badge.svg)](https://github.com/tiagodiasduarte/socialfood-mobile/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.3.0-7F52FF?logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.10.0-4285F4)](https://www.jetbrains.com/lp/compose-multiplatform/)
+[![CI](https://github.com/tiagodiasduarte/socialfood-mobile/actions/workflows/ci.yml/badge.svg)](https://github.com/tiagodiasduarte/socialfood-mobile/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 A Kotlin Multiplatform app for discovering and sharing restaurant guides, built with a single Compose Multiplatform codebase for **Android** and **iOS**.
 
@@ -44,7 +44,7 @@ SocialFood follows Clean Architecture, detailed in full on the [Architecture wik
 
 To facilitate testing of components, SocialFood uses dependency injection with [Koin](https://insert-koin.io) — dependencies are constructor-injected everywhere, so tests can swap in fakes without a DI framework at all (ViewModel tests just call the constructor directly with fakes).
 
-No mocking library — dependencies are faked with hand-rolled classes (e.g. `FakeGuidesRepository`, `FakeAuthorsApi`, in `composeApp/src/commonTest/kotlin/pt/socialfood/fakes/`) that implement the real interface and are shared across every test that needs one. This keeps tests exercising real production code paths and asserting on actual resulting state, instead of just verifying specific calls were made against a mock. Incidental test data (strings, emails, whole domain models) comes from `Random.nextX()` generators instead of hardcoded literals, so a test only has to set up the values it actually cares about.
+No mocking library — dependencies are faked with hand-rolled classes that implement the real interface and are shared across every test that needs one. This keeps tests exercising real production code paths and asserting on actual resulting state, instead of just verifying specific calls were made against a mock.
 
 ```bash
 # Full build: compiles, lints, and runs tests
@@ -56,14 +56,11 @@ No mocking library — dependencies are faked with hand-rolled classes (e.g. `Fa
 # Android unit tests only
 ./gradlew :composeApp:testDebugUnitTest
 
-# A single test class
-./gradlew :composeApp:testDebugUnitTest --tests "pt.socialfood.presentation.signin.SignInViewModelTest"
-
 # iOS simulator target — requires Xcode + a simulator, macOS only
 ./gradlew :composeApp:iosSimulatorArm64Test
 ```
 
-See the [Testing wiki page](https://github.com/tiagodiasduarte/socialfood-mobile/wiki/Testing) for the Given-When-Then naming convention, the fakes/random-data patterns in detail, and Turbine usage for `Flow`/UI-state assertions.
+See the [Testing wiki page](https://github.com/tiagodiasduarte/socialfood-mobile/wiki/Testing) for all the details.
 
 ## CI/CD
 

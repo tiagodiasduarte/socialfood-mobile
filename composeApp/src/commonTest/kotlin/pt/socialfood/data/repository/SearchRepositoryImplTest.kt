@@ -3,11 +3,13 @@ package pt.socialfood.data.repository
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.network.model.PagedResponse
+import pt.socialfood.data.network.model.search.GuideSuggestionsResponse
 import pt.socialfood.data.network.model.search.RestaurantSuggestionsResponse
 import pt.socialfood.data.network.model.search.SearchResponse
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Search
 import pt.socialfood.fakes.FakeSearchApi
+import pt.socialfood.mapper.toGuideSuggestions
 import pt.socialfood.mapper.toRestaurantSuggestions
 import pt.socialfood.random.nextString
 import kotlin.random.Random
@@ -69,6 +71,32 @@ class SearchRepositoryImplTest {
 
         // When
         val result = repo.getRestaurantSuggestions()
+
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
+
+    @Test
+    fun `given the api returns suggestions when getGuideSuggestions is called then returns mapped Success`() = runTest {
+        // Given
+        val response = GuideSuggestionsResponse(guides = emptyList(), generatedAt = Random.nextString())
+        val repo = SearchRepositoryImpl(FakeSearchApi(guideSuggestionsResponse = response))
+
+        // When
+        val result = repo.getGuideSuggestions()
+
+        // Then
+        assertEquals(Result.Success(response.toGuideSuggestions()), result)
+    }
+
+    @Test
+    fun `given the api throws when getGuideSuggestions is called then returns Error Network`() = runTest {
+        // Given
+        val repo = SearchRepositoryImpl(FakeSearchApi(shouldThrow = true))
+
+        // When
+        val result = repo.getGuideSuggestions()
 
         // Then
         assertIs<Result.Failure>(result)

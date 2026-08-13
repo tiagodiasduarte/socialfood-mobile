@@ -57,7 +57,9 @@ fun SearchScreen(
         state = state,
         suggestionResultsRequested = suggestionResultsRequested,
         onQueryChange = viewModel::onSearchQueryChange,
+        onFavoriteGuidesClick = viewModel::onFavoriteGuidesClick,
         onFavoriteRestaurantsClick = viewModel::onFavoriteRestaurantsClick,
+        onRetrySuggestions = viewModel::retrySuggestions,
         onResultClick = { result ->
             when (result) {
                 is Search.AuthorResult -> onAuthorClick(result.author.id)
@@ -75,7 +77,9 @@ fun SearchScreenContent(
     state: SearchUiState,
     suggestionResultsRequested: Boolean = false,
     onQueryChange: (String) -> Unit = {},
+    onFavoriteGuidesClick: () -> Unit = {},
     onFavoriteRestaurantsClick: () -> Unit = {},
+    onRetrySuggestions: () -> Unit = {},
     onResultClick: (Search) -> Unit = {},
 ) {
     Column(modifier = Modifier.fillMaxSize().background(GreyBackground)) {
@@ -95,6 +99,7 @@ fun SearchScreenContent(
         if (searchQuery.length < MIN_QUERY_LENGTH && !suggestionResultsRequested) {
             SearchSuggestionsContent(
                 modifier = Modifier.fillMaxSize(),
+                onFavoriteGuidesClick = onFavoriteGuidesClick,
                 onFavoriteRestaurantsClick = onFavoriteRestaurantsClick,
             )
         } else {
@@ -109,7 +114,7 @@ fun SearchScreenContent(
                 is SearchUiState.Error -> ErrorContent(
                     modifier = Modifier.fillMaxSize(),
                     onRetryClick = {
-                        if (suggestionResultsRequested) onFavoriteRestaurantsClick() else onQueryChange(searchQuery)
+                        if (suggestionResultsRequested) onRetrySuggestions() else onQueryChange(searchQuery)
                     },
                 )
 

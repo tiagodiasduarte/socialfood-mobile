@@ -51,7 +51,7 @@ fun SearchBar(
                 modifier = Modifier.size(20.dp),
             )
         },
-        trailingIcon = if (searchQuery.isNotEmpty() && enabled) {
+        trailingIcon = if (searchQuery.isNotEmpty()) {
             {
                 IconButton(onClick = { onQueryChange("") }) {
                     Icon(

@@ -42,21 +42,28 @@ SocialFood follows Clean Architecture, detailed in full on the [Architecture wik
 
 ## Testing
 
+To facilitate testing of components, SocialFood uses dependency injection with [Koin](https://insert-koin.io) — dependencies are constructor-injected everywhere, so tests can swap in fakes without a DI framework at all (ViewModel tests just call the constructor directly with fakes).
+
+No mocking library — dependencies are faked with hand-rolled classes (e.g. `FakeGuidesRepository`, `FakeAuthorsApi`, in `composeApp/src/commonTest/kotlin/pt/socialfood/fakes/`) that implement the real interface and are shared across every test that needs one. This keeps tests exercising real production code paths and asserting on actual resulting state, instead of just verifying specific calls were made against a mock. Incidental test data (strings, emails, whole domain models) comes from `Random.nextX()` generators instead of hardcoded literals, so a test only has to set up the values it actually cares about.
+
 ```bash
 # Full build: compiles, lints, and runs tests
 ./gradlew build
 
-# Shared/unit tests only
+# Shared/unit tests only (Android + iOS simulator)
 ./gradlew :composeApp:allTests
+
+# Android unit tests only
+./gradlew :composeApp:testDebugUnitTest
 
 # A single test class
 ./gradlew :composeApp:testDebugUnitTest --tests "pt.socialfood.presentation.signin.SignInViewModelTest"
 
-# iOS simulator target
+# iOS simulator target — requires Xcode + a simulator, macOS only
 ./gradlew :composeApp:iosSimulatorArm64Test
 ```
 
-See the [Testing wiki page](https://github.com/tiagodiasduarte/socialfood-mobile/wiki/Testing) for the Given-When-Then format and fakes-over-mocks pattern.
+See the [Testing wiki page](https://github.com/tiagodiasduarte/socialfood-mobile/wiki/Testing) for the Given-When-Then naming convention, the fakes/random-data patterns in detail, and Turbine usage for `Flow`/UI-state assertions.
 
 ## CI/CD
 

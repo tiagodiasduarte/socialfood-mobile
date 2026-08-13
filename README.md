@@ -44,12 +44,11 @@ SocialFood follows Clean Architecture, detailed in full on the [Architecture wik
 
 The Screens and UI elements are built entirely using Jetpack Compose.
 
-
 ## Testing
 
-To facilitate testing of components, SocialFood uses dependency injection with [Koin](https://insert-koin.io) — dependencies are constructor-injected everywhere, so tests can swap in fakes without a DI framework at all (ViewModel tests just call the constructor directly with fakes).
+To keep components easy to test, SocialFood relies on constructor-based dependency injection with [Koin](https://insert-koin.io) — dependencies are injected via the constructor everywhere, so tests can substitute fakes directly, with no need to spin up a DI framework at all.
 
-No mocking library — dependencies are faked with hand-rolled classes that implement the real interface and are shared across every test that needs one. This keeps tests exercising real production code paths and asserting on actual resulting state, instead of just verifying specific calls were made against a mock.
+No mocking library is used. Instead, dependencies are faked with hand-rolled classes that implement the real interface, and these fakes are shared across every test that needs them. This keeps tests exercising real production code paths and asserting on actual resulting state, rather than just verifying that specific calls were made against a mock.
 
 ```bash
 # Full build: compiles, lints, and runs tests

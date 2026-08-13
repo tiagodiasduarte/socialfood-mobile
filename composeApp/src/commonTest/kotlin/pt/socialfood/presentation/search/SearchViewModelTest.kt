@@ -259,4 +259,80 @@ class SearchViewModelTest {
             // Then
             assertEquals(2, getRestaurantSuggestions.invokeCount)
         }
+
+    @Test
+    fun `given onFavoriteRestaurantsClick is called then activeSuggestionSource is RESTAURANTS`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm = SearchViewModel(
+                FakeSearchUseCase(),
+                FakeGetRestaurantSuggestionsUseCase(),
+                FakeGetGuideSuggestionsUseCase(),
+            )
+
+            // When
+            vm.onFavoriteRestaurantsClick()
+            advanceUntilIdle()
+
+            // Then
+            assertEquals(SuggestionSource.RESTAURANTS, vm.activeSuggestionSource.value)
+        }
+
+    @Test
+    fun `given guide suggestions requested when onFavoriteGuidesClick is called then source is GUIDES`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm = SearchViewModel(
+                FakeSearchUseCase(),
+                FakeGetRestaurantSuggestionsUseCase(),
+                FakeGetGuideSuggestionsUseCase(),
+            )
+
+            // When
+            vm.onFavoriteGuidesClick()
+            advanceUntilIdle()
+
+            // Then
+            assertEquals(SuggestionSource.GUIDES, vm.activeSuggestionSource.value)
+        }
+
+    @Test
+    fun `given suggestions were requested when onClearSuggestions is called then state and flags reset`() =
+        runTestWithMainDispatcher {
+            // Given
+            val suggestions = Random.nextRestaurantSuggestions()
+            val vm = SearchViewModel(
+                FakeSearchUseCase(),
+                FakeGetRestaurantSuggestionsUseCase(Result.Success(suggestions)),
+                FakeGetGuideSuggestionsUseCase(),
+            )
+            vm.onFavoriteRestaurantsClick()
+            advanceUntilIdle()
+
+            // When
+            vm.onClearSuggestions()
+
+            // Then
+            assertEquals(SearchUiState.Loaded(emptyList()), vm.state.value)
+            assertEquals(false, vm.suggestionResultsRequested.value)
+            assertEquals(null, vm.activeSuggestionSource.value)
+        }
+
+    @Test
+    fun `given suggestions were cleared when retrySuggestions is called then nothing happens`() =
+        runTestWithMainDispatcher {
+            // Given
+            val getRestaurantSuggestions = FakeGetRestaurantSuggestionsUseCase()
+            val vm = SearchViewModel(FakeSearchUseCase(), getRestaurantSuggestions, FakeGetGuideSuggestionsUseCase())
+            vm.onFavoriteRestaurantsClick()
+            advanceUntilIdle()
+            vm.onClearSuggestions()
+
+            // When
+            vm.retrySuggestions()
+            advanceUntilIdle()
+
+            // Then
+            assertEquals(1, getRestaurantSuggestions.invokeCount)
+        }
 }

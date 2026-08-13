@@ -41,6 +41,9 @@ class SearchViewModel(
     private val _suggestionResultsRequested = MutableStateFlow(false)
     val suggestionResultsRequested: StateFlow<Boolean> = _suggestionResultsRequested.asStateFlow()
 
+    private val _activeSuggestionSource = MutableStateFlow<SuggestionSource?>(null)
+    val activeSuggestionSource: StateFlow<SuggestionSource?> = _activeSuggestionSource.asStateFlow()
+
     private val _state = MutableStateFlow<SearchUiState>(SearchUiState.Loaded(emptyList()))
     val state: StateFlow<SearchUiState> = _state.asStateFlow()
 
@@ -61,23 +64,34 @@ class SearchViewModel(
     fun onSearchQueryChange(query: String) {
         _query.value = query
         _suggestionResultsRequested.value = false
+        _activeSuggestionSource.value = null
     }
 
     fun onFavoriteRestaurantsClick() {
         lastSuggestionsAction = ::onFavoriteRestaurantsClick
-        requestSuggestions { performRestaurantSuggestions() }
+        requestSuggestions(SuggestionSource.RESTAURANTS) { performRestaurantSuggestions() }
     }
 
     fun onFavoriteGuidesClick() {
         lastSuggestionsAction = ::onFavoriteGuidesClick
-        requestSuggestions { performGuideSuggestions() }
+        requestSuggestions(SuggestionSource.GUIDES) { performGuideSuggestions() }
     }
 
     fun retrySuggestions() {
         lastSuggestionsAction?.invoke()
     }
 
-    private fun requestSuggestions(perform: () -> Flow<SearchUiState>) {
+    fun onClearSuggestions() {
+        suggestionsJob?.cancel()
+        suggestionsJob = null
+        lastSuggestionsAction = null
+        _activeSuggestionSource.value = null
+        _suggestionResultsRequested.value = false
+        _state.value = SearchUiState.Loaded(emptyList())
+    }
+
+    private fun requestSuggestions(source: SuggestionSource, perform: () -> Flow<SearchUiState>) {
+        _activeSuggestionSource.value = source
         _suggestionResultsRequested.value = true
         suggestionsJob?.cancel()
         suggestionsJob = perform().onEach { _state.value = it }.launchIn(viewModelScope)

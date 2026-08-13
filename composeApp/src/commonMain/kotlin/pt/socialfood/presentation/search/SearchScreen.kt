@@ -51,15 +51,18 @@ fun SearchScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val searchQuery by viewModel.query.collectAsStateWithLifecycle()
     val suggestionResultsRequested by viewModel.suggestionResultsRequested.collectAsStateWithLifecycle()
+    val activeSuggestionSource by viewModel.activeSuggestionSource.collectAsStateWithLifecycle()
 
     SearchScreenContent(
         searchQuery = searchQuery,
         state = state,
         suggestionResultsRequested = suggestionResultsRequested,
+        activeSuggestionSource = activeSuggestionSource,
         onQueryChange = viewModel::onSearchQueryChange,
         onFavoriteGuidesClick = viewModel::onFavoriteGuidesClick,
         onFavoriteRestaurantsClick = viewModel::onFavoriteRestaurantsClick,
         onRetrySuggestions = viewModel::retrySuggestions,
+        onClearSuggestions = viewModel::onClearSuggestions,
         onResultClick = { result ->
             when (result) {
                 is Search.AuthorResult -> onAuthorClick(result.author.id)
@@ -76,10 +79,12 @@ fun SearchScreenContent(
     searchQuery: String,
     state: SearchUiState,
     suggestionResultsRequested: Boolean = false,
+    activeSuggestionSource: SuggestionSource? = null,
     onQueryChange: (String) -> Unit = {},
     onFavoriteGuidesClick: () -> Unit = {},
     onFavoriteRestaurantsClick: () -> Unit = {},
     onRetrySuggestions: () -> Unit = {},
+    onClearSuggestions: () -> Unit = {},
     onResultClick: (Search) -> Unit = {},
 ) {
     Column(modifier = Modifier.fillMaxSize().background(GreyBackground)) {
@@ -89,11 +94,20 @@ fun SearchScreenContent(
                 .background(Color.White)
                 .padding(vertical = SpaceSize.large),
         ) {
-            SearchBar(
-                placeholder = stringResource(Res.string.search_search_placeholder),
-                searchQuery = searchQuery,
-                onQueryChange = onQueryChange,
-            )
+            if (activeSuggestionSource != null) {
+                SearchBar(
+                    placeholder = stringResource(Res.string.search_search_placeholder),
+                    searchQuery = stringResource(activeSuggestionSource.labelRes()),
+                    onQueryChange = { onClearSuggestions() },
+                    enabled = false,
+                )
+            } else {
+                SearchBar(
+                    placeholder = stringResource(Res.string.search_search_placeholder),
+                    searchQuery = searchQuery,
+                    onQueryChange = onQueryChange,
+                )
+            }
         }
 
         if (searchQuery.length < MIN_QUERY_LENGTH && !suggestionResultsRequested) {

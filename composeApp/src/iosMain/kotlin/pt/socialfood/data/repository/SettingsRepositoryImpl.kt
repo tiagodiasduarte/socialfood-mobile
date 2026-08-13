@@ -4,7 +4,6 @@ import platform.Foundation.NSUserDefaults
 import pt.socialfood.data.security.KeychainTokenStore
 import pt.socialfood.domain.repository.SettingsRepository
 
-private const val KEY_TOKEN = "jwt_token"
 private const val KEY_PENDING_VERIFICATION_EMAIL = "pending_verification_email"
 private const val KEY_LAST_FAVOURITES_SYNCED_AT = "favourites_synced_at"
 private const val KEY_LAST_FAVOURITES_SYNC_ATTEMPT_AT = "last_favourites_sync_attempt_at"
@@ -15,17 +14,7 @@ private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT = "last_favouri
 class SettingsRepositoryImpl : SettingsRepository {
     private val defaults = NSUserDefaults.standardUserDefaults
 
-    @Suppress("ReturnCount")
-    override suspend fun getToken(): String? {
-        KeychainTokenStore.get()?.let { return it }
-
-        // Legacy plaintext token from before Keychain migration: use it as-is, migrate it into
-        // the Keychain, and stop leaving a plaintext copy in NSUserDefaults.
-        val legacyToken = defaults.stringForKey(KEY_TOKEN) ?: return null
-        KeychainTokenStore.save(legacyToken)
-        defaults.removeObjectForKey(KEY_TOKEN)
-        return legacyToken
-    }
+    override suspend fun getToken(): String? = KeychainTokenStore.get()
 
     override suspend fun saveToken(token: String) {
         KeychainTokenStore.save(token)
@@ -33,7 +22,6 @@ class SettingsRepositoryImpl : SettingsRepository {
 
     override suspend fun clearToken() {
         KeychainTokenStore.delete()
-        defaults.removeObjectForKey(KEY_TOKEN)
     }
 
     override suspend fun getPendingVerificationEmail(): String? = defaults.stringForKey(KEY_PENDING_VERIFICATION_EMAIL)

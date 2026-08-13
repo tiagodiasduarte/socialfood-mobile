@@ -49,9 +49,9 @@ internal class TokenCipher {
     }
 
     /**
-     * Returns null if [storedValue] isn't a valid AES/GCM payload from [encrypt] — i.e. it's a
-     * legacy plaintext token written before token encryption was added. GCM's auth-tag check
-     * reliably throws javax.crypto.AEADBadTagException (a GeneralSecurityException) on such data.
+     * Returns null if [storedValue] isn't a valid AES/GCM payload from [encrypt] (e.g. corrupted
+     * or tampered data). GCM's auth-tag check reliably throws javax.crypto.AEADBadTagException
+     * (a GeneralSecurityException) on such data.
      */
     fun decryptOrNull(storedValue: String): String? = try {
         val combined = Base64.decode(storedValue, Base64.NO_WRAP)

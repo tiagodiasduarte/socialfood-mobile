@@ -23,15 +23,9 @@ private val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT =
 class SettingsRepositoryImpl(private val context: Context) : SettingsRepository {
     private val tokenCipher = TokenCipher()
 
-    @Suppress("ReturnCount")
     override suspend fun getToken(): String? {
         val stored = context.dataStore.data.first()[KEY_TOKEN] ?: return null
-        tokenCipher.decryptOrNull(stored)?.let { return it }
-
-        // Legacy plaintext token from before encryption was added: use it as-is and upgrade it
-        // in place so future reads hit the encrypted path.
-        saveToken(stored)
-        return stored
+        return tokenCipher.decryptOrNull(stored)
     }
 
     override suspend fun saveToken(token: String) {

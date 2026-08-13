@@ -55,8 +55,6 @@
     <string name="profile_favorite_guides_button_description">Favorite Guides button</string>
     <string name="profile_favorites_restaurants_button">Favorite Restaurants</string>
     <string name="profile_favorites_restaurants_button_description">Favorites Restaurants button</string>
-    <string name="profile_top_restaurants_button">Top Restaurants</string>
-    <string name="profile_top_restaurants_button_description">Top Restaurants button</string>
     <string name="profile_settings_button">Settings</string>
     <string name="profile_settings_button_description">Settings button</string>
     <string name="profile_logout_button">Log Out</string>

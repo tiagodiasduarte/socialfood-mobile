@@ -69,11 +69,8 @@ import socialfood.composeapp.generated.resources.profile_settings_button_descrip
 import socialfood.composeapp.generated.resources.profile_stat_followers_label
 import socialfood.composeapp.generated.resources.profile_stat_following_label
 import socialfood.composeapp.generated.resources.profile_stat_guides_label
-import socialfood.composeapp.generated.resources.profile_top_restaurants_button
-import socialfood.composeapp.generated.resources.profile_top_restaurants_button_description
 import socialfood.composeapp.generated.resources.restaurants_icon
 import socialfood.composeapp.generated.resources.settings_icon
-import socialfood.composeapp.generated.resources.top_restaurants_icon
 
 private val DrawerAvatarSize = 64.dp
 private val DrawerAvatarRingSize = 68.dp
@@ -152,11 +149,6 @@ private fun DrawerUserContent(
                 label = stringResource(Res.string.profile_profile_button),
                 contentDescription = stringResource(Res.string.profile_profile_button_description),
                 onClick = { onProfileClick(user.id) },
-            )
-            DrawerMenuRow(
-                icon = Res.drawable.top_restaurants_icon,
-                label = stringResource(Res.string.profile_top_restaurants_button),
-                contentDescription = stringResource(Res.string.profile_top_restaurants_button_description),
             )
             DrawerMenuRow(
                 icon = Res.drawable.guides_icon,

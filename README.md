@@ -40,6 +40,11 @@ A Kotlin Multiplatform app for discovering and sharing restaurant guides, built 
 
 SocialFood follows Clean Architecture, detailed in full on the [Architecture wiki page](https://github.com/tiagodiasduarte/socialfood-mobile/wiki/Architecture).
 
+## UI
+
+The Screens and UI elements are built entirely using Jetpack Compose.
+
+
 ## Testing
 
 To facilitate testing of components, SocialFood uses dependency injection with [Koin](https://insert-koin.io) — dependencies are constructor-injected everywhere, so tests can swap in fakes without a DI framework at all (ViewModel tests just call the constructor directly with fakes).

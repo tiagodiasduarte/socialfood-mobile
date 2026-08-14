@@ -1,9 +1,9 @@
 package pt.socialfood.data.repository
 
 import platform.Foundation.NSUserDefaults
+import pt.socialfood.data.security.KeychainTokenStore
 import pt.socialfood.domain.repository.SettingsRepository
 
-private const val KEY_TOKEN = "jwt_token"
 private const val KEY_PENDING_VERIFICATION_EMAIL = "pending_verification_email"
 private const val KEY_LAST_FAVOURITES_SYNCED_AT = "favourites_synced_at"
 private const val KEY_LAST_FAVOURITES_SYNC_ATTEMPT_AT = "last_favourites_sync_attempt_at"
@@ -14,14 +14,14 @@ private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT = "last_favouri
 class SettingsRepositoryImpl : SettingsRepository {
     private val defaults = NSUserDefaults.standardUserDefaults
 
-    override suspend fun getToken(): String? = defaults.stringForKey(KEY_TOKEN)
+    override suspend fun getToken(): String? = KeychainTokenStore.get()
 
     override suspend fun saveToken(token: String) {
-        defaults.setObject(token, KEY_TOKEN)
+        KeychainTokenStore.save(token)
     }
 
     override suspend fun clearToken() {
-        defaults.removeObjectForKey(KEY_TOKEN)
+        KeychainTokenStore.delete()
     }
 
     override suspend fun getPendingVerificationEmail(): String? = defaults.stringForKey(KEY_PENDING_VERIFICATION_EMAIL)

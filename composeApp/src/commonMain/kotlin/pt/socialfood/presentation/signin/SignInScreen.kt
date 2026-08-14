@@ -20,7 +20,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -42,7 +41,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -75,12 +73,10 @@ import socialfood.composeapp.generated.resources.sign_in_password_placeholder_la
 import socialfood.composeapp.generated.resources.sign_in_sign_up_button
 import socialfood.composeapp.generated.resources.sign_in_subtitle_label
 import socialfood.composeapp.generated.resources.sign_in_title_label
+import socialfood.composeapp.generated.resources.socialfood_icon
 
 @Composable
-fun SignInScreen(
-    onSignInSuccess: () -> Unit,
-    onSignUpClick: () -> Unit = {},
-) {
+fun SignInScreen(onSignInSuccess: () -> Unit, onSignUpClick: () -> Unit = {}) {
     val viewModel: SignInViewModel = koinViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -112,6 +108,11 @@ private fun SignInScreenContent(
     onGoogleSignInClick: () -> Unit = {},
     onSignUpClick: () -> Unit = {},
 ) {
+    // Hoisted here (not inside SignInFormView) so email/password survive the Idle/Error <-> Loading
+    // transition below, since SignInFormView is fully unmounted while SignInLoadingView is shown.
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
     when (state) {
         is SignInUiState.Error,
         is SignInUiState.ValidationError,
@@ -119,6 +120,10 @@ private fun SignInScreenContent(
         -> {
             SignInFormView(
                 state = state,
+                email = email,
+                onEmailChange = { email = it },
+                password = password,
+                onPasswordChange = { password = it },
                 onSignInClick = onSignInClick,
                 onSignUpClick = onSignUpClick,
                 onGoogleSignInClick = onGoogleSignInClick,
@@ -131,295 +136,313 @@ private fun SignInScreenContent(
     }
 }
 
+@Suppress("LongParameterList")
 @Composable
 private fun SignInFormView(
     state: SignInUiState,
+    email: String,
+    onEmailChange: (String) -> Unit,
+    password: String,
+    onPasswordChange: (String) -> Unit,
     onSignInClick: (email: String, password: String) -> Unit,
     onSignUpClick: () -> Unit,
     onGoogleSignInClick: () -> Unit,
 ) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordVisible by remember { mutableStateOf(false) }
-
-    val colorScheme = MaterialTheme.colorScheme
-
     Box(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .background(colorScheme.background)
-                .padding(horizontal = SpaceSize.large),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(horizontal = SpaceSize.large),
     ) {
         Column(Modifier.align(Alignment.Center)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier =
-                        Modifier
-                            .size(52.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(colorScheme.primary),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Restaurant,
-                        contentDescription = null,
-                        tint = colorScheme.onPrimary,
-                        modifier = Modifier.size(28.dp),
-                    )
-                }
-
-                Spacer(modifier = Modifier.width(SpaceSize.large))
-
-                Text(
-                    text = stringResource(Res.string.app_name),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = colorScheme.onBackground,
-                )
-            }
+            SignInHeader()
 
             Spacer(modifier = Modifier.height(SpaceSize.xxlarge))
 
-            Text(
-                text = stringResource(Res.string.sign_in_title_label),
-                style = MaterialTheme.typography.headlineMedium,
-                color = colorScheme.onBackground,
-            )
-
-            Spacer(modifier = Modifier.height(SpaceSize.small))
-
-            Text(
-                text = stringResource(Res.string.sign_in_subtitle_label),
-                style = MaterialTheme.typography.headlineSmall,
-                color = colorScheme.onBackground,
-            )
-
-            Spacer(modifier = Modifier.height(SpaceSize.xxlarge))
-
-            Text(
-                text = stringResource(Res.string.sign_in_email_label),
-                style = MaterialTheme.typography.labelMedium,
-                color = colorScheme.onBackground,
-            )
-
-            Spacer(modifier = Modifier.height(SpaceSize.medium))
-
-            OutlinedTextField(
-                value = email,
-                onValueChange = { email = it },
-                placeholder = {
-                    Text(
-                        text = stringResource(Res.string.sign_in_email_placeholder_label),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = colorScheme.outline,
-                    )
-                },
-                singleLine = true,
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Email,
-                        contentDescription = null,
-                        tint = colorScheme.outline,
-                        modifier = Modifier.size(20.dp),
-                    )
-                },
-                shape = RoundedCornerShape(12.dp),
-                colors =
-                    OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = colorScheme.outlineVariant,
-                        focusedBorderColor = colorScheme.primary,
-                    ),
-                modifier = Modifier.fillMaxWidth(),
+            SignInFormFields(
+                state = state,
+                email = email,
+                onEmailChange = onEmailChange,
+                password = password,
+                onPasswordChange = onPasswordChange,
+                onSignInClick = onSignInClick,
             )
 
             Spacer(modifier = Modifier.height(SpaceSize.xlarge))
 
-            Text(
-                text = stringResource(Res.string.sign_in_password_label),
-                style = MaterialTheme.typography.labelMedium,
-                color = colorScheme.onBackground,
+            AlternativeSignInSection(
+                onGoogleSignInClick = onGoogleSignInClick,
+                onSignUpClick = onSignUpClick,
             )
-
-            Spacer(modifier = Modifier.height(SpaceSize.medium))
-
-            OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
-                placeholder = {
-                    Text(
-                        text = stringResource(Res.string.sign_in_password_placeholder_label),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = colorScheme.outline,
-                    )
-                },
-                singleLine = true,
-                visualTransformation =
-                    if (passwordVisible) {
-                        VisualTransformation.None
-                    } else {
-                        PasswordVisualTransformation()
-                    },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Lock,
-                        contentDescription = null,
-                        tint = colorScheme.outline,
-                        modifier = Modifier.size(20.dp),
-                    )
-                },
-                trailingIcon = {
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(
-                            imageVector =
-                                if (passwordVisible) {
-                                    Icons.Default.VisibilityOff
-                                } else {
-                                    Icons.Default.Visibility
-                                },
-                            contentDescription =
-                                stringResource(
-                                    if (passwordVisible) {
-                                        Res.string.hide_password_content_description
-                                    } else {
-                                        Res.string.show_password_content_description
-                                    },
-                                ),
-                            tint = colorScheme.outline,
-                        )
-                    }
-                },
-                shape = RoundedCornerShape(12.dp),
-                colors =
-                    OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = colorScheme.outlineVariant,
-                        focusedBorderColor = colorScheme.primary,
-                    ),
-                modifier = Modifier.fillMaxWidth(),
-            )
-
-            val errorMessage = when (state) {
-                is SignInUiState.Error -> stringResource(state.errorCode.stringResource())
-                is SignInUiState.ValidationError -> stringResource(state.message)
-                else -> null
-            }
-            if (errorMessage != null) {
-                Spacer(modifier = Modifier.height(SpaceSize.small))
-                Text(
-                    text = errorMessage,
-                    color = colorScheme.error,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-            }
-
-            Spacer(modifier = Modifier.height(SpaceSize.xlarge))
-
-            Button(
-                onClick = { onSignInClick(email, password) },
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
-                shape = RoundedCornerShape(12.dp),
-                colors =
-                    ButtonDefaults.buttonColors(
-                        containerColor = colorScheme.primary,
-                        contentColor = colorScheme.onPrimary,
-                    ),
-            ) {
-                Text(
-                    text = stringResource(Res.string.sign_in_button),
-                    style = MaterialTheme.typography.titleSmall,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
-                )
-            }
-
-            Spacer(modifier = Modifier.height(SpaceSize.xlarge))
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                HorizontalDivider(
-                    modifier = Modifier.weight(1f),
-                    color = colorScheme.outlineVariant,
-                )
-
-                Text(
-                    text = stringResource(Res.string.sign_in_continue_with_google_label),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = colorScheme.outline,
-                )
-                HorizontalDivider(
-                    modifier = Modifier.weight(1f),
-                    color = colorScheme.outlineVariant,
-                )
-            }
-
-            Spacer(modifier = Modifier.height(SpaceSize.xlarge))
-
-            OutlinedButton(
-                onClick = onGoogleSignInClick,
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
-                shape = RoundedCornerShape(12.dp),
-                border = BorderStroke(1.dp, colorScheme.outlineVariant),
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = colorScheme.onBackground),
-            ) {
-                Image(
-                    painter = painterResource(Res.drawable.google_icon),
-                    contentDescription = stringResource(Res.string.sign_in_google_button_description),
-                    modifier = Modifier.size(24.dp),
-                )
-
-                Spacer(modifier = Modifier.width(SpaceSize.large))
-
-                Text(
-                    text = stringResource(Res.string.sign_in_google_button),
-                    style = MaterialTheme.typography.titleSmall,
-                    color = colorScheme.onBackground,
-                )
-            }
-
-            Spacer(modifier = Modifier.height(SpaceSize.xlarge))
-
-            Row(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(SpaceSize.medium),
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                Text(
-                    text = stringResource(Res.string.sign_in_no_account_label),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = colorScheme.onBackground,
-                )
-
-                Text(
-                    modifier =
-                        Modifier
-                            .padding(horizontal = SpaceSize.small)
-                            .clickable { onSignUpClick() },
-                    text = stringResource(Res.string.sign_in_sign_up_button),
-                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                    color = colorScheme.primary,
-                )
-            }
         }
+    }
+}
+
+@Composable
+private fun SignInHeader() {
+    val colorScheme = MaterialTheme.colorScheme
+
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Image(
+            painter = painterResource(Res.drawable.socialfood_icon),
+            contentDescription = null,
+            modifier = Modifier.size(52.dp),
+        )
+
+        Spacer(modifier = Modifier.width(SpaceSize.large))
+
+        Text(
+            text = stringResource(Res.string.app_name),
+            style = MaterialTheme.typography.titleLarge,
+            color = colorScheme.onBackground,
+        )
+    }
+
+    Spacer(modifier = Modifier.height(SpaceSize.xxlarge))
+
+    Text(
+        text = stringResource(Res.string.sign_in_title_label),
+        style = MaterialTheme.typography.headlineMedium,
+        color = colorScheme.onBackground,
+    )
+
+    Spacer(modifier = Modifier.height(SpaceSize.small))
+
+    Text(
+        text = stringResource(Res.string.sign_in_subtitle_label),
+        style = MaterialTheme.typography.headlineSmall,
+        color = colorScheme.onBackground,
+    )
+}
+
+@Suppress("LongMethod", "LongParameterList")
+@Composable
+private fun SignInFormFields(
+    state: SignInUiState,
+    email: String,
+    onEmailChange: (String) -> Unit,
+    password: String,
+    onPasswordChange: (String) -> Unit,
+    onSignInClick: (email: String, password: String) -> Unit,
+) {
+    var passwordVisible by remember { mutableStateOf(false) }
+    val colorScheme = MaterialTheme.colorScheme
+
+    Text(
+        text = stringResource(Res.string.sign_in_email_label),
+        style = MaterialTheme.typography.labelMedium,
+        color = colorScheme.onBackground,
+    )
+
+    Spacer(modifier = Modifier.height(SpaceSize.medium))
+
+    OutlinedTextField(
+        value = email,
+        onValueChange = onEmailChange,
+        placeholder = {
+            Text(
+                text = stringResource(Res.string.sign_in_email_placeholder_label),
+                style = MaterialTheme.typography.labelMedium,
+                color = colorScheme.outline,
+            )
+        },
+        singleLine = true,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Email,
+                contentDescription = null,
+                tint = colorScheme.outline,
+                modifier = Modifier.size(20.dp),
+            )
+        },
+        shape = RoundedCornerShape(12.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            unfocusedBorderColor = colorScheme.outlineVariant,
+            focusedBorderColor = colorScheme.primary,
+        ),
+        modifier = Modifier.fillMaxWidth(),
+    )
+
+    Spacer(modifier = Modifier.height(SpaceSize.xlarge))
+
+    Text(
+        text = stringResource(Res.string.sign_in_password_label),
+        style = MaterialTheme.typography.labelMedium,
+        color = colorScheme.onBackground,
+    )
+
+    Spacer(modifier = Modifier.height(SpaceSize.medium))
+
+    OutlinedTextField(
+        value = password,
+        onValueChange = onPasswordChange,
+        placeholder = {
+            Text(
+                text = stringResource(Res.string.sign_in_password_placeholder_label),
+                style = MaterialTheme.typography.labelMedium,
+                color = colorScheme.outline,
+            )
+        },
+        singleLine = true,
+        visualTransformation = if (passwordVisible) {
+            VisualTransformation.None
+        } else {
+            PasswordVisualTransformation()
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Lock,
+                contentDescription = null,
+                tint = colorScheme.outline,
+                modifier = Modifier.size(20.dp),
+            )
+        },
+        trailingIcon = {
+            IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                Icon(
+                    imageVector = if (passwordVisible) {
+                        Icons.Default.VisibilityOff
+                    } else {
+                        Icons.Default.Visibility
+                    },
+                    contentDescription = stringResource(
+                        if (passwordVisible) {
+                            Res.string.hide_password_content_description
+                        } else {
+                            Res.string.show_password_content_description
+                        },
+                    ),
+                    tint = colorScheme.outline,
+                )
+            }
+        },
+        shape = RoundedCornerShape(12.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            unfocusedBorderColor = colorScheme.outlineVariant,
+            focusedBorderColor = colorScheme.primary,
+        ),
+        modifier = Modifier.fillMaxWidth(),
+    )
+
+    val errorMessage = when (state) {
+        is SignInUiState.Error -> stringResource(state.errorCode.stringResource())
+        is SignInUiState.ValidationError -> stringResource(state.message)
+        else -> null
+    }
+    if (errorMessage != null) {
+        Spacer(modifier = Modifier.height(SpaceSize.small))
+        Text(
+            text = errorMessage,
+            color = colorScheme.error,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+    }
+
+    Spacer(modifier = Modifier.height(SpaceSize.xlarge))
+
+    Button(
+        onClick = { onSignInClick(email, password) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(52.dp),
+        shape = RoundedCornerShape(12.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = colorScheme.primary,
+            contentColor = colorScheme.onPrimary,
+        ),
+    ) {
+        Text(
+            text = stringResource(Res.string.sign_in_button),
+            style = MaterialTheme.typography.titleSmall,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.SemiBold,
+        )
+    }
+}
+
+@Suppress("LongMethod")
+@Composable
+private fun AlternativeSignInSection(onGoogleSignInClick: () -> Unit, onSignUpClick: () -> Unit) {
+    val colorScheme = MaterialTheme.colorScheme
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        HorizontalDivider(
+            modifier = Modifier.weight(1f),
+            color = colorScheme.outlineVariant,
+        )
+
+        Text(
+            text = stringResource(Res.string.sign_in_continue_with_google_label),
+            style = MaterialTheme.typography.bodyMedium,
+            color = colorScheme.outline,
+        )
+        HorizontalDivider(
+            modifier = Modifier.weight(1f),
+            color = colorScheme.outlineVariant,
+        )
+    }
+
+    Spacer(modifier = Modifier.height(SpaceSize.xlarge))
+
+    OutlinedButton(
+        onClick = onGoogleSignInClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(52.dp),
+        shape = RoundedCornerShape(12.dp),
+        border = BorderStroke(1.dp, colorScheme.outlineVariant),
+        colors = ButtonDefaults.outlinedButtonColors(contentColor = colorScheme.onBackground),
+    ) {
+        Image(
+            painter = painterResource(Res.drawable.google_icon),
+            contentDescription = stringResource(Res.string.sign_in_google_button_description),
+            modifier = Modifier.size(24.dp),
+        )
+
+        Spacer(modifier = Modifier.width(SpaceSize.large))
+
+        Text(
+            text = stringResource(Res.string.sign_in_google_button),
+            style = MaterialTheme.typography.titleSmall,
+            color = colorScheme.onBackground,
+        )
+    }
+
+    Spacer(modifier = Modifier.height(SpaceSize.xlarge))
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(SpaceSize.medium),
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        Text(
+            text = stringResource(Res.string.sign_in_no_account_label),
+            style = MaterialTheme.typography.labelMedium,
+            color = colorScheme.onBackground,
+        )
+
+        Text(
+            modifier = Modifier
+                .padding(horizontal = SpaceSize.small)
+                .clickable { onSignUpClick() },
+            text = stringResource(Res.string.sign_in_sign_up_button),
+            style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+            color = colorScheme.primary,
+        )
     }
 }
 
 @Composable
 private fun SignInLoadingView() {
     Box(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(

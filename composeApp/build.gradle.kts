@@ -218,6 +218,9 @@ tasks.withType<Detekt>().configureEach {
 }
 
 kover {
+    currentProject {
+        copyVariant("businessLogic", "debug")
+    }
     reports {
         filters {
             excludes {
@@ -226,11 +229,12 @@ kover {
                     $$"*$Lambda$*",
                     "socialfood.composeapp.generated.resources.*",
                     "*_Impl",
-                    "*_Impl$*",
                     "$appNamespace.BuildConfig",
+                    "$appNamespace.core.*",
                     "$appNamespace.di.*",
                     "$appNamespace.data.network.model.*",
                     "$appNamespace.presentation.navigation.Route*",
+                    "$appNamespace.ui.theme.*",
                 )
                 annotatedBy("androidx.compose.ui.tooling.preview.Preview")
             }
@@ -240,9 +244,26 @@ kover {
                 onCheck = true
             }
         }
+        variant("businessLogic") {
+            filters {
+                includes {
+                    classes(
+                        "*RepositoryImpl",
+                        "*UseCaseImpl",
+                        "*ViewModel",
+                        "*MapperKt",
+                    )
+                }
+            }
+            verify {
+                rule("Repository, UseCase, ViewModel and Mapper coverage") {
+                    minBound(minValue = 85, coverageUnits = CoverageUnit.LINE)
+                }
+            }
+        }
         verify {
-            rule {
-                minBound(minValue = 19, coverageUnits = CoverageUnit.LINE)
+            rule("Overall coverage") {
+                minBound(minValue = 25, coverageUnits = CoverageUnit.LINE)
             }
         }
     }

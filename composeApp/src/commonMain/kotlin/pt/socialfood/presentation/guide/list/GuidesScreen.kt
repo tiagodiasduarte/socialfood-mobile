@@ -29,6 +29,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.ui.theme.AppTheme
@@ -41,31 +42,38 @@ fun GuidesScreen(
     viewModel: GuidesViewModel = koinViewModel(),
     onGuideClick: (guideId: String) -> Unit = {},
     onAddClick: () -> Unit = {},
+    onProfileClick: () -> Unit = {},
 ) {
     val guides = viewModel.guides.collectAsLazyPagingItems()
     val selectedTab by viewModel.selectedTab.collectAsStateWithLifecycle()
     val favouriteGuideIds by viewModel.favouriteGuideIds.collectAsStateWithLifecycle()
+    val user by viewModel.user.collectAsStateWithLifecycle()
 
     GuidesScreenContent(
         guides = guides,
         selectedTab = selectedTab,
         favouriteGuideIds = favouriteGuideIds,
+        user = user,
         onTabSelected = { viewModel.onTabSelected(it) },
         onGuideClick = onGuideClick,
         onAddClick = onAddClick,
+        onProfileClick = onProfileClick,
         onFavouriteClick = { viewModel.onToggleGuideFavourite(it) },
     )
 }
 
+@Suppress("LongParameterList", "LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GuidesScreenContent(
     guides: LazyPagingItems<Guide>,
     selectedTab: Int = ALL_GUIDES_TAB,
     favouriteGuideIds: Set<String> = emptySet(),
+    user: User? = null,
     onTabSelected: (Int) -> Unit = {},
     onGuideClick: (guideId: String) -> Unit = {},
     onAddClick: () -> Unit = {},
+    onProfileClick: () -> Unit = {},
     onFavouriteClick: (Guide) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
@@ -90,20 +98,22 @@ fun GuidesScreenContent(
                     selectedTab = selectedTab,
                     onSelectedTab = onTabSelected,
                     onAddClick = onAddClick,
+                    userName = user?.name.orEmpty(),
+                    userImageUrl = user?.imageUrl,
+                    onProfileClick = onProfileClick,
                 )
             }
 
-            when {
-                guides.loadState.refresh is LoadState.Loading && guides.itemCount == 0 -> item {
+            when (guides.loadState.refresh) {
+                is LoadState.Loading if guides.itemCount == 0 -> item {
                     GuidesPlaceholder()
                 }
 
-                guides.loadState.refresh is LoadState.Error && guides.itemCount == 0 -> item {
+                is LoadState.Error if guides.itemCount == 0 -> item {
                     ErrorContent(onRetryClick = { guides.retry() })
                 }
 
-                guides.loadState.refresh is LoadState.NotLoading &&
-                    guides.loadState.append.endOfPaginationReached &&
+                is LoadState.NotLoading if guides.loadState.append.endOfPaginationReached &&
                     guides.itemCount == 0 -> item {
                     NoResultsContent()
                 }
@@ -151,7 +161,7 @@ fun GuidesScreenPreview() {
             name = "Michelin Star Favorites",
             description = "The finest dining experiences in the city",
             numberOfRestaurant = 8,
-            author = Author(id = "u1", name = "Sarah M."),
+            author = Author(id = "u1", name = "Sarah M.", username = "sarahm"),
             visibility = GuideVisibility.PUBLIC
         ),
         Guide(
@@ -159,7 +169,7 @@ fun GuidesScreenPreview() {
             name = "Hidden Gems",
             description = "Undiscovered culinary treasures",
             numberOfRestaurant = 12,
-            author = Author(id = "u2", name = "Michael R."),
+            author = Author(id = "u2", name = "Michael R.", username = "michaelr"),
             visibility = GuideVisibility.PUBLIC
         ),
         Guide(
@@ -167,7 +177,7 @@ fun GuidesScreenPreview() {
             name = "Best for Date Night",
             description = "Romantic ambiance and exceptional cuisine",
             numberOfRestaurant = 6,
-            author = Author(id = "u3", name = "Ana P."),
+            author = Author(id = "u3", name = "Ana P.", username = "anap"),
             visibility = GuideVisibility.PUBLIC
         ),
     )

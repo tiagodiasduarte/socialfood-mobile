@@ -1,0 +1,18 @@
+package pt.socialfood.fakes
+
+import pt.socialfood.core.Result
+import pt.socialfood.domain.model.AuthorDetail
+import pt.socialfood.domain.usecase.author.GetAuthorByIdUseCase
+
+class FakeGetAuthorByIdUseCase(private val result: Result<AuthorDetail>) : GetAuthorByIdUseCase {
+    var invokeCount: Int = 0
+        private set
+    var lastId: String? = null
+        private set
+
+    override suspend fun invoke(id: String): Result<AuthorDetail> {
+        invokeCount++
+        lastId = id
+        return result
+    }
+}

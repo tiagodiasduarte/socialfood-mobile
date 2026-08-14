@@ -2,7 +2,7 @@ package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.HomeSection
-import pt.socialfood.domain.use_case.home.GetHomeSectionsUseCase
+import pt.socialfood.domain.usecase.home.GetHomeSectionsUseCase
 
 class FakeGetHomeSectionsUseCase(
     private val result: Result<List<HomeSection>> = Result.Success(emptyList()),

@@ -2,7 +2,7 @@ package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.PagedGuides
-import pt.socialfood.domain.use_case.guide.FindGuidesUseCase
+import pt.socialfood.domain.usecase.guide.FindGuidesUseCase
 
 class FakeFindGuidesUseCase(
     private val result: (page: Int, userId: String?) -> Result<PagedGuides> = { page, _ ->

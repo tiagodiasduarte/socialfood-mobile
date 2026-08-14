@@ -95,7 +95,7 @@ private fun RestaurantDetailContent(
             onToggleFavourite = onToggleFavourite,
         )
 
-        RestaurantDetailUiState.Error -> ErrorContent(onRetryClick = onRetry)
+        is RestaurantDetailUiState.Error -> ErrorContent(onRetryClick = onRetry)
     }
 }
 

@@ -4,42 +4,29 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.domain.error.DataError
+import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.fakes.FakeAddRestaurantByPlaceIdUseCase
 import pt.socialfood.fakes.FakeAwaitEnrichedRestaurantByPlaceIdUseCase
 import pt.socialfood.fakes.FakeSearchPlacesUseCase
+import pt.socialfood.random.nextPlace
+import pt.socialfood.random.nextRestaurant
 import pt.socialfood.runner.runTestWithMainDispatcher
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SearchRestaurantsViewModelTest {
-    private fun restaurant() =
-        Restaurant(
-            id = "r1",
-            name = "Le Jardin",
-            description = null,
-            city = "Lisbon",
-            country = "Portugal",
-            countryCode = "PT",
-            postalCode = null,
-            photoNames = emptyList(),
-            address = "",
-            rating = 0.0,
-            userRatingCount = 0,
-            websiteUrl = null,
-            phoneNumber = "",
-        )
-
     @Test
     @Suppress("MaxLineLength")
     fun `given addByPlaceId and the enrichment wait both succeed when onAddRestaurant is called then dialog closes and RestaurantAdded is emitted`() =
         runTestWithMainDispatcher {
             // Given
+            val expectedRestaurant = Random.nextRestaurant()
             val fakeAdd = FakeAddRestaurantByPlaceIdUseCase()
-            val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(restaurant()))
+            val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(expectedRestaurant))
             val vm = SearchRestaurantsViewModel(FakeSearchPlacesUseCase(), fakeAwait, fakeAdd)
             assertFalse(vm.isImportingRestaurant.value)
 
@@ -48,7 +35,7 @@ class SearchRestaurantsViewModelTest {
                 vm.onAddRestaurant("place-1")
 
                 val event = awaitItem() as SearchRestaurantsViewModel.UiEvent.RestaurantAdded
-                assertEquals("r1", event.restaurant.id)
+                assertEquals(expectedRestaurant, event.restaurant)
             }
 
             assertEquals(1, fakeAdd.invokeCount)
@@ -61,8 +48,10 @@ class SearchRestaurantsViewModelTest {
     fun `given addByPlaceId fails when onAddRestaurant is called then no RestaurantAdded event is emitted and dialog closes and it never waits for enrichment`() =
         runTestWithMainDispatcher {
             // Given
-            val fakeAdd = FakeAddRestaurantByPlaceIdUseCase(result = Result.Error(ErrorEntity.Unknown))
-            val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(restaurant()))
+            val fakeAdd = FakeAddRestaurantByPlaceIdUseCase(
+                Result.Failure(DataError.Network(Exception("test error"))),
+            )
+            val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant()))
             val vm = SearchRestaurantsViewModel(FakeSearchPlacesUseCase(), fakeAwait, fakeAdd)
 
             // When
@@ -80,7 +69,9 @@ class SearchRestaurantsViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val fakeAdd = FakeAddRestaurantByPlaceIdUseCase()
-            val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Error(ErrorEntity.Network.TIMEOUT))
+            val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(
+                Result.Failure(DataError.Network(Exception("test error"))),
+            )
             val vm = SearchRestaurantsViewModel(FakeSearchPlacesUseCase(), fakeAwait, fakeAdd)
 
             // When
@@ -98,7 +89,7 @@ class SearchRestaurantsViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val fakeAdd = FakeAddRestaurantByPlaceIdUseCase()
-            val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(restaurant()))
+            val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant()))
             val vm = SearchRestaurantsViewModel(FakeSearchPlacesUseCase(), fakeAwait, fakeAdd)
 
             // When
@@ -108,5 +99,89 @@ class SearchRestaurantsViewModelTest {
 
             // Then
             assertEquals(1, fakeAdd.invokeCount)
+        }
+
+    @Test
+    fun `given a blank query when onSearchQueryChange is called then state is Loaded with empty results`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm = SearchRestaurantsViewModel(
+                FakeSearchPlacesUseCase(),
+                FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant())),
+                FakeAddRestaurantByPlaceIdUseCase(),
+            )
+
+            // When
+            vm.onSearchQueryChange("   ")
+
+            // Then
+            assertEquals(SearchRestaurantsUiState.Loaded(emptyList()), vm.state.value)
+            assertEquals("   ", vm.searchQuery)
+        }
+
+    @Test
+    fun `given a query shorter than 3 characters when onSearchQueryChange is called then search is not triggered`() =
+        runTestWithMainDispatcher {
+            // Given
+            val searchPlaces = FakeSearchPlacesUseCase()
+            val vm = SearchRestaurantsViewModel(
+                searchPlaces,
+                FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant())),
+                FakeAddRestaurantByPlaceIdUseCase(),
+            )
+
+            // When
+            vm.onSearchQueryChange("ab")
+            advanceUntilIdle()
+
+            // Then
+            assertEquals(0, searchPlaces.invokeCount)
+            assertEquals("ab", vm.searchQuery)
+        }
+
+    @Test
+    fun `given searchPlaces succeeds when onSearchQueryChange is called then state is Loaded with the results`() =
+        runTestWithMainDispatcher {
+            // Given
+            val places = listOf(Random.nextPlace())
+            val searchPlaces = FakeSearchPlacesUseCase(Result.Success(places))
+            val vm = SearchRestaurantsViewModel(
+                searchPlaces,
+                FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant())),
+                FakeAddRestaurantByPlaceIdUseCase(),
+            )
+
+            // When / Then
+            vm.state.test {
+                assertEquals(SearchRestaurantsUiState.Loaded(emptyList()), awaitItem())
+
+                vm.onSearchQueryChange("pizza")
+
+                assertEquals(SearchRestaurantsUiState.Loading, awaitItem())
+                assertEquals(SearchRestaurantsUiState.Loaded(places), awaitItem())
+            }
+            assertEquals(1, searchPlaces.invokeCount)
+        }
+
+    @Test
+    fun `given searchPlaces fails when onSearchQueryChange is called then state is Error`() =
+        runTestWithMainDispatcher {
+            // Given
+            val searchPlaces = FakeSearchPlacesUseCase(Result.Failure(DataError.Network(Exception("test error"))))
+            val vm = SearchRestaurantsViewModel(
+                searchPlaces,
+                FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant())),
+                FakeAddRestaurantByPlaceIdUseCase(),
+            )
+
+            // When / Then
+            vm.state.test {
+                assertEquals(SearchRestaurantsUiState.Loaded(emptyList()), awaitItem())
+
+                vm.onSearchQueryChange("pizza")
+
+                assertEquals(SearchRestaurantsUiState.Loading, awaitItem())
+                assertEquals(SearchRestaurantsUiState.Error(ErrorCode.NETWORK), awaitItem())
+            }
         }
 }

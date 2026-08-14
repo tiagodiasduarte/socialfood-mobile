@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -29,11 +29,11 @@ class GuideDetailViewModelTest {
             name = "Guide Name",
             description = "Guide Description",
             visibility = GuideVisibility.PUBLIC,
-            author = Author(id = "author-id", name = "Author"),
+            author = Author(id = "author-id", name = "Author", username = "author"),
             numberOfRestaurant = 0,
         )
 
-    private val fakeUser = User(id = "user-id", email = "user@test.com", name = "Test User")
+    private val fakeUser = User(id = "user-id", email = "user@test.com", name = "Test User", username = "testuser")
 
     @Test
     fun `given guide is already a favourite when loaded then state reflects isFavourite true`() =
@@ -135,7 +135,8 @@ class GuideDetailViewModelTest {
                     getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
                     getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
                     isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
-                    markGuideFavourite = FakeMarkGuideFavouriteUseCase(Result.Error(ErrorEntity.Unknown)),
+                    markGuideFavourite =
+                        FakeMarkGuideFavouriteUseCase(Result.Failure(DataError.Network(Exception("test error")))),
                     unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
                     guideId = fakeGuide.id,
                 )

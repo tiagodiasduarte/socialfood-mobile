@@ -41,7 +41,7 @@ class GuideRemoteMediatorTest {
             name = "Guide $id",
             description = "Description $id",
             visibility = GuideVisibility.PUBLIC,
-            author = AuthorResponse(id = "author-id", name = "Author", imageUrl = null),
+            author = AuthorResponse(id = "author-id", name = "Author", username = "author", imageUrl = null),
             numberOfRestaurants = 0,
             imageUrl = null,
         )
@@ -58,6 +58,7 @@ class GuideRemoteMediatorTest {
         visibility = "PUBLIC",
         authorId = "author-id",
         authorName = "Author",
+        authorUsername = "author",
         authorImageUrl = null,
         numberOfRestaurant = 0,
         imageUrl = null,

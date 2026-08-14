@@ -7,8 +7,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.favourite.guide.GetFavouriteGuidesUseCase
-import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.favourite.guide.GetFavouriteGuidesUseCase
+import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
+import pt.socialfood.presentation.error.toErrorCode
 
 private const val PAGE_SIZE = 20
 
@@ -41,7 +42,7 @@ class FavouriteGuidesViewModel(
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Error -> _state.value = FavouriteGuidesUiState.Error
+                is Result.Failure -> _state.value = FavouriteGuidesUiState.Error(result.error.toErrorCode())
             }
         }
     }
@@ -58,7 +59,7 @@ class FavouriteGuidesViewModel(
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Error -> _state.value = FavouriteGuidesUiState.Error
+                is Result.Failure -> _state.value = FavouriteGuidesUiState.Error(result.error.toErrorCode())
             }
             _isRefreshing.value = false
         }
@@ -80,7 +81,7 @@ class FavouriteGuidesViewModel(
                         isLoadingMore = false,
                     )
                 }
-                is Result.Error -> _state.value = current.copy(isLoadingMore = false)
+                is Result.Failure -> _state.value = current.copy(isLoadingMore = false)
             }
         }
     }
@@ -92,7 +93,7 @@ class FavouriteGuidesViewModel(
 
         viewModelScope.launch {
             val result = unmarkGuideFavourite(guideId)
-            if (result is Result.Error) {
+            if (result is Result.Failure) {
                 val stateNow = _state.value as? FavouriteGuidesUiState.Loaded ?: return@launch
                 _state.value = stateNow.copy(guides = listOf(removedGuide) + stateNow.guides)
             }

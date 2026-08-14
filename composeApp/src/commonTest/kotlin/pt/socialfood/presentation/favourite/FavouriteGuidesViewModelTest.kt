@@ -4,7 +4,8 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.DataError
+import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.FavouriteGuide
 import pt.socialfood.domain.model.Guide
@@ -26,14 +27,14 @@ class FavouriteGuidesViewModelTest {
     private fun favourite(id: String) =
         FavouriteGuide(
             guide =
-                Guide(
-                    id = id,
-                    name = "Guide $id",
-                    description = "",
-                    visibility = GuideVisibility.PUBLIC,
-                    author = Author(id = "author-id", name = "Author"),
-                    numberOfRestaurant = 0,
-                ),
+            Guide(
+                id = id,
+                name = "Guide $id",
+                description = "",
+                visibility = GuideVisibility.PUBLIC,
+                author = Author(id = "author-id", name = "Author", username = "author"),
+                numberOfRestaurant = 0,
+            ),
             favouritedAt = 0L,
         )
 
@@ -64,18 +65,17 @@ class FavouriteGuidesViewModelTest {
         }
 
     @Test
-    fun `given use case fails when created then state is Error`() =
-        runTestWithMainDispatcher {
-            // Given
-            val useCase = FakeGetFavouriteGuidesUseCase { Result.Error(ErrorEntity.Unknown) }
+    fun `given use case fails when created then state is Error`() = runTestWithMainDispatcher {
+        // Given
+        val useCase = FakeGetFavouriteGuidesUseCase { Result.Failure(DataError.Network(Exception("test error"))) }
 
-            // When / Then
-            val vm = FavouriteGuidesViewModel(useCase, FakeUnmarkGuideFavouriteUseCase())
-            vm.state.test {
-                assertEquals(FavouriteGuidesUiState.Loading, awaitItem())
-                assertEquals(FavouriteGuidesUiState.Error, awaitItem())
-            }
+        // When / Then
+        val vm = FavouriteGuidesViewModel(useCase, FakeUnmarkGuideFavouriteUseCase())
+        vm.state.test {
+            assertEquals(FavouriteGuidesUiState.Loading, awaitItem())
+            assertEquals(FavouriteGuidesUiState.Error(ErrorCode.NETWORK), awaitItem())
         }
+    }
 
     @Test
     fun `given more pages available when loadMore is called then appends guides and updates hasMore`() =
@@ -200,7 +200,8 @@ class FavouriteGuidesViewModelTest {
                         ),
                     )
                 }
-            val unmarkUseCase = FakeUnmarkGuideFavouriteUseCase(result = Result.Error(ErrorEntity.Unknown))
+            val unmarkUseCase =
+                FakeUnmarkGuideFavouriteUseCase(result = Result.Failure(DataError.Network(Exception("test error"))))
             val vm = FavouriteGuidesViewModel(useCase, unmarkUseCase)
 
             // When / Then

@@ -1,9 +1,9 @@
 package pt.socialfood.presentation.author.list
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,46 +14,54 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.authors_search_placeholder
-import socialfood.composeapp.generated.resources.authors_title
-import pt.socialfood.presentation.components.SearchBar
+import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.authors_title
 
 @Composable
 fun AuthorsHeader(
-    modifier: Modifier = Modifier
+    userName: String = "",
+    userImageUrl: String? = null,
+    onProfileClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
 ) {
-
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color.White)
+            .background(Color.White),
     ) {
-        Row(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(SpaceSize.large),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
+            UserImage(
+                name = userName,
+                imageUrl = userImageUrl,
+                imageSize = 32.dp,
+                modifier = Modifier
+                    .align(alignment = Alignment.CenterStart)
+                    .clickable(onClick = onProfileClick),
+            )
+
             Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(alignment = Alignment.Center),
                 text = stringResource(Res.string.authors_title),
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.primary,
+                textAlign = TextAlign.Center,
             )
         }
 
         Spacer(Modifier.height(SpaceSize.medium))
-
-        SearchBar(
-            placeholder = stringResource(Res.string.authors_search_placeholder),
-        )
-
-        Spacer(Modifier.height(SpaceSize.large))
     }
 }
 

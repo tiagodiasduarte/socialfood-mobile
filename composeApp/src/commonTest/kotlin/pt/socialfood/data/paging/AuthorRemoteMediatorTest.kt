@@ -35,6 +35,7 @@ class AuthorRemoteMediatorTest {
         AuthorResponse(
             id = id,
             name = "Author $id",
+            username = "author$id",
             imageUrl = null,
         )
 
@@ -44,6 +45,7 @@ class AuthorRemoteMediatorTest {
     ) = AuthorEntity(
         id = id,
         name = "Author $id",
+        username = "author$id",
         imageUrl = null,
         position = position,
     )

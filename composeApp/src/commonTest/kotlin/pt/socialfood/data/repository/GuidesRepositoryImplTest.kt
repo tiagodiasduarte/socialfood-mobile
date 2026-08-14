@@ -3,7 +3,7 @@ package pt.socialfood.data.repository
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.paging.GuideCacheTransactionRunner
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.PagedGuides
@@ -53,8 +53,8 @@ class GuidesRepositoryImplTest {
             val result = repo.create(name = "Guide Name", description = "Description", userId = "user-id")
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // delete
@@ -83,8 +83,8 @@ class GuidesRepositoryImplTest {
             val result = repo.delete(id = "guide-id")
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // findGuides
@@ -114,8 +114,8 @@ class GuidesRepositoryImplTest {
             val result = repo.findGuides()
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // findGuidesPaged
@@ -150,8 +150,8 @@ class GuidesRepositoryImplTest {
             val result = repo.findGuidesPaged(page = 1, limit = 10, query = null)
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // update
@@ -196,8 +196,8 @@ class GuidesRepositoryImplTest {
                 )
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // findById
@@ -226,8 +226,8 @@ class GuidesRepositoryImplTest {
             val result = repo.findById(id = "guide-id")
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // getPhotoPresignedUrl
@@ -267,8 +267,8 @@ class GuidesRepositoryImplTest {
                 )
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // addRestaurantGuide
@@ -307,8 +307,8 @@ class GuidesRepositoryImplTest {
                 )
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // addPhoto
@@ -337,8 +337,8 @@ class GuidesRepositoryImplTest {
             val result = repo.addPhoto(guideId = "guide-id", imageUrl = "https://example.com/photo.jpg")
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // deletePhoto
@@ -367,8 +367,8 @@ class GuidesRepositoryImplTest {
             val result = repo.deletePhoto(guideId = "guide-id")
 
             // Then
-            assertIs<Result.Error>(result)
-            assertEquals(ErrorEntity.Unknown, result.error)
+            assertIs<Result.Failure>(result)
+            assertIs<DataError.Network>(result.error)
         }
 
     // getGuidesPagingFlow

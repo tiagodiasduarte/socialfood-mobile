@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.edit_guide_delete_button
 import socialfood.composeapp.generated.resources.edit_guide_save_button
@@ -56,7 +57,7 @@ import pt.socialfood.presentation.components.buttons.IconTextButton
 import pt.socialfood.presentation.guide.edit.card.GuideDetailsCard
 import pt.socialfood.presentation.guide.edit.card.GuideRestaurantsCard
 import pt.socialfood.presentation.guide.edit.card.GuideStatusCard
-import pt.socialfood.presentation.image_picker.rememberImagePickerLauncher
+import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
@@ -65,13 +66,15 @@ private const val TAB_DETAILS = 0
 private const val TAB_RESTAURANTS = 1
 private const val TAB_STATUS = 2
 
+@Suppress("LongParameterList")
 @Composable
 fun EditGuideScreen(
+    guideId: String,
     onBackClick: () -> Unit,
     onGuideDeleted: () -> Unit = {},
     initialTab: Int = TAB_DETAILS,
     onAddRestaurantsClick: (onRestaurantAdded: (Restaurant) -> Unit) -> Unit = {},
-    viewModel: EditGuideViewModel = koinViewModel(),
+    viewModel: EditGuideViewModel = koinViewModel(parameters = { parametersOf(guideId) }),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -142,7 +145,7 @@ private fun EditGuideContent(
         )
 
         when (state) {
-            EditGuideUiState.Error -> {
+            is EditGuideUiState.Error -> {
                 ErrorContent(modifier = Modifier.fillMaxSize(), onRetryClick = onRetry)
             }
 

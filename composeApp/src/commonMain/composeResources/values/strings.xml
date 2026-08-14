@@ -157,6 +157,7 @@
     <string name="edit_profile_name_placeholder">John Doe</string>
     <string name="edit_profile_email_label">Email</string>
     <string name="edit_profile_username_label">Username</string>
+    <string name="edit_profile_clear_field_button_description">Clear field</string>
     <string name="edit_profile_username_placeholder">johndoe</string>
     <string name="edit_profile_social_title">Social Networks</string>
     <string name="edit_profile_facebook_label">Facebook</string>

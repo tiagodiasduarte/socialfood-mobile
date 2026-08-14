@@ -42,6 +42,7 @@ fun SocialNetworkCard(
             value = state.facebookUrl,
             placeholder = stringResource(Res.string.edit_profile_facebook_placeholder),
             onValueChange = onFacebookUrlChange,
+            clearable = true,
         )
 
         Spacer(Modifier.height(SpaceSize.large))
@@ -51,6 +52,7 @@ fun SocialNetworkCard(
             value = state.instagramUrl,
             placeholder = stringResource(Res.string.edit_profile_instagram_placeholder),
             onValueChange = onInstagramUrlChange,
+            clearable = true,
         )
 
         Spacer(Modifier.height(SpaceSize.large))
@@ -60,6 +62,7 @@ fun SocialNetworkCard(
             value = state.youtubeUrl,
             placeholder = stringResource(Res.string.edit_profile_youtube_placeholder),
             onValueChange = onYoutubeUrlChange,
+            clearable = true,
         )
     }
 }

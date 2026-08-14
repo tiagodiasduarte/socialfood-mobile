@@ -11,6 +11,7 @@ sealed interface EditProfileUiState {
         val isUploadingPhoto: Boolean = false,
         val userId: String = "",
         val name: String = "",
+        val email: String = "",
         val username: String = "",
         val facebookUrl: String = "",
         val instagramUrl: String = "",

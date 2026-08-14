@@ -207,6 +207,7 @@ private fun EditProfileScreenPreview() {
         EditProfileContent(
             state = EditProfileUiState.Loaded(
                 name = "John Doe",
+                email = "john.doe@email.com",
                 username = "johndoe",
                 facebookUrl = "",
                 instagramUrl = "",

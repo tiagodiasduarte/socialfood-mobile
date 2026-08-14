@@ -206,6 +206,19 @@ class EditProfileViewModelTest {
     }
 
     @Test
+    fun `given getUserMe succeeds when created then the Loaded state has the user email`() = runTestWithMainDispatcher {
+        // Given
+        val vm = createViewModel(getUserMe = FakeGetUserMeUseCase(Result.Success(sampleUser)))
+
+        // When / Then
+        vm.state.test {
+            assertEquals(EditProfileUiState.Loading, awaitItem())
+            val loaded = assertIs<EditProfileUiState.Loaded>(awaitItem())
+            assertEquals(sampleUser.email, loaded.email)
+        }
+    }
+
+    @Test
     fun `given a loaded state when retry is called then reloads the user`() = runTestWithMainDispatcher {
         // Given
         val getUserMe = FakeGetUserMeUseCase(Result.Success(sampleUser))

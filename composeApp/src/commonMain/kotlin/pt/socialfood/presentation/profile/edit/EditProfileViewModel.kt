@@ -54,6 +54,7 @@ class EditProfileViewModel(
                     _state.value = EditProfileUiState.Loaded(
                         userId = user.id,
                         name = user.name,
+                        email = user.email,
                         username = user.username,
                         facebookUrl = user.facebookUrl.orEmpty(),
                         instagramUrl = user.instagramUrl.orEmpty(),

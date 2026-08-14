@@ -112,6 +112,11 @@ private fun SignInScreenContent(
     onGoogleSignInClick: () -> Unit = {},
     onSignUpClick: () -> Unit = {},
 ) {
+    // Hoisted here (not inside SignInFormView) so email/password survive the Idle/Error <-> Loading
+    // transition below, since SignInFormView is fully unmounted while SignInLoadingView is shown.
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
     when (state) {
         is SignInUiState.Error,
         is SignInUiState.ValidationError,
@@ -119,6 +124,10 @@ private fun SignInScreenContent(
         -> {
             SignInFormView(
                 state = state,
+                email = email,
+                onEmailChange = { email = it },
+                password = password,
+                onPasswordChange = { password = it },
                 onSignInClick = onSignInClick,
                 onSignUpClick = onSignUpClick,
                 onGoogleSignInClick = onGoogleSignInClick,
@@ -131,15 +140,18 @@ private fun SignInScreenContent(
     }
 }
 
+@Suppress("LongParameterList")
 @Composable
 private fun SignInFormView(
     state: SignInUiState,
+    email: String,
+    onEmailChange: (String) -> Unit,
+    password: String,
+    onPasswordChange: (String) -> Unit,
     onSignInClick: (email: String, password: String) -> Unit,
     onSignUpClick: () -> Unit,
     onGoogleSignInClick: () -> Unit,
 ) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
 
     val colorScheme = MaterialTheme.colorScheme
@@ -206,7 +218,7 @@ private fun SignInFormView(
 
             OutlinedTextField(
                 value = email,
-                onValueChange = { email = it },
+                onValueChange = onEmailChange,
                 placeholder = {
                     Text(
                         text = stringResource(Res.string.sign_in_email_placeholder_label),
@@ -244,7 +256,7 @@ private fun SignInFormView(
 
             OutlinedTextField(
                 value = password,
-                onValueChange = { password = it },
+                onValueChange = onPasswordChange,
                 placeholder = {
                     Text(
                         text = stringResource(Res.string.sign_in_password_placeholder_label),

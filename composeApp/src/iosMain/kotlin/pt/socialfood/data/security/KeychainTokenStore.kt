@@ -32,10 +32,6 @@ import platform.Security.kSecMatchLimitOne
 import platform.Security.kSecReturnData
 import platform.Security.kSecValueData
 
-/**
- * Stores the JWT session token in the iOS Keychain (encrypted at rest by the OS), used instead
- * of NSUserDefaults, which stores values as plaintext.
- */
 @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
 internal object KeychainTokenStore {
     private const val SERVICE = "pt.socialfood.session"

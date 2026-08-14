@@ -20,7 +20,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -42,7 +41,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -75,12 +73,10 @@ import socialfood.composeapp.generated.resources.sign_in_password_placeholder_la
 import socialfood.composeapp.generated.resources.sign_in_sign_up_button
 import socialfood.composeapp.generated.resources.sign_in_subtitle_label
 import socialfood.composeapp.generated.resources.sign_in_title_label
+import socialfood.composeapp.generated.resources.socialfood_icon
 
 @Composable
-fun SignInScreen(
-    onSignInSuccess: () -> Unit,
-    onSignUpClick: () -> Unit = {},
-) {
+fun SignInScreen(onSignInSuccess: () -> Unit, onSignUpClick: () -> Unit = {}) {
     val viewModel: SignInViewModel = koinViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -187,20 +183,11 @@ private fun SignInHeader() {
     val colorScheme = MaterialTheme.colorScheme
 
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Box(
-            modifier = Modifier
-                .size(52.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(colorScheme.primary),
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(
-                imageVector = Icons.Default.Restaurant,
-                contentDescription = null,
-                tint = colorScheme.onPrimary,
-                modifier = Modifier.size(28.dp),
-            )
-        }
+        Image(
+            painter = painterResource(Res.drawable.socialfood_icon),
+            contentDescription = null,
+            modifier = Modifier.size(52.dp),
+        )
 
         Spacer(modifier = Modifier.width(SpaceSize.large))
 

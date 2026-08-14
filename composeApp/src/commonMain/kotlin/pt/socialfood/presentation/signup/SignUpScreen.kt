@@ -1,5 +1,6 @@
 package pt.socialfood.presentation.signup
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +20,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -38,7 +38,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -47,6 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.presentation.error.stringResource
@@ -69,12 +69,10 @@ import socialfood.composeapp.generated.resources.sign_up_name_placeholder_label
 import socialfood.composeapp.generated.resources.sign_up_sign_in_label
 import socialfood.composeapp.generated.resources.sign_up_subtitle_label
 import socialfood.composeapp.generated.resources.sign_up_title_label
+import socialfood.composeapp.generated.resources.socialfood_icon
 
 @Composable
-fun SignUpScreen(
-    onSignUpSuccess: (email: String) -> Unit,
-    onSignInClick: () -> Unit = {},
-) {
+fun SignUpScreen(onSignUpSuccess: (email: String) -> Unit, onSignInClick: () -> Unit = {}) {
     val viewModel: SignUpViewModel = koinViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -115,6 +113,7 @@ private fun SignUpScreenContent(
     }
 }
 
+@Suppress("LongMethod")
 @Composable
 private fun SignUpFormView(
     state: SignUpUiState,
@@ -131,29 +130,18 @@ private fun SignUpFormView(
     val colorScheme = MaterialTheme.colorScheme
 
     Box(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .background(colorScheme.background)
-                .padding(horizontal = SpaceSize.large),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorScheme.background)
+            .padding(horizontal = SpaceSize.large),
     ) {
         Column(Modifier.align(Alignment.Center)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier =
-                        Modifier
-                            .size(52.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(colorScheme.primary),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Restaurant,
-                        contentDescription = null,
-                        tint = colorScheme.onPrimary,
-                        modifier = Modifier.size(28.dp),
-                    )
-                }
+                Image(
+                    painter = painterResource(Res.drawable.socialfood_icon),
+                    contentDescription = null,
+                    modifier = Modifier.size(52.dp),
+                )
 
                 Spacer(modifier = Modifier.width(SpaceSize.large))
 
@@ -211,10 +199,10 @@ private fun SignUpFormView(
                 },
                 shape = RoundedCornerShape(12.dp),
                 colors =
-                    OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = colorScheme.outlineVariant,
-                        focusedBorderColor = colorScheme.primary,
-                    ),
+                OutlinedTextFieldDefaults.colors(
+                    unfocusedBorderColor = colorScheme.outlineVariant,
+                    focusedBorderColor = colorScheme.primary,
+                ),
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -249,10 +237,10 @@ private fun SignUpFormView(
                 },
                 shape = RoundedCornerShape(12.dp),
                 colors =
-                    OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = colorScheme.outlineVariant,
-                        focusedBorderColor = colorScheme.primary,
-                    ),
+                OutlinedTextFieldDefaults.colors(
+                    unfocusedBorderColor = colorScheme.outlineVariant,
+                    focusedBorderColor = colorScheme.primary,
+                ),
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -278,11 +266,11 @@ private fun SignUpFormView(
                 },
                 singleLine = true,
                 visualTransformation =
-                    if (passwordVisible) {
-                        VisualTransformation.None
-                    } else {
-                        PasswordVisualTransformation()
-                    },
+                if (passwordVisible) {
+                    VisualTransformation.None
+                } else {
+                    PasswordVisualTransformation()
+                },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 leadingIcon = {
                     Icon(
@@ -296,29 +284,29 @@ private fun SignUpFormView(
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
                         Icon(
                             imageVector =
-                                if (passwordVisible) {
-                                    Icons.Default.VisibilityOff
-                                } else {
-                                    Icons.Default.Visibility
-                                },
+                            if (passwordVisible) {
+                                Icons.Default.VisibilityOff
+                            } else {
+                                Icons.Default.Visibility
+                            },
                             contentDescription =
-                                stringResource(
-                                    if (passwordVisible) {
-                                        Res.string.hide_password_content_description
-                                    } else {
-                                        Res.string.show_password_content_description
-                                    },
-                                ),
+                            stringResource(
+                                if (passwordVisible) {
+                                    Res.string.hide_password_content_description
+                                } else {
+                                    Res.string.show_password_content_description
+                                },
+                            ),
                             tint = colorScheme.outline,
                         )
                     }
                 },
                 shape = RoundedCornerShape(12.dp),
                 colors =
-                    OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = colorScheme.outlineVariant,
-                        focusedBorderColor = colorScheme.primary,
-                    ),
+                OutlinedTextFieldDefaults.colors(
+                    unfocusedBorderColor = colorScheme.outlineVariant,
+                    focusedBorderColor = colorScheme.primary,
+                ),
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -344,11 +332,11 @@ private fun SignUpFormView(
                 },
                 singleLine = true,
                 visualTransformation =
-                    if (confirmPasswordVisible) {
-                        VisualTransformation.None
-                    } else {
-                        PasswordVisualTransformation()
-                    },
+                if (confirmPasswordVisible) {
+                    VisualTransformation.None
+                } else {
+                    PasswordVisualTransformation()
+                },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 leadingIcon = {
                     Icon(
@@ -362,34 +350,34 @@ private fun SignUpFormView(
                     IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
                         Icon(
                             imageVector =
-                                if (confirmPasswordVisible) {
-                                    Icons.Default.VisibilityOff
-                                } else {
-                                    Icons.Default.Visibility
-                                },
+                            if (confirmPasswordVisible) {
+                                Icons.Default.VisibilityOff
+                            } else {
+                                Icons.Default.Visibility
+                            },
                             contentDescription =
-                                stringResource(
-                                    if (confirmPasswordVisible) {
-                                        Res.string.hide_password_content_description
-                                    } else {
-                                        Res.string.show_password_content_description
-                                    },
-                                ),
+                            stringResource(
+                                if (confirmPasswordVisible) {
+                                    Res.string.hide_password_content_description
+                                } else {
+                                    Res.string.show_password_content_description
+                                },
+                            ),
                             tint = colorScheme.outline,
                         )
                     }
                 },
                 shape = RoundedCornerShape(12.dp),
                 colors =
-                    OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor =
-                            if (state is SignUpUiState.Error || state is SignUpUiState.ValidationError) {
-                                colorScheme.error
-                            } else {
-                                colorScheme.outlineVariant
-                            },
-                        focusedBorderColor = colorScheme.primary,
-                    ),
+                OutlinedTextFieldDefaults.colors(
+                    unfocusedBorderColor =
+                    if (state is SignUpUiState.Error || state is SignUpUiState.ValidationError) {
+                        colorScheme.error
+                    } else {
+                        colorScheme.outlineVariant
+                    },
+                    focusedBorderColor = colorScheme.primary,
+                ),
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -411,16 +399,15 @@ private fun SignUpFormView(
 
             Button(
                 onClick = { onSignUpClick(name, email, password, confirmPassword) },
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
                 shape = RoundedCornerShape(12.dp),
                 colors =
-                    ButtonDefaults.buttonColors(
-                        containerColor = colorScheme.primary,
-                        contentColor = colorScheme.onPrimary,
-                    ),
+                ButtonDefaults.buttonColors(
+                    containerColor = colorScheme.primary,
+                    contentColor = colorScheme.onPrimary,
+                ),
             ) {
                 Text(
                     text = stringResource(Res.string.sign_up_button),
@@ -433,10 +420,9 @@ private fun SignUpFormView(
             Spacer(modifier = Modifier.height(SpaceSize.xlarge))
 
             Row(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(SpaceSize.medium),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(SpaceSize.medium),
                 horizontalArrangement = Arrangement.Center,
             ) {
                 Text(
@@ -446,10 +432,9 @@ private fun SignUpFormView(
                 )
 
                 Text(
-                    modifier =
-                        Modifier
-                            .padding(horizontal = SpaceSize.small)
-                            .clickable { onSignInClick() },
+                    modifier = Modifier
+                        .padding(horizontal = SpaceSize.small)
+                        .clickable { onSignInClick() },
                     text = stringResource(Res.string.sign_up_sign_in_label),
                     style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                     color = colorScheme.primary,
@@ -462,10 +447,9 @@ private fun SignUpFormView(
 @Composable
 private fun SignUpLoadingView() {
     Box(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(

@@ -8,7 +8,6 @@ import pt.socialfood.random.nextPagedRestaurants
 import pt.socialfood.random.nextRestaurant
 import kotlin.random.Random
 
-@Suppress("LongParameterList")
 class FakeRestaurantsRepository(
     private val importRestaurantsResult: Result<Boolean> = Result.Success(true),
     private val deleteResult: Result<Boolean> = Result.Success(true),

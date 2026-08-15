@@ -25,7 +25,6 @@ interface UsersRepository {
 
     suspend fun findById(id: String): Result<User>
 
-    @Suppress("LongParameterList")
     suspend fun update(
         id: String,
         imageUrl: String? = null,

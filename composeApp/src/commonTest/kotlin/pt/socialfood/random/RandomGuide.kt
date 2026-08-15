@@ -6,7 +6,6 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Restaurant
 import kotlin.random.Random
 
-@Suppress("LongParameterList")
 fun Random.nextGuide(
     id: String = nextString(),
     name: String = nextString(),

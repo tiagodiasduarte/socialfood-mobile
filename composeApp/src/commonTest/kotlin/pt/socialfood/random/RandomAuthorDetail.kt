@@ -3,7 +3,6 @@ package pt.socialfood.random
 import pt.socialfood.domain.model.AuthorDetail
 import kotlin.random.Random
 
-@Suppress("LongParameterList")
 fun Random.nextAuthorDetail(
     id: String = nextString(),
     name: String = nextString(),

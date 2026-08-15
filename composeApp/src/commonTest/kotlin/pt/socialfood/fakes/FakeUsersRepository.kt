@@ -12,7 +12,6 @@ import pt.socialfood.random.nextPresignedUrlData
 import pt.socialfood.random.nextUser
 import kotlin.random.Random
 
-@Suppress("LongParameterList")
 class FakeUsersRepository(
     currentUser: User? = null,
     private val getUsersResult: Result<List<User>> = Result.Success(emptyList()),

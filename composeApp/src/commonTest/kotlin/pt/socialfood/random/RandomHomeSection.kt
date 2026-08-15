@@ -9,7 +9,6 @@ import pt.socialfood.domain.model.HomeSectionType
 import pt.socialfood.domain.model.Restaurant
 import kotlin.random.Random
 
-@Suppress("LongParameterList")
 fun Random.nextHomeSection(
     id: String = nextString(),
     title: String = nextString(),
@@ -26,7 +25,6 @@ fun Random.nextHomeSection(
     items = items,
 )
 
-@Suppress("LongParameterList")
 fun Random.nextHomeSectionItem(
     id: String = nextString(),
     sectionId: String = nextString(),

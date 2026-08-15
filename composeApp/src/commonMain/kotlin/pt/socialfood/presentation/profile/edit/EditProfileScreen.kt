@@ -38,6 +38,7 @@ import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.presentation.components.ErrorAlertDialog
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.error.stringResource
+import pt.socialfood.presentation.profile.edit.card.AuthorModeCard
 import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
 import pt.socialfood.presentation.profile.edit.card.ProfilePictureCard
 import pt.socialfood.presentation.profile.edit.card.SocialNetworkCard
@@ -80,6 +81,7 @@ fun EditProfileScreen(onBackClick: () -> Unit, viewModel: EditProfileViewModel =
             onFacebookUrlChange = viewModel::onFacebookUrlChange,
             onInstagramUrlChange = viewModel::onInstagramUrlChange,
             onYoutubeUrlChange = viewModel::onYoutubeUrlChange,
+            onAuthorModeChange = viewModel::onAuthorModeChange,
             onDismissSaveError = viewModel::dismissSaveError,
         )
     }
@@ -96,6 +98,7 @@ private fun EditProfileContent(
     onFacebookUrlChange: (String) -> Unit,
     onInstagramUrlChange: (String) -> Unit,
     onYoutubeUrlChange: (String) -> Unit,
+    onAuthorModeChange: (Boolean) -> Unit,
     onDismissSaveError: () -> Unit,
 ) {
     val saveError = state.saveError
@@ -128,6 +131,11 @@ private fun EditProfileContent(
                 state = state,
                 onNameChange = onNameChange,
                 onUsernameChange = onUsernameChange,
+            )
+
+            AuthorModeCard(
+                state = state,
+                onAuthorModeChange = onAuthorModeChange,
             )
 
             SocialNetworkCard(
@@ -221,6 +229,7 @@ private fun EditProfileScreenPreview() {
             onFacebookUrlChange = {},
             onInstagramUrlChange = {},
             onYoutubeUrlChange = {},
+            onAuthorModeChange = {},
             onDismissSaveError = {},
         )
     }

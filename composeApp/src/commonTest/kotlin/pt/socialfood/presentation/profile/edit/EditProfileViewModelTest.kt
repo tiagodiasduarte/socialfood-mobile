@@ -271,8 +271,35 @@ class EditProfileViewModelTest {
                     "https://youtube.com/new",
                     assertIs<EditProfileUiState.Loaded>(awaitItem()).youtubeUrl,
                 )
+
+                vm.onAuthorModeChange(true)
+                assertEquals(true, assertIs<EditProfileUiState.Loaded>(awaitItem()).isAuthor)
             }
         }
+
+    @Test
+    fun `given author mode toggled on when save is called then isAuthor true is sent`() = runTestWithMainDispatcher {
+        // Given
+        val updateUser = FakeUpdateUserUseCase(Result.Success(sampleUser))
+        val vm = createViewModel(updateUser = updateUser)
+
+        vm.state.test {
+            assertEquals(EditProfileUiState.Loading, awaitItem())
+            assertIs<EditProfileUiState.Loaded>(awaitItem())
+
+            // When
+            vm.onAuthorModeChange(true)
+            awaitItem()
+            vm.save()
+
+            // Then
+            assertIs<EditProfileUiState.Loaded>(awaitItem()).let { assertEquals(true, it.isSaving) }
+            assertIs<EditProfileUiState.Loaded>(awaitItem())
+            cancelAndIgnoreRemainingEvents()
+        }
+        assertEquals(1, updateUser.invokeCount)
+        assertEquals(true, updateUser.lastIsAuthor)
+    }
 
     @Test
     fun `given getPresignedUrl fails when save is called with a pending photo then saveError is set`() =

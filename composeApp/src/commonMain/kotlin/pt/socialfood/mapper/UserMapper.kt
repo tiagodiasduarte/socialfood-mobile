@@ -15,4 +15,5 @@ fun UserResponse.toUser(): User = User(
     instagramUrl = this.instagramUrl,
     youtubeUrl = this.youtubeUrl,
     isVerified = this.isVerified,
+    isAuthor = this.isAuthor,
 )

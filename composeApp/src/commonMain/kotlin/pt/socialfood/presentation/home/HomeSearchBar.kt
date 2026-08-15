@@ -1,6 +1,7 @@
 package pt.socialfood.presentation.home
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,7 +22,7 @@ import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun HomeSearchBar(searchQuery: String, onQueryChange: (String) -> Unit) {
+fun HomeSearchBar(searchQuery: String, onQueryChange: (String) -> Unit, onClick: () -> Unit = {}) {
     TextField(
         value = searchQuery,
         onValueChange = onQueryChange,
@@ -59,6 +60,7 @@ fun HomeSearchBar(searchQuery: String, onQueryChange: (String) -> Unit) {
                 width = 1.dp,
                 color = Color(0xFFE5E7EB),
                 shape = RoundedCornerShape(25),
-            ),
+            )
+            .clickable(onClick = onClick),
     )
 }

@@ -5,9 +5,7 @@ import pt.socialfood.data.api.AuthApi
 import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.repository.AuthRepository
 
-class AuthRepositoryImpl(
-    private val authApi: AuthApi
-) : AuthRepository {
+class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {
 
     override suspend fun login(email: String, password: String): Result<String> =
         safeApiCall { authApi.login(email, password).token }
@@ -24,6 +22,5 @@ class AuthRepositoryImpl(
     override suspend fun loginWithGoogle(idToken: String): Result<String> =
         safeApiCall { authApi.loginWithGoogle(idToken).token }
 
-    override suspend fun logout(): Result<Boolean> =
-        safeApiCall { authApi.logout() }
+    override suspend fun logout(): Result<Boolean> = safeApiCall { authApi.logout() }
 }

@@ -12,9 +12,7 @@ import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.sign_up_fill_all_fields
 import socialfood.composeapp.generated.resources.sign_up_password_mismatch
 
-class SignUpViewModel(
-    private val register: RegisterUseCase,
-) : ViewModel() {
+class SignUpViewModel(private val register: RegisterUseCase) : ViewModel() {
 
     private val _state = MutableStateFlow<SignUpUiState>(SignUpUiState.Idle)
     val state: StateFlow<SignUpUiState> = _state

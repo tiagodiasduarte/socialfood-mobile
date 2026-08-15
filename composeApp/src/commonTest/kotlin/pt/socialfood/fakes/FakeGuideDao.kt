@@ -29,9 +29,8 @@ class FakeGuideDao(private val shouldThrowOnWrite: Boolean = false) : GuideDao {
         FakeGuidePagingSource { entities.filter { it.scope == scope }.sortedBy { it.position } }
 }
 
-private class FakeGuidePagingSource(
-    private val loadEntities: () -> List<GuideEntity>,
-) : PagingSource<Int, GuideEntity>() {
+private class FakeGuidePagingSource(private val loadEntities: () -> List<GuideEntity>) :
+    PagingSource<Int, GuideEntity>() {
 
     override fun getRefreshKey(state: PagingState<Int, GuideEntity>): Int? = null
 

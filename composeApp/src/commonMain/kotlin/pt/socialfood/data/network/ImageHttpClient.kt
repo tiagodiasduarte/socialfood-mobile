@@ -11,10 +11,7 @@ import io.ktor.client.plugins.logging.Logging
 // Plain HTTP client used only by Coil's network fetcher for async image loading.
 // No base URL, no auth header, no 401 -> sessionManager.clear() — image URLs are absolute
 // URLs to other hosts (e.g. S3), and a broken/expired image URL must never clear the session.
-class ImageHttpClient(
-    private val isDebug: Boolean = true,
-    engine: HttpClientEngine? = null
-) {
+class ImageHttpClient(private val isDebug: Boolean = true, engine: HttpClientEngine? = null) {
     private val config: HttpClientConfig<*>.() -> Unit = {
 
         install(Logging) {

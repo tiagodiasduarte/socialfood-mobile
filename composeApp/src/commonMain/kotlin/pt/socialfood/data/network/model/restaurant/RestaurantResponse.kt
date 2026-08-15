@@ -19,10 +19,7 @@ data class RestaurantResponse(
     val websiteUrl: String?,
     val location: Location,
     val regularOpeningHours: List<String>?,
-){
+) {
     @Serializable
-    data class Location(
-        val latitude: Double,
-        val longitude: Double,
-    )
+    data class Location(val latitude: Double, val longitude: Double)
 }

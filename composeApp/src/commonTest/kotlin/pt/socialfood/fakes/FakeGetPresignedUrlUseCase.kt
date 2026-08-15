@@ -4,9 +4,7 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.PresignedUrlData
 import pt.socialfood.domain.usecase.user.GetPresignedUrlUseCase
 
-class FakeGetPresignedUrlUseCase(
-    private val result: Result<PresignedUrlData>,
-) : GetPresignedUrlUseCase {
+class FakeGetPresignedUrlUseCase(private val result: Result<PresignedUrlData>) : GetPresignedUrlUseCase {
     var invokeCount: Int = 0
         private set
 

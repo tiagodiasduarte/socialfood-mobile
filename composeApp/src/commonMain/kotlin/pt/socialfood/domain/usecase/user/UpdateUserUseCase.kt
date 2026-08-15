@@ -12,5 +12,6 @@ interface UpdateUserUseCase {
         facebookUrl: String? = null,
         instagramUrl: String? = null,
         youtubeUrl: String? = null,
+        isAuthor: Boolean? = null,
     ): Result<User>
 }

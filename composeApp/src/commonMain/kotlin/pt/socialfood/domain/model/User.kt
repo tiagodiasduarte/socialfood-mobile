@@ -13,6 +13,7 @@ data class User(
     val instagramUrl: String? = null,
     val youtubeUrl: String? = null,
     val isVerified: Boolean = true,
+    val isAuthor: Boolean = false,
 )
 
 enum class UserRole { USER, ADMIN }

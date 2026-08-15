@@ -61,6 +61,8 @@ class FakeUsersRepository(
         private set
     var lastUpdateYoutubeUrl: String? = null
         private set
+    var lastUpdateIsAuthor: Boolean? = null
+        private set
 
     var updatePhotoInvokeCount: Int = 0
         private set
@@ -112,6 +114,7 @@ class FakeUsersRepository(
         facebookUrl: String?,
         instagramUrl: String?,
         youtubeUrl: String?,
+        isAuthor: Boolean?,
     ): Result<User> {
         updateInvokeCount++
         lastUpdateId = id
@@ -121,6 +124,7 @@ class FakeUsersRepository(
         lastUpdateFacebookUrl = facebookUrl
         lastUpdateInstagramUrl = instagramUrl
         lastUpdateYoutubeUrl = youtubeUrl
+        lastUpdateIsAuthor = isAuthor
         return updateResult
     }
 

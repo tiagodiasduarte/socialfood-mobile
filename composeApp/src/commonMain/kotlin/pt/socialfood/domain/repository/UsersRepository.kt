@@ -29,6 +29,7 @@ interface UsersRepository {
         facebookUrl: String? = null,
         instagramUrl: String? = null,
         youtubeUrl: String? = null,
+        isAuthor: Boolean? = null,
     ): Result<User>
 
     suspend fun updatePhoto(id: String, imageUrl: String): Result<Boolean>

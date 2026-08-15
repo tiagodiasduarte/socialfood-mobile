@@ -56,6 +56,7 @@ class UsersRepositoryImpl(private val userApi: UserApi) : UsersRepository {
         facebookUrl: String?,
         instagramUrl: String?,
         youtubeUrl: String?,
+        isAuthor: Boolean?,
     ): Result<User> = safeApiCall {
         val request = UpdateUserRequest(
             name = name,
@@ -63,6 +64,7 @@ class UsersRepositoryImpl(private val userApi: UserApi) : UsersRepository {
             facebookUrl = facebookUrl,
             instagramUrl = instagramUrl,
             youtubeUrl = youtubeUrl,
+            isAuthor = isAuthor,
         )
         val user = userApi.update(request, id).toUser()
         _currentUser.value = user

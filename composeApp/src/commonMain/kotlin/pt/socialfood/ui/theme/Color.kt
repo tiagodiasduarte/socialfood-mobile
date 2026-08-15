@@ -30,7 +30,6 @@ val DarkLightColorTheme = darkColorScheme(
     outlineVariant = Color(0xFFE0E0E0),
 )
 
-
 val GreyBackground = Color(0xFFF2F2F2)
 val GreenStatus = Color(0xFF005C0C)
 val FavouriteRed = Color(0xFFEF4444)

@@ -132,8 +132,9 @@ class RestaurantDetailViewModelTest {
                 RestaurantDetailViewModel(
                     getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
                     isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
-                    markRestaurantFavourite =
-                        FakeMarkRestaurantFavouriteUseCase(Result.Failure(DataError.Network(Exception("test error")))),
+                    markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(
+                        Result.Failure(DataError.Network(Exception("test error"))),
+                    ),
                     unmarkRestaurantFavourite = FakeUnmarkRestaurantFavouriteUseCase(),
                     restaurantId = fakeRestaurant.id,
                 )

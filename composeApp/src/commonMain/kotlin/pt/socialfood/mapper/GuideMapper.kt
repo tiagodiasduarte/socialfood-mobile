@@ -9,7 +9,6 @@ import pt.socialfood.domain.model.AuthorDetail
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 
-
 fun GuideResponse.toGuide() = Guide(
     id = this.id,
     name = this.name,
@@ -17,7 +16,7 @@ fun GuideResponse.toGuide() = Guide(
     visibility = this.visibility,
     author = this.author.toAuthor(),
     numberOfRestaurant = this.numberOfRestaurants,
-    imageUrl = this.imageUrl
+    imageUrl = this.imageUrl,
 )
 
 fun AuthorDetailResponse.GuideResponse.toAuthorDetailGuide() = AuthorDetail.Guide(

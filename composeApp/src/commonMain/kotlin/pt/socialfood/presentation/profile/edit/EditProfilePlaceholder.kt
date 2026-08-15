@@ -35,17 +35,17 @@ internal fun EditProfilePlaceholder() {
 
     Column(
         modifier =
-            Modifier
-                .fillMaxSize()
-                .background(GreyBackground),
+        Modifier
+            .fillMaxSize()
+            .background(GreyBackground),
     ) {
         // Top bar skeleton
         Row(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(horizontal = SpaceSize.medium, vertical = SpaceSize.medium),
+            Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(horizontal = SpaceSize.medium, vertical = SpaceSize.medium),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             ShimmerBox(modifier = Modifier.size(40.dp), alpha = alpha, shape = CircleShape)
@@ -61,10 +61,10 @@ internal fun EditProfilePlaceholder() {
 
         Column(
             modifier =
-                Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(SpaceSize.large),
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(SpaceSize.large),
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
             // Profile picture card
@@ -109,9 +109,7 @@ internal fun EditProfilePlaceholder() {
 }
 
 @Composable
-private fun SectionCardPlaceholder(
-    content: @Composable () -> Unit,
-) {
+private fun SectionCardPlaceholder(content: @Composable () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(SpaceSize.large),

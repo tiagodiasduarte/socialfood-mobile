@@ -52,7 +52,7 @@ class GuidesViewModel(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Eagerly,
-            initialValue = emptySet()
+            initialValue = emptySet(),
         )
 
     fun onTabSelected(tab: Int) {

@@ -14,14 +14,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun RatingStars(
-    rating: Double,
-    modifier: Modifier = Modifier,
-    maxStars: Int = 5,
-    starSize: Dp = 20.dp
-) {
+fun RatingStars(rating: Double, modifier: Modifier = Modifier, maxStars: Int = 5, starSize: Dp = 20.dp) {
     Row(modifier = modifier) {
-
         val fullStars = rating.toInt()
         val hasHalfStar = (rating - fullStars) >= 0.5
 
@@ -37,7 +31,7 @@ fun RatingStars(
                 imageVector = icon,
                 contentDescription = "Rating star",
                 tint = Color(0xFFFFC107),
-                modifier = Modifier.size(starSize)
+                modifier = Modifier.size(starSize),
             )
         }
     }

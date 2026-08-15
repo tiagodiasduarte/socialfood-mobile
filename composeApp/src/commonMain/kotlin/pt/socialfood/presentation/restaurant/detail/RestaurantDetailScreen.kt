@@ -45,6 +45,14 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.presentation.components.ErrorContent
+import pt.socialfood.presentation.components.buttons.ActionButton
+import pt.socialfood.presentation.components.detailImageScrim
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.FavouriteRed
+import pt.socialfood.ui.theme.GreyBackground
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
 import socialfood.composeapp.generated.resources.restaurant_detail_call_button
@@ -52,14 +60,6 @@ import socialfood.composeapp.generated.resources.restaurant_detail_favourite_des
 import socialfood.composeapp.generated.resources.restaurant_detail_opening_hours_title
 import socialfood.composeapp.generated.resources.restaurant_detail_share_description
 import socialfood.composeapp.generated.resources.share_icon
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.components.buttons.ActionButton
-import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.detailImageScrim
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.FavouriteRed
-import pt.socialfood.ui.theme.GreyBackground
-import pt.socialfood.ui.theme.SpaceSize
 
 val ImageHeight = 300.dp
 
@@ -149,12 +149,14 @@ private fun RestaurantDetailLoaded(
                 InformationSection(
                     restaurant = restaurant,
                     onNavigateClick = {
-                        if (restaurant.address.isNotBlank())
+                        if (restaurant.address.isNotBlank()) {
                             uriHandler.openUri("geo:0,0?q=${restaurant.address}")
+                        }
                     },
                     onWebsiteClick = {
-                        if (!restaurant.websiteUrl.isNullOrBlank())
+                        if (!restaurant.websiteUrl.isNullOrBlank()) {
                             uriHandler.openUri(restaurant.websiteUrl)
+                        }
                     },
                 )
             }
@@ -201,8 +203,9 @@ private fun RestaurantDetailLoaded(
         ) {
             Button(
                 onClick = {
-                    if (restaurant.phoneNumber.isNotBlank())
+                    if (restaurant.phoneNumber.isNotBlank()) {
                         uriHandler.openUri("tel:${restaurant.phoneNumber}")
+                    }
                 },
                 modifier = Modifier.fillMaxWidth().height(52.dp),
                 colors = ButtonDefaults.buttonColors(

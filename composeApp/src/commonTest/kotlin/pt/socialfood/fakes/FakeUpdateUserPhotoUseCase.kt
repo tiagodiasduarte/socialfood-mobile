@@ -3,9 +3,7 @@ package pt.socialfood.fakes
 import pt.socialfood.core.Result
 import pt.socialfood.domain.usecase.user.UpdateUserPhotoUseCase
 
-class FakeUpdateUserPhotoUseCase(
-    private val result: Result<Boolean>,
-) : UpdateUserPhotoUseCase {
+class FakeUpdateUserPhotoUseCase(private val result: Result<Boolean>) : UpdateUserPhotoUseCase {
     var invokeCount: Int = 0
         private set
     var lastImageUrl: String? = null

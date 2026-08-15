@@ -15,10 +15,7 @@ import socialfood.composeapp.generated.resources.edit_guide_validation_error_dia
 import socialfood.composeapp.generated.resources.edit_guide_validation_error_dialog_title
 
 @Composable
-fun GuideValidationErrorDialog(
-    errors: List<StringResource>,
-    onDismiss: () -> Unit,
-) {
+fun GuideValidationErrorDialog(errors: List<StringResource>, onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(Res.string.edit_guide_validation_error_dialog_title)) },

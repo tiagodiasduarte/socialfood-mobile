@@ -12,15 +12,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import org.jetbrains.compose.resources.stringResource
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.search_restaurants_importing_dialog_message
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
-import androidx.compose.ui.tooling.preview.Preview
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.search_restaurants_importing_dialog_message
 
 @Composable
 fun ImportRestaurantDialog() {

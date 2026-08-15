@@ -48,7 +48,7 @@ fun GuideCard(
     isFavourite: Boolean = false,
     onClick: () -> Unit = {},
     onFavouriteClick: (() -> Unit)? = null,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = if (width != null) {
@@ -61,7 +61,7 @@ fun GuideCard(
                 .height(CardHeight)
                 .clip(RoundedCornerShape(SpaceSize.large))
                 .clickable(onClick = onClick)
-        }
+        },
     ) {
         // Background image or fallback color
         if (guide.imageUrl != null) {

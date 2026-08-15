@@ -14,10 +14,8 @@ import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.sign_in_invalid_email
 import socialfood.composeapp.generated.resources.sign_in_invalid_password
 
-class SignInViewModel(
-    private val login: LoginUseCase,
-    private val loginWithGoogle: LoginWithGoogleUseCase,
-) : ViewModel() {
+class SignInViewModel(private val login: LoginUseCase, private val loginWithGoogle: LoginWithGoogleUseCase) :
+    ViewModel() {
 
     private val _state = MutableStateFlow<SignInUiState>(SignInUiState.Idle)
     val state: StateFlow<SignInUiState> = _state

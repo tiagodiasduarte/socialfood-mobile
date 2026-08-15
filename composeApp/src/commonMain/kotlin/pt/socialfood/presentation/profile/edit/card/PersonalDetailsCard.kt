@@ -8,6 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.presentation.components.card.SectionCard
+import pt.socialfood.presentation.profile.edit.EditProfileUiState
+import pt.socialfood.presentation.profile.edit.ProfileTextField
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.edit_profile_email_label
 import socialfood.composeapp.generated.resources.edit_profile_name_label
@@ -15,10 +19,6 @@ import socialfood.composeapp.generated.resources.edit_profile_name_placeholder
 import socialfood.composeapp.generated.resources.edit_profile_personal_details_title
 import socialfood.composeapp.generated.resources.edit_profile_username_label
 import socialfood.composeapp.generated.resources.edit_profile_username_placeholder
-import pt.socialfood.presentation.components.card.SectionCard
-import pt.socialfood.presentation.profile.edit.EditProfileUiState
-import pt.socialfood.presentation.profile.edit.ProfileTextField
-import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
 fun PersonalDetailsCard(

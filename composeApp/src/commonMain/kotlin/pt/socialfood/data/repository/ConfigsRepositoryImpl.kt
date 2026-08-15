@@ -6,10 +6,7 @@ import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.Configs
 import pt.socialfood.domain.repository.ConfigsRepository
 
-class ConfigsRepositoryImpl(
-    private val configsApi: ConfigsApi
-) : ConfigsRepository {
+class ConfigsRepositoryImpl(private val configsApi: ConfigsApi) : ConfigsRepository {
 
-    override suspend fun getConfigs(): Result<Configs> =
-        safeApiCall { configsApi.getConfigs() }
+    override suspend fun getConfigs(): Result<Configs> = safeApiCall { configsApi.getConfigs() }
 }

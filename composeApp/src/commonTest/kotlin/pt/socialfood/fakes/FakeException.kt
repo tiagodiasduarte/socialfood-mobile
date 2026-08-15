@@ -1,5 +1,3 @@
 package pt.socialfood.fakes
 
-class FakeException(
-    message: String,
-) : Exception(message)
+class FakeException(message: String) : Exception(message)

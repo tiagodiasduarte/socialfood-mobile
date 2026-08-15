@@ -1,6 +1,7 @@
 package pt.socialfood.presentation.guide.edit
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -41,19 +41,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.edit_guide_delete_button
-import socialfood.composeapp.generated.resources.edit_guide_save_button
-import socialfood.composeapp.generated.resources.edit_guide_tab_details
-import socialfood.composeapp.generated.resources.edit_guide_tab_restaurants
-import socialfood.composeapp.generated.resources.edit_guide_tab_status
-import socialfood.composeapp.generated.resources.edit_guide_title
-import pt.socialfood.presentation.guide.GuideValidationErrorDialog
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.TopTabs
 import pt.socialfood.presentation.components.buttons.IconTextButton
+import pt.socialfood.presentation.guide.GuideValidationErrorDialog
 import pt.socialfood.presentation.guide.edit.card.GuideDetailsCard
 import pt.socialfood.presentation.guide.edit.card.GuideRestaurantsCard
 import pt.socialfood.presentation.guide.edit.card.GuideStatusCard
@@ -61,6 +54,13 @@ import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.edit_guide_delete_button
+import socialfood.composeapp.generated.resources.edit_guide_save_button
+import socialfood.composeapp.generated.resources.edit_guide_tab_details
+import socialfood.composeapp.generated.resources.edit_guide_tab_restaurants
+import socialfood.composeapp.generated.resources.edit_guide_tab_status
+import socialfood.composeapp.generated.resources.edit_guide_title
 
 private const val TAB_DETAILS = 0
 private const val TAB_RESTAURANTS = 1
@@ -175,11 +175,7 @@ private fun EditGuideContent(
 }
 
 @Composable
-private fun TopBar(
-    isLoading: Boolean,
-    onBackClick: () -> Unit,
-    onSaveGuide: () -> Unit,
-) {
+private fun TopBar(isLoading: Boolean, onBackClick: () -> Unit, onSaveGuide: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -214,7 +210,7 @@ private fun TopBar(
             ),
             contentPadding = PaddingValues(
                 horizontal = SpaceSize.large,
-                vertical = SpaceSize.medium
+                vertical = SpaceSize.medium,
             ),
         ) {
             if (isLoading) {
@@ -325,7 +321,6 @@ private fun GuideLoaded(
         }
     }
 }
-
 
 @Composable
 @Preview

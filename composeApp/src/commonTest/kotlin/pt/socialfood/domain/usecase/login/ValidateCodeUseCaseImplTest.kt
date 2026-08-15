@@ -32,21 +32,20 @@ class ValidateCodeUseCaseImplTest {
         }
 
     @Test
-    fun `given failed validate when invoked then pendingVerificationEmail is untouched and returns Error`() =
-        runTest {
-            // Given
-            val settingsRepository = FakeSettingsRepository()
-            settingsRepository.savePendingVerificationEmail("user@test.com")
-            val sessionManager = SessionManager(settingsRepository)
-            val fakeRepo = FakeAuthRepository(loginResult = Result.Failure(DataError.Network(Exception("test error"))))
-            val useCase = ValidateCodeUseCaseImpl(sessionManager, fakeRepo, settingsRepository)
+    fun `given failed validate when invoked then pendingVerificationEmail is untouched and returns Error`() = runTest {
+        // Given
+        val settingsRepository = FakeSettingsRepository()
+        settingsRepository.savePendingVerificationEmail("user@test.com")
+        val sessionManager = SessionManager(settingsRepository)
+        val fakeRepo = FakeAuthRepository(loginResult = Result.Failure(DataError.Network(Exception("test error"))))
+        val useCase = ValidateCodeUseCaseImpl(sessionManager, fakeRepo, settingsRepository)
 
-            // When
-            val result = useCase.invoke("user@test.com", "123456")
+        // When
+        val result = useCase.invoke("user@test.com", "123456")
 
-            // Then
-            assertIs<Result.Failure>(result)
-            assertEquals("user@test.com", settingsRepository.getPendingVerificationEmail())
-            assertNull(sessionManager.token)
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+        assertEquals("user@test.com", settingsRepository.getPendingVerificationEmail())
+        assertNull(sessionManager.token)
+    }
 }

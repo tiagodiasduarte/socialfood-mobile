@@ -7,10 +7,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.presentation.components.card.SectionCard
 import pt.socialfood.presentation.profile.edit.EditProfileUiState
 import pt.socialfood.presentation.profile.edit.ProfileTextField
+import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.edit_profile_email_label
@@ -36,15 +38,6 @@ fun PersonalDetailsCard(
         Spacer(Modifier.height(SpaceSize.large))
 
         ProfileTextField(
-            label = stringResource(Res.string.edit_profile_name_label),
-            value = state.name,
-            placeholder = stringResource(Res.string.edit_profile_name_placeholder),
-            onValueChange = onNameChange,
-        )
-
-        Spacer(Modifier.height(SpaceSize.large))
-
-        ProfileTextField(
             label = stringResource(Res.string.edit_profile_email_label),
             value = state.email,
             placeholder = "",
@@ -55,10 +48,35 @@ fun PersonalDetailsCard(
         Spacer(Modifier.height(SpaceSize.large))
 
         ProfileTextField(
+            label = stringResource(Res.string.edit_profile_name_label),
+            value = state.name,
+            placeholder = stringResource(Res.string.edit_profile_name_placeholder),
+            onValueChange = onNameChange,
+        )
+
+        Spacer(Modifier.height(SpaceSize.large))
+
+        ProfileTextField(
             label = stringResource(Res.string.edit_profile_username_label),
             value = state.username,
             placeholder = stringResource(Res.string.edit_profile_username_placeholder),
             onValueChange = onUsernameChange,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PersonalDetailsCardPreview() {
+    AppTheme {
+        PersonalDetailsCard(
+            state = EditProfileUiState.Loaded(
+                name = "John Doe",
+                email = "john.doe@email.com",
+                username = "johndoe",
+            ),
+            onNameChange = {},
+            onUsernameChange = {},
         )
     }
 }

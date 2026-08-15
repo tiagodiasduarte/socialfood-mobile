@@ -140,12 +140,11 @@ class StartupViewModelTest {
             }
         }
 
-    private fun defaultUser(isVerified: Boolean = true) =
-        User(
-            id = "1",
-            email = "john.doe@test.com",
-            name = "John Doe",
-            username = "johndoe",
-            isVerified = isVerified,
-        )
+    private fun defaultUser(isVerified: Boolean = true) = User(
+        id = "1",
+        email = "john.doe@test.com",
+        name = "John Doe",
+        username = "johndoe",
+        isVerified = isVerified,
+    )
 }

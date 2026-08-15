@@ -7,9 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
-actual fun rememberImagePickerLauncher(
-    onResult: (bytes: ByteArray, mimeType: String) -> Unit,
-): () -> Unit {
+actual fun rememberImagePickerLauncher(onResult: (bytes: ByteArray, mimeType: String) -> Unit): () -> Unit {
     val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),

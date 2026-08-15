@@ -11,11 +11,7 @@ import pt.socialfood.domain.model.PresignedUrlData
 interface GuidesRepository {
     suspend fun delete(id: String): Result<Boolean>
 
-    suspend fun create(
-        name: String,
-        description: String,
-        userId: String,
-    ): Result<Guide>
+    suspend fun create(name: String, description: String, userId: String): Result<Guide>
 
     suspend fun update(
         id: String,
@@ -46,22 +42,11 @@ interface GuidesRepository {
 
     suspend fun findById(id: String): Result<Guide>
 
-    suspend fun addRestaurantGuide(
-        guideId: String,
-        userId: String,
-        placeId: String?,
-    ): Result<Guide>
+    suspend fun addRestaurantGuide(guideId: String, userId: String, placeId: String?): Result<Guide>
 
-    suspend fun addPhoto(
-        guideId: String,
-        imageUrl: String,
-    ): Result<Boolean>
+    suspend fun addPhoto(guideId: String, imageUrl: String): Result<Boolean>
 
     suspend fun deletePhoto(guideId: String): Result<Boolean>
 
-    suspend fun getPhotoPresignedUrl(
-        guideId: String,
-        fileName: String,
-        mimeType: String,
-    ): Result<PresignedUrlData>
+    suspend fun getPhotoPresignedUrl(guideId: String, fileName: String, mimeType: String): Result<PresignedUrlData>
 }

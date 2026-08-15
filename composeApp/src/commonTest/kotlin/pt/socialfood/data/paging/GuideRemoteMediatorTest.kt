@@ -35,22 +35,17 @@ class GuideRemoteMediatorTest {
             leadingPlaceholderCount = 0,
         )
 
-    private fun guideResponse(id: String) =
-        GuideResponse(
-            id = id,
-            name = "Guide $id",
-            description = "Description $id",
-            visibility = GuideVisibility.PUBLIC,
-            author = AuthorResponse(id = "author-id", name = "Author", username = "author", imageUrl = null),
-            numberOfRestaurants = 0,
-            imageUrl = null,
-        )
+    private fun guideResponse(id: String) = GuideResponse(
+        id = id,
+        name = "Guide $id",
+        description = "Description $id",
+        visibility = GuideVisibility.PUBLIC,
+        author = AuthorResponse(id = "author-id", name = "Author", username = "author", imageUrl = null),
+        numberOfRestaurants = 0,
+        imageUrl = null,
+    )
 
-    private fun guideEntity(
-        id: String,
-        scope: String = SCOPE,
-        position: Int = 0,
-    ) = GuideEntity(
+    private fun guideEntity(id: String, scope: String = SCOPE, position: Int = 0) = GuideEntity(
         id = id,
         scope = scope,
         name = "Guide $id",

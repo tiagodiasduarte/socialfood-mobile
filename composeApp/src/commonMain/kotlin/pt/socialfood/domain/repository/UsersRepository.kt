@@ -15,11 +15,7 @@ interface UsersRepository {
 
     suspend fun getUsers(): Result<List<User>>
 
-    suspend fun findUsers(
-        page: Int,
-        limit: Int,
-        query: String? = null,
-    ): Result<PagedUsers>
+    suspend fun findUsers(page: Int, limit: Int, query: String? = null): Result<PagedUsers>
 
     suspend fun getUserMe(): Result<User>
 
@@ -36,10 +32,7 @@ interface UsersRepository {
         youtubeUrl: String? = null,
     ): Result<User>
 
-    suspend fun updatePhoto(
-        id: String,
-        imageUrl: String,
-    ): Result<Boolean>
+    suspend fun updatePhoto(id: String, imageUrl: String): Result<Boolean>
 
     suspend fun getPresignedUrl(
         userId: String,

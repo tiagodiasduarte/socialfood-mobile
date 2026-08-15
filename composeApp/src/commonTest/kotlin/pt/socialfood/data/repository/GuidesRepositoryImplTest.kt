@@ -18,105 +18,98 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class GuidesRepositoryImplTest {
-    private fun createRepository(shouldThrow: Boolean = false): GuidesRepositoryImpl =
-        GuidesRepositoryImpl(
-            guideApi = FakeGuidesApi(shouldThrow),
-            guideDao = FakeGuideDao(),
-            guideRemoteKeyDao = FakeGuideRemoteKeyDao(),
-            transactionRunner = GuideCacheTransactionRunner { it() },
-        )
+    private fun createRepository(shouldThrow: Boolean = false): GuidesRepositoryImpl = GuidesRepositoryImpl(
+        guideApi = FakeGuidesApi(shouldThrow),
+        guideDao = FakeGuideDao(),
+        guideRemoteKeyDao = FakeGuideRemoteKeyDao(),
+        transactionRunner = GuideCacheTransactionRunner { it() },
+    )
 
     // create
 
     @Test
-    fun `given valid params when create is called then returns Success with Guide`() =
-        runTest {
-            // Given
-            val repo = createRepository()
+    fun `given valid params when create is called then returns Success with Guide`() = runTest {
+        // Given
+        val repo = createRepository()
 
-            // When
-            val result = repo.create(name = "Guide Name", description = "Description", userId = "user-id")
+        // When
+        val result = repo.create(name = "Guide Name", description = "Description", userId = "user-id")
 
-            // Then
-            assertIs<Result.Success<Guide>>(result)
-            assertEquals("guide-id", result.data.id)
-            assertEquals("Guide Name", result.data.name)
-        }
+        // Then
+        assertIs<Result.Success<Guide>>(result)
+        assertEquals("guide-id", result.data.id)
+        assertEquals("Guide Name", result.data.name)
+    }
 
     @Test
-    fun `given api throws when create is called then returns Error Unknown`() =
-        runTest {
-            // Given
-            val repo = createRepository(shouldThrow = true)
+    fun `given api throws when create is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
 
-            // When
-            val result = repo.create(name = "Guide Name", description = "Description", userId = "user-id")
+        // When
+        val result = repo.create(name = "Guide Name", description = "Description", userId = "user-id")
 
-            // Then
-            assertIs<Result.Failure>(result)
-            assertIs<DataError.Network>(result.error)
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
 
     // delete
 
     @Test
-    fun `given valid id when delete is called then returns Success true`() =
-        runTest {
-            // Given
-            val repo = createRepository()
+    fun `given valid id when delete is called then returns Success true`() = runTest {
+        // Given
+        val repo = createRepository()
 
-            // When
-            val result = repo.delete(id = "guide-id")
+        // When
+        val result = repo.delete(id = "guide-id")
 
-            // Then
-            assertIs<Result.Success<Boolean>>(result)
-            assertEquals(true, result.data)
-        }
+        // Then
+        assertIs<Result.Success<Boolean>>(result)
+        assertEquals(true, result.data)
+    }
 
     @Test
-    fun `given api throws when delete is called then returns Error Unknown`() =
-        runTest {
-            // Given
-            val repo = createRepository(shouldThrow = true)
+    fun `given api throws when delete is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
 
-            // When
-            val result = repo.delete(id = "guide-id")
+        // When
+        val result = repo.delete(id = "guide-id")
 
-            // Then
-            assertIs<Result.Failure>(result)
-            assertIs<DataError.Network>(result.error)
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
 
     // findGuides
 
     @Test
-    fun `given guides exist when findGuides is called then returns Success with list`() =
-        runTest {
-            // Given
-            val repo = createRepository()
+    fun `given guides exist when findGuides is called then returns Success with list`() = runTest {
+        // Given
+        val repo = createRepository()
 
-            // When
-            val result = repo.findGuides()
+        // When
+        val result = repo.findGuides()
 
-            // Then
-            assertIs<Result.Success<List<Guide>>>(result)
-            assertTrue(result.data.isNotEmpty())
-            assertEquals("guide-id", result.data.first().id)
-        }
+        // Then
+        assertIs<Result.Success<List<Guide>>>(result)
+        assertTrue(result.data.isNotEmpty())
+        assertEquals("guide-id", result.data.first().id)
+    }
 
     @Test
-    fun `given api throws when findGuides is called then returns Error Unknown`() =
-        runTest {
-            // Given
-            val repo = createRepository(shouldThrow = true)
+    fun `given api throws when findGuides is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
 
-            // When
-            val result = repo.findGuides()
+        // When
+        val result = repo.findGuides()
 
-            // Then
-            assertIs<Result.Failure>(result)
-            assertIs<DataError.Network>(result.error)
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
 
     // findGuidesPaged
 
@@ -141,94 +134,89 @@ class GuidesRepositoryImplTest {
         }
 
     @Test
-    fun `given api throws when findGuidesPaged is called then returns Error Unknown`() =
-        runTest {
-            // Given
-            val repo = createRepository(shouldThrow = true)
+    fun `given api throws when findGuidesPaged is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
 
-            // When
-            val result = repo.findGuidesPaged(page = 1, limit = 10, query = null)
+        // When
+        val result = repo.findGuidesPaged(page = 1, limit = 10, query = null)
 
-            // Then
-            assertIs<Result.Failure>(result)
-            assertIs<DataError.Network>(result.error)
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
 
     // update
 
     @Test
-    fun `given valid params when update is called then returns Success with updated Guide`() =
-        runTest {
-            // Given
-            val repo = createRepository()
+    fun `given valid params when update is called then returns Success with updated Guide`() = runTest {
+        // Given
+        val repo = createRepository()
 
-            // When
-            val result =
-                repo.update(
-                    id = "guide-id",
-                    name = "Updated Name",
-                    userId = "user-id",
-                    description = "Updated Description",
-                    restaurantIds = emptyList(),
-                    visibility = GuideVisibility.PUBLIC,
-                )
+        // When
+        val result =
+            repo.update(
+                id = "guide-id",
+                name = "Updated Name",
+                userId = "user-id",
+                description = "Updated Description",
+                restaurantIds = emptyList(),
+                visibility = GuideVisibility.PUBLIC,
+            )
 
-            // Then
-            assertIs<Result.Success<Guide>>(result)
-            assertEquals("guide-id", result.data.id)
-        }
+        // Then
+        assertIs<Result.Success<Guide>>(result)
+        assertEquals("guide-id", result.data.id)
+    }
 
     @Test
-    fun `given api throws when update is called then returns Error Unknown`() =
-        runTest {
-            // Given
-            val repo = createRepository(shouldThrow = true)
+    fun `given api throws when update is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
 
-            // When
-            val result =
-                repo.update(
-                    id = "guide-id",
-                    name = "Updated Name",
-                    userId = "user-id",
-                    description = "Updated Description",
-                    restaurantIds = emptyList(),
-                    visibility = GuideVisibility.PUBLIC,
-                )
+        // When
+        val result =
+            repo.update(
+                id = "guide-id",
+                name = "Updated Name",
+                userId = "user-id",
+                description = "Updated Description",
+                restaurantIds = emptyList(),
+                visibility = GuideVisibility.PUBLIC,
+            )
 
-            // Then
-            assertIs<Result.Failure>(result)
-            assertIs<DataError.Network>(result.error)
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
 
     // findById
 
     @Test
-    fun `given valid id when findById is called then returns Success with Guide`() =
-        runTest {
-            // Given
-            val repo = createRepository()
+    fun `given valid id when findById is called then returns Success with Guide`() = runTest {
+        // Given
+        val repo = createRepository()
 
-            // When
-            val result = repo.findById(id = "guide-id")
+        // When
+        val result = repo.findById(id = "guide-id")
 
-            // Then
-            assertIs<Result.Success<Guide>>(result)
-            assertEquals("guide-id", result.data.id)
-        }
+        // Then
+        assertIs<Result.Success<Guide>>(result)
+        assertEquals("guide-id", result.data.id)
+    }
 
     @Test
-    fun `given api throws when findById is called then returns Error Unknown`() =
-        runTest {
-            // Given
-            val repo = createRepository(shouldThrow = true)
+    fun `given api throws when findById is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
 
-            // When
-            val result = repo.findById(id = "guide-id")
+        // When
+        val result = repo.findById(id = "guide-id")
 
-            // Then
-            assertIs<Result.Failure>(result)
-            assertIs<DataError.Network>(result.error)
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
 
     // getPhotoPresignedUrl
 
@@ -253,123 +241,116 @@ class GuidesRepositoryImplTest {
         }
 
     @Test
-    fun `given api throws when getPhotoPresignedUrl is called then returns Error Unknown`() =
-        runTest {
-            // Given
-            val repo = createRepository(shouldThrow = true)
+    fun `given api throws when getPhotoPresignedUrl is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
 
-            // When
-            val result =
-                repo.getPhotoPresignedUrl(
-                    guideId = "guide-id",
-                    fileName = "photo.jpg",
-                    mimeType = "image/jpeg",
-                )
+        // When
+        val result =
+            repo.getPhotoPresignedUrl(
+                guideId = "guide-id",
+                fileName = "photo.jpg",
+                mimeType = "image/jpeg",
+            )
 
-            // Then
-            assertIs<Result.Failure>(result)
-            assertIs<DataError.Network>(result.error)
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
 
     // addRestaurantGuide
 
     @Test
-    fun `given valid params when addRestaurantGuide is called then returns Success with Guide`() =
-        runTest {
-            // Given
-            val repo = createRepository()
+    fun `given valid params when addRestaurantGuide is called then returns Success with Guide`() = runTest {
+        // Given
+        val repo = createRepository()
 
-            // When
-            val result =
-                repo.addRestaurantGuide(
-                    guideId = "guide-id",
-                    userId = "user-id",
-                    placeId = "place-id",
-                )
+        // When
+        val result =
+            repo.addRestaurantGuide(
+                guideId = "guide-id",
+                userId = "user-id",
+                placeId = "place-id",
+            )
 
-            // Then
-            assertIs<Result.Success<Guide>>(result)
-            assertEquals("guide-id", result.data.id)
-        }
+        // Then
+        assertIs<Result.Success<Guide>>(result)
+        assertEquals("guide-id", result.data.id)
+    }
 
     @Test
-    fun `given api throws when addRestaurantGuide is called then returns Error Unknown`() =
-        runTest {
-            // Given
-            val repo = createRepository(shouldThrow = true)
+    fun `given api throws when addRestaurantGuide is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
 
-            // When
-            val result =
-                repo.addRestaurantGuide(
-                    guideId = "guide-id",
-                    userId = "user-id",
-                    placeId = "place-id",
-                )
+        // When
+        val result =
+            repo.addRestaurantGuide(
+                guideId = "guide-id",
+                userId = "user-id",
+                placeId = "place-id",
+            )
 
-            // Then
-            assertIs<Result.Failure>(result)
-            assertIs<DataError.Network>(result.error)
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
 
     // addPhoto
 
     @Test
-    fun `given valid params when addPhoto is called then returns Success true`() =
-        runTest {
-            // Given
-            val repo = createRepository()
+    fun `given valid params when addPhoto is called then returns Success true`() = runTest {
+        // Given
+        val repo = createRepository()
 
-            // When
-            val result = repo.addPhoto(guideId = "guide-id", imageUrl = "https://example.com/photo.jpg")
+        // When
+        val result = repo.addPhoto(guideId = "guide-id", imageUrl = "https://example.com/photo.jpg")
 
-            // Then
-            assertIs<Result.Success<Boolean>>(result)
-            assertEquals(true, result.data)
-        }
+        // Then
+        assertIs<Result.Success<Boolean>>(result)
+        assertEquals(true, result.data)
+    }
 
     @Test
-    fun `given api throws when addPhoto is called then returns Error Unknown`() =
-        runTest {
-            // Given
-            val repo = createRepository(shouldThrow = true)
+    fun `given api throws when addPhoto is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
 
-            // When
-            val result = repo.addPhoto(guideId = "guide-id", imageUrl = "https://example.com/photo.jpg")
+        // When
+        val result = repo.addPhoto(guideId = "guide-id", imageUrl = "https://example.com/photo.jpg")
 
-            // Then
-            assertIs<Result.Failure>(result)
-            assertIs<DataError.Network>(result.error)
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
 
     // deletePhoto
 
     @Test
-    fun `given valid guide id when deletePhoto is called then returns Success true`() =
-        runTest {
-            // Given
-            val repo = createRepository()
+    fun `given valid guide id when deletePhoto is called then returns Success true`() = runTest {
+        // Given
+        val repo = createRepository()
 
-            // When
-            val result = repo.deletePhoto(guideId = "guide-id")
+        // When
+        val result = repo.deletePhoto(guideId = "guide-id")
 
-            // Then
-            assertIs<Result.Success<Boolean>>(result)
-            assertEquals(true, result.data)
-        }
+        // Then
+        assertIs<Result.Success<Boolean>>(result)
+        assertEquals(true, result.data)
+    }
 
     @Test
-    fun `given api throws when deletePhoto is called then returns Error Unknown`() =
-        runTest {
-            // Given
-            val repo = createRepository(shouldThrow = true)
+    fun `given api throws when deletePhoto is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
 
-            // When
-            val result = repo.deletePhoto(guideId = "guide-id")
+        // When
+        val result = repo.deletePhoto(guideId = "guide-id")
 
-            // Then
-            assertIs<Result.Failure>(result)
-            assertIs<DataError.Network>(result.error)
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
 
     // getGuidesPagingFlow
 

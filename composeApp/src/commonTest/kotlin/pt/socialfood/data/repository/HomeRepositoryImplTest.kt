@@ -21,12 +21,11 @@ class HomeRepositoryImplTest {
     private fun createRepository(
         shouldThrow: Boolean = false,
         homeDao: FakeHomeDao = FakeHomeDao(),
-    ): HomeRepositoryImpl =
-        HomeRepositoryImpl(
-            homeApi = FakeHomeApi(shouldThrow),
-            homeDao = homeDao,
-            transactionRunner = HomeCacheTransactionRunner { it() },
-        )
+    ): HomeRepositoryImpl = HomeRepositoryImpl(
+        homeApi = FakeHomeApi(shouldThrow),
+        homeDao = homeDao,
+        transactionRunner = HomeCacheTransactionRunner { it() },
+    )
 
     // findAll
 
@@ -98,8 +97,8 @@ class HomeRepositoryImplTest {
                     position = 0,
                     isActive = true,
                     itemsJson = "[]",
-                )
-            )
+                ),
+            ),
         )
         val repo = createRepository(shouldThrow = true, homeDao = homeDao)
 
@@ -128,8 +127,8 @@ class HomeRepositoryImplTest {
                     position = 0,
                     isActive = true,
                     itemsJson = "[]",
-                )
-            )
+                ),
+            ),
         )
 
         // When

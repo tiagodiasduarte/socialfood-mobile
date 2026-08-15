@@ -31,18 +31,14 @@ class AuthorRemoteMediatorTest {
             leadingPlaceholderCount = 0,
         )
 
-    private fun authorResponse(id: String) =
-        AuthorResponse(
-            id = id,
-            name = "Author $id",
-            username = "author$id",
-            imageUrl = null,
-        )
+    private fun authorResponse(id: String) = AuthorResponse(
+        id = id,
+        name = "Author $id",
+        username = "author$id",
+        imageUrl = null,
+    )
 
-    private fun authorEntity(
-        id: String,
-        position: Int = 0,
-    ) = AuthorEntity(
+    private fun authorEntity(id: String, position: Int = 0) = AuthorEntity(
         id = id,
         name = "Author $id",
         username = "author$id",
@@ -62,24 +58,23 @@ class AuthorRemoteMediatorTest {
     )
 
     @Test
-    fun `given empty cache when REFRESH load is triggered then fetches page 1 and upserts into AuthorDao`() =
-        runTest {
-            // Given
-            val api = FakeAuthorsApi(items = listOf(authorResponse("a1"), authorResponse("a2")), total = 2)
-            val authorDao = FakeAuthorDao()
-            val authorRemoteKeyDao = FakeAuthorRemoteKeyDao()
-            val mediator = createMediator(api, authorDao, authorRemoteKeyDao)
+    fun `given empty cache when REFRESH load is triggered then fetches page 1 and upserts into AuthorDao`() = runTest {
+        // Given
+        val api = FakeAuthorsApi(items = listOf(authorResponse("a1"), authorResponse("a2")), total = 2)
+        val authorDao = FakeAuthorDao()
+        val authorRemoteKeyDao = FakeAuthorRemoteKeyDao()
+        val mediator = createMediator(api, authorDao, authorRemoteKeyDao)
 
-            // When
-            val result = mediator.load(LoadType.REFRESH, emptyState)
+        // When
+        val result = mediator.load(LoadType.REFRESH, emptyState)
 
-            // Then
-            assertIs<RemoteMediator.MediatorResult.Success>(result)
-            assertEquals(1, api.findAuthorsCallCount)
-            assertEquals(1, api.lastFindAuthorsPage)
-            val cached = authorDao.getAll()
-            assertEquals(listOf("a1", "a2"), cached.map { it.id })
-        }
+        // Then
+        assertIs<RemoteMediator.MediatorResult.Success>(result)
+        assertEquals(1, api.findAuthorsCallCount)
+        assertEquals(1, api.lastFindAuthorsPage)
+        val cached = authorDao.getAll()
+        assertEquals(listOf("a1", "a2"), cached.map { it.id })
+    }
 
     @Test
     fun `given REFRESH succeeds when load completes then old cached rows and the remote key are replaced not merged`() =

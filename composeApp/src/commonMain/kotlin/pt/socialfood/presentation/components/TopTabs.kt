@@ -18,11 +18,7 @@ import androidx.compose.ui.unit.dp
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun TopTabs(
-    selectedTab: Int,
-    onTabSelected: (Int) -> Unit,
-    tabs: List<String>
-) {
+fun TopTabs(selectedTab: Int, onTabSelected: (Int) -> Unit, tabs: List<String>) {
     ScrollableTabRow(
         selectedTabIndex = selectedTab,
         edgePadding = 0.dp, // removes default padding
@@ -34,16 +30,16 @@ fun TopTabs(
                     .tabIndicatorOffset(currentTab)
                     .padding(horizontal = SpaceSize.large)
                     .height(3.dp)
-                    .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(2.dp))
+                    .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(2.dp)),
             )
         },
         divider = {
             Divider(
                 Modifier.padding(horizontal = SpaceSize.large),
                 color = MaterialTheme.colorScheme.outlineVariant,
-                thickness = 1.dp
+                thickness = 1.dp,
             )
-        }
+        },
     ) {
         tabs.forEachIndexed { index, title ->
             Tab(
@@ -53,12 +49,13 @@ fun TopTabs(
                     Text(
                         text = title,
                         style = MaterialTheme.typography.labelLarge,
-                        color = if (selectedTab == index)
+                        color = if (selectedTab == index) {
                             MaterialTheme.colorScheme.primary
-                        else
+                        } else {
                             MaterialTheme.colorScheme.onSurfaceVariant
+                        },
                     )
-                }
+                },
             )
         }
     }

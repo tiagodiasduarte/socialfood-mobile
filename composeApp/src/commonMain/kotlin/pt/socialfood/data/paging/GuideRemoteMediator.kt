@@ -27,10 +27,9 @@ fun interface GuideCacheTransactionRunner {
     suspend fun run(block: suspend () -> Unit)
 }
 
-fun AppDatabase.asGuideCacheTransactionRunner(): GuideCacheTransactionRunner =
-    GuideCacheTransactionRunner { block ->
-        useWriterConnection { transactor -> transactor.immediateTransaction { block() } }
-    }
+fun AppDatabase.asGuideCacheTransactionRunner(): GuideCacheTransactionRunner = GuideCacheTransactionRunner { block ->
+    useWriterConnection { transactor -> transactor.immediateTransaction { block() } }
+}
 
 @OptIn(ExperimentalPagingApi::class)
 class GuideRemoteMediator(
@@ -42,10 +41,7 @@ class GuideRemoteMediator(
 ) : RemoteMediator<Int, GuideEntity>() {
 
     @Suppress("ReturnCount")
-    override suspend fun load(
-        loadType: LoadType,
-        state: PagingState<Int, GuideEntity>,
-    ): MediatorResult {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, GuideEntity>): MediatorResult {
         return try {
             val page = when (loadType) {
                 LoadType.REFRESH -> 1

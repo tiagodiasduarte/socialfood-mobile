@@ -15,10 +15,7 @@ import kotlinx.coroutines.launch
 import pt.socialfood.BuildConfig
 
 @Composable
-actual fun rememberGoogleSignInLauncher(
-    onIdToken: (String) -> Unit,
-    onError: (String) -> Unit,
-): () -> Unit {
+actual fun rememberGoogleSignInLauncher(onIdToken: (String) -> Unit, onError: (String) -> Unit): () -> Unit {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 

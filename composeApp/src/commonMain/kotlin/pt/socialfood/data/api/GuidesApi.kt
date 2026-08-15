@@ -7,11 +7,7 @@ import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.network.model.photo.PresignedUrlResponse
 
 interface GuidesApi {
-    suspend fun create(
-        name: String,
-        description: String,
-        userId: String,
-    ): GuideDetailResponse
+    suspend fun create(name: String, description: String, userId: String): GuideDetailResponse
 
     suspend fun delete(id: String)
 
@@ -35,20 +31,11 @@ interface GuidesApi {
         visibility: String,
     ): GuideDetailResponse
 
-    suspend fun addRestaurantGuide(
-        guideId: String,
-        placeId: String?,
-    ): GuideDetailResponse
+    suspend fun addRestaurantGuide(guideId: String, placeId: String?): GuideDetailResponse
 
-    suspend fun getGuidePhotoPresignedUrl(
-        guideId: String,
-        request: PresignedUrlRequest,
-    ): PresignedUrlResponse
+    suspend fun getGuidePhotoPresignedUrl(guideId: String, request: PresignedUrlRequest): PresignedUrlResponse
 
-    suspend fun addPhoto(
-        guideId: String,
-        imageUrl: String,
-    ): GuideDetailResponse
+    suspend fun addPhoto(guideId: String, imageUrl: String): GuideDetailResponse
 
     suspend fun deletePhoto(guideId: String): GuideDetailResponse
 }

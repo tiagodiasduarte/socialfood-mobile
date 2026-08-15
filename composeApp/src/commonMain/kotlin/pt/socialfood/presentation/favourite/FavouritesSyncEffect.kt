@@ -10,15 +10,17 @@ import org.koin.compose.koinInject
 import pt.socialfood.data.network.ConnectivityObserver
 import pt.socialfood.domain.usecase.favourite.SyncFavouriteRestaurantsUseCase
 import pt.socialfood.domain.usecase.favourite.SyncFavouritesUseCase
+import pt.socialfood.domain.usecase.wishlist.SyncWishlistRestaurantsUseCase
 
 /**
- * Triggers a (debounced, incremental) favourites sync — guides and restaurants — on
+ * Triggers a (debounced, incremental) favourites and wishlist sync — guides and restaurants — on
  * launch/foreground and on reconnect. Mount once at the app root.
  */
 @Composable
 fun FavouritesSyncEffect(
     syncFavourites: SyncFavouritesUseCase = koinInject(),
     syncFavouriteRestaurants: SyncFavouriteRestaurantsUseCase = koinInject(),
+    syncWishlistRestaurants: SyncWishlistRestaurantsUseCase = koinInject(),
     connectivityObserver: ConnectivityObserver = koinInject(),
 ) {
     val scope = rememberCoroutineScope()
@@ -26,6 +28,7 @@ fun FavouritesSyncEffect(
     LifecycleEventEffect(Lifecycle.Event.ON_START) {
         scope.launch { syncFavourites() }
         scope.launch { syncFavouriteRestaurants() }
+        scope.launch { syncWishlistRestaurants() }
     }
 
     LaunchedEffect(connectivityObserver) {
@@ -34,6 +37,7 @@ fun FavouritesSyncEffect(
             if (wasOnline == false && isOnline) {
                 syncFavourites()
                 syncFavouriteRestaurants()
+                syncWishlistRestaurants()
             }
             wasOnline = isOnline
         }

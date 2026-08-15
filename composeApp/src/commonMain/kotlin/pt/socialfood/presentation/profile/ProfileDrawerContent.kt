@@ -69,8 +69,11 @@ import socialfood.composeapp.generated.resources.profile_settings_button_descrip
 import socialfood.composeapp.generated.resources.profile_stat_followers_label
 import socialfood.composeapp.generated.resources.profile_stat_following_label
 import socialfood.composeapp.generated.resources.profile_stat_guides_label
+import socialfood.composeapp.generated.resources.profile_wishlist_restaurants_button
+import socialfood.composeapp.generated.resources.profile_wishlist_restaurants_button_description
 import socialfood.composeapp.generated.resources.restaurants_icon
 import socialfood.composeapp.generated.resources.settings_icon
+import socialfood.composeapp.generated.resources.wishlist_icon
 
 private val DrawerAvatarSize = 64.dp
 private val DrawerAvatarRingSize = 68.dp
@@ -82,6 +85,7 @@ fun ProfileDrawerContent(
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
+    onWishlistRestaurantsClick: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -92,6 +96,7 @@ fun ProfileDrawerContent(
         onEditProfileClick = onEditProfileClick,
         onFavouriteGuidesClick = onFavouriteGuidesClick,
         onFavouriteRestaurantsClick = onFavouriteRestaurantsClick,
+        onWishlistRestaurantsClick = onWishlistRestaurantsClick,
     )
 }
 
@@ -103,6 +108,7 @@ private fun ProfileDrawerSheet(
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
+    onWishlistRestaurantsClick: () -> Unit = {},
 ) {
     ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.surface, windowInsets = WindowInsets(0.dp)) {
         when (state) {
@@ -113,6 +119,7 @@ private fun ProfileDrawerSheet(
                 onEditProfileClick = onEditProfileClick,
                 onFavouriteGuidesClick = onFavouriteGuidesClick,
                 onFavouriteRestaurantsClick = onFavouriteRestaurantsClick,
+                onWishlistRestaurantsClick = onWishlistRestaurantsClick,
             )
 
             ProfileUiState.Loading -> Box(
@@ -135,6 +142,7 @@ private fun DrawerUserContent(
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
+    onWishlistRestaurantsClick: () -> Unit = {},
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         DrawerHeader(user = user, onEditProfileClick = onEditProfileClick)
@@ -159,6 +167,12 @@ private fun DrawerUserContent(
                 label = stringResource(Res.string.profile_favorites_restaurants_button),
                 contentDescription = stringResource(Res.string.profile_favorites_restaurants_button_description),
                 onClick = onFavouriteRestaurantsClick,
+            )
+            DrawerMenuRow(
+                icon = Res.drawable.wishlist_icon,
+                label = stringResource(Res.string.profile_wishlist_restaurants_button),
+                contentDescription = stringResource(Res.string.profile_wishlist_restaurants_button_description),
+                onClick = onWishlistRestaurantsClick,
             )
         }
 

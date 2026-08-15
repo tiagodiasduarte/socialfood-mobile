@@ -44,4 +44,7 @@ sealed interface Route : NavKey {
 
     @Serializable
     data object FavouriteRestaurants : Route
+
+    @Serializable
+    data object WishlistRestaurants : Route
 }

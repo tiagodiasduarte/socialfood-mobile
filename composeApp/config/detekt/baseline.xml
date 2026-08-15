@@ -5,6 +5,7 @@
     <ID>ComplexCondition:FavouriteGuidesScreen.kt$reachedBottom &amp;&amp; state is FavouriteGuidesUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
     <ID>ComplexCondition:FavouriteRestaurantsScreen.kt$reachedBottom &amp;&amp; state is FavouriteRestaurantsUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
     <ID>ComplexCondition:SignUpViewModel.kt$SignUpViewModel$name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()</ID>
+    <ID>ComplexCondition:WishlistRestaurantsScreen.kt$reachedBottom &amp;&amp; state is WishlistRestaurantsUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
     <ID>CyclomaticComplexMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>FunctionNaming:MainViewController.kt$fun MainViewController()</ID>
     <ID>LongMethod:EditGuideScreen.kt$@Composable private fun GuideLoaded( state: EditGuideUiState.Loaded, initialTab: Int = TAB_DETAILS, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, onVisibilityChange: (GuideVisibility) -&gt; Unit, onAddRestaurantsClick: () -&gt; Unit, onRestaurantRemoved: (String) -&gt; Unit, onPhotoSelected: (ByteArray, String) -&gt; Unit, onDeleteGuide: () -&gt; Unit = {}, )</ID>
@@ -26,6 +27,7 @@
     <ID>LongMethod:RestaurantDetailScreen.kt$@Composable private fun RestaurantDetailLoaded( restaurant: Restaurant, isFavourite: Boolean, onBackClick: () -&gt; Unit, onToggleFavourite: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:RestaurantDetailScreen.kt$@Composable private fun TopSection( restaurant: Restaurant, isFavourite: Boolean, onBackClick: () -&gt; Unit, onShareClick: () -&gt; Unit, onFavoriteClick: () -&gt; Unit, )</ID>
     <ID>LongMethod:ValidateCodeScreen.kt$@Composable private fun ValidateCodeFormView( state: ValidateCodeUiState, onValidateClick: (String) -&gt; Unit, onResendClick: () -&gt; Unit, onRestartClick: () -&gt; Unit, )</ID>
+    <ID>LongMethod:WishlistRestaurantCard.kt$@Composable fun WishlistRestaurantCard( restaurant: Restaurant, modifier: Modifier = Modifier, onClick: () -&gt; Unit = {}, onRemoveClick: () -&gt; Unit = {}, )</ID>
     <ID>MagicNumber:AuthorCardPlaceholder.kt$3</ID>
     <ID>MagicNumber:AuthorDetailPlaceholder.kt$4</ID>
     <ID>MagicNumber:AuthorGuideCard.kt$0xFF2A2A2A</ID>
@@ -82,6 +84,9 @@
     <ID>MagicNumber:SplashScreen.ios.kt$0xFFF54900</ID>
     <ID>MagicNumber:ValidateCodeScreen.kt$0xFFD0D0D0</ID>
     <ID>MagicNumber:ValidateCodeScreen.kt$0xFFF2F2F2</ID>
+    <ID>MagicNumber:WishlistRestaurantsPlaceholder.kt$0.5f</ID>
+    <ID>MagicNumber:WishlistRestaurantsPlaceholder.kt$0.7f</ID>
+    <ID>MagicNumber:WishlistRestaurantsPlaceholder.kt$5</ID>
     <ID>ReturnCount:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>TooManyFunctions:EditGuideViewModel.kt$EditGuideViewModel : ViewModel</ID>
     <ID>TooManyFunctions:GuidesRepository.kt$GuidesRepository</ID>

@@ -21,4 +21,10 @@ interface SettingsRepository {
 
     suspend fun getLastFavouriteRestaurantsSyncAttemptAt(): Long?
     suspend fun saveLastFavouriteRestaurantsSyncAttemptAt(timestamp: Long)
+
+    suspend fun getLastWishlistRestaurantsSyncedAt(): String?
+    suspend fun saveLastWishlistRestaurantsSyncedAt(syncedAt: String)
+
+    suspend fun getLastWishlistRestaurantsSyncAttemptAt(): Long?
+    suspend fun saveLastWishlistRestaurantsSyncAttemptAt(timestamp: Long)
 }

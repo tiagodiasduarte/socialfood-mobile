@@ -33,6 +33,7 @@ import pt.socialfood.presentation.profile.edit.EditProfileScreen
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailScreen
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsScreen
 import pt.socialfood.presentation.search.SearchScreen
+import pt.socialfood.presentation.wishlist.restaurant.WishlistRestaurantsScreen
 
 private const val NAVIGATION_TRANSITION_DURATION_MILLIS = 300
 
@@ -75,6 +76,10 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 onFavouriteRestaurantsClick = {
                     scope.launch { drawerState.close() }
                     navigator.navigate(Route.FavouriteRestaurants)
+                },
+                onWishlistRestaurantsClick = {
+                    scope.launch { drawerState.close() }
+                    navigator.navigate(Route.WishlistRestaurants)
                 },
             )
         },
@@ -192,6 +197,14 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         }
                         entry<Route.FavouriteRestaurants> {
                             FavouriteRestaurantsScreen(
+                                onBackClick = navigator::goBack,
+                                onRestaurantClick = { restaurantId ->
+                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
+                                },
+                            )
+                        }
+                        entry<Route.WishlistRestaurants> {
+                            WishlistRestaurantsScreen(
                                 onBackClick = navigator::goBack,
                                 onRestaurantClick = { restaurantId ->
                                     navigator.navigate(Route.RestaurantDetail(restaurantId))

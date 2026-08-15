@@ -32,6 +32,8 @@ import pt.socialfood.data.api.SearchApi
 import pt.socialfood.data.api.SearchApiImpl
 import pt.socialfood.data.api.UserApi
 import pt.socialfood.data.api.UserApiImpl
+import pt.socialfood.data.api.WishlistRestaurantsApi
+import pt.socialfood.data.api.WishlistRestaurantsApiImpl
 import pt.socialfood.data.local.AppDatabase
 import pt.socialfood.data.network.ImageHttpClient
 import pt.socialfood.data.network.KtorHttpClient
@@ -52,6 +54,7 @@ import pt.socialfood.data.repository.PlacesRepositoryImpl
 import pt.socialfood.data.repository.RestaurantsRepositoryImpl
 import pt.socialfood.data.repository.SearchRepositoryImpl
 import pt.socialfood.data.repository.UsersRepositoryImpl
+import pt.socialfood.data.repository.WishlistRestaurantsRepositoryImpl
 import pt.socialfood.domain.repository.AuthRepository
 import pt.socialfood.domain.repository.AuthorsRepository
 import pt.socialfood.domain.repository.ConfigsRepository
@@ -64,6 +67,7 @@ import pt.socialfood.domain.repository.PlacesRepository
 import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.domain.repository.SearchRepository
 import pt.socialfood.domain.repository.UsersRepository
+import pt.socialfood.domain.repository.WishlistRestaurantsRepository
 import pt.socialfood.domain.usecase.SearchPlacesUseCase
 import pt.socialfood.domain.usecase.SearchPlacesUseCaseImpl
 import pt.socialfood.domain.usecase.author.FindAuthorsUseCase
@@ -184,6 +188,14 @@ import pt.socialfood.domain.usecase.user.UpdateUserPhotoUseCase
 import pt.socialfood.domain.usecase.user.UpdateUserPhotoUseCaseImpl
 import pt.socialfood.domain.usecase.user.UpdateUserUseCase
 import pt.socialfood.domain.usecase.user.UpdateUserUseCaseImpl
+import pt.socialfood.domain.usecase.wishlist.SyncWishlistRestaurantsUseCase
+import pt.socialfood.domain.usecase.wishlist.SyncWishlistRestaurantsUseCaseImpl
+import pt.socialfood.domain.usecase.wishlist.restaurant.GetWishlistRestaurantsUseCase
+import pt.socialfood.domain.usecase.wishlist.restaurant.GetWishlistRestaurantsUseCaseImpl
+import pt.socialfood.domain.usecase.wishlist.restaurant.MarkRestaurantWishlistUseCase
+import pt.socialfood.domain.usecase.wishlist.restaurant.MarkRestaurantWishlistUseCaseImpl
+import pt.socialfood.domain.usecase.wishlist.restaurant.UnmarkRestaurantWishlistUseCase
+import pt.socialfood.domain.usecase.wishlist.restaurant.UnmarkRestaurantWishlistUseCaseImpl
 import pt.socialfood.presentation.author.detail.AuthorDetailViewModel
 import pt.socialfood.presentation.author.list.AuthorsViewModel
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesViewModel
@@ -202,6 +214,7 @@ import pt.socialfood.presentation.signin.SignInViewModel
 import pt.socialfood.presentation.signup.SignUpViewModel
 import pt.socialfood.presentation.startup.StartupViewModel
 import pt.socialfood.presentation.validatecode.ValidateCodeViewModel
+import pt.socialfood.presentation.wishlist.restaurant.WishlistRestaurantsViewModel
 
 expect val platformModule: Module
 
@@ -226,6 +239,7 @@ val networkModule =
         single<SearchApi> { SearchApiImpl(get()) }
         single { SessionManager(get()) }
         single<UserApi> { UserApiImpl(get()) }
+        single<WishlistRestaurantsApi> { WishlistRestaurantsApiImpl(get()) }
     }
 
 val repositoryModule =
@@ -266,6 +280,9 @@ val repositoryModule =
         single<RestaurantsRepository> { RestaurantsRepositoryImpl(get()) }
         single<SearchRepository> { SearchRepositoryImpl(get()) }
         single<UsersRepository> { UsersRepositoryImpl(get()) }
+        single<WishlistRestaurantsRepository> {
+            WishlistRestaurantsRepositoryImpl(get(), get<AppDatabase>().wishlistRestaurantDao(), get())
+        }
     }
 
 val useCaseModule =
@@ -303,6 +320,7 @@ val useCaseModule =
         factory<GetUserByIdUseCase> { GetUserByIdUseCaseImpl(get()) }
         factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
         factory<GetUsersUseCase> { GetUsersUseCaseImpl(get()) }
+        factory<GetWishlistRestaurantsUseCase> { GetWishlistRestaurantsUseCaseImpl(get()) }
         factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
         factory<IsRestaurantFavouriteUseCase> { IsRestaurantFavouriteUseCaseImpl(get()) }
         factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
@@ -310,6 +328,7 @@ val useCaseModule =
         factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
         factory<MarkGuideFavouriteUseCase> { MarkGuideFavouriteUseCaseImpl(get()) }
         factory<MarkRestaurantFavouriteUseCase> { MarkRestaurantFavouriteUseCaseImpl(get()) }
+        factory<MarkRestaurantWishlistUseCase> { MarkRestaurantWishlistUseCaseImpl(get()) }
         factory<ObserveFavouriteGuideIdsUseCase> { ObserveFavouriteGuideIdsUseCaseImpl(get()) }
         factory<ObserveHomeSectionsUseCase> { ObserveHomeSectionsUseCaseImpl(get()) }
         factory<ObserveUserUseCase> { ObserveUserUseCaseImpl(get()) }
@@ -321,8 +340,10 @@ val useCaseModule =
         factory<SearchUseCase> { SearchUseCaseImpl(get()) }
         factory<SyncFavouriteRestaurantsUseCase> { SyncFavouriteRestaurantsUseCaseImpl(get()) }
         factory<SyncFavouritesUseCase> { SyncFavouritesUseCaseImpl(get()) }
+        factory<SyncWishlistRestaurantsUseCase> { SyncWishlistRestaurantsUseCaseImpl(get()) }
         factory<UnmarkGuideFavouriteUseCase> { UnmarkGuideFavouriteUseCaseImpl(get()) }
         factory<UnmarkRestaurantFavouriteUseCase> { UnmarkRestaurantFavouriteUseCaseImpl(get()) }
+        factory<UnmarkRestaurantWishlistUseCase> { UnmarkRestaurantWishlistUseCaseImpl(get()) }
         factory<UpdateGuideUseCase> { UpdateGuideUseCaseImpl(get(), get()) }
         factory<UpdateHomeSectionUseCase> { UpdateHomeSectionUseCaseImpl(get()) }
         factory<UpdateRestaurantUseCase> { UpdateRestaurantUseCaseImpl(get()) }
@@ -352,6 +373,7 @@ val viewModelModule =
         factory { SignUpViewModel(get()) }
         factory { StartupViewModel(get(), get(), get()) }
         factory { (email: String) -> ValidateCodeViewModel(get(), get(), get(), email) }
+        factory { WishlistRestaurantsViewModel(get(), get()) }
     }
 
 fun initKoin(configuration: KoinAppDeclaration? = null) {

@@ -10,6 +10,8 @@ class FakeSettingsRepository : SettingsRepository {
     private var lastFavouritesSyncAttemptAt: Long? = null
     private var lastFavouriteRestaurantsSyncedAt: String? = null
     private var lastFavouriteRestaurantsSyncAttemptAt: Long? = null
+    private var lastWishlistRestaurantsSyncedAt: String? = null
+    private var lastWishlistRestaurantsSyncAttemptAt: Long? = null
 
     override suspend fun getToken(): String? = token
 
@@ -53,5 +55,17 @@ class FakeSettingsRepository : SettingsRepository {
 
     override suspend fun saveLastFavouriteRestaurantsSyncAttemptAt(timestamp: Long) {
         lastFavouriteRestaurantsSyncAttemptAt = timestamp
+    }
+
+    override suspend fun getLastWishlistRestaurantsSyncedAt(): String? = lastWishlistRestaurantsSyncedAt
+
+    override suspend fun saveLastWishlistRestaurantsSyncedAt(syncedAt: String) {
+        lastWishlistRestaurantsSyncedAt = syncedAt
+    }
+
+    override suspend fun getLastWishlistRestaurantsSyncAttemptAt(): Long? = lastWishlistRestaurantsSyncAttemptAt
+
+    override suspend fun saveLastWishlistRestaurantsSyncAttemptAt(timestamp: Long) {
+        lastWishlistRestaurantsSyncAttemptAt = timestamp
     }
 }

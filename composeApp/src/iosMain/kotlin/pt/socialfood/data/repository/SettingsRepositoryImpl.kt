@@ -9,6 +9,8 @@ private const val KEY_LAST_FAVOURITES_SYNCED_AT = "favourites_synced_at"
 private const val KEY_LAST_FAVOURITES_SYNC_ATTEMPT_AT = "last_favourites_sync_attempt_at"
 private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = "favourite_restaurants_synced_at"
 private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT = "last_favourite_restaurants_sync_attempt_at"
+private const val KEY_LAST_WISHLIST_RESTAURANTS_SYNCED_AT = "wishlist_restaurants_synced_at"
+private const val KEY_LAST_WISHLIST_RESTAURANTS_SYNC_ATTEMPT_AT = "last_wishlist_restaurants_sync_attempt_at"
 
 @Suppress("TooManyFunctions")
 class SettingsRepositoryImpl : SettingsRepository {
@@ -67,5 +69,23 @@ class SettingsRepositoryImpl : SettingsRepository {
 
     override suspend fun saveLastFavouriteRestaurantsSyncAttemptAt(timestamp: Long) {
         defaults.setInteger(timestamp, KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT)
+    }
+
+    override suspend fun getLastWishlistRestaurantsSyncedAt(): String? =
+        defaults.stringForKey(KEY_LAST_WISHLIST_RESTAURANTS_SYNCED_AT)
+
+    override suspend fun saveLastWishlistRestaurantsSyncedAt(syncedAt: String) {
+        defaults.setObject(syncedAt, KEY_LAST_WISHLIST_RESTAURANTS_SYNCED_AT)
+    }
+
+    override suspend fun getLastWishlistRestaurantsSyncAttemptAt(): Long? =
+        if (defaults.objectForKey(KEY_LAST_WISHLIST_RESTAURANTS_SYNC_ATTEMPT_AT) != null) {
+            defaults.integerForKey(KEY_LAST_WISHLIST_RESTAURANTS_SYNC_ATTEMPT_AT)
+        } else {
+            null
+        }
+
+    override suspend fun saveLastWishlistRestaurantsSyncAttemptAt(timestamp: Long) {
+        defaults.setInteger(timestamp, KEY_LAST_WISHLIST_RESTAURANTS_SYNC_ATTEMPT_AT)
     }
 }

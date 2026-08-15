@@ -18,6 +18,9 @@ private val LAST_FAVOURITES_SYNC_ATTEMPT_AT = longPreferencesKey("last_favourite
 private val LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = stringPreferencesKey("favourite_restaurants_synced_at")
 private val LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT =
     longPreferencesKey("last_favourite_restaurants_sync_attempt_at")
+private val LAST_WISHLIST_RESTAURANTS_SYNCED_AT = stringPreferencesKey("wishlist_restaurants_synced_at")
+private val LAST_WISHLIST_RESTAURANTS_SYNC_ATTEMPT_AT =
+    longPreferencesKey("last_wishlist_restaurants_sync_attempt_at")
 
 @Suppress("TooManyFunctions")
 class SettingsRepositoryImpl(private val context: Context) : SettingsRepository {
@@ -73,5 +76,19 @@ class SettingsRepositoryImpl(private val context: Context) : SettingsRepository 
 
     override suspend fun saveLastFavouriteRestaurantsSyncAttemptAt(timestamp: Long) {
         context.dataStore.edit { it[LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT] = timestamp }
+    }
+
+    override suspend fun getLastWishlistRestaurantsSyncedAt(): String? =
+        context.dataStore.data.first()[LAST_WISHLIST_RESTAURANTS_SYNCED_AT]
+
+    override suspend fun saveLastWishlistRestaurantsSyncedAt(syncedAt: String) {
+        context.dataStore.edit { it[LAST_WISHLIST_RESTAURANTS_SYNCED_AT] = syncedAt }
+    }
+
+    override suspend fun getLastWishlistRestaurantsSyncAttemptAt(): Long? =
+        context.dataStore.data.first()[LAST_WISHLIST_RESTAURANTS_SYNC_ATTEMPT_AT]
+
+    override suspend fun saveLastWishlistRestaurantsSyncAttemptAt(timestamp: Long) {
+        context.dataStore.edit { it[LAST_WISHLIST_RESTAURANTS_SYNC_ATTEMPT_AT] = timestamp }
     }
 }

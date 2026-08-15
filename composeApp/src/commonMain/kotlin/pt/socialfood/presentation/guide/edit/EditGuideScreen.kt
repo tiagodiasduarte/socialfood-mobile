@@ -66,7 +66,6 @@ private const val TAB_DETAILS = 0
 private const val TAB_RESTAURANTS = 1
 private const val TAB_STATUS = 2
 
-@Suppress("LongParameterList")
 @Composable
 fun EditGuideScreen(
     guideId: String,

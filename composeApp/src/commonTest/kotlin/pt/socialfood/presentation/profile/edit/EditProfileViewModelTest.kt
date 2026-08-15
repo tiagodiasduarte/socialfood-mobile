@@ -35,7 +35,6 @@ class EditProfileViewModelTest {
             publicUrl = "https://cdn.socialfood.pt/new.png",
         )
 
-    @Suppress("LongParameterList")
     private fun createViewModel(
         getUserMe: FakeGetUserMeUseCase = FakeGetUserMeUseCase(Result.Success(sampleUser)),
         getPresignedUrl: FakeGetPresignedUrlUseCase = FakeGetPresignedUrlUseCase(Result.Success(presignedUrlData)),

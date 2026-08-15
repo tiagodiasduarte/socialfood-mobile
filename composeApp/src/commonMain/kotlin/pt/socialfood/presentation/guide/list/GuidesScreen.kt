@@ -62,7 +62,7 @@ fun GuidesScreen(
     )
 }
 
-@Suppress("LongParameterList", "LongMethod")
+@Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GuidesScreenContent(

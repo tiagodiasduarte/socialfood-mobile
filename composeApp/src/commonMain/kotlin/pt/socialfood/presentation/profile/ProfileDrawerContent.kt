@@ -95,7 +95,6 @@ fun ProfileDrawerContent(
     )
 }
 
-@Suppress("LongParameterList")
 @Composable
 private fun ProfileDrawerSheet(
     state: ProfileUiState,
@@ -128,7 +127,6 @@ private fun ProfileDrawerSheet(
     }
 }
 
-@Suppress("LongParameterList")
 @Composable
 private fun DrawerUserContent(
     user: User,

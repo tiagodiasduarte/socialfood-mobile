@@ -32,7 +32,7 @@ import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.author_detail_restaurants_count_label
 
-@Suppress("LongParameterList", "LongMethod")
+@Suppress("LongMethod")
 @Composable
 fun AuthorGuideCard(
     guideName: String,

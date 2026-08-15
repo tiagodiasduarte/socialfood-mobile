@@ -492,9 +492,9 @@
         <error line="20" column="9" source="standard:function-signature" />
         <error line="21" column="9" source="standard:function-signature" />
         <error line="21" column="31" source="standard:function-signature" />
+        <error line="39" column="9" source="standard:function-signature" />
         <error line="40" column="9" source="standard:function-signature" />
-        <error line="41" column="9" source="standard:function-signature" />
-        <error line="41" column="26" source="standard:function-signature" />
+        <error line="40" column="26" source="standard:function-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/SearchPlacesUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
@@ -985,12 +985,12 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/edit/EditGuideScreen.kt">
         <error line="3" column="1" source="standard:import-ordering" />
+        <error line="179" column="5" source="standard:function-signature" />
         <error line="180" column="5" source="standard:function-signature" />
         <error line="181" column="5" source="standard:function-signature" />
-        <error line="182" column="5" source="standard:function-signature" />
-        <error line="182" column="29" source="standard:function-signature" />
-        <error line="218" column="44" source="standard:trailing-comma-on-call-site" />
-        <error line="330" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="181" column="29" source="standard:function-signature" />
+        <error line="217" column="44" source="standard:trailing-comma-on-call-site" />
+        <error line="329" column="1" source="standard:no-consecutive-blank-lines" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/edit/EditGuideViewModel.kt">
         <error line="97" column="9" source="standard:function-signature" />

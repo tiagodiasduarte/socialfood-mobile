@@ -4,7 +4,6 @@ import pt.socialfood.domain.model.User
 import pt.socialfood.domain.model.UserRole
 import kotlin.random.Random
 
-@Suppress("LongParameterList")
 fun Random.nextUser(
     id: String = nextString(),
     email: String = nextEmail(),

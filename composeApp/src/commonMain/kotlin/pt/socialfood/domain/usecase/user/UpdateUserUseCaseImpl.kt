@@ -15,6 +15,7 @@ class UpdateUserUseCaseImpl(
         facebookUrl: String?,
         instagramUrl: String?,
         youtubeUrl: String?,
+        isAuthor: Boolean?,
     ): Result<User> = repository.update(
         id = id,
         imageUrl = imageUrl,
@@ -23,5 +24,6 @@ class UpdateUserUseCaseImpl(
         facebookUrl = facebookUrl,
         instagramUrl = instagramUrl,
         youtubeUrl = youtubeUrl,
+        isAuthor = isAuthor,
     )
 }

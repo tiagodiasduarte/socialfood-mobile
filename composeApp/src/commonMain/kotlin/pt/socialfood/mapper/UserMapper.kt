@@ -4,7 +4,6 @@ import pt.socialfood.data.network.model.user.UserResponse
 import pt.socialfood.domain.model.User
 import pt.socialfood.domain.model.UserRole
 
-
 fun UserResponse.toUser(): User =
     User(
         id = this.id,
@@ -17,4 +16,5 @@ fun UserResponse.toUser(): User =
         instagramUrl = this.instagramUrl,
         youtubeUrl = this.youtubeUrl,
         isVerified = this.isVerified,
+        isAuthor = this.isAuthor,
     )

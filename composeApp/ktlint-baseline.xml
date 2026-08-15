@@ -367,11 +367,11 @@
         <error line="36" column="95" source="standard:function-expression-body" />
         <error line="49" column="52" source="standard:function-expression-body" />
         <error line="57" column="61" source="standard:function-expression-body" />
-        <error line="69" column="21" source="standard:function-expression-body" />
-        <error line="84" column="85" source="standard:function-expression-body" />
-        <error line="102" column="34" source="standard:trailing-comma-on-call-site" />
-        <error line="103" column="14" source="standard:trailing-comma-on-call-site" />
-        <error line="107" column="43" source="standard:trailing-comma-on-call-site" />
+        <error line="70" column="21" source="standard:function-expression-body" />
+        <error line="86" column="85" source="standard:function-expression-body" />
+        <error line="104" column="34" source="standard:trailing-comma-on-call-site" />
+        <error line="105" column="14" source="standard:trailing-comma-on-call-site" />
+        <error line="109" column="43" source="standard:trailing-comma-on-call-site" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/di/AppImageLoaderFactory.kt">
         <error line="17" column="67" source="standard:class-signature" />
@@ -492,9 +492,9 @@
         <error line="20" column="9" source="standard:function-signature" />
         <error line="21" column="9" source="standard:function-signature" />
         <error line="21" column="31" source="standard:function-signature" />
-        <error line="39" column="9" source="standard:function-signature" />
         <error line="40" column="9" source="standard:function-signature" />
-        <error line="40" column="26" source="standard:function-signature" />
+        <error line="41" column="9" source="standard:function-signature" />
+        <error line="41" column="26" source="standard:function-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/SearchPlacesUseCaseImpl.kt">
         <error line="8" column="5" source="standard:class-signature" />
@@ -773,8 +773,7 @@
         <error line="8" column="52" source="standard:function-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/mapper/UserMapper.kt">
-        <error line="7" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="8" column="34" source="standard:function-signature" />
+        <error line="7" column="34" source="standard:function-signature" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/author/detail/AuthorDetailScreen.kt">
         <error line="3" column="1" source="standard:import-ordering" />

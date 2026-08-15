@@ -44,6 +44,7 @@ class EditProfileViewModel(
     fun onFacebookUrlChange(value: String) = loaded { copy(facebookUrl = value) }
     fun onInstagramUrlChange(value: String) = loaded { copy(instagramUrl = value) }
     fun onYoutubeUrlChange(value: String) = loaded { copy(youtubeUrl = value) }
+    fun onAuthorModeChange(value: Boolean) = loaded { copy(isAuthor = value) }
 
     private fun load() {
         viewModelScope.launch {
@@ -60,6 +61,7 @@ class EditProfileViewModel(
                         instagramUrl = user.instagramUrl.orEmpty(),
                         youtubeUrl = user.youtubeUrl.orEmpty(),
                         imageUrl = user.imageUrl,
+                        isAuthor = user.isAuthor,
                     )
                 }
 
@@ -137,6 +139,7 @@ class EditProfileViewModel(
                     facebookUrl = current.facebookUrl,
                     instagramUrl = current.instagramUrl,
                     youtubeUrl = current.youtubeUrl,
+                    isAuthor = current.isAuthor,
                 )
             ) {
                 is Result.Success -> loaded { copy(isSaving = false, saveSuccess = true) }

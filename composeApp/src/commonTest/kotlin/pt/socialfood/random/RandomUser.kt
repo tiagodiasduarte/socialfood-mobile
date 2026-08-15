@@ -17,6 +17,7 @@ fun Random.nextUser(
     instagramUrl: String? = nextNullable { nextUrl() },
     youtubeUrl: String? = nextNullable { nextUrl() },
     isVerified: Boolean = nextBoolean(),
+    isAuthor: Boolean = nextBoolean(),
 ) = User(
     id = id,
     email = email,
@@ -30,4 +31,5 @@ fun Random.nextUser(
     instagramUrl = instagramUrl,
     youtubeUrl = youtubeUrl,
     isVerified = isVerified,
+    isAuthor = isAuthor,
 )

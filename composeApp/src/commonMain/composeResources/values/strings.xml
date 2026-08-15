@@ -160,7 +160,7 @@
     <string name="edit_profile_clear_field_button_description">Clear field</string>
     <string name="edit_profile_username_placeholder">johndoe</string>
     <string name="edit_profile_author_mode_title">Author mode</string>
-    <string name="edit_profile_author_mode_description">Enable to become an author and start creating guides.</string>
+    <string name="edit_profile_author_mode_description">Enable to become an author and start creating public guides.</string>
     <string name="edit_profile_social_title">Social Networks</string>
     <string name="edit_profile_facebook_label">Facebook</string>
     <string name="edit_profile_facebook_placeholder">https://facebook.com/yourprofile</string>

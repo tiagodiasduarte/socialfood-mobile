@@ -12,14 +12,8 @@
     <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/user/GetPresignedUrlUseCase.kt">
         <error line="11" column="24" source="standard:trailing-comma-on-declaration-site" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/AppImage.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/CircularProgressContent.kt">
         <error line="20" column="44" source="standard:trailing-comma-on-call-site" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/ErrorContent.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/SearchBar.kt">
         <error line="87" column="47" source="standard:trailing-comma-on-call-site" />
@@ -31,20 +25,6 @@
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/buttons/social/SocialLinkOpener.kt">
         <error line="1" column="1" source="standard:filename" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/favourite/guide/FavoriteGuideCard.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="45" column="1" source="standard:spacing-between-declarations-with-annotations" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/favourite/guide/FavouriteGuidesScreen.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/favourite/restaurant/FavoriteRestaurantCard.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="32" column="1" source="standard:no-unused-imports" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/favourite/restaurant/FavouriteRestaurantsScreen.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/edit/card/GuideDetailsCard.kt">
         <error line="126" column="1" source="standard:indent" />
@@ -100,15 +80,6 @@
         <error line="291" column="1" source="standard:indent" />
         <error line="292" column="1" source="standard:indent" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/edit/card/GuideStatusCard.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="86" column="41" source="standard:multiline-if-else" />
-        <error line="88" column="41" source="standard:multiline-if-else" />
-        <error line="88" column="83" source="standard:trailing-comma-on-call-site" />
-        <error line="105" column="41" source="standard:multiline-if-else" />
-        <error line="107" column="41" source="standard:multiline-if-else" />
-        <error line="107" column="83" source="standard:trailing-comma-on-call-site" />
-    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/list/GuideCard.kt">
         <error line="51" column="34" source="standard:trailing-comma-on-declaration-site" />
         <error line="64" column="10" source="standard:trailing-comma-on-call-site" />
@@ -132,21 +103,6 @@
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/Navigator.kt">
         <error line="8" column="11" source="standard:keyword-spacing" />
         <error line="20" column="11" source="standard:keyword-spacing" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/card/PersonalDetailsCard.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/profile/edit/card/SocialNetworksCard.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/restaurant/detail/RestaurantDetailScreen.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="153" column="29" source="standard:multiline-if-else" />
-        <error line="157" column="29" source="standard:multiline-if-else" />
-        <error line="205" column="25" source="standard:multiline-if-else" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/restaurant/search/ImportRestaurantDialog.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/ui/theme/Typography.kt">
         <error line="26" column="41" source="standard:no-multi-spaces" />

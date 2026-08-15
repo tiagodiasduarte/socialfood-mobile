@@ -205,6 +205,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                     navigator.navigate(Route.RestaurantDetail(restaurantId))
                                 },
                                 onProfileClick = { scope.launch { drawerState.open() } },
+                                onSearchClick = { navigator.navigate(Route.Search) },
                             )
                         }
                         entry<Route.EditProfile> {

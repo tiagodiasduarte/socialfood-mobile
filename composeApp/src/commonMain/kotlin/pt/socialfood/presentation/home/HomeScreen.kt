@@ -50,6 +50,7 @@ fun HomeScreen(
     onGuideClick: (guideId: String) -> Unit = {},
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onProfileClick: () -> Unit = {},
+    onSearchClick: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val sections by viewModel.sections.collectAsStateWithLifecycle()
@@ -65,6 +66,7 @@ fun HomeScreen(
         onGuideClick = onGuideClick,
         onRestaurantClick = onRestaurantClick,
         onProfileClick = onProfileClick,
+        onSearchClick = onSearchClick,
         onToggleGuideFavourite = viewModel::onToggleGuideFavourite,
         onToggleRestaurantFavourite = viewModel::onToggleRestaurantFavourite,
     )
@@ -80,6 +82,7 @@ fun HomeScreenContent(
     onGuideClick: (guideId: String) -> Unit = {},
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onProfileClick: () -> Unit = {},
+    onSearchClick: () -> Unit = {},
     onToggleGuideFavourite: (Guide) -> Unit = {},
     onToggleRestaurantFavourite: (Restaurant) -> Unit = {},
 ) {
@@ -102,6 +105,7 @@ fun HomeScreenContent(
                     userName = user?.name.orEmpty(),
                     userImageUrl = user?.imageUrl,
                     onProfileClick = onProfileClick,
+                    onSearchClick = onSearchClick,
                 )
             }
 

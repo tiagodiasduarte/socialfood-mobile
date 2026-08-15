@@ -73,7 +73,7 @@ fun SearchScreen(
     )
 }
 
-@Suppress("LongMethod", "LongParameterList")
+@Suppress("LongMethod")
 @Composable
 fun SearchScreenContent(
     searchQuery: String,

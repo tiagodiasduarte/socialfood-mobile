@@ -33,7 +33,6 @@ import socialfood.composeapp.generated.resources.guides_tab_all
 import socialfood.composeapp.generated.resources.guides_tab_my
 import socialfood.composeapp.generated.resources.guides_title
 
-@Suppress("LongParameterList")
 @Composable
 fun GuidesHeader(
     selectedTab: Int,

@@ -24,7 +24,6 @@ import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.edit_profile_clear_field_button_description
 
-@Suppress("LongParameterList")
 @Composable
 fun ProfileTextField(
     icon: ImageVector? = null,

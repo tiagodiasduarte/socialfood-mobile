@@ -85,7 +85,6 @@ fun EditProfileScreen(onBackClick: () -> Unit, viewModel: EditProfileViewModel =
     }
 }
 
-@Suppress("LongParameterList")
 @Composable
 private fun EditProfileContent(
     state: EditProfileUiState.Loaded,

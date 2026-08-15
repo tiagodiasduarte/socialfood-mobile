@@ -70,7 +70,6 @@ fun HomeScreen(
     )
 }
 
-@Suppress("LongParameterList")
 @Composable
 fun HomeScreenContent(
     state: HomeUiState,
@@ -143,7 +142,6 @@ fun HomeScreenContent(
     }
 }
 
-@Suppress("LongParameterList")
 @Composable
 private fun HomeSectionRow(
     section: HomeSection,
@@ -199,7 +197,6 @@ private fun HomeSectionRow(
     }
 }
 
-@Suppress("LongParameterList")
 @Composable
 private fun HomeSectionItemCard(
     item: HomeSectionItem,

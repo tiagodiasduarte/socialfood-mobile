@@ -33,7 +33,7 @@ val ProfileAvatarSize = 96.dp
 val ProfileAvatarRingSize = 108.dp
 val ProfileAvatarOverlap = ProfileAvatarRingSize / 2
 
-@Suppress("LongParameterList", "LongMethod")
+@Suppress("LongMethod")
 @Composable
 fun ProfileHeader(
     name: String,

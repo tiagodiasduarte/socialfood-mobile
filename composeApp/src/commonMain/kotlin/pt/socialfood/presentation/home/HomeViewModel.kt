@@ -26,7 +26,6 @@ import pt.socialfood.domain.usecase.home.ObserveHomeSectionsUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
-@Suppress("LongParameterList")
 class HomeViewModel(
     private val getHomeSections: GetHomeSectionsUseCase,
     private val isRestaurantFavourite: IsRestaurantFavouriteUseCase,

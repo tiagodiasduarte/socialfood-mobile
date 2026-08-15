@@ -51,7 +51,6 @@ class HomeViewModelTest {
         isActive = true,
     )
 
-    @Suppress("LongParameterList")
     private fun createViewModel(
         getHomeSections: GetHomeSectionsUseCase = FakeGetHomeSectionsUseCase(),
         isRestaurantFavourite: IsRestaurantFavouriteUseCase = FakeIsRestaurantFavouriteUseCase(),

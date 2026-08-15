@@ -92,7 +92,6 @@ fun GuideDetailScreen(
     )
 }
 
-@Suppress("LongParameterList")
 @Composable
 private fun GuideDetailContent(
     state: GuideDetailUiState,
@@ -230,7 +229,7 @@ private fun GuideDetailLoaded(
     }
 }
 
-@Suppress("LongParameterList", "LongMethod")
+@Suppress("LongMethod")
 @Composable
 private fun TopImageContent(
     guide: Guide,

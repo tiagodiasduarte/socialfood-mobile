@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <baseline version="1.0">
-    <file name="build.gradle.kts">
-        <error line="59" column="28" source="standard:trailing-comma-on-call-site" />
-    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/repository/AuthRepository.kt">
         <error line="13" column="1" source="standard:no-blank-line-before-rbrace" />
     </file>
@@ -12,70 +9,12 @@
     <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/user/GetPresignedUrlUseCase.kt">
         <error line="11" column="24" source="standard:trailing-comma-on-declaration-site" />
     </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/CircularProgressContent.kt">
-        <error line="20" column="44" source="standard:trailing-comma-on-call-site" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/SearchBar.kt">
-        <error line="87" column="47" source="standard:trailing-comma-on-call-site" />
-        <error line="88" column="14" source="standard:trailing-comma-on-call-site" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/UserImage.kt">
-        <error line="54" column="68" source="standard:trailing-comma-on-call-site" />
-        <error line="61" column="68" source="standard:trailing-comma-on-call-site" />
-    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/buttons/social/SocialLinkOpener.kt">
         <error line="1" column="1" source="standard:filename" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/list/GuideCard.kt">
-        <error line="51" column="34" source="standard:trailing-comma-on-declaration-site" />
-        <error line="64" column="10" source="standard:trailing-comma-on-call-site" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/list/GuidesScreen.kt">
-        <error line="165" column="48" source="standard:trailing-comma-on-call-site" />
-        <error line="173" column="48" source="standard:trailing-comma-on-call-site" />
-        <error line="181" column="48" source="standard:trailing-comma-on-call-site" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/guide/list/GuidesViewModel.kt">
-        <error line="55" column="38" source="standard:trailing-comma-on-call-site" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/home/HomeHeader.kt">
-        <error line="35" column="70" source="standard:trailing-comma-on-call-site" />
-        <error line="41" column="41" source="standard:trailing-comma-on-call-site" />
-        <error line="67" column="49" source="standard:trailing-comma-on-call-site" />
-        <error line="77" column="59" source="standard:trailing-comma-on-call-site" />
-        <error line="86" column="59" source="standard:trailing-comma-on-call-site" />
-        <error line="93" column="31" source="standard:trailing-comma-on-call-site" />
     </file>
     <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/Navigator.kt">
         <error line="8" column="11" source="standard:keyword-spacing" />
         <error line="20" column="11" source="standard:keyword-spacing" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/ui/theme/Typography.kt">
-        <error line="26" column="41" source="standard:no-multi-spaces" />
-        <error line="30" column="35" source="standard:trailing-comma-on-call-site" />
-        <error line="32" column="40" source="standard:no-multi-spaces" />
-        <error line="36" column="35" source="standard:trailing-comma-on-call-site" />
-        <error line="38" column="37" source="standard:no-multi-spaces" />
-        <error line="42" column="35" source="standard:trailing-comma-on-call-site" />
-        <error line="44" column="38" source="standard:no-multi-spaces" />
-        <error line="48" column="35" source="standard:trailing-comma-on-call-site" />
-        <error line="50" column="37" source="standard:no-multi-spaces" />
-        <error line="54" column="35" source="standard:trailing-comma-on-call-site" />
-        <error line="56" column="37" source="standard:no-multi-spaces" />
-        <error line="60" column="35" source="standard:trailing-comma-on-call-site" />
-        <error line="62" column="38" source="standard:no-multi-spaces" />
-        <error line="66" column="35" source="standard:trailing-comma-on-call-site" />
-        <error line="72" column="35" source="standard:trailing-comma-on-call-site" />
-        <error line="74" column="37" source="standard:no-multi-spaces" />
-        <error line="78" column="35" source="standard:trailing-comma-on-call-site" />
-        <error line="84" column="35" source="standard:trailing-comma-on-call-site" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeFavouriteRestaurantsRepository.kt">
-        <error line="12" column="98" source="standard:trailing-comma-on-call-site" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakePlacesApi.kt">
-        <error line="17" column="18" source="standard:trailing-comma-on-call-site" />
-        <error line="18" column="14" source="standard:trailing-comma-on-call-site" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/guide/detail/GuideDetailViewModelTest.kt">
         <error line="139" column="1" source="standard:indent" />
@@ -89,9 +28,6 @@
     </file>
     <file name="src/iosMain/kotlin/pt/socialfood/MainViewController.kt">
         <error line="5" column="5" source="standard:function-naming" />
-    </file>
-    <file name="src/iosMain/kotlin/pt/socialfood/data/local/DatabaseBuilder.ios.kt">
-        <error line="19" column="10" source="standard:trailing-comma-on-call-site" />
     </file>
     <file name="src/iosMain/kotlin/pt/socialfood/presentation/components/buttons/social/SocialButtonsOpener.ios.kt">
         <error line="28" column="94" source="standard:function-expression-body" />

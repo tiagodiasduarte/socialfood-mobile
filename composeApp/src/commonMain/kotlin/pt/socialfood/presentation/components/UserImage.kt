@@ -51,14 +51,14 @@ fun UserImage(name: String, imageUrl: String?, imageSize: Dp, modifier: Modifier
                     Text(
                         text = initials,
                         color = Color.White,
-                        style = MaterialTheme.typography.titleLarge
+                        style = MaterialTheme.typography.titleLarge,
                     )
                 },
                 error = {
                     Text(
                         text = initials,
                         color = Color.White,
-                        style = MaterialTheme.typography.titleLarge
+                        style = MaterialTheme.typography.titleLarge,
                     )
                 },
             )

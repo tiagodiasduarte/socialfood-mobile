@@ -11,10 +11,7 @@ class AddRestaurantGuideUseCaseImpl(
     private val guidesRepository: GuidesRepository,
     private val userRepository: UsersRepository,
 ) : AddRestaurantGuideUseCase {
-    override suspend operator fun invoke(
-        guideId: String,
-        placeId: String?,
-    ): Result<Guide> {
+    override suspend operator fun invoke(guideId: String, placeId: String?): Result<Guide> {
         val userId =
             userRepository.currentUser.first()?.id
                 ?: return Result.Failure(DataError.Network(IllegalStateException("No current user")))

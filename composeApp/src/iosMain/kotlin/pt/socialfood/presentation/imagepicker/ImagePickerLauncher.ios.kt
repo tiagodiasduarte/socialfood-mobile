@@ -50,8 +50,7 @@ object ImagePickerBridge {
 }
 
 @Composable
-actual fun rememberImagePickerLauncher(
-    onResult: (bytes: ByteArray, mimeType: String) -> Unit,
-): () -> Unit = remember(onResult) {
-    { ImagePickerBridge.delegate?.pickImage(onResult) }
-}
+actual fun rememberImagePickerLauncher(onResult: (bytes: ByteArray, mimeType: String) -> Unit): () -> Unit =
+    remember(onResult) {
+        { ImagePickerBridge.delegate?.pickImage(onResult) }
+    }

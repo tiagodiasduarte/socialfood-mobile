@@ -51,11 +51,7 @@ class FakeGuidesApi(
     var lastFindGuidesUserId: String? = null
         private set
 
-    override suspend fun create(
-        name: String,
-        description: String,
-        userId: String,
-    ): GuideDetailResponse {
+    override suspend fun create(name: String, description: String, userId: String): GuideDetailResponse {
         if (shouldThrow) throw IOException("test error")
         return defaultFakeGuideDetail
     }
@@ -104,10 +100,7 @@ class FakeGuidesApi(
         return defaultFakeGuideDetail
     }
 
-    override suspend fun addRestaurantGuide(
-        guideId: String,
-        placeId: String?,
-    ): GuideDetailResponse {
+    override suspend fun addRestaurantGuide(guideId: String, placeId: String?): GuideDetailResponse {
         if (shouldThrow) throw IOException("test error")
         return defaultFakeGuideDetail
     }
@@ -124,10 +117,7 @@ class FakeGuidesApi(
         )
     }
 
-    override suspend fun addPhoto(
-        guideId: String,
-        imageUrl: String,
-    ): GuideDetailResponse {
+    override suspend fun addPhoto(guideId: String, imageUrl: String): GuideDetailResponse {
         if (shouldThrow) throw IOException("test error")
         return defaultFakeGuideDetail
     }

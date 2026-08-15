@@ -42,26 +42,26 @@ internal fun RestaurantDetailPlaceholder() {
             item {
                 Box(
                     modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .height(ImageHeight),
+                    Modifier
+                        .fillMaxWidth()
+                        .height(ImageHeight),
                 ) {
                     ShimmerBox(modifier = Modifier.fillMaxSize(), alpha = alpha, shape = RoundedCornerShape(0.dp))
 
                     ShimmerBox(
                         modifier =
-                            Modifier
-                                .padding(SpaceSize.large)
-                                .size(40.dp),
+                        Modifier
+                            .padding(SpaceSize.large)
+                            .size(40.dp),
                         alpha = alpha,
                         shape = CircleShape,
                     )
 
                     Row(
                         modifier =
-                            Modifier
-                                .align(Alignment.TopEnd)
-                                .padding(SpaceSize.large),
+                        Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(SpaceSize.large),
                         horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
                     ) {
                         ShimmerBox(modifier = Modifier.size(40.dp), alpha = alpha, shape = CircleShape)
@@ -73,10 +73,10 @@ internal fun RestaurantDetailPlaceholder() {
             item {
                 Column(
                     modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.surface)
-                            .padding(horizontal = SpaceSize.large, vertical = SpaceSize.large),
+                    Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.surface)
+                        .padding(horizontal = SpaceSize.large, vertical = SpaceSize.large),
                     verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
                 ) {
                     ShimmerBox(modifier = Modifier.width(220.dp).height(26.dp), alpha = alpha)
@@ -129,11 +129,11 @@ internal fun RestaurantDetailPlaceholder() {
 
         ShimmerBox(
             modifier =
-                Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(SpaceSize.large)
-                    .fillMaxWidth()
-                    .height(52.dp),
+            Modifier
+                .align(Alignment.BottomCenter)
+                .padding(SpaceSize.large)
+                .fillMaxWidth()
+                .height(52.dp),
             alpha = alpha,
             shape = RoundedCornerShape(SpaceSize.large),
         )
@@ -141,10 +141,7 @@ internal fun RestaurantDetailPlaceholder() {
 }
 
 @Composable
-private fun InfoRowPlaceholder(
-    alpha: Float,
-    width: androidx.compose.ui.unit.Dp = 200.dp,
-) {
+private fun InfoRowPlaceholder(alpha: Float, width: androidx.compose.ui.unit.Dp = 200.dp) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),

@@ -9,9 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import pt.socialfood.domain.repository.SettingsRepository
 
-class SessionManager(
-    private val settingsRepository: SettingsRepository
-) {
+class SessionManager(private val settingsRepository: SettingsRepository) {
     private val _unauthorizedEvent = MutableSharedFlow<Unit>(replay = 0)
     val unauthorizedEvent: SharedFlow<Unit> = _unauthorizedEvent
 

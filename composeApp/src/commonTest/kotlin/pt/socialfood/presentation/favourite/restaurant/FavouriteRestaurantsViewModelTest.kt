@@ -20,67 +20,64 @@ import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FavouriteRestaurantsViewModelTest {
-    private fun favourite(id: String) =
-        FavouriteRestaurant(
-            restaurant =
-                Restaurant(
-                    id = id,
-                    name = "Restaurant $id",
-                    description = "",
-                    city = "Lisbon",
-                    country = "Portugal",
-                    countryCode = "PT",
-                    postalCode = "1000-000",
-                    photoNames = emptyList(),
-                    address = "Rua Augusta 1",
-                    rating = 4.5,
-                    userRatingCount = 100,
-                    websiteUrl = null,
-                    phoneNumber = "+351910000000",
-                ),
-            favouritedAt = 0L,
-        )
+    private fun favourite(id: String) = FavouriteRestaurant(
+        restaurant =
+        Restaurant(
+            id = id,
+            name = "Restaurant $id",
+            description = "",
+            city = "Lisbon",
+            country = "Portugal",
+            countryCode = "PT",
+            postalCode = "1000-000",
+            photoNames = emptyList(),
+            address = "Rua Augusta 1",
+            rating = 4.5,
+            userRatingCount = 100,
+            websiteUrl = null,
+            phoneNumber = "+351910000000",
+        ),
+        favouritedAt = 0L,
+    )
 
     @Test
-    fun `given favourites exist when created then loads first page into Loaded state`() =
-        runTestWithMainDispatcher {
-            // Given
-            val useCase =
-                FakeGetFavouriteRestaurantsUseCase {
-                    Result.Success(
-                        PagedFavouriteRestaurants(
-                            favourites = listOf(favourite("r1")),
-                            page = it,
-                            total = 1,
-                            hasMore = false,
-                        ),
-                    )
-                }
-
-            // When / Then
-            val vm = FavouriteRestaurantsViewModel(useCase, FakeUnmarkRestaurantFavouriteUseCase())
-            vm.state.test {
-                assertEquals(FavouriteRestaurantsUiState.Loading, awaitItem())
-                val state = assertIs<FavouriteRestaurantsUiState.Loaded>(awaitItem())
-                assertEquals(1, state.restaurants.size)
-                assertEquals("r1", state.restaurants.first().id)
+    fun `given favourites exist when created then loads first page into Loaded state`() = runTestWithMainDispatcher {
+        // Given
+        val useCase =
+            FakeGetFavouriteRestaurantsUseCase {
+                Result.Success(
+                    PagedFavouriteRestaurants(
+                        favourites = listOf(favourite("r1")),
+                        page = it,
+                        total = 1,
+                        hasMore = false,
+                    ),
+                )
             }
+
+        // When / Then
+        val vm = FavouriteRestaurantsViewModel(useCase, FakeUnmarkRestaurantFavouriteUseCase())
+        vm.state.test {
+            assertEquals(FavouriteRestaurantsUiState.Loading, awaitItem())
+            val state = assertIs<FavouriteRestaurantsUiState.Loaded>(awaitItem())
+            assertEquals(1, state.restaurants.size)
+            assertEquals("r1", state.restaurants.first().id)
         }
+    }
 
     @Test
-    fun `given use case fails when created then state is Error`() =
-        runTestWithMainDispatcher {
-            // Given
-            val useCase =
-                FakeGetFavouriteRestaurantsUseCase { Result.Failure(DataError.Network(Exception("test error"))) }
+    fun `given use case fails when created then state is Error`() = runTestWithMainDispatcher {
+        // Given
+        val useCase =
+            FakeGetFavouriteRestaurantsUseCase { Result.Failure(DataError.Network(Exception("test error"))) }
 
-            // When / Then
-            val vm = FavouriteRestaurantsViewModel(useCase, FakeUnmarkRestaurantFavouriteUseCase())
-            vm.state.test {
-                assertEquals(FavouriteRestaurantsUiState.Loading, awaitItem())
-                assertEquals(FavouriteRestaurantsUiState.Error(ErrorCode.NETWORK), awaitItem())
-            }
+        // When / Then
+        val vm = FavouriteRestaurantsViewModel(useCase, FakeUnmarkRestaurantFavouriteUseCase())
+        vm.state.test {
+            assertEquals(FavouriteRestaurantsUiState.Loading, awaitItem())
+            assertEquals(FavouriteRestaurantsUiState.Error(ErrorCode.NETWORK), awaitItem())
         }
+    }
 
     @Test
     fun `given more pages available when loadMore is called then appends restaurants and updates hasMore`() =
@@ -128,33 +125,32 @@ class FavouriteRestaurantsViewModelTest {
         }
 
     @Test
-    fun `given refresh is called then reloads first page and clears isRefreshing`() =
-        runTestWithMainDispatcher {
-            // Given
-            val useCase =
-                FakeGetFavouriteRestaurantsUseCase {
-                    Result.Success(
-                        PagedFavouriteRestaurants(
-                            favourites = listOf(favourite("r1")),
-                            page = it,
-                            total = 1,
-                            hasMore = false,
-                        ),
-                    )
-                }
-            val vm = FavouriteRestaurantsViewModel(useCase, FakeUnmarkRestaurantFavouriteUseCase())
-
-            // When / Then
-            vm.state.test {
-                assertEquals(FavouriteRestaurantsUiState.Loading, awaitItem())
-                assertIs<FavouriteRestaurantsUiState.Loaded>(awaitItem())
+    fun `given refresh is called then reloads first page and clears isRefreshing`() = runTestWithMainDispatcher {
+        // Given
+        val useCase =
+            FakeGetFavouriteRestaurantsUseCase {
+                Result.Success(
+                    PagedFavouriteRestaurants(
+                        favourites = listOf(favourite("r1")),
+                        page = it,
+                        total = 1,
+                        hasMore = false,
+                    ),
+                )
             }
+        val vm = FavouriteRestaurantsViewModel(useCase, FakeUnmarkRestaurantFavouriteUseCase())
 
-            vm.refresh()
-            advanceUntilIdle()
-            assertFalse(vm.isRefreshing.value)
-            assertIs<FavouriteRestaurantsUiState.Loaded>(vm.state.value)
+        // When / Then
+        vm.state.test {
+            assertEquals(FavouriteRestaurantsUiState.Loading, awaitItem())
+            assertIs<FavouriteRestaurantsUiState.Loaded>(awaitItem())
         }
+
+        vm.refresh()
+        advanceUntilIdle()
+        assertFalse(vm.isRefreshing.value)
+        assertIs<FavouriteRestaurantsUiState.Loaded>(vm.state.value)
+    }
 
     @Test
     fun `given a favourite restaurant when removeFavourite succeeds then removes it from state`() =

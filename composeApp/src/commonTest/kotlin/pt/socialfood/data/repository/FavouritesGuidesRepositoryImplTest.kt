@@ -158,7 +158,7 @@ class FavouritesGuidesRepositoryImplTest {
     }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given last sync attempt was recent when syncFavourites is called then returns early without calling the API`() =
         runTest {
             // Given

@@ -17,7 +17,7 @@ fun CircularProgressContent(modifier: Modifier = Modifier) {
         modifier = modifier
             .height(350.dp)
             .fillMaxWidth(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator()
     }

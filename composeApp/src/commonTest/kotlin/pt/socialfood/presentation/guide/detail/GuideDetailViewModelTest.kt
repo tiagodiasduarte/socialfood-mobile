@@ -58,7 +58,7 @@ class GuideDetailViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given guide is not a favourite when toggleFavourite is called then flips isFavourite optimistically and calls mark`() =
         runTestWithMainDispatcher {
             // Given
@@ -135,8 +135,9 @@ class GuideDetailViewModelTest {
                     getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
                     getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
                     isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
-                    markGuideFavourite =
-                        FakeMarkGuideFavouriteUseCase(Result.Failure(DataError.Network(Exception("test error")))),
+                    markGuideFavourite = FakeMarkGuideFavouriteUseCase(
+                        Result.Failure(DataError.Network(Exception("test error"))),
+                    ),
                     unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
                     guideId = fakeGuide.id,
                 )

@@ -14,8 +14,8 @@ class FakePlacesApi(private val shouldThrow: Boolean = false) : PlacesApi {
                     id = "place-id",
                     name = "Place Name",
                     address = "Rua Example, 1",
-                )
-            )
+                ),
+            ),
         )
     }
 }

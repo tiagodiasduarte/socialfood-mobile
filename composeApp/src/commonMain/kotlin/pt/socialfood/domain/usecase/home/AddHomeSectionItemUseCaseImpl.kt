@@ -5,9 +5,7 @@ import pt.socialfood.domain.model.HomeItemType
 import pt.socialfood.domain.model.HomeSection
 import pt.socialfood.domain.repository.HomeRepository
 
-class AddHomeSectionItemUseCaseImpl(
-    private val repository: HomeRepository,
-) : AddHomeSectionItemUseCase {
+class AddHomeSectionItemUseCaseImpl(private val repository: HomeRepository) : AddHomeSectionItemUseCase {
     override suspend operator fun invoke(
         sectionId: String,
         itemId: String,

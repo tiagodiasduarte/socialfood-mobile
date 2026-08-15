@@ -35,11 +35,7 @@ fun rememberShimmerAlpha(): Float {
 }
 
 @Composable
-fun ShimmerBox(
-    modifier: Modifier = Modifier,
-    alpha: Float,
-    shape: Shape = RoundedCornerShape(8.dp),
-) {
+fun ShimmerBox(modifier: Modifier = Modifier, alpha: Float, shape: Shape = RoundedCornerShape(8.dp)) {
     Box(
         modifier = modifier
             .alpha(alpha)

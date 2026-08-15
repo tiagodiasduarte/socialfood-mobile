@@ -21,10 +21,7 @@ import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun HomeSearchBar(
-    searchQuery: String,
-    onQueryChange: (String) -> Unit
-) {
+fun HomeSearchBar(searchQuery: String, onQueryChange: (String) -> Unit) {
     TextField(
         value = searchQuery,
         onValueChange = onQueryChange,
@@ -61,7 +58,7 @@ fun HomeSearchBar(
             .border(
                 width = 1.dp,
                 color = Color(0xFFE5E7EB),
-                shape = RoundedCornerShape(25)
-            )
+                shape = RoundedCornerShape(25),
+            ),
     )
 }

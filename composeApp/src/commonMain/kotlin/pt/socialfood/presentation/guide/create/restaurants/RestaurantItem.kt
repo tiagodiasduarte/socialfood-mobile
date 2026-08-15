@@ -14,10 +14,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.restaurant.search.PlaceThumbnail
@@ -25,10 +25,7 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun RestaurantItem(
-    restaurant: Restaurant,
-    onRemove: () -> Unit,
-) {
+fun RestaurantItem(restaurant: Restaurant, onRemove: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

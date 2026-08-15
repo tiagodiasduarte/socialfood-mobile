@@ -32,13 +32,13 @@ import socialfood.composeapp.generated.resources.home_title_label
 @Composable
 fun HomeHeader(userName: String = "", userImageUrl: String? = null, onProfileClick: () -> Unit = {}) {
     Column(
-        modifier = Modifier.fillMaxWidth().background(GreyBackground)
+        modifier = Modifier.fillMaxWidth().background(GreyBackground),
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(65.dp)
-                .background(Color.White)
+                .background(Color.White),
         ) {
             UserImage(
                 name = userName,
@@ -64,7 +64,7 @@ fun HomeHeader(userName: String = "", userImageUrl: String? = null, onProfileCli
             HorizontalDivider(
                 Modifier.height(1.dp)
                     .align(alignment = Alignment.BottomStart)
-                    .background(Color(0xE5E7EB))
+                    .background(Color(0xE5E7EB)),
             )
         }
 
@@ -74,7 +74,7 @@ fun HomeHeader(userName: String = "", userImageUrl: String? = null, onProfileCli
             modifier = Modifier.padding(horizontal = SpaceSize.large),
             text = stringResource(Res.string.home_title_label),
             style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Spacer(modifier = Modifier.height(SpaceSize.medium))
@@ -83,14 +83,14 @@ fun HomeHeader(userName: String = "", userImageUrl: String? = null, onProfileCli
             modifier = Modifier.padding(horizontal = SpaceSize.large),
             text = stringResource(Res.string.home_subtitle_label),
             style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Spacer(Modifier.height(SpaceSize.xlarge))
 
         HomeSearchBar(
             searchQuery = "",
-            onQueryChange = {}
+            onQueryChange = {},
         )
 
         Spacer(Modifier.height(SpaceSize.large))

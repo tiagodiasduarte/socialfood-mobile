@@ -13,11 +13,7 @@ interface HomeRepository {
 
     suspend fun findById(id: String): Result<HomeSection>
 
-    suspend fun create(
-        title: String,
-        type: HomeSectionType,
-        position: Int,
-    ): Result<HomeSection>
+    suspend fun create(title: String, type: HomeSectionType, position: Int): Result<HomeSection>
 
     suspend fun update(
         id: String,
@@ -30,15 +26,7 @@ interface HomeRepository {
 
     suspend fun delete(id: String): Result<Boolean>
 
-    suspend fun addItem(
-        sectionId: String,
-        itemId: String,
-        itemType: HomeItemType,
-        position: Int,
-    ): Result<HomeSection>
+    suspend fun addItem(sectionId: String, itemId: String, itemType: HomeItemType, position: Int): Result<HomeSection>
 
-    suspend fun removeItem(
-        sectionId: String,
-        itemId: String,
-    ): Result<Boolean>
+    suspend fun removeItem(sectionId: String, itemId: String): Result<Boolean>
 }

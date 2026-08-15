@@ -33,10 +33,7 @@ import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun PlaceItem(
-    place: Place,
-    onAddClicked: (String) -> Unit,
-) {
+fun PlaceItem(place: Place, onAddClicked: (String) -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth().height(98.dp),
         shape = RoundedCornerShape(12.dp),
@@ -50,7 +47,6 @@ fun PlaceItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
         ) {
-
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),

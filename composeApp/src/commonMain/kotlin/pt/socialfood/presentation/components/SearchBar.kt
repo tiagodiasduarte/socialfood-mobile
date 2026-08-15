@@ -84,7 +84,7 @@ fun SearchBar(
             .border(
                 width = 1.dp,
                 color = Color(0xFFE5E7EB),
-                shape = RoundedCornerShape(25)
-            )
+                shape = RoundedCornerShape(25),
+            ),
     )
 }

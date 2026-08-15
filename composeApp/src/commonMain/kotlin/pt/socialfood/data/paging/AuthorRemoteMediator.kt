@@ -25,10 +25,9 @@ fun interface AuthorCacheTransactionRunner {
     suspend fun run(block: suspend () -> Unit)
 }
 
-fun AppDatabase.asAuthorCacheTransactionRunner(): AuthorCacheTransactionRunner =
-    AuthorCacheTransactionRunner { block ->
-        useWriterConnection { transactor -> transactor.immediateTransaction { block() } }
-    }
+fun AppDatabase.asAuthorCacheTransactionRunner(): AuthorCacheTransactionRunner = AuthorCacheTransactionRunner { block ->
+    useWriterConnection { transactor -> transactor.immediateTransaction { block() } }
+}
 
 @OptIn(ExperimentalPagingApi::class)
 class AuthorRemoteMediator(
@@ -39,10 +38,7 @@ class AuthorRemoteMediator(
 ) : RemoteMediator<Int, AuthorEntity>() {
 
     @Suppress("ReturnCount")
-    override suspend fun load(
-        loadType: LoadType,
-        state: PagingState<Int, AuthorEntity>,
-    ): MediatorResult {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, AuthorEntity>): MediatorResult {
         return try {
             val page = when (loadType) {
                 LoadType.REFRESH -> 1
@@ -90,7 +86,7 @@ class AuthorRemoteMediator(
                 AuthorRemoteKeyEntity(
                     nextPage = nextPage,
                     endOfPaginationReached = endOfPaginationReached,
-                )
+                ),
             )
         }
 

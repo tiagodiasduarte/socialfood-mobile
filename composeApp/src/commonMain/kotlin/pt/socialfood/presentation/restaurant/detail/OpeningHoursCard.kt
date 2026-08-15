@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.restaurant_detail_day_friday
 import socialfood.composeapp.generated.resources.restaurant_detail_day_monday
@@ -24,14 +26,9 @@ import socialfood.composeapp.generated.resources.restaurant_detail_day_sunday
 import socialfood.composeapp.generated.resources.restaurant_detail_day_thursday
 import socialfood.composeapp.generated.resources.restaurant_detail_day_tuesday
 import socialfood.composeapp.generated.resources.restaurant_detail_day_wednesday
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
-
 
 @Composable
-fun OpeningHoursCard(
-    openingHours: List<String>,
-) {
+fun OpeningHoursCard(openingHours: List<String>) {
     val map = openingHours.toOpeningHoursMap()
     Card(
         modifier = Modifier.fillMaxWidth().padding(horizontal = SpaceSize.large),
@@ -41,41 +38,41 @@ fun OpeningHoursCard(
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
-            modifier = Modifier.padding(SpaceSize.large)
+            modifier = Modifier.padding(SpaceSize.large),
         ) {
             DayItem(
                 weekDay = stringResource(Res.string.restaurant_detail_day_monday),
-                value = map["Monday"]
+                value = map["Monday"],
             )
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             DayItem(
                 weekDay = stringResource(Res.string.restaurant_detail_day_tuesday),
-                value = map["Tuesday"]
+                value = map["Tuesday"],
             )
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             DayItem(
                 weekDay = stringResource(Res.string.restaurant_detail_day_wednesday),
-                value = map["Wednesday"]
+                value = map["Wednesday"],
             )
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             DayItem(
                 weekDay = stringResource(Res.string.restaurant_detail_day_thursday),
-                value = map["Thursday"]
+                value = map["Thursday"],
             )
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             DayItem(
                 weekDay = stringResource(Res.string.restaurant_detail_day_friday),
-                value = map["Friday"]
+                value = map["Friday"],
             )
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             DayItem(
                 weekDay = stringResource(Res.string.restaurant_detail_day_saturday),
-                value = map["Saturday"]
+                value = map["Saturday"],
             )
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             DayItem(
                 weekDay = stringResource(Res.string.restaurant_detail_day_sunday),
-                value = map["Sunday"]
+                value = map["Sunday"],
             )
         }
     }
@@ -85,7 +82,7 @@ fun OpeningHoursCard(
 private fun DayItem(weekDay: String, value: String?) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
             text = weekDay,
@@ -123,8 +120,7 @@ private fun OpeningHoursCardPreview() {
                 "Friday: 12:00–15:00, 19:00–23:30",
                 "Saturday: 12:00–16:00, 19:00–23:30",
                 "Sunday: Closed",
-            )
+            ),
         )
     }
 }
-

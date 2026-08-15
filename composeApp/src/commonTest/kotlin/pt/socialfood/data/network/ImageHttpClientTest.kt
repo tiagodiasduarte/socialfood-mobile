@@ -25,7 +25,7 @@ class ImageHttpClientTest {
             authorizationHeaders += request.headers[HttpHeaders.Authorization]
             respond(
                 content = "true",
-                headers = headersOf(HttpHeaders.ContentType, "application/json")
+                headers = headersOf(HttpHeaders.ContentType, "application/json"),
             )
         }
         val client = ImageHttpClient(engine = engine).client
@@ -33,15 +33,14 @@ class ImageHttpClientTest {
     }
 
     @Test
-    fun `given an image request when sent through the client then no Authorization header is attached`() =
-        runTest {
-            // Given
-            val (client, authorizationHeaders) = createMockClient()
+    fun `given an image request when sent through the client then no Authorization header is attached`() = runTest {
+        // Given
+        val (client, authorizationHeaders) = createMockClient()
 
-            // When
-            client.get("https://images.socialfood.pt/guide-cover.jpg")
+        // When
+        client.get("https://images.socialfood.pt/guide-cover.jpg")
 
-            // Then
-            assertNull(authorizationHeaders.single())
-        }
+        // Then
+        assertNull(authorizationHeaders.single())
+    }
 }

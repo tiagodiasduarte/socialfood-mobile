@@ -162,7 +162,7 @@ fun GuidesScreenPreview() {
             description = "The finest dining experiences in the city",
             numberOfRestaurant = 8,
             author = Author(id = "u1", name = "Sarah M.", username = "sarahm"),
-            visibility = GuideVisibility.PUBLIC
+            visibility = GuideVisibility.PUBLIC,
         ),
         Guide(
             id = "2",
@@ -170,7 +170,7 @@ fun GuidesScreenPreview() {
             description = "Undiscovered culinary treasures",
             numberOfRestaurant = 12,
             author = Author(id = "u2", name = "Michael R.", username = "michaelr"),
-            visibility = GuideVisibility.PUBLIC
+            visibility = GuideVisibility.PUBLIC,
         ),
         Guide(
             id = "3",
@@ -178,7 +178,7 @@ fun GuidesScreenPreview() {
             description = "Romantic ambiance and exceptional cuisine",
             numberOfRestaurant = 6,
             author = Author(id = "u3", name = "Ana P.", username = "anap"),
-            visibility = GuideVisibility.PUBLIC
+            visibility = GuideVisibility.PUBLIC,
         ),
     )
     val guides = flowOf(PagingData.from(guideList)).collectAsLazyPagingItems()

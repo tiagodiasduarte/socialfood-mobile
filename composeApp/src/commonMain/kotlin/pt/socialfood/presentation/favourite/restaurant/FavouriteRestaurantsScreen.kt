@@ -31,9 +31,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.back_button_description
-import socialfood.composeapp.generated.resources.favourites_restaurants_title
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
@@ -41,6 +38,9 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.back_button_description
+import socialfood.composeapp.generated.resources.favourites_restaurants_title
 
 private const val LOAD_MORE_THRESHOLD = 10
 

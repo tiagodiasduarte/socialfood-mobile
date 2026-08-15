@@ -12,16 +12,16 @@
     <ID>LongMethod:EditProfilePlaceholder.kt$@Composable internal fun EditProfilePlaceholder()</ID>
     <ID>LongMethod:ErrorContent.kt$@Composable fun ErrorContent( modifier: Modifier = Modifier, errorCode: String? = null, backgroundColor: Color = GreyBackground, onRetryClick: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:FavoriteRestaurantCard.kt$@Composable fun FavoriteRestaurantCard( restaurant: Restaurant, modifier: Modifier = Modifier, onClick: () -&gt; Unit = {}, onRemoveClick: () -&gt; Unit = {}, )</ID>
-    <ID>LongMethod:GuideCard.kt$@Composable fun GuideCard( guide: Guide, width: Dp? = null, isFavourite: Boolean = false, onClick: () -&gt; Unit = {}, onFavouriteClick: (() -&gt; Unit)? = null, modifier: Modifier = Modifier )</ID>
+    <ID>LongMethod:GuideCard.kt$@Composable fun GuideCard( guide: Guide, width: Dp? = null, isFavourite: Boolean = false, onClick: () -&gt; Unit = {}, onFavouriteClick: (() -&gt; Unit)? = null, modifier: Modifier = Modifier, )</ID>
     <ID>LongMethod:GuideDetailPlaceholder.kt$@Composable fun GuideDetailPlaceholder(modifier: Modifier = Modifier)</ID>
     <ID>LongMethod:GuideDetailScreen.kt$@Composable @Preview fun GuideDetailScreenPreview()</ID>
     <ID>LongMethod:GuideDetailScreen.kt$@Composable private fun GuidInfo(guide: Guide)</ID>
     <ID>LongMethod:GuideDetailScreen.kt$@Composable private fun GuideDetailLoaded( guide: Guide, currentUserId: String?, isFavourite: Boolean, onEditClick: (id: String) -&gt; Unit, onBackClick: () -&gt; Unit, onRestaurantClick: (restaurantId: String) -&gt; Unit = {}, onAuthorClick: (authorId: String) -&gt; Unit = {}, onToggleFavourite: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:GuideDetailsCard.kt$@Composable fun GuideDetailsCard( modifier: Modifier = Modifier, title: String, description: String, titleError: Boolean, descriptionError: Boolean, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, imageUrl: String? = null, isUploadingPhoto: Boolean = false, onPickImage: () -&gt; Unit = {}, pendingImage: Pair&lt;ByteArray, String&gt;? = null, )</ID>
     <ID>LongMethod:GuideDetailsCard.kt$@Composable private fun CoverImagePicker( image: String?, pendingImage: Pair&lt;ByteArray, String&gt;?, isUploadingPhoto: Boolean, onPickImage: () -&gt; Unit, )</ID>
-    <ID>LongMethod:GuideRestaurantsCard.kt$@Composable fun GuideRestaurantsCard( restaurants: List&lt;Restaurant&gt;, onAddClick: () -&gt; Unit, onRemoveClick: (String) -&gt; Unit, )</ID>
+    <ID>LongMethod:GuideRestaurantsCard.kt$@Composable fun GuideRestaurantsCard(restaurants: List&lt;Restaurant&gt;, onAddClick: () -&gt; Unit, onRemoveClick: (String) -&gt; Unit)</ID>
     <ID>LongMethod:GuideStatusCard.kt$@Composable fun GuideStatusCard( visibility: GuideVisibility, restaurantCount: Int, hasImage: Boolean, onVisibilityChange: (GuideVisibility) -&gt; Unit, modifier: Modifier = Modifier, )</ID>
-    <ID>LongMethod:ProfilePictureCard.kt$@Composable fun ProfilePictureCard( state: EditProfileUiState.Loaded, onPhotoSelected: (ByteArray, String) -&gt; Unit, )</ID>
+    <ID>LongMethod:ProfilePictureCard.kt$@Composable fun ProfilePictureCard(state: EditProfileUiState.Loaded, onPhotoSelected: (ByteArray, String) -&gt; Unit)</ID>
     <ID>LongMethod:RestaurantCard.kt$@Composable fun RestaurantCard( restaurant: Restaurant, modifier: Modifier = Modifier, width: Dp? = null, isFavourite: Boolean = false, onClick: () -&gt; Unit = {}, onFavouriteClick: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:RestaurantDetailPlaceholder.kt$@Composable internal fun RestaurantDetailPlaceholder()</ID>
     <ID>LongMethod:RestaurantDetailScreen.kt$@Composable private fun RestaurantDetailLoaded( restaurant: Restaurant, isFavourite: Boolean, onBackClick: () -&gt; Unit, onToggleFavourite: () -&gt; Unit = {}, )</ID>

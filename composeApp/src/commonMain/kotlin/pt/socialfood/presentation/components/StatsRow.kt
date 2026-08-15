@@ -25,11 +25,7 @@ import socialfood.composeapp.generated.resources.profile_stat_following_label
 import socialfood.composeapp.generated.resources.profile_stat_guides_label
 
 @Composable
-fun StatsRow(
-    guidesCount: Int? = null,
-    followersCount: Int? = null,
-    followingCount: Int? = null,
-) {
+fun StatsRow(guidesCount: Int? = null, followersCount: Int? = null, followingCount: Int? = null) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
@@ -37,10 +33,10 @@ fun StatsRow(
         StatItem(value = guidesCount?.toString() ?: "-", label = stringResource(Res.string.profile_stat_guides_label))
         Box(
             modifier =
-                Modifier
-                    .padding(horizontal = SpaceSize.large)
-                    .size(width = 1.dp, height = 32.dp)
-                    .background(MaterialTheme.colorScheme.outlineVariant),
+            Modifier
+                .padding(horizontal = SpaceSize.large)
+                .size(width = 1.dp, height = 32.dp)
+                .background(MaterialTheme.colorScheme.outlineVariant),
         )
         StatItem(
             value = followersCount?.toString() ?: "-",
@@ -48,10 +44,10 @@ fun StatsRow(
         )
         Box(
             modifier =
-                Modifier
-                    .padding(horizontal = SpaceSize.large)
-                    .size(width = 1.dp, height = 32.dp)
-                    .background(MaterialTheme.colorScheme.outlineVariant),
+            Modifier
+                .padding(horizontal = SpaceSize.large)
+                .size(width = 1.dp, height = 32.dp)
+                .background(MaterialTheme.colorScheme.outlineVariant),
         )
         StatItem(
             value = followingCount?.toString() ?: "-",
@@ -61,10 +57,7 @@ fun StatsRow(
 }
 
 @Composable
-private fun StatItem(
-    value: String,
-    label: String,
-) {
+private fun StatItem(value: String, label: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(SpaceSize.small),

@@ -58,7 +58,7 @@ class RestaurantDetailViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given restaurant is not a favourite when toggleFavourite is called then flips isFavourite optimistically and calls mark`() =
         runTestWithMainDispatcher {
             // Given
@@ -132,8 +132,9 @@ class RestaurantDetailViewModelTest {
                 RestaurantDetailViewModel(
                     getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
                     isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
-                    markRestaurantFavourite =
-                        FakeMarkRestaurantFavouriteUseCase(Result.Failure(DataError.Network(Exception("test error")))),
+                    markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(
+                        Result.Failure(DataError.Network(Exception("test error"))),
+                    ),
                     unmarkRestaurantFavourite = FakeUnmarkRestaurantFavouriteUseCase(),
                     restaurantId = fakeRestaurant.id,
                 )

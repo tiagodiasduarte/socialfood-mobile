@@ -16,7 +16,7 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalCoroutinesApi::class)
 class StartupViewModelTest {
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given pendingVerificationEmail set and no token when loaded then emits NavigateToValidateCode without calling getUserMe or getConfigs`() =
         runTestWithMainDispatcher {
             // Given
@@ -56,7 +56,7 @@ class StartupViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given no pendingVerificationEmail and token and unverified user when loaded then emits NavigateToValidateCode`() =
         runTestWithMainDispatcher {
             // Given
@@ -99,7 +99,7 @@ class StartupViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given stale pendingVerificationEmail and valid token for verified user when loaded then emits NavigateToHome ignoring stale pending flag`() =
         runTestWithMainDispatcher {
             // Given

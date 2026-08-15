@@ -69,7 +69,7 @@ class GuidesViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given onTabSelected 1 is called before observeUser emits when observeUser later emits then guides is re-invoked with the resolved userId`() =
         runTestWithMainDispatcher {
             // Given
@@ -110,7 +110,7 @@ class GuidesViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given current user changes when observeUser emits a new user then guides is re-invoked with the new user id`() =
         runTestWithMainDispatcher {
             // Given
@@ -181,7 +181,7 @@ class GuidesViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given a guide is already favourited when onToggleGuideFavourite is called then unmarkGuideFavourite is invoked`() =
         runTestWithMainDispatcher {
             // Given

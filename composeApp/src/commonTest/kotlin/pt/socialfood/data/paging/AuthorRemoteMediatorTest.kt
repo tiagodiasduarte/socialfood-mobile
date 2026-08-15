@@ -121,7 +121,7 @@ class AuthorRemoteMediatorTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given cache has no next page key when APPEND load is triggered then returns Success with endOfPaginationReached true without calling the api`() =
         runTest {
             // Given
@@ -141,7 +141,7 @@ class AuthorRemoteMediatorTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given response page times limit is greater than or equal to total when load is triggered then endOfPaginationReached is true and the remote key reflects it`() =
         runTest {
             // Given
@@ -162,7 +162,7 @@ class AuthorRemoteMediatorTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given api throws when load is triggered then returns MediatorResult Error without clearing the existing cache`() =
         runTest {
             // Given
@@ -181,7 +181,7 @@ class AuthorRemoteMediatorTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given PREPEND load is triggered then returns Success with endOfPaginationReached true immediately without calling the api`() =
         runTest {
             // Given
@@ -200,7 +200,7 @@ class AuthorRemoteMediatorTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given cache is populated after a REFRESH load when read through a TestPager then the PagingSource surfaces the cached rows`() =
         runTest {
             // Given

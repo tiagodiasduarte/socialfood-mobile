@@ -103,7 +103,7 @@ class RestaurantsRepositoryImplTest {
     // findRestaurants
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given valid pagination params when findRestaurants is called then returns Success with PagedRestaurants and hasMore true`() =
         runTest {
             // Given
@@ -221,7 +221,7 @@ class RestaurantsRepositoryImplTest {
     // awaitEnrichedRestaurantByPlaceId
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given the restaurant is already enriched when awaitEnrichedRestaurantByPlaceId is called then returns Success without polling`() =
         runTest {
             // Given
@@ -238,7 +238,7 @@ class RestaurantsRepositoryImplTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given the restaurant is still enriching when awaitEnrichedRestaurantByPlaceId polls then it keeps polling until ready`() =
         runTest {
             // Given
@@ -254,7 +254,7 @@ class RestaurantsRepositoryImplTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given the restaurant never finishes enriching when awaitEnrichedRestaurantByPlaceId polls up to the cap then returns Error TIMEOUT`() =
         runTest {
             // Given

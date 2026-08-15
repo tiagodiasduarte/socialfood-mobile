@@ -168,47 +168,6 @@
         <error line="78" column="35" source="standard:trailing-comma-on-call-site" />
         <error line="84" column="35" source="standard:trailing-comma-on-call-site" />
     </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/data/paging/AuthorRemoteMediatorTest.kt">
-        <error line="125" column="121" source="standard:max-line-length" />
-        <error line="145" column="121" source="standard:max-line-length" />
-        <error line="166" column="121" source="standard:max-line-length" />
-        <error line="185" column="121" source="standard:max-line-length" />
-        <error line="204" column="121" source="standard:max-line-length" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/data/paging/GuideRemoteMediatorTest.kt">
-        <error line="78" column="121" source="standard:max-line-length" />
-        <error line="101" column="121" source="standard:max-line-length" />
-        <error line="146" column="121" source="standard:max-line-length" />
-        <error line="168" column="121" source="standard:max-line-length" />
-        <error line="189" column="121" source="standard:max-line-length" />
-        <error line="208" column="121" source="standard:max-line-length" />
-        <error line="227" column="121" source="standard:max-line-length" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/data/repository/AuthorsRepositoryImplTest.kt">
-        <error line="30" column="121" source="standard:max-line-length" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/data/repository/FavouriteRestaurantsRepositoryImplTest.kt">
-        <error line="166" column="121" source="standard:max-line-length" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/data/repository/FavouritesGuidesRepositoryImplTest.kt">
-        <error line="162" column="121" source="standard:max-line-length" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/data/repository/GuidesRepositoryImplTest.kt">
-        <error line="118" column="121" source="standard:max-line-length" />
-        <error line="359" column="121" source="standard:max-line-length" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/data/repository/RestaurantsRepositoryImplTest.kt">
-        <error line="107" column="121" source="standard:max-line-length" />
-        <error line="225" column="121" source="standard:max-line-length" />
-        <error line="242" column="121" source="standard:max-line-length" />
-        <error line="258" column="121" source="standard:max-line-length" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/data/repository/UsersRepositoryImplTest.kt">
-        <error line="54" column="121" source="standard:max-line-length" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/domain/usecase/login/RestartSignUpUseCaseImplTest.kt">
-        <error line="13" column="121" source="standard:max-line-length" />
-    </file>
     <file name="src/commonTest/kotlin/pt/socialfood/fakes/FakeFavouriteRestaurantsRepository.kt">
         <error line="12" column="98" source="standard:trailing-comma-on-call-site" />
     </file>
@@ -216,31 +175,11 @@
         <error line="17" column="18" source="standard:trailing-comma-on-call-site" />
         <error line="18" column="14" source="standard:trailing-comma-on-call-site" />
     </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/presentation/guide/GuidesViewModelTest.kt">
-        <error line="73" column="121" source="standard:max-line-length" />
-        <error line="114" column="121" source="standard:max-line-length" />
-        <error line="185" column="121" source="standard:max-line-length" />
-    </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/guide/detail/GuideDetailViewModelTest.kt">
-        <error line="62" column="121" source="standard:max-line-length" />
         <error line="139" column="1" source="standard:indent" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/presentation/restaurant/detail/RestaurantDetailViewModelTest.kt">
-        <error line="62" column="121" source="standard:max-line-length" />
         <error line="136" column="1" source="standard:indent" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/presentation/restaurant/search/SearchRestaurantsViewModelTest.kt">
-        <error line="24" column="121" source="standard:max-line-length" />
-        <error line="48" column="121" source="standard:max-line-length" />
-        <error line="68" column="121" source="standard:max-line-length" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/presentation/startup/StartupViewModelTest.kt">
-        <error line="20" column="121" source="standard:max-line-length" />
-        <error line="60" column="121" source="standard:max-line-length" />
-        <error line="103" column="121" source="standard:max-line-length" />
-    </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/presentation/validatecode/ValidateCodeViewModelTest.kt">
-        <error line="118" column="121" source="standard:max-line-length" />
     </file>
     <file name="src/commonTest/kotlin/pt/socialfood/runner/runTestWithMainDispatcher.kt">
         <error line="1" column="1" source="standard:filename" />

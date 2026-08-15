@@ -74,7 +74,7 @@ class GuideRemoteMediatorTest {
     )
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given empty cache when REFRESH load is triggered then fetches page 1 and upserts into GuideDao for the scope`() =
         runTest {
             // Given
@@ -97,7 +97,7 @@ class GuideRemoteMediatorTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given REFRESH succeeds when load completes then old cached rows and remote key for the scope are replaced not merged`() =
         runTest {
             // Given
@@ -142,7 +142,7 @@ class GuideRemoteMediatorTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given cache has no next page key when APPEND load is triggered then returns Success with endOfPaginationReached true without calling the api`() =
         runTest {
             // Given
@@ -164,7 +164,7 @@ class GuideRemoteMediatorTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given response page times limit is greater than or equal to total when load is triggered then endOfPaginationReached is true and the remote key reflects it`() =
         runTest {
             // Given
@@ -185,7 +185,7 @@ class GuideRemoteMediatorTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given api throws when load is triggered then returns MediatorResult Error without clearing the existing cache`() =
         runTest {
             // Given
@@ -204,7 +204,7 @@ class GuideRemoteMediatorTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given PREPEND load is triggered then returns Success with endOfPaginationReached true immediately without calling the api`() =
         runTest {
             // Given
@@ -223,7 +223,7 @@ class GuideRemoteMediatorTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given cache is populated after a REFRESH load when read through a TestPager then the PagingSource surfaces the cached rows`() =
         runTest {
             // Given

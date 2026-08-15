@@ -50,7 +50,7 @@ class UsersRepositoryImplTest {
     // findUsers
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given valid pagination params when findUsers is called then returns Success with PagedUsers and correct hasMore flag`() =
         runTest {
             // Given

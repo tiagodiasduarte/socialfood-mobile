@@ -158,6 +158,27 @@ class RestaurantVisitStatusRepositoryImplTest {
     }
 
     @Test
+    fun `given a restaurant exists as VISITED when sync reports it as WISH then changes its state`() = runTest {
+        // Given
+        val api = FakeRestaurantVisitStatusApi()
+        val (repo, dao, settings) = createRepository(api = api)
+        val existingId = api.fakeRestaurants.items.first().id
+        val existingRestaurant = Random.nextRestaurant(id = existingId)
+        dao.upsert(existingRestaurant.toRestaurantVisitEntityForTest(VisitStatus.VISITED, SyncState.SYNCED))
+        settings.saveLastRestaurantVisitStatusSyncAttemptAt(VisitStatus.WISH, 0L)
+
+        // When
+        val result = repo.sync(VisitStatus.WISH)
+
+        // Then
+        assertIs<Result.Success<Unit>>(result)
+        val stored = dao.getByRestaurantId(existingId)
+        assertEquals(VisitStatus.WISH.name, stored?.status)
+        assertEquals(1, dao.getPaged(status = VisitStatus.WISH.name, limit = 10, offset = 0).size)
+        assertTrue(dao.getPaged(status = VisitStatus.VISITED.name, limit = 10, offset = 0).isEmpty())
+    }
+
+    @Test
     fun `given DAO write throws when sync is called then does not advance syncedAt`() = runTest {
         // Given
         val status = Random.nextEnum<VisitStatus>()

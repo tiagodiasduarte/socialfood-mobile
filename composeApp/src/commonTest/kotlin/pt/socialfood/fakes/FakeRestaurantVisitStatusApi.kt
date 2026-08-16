@@ -27,7 +27,7 @@ class FakeRestaurantVisitStatusApi(private val shouldThrow: Boolean = false) : R
     )
 
     var fakeSyncResponse = RestaurantVisitStatusSyncResponse(
-        addedIds = listOf(fakeRestaurantResponse.id),
+        updated = emptyList(),
         removedIds = emptyList(),
         syncedAt = "2026-08-01T10:30:00Z",
     )
@@ -49,6 +49,10 @@ class FakeRestaurantVisitStatusApi(private val shouldThrow: Boolean = false) : R
 
     override suspend fun sync(status: VisitStatus, since: String?): RestaurantVisitStatusSyncResponse {
         if (shouldThrow) throw IOException("test error")
-        return fakeSyncResponse
+        return fakeSyncResponse.copy(
+            updated = listOf(
+                RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(fakeRestaurantResponse.id, status),
+            ),
+        )
     }
 }

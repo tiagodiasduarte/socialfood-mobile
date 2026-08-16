@@ -109,7 +109,7 @@ class RestaurantVisitStatusRepositoryImpl(
                 is Result.Success -> result.data
             }
 
-            val applyResult = applyChanges(status, changes)
+            val applyResult = applyChanges(changes)
             if (applyResult is Result.Failure) return applyResult
 
             settingsRepository.saveLastRestaurantVisitStatusSyncedAt(status, changes.syncedAt)
@@ -155,33 +155,39 @@ class RestaurantVisitStatusRepositoryImpl(
         }
     }
 
-    private suspend fun applyChanges(status: VisitStatus, changes: RestaurantVisitStatusSyncResponse): Result<Unit> {
+    private suspend fun applyChanges(changes: RestaurantVisitStatusSyncResponse): Result<Unit> {
         if (changes.removedIds.isNotEmpty()) {
             restaurantVisitStatusDao.deleteByRestaurantIds(changes.removedIds)
         }
 
-        if (changes.addedIds.isNotEmpty()) {
-            val addedIds = changes.addedIds.toSet()
-            val now = currentTimeMillis()
-            val fetchResult = safeApiCall {
-                restaurantVisitStatusApi.find(status = status, page = 1, limit = MAX_RESTAURANT_VISITS_FETCH)
-            }
-            val allVisited = when (fetchResult) {
-                is Result.Failure -> return fetchResult
-                is Result.Success -> fetchResult.data
-            }
-            val toUpsert = allVisited.items
-                .filter { it.id in addedIds }
-                .map {
-                    it.toRestaurant().toRestaurantVisitStatusEntity(
-                        status = status,
-                        recordedAt = now,
-                        syncState = SyncState.SYNCED,
-                    )
-                }
-            restaurantVisitStatusDao.upsertAll(toUpsert)
+        val updatedByStatus = changes.updated.groupBy({ it.status }, { it.restaurantId })
+        for ((entryStatus, restaurantIds) in updatedByStatus) {
+            val applyResult = applyUpdatedForStatus(entryStatus, restaurantIds.toSet())
+            if (applyResult is Result.Failure) return applyResult
         }
 
+        return Result.Success(Unit)
+    }
+
+    private suspend fun applyUpdatedForStatus(status: VisitStatus, restaurantIds: Set<String>): Result<Unit> {
+        val now = currentTimeMillis()
+        val fetchResult = safeApiCall {
+            restaurantVisitStatusApi.find(status = status, page = 1, limit = MAX_RESTAURANT_VISITS_FETCH)
+        }
+        val fetched = when (fetchResult) {
+            is Result.Failure -> return fetchResult
+            is Result.Success -> fetchResult.data
+        }
+        val toUpsert = fetched.items
+            .filter { it.id in restaurantIds }
+            .map {
+                it.toRestaurant().toRestaurantVisitStatusEntity(
+                    status = status,
+                    recordedAt = now,
+                    syncState = SyncState.SYNCED,
+                )
+            }
+        restaurantVisitStatusDao.upsertAll(toUpsert)
         return Result.Success(Unit)
     }
 

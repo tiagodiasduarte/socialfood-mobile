@@ -1,5 +1,7 @@
 package pt.socialfood.domain.repository
 
+import pt.socialfood.domain.model.VisitStatus
+
 @Suppress("TooManyFunctions")
 interface SettingsRepository {
     suspend fun getToken(): String?
@@ -21,4 +23,10 @@ interface SettingsRepository {
 
     suspend fun getLastFavouriteRestaurantsSyncAttemptAt(): Long?
     suspend fun saveLastFavouriteRestaurantsSyncAttemptAt(timestamp: Long)
+
+    suspend fun getLastRestaurantVisitStatusSyncedAt(status: VisitStatus): String?
+    suspend fun saveLastRestaurantVisitStatusSyncedAt(status: VisitStatus, syncedAt: String)
+
+    suspend fun getLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus): Long?
+    suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus, timestamp: Long)
 }

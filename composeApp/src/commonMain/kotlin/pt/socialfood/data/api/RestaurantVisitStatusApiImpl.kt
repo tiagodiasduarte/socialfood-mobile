@@ -8,7 +8,7 @@ import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
-import pt.socialfood.data.network.model.restaurantvisit.RestaurantVisitSyncResponse
+import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.domain.model.VisitStatus
 
 private val VisitStatus.pathSegment: String
@@ -17,7 +17,7 @@ private val VisitStatus.pathSegment: String
         VisitStatus.VISITED -> "visited"
     }
 
-class RestaurantVisitsApiImpl(private val client: HttpClient) : RestaurantVisitsApi {
+class RestaurantVisitStatusApiImpl(private val client: HttpClient) : RestaurantVisitStatusApi {
 
     override suspend fun mark(restaurantId: String, status: VisitStatus) {
         client.post("me/restaurants/${status.pathSegment}/$restaurantId")
@@ -33,7 +33,7 @@ class RestaurantVisitsApiImpl(private val client: HttpClient) : RestaurantVisits
             parameter("limit", limit)
         }.body()
 
-    override suspend fun sync(status: VisitStatus, since: String?): RestaurantVisitSyncResponse =
+    override suspend fun sync(status: VisitStatus, since: String?): RestaurantVisitStatusSyncResponse =
         client.get("me/restaurants/${status.pathSegment}/sync") {
             if (!since.isNullOrBlank()) parameter("since", since)
         }.body()

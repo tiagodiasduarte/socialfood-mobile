@@ -1,30 +1,30 @@
-package pt.socialfood.domain.usecase.restaurantvisit
+package pt.socialfood.domain.usecase.restaurantvisitstatus
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.PagedRestaurantVisits
 import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.fakes.FakeRestaurantVisitsRepository
+import pt.socialfood.fakes.FakeRestaurantVisitStatusRepository
 import pt.socialfood.random.nextEnum
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
-class GetRestaurantVisitsUseCaseImplTest {
+class GetRestaurantVisitStatusUseCaseImplTest {
     @Test
     fun `given repository succeeds when invoked then delegates status and returns Success`() = runTest {
         // Given
         val status = Random.nextEnum<VisitStatus>()
         val repository =
-            FakeRestaurantVisitsRepository(
+            FakeRestaurantVisitStatusRepository(
                 pagedResult =
                 Result.Success(
                     PagedRestaurantVisits(visits = emptyList(), page = 1, total = 0, hasMore = false),
                 ),
             )
-        val useCase = GetRestaurantVisitsUseCaseImpl(repository)
+        val useCase = GetRestaurantVisitStatusUseCaseImpl(repository)
 
         // When
         val result = useCase(status = status, page = 1, limit = 10)
@@ -38,10 +38,10 @@ class GetRestaurantVisitsUseCaseImplTest {
     fun `given repository fails when invoked then returns Error`() = runTest {
         // Given
         val repository =
-            FakeRestaurantVisitsRepository(
+            FakeRestaurantVisitStatusRepository(
                 pagedResult = Result.Failure(DataError.Network(Exception("test error"))),
             )
-        val useCase = GetRestaurantVisitsUseCaseImpl(repository)
+        val useCase = GetRestaurantVisitStatusUseCaseImpl(repository)
 
         // When
         val result = useCase(status = Random.nextEnum(), page = 1, limit = 10)

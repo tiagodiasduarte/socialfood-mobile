@@ -1,8 +1,8 @@
-package pt.socialfood.domain.usecase.restaurantvisit
+package pt.socialfood.domain.usecase.restaurantvisitstatus
 
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.VisitStatus
 
-interface UnmarkRestaurantVisitUseCase {
+interface UnmarkRestaurantVisitStatusUseCase {
     suspend operator fun invoke(restaurantId: String, status: VisitStatus): Result<Unit>
 }

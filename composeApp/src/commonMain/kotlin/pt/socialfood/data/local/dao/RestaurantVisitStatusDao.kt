@@ -4,16 +4,16 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import pt.socialfood.data.local.entity.RESTAURANT_VISITS_TABLE
-import pt.socialfood.data.local.entity.RestaurantVisitEntity
+import pt.socialfood.data.local.entity.RestaurantVisitStatusEntity
 
 @Dao
-interface RestaurantVisitDao {
+interface RestaurantVisitStatusDao {
 
     @Upsert
-    suspend fun upsert(visit: RestaurantVisitEntity)
+    suspend fun upsert(visit: RestaurantVisitStatusEntity)
 
     @Upsert
-    suspend fun upsertAll(visits: List<RestaurantVisitEntity>)
+    suspend fun upsertAll(visits: List<RestaurantVisitStatusEntity>)
 
     @Query("DELETE FROM $RESTAURANT_VISITS_TABLE WHERE restaurantId = :restaurantId")
     suspend fun deleteByRestaurantId(restaurantId: String)
@@ -25,16 +25,16 @@ interface RestaurantVisitDao {
         "SELECT * FROM $RESTAURANT_VISITS_TABLE WHERE status = :status " +
             "ORDER BY recordedAt DESC LIMIT :limit OFFSET :offset",
     )
-    suspend fun getPaged(status: String, limit: Int, offset: Int): List<RestaurantVisitEntity>
+    suspend fun getPaged(status: String, limit: Int, offset: Int): List<RestaurantVisitStatusEntity>
 
     @Query("SELECT COUNT(*) FROM $RESTAURANT_VISITS_TABLE WHERE status = :status")
     suspend fun countAll(status: String): Int
 
     @Query("SELECT * FROM $RESTAURANT_VISITS_TABLE WHERE restaurantId = :restaurantId LIMIT 1")
-    suspend fun getByRestaurantId(restaurantId: String): RestaurantVisitEntity?
+    suspend fun getByRestaurantId(restaurantId: String): RestaurantVisitStatusEntity?
 
     @Query("SELECT * FROM $RESTAURANT_VISITS_TABLE WHERE status = :status AND syncState != 'SYNCED'")
-    suspend fun getPending(status: String): List<RestaurantVisitEntity>
+    suspend fun getPending(status: String): List<RestaurantVisitStatusEntity>
 
     @Query("UPDATE $RESTAURANT_VISITS_TABLE SET syncState = :syncState WHERE restaurantId = :restaurantId")
     suspend fun updateSyncState(restaurantId: String, syncState: String)

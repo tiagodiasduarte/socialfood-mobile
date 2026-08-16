@@ -10,7 +10,7 @@ const val RESTAURANT_VISITS_TABLE = "restaurant_visits"
  * visited. A restaurant has at most one row here at a time — [status] tracks which.
  */
 @Entity(tableName = RESTAURANT_VISITS_TABLE)
-data class RestaurantVisitEntity(
+data class RestaurantVisitStatusEntity(
     @PrimaryKey val restaurantId: String,
     val name: String,
     val description: String?,
@@ -27,6 +27,6 @@ data class RestaurantVisitEntity(
     /** One of [pt.socialfood.domain.model.VisitStatus]'s `name`s. */
     val status: String,
     val recordedAt: Long,
-    /** One of [RestaurantVisitSyncState]'s `name`s. Stored as a raw String to avoid a Room TypeConverter. */
+    /** One of [RestaurantVisitStatusSyncState]'s `name`s. Stored as a raw String to avoid a Room TypeConverter. */
     val syncState: String,
 )

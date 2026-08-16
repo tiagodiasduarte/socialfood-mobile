@@ -2,14 +2,14 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
-import pt.socialfood.data.local.entity.RestaurantVisitSyncState
+import pt.socialfood.data.local.entity.RestaurantVisitStatusSyncState
 import pt.socialfood.domain.model.PagedRestaurantVisits
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.fakes.FakeRestaurantVisitDao
-import pt.socialfood.fakes.FakeRestaurantVisitsApi
+import pt.socialfood.fakes.FakeRestaurantVisitStatusApi
+import pt.socialfood.fakes.FakeRestaurantVisitStatusDao
 import pt.socialfood.fakes.FakeSettingsRepository
-import pt.socialfood.mapper.toRestaurantVisitEntity
+import pt.socialfood.mapper.toRestaurantVisitStatusEntity
 import pt.socialfood.random.nextEnum
 import kotlin.random.Random
 import kotlin.test.Test
@@ -19,7 +19,7 @@ import kotlin.test.assertTrue
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
-class RestaurantVisitsRepositoryImplTest {
+class RestaurantVisitStatusRepositoryImplTest {
     private val fakeRestaurant =
         Restaurant(
             id = "restaurant-id",
@@ -41,11 +41,11 @@ class RestaurantVisitsRepositoryImplTest {
     private fun now(): Long = Clock.System.now().toEpochMilliseconds()
 
     private fun createRepository(
-        api: FakeRestaurantVisitsApi = FakeRestaurantVisitsApi(),
-        dao: FakeRestaurantVisitDao = FakeRestaurantVisitDao(),
+        api: FakeRestaurantVisitStatusApi = FakeRestaurantVisitStatusApi(),
+        dao: FakeRestaurantVisitStatusDao = FakeRestaurantVisitStatusDao(),
         settings: FakeSettingsRepository = FakeSettingsRepository(),
-    ): Triple<RestaurantVisitsRepositoryImpl, FakeRestaurantVisitDao, FakeSettingsRepository> =
-        Triple(RestaurantVisitsRepositoryImpl(api, dao, settings), dao, settings)
+    ): Triple<RestaurantVisitStatusRepositoryImpl, FakeRestaurantVisitStatusDao, FakeSettingsRepository> =
+        Triple(RestaurantVisitStatusRepositoryImpl(api, dao, settings), dao, settings)
 
     // mark
 
@@ -61,7 +61,7 @@ class RestaurantVisitsRepositoryImplTest {
         // Then
         assertIs<Result.Success<Unit>>(result)
         val stored = dao.getByRestaurantId(fakeRestaurant.id)
-        assertEquals(RestaurantVisitSyncState.SYNCED.name, stored?.syncState)
+        assertEquals(RestaurantVisitStatusSyncState.SYNCED.name, stored?.syncState)
         assertEquals(status.name, stored?.status)
     }
 
@@ -69,7 +69,7 @@ class RestaurantVisitsRepositoryImplTest {
     fun `given api throws when mark is called then still returns Success with entity left PENDING_ADD`() = runTest {
         // Given
         val status = Random.nextEnum<VisitStatus>()
-        val (repo, dao, _) = createRepository(api = FakeRestaurantVisitsApi(shouldThrow = true))
+        val (repo, dao, _) = createRepository(api = FakeRestaurantVisitStatusApi(shouldThrow = true))
 
         // When
         val result = repo.mark(fakeRestaurant, status)
@@ -77,7 +77,7 @@ class RestaurantVisitsRepositoryImplTest {
         // Then
         assertIs<Result.Success<Unit>>(result)
         val stored = dao.getByRestaurantId(fakeRestaurant.id)
-        assertEquals(RestaurantVisitSyncState.PENDING_ADD.name, stored?.syncState)
+        assertEquals(RestaurantVisitStatusSyncState.PENDING_ADD.name, stored?.syncState)
     }
 
     // unmark
@@ -87,7 +87,7 @@ class RestaurantVisitsRepositoryImplTest {
         // Given
         val status = Random.nextEnum<VisitStatus>()
         val (repo, dao, _) = createRepository()
-        dao.upsert(fakeRestaurant.toRestaurantVisitEntityForTest(status, RestaurantVisitSyncState.SYNCED))
+        dao.upsert(fakeRestaurant.toRestaurantVisitEntityForTest(status, RestaurantVisitStatusSyncState.SYNCED))
 
         // When
         val result = repo.unmark(fakeRestaurant.id, status)
@@ -102,8 +102,8 @@ class RestaurantVisitsRepositoryImplTest {
         runTest {
             // Given
             val status = Random.nextEnum<VisitStatus>()
-            val (repo, dao, _) = createRepository(api = FakeRestaurantVisitsApi(shouldThrow = true))
-            dao.upsert(fakeRestaurant.toRestaurantVisitEntityForTest(status, RestaurantVisitSyncState.SYNCED))
+            val (repo, dao, _) = createRepository(api = FakeRestaurantVisitStatusApi(shouldThrow = true))
+            dao.upsert(fakeRestaurant.toRestaurantVisitEntityForTest(status, RestaurantVisitStatusSyncState.SYNCED))
 
             // When
             val result = repo.unmark(fakeRestaurant.id, status)
@@ -111,7 +111,7 @@ class RestaurantVisitsRepositoryImplTest {
             // Then
             assertIs<Result.Success<Unit>>(result)
             val stored = dao.getByRestaurantId(fakeRestaurant.id)
-            assertEquals(RestaurantVisitSyncState.PENDING_REMOVE.name, stored?.syncState)
+            assertEquals(RestaurantVisitStatusSyncState.PENDING_REMOVE.name, stored?.syncState)
         }
 
     // getPaged
@@ -120,8 +120,8 @@ class RestaurantVisitsRepositoryImplTest {
     fun `given cached visits when getPaged is called then reads from DAO only and never calls the API`() = runTest {
         // Given
         val status = Random.nextEnum<VisitStatus>()
-        val (repo, dao, _) = createRepository(api = FakeRestaurantVisitsApi(shouldThrow = true))
-        dao.upsert(fakeRestaurant.toRestaurantVisitEntityForTest(status, RestaurantVisitSyncState.SYNCED))
+        val (repo, dao, _) = createRepository(api = FakeRestaurantVisitStatusApi(shouldThrow = true))
+        dao.upsert(fakeRestaurant.toRestaurantVisitEntityForTest(status, RestaurantVisitStatusSyncState.SYNCED))
 
         // When
         val result = repo.getPaged(status = status, page = 1, limit = 10)
@@ -142,7 +142,7 @@ class RestaurantVisitsRepositoryImplTest {
         // Given
         val (repo, dao, _) = createRepository()
         dao.upsert(
-            fakeRestaurant.toRestaurantVisitEntityForTest(VisitStatus.WISH, RestaurantVisitSyncState.SYNCED),
+            fakeRestaurant.toRestaurantVisitEntityForTest(VisitStatus.WISH, RestaurantVisitStatusSyncState.SYNCED),
         )
 
         // When
@@ -175,7 +175,7 @@ class RestaurantVisitsRepositoryImplTest {
     fun `given DAO write throws when sync is called then does not advance syncedAt`() = runTest {
         // Given
         val status = Random.nextEnum<VisitStatus>()
-        val (repo, _, settings) = createRepository(dao = FakeRestaurantVisitDao(shouldThrowOnWrite = true))
+        val (repo, _, settings) = createRepository(dao = FakeRestaurantVisitStatusDao(shouldThrowOnWrite = true))
         settings.saveLastRestaurantVisitSyncAttemptAt(status, 0L)
 
         // When
@@ -192,7 +192,7 @@ class RestaurantVisitsRepositoryImplTest {
         runTest {
             // Given
             val status = Random.nextEnum<VisitStatus>()
-            val (repo, _, settings) = createRepository(api = FakeRestaurantVisitsApi(shouldThrow = true))
+            val (repo, _, settings) = createRepository(api = FakeRestaurantVisitStatusApi(shouldThrow = true))
             settings.saveLastRestaurantVisitSyncAttemptAt(status, now())
 
             // When
@@ -234,8 +234,8 @@ class RestaurantVisitsRepositoryImplTest {
 }
 
 @OptIn(ExperimentalTime::class)
-private fun Restaurant.toRestaurantVisitEntityForTest(status: VisitStatus, syncState: RestaurantVisitSyncState) =
-    this.toRestaurantVisitEntity(
+private fun Restaurant.toRestaurantVisitEntityForTest(status: VisitStatus, syncState: RestaurantVisitStatusSyncState) =
+    this.toRestaurantVisitStatusEntity(
         status = status,
         recordedAt = Clock.System.now().toEpochMilliseconds(),
         syncState = syncState,

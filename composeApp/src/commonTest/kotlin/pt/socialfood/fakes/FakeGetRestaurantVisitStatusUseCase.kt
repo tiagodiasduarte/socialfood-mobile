@@ -3,13 +3,13 @@ package pt.socialfood.fakes
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.PagedRestaurantVisits
 import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.domain.usecase.restaurantvisit.GetRestaurantVisitsUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusUseCase
 
-class FakeGetRestaurantVisitsUseCase(
+class FakeGetRestaurantVisitStatusUseCase(
     private val result: (page: Int) -> Result<PagedRestaurantVisits> = {
         Result.Success(PagedRestaurantVisits(visits = emptyList(), page = it, total = 0, hasMore = false))
     },
-) : GetRestaurantVisitsUseCase {
+) : GetRestaurantVisitStatusUseCase {
     var invokeCount: Int = 0
         private set
     var lastStatus: VisitStatus? = null

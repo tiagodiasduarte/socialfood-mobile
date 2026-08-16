@@ -5,7 +5,7 @@ import pt.socialfood.domain.model.PagedRestaurantVisits
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 
-interface RestaurantVisitsRepository {
+interface RestaurantVisitStatusRepository {
     suspend fun mark(restaurant: Restaurant, status: VisitStatus): Result<Unit>
 
     suspend fun unmark(restaurantId: String, status: VisitStatus): Result<Unit>

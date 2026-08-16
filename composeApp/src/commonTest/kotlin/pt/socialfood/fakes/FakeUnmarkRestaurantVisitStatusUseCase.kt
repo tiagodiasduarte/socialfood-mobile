@@ -2,10 +2,10 @@ package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.domain.usecase.restaurantvisit.UnmarkRestaurantVisitUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.UnmarkRestaurantVisitStatusUseCase
 
-class FakeUnmarkRestaurantVisitUseCase(private val result: Result<Unit> = Result.Success(Unit)) :
-    UnmarkRestaurantVisitUseCase {
+class FakeUnmarkRestaurantVisitStatusUseCase(private val result: Result<Unit> = Result.Success(Unit)) :
+    UnmarkRestaurantVisitStatusUseCase {
     var lastUnmarkedRestaurantId: String? = null
         private set
     var lastStatus: VisitStatus? = null

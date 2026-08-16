@@ -11,7 +11,7 @@ import pt.socialfood.data.network.ConnectivityObserver
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.usecase.favourite.SyncFavouriteRestaurantsUseCase
 import pt.socialfood.domain.usecase.favourite.SyncFavouritesUseCase
-import pt.socialfood.domain.usecase.restaurantvisit.SyncRestaurantVisitsUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.SyncRestaurantVisitStatusUseCase
 
 /**
  * Triggers a (debounced, incremental) favourites and restaurant-visit (wish/visited) sync —
@@ -21,7 +21,7 @@ import pt.socialfood.domain.usecase.restaurantvisit.SyncRestaurantVisitsUseCase
 fun FavouritesSyncEffect(
     syncFavourites: SyncFavouritesUseCase = koinInject(),
     syncFavouriteRestaurants: SyncFavouriteRestaurantsUseCase = koinInject(),
-    syncRestaurantVisits: SyncRestaurantVisitsUseCase = koinInject(),
+    syncRestaurantVisits: SyncRestaurantVisitStatusUseCase = koinInject(),
     connectivityObserver: ConnectivityObserver = koinInject(),
 ) {
     val scope = rememberCoroutineScope()

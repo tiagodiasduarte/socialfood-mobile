@@ -1,12 +1,12 @@
 package pt.socialfood.mapper
 
-import pt.socialfood.data.local.entity.RestaurantVisitEntity
-import pt.socialfood.data.local.entity.RestaurantVisitSyncState
+import pt.socialfood.data.local.entity.RestaurantVisitStatusEntity
+import pt.socialfood.data.local.entity.RestaurantVisitStatusSyncState
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
 
-fun RestaurantVisitEntity.toRestaurant(): Restaurant = Restaurant(
+fun RestaurantVisitStatusEntity.toRestaurant(): Restaurant = Restaurant(
     id = this.restaurantId,
     name = this.name,
     description = this.description,
@@ -22,17 +22,17 @@ fun RestaurantVisitEntity.toRestaurant(): Restaurant = Restaurant(
     phoneNumber = this.phoneNumber,
 )
 
-fun RestaurantVisitEntity.toRestaurantVisitStatus(): RestaurantVisitStatus = RestaurantVisitStatus(
+fun RestaurantVisitStatusEntity.toRestaurantVisitStatus(): RestaurantVisitStatus = RestaurantVisitStatus(
     restaurant = this.toRestaurant(),
     status = VisitStatus.valueOf(this.status),
     recordedAt = this.recordedAt,
 )
 
-fun Restaurant.toRestaurantVisitEntity(
+fun Restaurant.toRestaurantVisitStatusEntity(
     status: VisitStatus,
     recordedAt: Long,
-    syncState: RestaurantVisitSyncState,
-): RestaurantVisitEntity = RestaurantVisitEntity(
+    syncState: RestaurantVisitStatusSyncState,
+): RestaurantVisitStatusEntity = RestaurantVisitStatusEntity(
     restaurantId = this.id,
     name = this.name,
     description = this.description,

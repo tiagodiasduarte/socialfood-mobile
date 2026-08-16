@@ -26,8 +26,8 @@ import pt.socialfood.data.api.PlacesApi
 import pt.socialfood.data.api.PlacesApiImpl
 import pt.socialfood.data.api.RestaurantApi
 import pt.socialfood.data.api.RestaurantApiImpl
-import pt.socialfood.data.api.RestaurantVisitsApi
-import pt.socialfood.data.api.RestaurantVisitsApiImpl
+import pt.socialfood.data.api.RestaurantVisitStatusApi
+import pt.socialfood.data.api.RestaurantVisitStatusApiImpl
 import pt.socialfood.data.api.S3Api
 import pt.socialfood.data.api.S3ApiImpl
 import pt.socialfood.data.api.SearchApi
@@ -51,7 +51,7 @@ import pt.socialfood.data.repository.GuidesRepositoryImpl
 import pt.socialfood.data.repository.HomeRepositoryImpl
 import pt.socialfood.data.repository.PhotosRepositoryImpl
 import pt.socialfood.data.repository.PlacesRepositoryImpl
-import pt.socialfood.data.repository.RestaurantVisitsRepositoryImpl
+import pt.socialfood.data.repository.RestaurantVisitStatusRepositoryImpl
 import pt.socialfood.data.repository.RestaurantsRepositoryImpl
 import pt.socialfood.data.repository.SearchRepositoryImpl
 import pt.socialfood.data.repository.UsersRepositoryImpl
@@ -64,7 +64,7 @@ import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.repository.HomeRepository
 import pt.socialfood.domain.repository.PhotosRepository
 import pt.socialfood.domain.repository.PlacesRepository
-import pt.socialfood.domain.repository.RestaurantVisitsRepository
+import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.domain.repository.SearchRepository
 import pt.socialfood.domain.repository.UsersRepository
@@ -166,14 +166,14 @@ import pt.socialfood.domain.usecase.restaurant.GetRestaurantsUseCase
 import pt.socialfood.domain.usecase.restaurant.GetRestaurantsUseCaseImpl
 import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCase
 import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCaseImpl
-import pt.socialfood.domain.usecase.restaurantvisit.GetRestaurantVisitsUseCase
-import pt.socialfood.domain.usecase.restaurantvisit.GetRestaurantVisitsUseCaseImpl
-import pt.socialfood.domain.usecase.restaurantvisit.MarkRestaurantVisitUseCase
-import pt.socialfood.domain.usecase.restaurantvisit.MarkRestaurantVisitUseCaseImpl
-import pt.socialfood.domain.usecase.restaurantvisit.SyncRestaurantVisitsUseCase
-import pt.socialfood.domain.usecase.restaurantvisit.SyncRestaurantVisitsUseCaseImpl
-import pt.socialfood.domain.usecase.restaurantvisit.UnmarkRestaurantVisitUseCase
-import pt.socialfood.domain.usecase.restaurantvisit.UnmarkRestaurantVisitUseCaseImpl
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusUseCaseImpl
+import pt.socialfood.domain.usecase.restaurantvisitstatus.MarkRestaurantVisitStatusUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.MarkRestaurantVisitStatusUseCaseImpl
+import pt.socialfood.domain.usecase.restaurantvisitstatus.SyncRestaurantVisitStatusUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.SyncRestaurantVisitStatusUseCaseImpl
+import pt.socialfood.domain.usecase.restaurantvisitstatus.UnmarkRestaurantVisitStatusUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.UnmarkRestaurantVisitStatusUseCaseImpl
 import pt.socialfood.domain.usecase.search.GetGuideSuggestionsUseCase
 import pt.socialfood.domain.usecase.search.GetGuideSuggestionsUseCaseImpl
 import pt.socialfood.domain.usecase.search.GetRestaurantSuggestionsUseCase
@@ -238,7 +238,7 @@ val networkModule =
         single<SearchApi> { SearchApiImpl(get()) }
         single { SessionManager(get()) }
         single<UserApi> { UserApiImpl(get()) }
-        single<RestaurantVisitsApi> { RestaurantVisitsApiImpl(get()) }
+        single<RestaurantVisitStatusApi> { RestaurantVisitStatusApiImpl(get()) }
     }
 
 val repositoryModule =
@@ -279,8 +279,8 @@ val repositoryModule =
         single<RestaurantsRepository> { RestaurantsRepositoryImpl(get()) }
         single<SearchRepository> { SearchRepositoryImpl(get()) }
         single<UsersRepository> { UsersRepositoryImpl(get()) }
-        single<RestaurantVisitsRepository> {
-            RestaurantVisitsRepositoryImpl(get(), get<AppDatabase>().restaurantVisitDao(), get())
+        single<RestaurantVisitStatusRepository> {
+            RestaurantVisitStatusRepositoryImpl(get(), get<AppDatabase>().restaurantVisitStatusDao(), get())
         }
     }
 
@@ -319,7 +319,7 @@ val useCaseModule =
         factory<GetUserByIdUseCase> { GetUserByIdUseCaseImpl(get()) }
         factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
         factory<GetUsersUseCase> { GetUsersUseCaseImpl(get()) }
-        factory<GetRestaurantVisitsUseCase> { GetRestaurantVisitsUseCaseImpl(get()) }
+        factory<GetRestaurantVisitStatusUseCase> { GetRestaurantVisitStatusUseCaseImpl(get()) }
         factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
         factory<IsRestaurantFavouriteUseCase> { IsRestaurantFavouriteUseCaseImpl(get()) }
         factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
@@ -327,7 +327,7 @@ val useCaseModule =
         factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
         factory<MarkGuideFavouriteUseCase> { MarkGuideFavouriteUseCaseImpl(get()) }
         factory<MarkRestaurantFavouriteUseCase> { MarkRestaurantFavouriteUseCaseImpl(get()) }
-        factory<MarkRestaurantVisitUseCase> { MarkRestaurantVisitUseCaseImpl(get()) }
+        factory<MarkRestaurantVisitStatusUseCase> { MarkRestaurantVisitStatusUseCaseImpl(get()) }
         factory<ObserveFavouriteGuideIdsUseCase> { ObserveFavouriteGuideIdsUseCaseImpl(get()) }
         factory<ObserveHomeSectionsUseCase> { ObserveHomeSectionsUseCaseImpl(get()) }
         factory<ObserveUserUseCase> { ObserveUserUseCaseImpl(get()) }
@@ -339,10 +339,10 @@ val useCaseModule =
         factory<SearchUseCase> { SearchUseCaseImpl(get()) }
         factory<SyncFavouriteRestaurantsUseCase> { SyncFavouriteRestaurantsUseCaseImpl(get()) }
         factory<SyncFavouritesUseCase> { SyncFavouritesUseCaseImpl(get()) }
-        factory<SyncRestaurantVisitsUseCase> { SyncRestaurantVisitsUseCaseImpl(get()) }
+        factory<SyncRestaurantVisitStatusUseCase> { SyncRestaurantVisitStatusUseCaseImpl(get()) }
         factory<UnmarkGuideFavouriteUseCase> { UnmarkGuideFavouriteUseCaseImpl(get()) }
         factory<UnmarkRestaurantFavouriteUseCase> { UnmarkRestaurantFavouriteUseCaseImpl(get()) }
-        factory<UnmarkRestaurantVisitUseCase> { UnmarkRestaurantVisitUseCaseImpl(get()) }
+        factory<UnmarkRestaurantVisitStatusUseCase> { UnmarkRestaurantVisitStatusUseCaseImpl(get()) }
         factory<UpdateGuideUseCase> { UpdateGuideUseCaseImpl(get(), get()) }
         factory<UpdateHomeSectionUseCase> { UpdateHomeSectionUseCaseImpl(get()) }
         factory<UpdateRestaurantUseCase> { UpdateRestaurantUseCaseImpl(get()) }

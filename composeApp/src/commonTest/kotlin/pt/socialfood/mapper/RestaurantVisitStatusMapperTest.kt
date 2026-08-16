@@ -1,7 +1,7 @@
 package pt.socialfood.mapper
 
-import pt.socialfood.data.local.entity.RestaurantVisitEntity
-import pt.socialfood.data.local.entity.RestaurantVisitSyncState
+import pt.socialfood.data.local.entity.RestaurantVisitStatusEntity
+import pt.socialfood.data.local.entity.RestaurantVisitStatusSyncState
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
@@ -14,8 +14,8 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class RestaurantVisitMapperTest {
-    private fun randomRestaurantVisitEntity() = RestaurantVisitEntity(
+class RestaurantVisitStatusMapperTest {
+    private fun randomRestaurantVisitStatusEntity() = RestaurantVisitStatusEntity(
         restaurantId = Random.nextString(),
         name = Random.nextString(),
         description = Random.nextNullable { nextString(20) },
@@ -31,13 +31,13 @@ class RestaurantVisitMapperTest {
         imageUrl = Random.nextNullable { nextUrl() },
         status = Random.nextEnum<VisitStatus>().name,
         recordedAt = Random.nextLong(),
-        syncState = Random.nextEnum<RestaurantVisitSyncState>().name,
+        syncState = Random.nextEnum<RestaurantVisitStatusSyncState>().name,
     )
 
     @Test
-    fun `given a RestaurantVisitEntity when mapped to Restaurant then returns the equivalent Restaurant`() {
+    fun `given a RestaurantVisitStatusEntity when mapped to Restaurant then returns the equivalent Restaurant`() {
         // Given
-        val entity = randomRestaurantVisitEntity()
+        val entity = randomRestaurantVisitStatusEntity()
 
         // When
         val result = entity.toRestaurant()
@@ -64,9 +64,9 @@ class RestaurantVisitMapperTest {
     }
 
     @Test
-    fun `given a RestaurantVisitEntity when mapped to RestaurantVisitStatus then wraps the restaurant with status`() {
+    fun `given a RestaurantVisitStatusEntity when mapped to domain then wraps the restaurant with status`() {
         // Given
-        val entity = randomRestaurantVisitEntity()
+        val entity = randomRestaurantVisitStatusEntity()
 
         // When
         val result = entity.toRestaurantVisitStatus()
@@ -83,19 +83,19 @@ class RestaurantVisitMapperTest {
     }
 
     @Test
-    fun `given a Restaurant when mapped to entity then returns the equivalent RestaurantVisitEntity`() {
+    fun `given a Restaurant when mapped to entity then returns the equivalent RestaurantVisitStatusEntity`() {
         // Given
         val restaurant = Random.nextRestaurant()
         val status = Random.nextEnum<VisitStatus>()
         val recordedAt = Random.nextLong()
-        val syncState = Random.nextEnum<RestaurantVisitSyncState>()
+        val syncState = Random.nextEnum<RestaurantVisitStatusSyncState>()
 
         // When
-        val result = restaurant.toRestaurantVisitEntity(status, recordedAt, syncState)
+        val result = restaurant.toRestaurantVisitStatusEntity(status, recordedAt, syncState)
 
         // Then
         assertEquals(
-            RestaurantVisitEntity(
+            RestaurantVisitStatusEntity(
                 restaurantId = restaurant.id,
                 name = restaurant.name,
                 description = restaurant.description,

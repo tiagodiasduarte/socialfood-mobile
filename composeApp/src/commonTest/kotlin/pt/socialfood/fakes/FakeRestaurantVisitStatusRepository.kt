@@ -4,16 +4,16 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.PagedRestaurantVisits
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.domain.repository.RestaurantVisitsRepository
+import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 
-class FakeRestaurantVisitsRepository(
+class FakeRestaurantVisitStatusRepository(
     private val markResult: Result<Unit> = Result.Success(Unit),
     private val unmarkResult: Result<Unit> = Result.Success(Unit),
     private val pagedResult: Result<PagedRestaurantVisits> = Result.Success(
         PagedRestaurantVisits(visits = emptyList(), page = 1, total = 0, hasMore = false),
     ),
     private val syncResult: Result<Unit> = Result.Success(Unit),
-) : RestaurantVisitsRepository {
+) : RestaurantVisitStatusRepository {
 
     var lastMarkedRestaurant: Restaurant? = null
         private set

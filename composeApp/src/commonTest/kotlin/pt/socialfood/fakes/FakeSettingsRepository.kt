@@ -1,5 +1,6 @@
 package pt.socialfood.fakes
 
+import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.repository.SettingsRepository
 
 class FakeSettingsRepository : SettingsRepository {
@@ -10,6 +11,8 @@ class FakeSettingsRepository : SettingsRepository {
     private var lastFavouritesSyncAttemptAt: Long? = null
     private var lastFavouriteRestaurantsSyncedAt: String? = null
     private var lastFavouriteRestaurantsSyncAttemptAt: Long? = null
+    private val lastRestaurantVisitSyncedAt = mutableMapOf<RestaurantVisitStatus, String>()
+    private val lastRestaurantVisitSyncAttemptAt = mutableMapOf<RestaurantVisitStatus, Long>()
 
     override suspend fun getToken(): String? = token
 
@@ -53,5 +56,19 @@ class FakeSettingsRepository : SettingsRepository {
 
     override suspend fun saveLastFavouriteRestaurantsSyncAttemptAt(timestamp: Long) {
         lastFavouriteRestaurantsSyncAttemptAt = timestamp
+    }
+
+    override suspend fun getLastRestaurantVisitSyncedAt(status: RestaurantVisitStatus): String? =
+        lastRestaurantVisitSyncedAt[status]
+
+    override suspend fun saveLastRestaurantVisitSyncedAt(status: RestaurantVisitStatus, syncedAt: String) {
+        lastRestaurantVisitSyncedAt[status] = syncedAt
+    }
+
+    override suspend fun getLastRestaurantVisitSyncAttemptAt(status: RestaurantVisitStatus): Long? =
+        lastRestaurantVisitSyncAttemptAt[status]
+
+    override suspend fun saveLastRestaurantVisitSyncAttemptAt(status: RestaurantVisitStatus, timestamp: Long) {
+        lastRestaurantVisitSyncAttemptAt[status] = timestamp
     }
 }

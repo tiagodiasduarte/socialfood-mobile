@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 import pt.socialfood.data.security.TokenCipher
+import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.repository.SettingsRepository
 
 private val Context.dataStore by preferencesDataStore(name = "socialfood_settings")
@@ -18,6 +19,11 @@ private val LAST_FAVOURITES_SYNC_ATTEMPT_AT = longPreferencesKey("last_favourite
 private val LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = stringPreferencesKey("favourite_restaurants_synced_at")
 private val LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT =
     longPreferencesKey("last_favourite_restaurants_sync_attempt_at")
+private fun restaurantVisitSyncedAtKey(status: RestaurantVisitStatus) =
+    stringPreferencesKey("restaurant_visit_${status.name.lowercase()}_synced_at")
+
+private fun restaurantVisitSyncAttemptAtKey(status: RestaurantVisitStatus) =
+    longPreferencesKey("last_restaurant_visit_${status.name.lowercase()}_sync_attempt_at")
 
 @Suppress("TooManyFunctions")
 class SettingsRepositoryImpl(private val context: Context) : SettingsRepository {
@@ -73,5 +79,19 @@ class SettingsRepositoryImpl(private val context: Context) : SettingsRepository 
 
     override suspend fun saveLastFavouriteRestaurantsSyncAttemptAt(timestamp: Long) {
         context.dataStore.edit { it[LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT] = timestamp }
+    }
+
+    override suspend fun getLastRestaurantVisitSyncedAt(status: RestaurantVisitStatus): String? =
+        context.dataStore.data.first()[restaurantVisitSyncedAtKey(status)]
+
+    override suspend fun saveLastRestaurantVisitSyncedAt(status: RestaurantVisitStatus, syncedAt: String) {
+        context.dataStore.edit { it[restaurantVisitSyncedAtKey(status)] = syncedAt }
+    }
+
+    override suspend fun getLastRestaurantVisitSyncAttemptAt(status: RestaurantVisitStatus): Long? =
+        context.dataStore.data.first()[restaurantVisitSyncAttemptAtKey(status)]
+
+    override suspend fun saveLastRestaurantVisitSyncAttemptAt(status: RestaurantVisitStatus, timestamp: Long) {
+        context.dataStore.edit { it[restaurantVisitSyncAttemptAtKey(status)] = timestamp }
     }
 }

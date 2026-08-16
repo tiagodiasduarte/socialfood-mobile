@@ -8,17 +8,20 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import pt.socialfood.data.network.ConnectivityObserver
+import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.usecase.favourite.SyncFavouriteRestaurantsUseCase
 import pt.socialfood.domain.usecase.favourite.SyncFavouritesUseCase
+import pt.socialfood.domain.usecase.restaurantvisit.SyncRestaurantVisitsUseCase
 
 /**
- * Triggers a (debounced, incremental) favourites sync — guides and restaurants — on
- * launch/foreground and on reconnect. Mount once at the app root.
+ * Triggers a (debounced, incremental) favourites and restaurant-visit (wish/visited) sync —
+ * guides and restaurants — on launch/foreground and on reconnect. Mount once at the app root.
  */
 @Composable
 fun FavouritesSyncEffect(
     syncFavourites: SyncFavouritesUseCase = koinInject(),
     syncFavouriteRestaurants: SyncFavouriteRestaurantsUseCase = koinInject(),
+    syncRestaurantVisits: SyncRestaurantVisitsUseCase = koinInject(),
     connectivityObserver: ConnectivityObserver = koinInject(),
 ) {
     val scope = rememberCoroutineScope()
@@ -26,6 +29,8 @@ fun FavouritesSyncEffect(
     LifecycleEventEffect(Lifecycle.Event.ON_START) {
         scope.launch { syncFavourites() }
         scope.launch { syncFavouriteRestaurants() }
+        scope.launch { syncRestaurantVisits(RestaurantVisitStatus.WISH) }
+        scope.launch { syncRestaurantVisits(RestaurantVisitStatus.VISITED) }
     }
 
     LaunchedEffect(connectivityObserver) {
@@ -34,6 +39,8 @@ fun FavouritesSyncEffect(
             if (wasOnline == false && isOnline) {
                 syncFavourites()
                 syncFavouriteRestaurants()
+                syncRestaurantVisits(RestaurantVisitStatus.WISH)
+                syncRestaurantVisits(RestaurantVisitStatus.VISITED)
             }
             wasOnline = isOnline
         }

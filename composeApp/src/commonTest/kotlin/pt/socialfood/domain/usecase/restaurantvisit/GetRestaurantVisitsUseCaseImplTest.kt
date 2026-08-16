@@ -1,0 +1,52 @@
+package pt.socialfood.domain.usecase.restaurantvisit
+
+import kotlinx.coroutines.test.runTest
+import pt.socialfood.core.Result
+import pt.socialfood.domain.error.DataError
+import pt.socialfood.domain.model.PagedRestaurantVisits
+import pt.socialfood.domain.model.RestaurantVisitStatus
+import pt.socialfood.fakes.FakeRestaurantVisitsRepository
+import pt.socialfood.random.nextEnum
+import kotlin.random.Random
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
+
+class GetRestaurantVisitsUseCaseImplTest {
+    @Test
+    fun `given repository succeeds when invoked then delegates status and returns Success`() = runTest {
+        // Given
+        val status = Random.nextEnum<RestaurantVisitStatus>()
+        val repository =
+            FakeRestaurantVisitsRepository(
+                pagedResult =
+                Result.Success(
+                    PagedRestaurantVisits(visits = emptyList(), page = 1, total = 0, hasMore = false),
+                ),
+            )
+        val useCase = GetRestaurantVisitsUseCaseImpl(repository)
+
+        // When
+        val result = useCase(status = status, page = 1, limit = 10)
+
+        // Then
+        assertIs<Result.Success<PagedRestaurantVisits>>(result)
+        assertEquals(status, repository.lastStatus)
+    }
+
+    @Test
+    fun `given repository fails when invoked then returns Error`() = runTest {
+        // Given
+        val repository =
+            FakeRestaurantVisitsRepository(
+                pagedResult = Result.Failure(DataError.Network(Exception("test error"))),
+            )
+        val useCase = GetRestaurantVisitsUseCaseImpl(repository)
+
+        // When
+        val result = useCase(status = Random.nextEnum(), page = 1, limit = 10)
+
+        // Then
+        assertIs<Result.Failure>(result)
+    }
+}

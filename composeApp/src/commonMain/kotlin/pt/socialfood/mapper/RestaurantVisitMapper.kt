@@ -3,8 +3,8 @@ package pt.socialfood.mapper
 import pt.socialfood.data.local.entity.RestaurantVisitEntity
 import pt.socialfood.data.local.entity.RestaurantVisitSyncState
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.RestaurantVisit
 import pt.socialfood.domain.model.RestaurantVisitStatus
+import pt.socialfood.domain.model.VisitStatus
 
 fun RestaurantVisitEntity.toRestaurant(): Restaurant = Restaurant(
     id = this.restaurantId,
@@ -22,14 +22,14 @@ fun RestaurantVisitEntity.toRestaurant(): Restaurant = Restaurant(
     phoneNumber = this.phoneNumber,
 )
 
-fun RestaurantVisitEntity.toRestaurantVisit(): RestaurantVisit = RestaurantVisit(
+fun RestaurantVisitEntity.toRestaurantVisitStatus(): RestaurantVisitStatus = RestaurantVisitStatus(
     restaurant = this.toRestaurant(),
-    status = RestaurantVisitStatus.valueOf(this.status),
+    status = VisitStatus.valueOf(this.status),
     recordedAt = this.recordedAt,
 )
 
 fun Restaurant.toRestaurantVisitEntity(
-    status: RestaurantVisitStatus,
+    status: VisitStatus,
     recordedAt: Long,
     syncState: RestaurantVisitSyncState,
 ): RestaurantVisitEntity = RestaurantVisitEntity(

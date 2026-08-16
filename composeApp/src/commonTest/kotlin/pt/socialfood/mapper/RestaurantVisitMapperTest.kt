@@ -3,8 +3,8 @@ package pt.socialfood.mapper
 import pt.socialfood.data.local.entity.RestaurantVisitEntity
 import pt.socialfood.data.local.entity.RestaurantVisitSyncState
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.RestaurantVisit
 import pt.socialfood.domain.model.RestaurantVisitStatus
+import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.random.nextEnum
 import pt.socialfood.random.nextNullable
 import pt.socialfood.random.nextRestaurant
@@ -29,7 +29,7 @@ class RestaurantVisitMapperTest {
         websiteUrl = Random.nextNullable { nextUrl() },
         phoneNumber = Random.nextString(9),
         imageUrl = Random.nextNullable { nextUrl() },
-        status = Random.nextEnum<RestaurantVisitStatus>().name,
+        status = Random.nextEnum<VisitStatus>().name,
         recordedAt = Random.nextLong(),
         syncState = Random.nextEnum<RestaurantVisitSyncState>().name,
     )
@@ -64,18 +64,18 @@ class RestaurantVisitMapperTest {
     }
 
     @Test
-    fun `given a RestaurantVisitEntity when mapped to RestaurantVisit then wraps the restaurant with status`() {
+    fun `given a RestaurantVisitEntity when mapped to RestaurantVisitStatus then wraps the restaurant with status`() {
         // Given
         val entity = randomRestaurantVisitEntity()
 
         // When
-        val result = entity.toRestaurantVisit()
+        val result = entity.toRestaurantVisitStatus()
 
         // Then
         assertEquals(
-            RestaurantVisit(
+            RestaurantVisitStatus(
                 restaurant = entity.toRestaurant(),
-                status = RestaurantVisitStatus.valueOf(entity.status),
+                status = VisitStatus.valueOf(entity.status),
                 recordedAt = entity.recordedAt,
             ),
             result,
@@ -86,7 +86,7 @@ class RestaurantVisitMapperTest {
     fun `given a Restaurant when mapped to entity then returns the equivalent RestaurantVisitEntity`() {
         // Given
         val restaurant = Random.nextRestaurant()
-        val status = Random.nextEnum<RestaurantVisitStatus>()
+        val status = Random.nextEnum<VisitStatus>()
         val recordedAt = Random.nextLong()
         val syncState = Random.nextEnum<RestaurantVisitSyncState>()
 

@@ -8,7 +8,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import pt.socialfood.data.network.ConnectivityObserver
-import pt.socialfood.domain.model.RestaurantVisitStatus
+import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.usecase.favourite.SyncFavouriteRestaurantsUseCase
 import pt.socialfood.domain.usecase.favourite.SyncFavouritesUseCase
 import pt.socialfood.domain.usecase.restaurantvisit.SyncRestaurantVisitsUseCase
@@ -29,8 +29,8 @@ fun FavouritesSyncEffect(
     LifecycleEventEffect(Lifecycle.Event.ON_START) {
         scope.launch { syncFavourites() }
         scope.launch { syncFavouriteRestaurants() }
-        scope.launch { syncRestaurantVisits(RestaurantVisitStatus.WISH) }
-        scope.launch { syncRestaurantVisits(RestaurantVisitStatus.VISITED) }
+        scope.launch { syncRestaurantVisits(VisitStatus.WISH) }
+        scope.launch { syncRestaurantVisits(VisitStatus.VISITED) }
     }
 
     LaunchedEffect(connectivityObserver) {
@@ -39,8 +39,8 @@ fun FavouritesSyncEffect(
             if (wasOnline == false && isOnline) {
                 syncFavourites()
                 syncFavouriteRestaurants()
-                syncRestaurantVisits(RestaurantVisitStatus.WISH)
-                syncRestaurantVisits(RestaurantVisitStatus.VISITED)
+                syncRestaurantVisits(VisitStatus.WISH)
+                syncRestaurantVisits(VisitStatus.VISITED)
             }
             wasOnline = isOnline
         }

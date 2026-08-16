@@ -3,14 +3,14 @@ package pt.socialfood.data.api
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.data.network.model.restaurantvisit.RestaurantVisitSyncResponse
-import pt.socialfood.domain.model.RestaurantVisitStatus
+import pt.socialfood.domain.model.VisitStatus
 
 interface RestaurantVisitsApi {
-    suspend fun mark(restaurantId: String, status: RestaurantVisitStatus)
+    suspend fun mark(restaurantId: String, status: VisitStatus)
 
-    suspend fun unmark(restaurantId: String, status: RestaurantVisitStatus)
+    suspend fun unmark(restaurantId: String, status: VisitStatus)
 
-    suspend fun find(status: RestaurantVisitStatus, page: Int, limit: Int): PagedResponse<RestaurantResponse>
+    suspend fun find(status: VisitStatus, page: Int, limit: Int): PagedResponse<RestaurantResponse>
 
-    suspend fun sync(status: RestaurantVisitStatus, since: String?): RestaurantVisitSyncResponse
+    suspend fun sync(status: VisitStatus, since: String?): RestaurantVisitSyncResponse
 }

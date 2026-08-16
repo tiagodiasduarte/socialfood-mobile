@@ -1,3 +1,3 @@
 package pt.socialfood.domain.model
 
-enum class RestaurantVisitStatus { WISH, VISITED }
+data class RestaurantVisitStatus(val restaurant: Restaurant, val status: VisitStatus, val recordedAt: Long)

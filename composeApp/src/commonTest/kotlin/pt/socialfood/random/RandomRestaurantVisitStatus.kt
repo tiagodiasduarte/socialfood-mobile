@@ -1,12 +1,12 @@
 package pt.socialfood.random
 
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.RestaurantVisit
 import pt.socialfood.domain.model.RestaurantVisitStatus
+import pt.socialfood.domain.model.VisitStatus
 import kotlin.random.Random
 
-fun Random.nextRestaurantVisit(
+fun Random.nextRestaurantVisitStatus(
     restaurant: Restaurant = nextRestaurant(),
-    status: RestaurantVisitStatus = nextEnum(),
+    status: VisitStatus = nextEnum(),
     recordedAt: Long = nextLong(),
-) = RestaurantVisit(restaurant = restaurant, status = status, recordedAt = recordedAt)
+) = RestaurantVisitStatus(restaurant = restaurant, status = status, recordedAt = recordedAt)

@@ -2,7 +2,7 @@ package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.PagedRestaurantVisits
-import pt.socialfood.domain.model.RestaurantVisitStatus
+import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.usecase.restaurantvisit.GetRestaurantVisitsUseCase
 
 class FakeGetRestaurantVisitsUseCase(
@@ -12,14 +12,10 @@ class FakeGetRestaurantVisitsUseCase(
 ) : GetRestaurantVisitsUseCase {
     var invokeCount: Int = 0
         private set
-    var lastStatus: RestaurantVisitStatus? = null
+    var lastStatus: VisitStatus? = null
         private set
 
-    override suspend operator fun invoke(
-        status: RestaurantVisitStatus,
-        page: Int,
-        limit: Int,
-    ): Result<PagedRestaurantVisits> {
+    override suspend operator fun invoke(status: VisitStatus, page: Int, limit: Int): Result<PagedRestaurantVisits> {
         invokeCount++
         lastStatus = status
         return result(page)

@@ -3,7 +3,7 @@ package pt.socialfood.domain.usecase.restaurantvisit
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.model.RestaurantVisitStatus
+import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeRestaurantVisitsRepository
 import pt.socialfood.random.nextEnum
 import kotlin.random.Random
@@ -15,7 +15,7 @@ class SyncRestaurantVisitsUseCaseImplTest {
     @Test
     fun `given repository succeeds when invoked then delegates status and returns Success`() = runTest {
         // Given
-        val status = Random.nextEnum<RestaurantVisitStatus>()
+        val status = Random.nextEnum<VisitStatus>()
         val repository = FakeRestaurantVisitsRepository(syncResult = Result.Success(Unit))
         val useCase = SyncRestaurantVisitsUseCaseImpl(repository)
 

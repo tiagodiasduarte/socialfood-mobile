@@ -9,31 +9,31 @@ import io.ktor.client.request.post
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.data.network.model.restaurantvisit.RestaurantVisitSyncResponse
-import pt.socialfood.domain.model.RestaurantVisitStatus
+import pt.socialfood.domain.model.VisitStatus
 
-private val RestaurantVisitStatus.pathSegment: String
+private val VisitStatus.pathSegment: String
     get() = when (this) {
-        RestaurantVisitStatus.WISH -> "wishlist"
-        RestaurantVisitStatus.VISITED -> "visited"
+        VisitStatus.WISH -> "wishlist"
+        VisitStatus.VISITED -> "visited"
     }
 
 class RestaurantVisitsApiImpl(private val client: HttpClient) : RestaurantVisitsApi {
 
-    override suspend fun mark(restaurantId: String, status: RestaurantVisitStatus) {
+    override suspend fun mark(restaurantId: String, status: VisitStatus) {
         client.post("me/restaurants/${status.pathSegment}/$restaurantId")
     }
 
-    override suspend fun unmark(restaurantId: String, status: RestaurantVisitStatus) {
+    override suspend fun unmark(restaurantId: String, status: VisitStatus) {
         client.delete("me/restaurants/${status.pathSegment}/$restaurantId")
     }
 
-    override suspend fun find(status: RestaurantVisitStatus, page: Int, limit: Int): PagedResponse<RestaurantResponse> =
+    override suspend fun find(status: VisitStatus, page: Int, limit: Int): PagedResponse<RestaurantResponse> =
         client.get("me/restaurants/${status.pathSegment}") {
             parameter("page", page)
             parameter("limit", limit)
         }.body()
 
-    override suspend fun sync(status: RestaurantVisitStatus, since: String?): RestaurantVisitSyncResponse =
+    override suspend fun sync(status: VisitStatus, since: String?): RestaurantVisitSyncResponse =
         client.get("me/restaurants/${status.pathSegment}/sync") {
             if (!since.isNullOrBlank()) parameter("since", since)
         }.body()

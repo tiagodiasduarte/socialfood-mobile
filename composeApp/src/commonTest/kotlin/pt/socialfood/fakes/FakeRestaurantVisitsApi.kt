@@ -5,7 +5,7 @@ import pt.socialfood.data.api.RestaurantVisitsApi
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.data.network.model.restaurantvisit.RestaurantVisitSyncResponse
-import pt.socialfood.domain.model.RestaurantVisitStatus
+import pt.socialfood.domain.model.VisitStatus
 
 class FakeRestaurantVisitsApi(private val shouldThrow: Boolean = false) : RestaurantVisitsApi {
 
@@ -46,22 +46,22 @@ class FakeRestaurantVisitsApi(private val shouldThrow: Boolean = false) : Restau
         syncedAt = "2026-08-01T10:30:00Z",
     )
 
-    override suspend fun mark(restaurantId: String, status: RestaurantVisitStatus) {
+    override suspend fun mark(restaurantId: String, status: VisitStatus) {
         if (shouldThrow) throw IOException("test error")
         lastMarkedRestaurantId = restaurantId
     }
 
-    override suspend fun unmark(restaurantId: String, status: RestaurantVisitStatus) {
+    override suspend fun unmark(restaurantId: String, status: VisitStatus) {
         if (shouldThrow) throw IOException("test error")
         lastUnmarkedRestaurantId = restaurantId
     }
 
-    override suspend fun find(status: RestaurantVisitStatus, page: Int, limit: Int): PagedResponse<RestaurantResponse> {
+    override suspend fun find(status: VisitStatus, page: Int, limit: Int): PagedResponse<RestaurantResponse> {
         if (shouldThrow) throw IOException("test error")
         return fakeRestaurants
     }
 
-    override suspend fun sync(status: RestaurantVisitStatus, since: String?): RestaurantVisitSyncResponse {
+    override suspend fun sync(status: VisitStatus, since: String?): RestaurantVisitSyncResponse {
         if (shouldThrow) throw IOException("test error")
         return fakeSyncResponse
     }

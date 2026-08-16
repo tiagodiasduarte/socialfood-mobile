@@ -24,7 +24,7 @@ data class RestaurantVisitEntity(
     val websiteUrl: String?,
     val phoneNumber: String,
     val imageUrl: String?,
-    /** One of [pt.socialfood.domain.model.RestaurantVisitStatus]'s `name`s. */
+    /** One of [pt.socialfood.domain.model.VisitStatus]'s `name`s. */
     val status: String,
     val recordedAt: Long,
     /** One of [RestaurantVisitSyncState]'s `name`s. Stored as a raw String to avoid a Room TypeConverter. */

@@ -10,12 +10,12 @@ import pt.socialfood.data.network.model.restaurantvisit.RestaurantVisitSyncRespo
 import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.PagedRestaurantVisits
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.RestaurantVisitStatus
+import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.RestaurantVisitsRepository
 import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.mapper.toRestaurant
-import pt.socialfood.mapper.toRestaurantVisit
 import pt.socialfood.mapper.toRestaurantVisitEntity
+import pt.socialfood.mapper.toRestaurantVisitStatus
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -28,7 +28,7 @@ class RestaurantVisitsRepositoryImpl(
     private val settingsRepository: SettingsRepository,
 ) : RestaurantVisitsRepository {
 
-    override suspend fun mark(restaurant: Restaurant, status: RestaurantVisitStatus): Result<Unit> = try {
+    override suspend fun mark(restaurant: Restaurant, status: VisitStatus): Result<Unit> = try {
         val entity = restaurant.toRestaurantVisitEntity(
             status = status,
             recordedAt = currentTimeMillis(),
@@ -53,7 +53,7 @@ class RestaurantVisitsRepositoryImpl(
         Result.Failure(e.toDataError())
     }
 
-    override suspend fun unmark(restaurantId: String, status: RestaurantVisitStatus): Result<Unit> = try {
+    override suspend fun unmark(restaurantId: String, status: VisitStatus): Result<Unit> = try {
         restaurantVisitDao.updateSyncState(restaurantId, RestaurantVisitSyncState.PENDING_REMOVE.name)
 
         when (val result = safeApiCall { restaurantVisitsApi.unmark(restaurantId, status) }) {
@@ -73,17 +73,13 @@ class RestaurantVisitsRepositoryImpl(
         Result.Failure(e.toDataError())
     }
 
-    override suspend fun getPaged(
-        status: RestaurantVisitStatus,
-        page: Int,
-        limit: Int,
-    ): Result<PagedRestaurantVisits> = try {
+    override suspend fun getPaged(status: VisitStatus, page: Int, limit: Int): Result<PagedRestaurantVisits> = try {
         val offset = (page - 1) * limit
         val entities = restaurantVisitDao.getPaged(status = status.name, limit = limit, offset = offset)
         val total = restaurantVisitDao.countAll(status.name)
         Result.Success(
             PagedRestaurantVisits(
-                visits = entities.map { it.toRestaurantVisit() },
+                visits = entities.map { it.toRestaurantVisitStatus() },
                 page = page,
                 total = total,
                 hasMore = page * limit < total,
@@ -94,7 +90,7 @@ class RestaurantVisitsRepositoryImpl(
     }
 
     @Suppress("ReturnCount")
-    override suspend fun sync(status: RestaurantVisitStatus): Result<Unit> {
+    override suspend fun sync(status: VisitStatus): Result<Unit> {
         val now = currentTimeMillis()
         val lastAttempt = settingsRepository.getLastRestaurantVisitSyncAttemptAt(status)
         if (lastAttempt != null && now - lastAttempt < MIN_SYNC_INTERVAL_MS) {
@@ -122,7 +118,7 @@ class RestaurantVisitsRepositoryImpl(
         }
     }
 
-    private suspend fun pushPendingMutations(status: RestaurantVisitStatus) {
+    private suspend fun pushPendingMutations(status: VisitStatus) {
         restaurantVisitDao.getPending(status.name).forEach { entity ->
             when (RestaurantVisitSyncState.valueOf(entity.syncState)) {
                 RestaurantVisitSyncState.PENDING_ADD -> pushPendingAdd(entity.restaurantId, status)
@@ -132,7 +128,7 @@ class RestaurantVisitsRepositoryImpl(
         }
     }
 
-    private suspend fun pushPendingAdd(restaurantId: String, status: RestaurantVisitStatus) {
+    private suspend fun pushPendingAdd(restaurantId: String, status: VisitStatus) {
         try {
             when (val result = safeApiCall { restaurantVisitsApi.mark(restaurantId, status) }) {
                 is Result.Failure ->
@@ -145,7 +141,7 @@ class RestaurantVisitsRepositoryImpl(
         }
     }
 
-    private suspend fun pushPendingRemove(restaurantId: String, status: RestaurantVisitStatus) {
+    private suspend fun pushPendingRemove(restaurantId: String, status: VisitStatus) {
         try {
             when (val result = safeApiCall { restaurantVisitsApi.unmark(restaurantId, status) }) {
                 is Result.Failure ->
@@ -158,10 +154,7 @@ class RestaurantVisitsRepositoryImpl(
         }
     }
 
-    private suspend fun applyChanges(
-        status: RestaurantVisitStatus,
-        changes: RestaurantVisitSyncResponse,
-    ): Result<Unit> {
+    private suspend fun applyChanges(status: VisitStatus, changes: RestaurantVisitSyncResponse): Result<Unit> {
         if (changes.removedIds.isNotEmpty()) {
             restaurantVisitDao.deleteByRestaurantIds(changes.removedIds)
         }

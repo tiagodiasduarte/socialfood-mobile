@@ -1,6 +1,6 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.domain.model.RestaurantVisitStatus
+import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.SettingsRepository
 
 class FakeSettingsRepository : SettingsRepository {
@@ -11,8 +11,8 @@ class FakeSettingsRepository : SettingsRepository {
     private var lastFavouritesSyncAttemptAt: Long? = null
     private var lastFavouriteRestaurantsSyncedAt: String? = null
     private var lastFavouriteRestaurantsSyncAttemptAt: Long? = null
-    private val lastRestaurantVisitSyncedAt = mutableMapOf<RestaurantVisitStatus, String>()
-    private val lastRestaurantVisitSyncAttemptAt = mutableMapOf<RestaurantVisitStatus, Long>()
+    private val lastRestaurantVisitSyncedAt = mutableMapOf<VisitStatus, String>()
+    private val lastRestaurantVisitSyncAttemptAt = mutableMapOf<VisitStatus, Long>()
 
     override suspend fun getToken(): String? = token
 
@@ -58,17 +58,17 @@ class FakeSettingsRepository : SettingsRepository {
         lastFavouriteRestaurantsSyncAttemptAt = timestamp
     }
 
-    override suspend fun getLastRestaurantVisitSyncedAt(status: RestaurantVisitStatus): String? =
+    override suspend fun getLastRestaurantVisitSyncedAt(status: VisitStatus): String? =
         lastRestaurantVisitSyncedAt[status]
 
-    override suspend fun saveLastRestaurantVisitSyncedAt(status: RestaurantVisitStatus, syncedAt: String) {
+    override suspend fun saveLastRestaurantVisitSyncedAt(status: VisitStatus, syncedAt: String) {
         lastRestaurantVisitSyncedAt[status] = syncedAt
     }
 
-    override suspend fun getLastRestaurantVisitSyncAttemptAt(status: RestaurantVisitStatus): Long? =
+    override suspend fun getLastRestaurantVisitSyncAttemptAt(status: VisitStatus): Long? =
         lastRestaurantVisitSyncAttemptAt[status]
 
-    override suspend fun saveLastRestaurantVisitSyncAttemptAt(status: RestaurantVisitStatus, timestamp: Long) {
+    override suspend fun saveLastRestaurantVisitSyncAttemptAt(status: VisitStatus, timestamp: Long) {
         lastRestaurantVisitSyncAttemptAt[status] = timestamp
     }
 }

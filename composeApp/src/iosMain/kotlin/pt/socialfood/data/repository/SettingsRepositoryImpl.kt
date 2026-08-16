@@ -2,7 +2,7 @@ package pt.socialfood.data.repository
 
 import platform.Foundation.NSUserDefaults
 import pt.socialfood.data.security.KeychainTokenStore
-import pt.socialfood.domain.model.RestaurantVisitStatus
+import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.SettingsRepository
 
 private const val KEY_PENDING_VERIFICATION_EMAIL = "pending_verification_email"
@@ -10,10 +10,10 @@ private const val KEY_LAST_FAVOURITES_SYNCED_AT = "favourites_synced_at"
 private const val KEY_LAST_FAVOURITES_SYNC_ATTEMPT_AT = "last_favourites_sync_attempt_at"
 private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = "favourite_restaurants_synced_at"
 private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT = "last_favourite_restaurants_sync_attempt_at"
-private fun keyLastRestaurantVisitSyncedAt(status: RestaurantVisitStatus) =
+private fun keyLastRestaurantVisitSyncedAt(status: VisitStatus) =
     "restaurant_visit_${status.name.lowercase()}_synced_at"
 
-private fun keyLastRestaurantVisitSyncAttemptAt(status: RestaurantVisitStatus) =
+private fun keyLastRestaurantVisitSyncAttemptAt(status: VisitStatus) =
     "last_restaurant_visit_${status.name.lowercase()}_sync_attempt_at"
 
 @Suppress("TooManyFunctions")
@@ -75,19 +75,19 @@ class SettingsRepositoryImpl : SettingsRepository {
         defaults.setInteger(timestamp, KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT)
     }
 
-    override suspend fun getLastRestaurantVisitSyncedAt(status: RestaurantVisitStatus): String? =
+    override suspend fun getLastRestaurantVisitSyncedAt(status: VisitStatus): String? =
         defaults.stringForKey(keyLastRestaurantVisitSyncedAt(status))
 
-    override suspend fun saveLastRestaurantVisitSyncedAt(status: RestaurantVisitStatus, syncedAt: String) {
+    override suspend fun saveLastRestaurantVisitSyncedAt(status: VisitStatus, syncedAt: String) {
         defaults.setObject(syncedAt, keyLastRestaurantVisitSyncedAt(status))
     }
 
-    override suspend fun getLastRestaurantVisitSyncAttemptAt(status: RestaurantVisitStatus): Long? {
+    override suspend fun getLastRestaurantVisitSyncAttemptAt(status: VisitStatus): Long? {
         val key = keyLastRestaurantVisitSyncAttemptAt(status)
         return if (defaults.objectForKey(key) != null) defaults.integerForKey(key) else null
     }
 
-    override suspend fun saveLastRestaurantVisitSyncAttemptAt(status: RestaurantVisitStatus, timestamp: Long) {
+    override suspend fun saveLastRestaurantVisitSyncAttemptAt(status: VisitStatus, timestamp: Long) {
         defaults.setInteger(timestamp, keyLastRestaurantVisitSyncAttemptAt(status))
     }
 }

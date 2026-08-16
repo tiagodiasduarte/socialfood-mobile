@@ -10,6 +10,7 @@ import pt.socialfood.domain.model.PagedRestaurantVisitStatus
 import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeGetRestaurantVisitStatusUseCase
+import pt.socialfood.fakes.FakeMarkRestaurantVisitStatusUseCase
 import pt.socialfood.fakes.FakeUnmarkRestaurantVisitStatusUseCase
 import pt.socialfood.random.nextRestaurant
 import pt.socialfood.runner.runTestWithMainDispatcher
@@ -38,7 +39,11 @@ class RestaurantWishlistViewModelTest {
         }
 
         // When / Then
-        val vm = RestaurantWishlistViewModel(useCase, FakeUnmarkRestaurantVisitStatusUseCase())
+        val vm = RestaurantWishlistViewModel(
+            useCase,
+            FakeMarkRestaurantVisitStatusUseCase(),
+            FakeUnmarkRestaurantVisitStatusUseCase(),
+        )
         vm.state.test {
             assertEquals(RestaurantWishlistUiState.Loading, awaitItem())
             val state = assertIs<RestaurantWishlistUiState.Loaded>(awaitItem())
@@ -54,7 +59,11 @@ class RestaurantWishlistViewModelTest {
         val useCase = FakeGetRestaurantVisitStatusUseCase { Result.Failure(DataError.Network(Exception("test error"))) }
 
         // When / Then
-        val vm = RestaurantWishlistViewModel(useCase, FakeUnmarkRestaurantVisitStatusUseCase())
+        val vm = RestaurantWishlistViewModel(
+            useCase,
+            FakeMarkRestaurantVisitStatusUseCase(),
+            FakeUnmarkRestaurantVisitStatusUseCase(),
+        )
         vm.state.test {
             assertEquals(RestaurantWishlistUiState.Loading, awaitItem())
             assertEquals(RestaurantWishlistUiState.Error(ErrorCode.NETWORK), awaitItem())
@@ -86,7 +95,11 @@ class RestaurantWishlistViewModelTest {
                     )
                 }
             }
-            val vm = RestaurantWishlistViewModel(useCase, FakeUnmarkRestaurantVisitStatusUseCase())
+            val vm = RestaurantWishlistViewModel(
+                useCase,
+                FakeMarkRestaurantVisitStatusUseCase(),
+                FakeUnmarkRestaurantVisitStatusUseCase(),
+            )
 
             // When / Then
             vm.state.test {
@@ -113,7 +126,11 @@ class RestaurantWishlistViewModelTest {
                 PagedRestaurantVisitStatus(visits = listOf(wished("r1")), page = it, total = 1, hasMore = false),
             )
         }
-        val vm = RestaurantWishlistViewModel(useCase, FakeUnmarkRestaurantVisitStatusUseCase())
+        val vm = RestaurantWishlistViewModel(
+            useCase,
+            FakeMarkRestaurantVisitStatusUseCase(),
+            FakeUnmarkRestaurantVisitStatusUseCase(),
+        )
 
         // When / Then
         vm.state.test {
@@ -126,6 +143,65 @@ class RestaurantWishlistViewModelTest {
         assertFalse(vm.isRefreshing.value)
         assertIs<RestaurantWishlistUiState.Loaded>(vm.state.value)
     }
+
+    @Test
+    fun `given a new restaurant when addToWishlist succeeds then adds it to state`() = runTestWithMainDispatcher {
+        // Given
+        val useCase = FakeGetRestaurantVisitStatusUseCase {
+            Result.Success(
+                PagedRestaurantVisitStatus(visits = listOf(wished("r1")), page = it, total = 1, hasMore = false),
+            )
+        }
+        val markUseCase = FakeMarkRestaurantVisitStatusUseCase()
+        val vm = RestaurantWishlistViewModel(useCase, markUseCase, FakeUnmarkRestaurantVisitStatusUseCase())
+        val newRestaurant = Random.nextRestaurant(id = "r2")
+
+        // When / Then
+        vm.state.test {
+            assertEquals(RestaurantWishlistUiState.Loading, awaitItem())
+            val loaded = assertIs<RestaurantWishlistUiState.Loaded>(awaitItem())
+            assertEquals(listOf("r1"), loaded.restaurants.map { it.id })
+
+            vm.addToWishlist(newRestaurant)
+
+            val afterAdd = assertIs<RestaurantWishlistUiState.Loaded>(awaitItem())
+            assertEquals(listOf("r2", "r1"), afterAdd.restaurants.map { it.id })
+        }
+        advanceUntilIdle()
+        assertEquals(newRestaurant, markUseCase.lastMarkedRestaurant)
+        assertEquals(VisitStatus.WISH, markUseCase.lastStatus)
+    }
+
+    @Test
+    fun `given addToWishlist fails when called then reverts the restaurant back out of state`() =
+        runTestWithMainDispatcher {
+            // Given
+            val useCase = FakeGetRestaurantVisitStatusUseCase {
+                Result.Success(
+                    PagedRestaurantVisitStatus(visits = listOf(wished("r1")), page = it, total = 1, hasMore = false),
+                )
+            }
+            val markUseCase = FakeMarkRestaurantVisitStatusUseCase(
+                result = Result.Failure(DataError.Network(Exception("test error"))),
+            )
+            val vm = RestaurantWishlistViewModel(useCase, markUseCase, FakeUnmarkRestaurantVisitStatusUseCase())
+            val newRestaurant = Random.nextRestaurant(id = "r2")
+
+            // When / Then
+            vm.state.test {
+                assertEquals(RestaurantWishlistUiState.Loading, awaitItem())
+                val loaded = assertIs<RestaurantWishlistUiState.Loaded>(awaitItem())
+                assertEquals(listOf("r1"), loaded.restaurants.map { it.id })
+
+                vm.addToWishlist(newRestaurant)
+
+                val afterAdd = assertIs<RestaurantWishlistUiState.Loaded>(awaitItem())
+                assertEquals(listOf("r2", "r1"), afterAdd.restaurants.map { it.id })
+
+                val reverted = assertIs<RestaurantWishlistUiState.Loaded>(awaitItem())
+                assertEquals(listOf("r1"), reverted.restaurants.map { it.id })
+            }
+        }
 
     @Test
     fun `given a wished restaurant when removeFromWishlist succeeds then removes it from state`() =
@@ -142,7 +218,7 @@ class RestaurantWishlistViewModelTest {
                 )
             }
             val unmarkUseCase = FakeUnmarkRestaurantVisitStatusUseCase()
-            val vm = RestaurantWishlistViewModel(useCase, unmarkUseCase)
+            val vm = RestaurantWishlistViewModel(useCase, FakeMarkRestaurantVisitStatusUseCase(), unmarkUseCase)
 
             // When / Then
             vm.state.test {
@@ -172,7 +248,7 @@ class RestaurantWishlistViewModelTest {
             val unmarkUseCase = FakeUnmarkRestaurantVisitStatusUseCase(
                 result = Result.Failure(DataError.Network(Exception("test error"))),
             )
-            val vm = RestaurantWishlistViewModel(useCase, unmarkUseCase)
+            val vm = RestaurantWishlistViewModel(useCase, FakeMarkRestaurantVisitStatusUseCase(), unmarkUseCase)
 
             // When / Then
             vm.state.test {

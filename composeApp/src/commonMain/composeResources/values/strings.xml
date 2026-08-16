@@ -83,6 +83,7 @@
     <string name="favourites_guides_title">Favourite Guides</string>
     <string name="favourites_restaurants_title">Favourite Restaurants</string>
     <string name="wish_restaurants_title">Wish to Visit</string>
+    <string name="wish_add_button_description">Add restaurant to wish list</string>
 
     <string name="guides_title">Guides</string>
     <string name="guides_tab_all">All Guides</string>

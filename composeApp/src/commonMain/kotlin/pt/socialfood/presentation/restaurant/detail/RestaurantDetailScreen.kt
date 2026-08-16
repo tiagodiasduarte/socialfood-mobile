@@ -3,7 +3,6 @@ package pt.socialfood.presentation.restaurant.detail
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -24,9 +23,6 @@ import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.Phone
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
@@ -42,7 +38,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
@@ -64,7 +59,6 @@ import pt.socialfood.ui.theme.ImagePlaceholderColor
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
-import socialfood.composeapp.generated.resources.restaurant_detail_call_button
 import socialfood.composeapp.generated.resources.restaurant_detail_favourite_description
 import socialfood.composeapp.generated.resources.restaurant_detail_more_options_description
 import socialfood.composeapp.generated.resources.restaurant_detail_opening_hours_title
@@ -73,7 +67,6 @@ import socialfood.composeapp.generated.resources.restaurant_detail_share_button
 val ImageHeight = 300.dp
 private const val GALLERY_PHOTO_COUNT = 5
 
-@Suppress("TooManyFunctions")
 @Composable
 fun RestaurantDetailScreen(
     restaurantId: String,
@@ -376,43 +369,6 @@ private fun OpeningHoursSection(restaurant: Restaurant) {
         Spacer(Modifier.height(SpaceSize.large))
 
         OpeningHoursCard(openingHours)
-    }
-}
-
-@Composable
-private fun BoxScope.CallButton(onClick: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .fillMaxWidth()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(Color.Transparent, GreyBackground),
-                    startY = 0f,
-                    endY = Float.POSITIVE_INFINITY,
-                ),
-            )
-            .padding(SpaceSize.large),
-    ) {
-        Button(
-            onClick = onClick,
-            modifier = Modifier.fillMaxWidth().height(52.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-            ),
-            shape = RoundedCornerShape(SpaceSize.large),
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Phone,
-                contentDescription = null,
-                modifier = Modifier.size(20.dp),
-            )
-            Spacer(Modifier.width(SpaceSize.medium))
-            Text(
-                text = stringResource(Res.string.restaurant_detail_call_button),
-                style = MaterialTheme.typography.labelLarge,
-            )
-        }
     }
 }
 

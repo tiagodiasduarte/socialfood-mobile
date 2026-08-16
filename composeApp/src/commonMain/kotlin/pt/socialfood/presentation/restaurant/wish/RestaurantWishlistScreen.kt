@@ -50,7 +50,7 @@ private const val LOAD_MORE_THRESHOLD = 10
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WishRestaurantsScreen(
+fun RestaurantWishlistScreen(
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     viewModel: WishRestaurantsViewModel = koinViewModel(),
@@ -58,7 +58,7 @@ fun WishRestaurantsScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
-    WishRestaurantsContent(
+    RestaurantWishlistContent(
         state = state,
         isRefreshing = isRefreshing,
         onBackClick = onBackClick,
@@ -72,7 +72,7 @@ fun WishRestaurantsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun WishRestaurantsContent(
+private fun RestaurantWishlistContent(
     state: RestaurantVisitUiState,
     isRefreshing: Boolean,
     onBackClick: () -> Unit,
@@ -174,7 +174,7 @@ private fun TopBar(onBackClick: () -> Unit) {
 
 @Preview
 @Composable
-private fun WishRestaurantsScreenLoadedPreview() {
+private fun RestaurantWishlistScreenLoadedPreview() {
     val restaurants = listOf(
         Restaurant(
             id = "r1",
@@ -208,7 +208,7 @@ private fun WishRestaurantsScreenLoadedPreview() {
         ),
     )
     AppTheme {
-        WishRestaurantsContent(
+        RestaurantWishlistContent(
             state = RestaurantVisitUiState.Loaded(restaurants = restaurants, hasMore = false),
             isRefreshing = false,
             onBackClick = {},
@@ -221,9 +221,9 @@ private fun WishRestaurantsScreenLoadedPreview() {
 
 @Preview
 @Composable
-private fun WishRestaurantsScreenEmptyPreview() {
+private fun RestaurantWishlistScreenEmptyPreview() {
     AppTheme {
-        WishRestaurantsContent(
+        RestaurantWishlistContent(
             state = RestaurantVisitUiState.Loaded(restaurants = emptyList(), hasMore = false),
             isRefreshing = false,
             onBackClick = {},

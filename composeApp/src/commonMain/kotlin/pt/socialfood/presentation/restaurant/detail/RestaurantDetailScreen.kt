@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,6 +30,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,6 +59,7 @@ import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.GreyBackground
+import pt.socialfood.ui.theme.ImagePlaceholderColor
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
@@ -101,7 +104,28 @@ private fun RestaurantDetailContent(
             onToggleFavourite = onToggleFavourite,
         )
 
-        is RestaurantDetailUiState.Error -> ErrorContent(onRetryClick = onRetry)
+        is RestaurantDetailUiState.Error -> RestaurantDetailError(onBackClick = onBackClick, onRetry = onRetry)
+    }
+}
+
+@Composable
+private fun RestaurantDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
+    Column(modifier = Modifier.fillMaxSize().background(GreyBackground)) {
+        IconButton(
+            onClick = onBackClick,
+            modifier = Modifier.padding(SpaceSize.medium),
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
+                contentDescription = stringResource(Res.string.back_button_description),
+                tint = MaterialTheme.colorScheme.onBackground,
+            )
+        }
+
+        ErrorContent(
+            modifier = Modifier.fillMaxSize(),
+            onRetryClick = onRetry,
+        )
     }
 }
 
@@ -133,16 +157,7 @@ private fun RestaurantDetailLoaded(
                 TitleSection(restaurant = restaurant)
             }
 
-            val galleryPhotos = restaurant.photoNames.drop(1).take(GALLERY_PHOTO_COUNT)
-            if (galleryPhotos.isNotEmpty()) {
-                item {
-                    PhotoGallery(
-                        photos = galleryPhotos,
-                        restaurantName = restaurant.name,
-                    )
-                    Spacer(Modifier.height(SpaceSize.large))
-                }
-            }
+            photoGallerySection(restaurant)
 
             item {
                 HorizontalDivider(
@@ -179,20 +194,7 @@ private fun RestaurantDetailLoaded(
                 Spacer(Modifier.height(SpaceSize.xlarge))
             }
 
-            restaurant.regularOpeningHours?.let {
-                item {
-                    Text(
-                        text = stringResource(Res.string.restaurant_detail_opening_hours_title),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(horizontal = SpaceSize.large),
-                    )
-
-                    Spacer(Modifier.height(SpaceSize.large))
-
-                    OpeningHoursCard(it)
-                }
-            }
+            openingHoursSection(restaurant)
         }
 
         Box(
@@ -257,14 +259,14 @@ private fun TopSection(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
                 loading = {
-                    Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
+                    Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
                 },
                 error = {
-                    Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
+                    Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
                 },
             )
         } else {
-            Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
+            Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
         }
 
         Box(modifier = Modifier.fillMaxSize().detailImageScrim())
@@ -348,6 +350,36 @@ private fun TitleSection(restaurant: Restaurant) {
     }
 }
 
+private fun LazyListScope.openingHoursSection(restaurant: Restaurant) {
+    restaurant.regularOpeningHours?.let { openingHours ->
+        item {
+            Text(
+                text = stringResource(Res.string.restaurant_detail_opening_hours_title),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.padding(horizontal = SpaceSize.large),
+            )
+
+            Spacer(Modifier.height(SpaceSize.large))
+
+            OpeningHoursCard(openingHours)
+        }
+    }
+}
+
+private fun LazyListScope.photoGallerySection(restaurant: Restaurant) {
+    val galleryPhotos = restaurant.photoNames.drop(1).take(GALLERY_PHOTO_COUNT)
+    if (galleryPhotos.isNotEmpty()) {
+        item {
+            PhotoGallery(
+                photos = galleryPhotos,
+                restaurantName = restaurant.name,
+            )
+            Spacer(Modifier.height(SpaceSize.large))
+        }
+    }
+}
+
 @Composable
 private fun PhotoGallery(photos: List<String>, restaurantName: String) {
     LazyRow(
@@ -367,7 +399,7 @@ private fun PhotoGallery(photos: List<String>, restaurantName: String) {
                         Modifier
                             .size(120.dp)
                             .clip(RoundedCornerShape(SpaceSize.medium))
-                            .background(Color(0xFF2A2A2A)),
+                            .background(ImagePlaceholderColor),
                     )
                 },
                 error = {
@@ -375,7 +407,7 @@ private fun PhotoGallery(photos: List<String>, restaurantName: String) {
                         Modifier
                             .size(120.dp)
                             .clip(RoundedCornerShape(SpaceSize.medium))
-                            .background(Color(0xFF2A2A2A)),
+                            .background(ImagePlaceholderColor),
                     )
                 },
             )

@@ -6,13 +6,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.Card
@@ -36,6 +39,7 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.ui.theme.StarColor
 
 internal val CardHeight = 125.dp
 private const val IMAGE_SIZE = 95
@@ -110,25 +114,59 @@ private fun RestaurantCardInfo(restaurant: Restaurant, modifier: Modifier = Modi
                 style = AppTypography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
                 color = MaterialTheme.colorScheme.onBackground,
             )
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.LocationOn,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(14.dp),
-                )
-                Text(
-                    text = "${restaurant.city}, ${restaurant.country}",
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                    style = AppTypography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
+            RestaurantLocationRow(restaurant)
+            RestaurantRatingRow(restaurant)
         }
+    }
+}
+
+@Composable
+private fun RestaurantLocationRow(restaurant: Restaurant) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
+    ) {
+        Icon(
+            imageVector = Icons.Outlined.LocationOn,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(14.dp),
+        )
+        Text(
+            text = "${restaurant.city}, ${restaurant.country}",
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
+            style = AppTypography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+    }
+}
+
+@Composable
+private fun RestaurantRatingRow(restaurant: Restaurant) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            imageVector = Icons.Filled.Star,
+            contentDescription = null,
+            tint = StarColor,
+            modifier = Modifier.size(14.dp),
+        )
+
+        Spacer(Modifier.width(SpaceSize.small))
+
+        Text(
+            text = restaurant.rating.toString(),
+            style = AppTypography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
+
+        Spacer(Modifier.width(SpaceSize.small))
+
+        Text(
+            text = "(${restaurant.userRatingCount})",
+            style = AppTypography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }
 

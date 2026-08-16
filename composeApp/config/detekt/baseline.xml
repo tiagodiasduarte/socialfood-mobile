@@ -13,7 +13,6 @@
     <ID>LongMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>LongMethod:EditProfilePlaceholder.kt$@Composable internal fun EditProfilePlaceholder()</ID>
     <ID>LongMethod:ErrorContent.kt$@Composable fun ErrorContent( modifier: Modifier = Modifier, errorCode: String? = null, backgroundColor: Color = GreyBackground, onRetryClick: () -&gt; Unit = {}, )</ID>
-    <ID>LongMethod:FavoriteRestaurantCard.kt$@Composable fun FavoriteRestaurantCard( restaurant: Restaurant, modifier: Modifier = Modifier, onClick: () -&gt; Unit = {}, onRemoveClick: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:GuideCard.kt$@Composable fun GuideCard( guide: Guide, width: Dp? = null, isFavourite: Boolean = false, onClick: () -&gt; Unit = {}, onFavouriteClick: (() -&gt; Unit)? = null, modifier: Modifier = Modifier, )</ID>
     <ID>LongMethod:GuideDetailPlaceholder.kt$@Composable fun GuideDetailPlaceholder(modifier: Modifier = Modifier)</ID>
     <ID>LongMethod:GuideDetailScreen.kt$@Composable @Preview fun GuideDetailScreenPreview()</ID>

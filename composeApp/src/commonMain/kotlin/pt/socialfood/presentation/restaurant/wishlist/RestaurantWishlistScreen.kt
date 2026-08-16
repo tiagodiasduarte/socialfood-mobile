@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,6 +43,7 @@ import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
+import socialfood.composeapp.generated.resources.wish_add_button_description
 import socialfood.composeapp.generated.resources.wish_card_remove_button_description
 import socialfood.composeapp.generated.resources.wish_restaurants_title
 
@@ -51,6 +54,7 @@ private const val LOAD_MORE_THRESHOLD = 10
 fun RestaurantWishlistScreen(
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onAddClick: (onRestaurantAdded: (Restaurant) -> Unit) -> Unit = {},
     viewModel: RestaurantWishlistViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -64,6 +68,7 @@ fun RestaurantWishlistScreen(
         onLoadMore = viewModel::loadMore,
         onRetry = viewModel::loadFirstPage,
         onRestaurantClick = onRestaurantClick,
+        onAddClick = { onAddClick(viewModel::addToWishlist) },
         onRemoveClick = viewModel::removeFromWishlist,
     )
 }
@@ -78,6 +83,7 @@ private fun RestaurantWishlistContent(
     onLoadMore: () -> Unit,
     onRetry: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onAddClick: () -> Unit = {},
     onRemoveClick: (restaurantId: String) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
@@ -101,7 +107,7 @@ private fun RestaurantWishlistContent(
             .fillMaxSize()
             .background(GreyBackground),
     ) {
-        TopBar(onBackClick = onBackClick)
+        TopBar(onBackClick = onBackClick, onAddClick = onAddClick)
 
         when (state) {
             RestaurantWishlistUiState.Loading -> RestaurantWishlistPlaceholder(modifier = Modifier.fillMaxSize())
@@ -146,7 +152,7 @@ private fun RestaurantWishlistContent(
 }
 
 @Composable
-private fun TopBar(onBackClick: () -> Unit) {
+private fun TopBar(onBackClick: () -> Unit, onAddClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -167,6 +173,16 @@ private fun TopBar(onBackClick: () -> Unit) {
             style = AppTypography.headlineMedium,
             color = MaterialTheme.colorScheme.primary,
         )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        IconButton(onClick = onAddClick) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = stringResource(Res.string.wish_add_button_description),
+                tint = MaterialTheme.colorScheme.primary,
+            )
+        }
     }
 }
 

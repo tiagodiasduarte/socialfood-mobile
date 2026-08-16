@@ -7,8 +7,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
+import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.MarkRestaurantVisitStatusUseCase
 import pt.socialfood.domain.usecase.restaurantvisitstatus.UnmarkRestaurantVisitStatusUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
@@ -17,6 +19,7 @@ private val STATUS = VisitStatus.WISH
 
 class RestaurantWishlistViewModel(
     private val getRestaurantVisitStatus: GetRestaurantVisitStatusUseCase,
+    private val markRestaurantVisitStatus: MarkRestaurantVisitStatusUseCase,
     private val unmarkRestaurantVisitStatus: UnmarkRestaurantVisitStatusUseCase,
 ) : ViewModel() {
 
@@ -84,6 +87,20 @@ class RestaurantWishlistViewModel(
                     )
                 }
                 is Result.Failure -> _state.value = current.copy(isLoadingMore = false)
+            }
+        }
+    }
+
+    fun addToWishlist(restaurant: Restaurant) {
+        val current = _state.value as? RestaurantWishlistUiState.Loaded ?: return
+        if (current.restaurants.any { it.id == restaurant.id }) return
+        _state.value = current.copy(restaurants = listOf(restaurant) + current.restaurants)
+
+        viewModelScope.launch {
+            val result = markRestaurantVisitStatus(restaurant, STATUS)
+            if (result is Result.Failure) {
+                val stateNow = _state.value as? RestaurantWishlistUiState.Loaded ?: return@launch
+                _state.value = stateNow.copy(restaurants = stateNow.restaurants.filterNot { it.id == restaurant.id })
             }
         }
     }

@@ -369,7 +369,7 @@ val viewModelModule =
         factory { ProfileViewModel(get(), get(), get()) }
         factory { (restaurantId: String) -> RestaurantDetailViewModel(get(), get(), get(), get(), restaurantId) }
         factory { RestaurantVisitedViewModel(get(), get()) }
-        factory { RestaurantWishlistViewModel(get(), get()) }
+        factory { RestaurantWishlistViewModel(get(), get(), get()) }
         factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
         factory { SearchViewModel(get(), get(), get()) }
         factory { SignInViewModel(get(), get()) }

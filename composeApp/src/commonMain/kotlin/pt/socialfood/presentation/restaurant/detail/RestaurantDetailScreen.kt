@@ -285,6 +285,15 @@ private fun TopSection(
                 .padding(SpaceSize.large),
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
         ) {
+            ActionButton(onClick = onFavoriteClick) {
+                Icon(
+                    imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                    contentDescription = stringResource(Res.string.restaurant_detail_favourite_description),
+                    tint = if (isFavourite) FavouriteRed else Color.White,
+                    modifier = Modifier.size(24.dp),
+                )
+            }
+
             var isMenuExpanded by remember { mutableStateOf(false) }
 
             Box {
@@ -308,14 +317,6 @@ private fun TopSection(
                         },
                     )
                 }
-            }
-            ActionButton(onClick = onFavoriteClick) {
-                Icon(
-                    imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                    contentDescription = stringResource(Res.string.restaurant_detail_favourite_description),
-                    tint = if (isFavourite) FavouriteRed else Color.White,
-                    modifier = Modifier.size(24.dp),
-                )
             }
         }
     }

@@ -34,7 +34,7 @@ class RestaurantVisitStatusApiImpl(private val client: HttpClient) : RestaurantV
         }.body()
 
     override suspend fun sync(status: VisitStatus, since: String?): RestaurantVisitStatusSyncResponse =
-        client.get("me/restaurants/${status.pathSegment}/sync") {
+        client.get("me/restaurants/status/sync") {
             if (!since.isNullOrBlank()) parameter("since", since)
         }.body()
 }

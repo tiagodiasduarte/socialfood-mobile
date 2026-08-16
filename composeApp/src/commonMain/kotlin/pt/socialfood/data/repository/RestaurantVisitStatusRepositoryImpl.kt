@@ -4,7 +4,7 @@ import androidx.sqlite.SQLiteException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.RestaurantVisitStatusApi
 import pt.socialfood.data.local.dao.RestaurantVisitStatusDao
-import pt.socialfood.data.local.entity.RestaurantVisitStatusSyncState
+import pt.socialfood.data.local.entity.SyncState
 import pt.socialfood.data.network.extensions.toDataError
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.domain.error.safeApiCall
@@ -32,7 +32,7 @@ class RestaurantVisitStatusRepositoryImpl(
         val entity = restaurant.toRestaurantVisitStatusEntity(
             status = status,
             recordedAt = currentTimeMillis(),
-            syncState = RestaurantVisitStatusSyncState.PENDING_ADD,
+            syncState = SyncState.PENDING_ADD,
         )
         restaurantVisitStatusDao.upsert(entity)
 
@@ -44,7 +44,7 @@ class RestaurantVisitStatusRepositoryImpl(
                 )
 
             is Result.Success<*> -> {
-                restaurantVisitStatusDao.updateSyncState(restaurant.id, RestaurantVisitStatusSyncState.SYNCED.name)
+                restaurantVisitStatusDao.updateSyncState(restaurant.id, SyncState.SYNCED.name)
             }
         }
 
@@ -54,7 +54,7 @@ class RestaurantVisitStatusRepositoryImpl(
     }
 
     override suspend fun unmark(restaurantId: String, status: VisitStatus): Result<Unit> = try {
-        restaurantVisitStatusDao.updateSyncState(restaurantId, RestaurantVisitStatusSyncState.PENDING_REMOVE.name)
+        restaurantVisitStatusDao.updateSyncState(restaurantId, SyncState.PENDING_REMOVE.name)
 
         when (val result = safeApiCall { restaurantVisitStatusApi.unmark(restaurantId, status) }) {
             is Result.Failure ->
@@ -121,10 +121,10 @@ class RestaurantVisitStatusRepositoryImpl(
 
     private suspend fun pushPendingMutations(status: VisitStatus) {
         restaurantVisitStatusDao.getPending(status.name).forEach { entity ->
-            when (RestaurantVisitStatusSyncState.valueOf(entity.syncState)) {
-                RestaurantVisitStatusSyncState.PENDING_ADD -> pushPendingAdd(entity.restaurantId, status)
-                RestaurantVisitStatusSyncState.PENDING_REMOVE -> pushPendingRemove(entity.restaurantId, status)
-                RestaurantVisitStatusSyncState.SYNCED -> Unit
+            when (SyncState.valueOf(entity.syncState)) {
+                SyncState.PENDING_ADD -> pushPendingAdd(entity.restaurantId, status)
+                SyncState.PENDING_REMOVE -> pushPendingRemove(entity.restaurantId, status)
+                SyncState.SYNCED -> Unit
             }
         }
     }
@@ -135,7 +135,7 @@ class RestaurantVisitStatusRepositoryImpl(
                 is Result.Failure ->
                     println("mark($restaurantId, $status) still failing (${result.error}); retried next sync.")
                 is Result.Success ->
-                    restaurantVisitStatusDao.updateSyncState(restaurantId, RestaurantVisitStatusSyncState.SYNCED.name)
+                    restaurantVisitStatusDao.updateSyncState(restaurantId, SyncState.SYNCED.name)
             }
         } catch (e: SQLiteException) {
             println("mark($restaurantId, $status) local update failed ($e); retried next sync.")
@@ -176,7 +176,7 @@ class RestaurantVisitStatusRepositoryImpl(
                     it.toRestaurant().toRestaurantVisitStatusEntity(
                         status = status,
                         recordedAt = now,
-                        syncState = RestaurantVisitStatusSyncState.SYNCED,
+                        syncState = SyncState.SYNCED,
                     )
                 }
             restaurantVisitStatusDao.upsertAll(toUpsert)

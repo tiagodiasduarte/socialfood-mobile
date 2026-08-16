@@ -19,11 +19,10 @@ private val LAST_FAVOURITES_SYNC_ATTEMPT_AT = longPreferencesKey("last_favourite
 private val LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = stringPreferencesKey("favourite_restaurants_synced_at")
 private val LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT =
     longPreferencesKey("last_favourite_restaurants_sync_attempt_at")
-private fun restaurantVisitSyncedAtKey(status: VisitStatus) =
-    stringPreferencesKey("restaurant_visit_${status.name.lowercase()}_synced_at")
 
-private fun restaurantVisitSyncAttemptAtKey(status: VisitStatus) =
-    longPreferencesKey("last_restaurant_visit_${status.name.lowercase()}_sync_attempt_at")
+private val LAST_RESTAURANT_VISIT_STATUS_SYNC_SYNCED_AT = stringPreferencesKey("restaurant_visit_status_synced_at")
+private val LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT =
+    longPreferencesKey("last_restaurant_visit_status_sync_attempt_at")
 
 @Suppress("TooManyFunctions")
 class SettingsRepositoryImpl(private val context: Context) : SettingsRepository {
@@ -82,16 +81,16 @@ class SettingsRepositoryImpl(private val context: Context) : SettingsRepository 
     }
 
     override suspend fun getLastRestaurantVisitStatusSyncedAt(status: VisitStatus): String? =
-        context.dataStore.data.first()[restaurantVisitSyncedAtKey(status)]
+        context.dataStore.data.first()[LAST_RESTAURANT_VISIT_STATUS_SYNC_SYNCED_AT]
 
     override suspend fun saveLastRestaurantVisitStatusSyncedAt(status: VisitStatus, syncedAt: String) {
-        context.dataStore.edit { it[restaurantVisitSyncedAtKey(status)] = syncedAt }
+        context.dataStore.edit { it[LAST_RESTAURANT_VISIT_STATUS_SYNC_SYNCED_AT] = syncedAt }
     }
 
     override suspend fun getLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus): Long? =
-        context.dataStore.data.first()[restaurantVisitSyncAttemptAtKey(status)]
+        context.dataStore.data.first()[LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT]
 
     override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus, timestamp: Long) {
-        context.dataStore.edit { it[restaurantVisitSyncAttemptAtKey(status)] = timestamp }
+        context.dataStore.edit { it[LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT] = timestamp }
     }
 }

@@ -1,7 +1,7 @@
 package pt.socialfood.mapper
 
 import pt.socialfood.data.local.entity.RestaurantVisitStatusEntity
-import pt.socialfood.data.local.entity.RestaurantVisitStatusSyncState
+import pt.socialfood.data.local.entity.SyncState
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
@@ -31,7 +31,7 @@ class RestaurantVisitStatusMapperTest {
         imageUrl = Random.nextNullable { nextUrl() },
         status = Random.nextEnum<VisitStatus>().name,
         recordedAt = Random.nextLong(),
-        syncState = Random.nextEnum<RestaurantVisitStatusSyncState>().name,
+        syncState = Random.nextEnum<SyncState>().name,
     )
 
     @Test
@@ -88,7 +88,7 @@ class RestaurantVisitStatusMapperTest {
         val restaurant = Random.nextRestaurant()
         val status = Random.nextEnum<VisitStatus>()
         val recordedAt = Random.nextLong()
-        val syncState = Random.nextEnum<RestaurantVisitStatusSyncState>()
+        val syncState = Random.nextEnum<SyncState>()
 
         // When
         val result = restaurant.toRestaurantVisitStatusEntity(status, recordedAt, syncState)

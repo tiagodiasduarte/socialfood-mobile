@@ -209,6 +209,7 @@ import pt.socialfood.presentation.profile.ProfileViewModel
 import pt.socialfood.presentation.profile.edit.EditProfileViewModel
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
+import pt.socialfood.presentation.restaurantvisit.visited.VisitedRestaurantsViewModel
 import pt.socialfood.presentation.restaurantvisit.wish.WishRestaurantsViewModel
 import pt.socialfood.presentation.search.SearchViewModel
 import pt.socialfood.presentation.signin.SignInViewModel
@@ -373,6 +374,7 @@ val viewModelModule =
         factory { SignUpViewModel(get()) }
         factory { StartupViewModel(get(), get(), get()) }
         factory { (email: String) -> ValidateCodeViewModel(get(), get(), get(), email) }
+        factory { VisitedRestaurantsViewModel(get(), get()) }
         factory { WishRestaurantsViewModel(get(), get()) }
     }
 

@@ -56,7 +56,7 @@ class RestaurantVisitStatusRepositoryImpl(
     override suspend fun unmark(restaurantId: String, status: VisitStatus): Result<Unit> = try {
         restaurantVisitStatusDao.updateSyncState(restaurantId, SyncState.PENDING_REMOVE.name)
 
-        when (val result = safeApiCall { restaurantVisitStatusApi.unmark(restaurantId, status) }) {
+        when (val result = safeApiCall { restaurantVisitStatusApi.unmark(restaurantId) }) {
             is Result.Failure ->
                 println(
                     "unmark($restaurantId, $status) failed (${result.error}); " +
@@ -144,7 +144,7 @@ class RestaurantVisitStatusRepositoryImpl(
 
     private suspend fun pushPendingRemove(restaurantId: String, status: VisitStatus) {
         try {
-            when (val result = safeApiCall { restaurantVisitStatusApi.unmark(restaurantId, status) }) {
+            when (val result = safeApiCall { restaurantVisitStatusApi.unmark(restaurantId) }) {
                 is Result.Failure ->
                     println("unmark($restaurantId, $status) still failing (${result.error}); retried next sync.")
                 is Result.Success ->

@@ -12,7 +12,6 @@ import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeGetRestaurantVisitStatusUseCase
 import pt.socialfood.fakes.FakeUnmarkRestaurantVisitStatusUseCase
-import pt.socialfood.presentation.restaurant.RestaurantVisitUiState
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -54,8 +53,8 @@ class VisitedRestaurantsViewModelTest {
         // When / Then
         val vm = VisitedRestaurantsViewModel(useCase, FakeUnmarkRestaurantVisitStatusUseCase())
         vm.state.test {
-            assertEquals(RestaurantVisitUiState.Loading, awaitItem())
-            val state = assertIs<RestaurantVisitUiState.Loaded>(awaitItem())
+            assertEquals(VisitedRestaurantsUiState.Loading, awaitItem())
+            val state = assertIs<VisitedRestaurantsUiState.Loaded>(awaitItem())
             assertEquals(1, state.restaurants.size)
             assertEquals("r1", state.restaurants.first().id)
         }
@@ -70,8 +69,8 @@ class VisitedRestaurantsViewModelTest {
         // When / Then
         val vm = VisitedRestaurantsViewModel(useCase, FakeUnmarkRestaurantVisitStatusUseCase())
         vm.state.test {
-            assertEquals(RestaurantVisitUiState.Loading, awaitItem())
-            assertEquals(RestaurantVisitUiState.Error(ErrorCode.NETWORK), awaitItem())
+            assertEquals(VisitedRestaurantsUiState.Loading, awaitItem())
+            assertEquals(VisitedRestaurantsUiState.Error(ErrorCode.NETWORK), awaitItem())
         }
     }
 
@@ -104,16 +103,16 @@ class VisitedRestaurantsViewModelTest {
 
             // When / Then
             vm.state.test {
-                assertEquals(RestaurantVisitUiState.Loading, awaitItem())
-                val first = assertIs<RestaurantVisitUiState.Loaded>(awaitItem())
+                assertEquals(VisitedRestaurantsUiState.Loading, awaitItem())
+                val first = assertIs<VisitedRestaurantsUiState.Loaded>(awaitItem())
                 assertEquals(listOf("r1"), first.restaurants.map { it.id })
 
                 vm.loadMore()
 
-                val loadingMore = assertIs<RestaurantVisitUiState.Loaded>(awaitItem())
+                val loadingMore = assertIs<VisitedRestaurantsUiState.Loaded>(awaitItem())
                 assertTrue(loadingMore.isLoadingMore)
 
-                val loaded = assertIs<RestaurantVisitUiState.Loaded>(awaitItem())
+                val loaded = assertIs<VisitedRestaurantsUiState.Loaded>(awaitItem())
                 assertEquals(listOf("r1", "r2"), loaded.restaurants.map { it.id })
                 assertFalse(loaded.hasMore)
             }
@@ -131,14 +130,14 @@ class VisitedRestaurantsViewModelTest {
 
         // When / Then
         vm.state.test {
-            assertEquals(RestaurantVisitUiState.Loading, awaitItem())
-            assertIs<RestaurantVisitUiState.Loaded>(awaitItem())
+            assertEquals(VisitedRestaurantsUiState.Loading, awaitItem())
+            assertIs<VisitedRestaurantsUiState.Loaded>(awaitItem())
         }
 
         vm.refresh()
         advanceUntilIdle()
         assertFalse(vm.isRefreshing.value)
-        assertIs<RestaurantVisitUiState.Loaded>(vm.state.value)
+        assertIs<VisitedRestaurantsUiState.Loaded>(vm.state.value)
     }
 
     @Test
@@ -160,13 +159,13 @@ class VisitedRestaurantsViewModelTest {
 
             // When / Then
             vm.state.test {
-                assertEquals(RestaurantVisitUiState.Loading, awaitItem())
-                val loaded = assertIs<RestaurantVisitUiState.Loaded>(awaitItem())
+                assertEquals(VisitedRestaurantsUiState.Loading, awaitItem())
+                val loaded = assertIs<VisitedRestaurantsUiState.Loaded>(awaitItem())
                 assertEquals(listOf("r1", "r2"), loaded.restaurants.map { it.id })
 
                 vm.removeFromVisited("r1")
 
-                val afterRemoval = assertIs<RestaurantVisitUiState.Loaded>(awaitItem())
+                val afterRemoval = assertIs<VisitedRestaurantsUiState.Loaded>(awaitItem())
                 assertEquals(listOf("r2"), afterRemoval.restaurants.map { it.id })
             }
             advanceUntilIdle()
@@ -190,16 +189,16 @@ class VisitedRestaurantsViewModelTest {
 
             // When / Then
             vm.state.test {
-                assertEquals(RestaurantVisitUiState.Loading, awaitItem())
-                val loaded = assertIs<RestaurantVisitUiState.Loaded>(awaitItem())
+                assertEquals(VisitedRestaurantsUiState.Loading, awaitItem())
+                val loaded = assertIs<VisitedRestaurantsUiState.Loaded>(awaitItem())
                 assertEquals(listOf("r1"), loaded.restaurants.map { it.id })
 
                 vm.removeFromVisited("r1")
 
-                val afterRemoval = assertIs<RestaurantVisitUiState.Loaded>(awaitItem())
+                val afterRemoval = assertIs<VisitedRestaurantsUiState.Loaded>(awaitItem())
                 assertTrue(afterRemoval.restaurants.isEmpty())
 
-                val reverted = assertIs<RestaurantVisitUiState.Loaded>(awaitItem())
+                val reverted = assertIs<VisitedRestaurantsUiState.Loaded>(awaitItem())
                 assertEquals(listOf("r1"), reverted.restaurants.map { it.id })
             }
         }

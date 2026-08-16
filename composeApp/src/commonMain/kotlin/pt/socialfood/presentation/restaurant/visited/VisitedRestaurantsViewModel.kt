@@ -11,7 +11,6 @@ import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusUseCase
 import pt.socialfood.domain.usecase.restaurantvisitstatus.UnmarkRestaurantVisitStatusUseCase
 import pt.socialfood.presentation.error.toErrorCode
-import pt.socialfood.presentation.restaurant.RestaurantVisitUiState
 
 private const val PAGE_SIZE = 20
 private val STATUS = VisitStatus.VISITED
@@ -21,8 +20,8 @@ class VisitedRestaurantsViewModel(
     private val unmarkRestaurantVisitStatus: UnmarkRestaurantVisitStatusUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<RestaurantVisitUiState>(RestaurantVisitUiState.Loading)
-    val state: StateFlow<RestaurantVisitUiState> = _state.asStateFlow()
+    private val _state = MutableStateFlow<VisitedRestaurantsUiState>(VisitedRestaurantsUiState.Loading)
+    val state: StateFlow<VisitedRestaurantsUiState> = _state.asStateFlow()
 
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
@@ -35,17 +34,17 @@ class VisitedRestaurantsViewModel(
 
     fun loadFirstPage() {
         viewModelScope.launch {
-            _state.value = RestaurantVisitUiState.Loading
+            _state.value = VisitedRestaurantsUiState.Loading
             currentPage = 1
             when (val result = getRestaurantVisitStatus(status = STATUS, page = 1, limit = PAGE_SIZE)) {
                 is Result.Success -> {
                     currentPage = result.data.page
-                    _state.value = RestaurantVisitUiState.Loaded(
+                    _state.value = VisitedRestaurantsUiState.Loaded(
                         restaurants = result.data.visits.map { it.restaurant },
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Failure -> _state.value = RestaurantVisitUiState.Error(result.error.toErrorCode())
+                is Result.Failure -> _state.value = VisitedRestaurantsUiState.Error(result.error.toErrorCode())
             }
         }
     }
@@ -57,19 +56,19 @@ class VisitedRestaurantsViewModel(
             when (val result = getRestaurantVisitStatus(status = STATUS, page = 1, limit = PAGE_SIZE)) {
                 is Result.Success -> {
                     currentPage = result.data.page
-                    _state.value = RestaurantVisitUiState.Loaded(
+                    _state.value = VisitedRestaurantsUiState.Loaded(
                         restaurants = result.data.visits.map { it.restaurant },
                         hasMore = result.data.hasMore,
                     )
                 }
-                is Result.Failure -> _state.value = RestaurantVisitUiState.Error(result.error.toErrorCode())
+                is Result.Failure -> _state.value = VisitedRestaurantsUiState.Error(result.error.toErrorCode())
             }
             _isRefreshing.value = false
         }
     }
 
     fun loadMore() {
-        val current = _state.value as? RestaurantVisitUiState.Loaded ?: return
+        val current = _state.value as? VisitedRestaurantsUiState.Loaded ?: return
         if (!current.hasMore || current.isLoadingMore) return
 
         viewModelScope.launch {
@@ -90,14 +89,14 @@ class VisitedRestaurantsViewModel(
     }
 
     fun removeFromVisited(restaurantId: String) {
-        val current = _state.value as? RestaurantVisitUiState.Loaded ?: return
+        val current = _state.value as? VisitedRestaurantsUiState.Loaded ?: return
         val removedRestaurant = current.restaurants.find { it.id == restaurantId } ?: return
         _state.value = current.copy(restaurants = current.restaurants.filterNot { it.id == restaurantId })
 
         viewModelScope.launch {
             val result = unmarkRestaurantVisitStatus(restaurantId, STATUS)
             if (result is Result.Failure) {
-                val stateNow = _state.value as? RestaurantVisitUiState.Loaded ?: return@launch
+                val stateNow = _state.value as? VisitedRestaurantsUiState.Loaded ?: return@launch
                 _state.value = stateNow.copy(restaurants = listOf(removedRestaurant) + stateNow.restaurants)
             }
         }

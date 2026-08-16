@@ -35,8 +35,6 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
-import pt.socialfood.presentation.restaurant.RestaurantVisitUiState
-import pt.socialfood.presentation.restaurant.RestaurantVisitsPlaceholder
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.GreyBackground
@@ -73,7 +71,7 @@ fun VisitedRestaurantsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun VisitedRestaurantsContent(
-    state: RestaurantVisitUiState,
+    state: VisitedRestaurantsUiState,
     isRefreshing: Boolean,
     onBackClick: () -> Unit,
     onRefresh: () -> Unit,
@@ -93,7 +91,7 @@ private fun VisitedRestaurantsContent(
     }
 
     LaunchedEffect(reachedBottom, state) {
-        if (reachedBottom && state is RestaurantVisitUiState.Loaded && state.hasMore && !state.isLoadingMore) {
+        if (reachedBottom && state is VisitedRestaurantsUiState.Loaded && state.hasMore && !state.isLoadingMore) {
             onLoadMore()
         }
     }
@@ -106,14 +104,14 @@ private fun VisitedRestaurantsContent(
         TopBar(onBackClick = onBackClick)
 
         when (state) {
-            RestaurantVisitUiState.Loading -> RestaurantVisitsPlaceholder(modifier = Modifier.fillMaxSize())
+            VisitedRestaurantsUiState.Loading -> VisitedRestaurantsPlaceholder(modifier = Modifier.fillMaxSize())
 
-            is RestaurantVisitUiState.Error -> ErrorContent(
+            is VisitedRestaurantsUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),
                 onRetryClick = onRetry,
             )
 
-            is RestaurantVisitUiState.Loaded -> if (state.restaurants.isEmpty()) {
+            is VisitedRestaurantsUiState.Loaded -> if (state.restaurants.isEmpty()) {
                 NoResultsContent(modifier = Modifier.fillMaxSize())
             } else {
                 PullToRefreshBox(
@@ -209,7 +207,7 @@ private fun VisitedRestaurantsScreenLoadedPreview() {
     )
     AppTheme {
         VisitedRestaurantsContent(
-            state = RestaurantVisitUiState.Loaded(restaurants = restaurants, hasMore = false),
+            state = VisitedRestaurantsUiState.Loaded(restaurants = restaurants, hasMore = false),
             isRefreshing = false,
             onBackClick = {},
             onRefresh = {},
@@ -224,7 +222,7 @@ private fun VisitedRestaurantsScreenLoadedPreview() {
 private fun VisitedRestaurantsScreenEmptyPreview() {
     AppTheme {
         VisitedRestaurantsContent(
-            state = RestaurantVisitUiState.Loaded(restaurants = emptyList(), hasMore = false),
+            state = VisitedRestaurantsUiState.Loaded(restaurants = emptyList(), hasMore = false),
             isRefreshing = false,
             onBackClick = {},
             onRefresh = {},

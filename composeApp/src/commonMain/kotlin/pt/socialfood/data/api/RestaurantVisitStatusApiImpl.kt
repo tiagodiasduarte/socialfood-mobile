@@ -11,10 +11,13 @@ import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.domain.model.VisitStatus
 
-private val VisitStatus.pathSegment: String
+private const val WISH_PATH_SEGMENT = "wishlist"
+private const val VISITED_PATH_SEGMENT = "visited"
+
+internal val VisitStatus.pathSegment: String
     get() = when (this) {
-        VisitStatus.WISH -> "wishlist"
-        VisitStatus.VISITED -> "visited"
+        VisitStatus.WISH -> WISH_PATH_SEGMENT
+        VisitStatus.VISITED -> VISITED_PATH_SEGMENT
     }
 
 class RestaurantVisitStatusApiImpl(private val client: HttpClient) : RestaurantVisitStatusApi {
@@ -34,7 +37,7 @@ class RestaurantVisitStatusApiImpl(private val client: HttpClient) : RestaurantV
         }.body()
 
     override suspend fun sync(status: VisitStatus, since: String?): RestaurantVisitStatusSyncResponse =
-        client.get("me/restaurants/${status.pathSegment}/sync") {
+        client.get("me/restaurants/status/sync") {
             if (!since.isNullOrBlank()) parameter("since", since)
         }.body()
 }

@@ -6,26 +6,12 @@ import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.domain.model.VisitStatus
+import pt.socialfood.random.nextRestaurantResponse
+import kotlin.random.Random
 
 class FakeRestaurantVisitStatusApi(private val shouldThrow: Boolean = false) : RestaurantVisitStatusApi {
 
-    private val fakeRestaurantResponse = RestaurantResponse(
-        id = "restaurant-id",
-        name = "Restaurant Name",
-        description = "Restaurant Description",
-        photoNames = emptyList(),
-        city = "Lisbon",
-        country = "Portugal",
-        countryCode = "PT",
-        postalCode = "1000-000",
-        phoneNumber = "+351910000000",
-        address = "Rua Augusta 1",
-        rating = 4.5,
-        userRatingCount = 100,
-        websiteUrl = null,
-        location = RestaurantResponse.Location(latitude = 0.0, longitude = 0.0),
-        regularOpeningHours = null,
-    )
+    private val fakeRestaurantResponse = Random.nextRestaurantResponse()
 
     var lastMarkedRestaurantId: String? = null
         private set
@@ -41,7 +27,7 @@ class FakeRestaurantVisitStatusApi(private val shouldThrow: Boolean = false) : R
     )
 
     var fakeSyncResponse = RestaurantVisitStatusSyncResponse(
-        addedIds = listOf(fakeRestaurantResponse.id),
+        updated = emptyList(),
         removedIds = emptyList(),
         syncedAt = "2026-08-01T10:30:00Z",
     )
@@ -63,6 +49,10 @@ class FakeRestaurantVisitStatusApi(private val shouldThrow: Boolean = false) : R
 
     override suspend fun sync(status: VisitStatus, since: String?): RestaurantVisitStatusSyncResponse {
         if (shouldThrow) throw IOException("test error")
-        return fakeSyncResponse
+        return fakeSyncResponse.copy(
+            updated = listOf(
+                RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(fakeRestaurantResponse.id, status),
+            ),
+        )
     }
 }

@@ -11,6 +11,15 @@ import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.domain.model.VisitStatus
 
+private const val WISH_PATH_SEGMENT = "wishlist"
+private const val VISITED_PATH_SEGMENT = "visited"
+
+internal val VisitStatus.pathSegment: String
+    get() = when (this) {
+        VisitStatus.WISH -> WISH_PATH_SEGMENT
+        VisitStatus.VISITED -> VISITED_PATH_SEGMENT
+    }
+
 class RestaurantVisitStatusApiImpl(private val client: HttpClient) : RestaurantVisitStatusApi {
 
     override suspend fun mark(restaurantId: String, status: VisitStatus) {

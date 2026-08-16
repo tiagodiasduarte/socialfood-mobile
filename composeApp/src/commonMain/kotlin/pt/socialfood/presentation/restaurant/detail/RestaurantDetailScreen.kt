@@ -73,6 +73,7 @@ import socialfood.composeapp.generated.resources.restaurant_detail_share_button
 val ImageHeight = 300.dp
 private const val GALLERY_PHOTO_COUNT = 5
 
+@Suppress("TooManyFunctions")
 @Composable
 fun RestaurantDetailScreen(
     restaurantId: String,
@@ -195,7 +196,7 @@ private fun RestaurantDetailLoaded(
                 Spacer(Modifier.height(SpaceSize.xlarge))
             }
 
-            openingHoursSection(restaurant)
+            item { OpeningHoursSection(restaurant) }
         }
 
         CallButton(
@@ -205,43 +206,6 @@ private fun RestaurantDetailLoaded(
                 }
             },
         )
-    }
-}
-
-@Composable
-private fun BoxScope.CallButton(onClick: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .fillMaxWidth()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(Color.Transparent, GreyBackground),
-                    startY = 0f,
-                    endY = Float.POSITIVE_INFINITY,
-                ),
-            )
-            .padding(SpaceSize.large),
-    ) {
-        Button(
-            onClick = onClick,
-            modifier = Modifier.fillMaxWidth().height(52.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-            ),
-            shape = RoundedCornerShape(SpaceSize.large),
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Phone,
-                contentDescription = null,
-                modifier = Modifier.size(20.dp),
-            )
-            Spacer(Modifier.width(SpaceSize.medium))
-            Text(
-                text = stringResource(Res.string.restaurant_detail_call_button),
-                style = MaterialTheme.typography.labelLarge,
-            )
-        }
     }
 }
 
@@ -335,6 +299,43 @@ private fun TopSection(
 }
 
 @Composable
+private fun BoxScope.CallButton(onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .fillMaxWidth()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(Color.Transparent, GreyBackground),
+                    startY = 0f,
+                    endY = Float.POSITIVE_INFINITY,
+                ),
+            )
+            .padding(SpaceSize.large),
+    ) {
+        Button(
+            onClick = onClick,
+            modifier = Modifier.fillMaxWidth().height(52.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+            ),
+            shape = RoundedCornerShape(SpaceSize.large),
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Phone,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+            )
+            Spacer(Modifier.width(SpaceSize.medium))
+            Text(
+                text = stringResource(Res.string.restaurant_detail_call_button),
+                style = MaterialTheme.typography.labelLarge,
+            )
+        }
+    }
+}
+
+@Composable
 private fun TitleSection(restaurant: Restaurant) {
     Column(
         modifier = Modifier
@@ -358,20 +359,19 @@ private fun TitleSection(restaurant: Restaurant) {
     }
 }
 
-private fun LazyListScope.openingHoursSection(restaurant: Restaurant) {
+@Composable
+private fun OpeningHoursSection(restaurant: Restaurant) {
     restaurant.regularOpeningHours?.let { openingHours ->
-        item {
-            Text(
-                text = stringResource(Res.string.restaurant_detail_opening_hours_title),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.padding(horizontal = SpaceSize.large),
-            )
+        Text(
+            text = stringResource(Res.string.restaurant_detail_opening_hours_title),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(horizontal = SpaceSize.large),
+        )
 
-            Spacer(Modifier.height(SpaceSize.large))
+        Spacer(Modifier.height(SpaceSize.large))
 
-            OpeningHoursCard(openingHours)
-        }
+        OpeningHoursCard(openingHours)
     }
 }
 

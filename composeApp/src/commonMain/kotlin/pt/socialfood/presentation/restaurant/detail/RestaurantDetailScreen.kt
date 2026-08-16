@@ -14,10 +14,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
@@ -141,62 +141,55 @@ private fun RestaurantDetailLoaded(
     val uriHandler = LocalUriHandler.current
 
     Box(modifier = Modifier.fillMaxSize().background(GreyBackground)) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(bottom = 88.dp),
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
         ) {
-            item {
-                TopSection(
-                    restaurant = restaurant,
-                    isFavourite = isFavourite,
-                    onBackClick = onBackClick,
-                    onShareClick = {},
-                    onFavoriteClick = onToggleFavourite,
-                )
-            }
+            TopSection(
+                restaurant = restaurant,
+                isFavourite = isFavourite,
+                onBackClick = onBackClick,
+                onShareClick = {},
+                onFavoriteClick = onToggleFavourite,
+            )
 
-            item {
-                TitleSection(restaurant = restaurant)
-            }
+            TitleSection(restaurant = restaurant)
 
-            photoGallerySection(restaurant)
+            PhotoGallerySection(restaurant)
 
-            item {
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = SpaceSize.large),
-                    color = MaterialTheme.colorScheme.outlineVariant,
-                )
-                Spacer(Modifier.height(SpaceSize.large))
-            }
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = SpaceSize.large),
+                color = MaterialTheme.colorScheme.outlineVariant,
+            )
+            Spacer(Modifier.height(SpaceSize.large))
 
-            item {
-                InformationSection(
-                    restaurant = restaurant,
-                    onNavigateClick = {
-                        if (restaurant.address.isNotBlank()) {
-                            uriHandler.openUri("geo:0,0?q=${restaurant.address}")
-                        }
-                    },
-                    onWebsiteClick = {
-                        if (!restaurant.websiteUrl.isNullOrBlank()) {
-                            uriHandler.openUri(restaurant.websiteUrl)
-                        }
-                    },
-                )
-            }
+            InformationSection(
+                restaurant = restaurant,
+                onNavigateClick = {
+                    if (restaurant.address.isNotBlank()) {
+                        uriHandler.openUri("geo:0,0?q=${restaurant.address}")
+                    }
+                },
+                onWebsiteClick = {
+                    if (!restaurant.websiteUrl.isNullOrBlank()) {
+                        uriHandler.openUri(restaurant.websiteUrl)
+                    }
+                },
+            )
 
-            item {
-                Spacer(Modifier.height(SpaceSize.xlarge))
+            Spacer(Modifier.height(SpaceSize.xlarge))
 
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = SpaceSize.large),
-                    color = MaterialTheme.colorScheme.outlineVariant,
-                )
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = SpaceSize.large),
+                color = MaterialTheme.colorScheme.outlineVariant,
+            )
 
-                Spacer(Modifier.height(SpaceSize.xlarge))
-            }
+            Spacer(Modifier.height(SpaceSize.xlarge))
 
-            item { OpeningHoursSection(restaurant) }
+            OpeningHoursSection(restaurant)
+
+            Spacer(Modifier.height(88.dp))
         }
 
         CallButton(
@@ -375,16 +368,15 @@ private fun OpeningHoursSection(restaurant: Restaurant) {
     }
 }
 
-private fun LazyListScope.photoGallerySection(restaurant: Restaurant) {
+@Composable
+private fun PhotoGallerySection(restaurant: Restaurant) {
     val galleryPhotos = restaurant.photoNames.drop(1).take(GALLERY_PHOTO_COUNT)
     if (galleryPhotos.isNotEmpty()) {
-        item {
-            PhotoGallery(
-                photos = galleryPhotos,
-                restaurantName = restaurant.name,
-            )
-            Spacer(Modifier.height(SpaceSize.large))
-        }
+        PhotoGallery(
+            photos = galleryPhotos,
+            restaurantName = restaurant.name,
+        )
+        Spacer(Modifier.height(SpaceSize.large))
     }
 }
 

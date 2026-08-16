@@ -67,6 +67,7 @@ import socialfood.composeapp.generated.resources.restaurant_detail_opening_hours
 import socialfood.composeapp.generated.resources.restaurant_detail_share_button
 
 val ImageHeight = 300.dp
+private const val GALLERY_PHOTO_COUNT = 5
 
 @Composable
 fun RestaurantDetailScreen(
@@ -132,10 +133,11 @@ private fun RestaurantDetailLoaded(
                 TitleSection(restaurant = restaurant)
             }
 
-            if (restaurant.photoNames.isNotEmpty()) {
+            val galleryPhotos = restaurant.photoNames.drop(1).take(GALLERY_PHOTO_COUNT)
+            if (galleryPhotos.isNotEmpty()) {
                 item {
                     PhotoGallery(
-                        photos = restaurant.photoNames,
+                        photos = galleryPhotos,
                         restaurantName = restaurant.name,
                     )
                     Spacer(Modifier.height(SpaceSize.large))

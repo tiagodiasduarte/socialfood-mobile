@@ -11,12 +11,6 @@ import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.domain.model.VisitStatus
 
-private val VisitStatus.pathSegment: String
-    get() = when (this) {
-        VisitStatus.WISH -> "wishlist"
-        VisitStatus.VISITED -> "visited"
-    }
-
 class RestaurantVisitStatusApiImpl(private val client: HttpClient) : RestaurantVisitStatusApi {
 
     override suspend fun mark(restaurantId: String, status: VisitStatus) {

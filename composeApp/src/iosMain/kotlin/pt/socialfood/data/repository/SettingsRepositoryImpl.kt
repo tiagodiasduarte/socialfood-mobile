@@ -75,19 +75,19 @@ class SettingsRepositoryImpl : SettingsRepository {
         defaults.setInteger(timestamp, KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT)
     }
 
-    override suspend fun getLastRestaurantVisitSyncedAt(status: VisitStatus): String? =
+    override suspend fun getLastRestaurantVisitStatusSyncedAt(status: VisitStatus): String? =
         defaults.stringForKey(keyLastRestaurantVisitSyncedAt(status))
 
-    override suspend fun saveLastRestaurantVisitSyncedAt(status: VisitStatus, syncedAt: String) {
+    override suspend fun saveLastRestaurantVisitStatusSyncedAt(status: VisitStatus, syncedAt: String) {
         defaults.setObject(syncedAt, keyLastRestaurantVisitSyncedAt(status))
     }
 
-    override suspend fun getLastRestaurantVisitSyncAttemptAt(status: VisitStatus): Long? {
+    override suspend fun getLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus): Long? {
         val key = keyLastRestaurantVisitSyncAttemptAt(status)
         return if (defaults.objectForKey(key) != null) defaults.integerForKey(key) else null
     }
 
-    override suspend fun saveLastRestaurantVisitSyncAttemptAt(status: VisitStatus, timestamp: Long) {
+    override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus, timestamp: Long) {
         defaults.setInteger(timestamp, keyLastRestaurantVisitSyncAttemptAt(status))
     }
 }

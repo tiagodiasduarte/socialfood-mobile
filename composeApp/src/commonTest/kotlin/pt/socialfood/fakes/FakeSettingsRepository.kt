@@ -58,17 +58,17 @@ class FakeSettingsRepository : SettingsRepository {
         lastFavouriteRestaurantsSyncAttemptAt = timestamp
     }
 
-    override suspend fun getLastRestaurantVisitSyncedAt(status: VisitStatus): String? =
+    override suspend fun getLastRestaurantVisitStatusSyncedAt(status: VisitStatus): String? =
         lastRestaurantVisitSyncedAt[status]
 
-    override suspend fun saveLastRestaurantVisitSyncedAt(status: VisitStatus, syncedAt: String) {
+    override suspend fun saveLastRestaurantVisitStatusSyncedAt(status: VisitStatus, syncedAt: String) {
         lastRestaurantVisitSyncedAt[status] = syncedAt
     }
 
-    override suspend fun getLastRestaurantVisitSyncAttemptAt(status: VisitStatus): Long? =
+    override suspend fun getLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus): Long? =
         lastRestaurantVisitSyncAttemptAt[status]
 
-    override suspend fun saveLastRestaurantVisitSyncAttemptAt(status: VisitStatus, timestamp: Long) {
+    override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus, timestamp: Long) {
         lastRestaurantVisitSyncAttemptAt[status] = timestamp
     }
 }

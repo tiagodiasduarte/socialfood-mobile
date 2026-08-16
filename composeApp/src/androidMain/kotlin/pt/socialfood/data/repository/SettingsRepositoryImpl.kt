@@ -81,17 +81,17 @@ class SettingsRepositoryImpl(private val context: Context) : SettingsRepository 
         context.dataStore.edit { it[LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT] = timestamp }
     }
 
-    override suspend fun getLastRestaurantVisitSyncedAt(status: VisitStatus): String? =
+    override suspend fun getLastRestaurantVisitStatusSyncedAt(status: VisitStatus): String? =
         context.dataStore.data.first()[restaurantVisitSyncedAtKey(status)]
 
-    override suspend fun saveLastRestaurantVisitSyncedAt(status: VisitStatus, syncedAt: String) {
+    override suspend fun saveLastRestaurantVisitStatusSyncedAt(status: VisitStatus, syncedAt: String) {
         context.dataStore.edit { it[restaurantVisitSyncedAtKey(status)] = syncedAt }
     }
 
-    override suspend fun getLastRestaurantVisitSyncAttemptAt(status: VisitStatus): Long? =
+    override suspend fun getLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus): Long? =
         context.dataStore.data.first()[restaurantVisitSyncAttemptAtKey(status)]
 
-    override suspend fun saveLastRestaurantVisitSyncAttemptAt(status: VisitStatus, timestamp: Long) {
+    override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus, timestamp: Long) {
         context.dataStore.edit { it[restaurantVisitSyncAttemptAtKey(status)] = timestamp }
     }
 }

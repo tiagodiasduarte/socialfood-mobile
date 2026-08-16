@@ -7,12 +7,13 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.PagedRestaurantVisitStatus
-import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeGetRestaurantVisitStatusUseCase
 import pt.socialfood.fakes.FakeUnmarkRestaurantVisitStatusUseCase
+import pt.socialfood.random.nextRestaurant
 import pt.socialfood.runner.runTestWithMainDispatcher
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -22,21 +23,7 @@ import kotlin.test.assertTrue
 @OptIn(ExperimentalCoroutinesApi::class)
 class RestaurantWishlistViewModelTest {
     private fun wished(id: String) = RestaurantVisitStatus(
-        restaurant = Restaurant(
-            id = id,
-            name = "Restaurant $id",
-            description = "",
-            city = "Lisbon",
-            country = "Portugal",
-            countryCode = "PT",
-            postalCode = "1000-000",
-            photoNames = emptyList(),
-            address = "Rua Augusta 1",
-            rating = 4.5,
-            userRatingCount = 100,
-            websiteUrl = null,
-            phoneNumber = "+351910000000",
-        ),
+        restaurant = Random.nextRestaurant(id = id),
         status = VisitStatus.WISH,
         recordedAt = 0L,
     )

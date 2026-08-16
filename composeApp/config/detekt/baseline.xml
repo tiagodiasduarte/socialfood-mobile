@@ -26,7 +26,6 @@
     <ID>LongMethod:RestaurantDetailPlaceholder.kt$@Composable internal fun RestaurantDetailPlaceholder()</ID>
     <ID>LongMethod:RestaurantDetailScreen.kt$@Composable private fun RestaurantDetailLoaded( restaurant: Restaurant, isFavourite: Boolean, onBackClick: () -&gt; Unit, onToggleFavourite: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:RestaurantDetailScreen.kt$@Composable private fun TopSection( restaurant: Restaurant, isFavourite: Boolean, onBackClick: () -&gt; Unit, onShareClick: () -&gt; Unit, onFavoriteClick: () -&gt; Unit, )</ID>
-    <ID>LongMethod:RestaurantSmallCard.kt$@Composable fun RestaurantSmallCard( restaurant: Restaurant, removeButtonContentDescription: String, modifier: Modifier = Modifier, onClick: () -&gt; Unit = {}, onRemoveClick: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:ValidateCodeScreen.kt$@Composable private fun ValidateCodeFormView( state: ValidateCodeUiState, onValidateClick: (String) -&gt; Unit, onResendClick: () -&gt; Unit, onRestartClick: () -&gt; Unit, )</ID>
     <ID>MagicNumber:AuthorCardPlaceholder.kt$3</ID>
     <ID>MagicNumber:AuthorDetailPlaceholder.kt$4</ID>

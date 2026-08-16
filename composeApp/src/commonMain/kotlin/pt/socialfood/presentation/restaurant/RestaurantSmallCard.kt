@@ -64,57 +64,68 @@ fun RestaurantSmallCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
-            val imageUrl = restaurant.photoNames.firstOrNull()
-            Box(
-                modifier = Modifier
-                    .size(IMAGE_SIZE.dp)
-                    .clip(RoundedCornerShape(SpaceSize.medium))
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-            ) {
-                if (imageUrl != null) {
-                    AsyncImage(
-                        model = "$imageUrl&size=$IMAGE_SIZE",
-                        contentDescription = restaurant.name,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize(),
-                    )
-                }
-            }
-
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-            ) {
-                Text(
-                    text = restaurant.name,
-                    style = AppTypography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.LocationOn,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(14.dp),
-                    )
-                    Text(
-                        text = "${restaurant.city}, ${restaurant.country}",
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1,
-                        style = AppTypography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
+            RestaurantSmallCardInfo(restaurant = restaurant, modifier = Modifier.weight(1f))
 
             IconButton(onClick = onRemoveClick) {
                 Icon(
                     imageVector = Icons.Outlined.Delete,
                     contentDescription = removeButtonContentDescription,
                     tint = FavouriteRed,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun RestaurantSmallCardInfo(restaurant: Restaurant, modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
+    ) {
+        val imageUrl = restaurant.photoNames.firstOrNull()
+        Box(
+            modifier = Modifier
+                .size(IMAGE_SIZE.dp)
+                .clip(RoundedCornerShape(SpaceSize.medium))
+                .background(MaterialTheme.colorScheme.surfaceVariant),
+        ) {
+            if (imageUrl != null) {
+                AsyncImage(
+                    model = "$imageUrl&size=$IMAGE_SIZE",
+                    contentDescription = restaurant.name,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
+        }
+
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+        ) {
+            Text(
+                text = restaurant.name,
+                style = AppTypography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.LocationOn,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(14.dp),
+                )
+                Text(
+                    text = "${restaurant.city}, ${restaurant.country}",
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    style = AppTypography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
         }

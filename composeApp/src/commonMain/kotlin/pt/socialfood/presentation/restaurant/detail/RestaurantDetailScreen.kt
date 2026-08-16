@@ -3,6 +3,7 @@ package pt.socialfood.presentation.restaurant.detail
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -197,42 +198,49 @@ private fun RestaurantDetailLoaded(
             openingHoursSection(restaurant)
         }
 
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(Color.Transparent, GreyBackground),
-                        startY = 0f,
-                        endY = Float.POSITIVE_INFINITY,
-                    ),
-                )
-                .padding(SpaceSize.large),
-        ) {
-            Button(
-                onClick = {
-                    if (restaurant.phoneNumber.isNotBlank()) {
-                        uriHandler.openUri("tel:${restaurant.phoneNumber}")
-                    }
-                },
-                modifier = Modifier.fillMaxWidth().height(52.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
+        CallButton(
+            onClick = {
+                if (restaurant.phoneNumber.isNotBlank()) {
+                    uriHandler.openUri("tel:${restaurant.phoneNumber}")
+                }
+            },
+        )
+    }
+}
+
+@Composable
+private fun BoxScope.CallButton(onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .fillMaxWidth()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(Color.Transparent, GreyBackground),
+                    startY = 0f,
+                    endY = Float.POSITIVE_INFINITY,
                 ),
-                shape = RoundedCornerShape(SpaceSize.large),
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Phone,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp),
-                )
-                Spacer(Modifier.width(SpaceSize.medium))
-                Text(
-                    text = stringResource(Res.string.restaurant_detail_call_button),
-                    style = MaterialTheme.typography.labelLarge,
-                )
-            }
+            )
+            .padding(SpaceSize.large),
+    ) {
+        Button(
+            onClick = onClick,
+            modifier = Modifier.fillMaxWidth().height(52.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+            ),
+            shape = RoundedCornerShape(SpaceSize.large),
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Phone,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+            )
+            Spacer(Modifier.width(SpaceSize.medium))
+            Text(
+                text = stringResource(Res.string.restaurant_detail_call_button),
+                style = MaterialTheme.typography.labelLarge,
+            )
         }
     }
 }

@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.restaurantvisit
+package pt.socialfood.presentation.restaurant
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

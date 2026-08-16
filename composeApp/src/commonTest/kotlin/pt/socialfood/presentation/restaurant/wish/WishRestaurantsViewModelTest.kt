@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.restaurantvisit.wish
+package pt.socialfood.presentation.restaurant.wish
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -12,7 +12,7 @@ import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeGetRestaurantVisitStatusUseCase
 import pt.socialfood.fakes.FakeUnmarkRestaurantVisitStatusUseCase
-import pt.socialfood.presentation.restaurantvisit.RestaurantVisitUiState
+import pt.socialfood.presentation.restaurant.RestaurantVisitUiState
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals

@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.rememberShimmerAlpha
@@ -39,92 +40,10 @@ internal fun RestaurantDetailPlaceholder() {
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(bottom = 88.dp),
         ) {
-            item {
-                Box(
-                    modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .height(ImageHeight),
-                ) {
-                    ShimmerBox(modifier = Modifier.fillMaxSize(), alpha = alpha, shape = RoundedCornerShape(0.dp))
-
-                    ShimmerBox(
-                        modifier =
-                        Modifier
-                            .padding(SpaceSize.large)
-                            .size(40.dp),
-                        alpha = alpha,
-                        shape = CircleShape,
-                    )
-
-                    Row(
-                        modifier =
-                        Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(SpaceSize.large),
-                        horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-                    ) {
-                        ShimmerBox(modifier = Modifier.size(40.dp), alpha = alpha, shape = CircleShape)
-                        ShimmerBox(modifier = Modifier.size(40.dp), alpha = alpha, shape = CircleShape)
-                    }
-                }
-            }
-
-            item {
-                Column(
-                    modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(horizontal = SpaceSize.large, vertical = SpaceSize.large),
-                    verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-                ) {
-                    ShimmerBox(modifier = Modifier.width(220.dp).height(26.dp), alpha = alpha)
-                    ShimmerBox(modifier = Modifier.width(130.dp).height(16.dp), alpha = alpha)
-                    ShimmerBox(modifier = Modifier.width(180.dp).height(14.dp), alpha = alpha)
-                }
-            }
-
-            item {
-                Spacer(Modifier.height(SpaceSize.large))
-
-                Card(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = SpaceSize.large),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                    elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
-                ) {
-                    Column(
-                        modifier = Modifier.padding(SpaceSize.large),
-                        verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
-                    ) {
-                        InfoRowPlaceholder(alpha = alpha)
-                        InfoRowPlaceholder(alpha = alpha, width = 120.dp)
-                        InfoRowPlaceholder(alpha = alpha, width = 160.dp)
-                    }
-                }
-            }
-
-            item {
-                Spacer(Modifier.height(SpaceSize.large))
-
-                Card(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = SpaceSize.large),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                    elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
-                ) {
-                    Row(
-                        modifier = Modifier.padding(SpaceSize.large),
-                        horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        ShimmerBox(modifier = Modifier.size(22.dp), alpha = alpha, shape = CircleShape)
-                        ShimmerBox(modifier = Modifier.width(32.dp).height(18.dp), alpha = alpha)
-                        ShimmerBox(modifier = Modifier.width(80.dp).height(16.dp), alpha = alpha)
-                    }
-                }
-            }
+            item { HeroSectionPlaceholder(alpha) }
+            item { TitleSectionPlaceholder(alpha) }
+            item { InformationCardPlaceholder(alpha) }
+            item { ReviewsCardPlaceholder(alpha) }
         }
 
         ShimmerBox(
@@ -141,7 +60,98 @@ internal fun RestaurantDetailPlaceholder() {
 }
 
 @Composable
-private fun InfoRowPlaceholder(alpha: Float, width: androidx.compose.ui.unit.Dp = 200.dp) {
+private fun HeroSectionPlaceholder(alpha: Float) {
+    Box(
+        modifier =
+        Modifier
+            .fillMaxWidth()
+            .height(ImageHeight),
+    ) {
+        ShimmerBox(modifier = Modifier.fillMaxSize(), alpha = alpha, shape = RoundedCornerShape(0.dp))
+
+        ShimmerBox(
+            modifier =
+            Modifier
+                .padding(SpaceSize.large)
+                .size(40.dp),
+            alpha = alpha,
+            shape = CircleShape,
+        )
+
+        Row(
+            modifier =
+            Modifier
+                .align(Alignment.TopEnd)
+                .padding(SpaceSize.large),
+            horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+        ) {
+            ShimmerBox(modifier = Modifier.size(40.dp), alpha = alpha, shape = CircleShape)
+            ShimmerBox(modifier = Modifier.size(40.dp), alpha = alpha, shape = CircleShape)
+        }
+    }
+}
+
+@Composable
+private fun TitleSectionPlaceholder(alpha: Float) {
+    Column(
+        modifier =
+        Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(horizontal = SpaceSize.large, vertical = SpaceSize.large),
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+    ) {
+        ShimmerBox(modifier = Modifier.width(220.dp).height(26.dp), alpha = alpha)
+        ShimmerBox(modifier = Modifier.width(130.dp).height(16.dp), alpha = alpha)
+        ShimmerBox(modifier = Modifier.width(180.dp).height(14.dp), alpha = alpha)
+    }
+}
+
+@Composable
+private fun InformationCardPlaceholder(alpha: Float) {
+    Spacer(Modifier.height(SpaceSize.large))
+
+    Card(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = SpaceSize.large),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
+    ) {
+        Column(
+            modifier = Modifier.padding(SpaceSize.large),
+            verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
+        ) {
+            InfoRowPlaceholder(alpha = alpha)
+            InfoRowPlaceholder(alpha = alpha, width = 120.dp)
+            InfoRowPlaceholder(alpha = alpha, width = 160.dp)
+        }
+    }
+}
+
+@Composable
+private fun ReviewsCardPlaceholder(alpha: Float) {
+    Spacer(Modifier.height(SpaceSize.large))
+
+    Card(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = SpaceSize.large),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
+    ) {
+        Row(
+            modifier = Modifier.padding(SpaceSize.large),
+            horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            ShimmerBox(modifier = Modifier.size(22.dp), alpha = alpha, shape = CircleShape)
+            ShimmerBox(modifier = Modifier.width(32.dp).height(18.dp), alpha = alpha)
+            ShimmerBox(modifier = Modifier.width(80.dp).height(16.dp), alpha = alpha)
+        }
+    }
+}
+
+@Composable
+private fun InfoRowPlaceholder(alpha: Float, width: Dp = 200.dp) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),

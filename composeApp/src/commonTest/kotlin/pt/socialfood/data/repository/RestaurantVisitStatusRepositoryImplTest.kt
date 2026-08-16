@@ -11,6 +11,7 @@ import pt.socialfood.fakes.FakeRestaurantVisitStatusDao
 import pt.socialfood.fakes.FakeSettingsRepository
 import pt.socialfood.mapper.toRestaurantVisitStatusEntity
 import pt.socialfood.random.nextEnum
+import pt.socialfood.random.nextRestaurant
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -20,22 +21,7 @@ import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 class RestaurantVisitStatusRepositoryImplTest {
-    private val fakeRestaurant =
-        Restaurant(
-            id = "restaurant-id",
-            name = "Restaurant Name",
-            description = "Restaurant Description",
-            city = "Lisbon",
-            country = "Portugal",
-            countryCode = "PT",
-            postalCode = "1000-000",
-            photoNames = emptyList(),
-            address = "Rua Augusta 1",
-            rating = 4.5,
-            userRatingCount = 100,
-            websiteUrl = null,
-            phoneNumber = "+351910000000",
-        )
+    private val fakeRestaurant = Random.nextRestaurant()
 
     @OptIn(ExperimentalTime::class)
     private fun now(): Long = Clock.System.now().toEpochMilliseconds()

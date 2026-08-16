@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.restaurant.wish
+package pt.socialfood.presentation.restaurant.wishlist
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -35,8 +35,6 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
-import pt.socialfood.presentation.restaurant.RestaurantVisitUiState
-import pt.socialfood.presentation.restaurant.RestaurantVisitsPlaceholder
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.GreyBackground
@@ -53,7 +51,7 @@ private const val LOAD_MORE_THRESHOLD = 10
 fun RestaurantWishlistScreen(
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
-    viewModel: WishRestaurantsViewModel = koinViewModel(),
+    viewModel: RestaurantWishlistViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
@@ -73,7 +71,7 @@ fun RestaurantWishlistScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RestaurantWishlistContent(
-    state: RestaurantVisitUiState,
+    state: RestaurantWishlistUiState,
     isRefreshing: Boolean,
     onBackClick: () -> Unit,
     onRefresh: () -> Unit,
@@ -93,7 +91,7 @@ private fun RestaurantWishlistContent(
     }
 
     LaunchedEffect(reachedBottom, state) {
-        if (reachedBottom && state is RestaurantVisitUiState.Loaded && state.hasMore && !state.isLoadingMore) {
+        if (reachedBottom && state is RestaurantWishlistUiState.Loaded && state.hasMore && !state.isLoadingMore) {
             onLoadMore()
         }
     }
@@ -106,14 +104,14 @@ private fun RestaurantWishlistContent(
         TopBar(onBackClick = onBackClick)
 
         when (state) {
-            RestaurantVisitUiState.Loading -> RestaurantVisitsPlaceholder(modifier = Modifier.fillMaxSize())
+            RestaurantWishlistUiState.Loading -> RestaurantWishlistPlaceholder(modifier = Modifier.fillMaxSize())
 
-            is RestaurantVisitUiState.Error -> ErrorContent(
+            is RestaurantWishlistUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),
                 onRetryClick = onRetry,
             )
 
-            is RestaurantVisitUiState.Loaded -> if (state.restaurants.isEmpty()) {
+            is RestaurantWishlistUiState.Loaded -> if (state.restaurants.isEmpty()) {
                 NoResultsContent(modifier = Modifier.fillMaxSize())
             } else {
                 PullToRefreshBox(
@@ -209,7 +207,7 @@ private fun RestaurantWishlistScreenLoadedPreview() {
     )
     AppTheme {
         RestaurantWishlistContent(
-            state = RestaurantVisitUiState.Loaded(restaurants = restaurants, hasMore = false),
+            state = RestaurantWishlistUiState.Loaded(restaurants = restaurants, hasMore = false),
             isRefreshing = false,
             onBackClick = {},
             onRefresh = {},
@@ -224,7 +222,7 @@ private fun RestaurantWishlistScreenLoadedPreview() {
 private fun RestaurantWishlistScreenEmptyPreview() {
     AppTheme {
         RestaurantWishlistContent(
-            state = RestaurantVisitUiState.Loaded(restaurants = emptyList(), hasMore = false),
+            state = RestaurantWishlistUiState.Loaded(restaurants = emptyList(), hasMore = false),
             isRefreshing = false,
             onBackClick = {},
             onRefresh = {},

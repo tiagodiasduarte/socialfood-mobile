@@ -209,7 +209,7 @@ import pt.socialfood.presentation.profile.ProfileViewModel
 import pt.socialfood.presentation.profile.edit.EditProfileViewModel
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
-import pt.socialfood.presentation.restaurant.wish.WishRestaurantsViewModel
+import pt.socialfood.presentation.restaurant.wishlist.RestaurantWishlistViewModel
 import pt.socialfood.presentation.search.SearchViewModel
 import pt.socialfood.presentation.signin.SignInViewModel
 import pt.socialfood.presentation.signup.SignUpViewModel
@@ -367,13 +367,13 @@ val viewModelModule =
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
         factory { ProfileViewModel(get(), get(), get()) }
         factory { (restaurantId: String) -> RestaurantDetailViewModel(get(), get(), get(), get(), restaurantId) }
+        factory { RestaurantWishlistViewModel(get(), get()) }
         factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
         factory { SearchViewModel(get(), get(), get()) }
         factory { SignInViewModel(get(), get()) }
         factory { SignUpViewModel(get()) }
         factory { StartupViewModel(get(), get(), get()) }
         factory { (email: String) -> ValidateCodeViewModel(get(), get(), get(), email) }
-        factory { WishRestaurantsViewModel(get(), get()) }
     }
 
 fun initKoin(configuration: KoinAppDeclaration? = null) {

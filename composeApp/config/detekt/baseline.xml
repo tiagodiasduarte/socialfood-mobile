@@ -4,7 +4,7 @@
   <CurrentIssues>
     <ID>ComplexCondition:FavouriteGuidesScreen.kt$reachedBottom &amp;&amp; state is FavouriteGuidesUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
     <ID>ComplexCondition:FavouriteRestaurantsScreen.kt$reachedBottom &amp;&amp; state is FavouriteRestaurantsUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
-    <ID>ComplexCondition:RestaurantWishlistScreen.kt$reachedBottom &amp;&amp; state is RestaurantVisitUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
+    <ID>ComplexCondition:RestaurantWishlistScreen.kt$reachedBottom &amp;&amp; state is RestaurantWishlistUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
     <ID>ComplexCondition:SignUpViewModel.kt$SignUpViewModel$name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()</ID>
     <ID>CyclomaticComplexMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>FunctionNaming:MainViewController.kt$fun MainViewController()</ID>
@@ -73,9 +73,9 @@
     <ID>MagicNumber:RatingStars.kt$0.5</ID>
     <ID>MagicNumber:RatingStars.kt$0xFFFFC107</ID>
     <ID>MagicNumber:RestaurantDetailScreen.kt$0xFF2A2A2A</ID>
-    <ID>MagicNumber:RestaurantVisitsPlaceholder.kt$0.5f</ID>
-    <ID>MagicNumber:RestaurantVisitsPlaceholder.kt$0.7f</ID>
-    <ID>MagicNumber:RestaurantVisitsPlaceholder.kt$5</ID>
+    <ID>MagicNumber:RestaurantWishlistPlaceholder.kt$0.5f</ID>
+    <ID>MagicNumber:RestaurantWishlistPlaceholder.kt$0.7f</ID>
+    <ID>MagicNumber:RestaurantWishlistPlaceholder.kt$5</ID>
     <ID>MagicNumber:S3HttpClient.kt$S3HttpClient$120_000</ID>
     <ID>MagicNumber:S3HttpClient.kt$S3HttpClient$30_000</ID>
     <ID>MagicNumber:SearchBar.kt$0xFFE5E7EB</ID>

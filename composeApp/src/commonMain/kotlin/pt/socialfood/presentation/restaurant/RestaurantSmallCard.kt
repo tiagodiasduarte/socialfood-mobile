@@ -64,7 +64,7 @@ fun RestaurantSmallCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
-            RestaurantSmallCardInfo(restaurant = restaurant, modifier = Modifier.weight(1f))
+            RestaurantCardInfo(restaurant = restaurant, modifier = Modifier.weight(1f))
 
             IconButton(onClick = onRemoveClick) {
                 Icon(
@@ -78,7 +78,7 @@ fun RestaurantSmallCard(
 }
 
 @Composable
-private fun RestaurantSmallCardInfo(restaurant: Restaurant, modifier: Modifier = Modifier) {
+private fun RestaurantCardInfo(restaurant: Restaurant, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,

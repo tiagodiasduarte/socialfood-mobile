@@ -221,8 +221,9 @@
     <string name="restaurant_detail_call_button">Call for Reservation</string>
     <string name="restaurant_detail_reviews_count">%1$d reviews</string>
     <string name="restaurant_detail_navigate_description">Navigate to restaurant</string>
-    <string name="restaurant_detail_share_description">Share restaurant</string>
     <string name="restaurant_detail_favourite_description">Add to favourites</string>
+    <string name="restaurant_detail_more_options_description">More options</string>
+    <string name="restaurant_detail_share_button">Share Text</string>
 
     <string name="favorite_card_remove_button_description">Remove from favorites</string>
     <string name="wish_card_remove_button_description">Remove from wish list</string>

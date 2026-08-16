@@ -20,16 +20,22 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,7 +47,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.SubcomposeAsyncImage
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -57,9 +62,9 @@ import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
 import socialfood.composeapp.generated.resources.restaurant_detail_call_button
 import socialfood.composeapp.generated.resources.restaurant_detail_favourite_description
+import socialfood.composeapp.generated.resources.restaurant_detail_more_options_description
 import socialfood.composeapp.generated.resources.restaurant_detail_opening_hours_title
-import socialfood.composeapp.generated.resources.restaurant_detail_share_description
-import socialfood.composeapp.generated.resources.share_icon
+import socialfood.composeapp.generated.resources.restaurant_detail_share_button
 
 val ImageHeight = 300.dp
 
@@ -280,13 +285,29 @@ private fun TopSection(
                 .padding(SpaceSize.large),
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
         ) {
-            ActionButton(onClick = onShareClick) {
-                Icon(
-                    painter = painterResource(Res.drawable.share_icon),
-                    contentDescription = stringResource(Res.string.restaurant_detail_share_description),
-                    tint = Color.White,
-                    modifier = Modifier.size(24.dp),
-                )
+            var isMenuExpanded by remember { mutableStateOf(false) }
+
+            Box {
+                ActionButton(onClick = { isMenuExpanded = true }) {
+                    Icon(
+                        imageVector = Icons.Filled.MoreVert,
+                        contentDescription = stringResource(Res.string.restaurant_detail_more_options_description),
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp),
+                    )
+                }
+                DropdownMenu(
+                    expanded = isMenuExpanded,
+                    onDismissRequest = { isMenuExpanded = false },
+                ) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(Res.string.restaurant_detail_share_button)) },
+                        onClick = {
+                            isMenuExpanded = false
+                            onShareClick()
+                        },
+                    )
+                }
             }
             ActionButton(onClick = onFavoriteClick) {
                 Icon(

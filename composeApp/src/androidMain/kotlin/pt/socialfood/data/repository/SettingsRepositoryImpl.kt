@@ -14,16 +14,15 @@ private val Context.dataStore by preferencesDataStore(name = "socialfood_setting
 
 private val USER_JWT_TOKEN = stringPreferencesKey("user_jwt_token")
 private val PENDING_VERIFICATION_EMAIL = stringPreferencesKey("pending_verification_email")
-private val LAST_FAVOURITES_SYNCED_AT = stringPreferencesKey("favourites_synced_at")
+private val LAST_FAVOURITES_SYNCED_AT = stringPreferencesKey("last_favourites_synced_at")
 private val LAST_FAVOURITES_SYNC_ATTEMPT_AT = longPreferencesKey("last_favourites_sync_attempt_at")
-private val LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = stringPreferencesKey("favourite_restaurants_synced_at")
+private val LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = stringPreferencesKey("last_favourite_restaurants_synced_at")
 private val LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT =
     longPreferencesKey("last_favourite_restaurants_sync_attempt_at")
-private fun restaurantVisitSyncedAtKey(status: VisitStatus) =
-    stringPreferencesKey("restaurant_visit_${status.name.lowercase()}_synced_at")
 
-private fun restaurantVisitSyncAttemptAtKey(status: VisitStatus) =
-    longPreferencesKey("last_restaurant_visit_${status.name.lowercase()}_sync_attempt_at")
+private val LAST_RESTAURANT_VISIT_STATUS_SYNCED_AT = stringPreferencesKey("last_restaurant_visit_status_synced_at")
+private val LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT =
+    longPreferencesKey("last_restaurant_visit_status_sync_attempt_at")
 
 @Suppress("TooManyFunctions")
 class SettingsRepositoryImpl(private val context: Context) : SettingsRepository {
@@ -81,17 +80,17 @@ class SettingsRepositoryImpl(private val context: Context) : SettingsRepository 
         context.dataStore.edit { it[LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT] = timestamp }
     }
 
-    override suspend fun getLastRestaurantVisitSyncedAt(status: VisitStatus): String? =
-        context.dataStore.data.first()[restaurantVisitSyncedAtKey(status)]
+    override suspend fun getLastRestaurantVisitStatusSyncedAt(status: VisitStatus): String? =
+        context.dataStore.data.first()[LAST_RESTAURANT_VISIT_STATUS_SYNCED_AT]
 
-    override suspend fun saveLastRestaurantVisitSyncedAt(status: VisitStatus, syncedAt: String) {
-        context.dataStore.edit { it[restaurantVisitSyncedAtKey(status)] = syncedAt }
+    override suspend fun saveLastRestaurantVisitStatusSyncedAt(status: VisitStatus, syncedAt: String) {
+        context.dataStore.edit { it[LAST_RESTAURANT_VISIT_STATUS_SYNCED_AT] = syncedAt }
     }
 
-    override suspend fun getLastRestaurantVisitSyncAttemptAt(status: VisitStatus): Long? =
-        context.dataStore.data.first()[restaurantVisitSyncAttemptAtKey(status)]
+    override suspend fun getLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus): Long? =
+        context.dataStore.data.first()[LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT]
 
-    override suspend fun saveLastRestaurantVisitSyncAttemptAt(status: VisitStatus, timestamp: Long) {
-        context.dataStore.edit { it[restaurantVisitSyncAttemptAtKey(status)] = timestamp }
+    override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus, timestamp: Long) {
+        context.dataStore.edit { it[LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT] = timestamp }
     }
 }

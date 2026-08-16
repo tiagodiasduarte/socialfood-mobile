@@ -11,8 +11,8 @@ class FakeSettingsRepository : SettingsRepository {
     private var lastFavouritesSyncAttemptAt: Long? = null
     private var lastFavouriteRestaurantsSyncedAt: String? = null
     private var lastFavouriteRestaurantsSyncAttemptAt: Long? = null
-    private val lastRestaurantVisitSyncedAt = mutableMapOf<VisitStatus, String>()
-    private val lastRestaurantVisitSyncAttemptAt = mutableMapOf<VisitStatus, Long>()
+    private val lastRestaurantVisitStatusSyncedAt = mutableMapOf<VisitStatus, String>()
+    private val lastRestaurantVisitStatusSyncAttemptAt = mutableMapOf<VisitStatus, Long>()
 
     override suspend fun getToken(): String? = token
 
@@ -58,17 +58,17 @@ class FakeSettingsRepository : SettingsRepository {
         lastFavouriteRestaurantsSyncAttemptAt = timestamp
     }
 
-    override suspend fun getLastRestaurantVisitSyncedAt(status: VisitStatus): String? =
-        lastRestaurantVisitSyncedAt[status]
+    override suspend fun getLastRestaurantVisitStatusSyncedAt(status: VisitStatus): String? =
+        lastRestaurantVisitStatusSyncedAt[status]
 
-    override suspend fun saveLastRestaurantVisitSyncedAt(status: VisitStatus, syncedAt: String) {
-        lastRestaurantVisitSyncedAt[status] = syncedAt
+    override suspend fun saveLastRestaurantVisitStatusSyncedAt(status: VisitStatus, syncedAt: String) {
+        lastRestaurantVisitStatusSyncedAt[status] = syncedAt
     }
 
-    override suspend fun getLastRestaurantVisitSyncAttemptAt(status: VisitStatus): Long? =
-        lastRestaurantVisitSyncAttemptAt[status]
+    override suspend fun getLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus): Long? =
+        lastRestaurantVisitStatusSyncAttemptAt[status]
 
-    override suspend fun saveLastRestaurantVisitSyncAttemptAt(status: VisitStatus, timestamp: Long) {
-        lastRestaurantVisitSyncAttemptAt[status] = timestamp
+    override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus, timestamp: Long) {
+        lastRestaurantVisitStatusSyncAttemptAt[status] = timestamp
     }
 }

@@ -11,8 +11,8 @@ class FakeSettingsRepository : SettingsRepository {
     private var lastFavouritesSyncAttemptAt: Long? = null
     private var lastFavouriteRestaurantsSyncedAt: String? = null
     private var lastFavouriteRestaurantsSyncAttemptAt: Long? = null
-    private val lastRestaurantVisitSyncedAt = mutableMapOf<VisitStatus, String>()
-    private val lastRestaurantVisitSyncAttemptAt = mutableMapOf<VisitStatus, Long>()
+    private val lastRestaurantVisitStatusSyncedAt = mutableMapOf<VisitStatus, String>()
+    private val lastRestaurantVisitStatusSyncAttemptAt = mutableMapOf<VisitStatus, Long>()
 
     override suspend fun getToken(): String? = token
 
@@ -59,16 +59,16 @@ class FakeSettingsRepository : SettingsRepository {
     }
 
     override suspend fun getLastRestaurantVisitStatusSyncedAt(status: VisitStatus): String? =
-        lastRestaurantVisitSyncedAt[status]
+        lastRestaurantVisitStatusSyncedAt[status]
 
     override suspend fun saveLastRestaurantVisitStatusSyncedAt(status: VisitStatus, syncedAt: String) {
-        lastRestaurantVisitSyncedAt[status] = syncedAt
+        lastRestaurantVisitStatusSyncedAt[status] = syncedAt
     }
 
     override suspend fun getLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus): Long? =
-        lastRestaurantVisitSyncAttemptAt[status]
+        lastRestaurantVisitStatusSyncAttemptAt[status]
 
     override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus, timestamp: Long) {
-        lastRestaurantVisitSyncAttemptAt[status] = timestamp
+        lastRestaurantVisitStatusSyncAttemptAt[status] = timestamp
     }
 }

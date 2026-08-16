@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 7,
-    "identityHash": "ee64c07e83051cc57a34122b7a6dfe02",
+    "identityHash": "73a72a1b65f3856f64e809c1974a865b",
     "entities": [
       {
         "tableName": "authors",
@@ -415,7 +415,7 @@
         }
       },
       {
-        "tableName": "restaurant_visits",
+        "tableName": "restaurant_visit_status",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`restaurantId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `city` TEXT NOT NULL, `country` TEXT NOT NULL, `countryCode` TEXT NOT NULL, `postalCode` TEXT, `address` TEXT NOT NULL, `rating` REAL NOT NULL, `userRatingCount` INTEGER NOT NULL, `websiteUrl` TEXT, `phoneNumber` TEXT NOT NULL, `imageUrl` TEXT, `status` TEXT NOT NULL, `recordedAt` INTEGER NOT NULL, `syncState` TEXT NOT NULL, PRIMARY KEY(`restaurantId`))",
         "fields": [
           {
@@ -521,7 +521,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ee64c07e83051cc57a34122b7a6dfe02')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '73a72a1b65f3856f64e809c1974a865b')"
     ]
   }
 }

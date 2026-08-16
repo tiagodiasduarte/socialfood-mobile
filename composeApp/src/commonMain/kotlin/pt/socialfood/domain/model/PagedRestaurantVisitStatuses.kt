@@ -1,6 +1,6 @@
 package pt.socialfood.domain.model
 
-data class PagedRestaurantVisits(
+data class PagedRestaurantVisitStatuses(
     val visits: List<RestaurantVisitStatus>,
     val page: Int,
     val total: Int,

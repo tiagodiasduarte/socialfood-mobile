@@ -3,7 +3,7 @@ package pt.socialfood.domain.usecase.restaurantvisitstatus
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.model.PagedRestaurantVisits
+import pt.socialfood.domain.model.PagedRestaurantVisitStatuses
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeRestaurantVisitStatusRepository
 import pt.socialfood.random.nextEnum
@@ -21,7 +21,7 @@ class GetRestaurantVisitStatusUseCaseImplTest {
             FakeRestaurantVisitStatusRepository(
                 pagedResult =
                 Result.Success(
-                    PagedRestaurantVisits(visits = emptyList(), page = 1, total = 0, hasMore = false),
+                    PagedRestaurantVisitStatuses(visits = emptyList(), page = 1, total = 0, hasMore = false),
                 ),
             )
         val useCase = GetRestaurantVisitStatusUseCaseImpl(repository)
@@ -30,7 +30,7 @@ class GetRestaurantVisitStatusUseCaseImplTest {
         val result = useCase(status = status, page = 1, limit = 10)
 
         // Then
-        assertIs<Result.Success<PagedRestaurantVisits>>(result)
+        assertIs<Result.Success<PagedRestaurantVisitStatuses>>(result)
         assertEquals(status, repository.lastStatus)
     }
 

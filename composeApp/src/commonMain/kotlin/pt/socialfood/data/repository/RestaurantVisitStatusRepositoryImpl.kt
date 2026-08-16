@@ -8,7 +8,7 @@ import pt.socialfood.data.local.entity.RestaurantVisitStatusSyncState
 import pt.socialfood.data.network.extensions.toDataError
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.domain.error.safeApiCall
-import pt.socialfood.domain.model.PagedRestaurantVisits
+import pt.socialfood.domain.model.PagedRestaurantVisitStatuses
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
@@ -73,21 +73,22 @@ class RestaurantVisitStatusRepositoryImpl(
         Result.Failure(e.toDataError())
     }
 
-    override suspend fun getPaged(status: VisitStatus, page: Int, limit: Int): Result<PagedRestaurantVisits> = try {
-        val offset = (page - 1) * limit
-        val entities = restaurantVisitStatusDao.getPaged(status = status.name, limit = limit, offset = offset)
-        val total = restaurantVisitStatusDao.countAll(status.name)
-        Result.Success(
-            PagedRestaurantVisits(
-                visits = entities.map { it.toRestaurantVisitStatus() },
-                page = page,
-                total = total,
-                hasMore = page * limit < total,
-            ),
-        )
-    } catch (e: SQLiteException) {
-        Result.Failure(e.toDataError())
-    }
+    override suspend fun getPaged(status: VisitStatus, page: Int, limit: Int): Result<PagedRestaurantVisitStatuses> =
+        try {
+            val offset = (page - 1) * limit
+            val entities = restaurantVisitStatusDao.getPaged(status = status.name, limit = limit, offset = offset)
+            val total = restaurantVisitStatusDao.countAll(status.name)
+            Result.Success(
+                PagedRestaurantVisitStatuses(
+                    visits = entities.map { it.toRestaurantVisitStatus() },
+                    page = page,
+                    total = total,
+                    hasMore = page * limit < total,
+                ),
+            )
+        } catch (e: SQLiteException) {
+            Result.Failure(e.toDataError())
+        }
 
     @Suppress("ReturnCount")
     override suspend fun sync(status: VisitStatus): Result<Unit> {

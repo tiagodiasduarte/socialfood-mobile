@@ -3,13 +3,13 @@ package pt.socialfood.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-const val RESTAURANT_VISITS_TABLE = "restaurant_visits"
+const val RESTAURANT_VISIT_STATUS_TABLE = "restaurant_visit_status"
 
 /**
  * A restaurant's relationship to the current user: either on their wishlist or already
  * visited. A restaurant has at most one row here at a time — [status] tracks which.
  */
-@Entity(tableName = RESTAURANT_VISITS_TABLE)
+@Entity(tableName = RESTAURANT_VISIT_STATUS_TABLE)
 data class RestaurantVisitStatusEntity(
     @PrimaryKey val restaurantId: String,
     val name: String,

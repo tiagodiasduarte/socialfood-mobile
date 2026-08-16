@@ -8,7 +8,7 @@ import pt.socialfood.data.local.entity.RestaurantVisitStatusSyncState
 import pt.socialfood.data.network.extensions.toDataError
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.domain.error.safeApiCall
-import pt.socialfood.domain.model.PagedRestaurantVisitStatuses
+import pt.socialfood.domain.model.PagedRestaurantVisitStatus
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
@@ -73,13 +73,13 @@ class RestaurantVisitStatusRepositoryImpl(
         Result.Failure(e.toDataError())
     }
 
-    override suspend fun getPaged(status: VisitStatus, page: Int, limit: Int): Result<PagedRestaurantVisitStatuses> =
+    override suspend fun getPaged(status: VisitStatus, page: Int, limit: Int): Result<PagedRestaurantVisitStatus> =
         try {
             val offset = (page - 1) * limit
             val entities = restaurantVisitStatusDao.getPaged(status = status.name, limit = limit, offset = offset)
             val total = restaurantVisitStatusDao.countAll(status.name)
             Result.Success(
-                PagedRestaurantVisitStatuses(
+                PagedRestaurantVisitStatus(
                     visits = entities.map { it.toRestaurantVisitStatus() },
                     page = page,
                     total = total,

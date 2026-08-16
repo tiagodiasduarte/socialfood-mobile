@@ -3,7 +3,7 @@ package pt.socialfood.data.repository
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.local.entity.RestaurantVisitStatusSyncState
-import pt.socialfood.domain.model.PagedRestaurantVisitStatuses
+import pt.socialfood.domain.model.PagedRestaurantVisitStatus
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeRestaurantVisitStatusApi
@@ -127,7 +127,7 @@ class RestaurantVisitStatusRepositoryImplTest {
         val result = repo.getPaged(status = status, page = 1, limit = 10)
 
         // Then
-        assertIs<Result.Success<PagedRestaurantVisitStatuses>>(result)
+        assertIs<Result.Success<PagedRestaurantVisitStatus>>(result)
         assertEquals(1, result.data.visits.size)
         assertEquals(
             fakeRestaurant.id,
@@ -149,7 +149,7 @@ class RestaurantVisitStatusRepositoryImplTest {
         val result = repo.getPaged(status = VisitStatus.VISITED, page = 1, limit = 10)
 
         // Then
-        assertIs<Result.Success<PagedRestaurantVisitStatuses>>(result)
+        assertIs<Result.Success<PagedRestaurantVisitStatus>>(result)
         assertTrue(result.data.visits.isEmpty())
     }
 

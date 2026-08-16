@@ -1,7 +1,7 @@
 package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
-import pt.socialfood.domain.model.PagedRestaurantVisitStatuses
+import pt.socialfood.domain.model.PagedRestaurantVisitStatus
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
@@ -9,8 +9,8 @@ import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 class FakeRestaurantVisitStatusRepository(
     private val markResult: Result<Unit> = Result.Success(Unit),
     private val unmarkResult: Result<Unit> = Result.Success(Unit),
-    private val pagedResult: Result<PagedRestaurantVisitStatuses> = Result.Success(
-        PagedRestaurantVisitStatuses(visits = emptyList(), page = 1, total = 0, hasMore = false),
+    private val pagedResult: Result<PagedRestaurantVisitStatus> = Result.Success(
+        PagedRestaurantVisitStatus(visits = emptyList(), page = 1, total = 0, hasMore = false),
     ),
     private val syncResult: Result<Unit> = Result.Success(Unit),
 ) : RestaurantVisitStatusRepository {
@@ -36,7 +36,7 @@ class FakeRestaurantVisitStatusRepository(
         return unmarkResult
     }
 
-    override suspend fun getPaged(status: VisitStatus, page: Int, limit: Int): Result<PagedRestaurantVisitStatuses> {
+    override suspend fun getPaged(status: VisitStatus, page: Int, limit: Int): Result<PagedRestaurantVisitStatus> {
         lastStatus = status
         return pagedResult
     }

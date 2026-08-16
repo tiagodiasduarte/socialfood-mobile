@@ -3,9 +3,9 @@ package pt.socialfood.presentation.restaurant.visited
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Restaurant
 
-sealed interface VisitedRestaurantsUiState {
-    data object Loading : VisitedRestaurantsUiState
+sealed interface RestaurantVisitedUiState {
+    data object Loading : RestaurantVisitedUiState
     data class Loaded(val restaurants: List<Restaurant>, val hasMore: Boolean, val isLoadingMore: Boolean = false) :
-        VisitedRestaurantsUiState
-    data class Error(val errorCode: ErrorCode) : VisitedRestaurantsUiState
+        RestaurantVisitedUiState
+    data class Error(val errorCode: ErrorCode) : RestaurantVisitedUiState
 }

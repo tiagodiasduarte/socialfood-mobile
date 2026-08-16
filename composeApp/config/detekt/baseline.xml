@@ -4,9 +4,9 @@
   <CurrentIssues>
     <ID>ComplexCondition:FavouriteGuidesScreen.kt$reachedBottom &amp;&amp; state is FavouriteGuidesUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
     <ID>ComplexCondition:FavouriteRestaurantsScreen.kt$reachedBottom &amp;&amp; state is FavouriteRestaurantsUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
+    <ID>ComplexCondition:RestaurantVisitedScreen.kt$reachedBottom &amp;&amp; state is RestaurantVisitedUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
     <ID>ComplexCondition:RestaurantWishlistScreen.kt$reachedBottom &amp;&amp; state is RestaurantWishlistUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
     <ID>ComplexCondition:SignUpViewModel.kt$SignUpViewModel$name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()</ID>
-    <ID>ComplexCondition:VisitedRestaurantsScreen.kt$reachedBottom &amp;&amp; state is VisitedRestaurantsUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
     <ID>CyclomaticComplexMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>FunctionNaming:MainViewController.kt$fun MainViewController()</ID>
     <ID>LongMethod:EditGuideScreen.kt$@Composable private fun GuideLoaded( state: EditGuideUiState.Loaded, initialTab: Int = TAB_DETAILS, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, onVisibilityChange: (GuideVisibility) -&gt; Unit, onAddRestaurantsClick: () -&gt; Unit, onRestaurantRemoved: (String) -&gt; Unit, onPhotoSelected: (ByteArray, String) -&gt; Unit, onDeleteGuide: () -&gt; Unit = {}, )</ID>
@@ -75,6 +75,9 @@
     <ID>MagicNumber:RatingStars.kt$0.5</ID>
     <ID>MagicNumber:RatingStars.kt$0xFFFFC107</ID>
     <ID>MagicNumber:RestaurantDetailScreen.kt$0xFF2A2A2A</ID>
+    <ID>MagicNumber:RestaurantVisitedPlaceholder.kt$0.5f</ID>
+    <ID>MagicNumber:RestaurantVisitedPlaceholder.kt$0.7f</ID>
+    <ID>MagicNumber:RestaurantVisitedPlaceholder.kt$5</ID>
     <ID>MagicNumber:RestaurantWishlistPlaceholder.kt$0.5f</ID>
     <ID>MagicNumber:RestaurantWishlistPlaceholder.kt$0.7f</ID>
     <ID>MagicNumber:RestaurantWishlistPlaceholder.kt$5</ID>
@@ -88,9 +91,6 @@
     <ID>MagicNumber:SplashScreen.ios.kt$0xFFF54900</ID>
     <ID>MagicNumber:ValidateCodeScreen.kt$0xFFD0D0D0</ID>
     <ID>MagicNumber:ValidateCodeScreen.kt$0xFFF2F2F2</ID>
-    <ID>MagicNumber:VisitedRestaurantsPlaceholder.kt$0.5f</ID>
-    <ID>MagicNumber:VisitedRestaurantsPlaceholder.kt$0.7f</ID>
-    <ID>MagicNumber:VisitedRestaurantsPlaceholder.kt$5</ID>
     <ID>ReturnCount:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>TooManyFunctions:EditGuideViewModel.kt$EditGuideViewModel : ViewModel</ID>
     <ID>TooManyFunctions:GuidesRepository.kt$GuidesRepository</ID>

@@ -23,7 +23,7 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun VisitedRestaurantsPlaceholder(modifier: Modifier = Modifier) {
+fun RestaurantVisitedPlaceholder(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
 
     Column(
@@ -64,8 +64,8 @@ fun VisitedRestaurantsPlaceholder(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun VisitedRestaurantsPlaceholderPreview() {
+private fun RestaurantVisitedPlaceholderPreview() {
     AppTheme {
-        VisitedRestaurantsPlaceholder()
+        RestaurantVisitedPlaceholder()
     }
 }

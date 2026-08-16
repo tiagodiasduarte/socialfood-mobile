@@ -48,10 +48,10 @@ private const val LOAD_MORE_THRESHOLD = 10
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VisitedRestaurantsScreen(
+fun RestaurantVisitedScreen(
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
-    viewModel: VisitedRestaurantsViewModel = koinViewModel(),
+    viewModel: RestaurantVisitedViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
@@ -71,7 +71,7 @@ fun VisitedRestaurantsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun VisitedRestaurantsContent(
-    state: VisitedRestaurantsUiState,
+    state: RestaurantVisitedUiState,
     isRefreshing: Boolean,
     onBackClick: () -> Unit,
     onRefresh: () -> Unit,
@@ -91,7 +91,7 @@ private fun VisitedRestaurantsContent(
     }
 
     LaunchedEffect(reachedBottom, state) {
-        if (reachedBottom && state is VisitedRestaurantsUiState.Loaded && state.hasMore && !state.isLoadingMore) {
+        if (reachedBottom && state is RestaurantVisitedUiState.Loaded && state.hasMore && !state.isLoadingMore) {
             onLoadMore()
         }
     }
@@ -104,14 +104,14 @@ private fun VisitedRestaurantsContent(
         TopBar(onBackClick = onBackClick)
 
         when (state) {
-            VisitedRestaurantsUiState.Loading -> VisitedRestaurantsPlaceholder(modifier = Modifier.fillMaxSize())
+            RestaurantVisitedUiState.Loading -> RestaurantVisitedPlaceholder(modifier = Modifier.fillMaxSize())
 
-            is VisitedRestaurantsUiState.Error -> ErrorContent(
+            is RestaurantVisitedUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),
                 onRetryClick = onRetry,
             )
 
-            is VisitedRestaurantsUiState.Loaded -> if (state.restaurants.isEmpty()) {
+            is RestaurantVisitedUiState.Loaded -> if (state.restaurants.isEmpty()) {
                 NoResultsContent(modifier = Modifier.fillMaxSize())
             } else {
                 PullToRefreshBox(
@@ -172,7 +172,7 @@ private fun TopBar(onBackClick: () -> Unit) {
 
 @Preview
 @Composable
-private fun VisitedRestaurantsScreenLoadedPreview() {
+private fun RestaurantVisitedScreenLoadedPreview() {
     val restaurants = listOf(
         Restaurant(
             id = "r1",
@@ -207,7 +207,7 @@ private fun VisitedRestaurantsScreenLoadedPreview() {
     )
     AppTheme {
         VisitedRestaurantsContent(
-            state = VisitedRestaurantsUiState.Loaded(restaurants = restaurants, hasMore = false),
+            state = RestaurantVisitedUiState.Loaded(restaurants = restaurants, hasMore = false),
             isRefreshing = false,
             onBackClick = {},
             onRefresh = {},
@@ -219,10 +219,10 @@ private fun VisitedRestaurantsScreenLoadedPreview() {
 
 @Preview
 @Composable
-private fun VisitedRestaurantsScreenEmptyPreview() {
+private fun RestaurantVisitedScreenEmptyPreview() {
     AppTheme {
         VisitedRestaurantsContent(
-            state = VisitedRestaurantsUiState.Loaded(restaurants = emptyList(), hasMore = false),
+            state = RestaurantVisitedUiState.Loaded(restaurants = emptyList(), hasMore = false),
             isRefreshing = false,
             onBackClick = {},
             onRefresh = {},

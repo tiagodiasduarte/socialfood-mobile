@@ -32,7 +32,7 @@ import pt.socialfood.presentation.profile.ProfileDrawerContent
 import pt.socialfood.presentation.profile.edit.EditProfileScreen
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailScreen
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsScreen
-import pt.socialfood.presentation.restaurant.visited.VisitedRestaurantsScreen
+import pt.socialfood.presentation.restaurant.visited.RestaurantVisitedScreen
 import pt.socialfood.presentation.restaurant.wishlist.RestaurantWishlistScreen
 import pt.socialfood.presentation.search.SearchScreen
 
@@ -217,7 +217,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             )
                         }
                         entry<Route.VisitedRestaurants> {
-                            VisitedRestaurantsScreen(
+                            RestaurantVisitedScreen(
                                 onBackClick = navigator::goBack,
                                 onRestaurantClick = { restaurantId ->
                                     navigator.navigate(Route.RestaurantDetail(restaurantId))

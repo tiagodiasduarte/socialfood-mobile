@@ -17,8 +17,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
@@ -202,6 +202,7 @@ private fun RestaurantDetailLoaded(
     }
 }
 
+@Suppress("LongMethod")
 @Composable
 private fun TopSection(
     restaurant: Restaurant,
@@ -292,43 +293,6 @@ private fun TopSection(
 }
 
 @Composable
-private fun BoxScope.CallButton(onClick: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .fillMaxWidth()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(Color.Transparent, GreyBackground),
-                    startY = 0f,
-                    endY = Float.POSITIVE_INFINITY,
-                ),
-            )
-            .padding(SpaceSize.large),
-    ) {
-        Button(
-            onClick = onClick,
-            modifier = Modifier.fillMaxWidth().height(52.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-            ),
-            shape = RoundedCornerShape(SpaceSize.large),
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Phone,
-                contentDescription = null,
-                modifier = Modifier.size(20.dp),
-            )
-            Spacer(Modifier.width(SpaceSize.medium))
-            Text(
-                text = stringResource(Res.string.restaurant_detail_call_button),
-                style = MaterialTheme.typography.labelLarge,
-            )
-        }
-    }
-}
-
-@Composable
 private fun TitleSection(restaurant: Restaurant) {
     Column(
         modifier = Modifier
@@ -349,22 +313,6 @@ private fun TitleSection(restaurant: Restaurant) {
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-    }
-}
-
-@Composable
-private fun OpeningHoursSection(restaurant: Restaurant) {
-    restaurant.regularOpeningHours?.let { openingHours ->
-        Text(
-            text = stringResource(Res.string.restaurant_detail_opening_hours_title),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.padding(horizontal = SpaceSize.large),
-        )
-
-        Spacer(Modifier.height(SpaceSize.large))
-
-        OpeningHoursCard(openingHours)
     }
 }
 
@@ -410,6 +358,59 @@ private fun PhotoGallery(photos: List<String>, restaurantName: String) {
                             .background(ImagePlaceholderColor),
                     )
                 },
+            )
+        }
+    }
+}
+
+@Composable
+private fun OpeningHoursSection(restaurant: Restaurant) {
+    restaurant.regularOpeningHours?.let { openingHours ->
+        Text(
+            text = stringResource(Res.string.restaurant_detail_opening_hours_title),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(horizontal = SpaceSize.large),
+        )
+
+        Spacer(Modifier.height(SpaceSize.large))
+
+        OpeningHoursCard(openingHours)
+    }
+}
+
+@Composable
+private fun BoxScope.CallButton(onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .fillMaxWidth()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(Color.Transparent, GreyBackground),
+                    startY = 0f,
+                    endY = Float.POSITIVE_INFINITY,
+                ),
+            )
+            .padding(SpaceSize.large),
+    ) {
+        Button(
+            onClick = onClick,
+            modifier = Modifier.fillMaxWidth().height(52.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+            ),
+            shape = RoundedCornerShape(SpaceSize.large),
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Phone,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+            )
+            Spacer(Modifier.width(SpaceSize.medium))
+            Text(
+                text = stringResource(Res.string.restaurant_detail_call_button),
+                style = MaterialTheme.typography.labelLarge,
             )
         }
     }

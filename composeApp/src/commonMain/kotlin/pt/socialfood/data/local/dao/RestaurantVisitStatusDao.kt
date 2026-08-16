@@ -22,12 +22,14 @@ interface RestaurantVisitStatusDao {
     suspend fun deleteByRestaurantIds(restaurantIds: List<String>)
 
     @Query(
-        "SELECT * FROM $RESTAURANT_VISIT_STATUS_TABLE WHERE status = :status " +
+        "SELECT * FROM $RESTAURANT_VISIT_STATUS_TABLE WHERE status = :status AND syncState != 'PENDING_REMOVE' " +
             "ORDER BY recordedAt DESC LIMIT :limit OFFSET :offset",
     )
     suspend fun getPaged(status: String, limit: Int, offset: Int): List<RestaurantVisitStatusEntity>
 
-    @Query("SELECT COUNT(*) FROM $RESTAURANT_VISIT_STATUS_TABLE WHERE status = :status")
+    @Query(
+        "SELECT COUNT(*) FROM $RESTAURANT_VISIT_STATUS_TABLE WHERE status = :status AND syncState != 'PENDING_REMOVE'",
+    )
     suspend fun countAll(status: String): Int
 
     @Query("SELECT * FROM $RESTAURANT_VISIT_STATUS_TABLE WHERE restaurantId = :restaurantId LIMIT 1")

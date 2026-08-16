@@ -30,12 +30,13 @@ class FakeRestaurantVisitStatusDao(private val shouldThrowOnWrite: Boolean = fal
 
     override suspend fun getPaged(status: String, limit: Int, offset: Int): List<RestaurantVisitStatusEntity> =
         entities.values
-            .filter { it.status == status }
+            .filter { it.status == status && it.syncState != "PENDING_REMOVE" }
             .sortedByDescending { it.recordedAt }
             .drop(offset)
             .take(limit)
 
-    override suspend fun countAll(status: String): Int = entities.values.count { it.status == status }
+    override suspend fun countAll(status: String): Int =
+        entities.values.count { it.status == status && it.syncState != "PENDING_REMOVE" }
 
     override suspend fun getByRestaurantId(restaurantId: String): RestaurantVisitStatusEntity? = entities[restaurantId]
 

@@ -26,8 +26,8 @@ class RestaurantVisitStatusApiImpl(private val client: HttpClient) : RestaurantV
         client.post("me/restaurants/${status.pathSegment}/$restaurantId")
     }
 
-    override suspend fun unmark(restaurantId: String, status: VisitStatus) {
-        client.delete("me/restaurants/${status.pathSegment}/$restaurantId")
+    override suspend fun unmark(restaurantId: String) {
+        client.delete("me/restaurants/$restaurantId")
     }
 
     override suspend fun find(status: VisitStatus, page: Int, limit: Int): PagedResponse<RestaurantResponse> =

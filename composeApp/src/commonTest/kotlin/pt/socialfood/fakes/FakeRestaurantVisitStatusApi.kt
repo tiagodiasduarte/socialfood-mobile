@@ -37,7 +37,7 @@ class FakeRestaurantVisitStatusApi(private val shouldThrow: Boolean = false) : R
         lastMarkedRestaurantId = restaurantId
     }
 
-    override suspend fun unmark(restaurantId: String, status: VisitStatus) {
+    override suspend fun unmark(restaurantId: String) {
         if (shouldThrow) throw IOException("test error")
         lastUnmarkedRestaurantId = restaurantId
     }

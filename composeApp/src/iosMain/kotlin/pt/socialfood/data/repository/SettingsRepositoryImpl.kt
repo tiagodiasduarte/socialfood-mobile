@@ -10,8 +10,8 @@ private const val KEY_LAST_FAVOURITES_SYNCED_AT = "favourites_synced_at"
 private const val KEY_LAST_FAVOURITES_SYNC_ATTEMPT_AT = "last_favourites_sync_attempt_at"
 private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = "favourite_restaurants_synced_at"
 private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT = "last_favourite_restaurants_sync_attempt_at"
-private const val KEY_LAST_RESTAURANT_VISIT_STATUS_SYNC_SYNCED_AT = "last_restaurant_visit_status_synced_at"
-private const val KEY_LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT = "last_restaurant_visit_status_attempt_at"
+private const val KEY_LAST_RESTAURANT_VISIT_STATUS_SYNC_SYNCED_AT = "restaurant_visit_status_synced_at"
+private const val KEY_LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT = "last_restaurant_visit_status_sync_attempt_at"
 
 @Suppress("TooManyFunctions")
 class SettingsRepositoryImpl : SettingsRepository {

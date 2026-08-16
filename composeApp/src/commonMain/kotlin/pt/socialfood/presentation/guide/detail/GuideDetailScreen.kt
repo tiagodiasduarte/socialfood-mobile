@@ -50,6 +50,7 @@ import pt.socialfood.presentation.guide.detail.restaurant.RestaurantItemCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.GreyBackground
+import pt.socialfood.ui.theme.ImagePlaceholderColor
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
@@ -251,14 +252,14 @@ private fun TopImageContent(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
                 loading = {
-                    Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
+                    Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
                 },
                 error = {
-                    Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
+                    Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
                 },
             )
         } else {
-            Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
+            Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
         }
 
         Box(modifier = Modifier.fillMaxSize().detailImageScrim())

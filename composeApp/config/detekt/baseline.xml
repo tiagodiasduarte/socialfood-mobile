@@ -30,10 +30,10 @@
     <ID>LongMethod:ValidateCodeScreen.kt$@Composable private fun ValidateCodeFormView( state: ValidateCodeUiState, onValidateClick: (String) -&gt; Unit, onResendClick: () -&gt; Unit, onRestartClick: () -&gt; Unit, )</ID>
     <ID>MagicNumber:AuthorCardPlaceholder.kt$3</ID>
     <ID>MagicNumber:AuthorDetailPlaceholder.kt$4</ID>
-    <ID>MagicNumber:AuthorGuideCard.kt$0xFF2A2A2A</ID>
     <ID>MagicNumber:AuthorsPlaceholder.kt$6</ID>
     <ID>MagicNumber:Color.kt$0xFF005C0C</ID>
     <ID>MagicNumber:Color.kt$0xFF1A1A1A</ID>
+    <ID>MagicNumber:Color.kt$0xFF2A2A2A</ID>
     <ID>MagicNumber:Color.kt$0xFF4A5565</ID>
     <ID>MagicNumber:Color.kt$0xFF9E9E9E</ID>
     <ID>MagicNumber:Color.kt$0xFFB82010</ID>
@@ -51,10 +51,8 @@
     <ID>MagicNumber:FavouriteRestaurantsPlaceholder.kt$0.5f</ID>
     <ID>MagicNumber:FavouriteRestaurantsPlaceholder.kt$0.7f</ID>
     <ID>MagicNumber:FavouriteRestaurantsPlaceholder.kt$5</ID>
-    <ID>MagicNumber:GuideCard.kt$0xFF2A2A2A</ID>
     <ID>MagicNumber:GuideDetailPlaceholder.kt$4</ID>
     <ID>MagicNumber:GuideDetailScreen.kt$0xFF008236</ID>
-    <ID>MagicNumber:GuideDetailScreen.kt$0xFF2A2A2A</ID>
     <ID>MagicNumber:GuideDetailScreen.kt$0xFF364153</ID>
     <ID>MagicNumber:GuideDetailScreen.kt$0xFFF0FDF4</ID>
     <ID>MagicNumber:GuideDetailScreen.kt$0xFFFFFFFF</ID>
@@ -73,7 +71,6 @@
     <ID>MagicNumber:ProfileHeaderPlaceholder.kt$3</ID>
     <ID>MagicNumber:RatingStars.kt$0.5</ID>
     <ID>MagicNumber:RatingStars.kt$0xFFFFC107</ID>
-    <ID>MagicNumber:RestaurantDetailScreen.kt$0xFF2A2A2A</ID>
     <ID>MagicNumber:RestaurantVisitedPlaceholder.kt$0.5f</ID>
     <ID>MagicNumber:RestaurantVisitedPlaceholder.kt$0.7f</ID>
     <ID>MagicNumber:RestaurantVisitedPlaceholder.kt$5</ID>

@@ -139,6 +139,22 @@ class RestaurantVisitStatusRepositoryImplTest {
         assertTrue(result.data.visits.isEmpty())
     }
 
+    @Test
+    fun `given a visit stuck PENDING_REMOVE when getPaged is called then excludes it`() = runTest {
+        // Given
+        val status = Random.nextEnum<VisitStatus>()
+        val (repo, dao, _) = createRepository()
+        dao.upsert(fakeRestaurant.toRestaurantVisitEntityForTest(status, SyncState.PENDING_REMOVE))
+
+        // When
+        val result = repo.getPaged(status = status, page = 1, limit = 10)
+
+        // Then
+        assertIs<Result.Success<PagedRestaurantVisitStatus>>(result)
+        assertTrue(result.data.visits.isEmpty())
+        assertEquals(0, result.data.total)
+    }
+
     // sync
 
     @Test

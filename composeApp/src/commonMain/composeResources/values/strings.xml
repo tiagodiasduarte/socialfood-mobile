@@ -58,6 +58,8 @@
     <string name="profile_favorites_restaurants_button_description">Favorites Restaurants button</string>
     <string name="profile_wish_restaurants_button">Wish to Visit</string>
     <string name="profile_wish_restaurants_button_description">Wish to Visit button</string>
+    <string name="profile_visited_restaurants_button">Visited</string>
+    <string name="profile_visited_restaurants_button_description">Visited button</string>
     <string name="profile_settings_button">Settings</string>
     <string name="profile_settings_button_description">Settings button</string>
     <string name="profile_logout_button">Log Out</string>
@@ -84,6 +86,7 @@
     <string name="favourites_restaurants_title">Favourite Restaurants</string>
     <string name="wish_restaurants_title">Wish to Visit</string>
     <string name="wish_add_button_description">Add restaurant to wish list</string>
+    <string name="visited_restaurants_title">Visited</string>
 
     <string name="guides_title">Guides</string>
     <string name="guides_tab_all">All Guides</string>
@@ -223,6 +226,7 @@
 
     <string name="favorite_card_remove_button_description">Remove from favorites</string>
     <string name="wish_card_remove_button_description">Remove from wish list</string>
+    <string name="visited_card_remove_button_description">Remove from visited</string>
 
     <string name="error_code_user_already_exists">An account with this email already exists.</string>
     <string name="error_code_invalid_credentials">Incorrect email or password.</string>

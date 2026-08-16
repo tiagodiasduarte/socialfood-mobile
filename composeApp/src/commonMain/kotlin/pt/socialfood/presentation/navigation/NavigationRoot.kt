@@ -32,6 +32,7 @@ import pt.socialfood.presentation.profile.ProfileDrawerContent
 import pt.socialfood.presentation.profile.edit.EditProfileScreen
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailScreen
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsScreen
+import pt.socialfood.presentation.restaurant.visited.RestaurantVisitedScreen
 import pt.socialfood.presentation.restaurant.wishlist.RestaurantWishlistScreen
 import pt.socialfood.presentation.search.SearchScreen
 
@@ -80,6 +81,10 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 onWishRestaurantsClick = {
                     scope.launch { drawerState.close() }
                     navigator.navigate(Route.WishRestaurants)
+                },
+                onVisitedRestaurantsClick = {
+                    scope.launch { drawerState.close() }
+                    navigator.navigate(Route.VisitedRestaurants)
                 },
             )
         },
@@ -212,6 +217,14 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 onAddClick = { onRestaurantAdded ->
                                     onRestaurantAddedRef.value = onRestaurantAdded
                                     navigator.navigate(Route.AddWishRestaurant)
+                                },
+                            )
+                        }
+                        entry<Route.VisitedRestaurants> {
+                            RestaurantVisitedScreen(
+                                onBackClick = navigator::goBack,
+                                onRestaurantClick = { restaurantId ->
+                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
                                 },
                             )
                         }

@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.restaurantvisit
+package pt.socialfood.presentation.restaurant
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -41,7 +41,7 @@ internal val CardHeight = 125.dp
 private const val IMAGE_SIZE = 95
 
 @Composable
-fun RestaurantVisitCard(
+fun RestaurantSmallCard(
     restaurant: Restaurant,
     removeButtonContentDescription: String,
     modifier: Modifier = Modifier,
@@ -123,9 +123,9 @@ fun RestaurantVisitCard(
 
 @Composable
 @Preview
-private fun RestaurantVisitCardPreview() {
+private fun RestaurantSmallCardPreview() {
     AppTheme {
-        RestaurantVisitCard(
+        RestaurantSmallCard(
             restaurant = Restaurant(
                 id = "r1",
                 name = "Le Jardin",

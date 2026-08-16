@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.restaurantvisit.wish
+package pt.socialfood.presentation.restaurant.visited
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,12 +11,12 @@ import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusUseCase
 import pt.socialfood.domain.usecase.restaurantvisitstatus.UnmarkRestaurantVisitStatusUseCase
 import pt.socialfood.presentation.error.toErrorCode
-import pt.socialfood.presentation.restaurantvisit.RestaurantVisitUiState
+import pt.socialfood.presentation.restaurant.RestaurantVisitUiState
 
 private const val PAGE_SIZE = 20
-private val STATUS = VisitStatus.WISH
+private val STATUS = VisitStatus.VISITED
 
-class WishRestaurantsViewModel(
+class VisitedRestaurantsViewModel(
     private val getRestaurantVisitStatus: GetRestaurantVisitStatusUseCase,
     private val unmarkRestaurantVisitStatus: UnmarkRestaurantVisitStatusUseCase,
 ) : ViewModel() {
@@ -89,7 +89,7 @@ class WishRestaurantsViewModel(
         }
     }
 
-    fun removeFromWishlist(restaurantId: String) {
+    fun removeFromVisited(restaurantId: String) {
         val current = _state.value as? RestaurantVisitUiState.Loaded ?: return
         val removedRestaurant = current.restaurants.find { it.id == restaurantId } ?: return
         _state.value = current.copy(restaurants = current.restaurants.filterNot { it.id == restaurantId })

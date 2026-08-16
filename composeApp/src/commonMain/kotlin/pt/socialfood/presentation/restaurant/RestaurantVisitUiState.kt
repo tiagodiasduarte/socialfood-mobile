@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.restaurantvisit
+package pt.socialfood.presentation.restaurant
 
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Restaurant

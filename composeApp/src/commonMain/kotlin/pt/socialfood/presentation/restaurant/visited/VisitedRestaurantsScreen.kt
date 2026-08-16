@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.restaurantvisit.visited
+package pt.socialfood.presentation.restaurant.visited
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -34,9 +34,9 @@ import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
-import pt.socialfood.presentation.restaurantvisit.RestaurantVisitCard
-import pt.socialfood.presentation.restaurantvisit.RestaurantVisitUiState
-import pt.socialfood.presentation.restaurantvisit.RestaurantVisitsPlaceholder
+import pt.socialfood.presentation.restaurant.RestaurantSmallCard
+import pt.socialfood.presentation.restaurant.RestaurantVisitUiState
+import pt.socialfood.presentation.restaurant.RestaurantVisitsPlaceholder
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.GreyBackground
@@ -131,7 +131,7 @@ private fun VisitedRestaurantsContent(
                         verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
                     ) {
                         items(state.restaurants, key = { it.id }) { restaurant ->
-                            RestaurantVisitCard(
+                            RestaurantSmallCard(
                                 restaurant = restaurant,
                                 removeButtonContentDescription = stringResource(
                                     Res.string.visited_card_remove_button_description,

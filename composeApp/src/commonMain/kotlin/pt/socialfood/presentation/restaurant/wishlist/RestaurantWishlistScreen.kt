@@ -98,7 +98,8 @@ private fun RestaurantWishlistContent(
     }
 
     LaunchedEffect(reachedBottom, state) {
-        if (reachedBottom && state is RestaurantWishlistUiState.Loaded && state.hasMore && !state.isLoadingMore) {
+        val canLoadMore = state is RestaurantWishlistUiState.Loaded && state.hasMore && !state.isLoadingMore
+        if (reachedBottom && canLoadMore) {
             onLoadMore()
         }
     }

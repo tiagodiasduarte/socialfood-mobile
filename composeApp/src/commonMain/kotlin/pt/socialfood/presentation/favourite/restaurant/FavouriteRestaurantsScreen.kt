@@ -92,7 +92,8 @@ private fun FavouriteRestaurantsContent(
     }
 
     LaunchedEffect(reachedBottom, state) {
-        if (reachedBottom && state is FavouriteRestaurantsUiState.Loaded && state.hasMore && !state.isLoadingMore) {
+        val canLoadMore = state is FavouriteRestaurantsUiState.Loaded && state.hasMore && !state.isLoadingMore
+        if (reachedBottom && canLoadMore) {
             onLoadMore()
         }
     }

@@ -19,7 +19,8 @@ class SignUpViewModel(private val register: RegisterUseCase) : ViewModel() {
 
     fun onSignUp(name: String, email: String, password: String, confirmPassword: String) {
         viewModelScope.launch {
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            val hasEmptyField = name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()
+            if (hasEmptyField) {
                 _state.value = SignUpUiState.ValidationError(Res.string.sign_up_fill_all_fields)
                 return@launch
             }

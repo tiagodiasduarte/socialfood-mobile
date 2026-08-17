@@ -91,7 +91,8 @@ private fun FavouriteGuidesContent(
     }
 
     LaunchedEffect(reachedBottom, state) {
-        if (reachedBottom && state is FavouriteGuidesUiState.Loaded && state.hasMore && !state.isLoadingMore) {
+        val canLoadMore = state is FavouriteGuidesUiState.Loaded && state.hasMore && !state.isLoadingMore
+        if (reachedBottom && canLoadMore) {
             onLoadMore()
         }
     }

@@ -88,6 +88,5 @@
     <ID>TooManyFunctions:EditGuideViewModel.kt$EditGuideViewModel : ViewModel</ID>
     <ID>TooManyFunctions:GuidesRepository.kt$GuidesRepository</ID>
     <ID>TooManyFunctions:GuidesRepositoryImpl.kt$GuidesRepositoryImpl : GuidesRepository</ID>
-    <ID>TooManyFunctions:RestaurantVisitStatusRepositoryImpl.kt$RestaurantVisitStatusRepositoryImpl : RestaurantVisitStatusRepository</ID>
   </CurrentIssues>
 </SmellBaseline>

@@ -3,6 +3,7 @@ package pt.socialfood.data.repository
 import androidx.sqlite.SQLiteException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.RestaurantVisitStatusApi
+import pt.socialfood.data.currentTimeMillis
 import pt.socialfood.data.local.dao.RestaurantVisitStatusDao
 import pt.socialfood.data.local.entity.SyncState
 import pt.socialfood.data.network.extensions.toDataError
@@ -16,9 +17,6 @@ import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.mapper.toRestaurant
 import pt.socialfood.mapper.toRestaurantVisitStatus
 import pt.socialfood.mapper.toRestaurantVisitStatusEntity
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
-
 private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
 private const val MAX_RESTAURANT_VISITS_FETCH = 500
 
@@ -190,7 +188,4 @@ class RestaurantVisitStatusRepositoryImpl(
         restaurantVisitStatusDao.upsertAll(toUpsert)
         return Result.Success(Unit)
     }
-
-    @OptIn(ExperimentalTime::class)
-    private fun currentTimeMillis(): Long = Clock.System.now().toEpochMilliseconds()
 }

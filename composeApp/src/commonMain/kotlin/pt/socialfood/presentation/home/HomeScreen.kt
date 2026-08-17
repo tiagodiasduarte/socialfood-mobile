@@ -126,7 +126,7 @@ fun HomeScreenContent(
 
                 state is HomeUiState.Loading -> {
                     item {
-                        HomePlaceholder()
+                        HomeSkeleton()
                     }
                 }
 

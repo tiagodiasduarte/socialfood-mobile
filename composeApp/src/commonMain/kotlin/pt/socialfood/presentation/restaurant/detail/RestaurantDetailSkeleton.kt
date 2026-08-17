@@ -40,7 +40,7 @@ private const val OPENING_HOURS_DAY_COUNT = 7
 private const val GALLERY_THUMBNAIL_COUNT = 5
 
 @Composable
-internal fun RestaurantDetailPlaceholder() {
+internal fun RestaurantDetailSkeleton() {
     val alpha = rememberShimmerAlpha()
 
     Box(modifier = Modifier.fillMaxSize().background(GreyBackground)) {
@@ -49,13 +49,13 @@ internal fun RestaurantDetailPlaceholder() {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
         ) {
-            HeroSectionPlaceholder(alpha)
-            TitleSectionPlaceholder(alpha)
-            PhotoGalleryPlaceholder(alpha)
-            SectionDividerPlaceholder()
-            InformationSectionPlaceholder(alpha)
-            SectionDividerPlaceholder()
-            OpeningHoursSectionPlaceholder(alpha)
+            HeroSectionSkeleton(alpha)
+            TitleSectionSkeleton(alpha)
+            PhotoGallerySkeleton(alpha)
+            SectionDividerSkeleton()
+            InformationSectionSkeleton(alpha)
+            SectionDividerSkeleton()
+            OpeningHoursSectionSkeleton(alpha)
             Spacer(Modifier.height(88.dp))
         }
 
@@ -73,7 +73,7 @@ internal fun RestaurantDetailPlaceholder() {
 }
 
 @Composable
-private fun HeroSectionPlaceholder(alpha: Float) {
+private fun HeroSectionSkeleton(alpha: Float) {
     Box(
         modifier =
         Modifier
@@ -105,7 +105,7 @@ private fun HeroSectionPlaceholder(alpha: Float) {
 }
 
 @Composable
-private fun TitleSectionPlaceholder(alpha: Float) {
+private fun TitleSectionSkeleton(alpha: Float) {
     Column(
         modifier =
         Modifier
@@ -121,7 +121,7 @@ private fun TitleSectionPlaceholder(alpha: Float) {
 }
 
 @Composable
-private fun PhotoGalleryPlaceholder(alpha: Float) {
+private fun PhotoGallerySkeleton(alpha: Float) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
         contentPadding = PaddingValues(horizontal = SpaceSize.large),
@@ -139,7 +139,7 @@ private fun PhotoGalleryPlaceholder(alpha: Float) {
 }
 
 @Composable
-private fun SectionDividerPlaceholder() {
+private fun SectionDividerSkeleton() {
     HorizontalDivider(
         modifier = Modifier.padding(horizontal = SpaceSize.large),
         color = MaterialTheme.colorScheme.outlineVariant,
@@ -148,7 +148,7 @@ private fun SectionDividerPlaceholder() {
 }
 
 @Composable
-private fun InformationSectionPlaceholder(alpha: Float) {
+private fun InformationSectionSkeleton(alpha: Float) {
     ShimmerBox(
         modifier = Modifier.padding(horizontal = SpaceSize.large).width(110.dp).height(18.dp),
         alpha = alpha,
@@ -156,20 +156,20 @@ private fun InformationSectionPlaceholder(alpha: Float) {
 
     Spacer(Modifier.height(SpaceSize.large))
 
-    PlaceholderCard {
+    SkeletonCard {
         Column(
             modifier = Modifier.padding(SpaceSize.large),
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
-            InfoRowPlaceholder(alpha = alpha)
-            InfoRowPlaceholder(alpha = alpha, width = 120.dp)
-            InfoRowPlaceholder(alpha = alpha, width = 160.dp)
+            InfoRowSkeleton(alpha = alpha)
+            InfoRowSkeleton(alpha = alpha, width = 120.dp)
+            InfoRowSkeleton(alpha = alpha, width = 160.dp)
         }
     }
 
     Spacer(Modifier.height(SpaceSize.xlarge))
 
-    PlaceholderCard {
+    SkeletonCard {
         Column(modifier = Modifier.padding(SpaceSize.large)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 ShimmerBox(modifier = Modifier.size(24.dp), alpha = alpha, shape = CircleShape)
@@ -193,7 +193,7 @@ private fun InformationSectionPlaceholder(alpha: Float) {
 }
 
 @Composable
-private fun OpeningHoursSectionPlaceholder(alpha: Float) {
+private fun OpeningHoursSectionSkeleton(alpha: Float) {
     ShimmerBox(
         modifier = Modifier.padding(horizontal = SpaceSize.large).width(140.dp).height(18.dp),
         alpha = alpha,
@@ -201,7 +201,7 @@ private fun OpeningHoursSectionPlaceholder(alpha: Float) {
 
     Spacer(Modifier.height(SpaceSize.large))
 
-    PlaceholderCard {
+    SkeletonCard {
         Column(
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
             modifier = Modifier.padding(SpaceSize.large),
@@ -220,7 +220,7 @@ private fun OpeningHoursSectionPlaceholder(alpha: Float) {
 }
 
 @Composable
-private fun PlaceholderCard(content: @Composable ColumnScope.() -> Unit) {
+private fun SkeletonCard(content: @Composable ColumnScope.() -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth().padding(horizontal = SpaceSize.large),
         shape = RoundedCornerShape(12.dp),
@@ -231,7 +231,7 @@ private fun PlaceholderCard(content: @Composable ColumnScope.() -> Unit) {
 }
 
 @Composable
-private fun InfoRowPlaceholder(alpha: Float, width: Dp = 200.dp) {
+private fun InfoRowSkeleton(alpha: Float, width: Dp = 200.dp) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
@@ -243,8 +243,8 @@ private fun InfoRowPlaceholder(alpha: Float, width: Dp = 200.dp) {
 
 @Preview
 @Composable
-private fun RestaurantDetailPlaceholderPreview() {
+private fun RestaurantDetailSkeletonPreview() {
     AppTheme {
-        RestaurantDetailPlaceholder()
+        RestaurantDetailSkeleton()
     }
 }

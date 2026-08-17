@@ -26,7 +26,7 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun AuthorCardPlaceholder(alpha: Float, modifier: Modifier = Modifier) {
+fun AuthorCardSkeleton(alpha: Float, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -59,7 +59,7 @@ fun AuthorCardPlaceholder(alpha: Float, modifier: Modifier = Modifier) {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     repeat(3) { index ->
-                        StatItemPlaceholder(alpha = alpha)
+                        StatItemSkeleton(alpha = alpha)
                         if (index < 2) {
                             ShimmerBox(modifier = Modifier.width(1.dp).height(16.dp), alpha = alpha)
                         }
@@ -71,7 +71,7 @@ fun AuthorCardPlaceholder(alpha: Float, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun StatItemPlaceholder(alpha: Float) {
+private fun StatItemSkeleton(alpha: Float) {
     Column(horizontalAlignment = Alignment.Start) {
         ShimmerBox(modifier = Modifier.width(24.dp).height(18.dp), alpha = alpha)
         ShimmerBox(modifier = Modifier.width(50.dp).height(14.dp), alpha = alpha)
@@ -80,8 +80,8 @@ private fun StatItemPlaceholder(alpha: Float) {
 
 @Preview
 @Composable
-private fun AuthorCardPlaceholderPreview() {
+private fun AuthorCardSkeletonPreview() {
     AppTheme {
-        AuthorCardPlaceholder(alpha = rememberShimmerAlpha())
+        AuthorCardSkeleton(alpha = rememberShimmerAlpha())
     }
 }

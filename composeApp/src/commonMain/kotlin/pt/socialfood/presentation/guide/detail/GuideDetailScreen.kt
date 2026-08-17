@@ -104,7 +104,7 @@ private fun GuideDetailContent(
     onToggleFavourite: () -> Unit = {},
 ) {
     when (state) {
-        GuideDetailUiState.Loading -> GuideDetailPlaceholder()
+        GuideDetailUiState.Loading -> GuideDetailSkeleton()
 
         is GuideDetailUiState.Loaded ->
             GuideDetailLoaded(

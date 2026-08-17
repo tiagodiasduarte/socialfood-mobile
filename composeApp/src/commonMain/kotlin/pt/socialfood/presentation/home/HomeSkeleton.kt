@@ -23,7 +23,7 @@ import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun HomePlaceholder(modifier: Modifier = Modifier) {
+fun HomeSkeleton(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
 
     Column(
@@ -31,13 +31,13 @@ fun HomePlaceholder(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(SpaceSize.xlarge),
     ) {
         repeat(3) {
-            HomeSectionPlaceholder(alpha = alpha)
+            HomeSectionSkeleton(alpha = alpha)
         }
     }
 }
 
 @Composable
-private fun HomeSectionPlaceholder(alpha: Float) {
+private fun HomeSectionSkeleton(alpha: Float) {
     Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.large)) {
         Row(
             modifier = Modifier
@@ -73,8 +73,8 @@ private fun HomeSectionPlaceholder(alpha: Float) {
 
 @Preview
 @Composable
-private fun HomePlaceholderPreview() {
+private fun HomeSkeletonPreview() {
     AppTheme {
-        HomePlaceholder()
+        HomeSkeleton()
     }
 }

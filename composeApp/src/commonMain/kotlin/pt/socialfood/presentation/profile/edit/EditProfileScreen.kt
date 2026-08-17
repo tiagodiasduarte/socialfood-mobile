@@ -63,7 +63,7 @@ fun EditProfileScreen(onBackClick: () -> Unit, viewModel: EditProfileViewModel =
     }
 
     when (val s = state) {
-        is EditProfileUiState.Loading -> EditProfilePlaceholder()
+        is EditProfileUiState.Loading -> EditProfileSkeleton()
         is EditProfileUiState.Error -> Column(
             modifier = Modifier.fillMaxSize().background(GreyBackground),
         ) {

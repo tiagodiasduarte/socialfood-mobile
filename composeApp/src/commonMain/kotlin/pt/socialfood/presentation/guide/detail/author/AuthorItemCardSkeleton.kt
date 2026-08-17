@@ -28,7 +28,7 @@ import pt.socialfood.ui.theme.SpaceSize
 private val CardHeight = 80.dp
 
 @Composable
-fun AuthorItemCardPlaceholder(alpha: Float, modifier: Modifier = Modifier) {
+fun AuthorItemCardSkeleton(alpha: Float, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -52,8 +52,8 @@ fun AuthorItemCardPlaceholder(alpha: Float, modifier: Modifier = Modifier) {
 
 @Composable
 @Preview
-private fun AuthorItemCardPlaceholderPreview() {
+private fun AuthorItemCardSkeletonPreview() {
     AppTheme {
-        AuthorItemCardPlaceholder(alpha = rememberShimmerAlpha())
+        AuthorItemCardSkeleton(alpha = rememberShimmerAlpha())
     }
 }

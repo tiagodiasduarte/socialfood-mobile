@@ -20,14 +20,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import pt.socialfood.presentation.components.buttons.social.SocialButtonsPlaceholder
+import pt.socialfood.presentation.components.buttons.social.SocialButtonsSkeleton
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.ProfileGradientEnd
 import pt.socialfood.ui.theme.ProfileGradientStart
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun ProfileHeaderPlaceholder(
+fun ProfileHeaderSkeleton(
     alpha: Float,
     modifier: Modifier = Modifier,
     topAction: @Composable BoxScope.() -> Unit = {},
@@ -87,15 +87,15 @@ fun ProfileHeaderPlaceholder(
                 ShimmerBox(modifier = Modifier.width(100.dp).height(16.dp), alpha = alpha)
             }
 
-            SocialButtonsPlaceholder(alpha = alpha)
+            SocialButtonsSkeleton(alpha = alpha)
 
-            StatsRowPlaceholder(alpha = alpha)
+            StatsRowSkeleton(alpha = alpha)
         }
     }
 }
 
 @Composable
-private fun StatsRowPlaceholder(alpha: Float) {
+private fun StatsRowSkeleton(alpha: Float) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
         verticalAlignment = Alignment.CenterVertically,
@@ -122,7 +122,7 @@ private fun StatsRowPlaceholder(alpha: Float) {
 }
 
 @Composable
-fun BoxScope.ProfileHeaderTopActionPlaceholder(alpha: Float, modifier: Modifier = Modifier) {
+fun BoxScope.ProfileHeaderTopActionSkeleton(alpha: Float, modifier: Modifier = Modifier) {
     ShimmerBox(
         modifier = modifier
             .padding(SpaceSize.large)
@@ -134,10 +134,10 @@ fun BoxScope.ProfileHeaderTopActionPlaceholder(alpha: Float, modifier: Modifier 
 
 @Preview
 @Composable
-private fun ProfileHeaderPlaceholderPreview() {
+private fun ProfileHeaderSkeletonPreview() {
     AppTheme {
-        ProfileHeaderPlaceholder(alpha = 0.6f) {
-            ProfileHeaderTopActionPlaceholder(alpha = 0.6f)
+        ProfileHeaderSkeleton(alpha = 0.6f) {
+            ProfileHeaderTopActionSkeleton(alpha = 0.6f)
         }
     }
 }

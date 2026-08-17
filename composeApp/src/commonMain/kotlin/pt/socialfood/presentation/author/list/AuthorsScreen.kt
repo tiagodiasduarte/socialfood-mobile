@@ -86,7 +86,7 @@ private fun AuthorsContent(
 
             when (authors.loadState.refresh) {
                 is LoadState.Loading if authors.itemCount == 0 -> item {
-                    AuthorsPlaceholder()
+                    AuthorsSkeleton()
                 }
 
                 is LoadState.Error if authors.itemCount == 0 -> item {

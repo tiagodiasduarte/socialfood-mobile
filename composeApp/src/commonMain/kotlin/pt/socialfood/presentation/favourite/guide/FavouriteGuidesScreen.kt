@@ -105,7 +105,7 @@ private fun FavouriteGuidesContent(
         TopBar(onBackClick = onBackClick)
 
         when (state) {
-            FavouriteGuidesUiState.Loading -> FavouriteGuidesPlaceholder(modifier = Modifier.fillMaxSize())
+            FavouriteGuidesUiState.Loading -> FavouriteGuidesSkeleton(modifier = Modifier.fillMaxSize())
 
             is FavouriteGuidesUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),

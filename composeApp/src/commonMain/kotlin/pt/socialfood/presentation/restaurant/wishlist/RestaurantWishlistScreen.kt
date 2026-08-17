@@ -111,7 +111,7 @@ private fun RestaurantWishlistContent(
         TopBar(onBackClick = onBackClick, onAddClick = onAddClick)
 
         when (state) {
-            RestaurantWishlistUiState.Loading -> RestaurantWishlistPlaceholder(modifier = Modifier.fillMaxSize())
+            RestaurantWishlistUiState.Loading -> RestaurantWishlistSkeleton(modifier = Modifier.fillMaxSize())
 
             is RestaurantWishlistUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),

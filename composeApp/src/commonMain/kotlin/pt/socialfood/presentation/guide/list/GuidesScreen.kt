@@ -106,7 +106,7 @@ fun GuidesScreenContent(
 
             when (guides.loadState.refresh) {
                 is LoadState.Loading if guides.itemCount == 0 -> item {
-                    GuidesPlaceholder()
+                    GuidesSkeleton()
                 }
 
                 is LoadState.Error if guides.itemCount == 0 -> item {

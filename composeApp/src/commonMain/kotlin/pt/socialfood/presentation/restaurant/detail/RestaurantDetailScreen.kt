@@ -96,7 +96,7 @@ private fun RestaurantDetailContent(
     onMoveToVisited: () -> Unit = {},
 ) {
     when (state) {
-        RestaurantDetailUiState.Loading -> RestaurantDetailPlaceholder()
+        RestaurantDetailUiState.Loading -> RestaurantDetailSkeleton()
 
         is RestaurantDetailUiState.Loaded -> RestaurantDetailLoaded(
             restaurant = state.restaurant,

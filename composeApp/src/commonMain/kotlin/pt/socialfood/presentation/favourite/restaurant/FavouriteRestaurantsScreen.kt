@@ -105,7 +105,7 @@ private fun FavouriteRestaurantsContent(
         TopBar(onBackClick = onBackClick)
 
         when (state) {
-            FavouriteRestaurantsUiState.Loading -> FavouriteRestaurantsPlaceholder(modifier = Modifier.fillMaxSize())
+            FavouriteRestaurantsUiState.Loading -> FavouriteRestaurantsSkeleton(modifier = Modifier.fillMaxSize())
 
             is FavouriteRestaurantsUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),

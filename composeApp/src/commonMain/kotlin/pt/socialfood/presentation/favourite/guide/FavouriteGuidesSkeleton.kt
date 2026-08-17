@@ -21,6 +21,10 @@ import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
+private const val SKELETON_ITEM_COUNT = 5
+private const val PRIMARY_LINE_WIDTH_FRACTION = 0.7f
+private const val SECONDARY_LINE_WIDTH_FRACTION = 0.5f
+
 @Composable
 fun FavouriteGuidesSkeleton(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
@@ -29,7 +33,7 @@ fun FavouriteGuidesSkeleton(modifier: Modifier = Modifier) {
         modifier = modifier.padding(horizontal = SpaceSize.large),
         verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
-        repeat(5) {
+        repeat(SKELETON_ITEM_COUNT) {
             Card(
                 modifier = Modifier.fillMaxWidth().height(CardHeight),
                 shape = RoundedCornerShape(SpaceSize.large),
@@ -52,8 +56,14 @@ fun FavouriteGuidesSkeleton(modifier: Modifier = Modifier) {
                         modifier = Modifier.weight(1f),
                         verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
                     ) {
-                        ShimmerBox(modifier = Modifier.fillMaxWidth(0.7f).height(16.dp), alpha = alpha)
-                        ShimmerBox(modifier = Modifier.fillMaxWidth(0.5f).height(14.dp), alpha = alpha)
+                        ShimmerBox(
+                            modifier = Modifier.fillMaxWidth(PRIMARY_LINE_WIDTH_FRACTION).height(16.dp),
+                            alpha = alpha,
+                        )
+                        ShimmerBox(
+                            modifier = Modifier.fillMaxWidth(SECONDARY_LINE_WIDTH_FRACTION).height(14.dp),
+                            alpha = alpha,
+                        )
                     }
                 }
             }

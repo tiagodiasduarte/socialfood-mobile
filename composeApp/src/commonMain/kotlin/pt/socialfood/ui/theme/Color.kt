@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package pt.socialfood.ui.theme
 
 import androidx.compose.material3.darkColorScheme

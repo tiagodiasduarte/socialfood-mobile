@@ -20,62 +20,29 @@
     <ID>LongMethod:ProfileDrawerContent.kt$@Composable private fun DrawerUserContent( user: User, onLogoutClick: () -&gt; Unit, onProfileClick: (authorId: String) -&gt; Unit = {}, onEditProfileClick: () -&gt; Unit = {}, onFavouriteGuidesClick: () -&gt; Unit = {}, onFavouriteRestaurantsClick: () -&gt; Unit = {}, onWishRestaurantsClick: () -&gt; Unit = {}, onVisitedRestaurantsClick: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:ProfilePictureCard.kt$@Composable fun ProfilePictureCard(state: EditProfileUiState.Loaded, onPhotoSelected: (ByteArray, String) -&gt; Unit)</ID>
     <ID>LongMethod:ValidateCodeScreen.kt$@Composable private fun ValidateCodeFormView( state: ValidateCodeUiState, onValidateClick: (String) -&gt; Unit, onResendClick: () -&gt; Unit, onRestartClick: () -&gt; Unit, )</ID>
-    <ID>MagicNumber:AuthorCardSkeleton.kt$3</ID>
-    <ID>MagicNumber:AuthorDetailSkeleton.kt$4</ID>
-    <ID>MagicNumber:AuthorsSkeleton.kt$6</ID>
-    <ID>MagicNumber:Color.kt$0xFF005C0C</ID>
-    <ID>MagicNumber:Color.kt$0xFF1A1A1A</ID>
-    <ID>MagicNumber:Color.kt$0xFF2A2A2A</ID>
-    <ID>MagicNumber:Color.kt$0xFF4A5565</ID>
-    <ID>MagicNumber:Color.kt$0xFF9E9E9E</ID>
-    <ID>MagicNumber:Color.kt$0xFFB82010</ID>
-    <ID>MagicNumber:Color.kt$0xFFE0E0E0</ID>
-    <ID>MagicNumber:Color.kt$0xFFE8450A</ID>
-    <ID>MagicNumber:Color.kt$0xFFEF4444</ID>
-    <ID>MagicNumber:Color.kt$0xFFF05A1A</ID>
-    <ID>MagicNumber:Color.kt$0xFFF2F2F2</ID>
-    <ID>MagicNumber:Color.kt$0xFFFFC107</ID>
     <ID>MagicNumber:EditGuideViewModel.kt$EditGuideViewModel$3</ID>
-    <ID>MagicNumber:EditProfileSkeleton.kt$3</ID>
-    <ID>MagicNumber:FavouriteGuidesSkeleton.kt$0.5f</ID>
-    <ID>MagicNumber:FavouriteGuidesSkeleton.kt$0.7f</ID>
-    <ID>MagicNumber:FavouriteGuidesSkeleton.kt$5</ID>
-    <ID>MagicNumber:FavouriteRestaurantsSkeleton.kt$0.5f</ID>
-    <ID>MagicNumber:FavouriteRestaurantsSkeleton.kt$0.7f</ID>
-    <ID>MagicNumber:FavouriteRestaurantsSkeleton.kt$5</ID>
     <ID>MagicNumber:GuideDetailScreen.kt$0xFF008236</ID>
     <ID>MagicNumber:GuideDetailScreen.kt$0xFF364153</ID>
     <ID>MagicNumber:GuideDetailScreen.kt$0xFFF0FDF4</ID>
     <ID>MagicNumber:GuideDetailScreen.kt$0xFFFFFFFF</ID>
-    <ID>MagicNumber:GuideDetailSkeleton.kt$4</ID>
     <ID>MagicNumber:GuideDetailsCard.kt$12f</ID>
     <ID>MagicNumber:GuideDetailsCard.kt$16f</ID>
     <ID>MagicNumber:GuideDetailsCard.kt$6f</ID>
     <ID>MagicNumber:GuideDetailsCard.kt$9f</ID>
-    <ID>MagicNumber:GuidesSkeleton.kt$5</ID>
     <ID>MagicNumber:HomeHeader.kt$0xE5E7EB</ID>
     <ID>MagicNumber:HomeSearchBar.kt$0xFFE5E7EB</ID>
     <ID>MagicNumber:HomeSearchBar.kt$0xFFF2F2F2</ID>
     <ID>MagicNumber:HomeSearchBar.kt$25</ID>
-    <ID>MagicNumber:HomeSkeleton.kt$3</ID>
     <ID>MagicNumber:ImageHttpClient.kt$ImageHttpClient$120_000</ID>
     <ID>MagicNumber:ImageHttpClient.kt$ImageHttpClient$30_000</ID>
-    <ID>MagicNumber:ProfileHeaderSkeleton.kt$3</ID>
     <ID>MagicNumber:RatingStars.kt$0.5</ID>
     <ID>MagicNumber:RatingStars.kt$0xFFFFC107</ID>
-    <ID>MagicNumber:RestaurantVisitedSkeleton.kt$0.5f</ID>
-    <ID>MagicNumber:RestaurantVisitedSkeleton.kt$0.7f</ID>
-    <ID>MagicNumber:RestaurantVisitedSkeleton.kt$5</ID>
-    <ID>MagicNumber:RestaurantWishlistSkeleton.kt$0.5f</ID>
-    <ID>MagicNumber:RestaurantWishlistSkeleton.kt$0.7f</ID>
-    <ID>MagicNumber:RestaurantWishlistSkeleton.kt$5</ID>
     <ID>MagicNumber:S3HttpClient.kt$S3HttpClient$120_000</ID>
     <ID>MagicNumber:S3HttpClient.kt$S3HttpClient$30_000</ID>
     <ID>MagicNumber:SearchBar.kt$0xFFE5E7EB</ID>
     <ID>MagicNumber:SearchBar.kt$25</ID>
     <ID>MagicNumber:SearchRestaurantsViewModel.kt$SearchRestaurantsViewModel$3</ID>
     <ID>MagicNumber:ShimmerBox.kt$0xFFD0D0D0</ID>
-    <ID>MagicNumber:SocialButtonsSkeleton.kt$3</ID>
     <ID>MagicNumber:SplashScreen.ios.kt$0xFFF54900</ID>
     <ID>MagicNumber:ValidateCodeScreen.kt$0xFFD0D0D0</ID>
     <ID>MagicNumber:ValidateCodeScreen.kt$0xFFF2F2F2</ID>

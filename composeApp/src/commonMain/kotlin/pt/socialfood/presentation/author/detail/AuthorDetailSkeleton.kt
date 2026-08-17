@@ -29,6 +29,8 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
+private const val GUIDE_CARD_SKELETON_COUNT = 4
+
 @Composable
 fun AuthorDetailSkeleton(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
@@ -56,7 +58,7 @@ fun AuthorDetailSkeleton(modifier: Modifier = Modifier) {
             Spacer(Modifier.height(SpaceSize.large))
         }
 
-        items(4) {
+        items(GUIDE_CARD_SKELETON_COUNT) {
             AuthorGuideCardSkeleton(
                 modifier = Modifier.padding(horizontal = SpaceSize.large),
                 alpha = alpha,

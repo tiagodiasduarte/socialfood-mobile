@@ -29,6 +29,9 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
+private const val PERSONAL_DETAILS_FIELD_COUNT = 3
+private const val SOCIAL_FIELD_COUNT = 3
+
 @Composable
 internal fun EditProfileSkeleton() {
     val alpha = rememberShimmerAlpha()
@@ -87,7 +90,7 @@ internal fun EditProfileSkeleton() {
             SectionCardSkeleton {
                 ShimmerBox(modifier = Modifier.width(140.dp).height(20.dp), alpha = alpha)
                 Spacer(Modifier.height(SpaceSize.large))
-                repeat(3) {
+                repeat(PERSONAL_DETAILS_FIELD_COUNT) {
                     FieldSkeleton(alpha = alpha)
                     if (it < 2) Spacer(Modifier.height(SpaceSize.large))
                 }
@@ -97,7 +100,7 @@ internal fun EditProfileSkeleton() {
             SectionCardSkeleton {
                 ShimmerBox(modifier = Modifier.width(140.dp).height(20.dp), alpha = alpha)
                 Spacer(Modifier.height(SpaceSize.large))
-                repeat(3) {
+                repeat(SOCIAL_FIELD_COUNT) {
                     SocialFieldSkeleton(alpha = alpha)
                     if (it < 2) Spacer(Modifier.height(SpaceSize.large))
                 }

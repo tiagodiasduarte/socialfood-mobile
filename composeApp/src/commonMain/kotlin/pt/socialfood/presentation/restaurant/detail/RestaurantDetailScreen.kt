@@ -12,28 +12,31 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.Phone
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
@@ -41,7 +44,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.SubcomposeAsyncImage
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -52,16 +54,17 @@ import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.GreyBackground
+import pt.socialfood.ui.theme.ImagePlaceholderColor
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
-import socialfood.composeapp.generated.resources.restaurant_detail_call_button
 import socialfood.composeapp.generated.resources.restaurant_detail_favourite_description
+import socialfood.composeapp.generated.resources.restaurant_detail_more_options_description
 import socialfood.composeapp.generated.resources.restaurant_detail_opening_hours_title
-import socialfood.composeapp.generated.resources.restaurant_detail_share_description
-import socialfood.composeapp.generated.resources.share_icon
+import socialfood.composeapp.generated.resources.restaurant_detail_share_button
 
 val ImageHeight = 300.dp
+private const val GALLERY_PHOTO_COUNT = 5
 
 @Composable
 fun RestaurantDetailScreen(
@@ -95,7 +98,28 @@ private fun RestaurantDetailContent(
             onToggleFavourite = onToggleFavourite,
         )
 
-        is RestaurantDetailUiState.Error -> ErrorContent(onRetryClick = onRetry)
+        is RestaurantDetailUiState.Error -> RestaurantDetailError(onBackClick = onBackClick, onRetry = onRetry)
+    }
+}
+
+@Composable
+private fun RestaurantDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
+    Column(modifier = Modifier.fillMaxSize().background(GreyBackground)) {
+        IconButton(
+            onClick = onBackClick,
+            modifier = Modifier.padding(SpaceSize.medium),
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
+                contentDescription = stringResource(Res.string.back_button_description),
+                tint = MaterialTheme.colorScheme.onBackground,
+            )
+        }
+
+        ErrorContent(
+            modifier = Modifier.fillMaxSize(),
+            onRetryClick = onRetry,
+        )
     }
 }
 
@@ -109,125 +133,68 @@ private fun RestaurantDetailLoaded(
     val uriHandler = LocalUriHandler.current
 
     Box(modifier = Modifier.fillMaxSize().background(GreyBackground)) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(bottom = 88.dp),
-        ) {
-            item {
-                TopSection(
-                    restaurant = restaurant,
-                    isFavourite = isFavourite,
-                    onBackClick = onBackClick,
-                    onShareClick = {},
-                    onFavoriteClick = onToggleFavourite,
-                )
-            }
-
-            item {
-                TitleSection(restaurant = restaurant)
-            }
-
-            if (restaurant.photoNames.isNotEmpty()) {
-                item {
-                    PhotoGallery(
-                        photos = restaurant.photoNames,
-                        restaurantName = restaurant.name,
-                    )
-                    Spacer(Modifier.height(SpaceSize.large))
-                }
-            }
-
-            item {
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = SpaceSize.large),
-                    color = MaterialTheme.colorScheme.outlineVariant,
-                )
-                Spacer(Modifier.height(SpaceSize.large))
-            }
-
-            item {
-                InformationSection(
-                    restaurant = restaurant,
-                    onNavigateClick = {
-                        if (restaurant.address.isNotBlank()) {
-                            uriHandler.openUri("geo:0,0?q=${restaurant.address}")
-                        }
-                    },
-                    onWebsiteClick = {
-                        if (!restaurant.websiteUrl.isNullOrBlank()) {
-                            uriHandler.openUri(restaurant.websiteUrl)
-                        }
-                    },
-                )
-            }
-
-            item {
-                Spacer(Modifier.height(SpaceSize.xlarge))
-
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = SpaceSize.large),
-                    color = MaterialTheme.colorScheme.outlineVariant,
-                )
-
-                Spacer(Modifier.height(SpaceSize.xlarge))
-            }
-
-            restaurant.regularOpeningHours?.let {
-                item {
-                    Text(
-                        text = stringResource(Res.string.restaurant_detail_opening_hours_title),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(horizontal = SpaceSize.large),
-                    )
-
-                    Spacer(Modifier.height(SpaceSize.large))
-
-                    OpeningHoursCard(it)
-                }
-            }
-        }
-
-        Box(
+        Column(
             modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(Color.Transparent, GreyBackground),
-                        startY = 0f,
-                        endY = Float.POSITIVE_INFINITY,
-                    ),
-                )
-                .padding(SpaceSize.large),
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
         ) {
-            Button(
-                onClick = {
-                    if (restaurant.phoneNumber.isNotBlank()) {
-                        uriHandler.openUri("tel:${restaurant.phoneNumber}")
+            TopSection(
+                restaurant = restaurant,
+                isFavourite = isFavourite,
+                onBackClick = onBackClick,
+                onShareClick = {},
+                onFavoriteClick = onToggleFavourite,
+            )
+
+            TitleSection(restaurant = restaurant)
+
+            PhotoGallerySection(restaurant)
+
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = SpaceSize.large),
+                color = MaterialTheme.colorScheme.outlineVariant,
+            )
+            Spacer(Modifier.height(SpaceSize.large))
+
+            InformationSection(
+                restaurant = restaurant,
+                onNavigateClick = {
+                    if (restaurant.address.isNotBlank()) {
+                        uriHandler.openUri("geo:0,0?q=${restaurant.address}")
                     }
                 },
-                modifier = Modifier.fillMaxWidth().height(52.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                ),
-                shape = RoundedCornerShape(SpaceSize.large),
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Phone,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp),
-                )
-                Spacer(Modifier.width(SpaceSize.medium))
-                Text(
-                    text = stringResource(Res.string.restaurant_detail_call_button),
-                    style = MaterialTheme.typography.labelLarge,
-                )
-            }
+                onWebsiteClick = {
+                    if (!restaurant.websiteUrl.isNullOrBlank()) {
+                        uriHandler.openUri(restaurant.websiteUrl)
+                    }
+                },
+            )
+
+            Spacer(Modifier.height(SpaceSize.xlarge))
+
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = SpaceSize.large),
+                color = MaterialTheme.colorScheme.outlineVariant,
+            )
+
+            Spacer(Modifier.height(SpaceSize.xlarge))
+
+            OpeningHoursSection(restaurant)
+
+            Spacer(Modifier.height(88.dp))
         }
+
+        CallButton(
+            onClick = {
+                if (restaurant.phoneNumber.isNotBlank()) {
+                    uriHandler.openUri("tel:${restaurant.phoneNumber}")
+                }
+            },
+        )
     }
 }
 
+@Suppress("LongMethod")
 @Composable
 private fun TopSection(
     restaurant: Restaurant,
@@ -250,14 +217,14 @@ private fun TopSection(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
                 loading = {
-                    Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
+                    Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
                 },
                 error = {
-                    Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
+                    Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
                 },
             )
         } else {
-            Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
+            Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
         }
 
         Box(modifier = Modifier.fillMaxSize().detailImageScrim())
@@ -280,14 +247,6 @@ private fun TopSection(
                 .padding(SpaceSize.large),
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
         ) {
-            ActionButton(onClick = onShareClick) {
-                Icon(
-                    painter = painterResource(Res.drawable.share_icon),
-                    contentDescription = stringResource(Res.string.restaurant_detail_share_description),
-                    tint = Color.White,
-                    modifier = Modifier.size(24.dp),
-                )
-            }
             ActionButton(onClick = onFavoriteClick) {
                 Icon(
                     imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
@@ -295,6 +254,31 @@ private fun TopSection(
                     tint = if (isFavourite) FavouriteRed else Color.White,
                     modifier = Modifier.size(24.dp),
                 )
+            }
+
+            var isMenuExpanded by remember { mutableStateOf(false) }
+
+            Box {
+                ActionButton(onClick = { isMenuExpanded = true }) {
+                    Icon(
+                        imageVector = Icons.Filled.MoreVert,
+                        contentDescription = stringResource(Res.string.restaurant_detail_more_options_description),
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp),
+                    )
+                }
+                DropdownMenu(
+                    expanded = isMenuExpanded,
+                    onDismissRequest = { isMenuExpanded = false },
+                ) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(Res.string.restaurant_detail_share_button)) },
+                        onClick = {
+                            isMenuExpanded = false
+                            onShareClick()
+                        },
+                    )
+                }
             }
         }
     }
@@ -325,6 +309,18 @@ private fun TitleSection(restaurant: Restaurant) {
 }
 
 @Composable
+private fun PhotoGallerySection(restaurant: Restaurant) {
+    val galleryPhotos = restaurant.photoNames.drop(1).take(GALLERY_PHOTO_COUNT)
+    if (galleryPhotos.isNotEmpty()) {
+        PhotoGallery(
+            photos = galleryPhotos,
+            restaurantName = restaurant.name,
+        )
+        Spacer(Modifier.height(SpaceSize.large))
+    }
+}
+
+@Composable
 private fun PhotoGallery(photos: List<String>, restaurantName: String) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
@@ -343,7 +339,7 @@ private fun PhotoGallery(photos: List<String>, restaurantName: String) {
                         Modifier
                             .size(120.dp)
                             .clip(RoundedCornerShape(SpaceSize.medium))
-                            .background(Color(0xFF2A2A2A)),
+                            .background(ImagePlaceholderColor),
                     )
                 },
                 error = {
@@ -351,11 +347,27 @@ private fun PhotoGallery(photos: List<String>, restaurantName: String) {
                         Modifier
                             .size(120.dp)
                             .clip(RoundedCornerShape(SpaceSize.medium))
-                            .background(Color(0xFF2A2A2A)),
+                            .background(ImagePlaceholderColor),
                     )
                 },
             )
         }
+    }
+}
+
+@Composable
+private fun OpeningHoursSection(restaurant: Restaurant) {
+    restaurant.regularOpeningHours?.let { openingHours ->
+        Text(
+            text = stringResource(Res.string.restaurant_detail_opening_hours_title),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(horizontal = SpaceSize.large),
+        )
+
+        Spacer(Modifier.height(SpaceSize.large))
+
+        OpeningHoursCard(openingHours)
     }
 }
 

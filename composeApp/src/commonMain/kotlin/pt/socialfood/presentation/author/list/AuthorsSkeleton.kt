@@ -11,7 +11,7 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun AuthorsPlaceholder(modifier: Modifier = Modifier) {
+fun AuthorsSkeleton(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
 
     Column(
@@ -19,15 +19,15 @@ fun AuthorsPlaceholder(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
     ) {
         repeat(6) {
-            AuthorCardPlaceholder(alpha = alpha)
+            AuthorCardSkeleton(alpha = alpha)
         }
     }
 }
 
 @Preview
 @Composable
-private fun AuthorsPlaceholderPreview() {
+private fun AuthorsSkeletonPreview() {
     AppTheme {
-        AuthorsPlaceholder()
+        AuthorsSkeleton()
     }
 }

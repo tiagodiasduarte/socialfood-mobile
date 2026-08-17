@@ -23,7 +23,7 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun RestaurantWishlistPlaceholder(modifier: Modifier = Modifier) {
+fun RestaurantWishlistSkeleton(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
 
     Column(
@@ -64,8 +64,8 @@ fun RestaurantWishlistPlaceholder(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun RestaurantWishlistPlaceholderPreview() {
+private fun RestaurantWishlistSkeletonPreview() {
     AppTheme {
-        RestaurantWishlistPlaceholder()
+        RestaurantWishlistSkeleton()
     }
 }

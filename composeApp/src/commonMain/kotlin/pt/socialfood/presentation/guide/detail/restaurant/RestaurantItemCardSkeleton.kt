@@ -24,7 +24,7 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun RestaurantItemCardPlaceholder(modifier: Modifier = Modifier, alpha: Float) {
+fun RestaurantItemCardSkeleton(modifier: Modifier = Modifier, alpha: Float) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -62,8 +62,8 @@ fun RestaurantItemCardPlaceholder(modifier: Modifier = Modifier, alpha: Float) {
 
 @Preview
 @Composable
-private fun RestaurantItemCardPlaceholderPreview() {
+private fun RestaurantItemCardSkeletonPreview() {
     AppTheme {
-        RestaurantItemCardPlaceholder(alpha = rememberShimmerAlpha())
+        RestaurantItemCardSkeleton(alpha = rememberShimmerAlpha())
     }
 }

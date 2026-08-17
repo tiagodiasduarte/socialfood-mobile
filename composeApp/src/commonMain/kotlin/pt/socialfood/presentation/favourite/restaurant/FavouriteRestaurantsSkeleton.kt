@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.favourite.guide
+package pt.socialfood.presentation.favourite.restaurant
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,11 +18,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.rememberShimmerAlpha
+import pt.socialfood.presentation.restaurant.CardHeight
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun FavouriteGuidesPlaceholder(modifier: Modifier = Modifier) {
+fun FavouriteRestaurantsSkeleton(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
 
     Column(
@@ -63,8 +64,8 @@ fun FavouriteGuidesPlaceholder(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun FavouriteGuidesPlaceholderPreview() {
+private fun FavouriteRestaurantsSkeletonPreview() {
     AppTheme {
-        FavouriteGuidesPlaceholder()
+        FavouriteRestaurantsSkeleton()
     }
 }

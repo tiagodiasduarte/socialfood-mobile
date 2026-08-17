@@ -104,7 +104,7 @@ private fun VisitedRestaurantsContent(
         TopBar(onBackClick = onBackClick)
 
         when (state) {
-            RestaurantVisitedUiState.Loading -> RestaurantVisitedPlaceholder(modifier = Modifier.fillMaxSize())
+            RestaurantVisitedUiState.Loading -> RestaurantVisitedSkeleton(modifier = Modifier.fillMaxSize())
 
             is RestaurantVisitedUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),

@@ -60,7 +60,7 @@ private fun AuthorDetailContent(
     onRetry: () -> Unit,
 ) {
     when (state) {
-        AuthorDetailUiState.Loading -> AuthorDetailPlaceholder()
+        AuthorDetailUiState.Loading -> AuthorDetailSkeleton()
 
         is AuthorDetailUiState.Loaded -> AuthorDetailLoaded(
             author = state.author,

@@ -30,7 +30,7 @@ import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-internal fun EditProfilePlaceholder() {
+internal fun EditProfileSkeleton() {
     val alpha = rememberShimmerAlpha()
 
     Column(
@@ -68,7 +68,7 @@ internal fun EditProfilePlaceholder() {
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
             // Profile picture card
-            SectionCardPlaceholder {
+            SectionCardSkeleton {
                 ShimmerBox(modifier = Modifier.width(140.dp).height(20.dp), alpha = alpha)
                 Spacer(Modifier.height(SpaceSize.large))
                 Row(
@@ -84,21 +84,21 @@ internal fun EditProfilePlaceholder() {
             }
 
             // Personal details card
-            SectionCardPlaceholder {
+            SectionCardSkeleton {
                 ShimmerBox(modifier = Modifier.width(140.dp).height(20.dp), alpha = alpha)
                 Spacer(Modifier.height(SpaceSize.large))
                 repeat(3) {
-                    FieldPlaceholder(alpha = alpha)
+                    FieldSkeleton(alpha = alpha)
                     if (it < 2) Spacer(Modifier.height(SpaceSize.large))
                 }
             }
 
             // Social networks card
-            SectionCardPlaceholder {
+            SectionCardSkeleton {
                 ShimmerBox(modifier = Modifier.width(140.dp).height(20.dp), alpha = alpha)
                 Spacer(Modifier.height(SpaceSize.large))
                 repeat(3) {
-                    SocialFieldPlaceholder(alpha = alpha)
+                    SocialFieldSkeleton(alpha = alpha)
                     if (it < 2) Spacer(Modifier.height(SpaceSize.large))
                 }
             }
@@ -109,7 +109,7 @@ internal fun EditProfilePlaceholder() {
 }
 
 @Composable
-private fun SectionCardPlaceholder(content: @Composable () -> Unit) {
+private fun SectionCardSkeleton(content: @Composable () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(SpaceSize.large),
@@ -123,7 +123,7 @@ private fun SectionCardPlaceholder(content: @Composable () -> Unit) {
 }
 
 @Composable
-private fun FieldPlaceholder(alpha: Float) {
+private fun FieldSkeleton(alpha: Float) {
     Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.small)) {
         ShimmerBox(modifier = Modifier.width(80.dp).height(12.dp), alpha = alpha)
         ShimmerBox(
@@ -135,7 +135,7 @@ private fun FieldPlaceholder(alpha: Float) {
 }
 
 @Composable
-private fun SocialFieldPlaceholder(alpha: Float) {
+private fun SocialFieldSkeleton(alpha: Float) {
     Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.small)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -154,8 +154,8 @@ private fun SocialFieldPlaceholder(alpha: Float) {
 
 @Preview
 @Composable
-private fun EditProfilePlaceholderPreview() {
+private fun EditProfileSkeletonPreview() {
     AppTheme {
-        EditProfilePlaceholder()
+        EditProfileSkeleton()
     }
 }

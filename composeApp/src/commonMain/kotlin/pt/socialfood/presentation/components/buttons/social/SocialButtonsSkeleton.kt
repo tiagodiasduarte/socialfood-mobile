@@ -12,7 +12,7 @@ import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
 
 @Composable
-fun SocialButtonsPlaceholder(alpha: Float, modifier: Modifier = Modifier) {
+fun SocialButtonsSkeleton(alpha: Float, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(SocialButtonsRowSpacing),
@@ -29,8 +29,8 @@ fun SocialButtonsPlaceholder(alpha: Float, modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun SocialButtonsPlaceholderPreview() {
+private fun SocialButtonsSkeletonPreview() {
     AppTheme {
-        SocialButtonsPlaceholder(alpha = rememberShimmerAlpha())
+        SocialButtonsSkeleton(alpha = rememberShimmerAlpha())
     }
 }

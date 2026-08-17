@@ -16,7 +16,7 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun GuidesPlaceholder(modifier: Modifier = Modifier) {
+fun GuidesSkeleton(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
 
     Column(
@@ -37,8 +37,8 @@ fun GuidesPlaceholder(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-private fun GuidesPlaceholderPreview() {
+private fun GuidesSkeletonPreview() {
     AppTheme {
-        GuidesPlaceholder()
+        GuidesSkeleton()
     }
 }

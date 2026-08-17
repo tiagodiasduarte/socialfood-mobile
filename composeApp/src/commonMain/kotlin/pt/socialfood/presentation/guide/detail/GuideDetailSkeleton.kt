@@ -24,14 +24,14 @@ import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.ShimmerColor
 import pt.socialfood.presentation.components.rememberShimmerAlpha
-import pt.socialfood.presentation.guide.detail.author.AuthorItemCardPlaceholder
-import pt.socialfood.presentation.guide.detail.restaurant.RestaurantItemCardPlaceholder
+import pt.socialfood.presentation.guide.detail.author.AuthorItemCardSkeleton
+import pt.socialfood.presentation.guide.detail.restaurant.RestaurantItemCardSkeleton
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun GuideDetailPlaceholder(modifier: Modifier = Modifier) {
+fun GuideDetailSkeleton(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
 
     LazyColumn(
@@ -41,7 +41,7 @@ fun GuideDetailPlaceholder(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
         item {
-            HeroImagePlaceholder(alpha = alpha)
+            HeroImageSkeleton(alpha = alpha)
 
             Spacer(Modifier.height(SpaceSize.large))
 
@@ -97,7 +97,7 @@ fun GuideDetailPlaceholder(modifier: Modifier = Modifier) {
 
             Spacer(Modifier.height(SpaceSize.large))
 
-            AuthorItemCardPlaceholder(
+            AuthorItemCardSkeleton(
                 modifier = Modifier.padding(horizontal = SpaceSize.large),
                 alpha = alpha,
             )
@@ -116,7 +116,7 @@ fun GuideDetailPlaceholder(modifier: Modifier = Modifier) {
         }
 
         items(4) {
-            RestaurantItemCardPlaceholder(
+            RestaurantItemCardSkeleton(
                 modifier = Modifier.padding(horizontal = SpaceSize.large),
                 alpha = alpha,
             )
@@ -127,7 +127,7 @@ fun GuideDetailPlaceholder(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun HeroImagePlaceholder(alpha: Float) {
+private fun HeroImageSkeleton(alpha: Float) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -156,8 +156,8 @@ private fun HeroImagePlaceholder(alpha: Float) {
 
 @Preview
 @Composable
-private fun GuideDetailPlaceholderPreview() {
+private fun GuideDetailSkeletonPreview() {
     AppTheme {
-        GuideDetailPlaceholder()
+        GuideDetailSkeleton()
     }
 }

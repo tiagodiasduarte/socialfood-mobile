@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -120,32 +121,52 @@ private fun RestaurantWishlistContent(
             is RestaurantWishlistUiState.Loaded -> if (state.restaurants.isEmpty()) {
                 NoResultsContent(modifier = Modifier.fillMaxSize())
             } else {
-                PullToRefreshBox(
+                RestaurantWishlistList(
+                    restaurants = state.restaurants,
+                    listState = listState,
                     isRefreshing = isRefreshing,
                     onRefresh = onRefresh,
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    LazyColumn(
-                        state = listState,
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(
-                            horizontal = SpaceSize.large,
-                            vertical = SpaceSize.large,
-                        ),
-                        verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-                    ) {
-                        items(state.restaurants, key = { it.id }) { restaurant ->
-                            RestaurantSmallCard(
-                                restaurant = restaurant,
-                                removeButtonContentDescription = stringResource(
-                                    Res.string.wish_card_remove_button_description,
-                                ),
-                                onClick = { onRestaurantClick(restaurant.id) },
-                                onRemoveClick = { onRemoveClick(restaurant.id) },
-                            )
-                        }
-                    }
-                }
+                    onRestaurantClick = onRestaurantClick,
+                    onRemoveClick = onRemoveClick,
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun RestaurantWishlistList(
+    restaurants: List<Restaurant>,
+    listState: LazyListState,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
+    onRestaurantClick: (restaurantId: String) -> Unit,
+    onRemoveClick: (restaurantId: String) -> Unit,
+) {
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        onRefresh = onRefresh,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                horizontal = SpaceSize.large,
+                vertical = SpaceSize.large,
+            ),
+            verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+        ) {
+            items(restaurants, key = { it.id }) { restaurant ->
+                RestaurantSmallCard(
+                    restaurant = restaurant,
+                    removeButtonContentDescription = stringResource(
+                        Res.string.wish_card_remove_button_description,
+                    ),
+                    onClick = { onRestaurantClick(restaurant.id) },
+                    onRemoveClick = { onRemoveClick(restaurant.id) },
+                )
             }
         }
     }

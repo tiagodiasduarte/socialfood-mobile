@@ -31,6 +31,7 @@ import pt.socialfood.domain.model.HomeSection
 import pt.socialfood.domain.model.HomeSectionItem
 import pt.socialfood.domain.model.HomeSectionType
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.guide.list.GuideCard
@@ -48,23 +49,28 @@ fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
     onGuideClick: (guideId: String) -> Unit = {},
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onProfileClick: () -> Unit = {},
+    onSearchClick: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val sections by viewModel.sections.collectAsStateWithLifecycle()
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
+    val user by viewModel.user.collectAsStateWithLifecycle()
 
     HomeScreenContent(
         state = state,
         sections = sections,
         isRefreshing = isRefreshing,
+        user = user,
         onRefresh = { viewModel.refresh() },
         onGuideClick = onGuideClick,
         onRestaurantClick = onRestaurantClick,
+        onProfileClick = onProfileClick,
+        onSearchClick = onSearchClick,
         onToggleGuideFavourite = viewModel::onToggleGuideFavourite,
         onToggleRestaurantFavourite = viewModel::onToggleRestaurantFavourite,
     )
 }
-
 
 @Composable
 fun HomeScreenContent(
@@ -72,8 +78,11 @@ fun HomeScreenContent(
     sections: List<HomeSection>,
     onRefresh: () -> Unit,
     isRefreshing: Boolean,
+    user: User? = null,
     onGuideClick: (guideId: String) -> Unit = {},
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onProfileClick: () -> Unit = {},
+    onSearchClick: () -> Unit = {},
     onToggleGuideFavourite: (Guide) -> Unit = {},
     onToggleRestaurantFavourite: (Restaurant) -> Unit = {},
 ) {
@@ -92,7 +101,12 @@ fun HomeScreenContent(
             contentPadding = PaddingValues(bottom = SpaceSize.xxlarge),
         ) {
             item {
-                HomeHeader()
+                HomeHeader(
+                    userName = user?.name.orEmpty(),
+                    userImageUrl = user?.imageUrl,
+                    onProfileClick = onProfileClick,
+                    onSearchClick = onSearchClick,
+                )
             }
 
             when {
@@ -207,6 +221,7 @@ private fun HomeSectionItemCard(
                 onFavouriteClick = { onToggleRestaurantFavourite(it) },
             )
         }
+
         HomeItemType.GUIDE -> item.guide?.let {
             GuideCard(
                 guide = it,
@@ -216,62 +231,45 @@ private fun HomeSectionItemCard(
                 onFavouriteClick = { onToggleGuideFavourite(it) },
             )
         }
+
         HomeItemType.EVENT -> {}
     }
 }
 
+@Suppress("LongMethod")
 @Composable
 @Preview
 fun HomeScreenPreview() {
-    val guides = listOf(
-        Guide(
-            id = "g1",
-            name = "Michelin Star Favorites",
-            description = "The finest dining experiences in the city",
-            numberOfRestaurant = 8,
-            author = Author(id = "u1", name = "Sarah M."),
-            visibility = GuideVisibility.PUBLIC
-        ),
-        Guide(
-            id = "g2",
-            name = "Hidden Gems",
-            description = "Undiscovered culinary treasures",
-            numberOfRestaurant = 12,
-            author = Author(id = "u2", name = "Michael R."),
-            visibility = GuideVisibility.PUBLIC
-        ),
+    val user = User(
+        id = "u1",
+        email = "sarah@socialfood.pt",
+        name = "Sarah M.",
+        username = "sarahm",
     )
-    val restaurants = listOf(
-        Restaurant(
-            id = "r1",
-            name = "Le Jardin",
-            description = "",
-            city = "Midtown",
-            country = "French",
-            countryCode = "French",
-            postalCode = "French",
-            photoNames = emptyList(),
-            address = "",
-            rating = 4.8,
-            userRatingCount = 320,
-            websiteUrl = "",
-            phoneNumber = "",
-        ),
-        Restaurant(
-            id = "r2",
-            name = "Sakura",
-            description = "",
-            city = "Midtown",
-            country = "French",
-            countryCode = "French",
-            postalCode = "French",
-            photoNames = emptyList(),
-            address = "",
-            rating = 4.6,
-            userRatingCount = 210,
-            websiteUrl = "",
-            phoneNumber = "",
-        ),
+
+    val guide = Guide(
+        id = "g1",
+        name = "Michelin Star Favorites",
+        description = "The finest dining experiences in the city",
+        numberOfRestaurant = 8,
+        author = Author(id = "u1", name = "Sarah M.", username = "sarahm"),
+        visibility = GuideVisibility.PUBLIC,
+    )
+
+    val restaurant = Restaurant(
+        id = "r1",
+        name = "Le Jardin",
+        description = "",
+        city = "Midtown",
+        country = "French",
+        countryCode = "French",
+        postalCode = "French",
+        photoNames = emptyList(),
+        address = "",
+        rating = 4.8,
+        userRatingCount = 320,
+        websiteUrl = "",
+        phoneNumber = "",
     )
     val sections = listOf(
         HomeSection(
@@ -280,7 +278,7 @@ fun HomeScreenPreview() {
             type = HomeSectionType.GUIDE_LIST,
             position = 0,
             isActive = true,
-            items = guides.mapIndexed { index, guide ->
+            items = listOf(guide, guide).mapIndexed { index, guide ->
                 HomeSectionItem(
                     id = "si_g$index",
                     sectionId = "s1",
@@ -297,7 +295,7 @@ fun HomeScreenPreview() {
             type = HomeSectionType.RESTAURANT_LIST,
             position = 1,
             isActive = true,
-            items = restaurants.mapIndexed { index, restaurant ->
+            items = listOf(restaurant, restaurant).mapIndexed { index, restaurant ->
                 HomeSectionItem(
                     id = "si_r$index",
                     sectionId = "s2",
@@ -309,13 +307,14 @@ fun HomeScreenPreview() {
             },
         ),
     )
-    val state = HomeUiState.Loaded()
+
     AppTheme {
         HomeScreenContent(
-            state = state,
+            state = HomeUiState.Loaded(),
             sections = sections,
             isRefreshing = false,
-            onRefresh = {}
+            user = user,
+            onRefresh = {},
         )
     }
 }

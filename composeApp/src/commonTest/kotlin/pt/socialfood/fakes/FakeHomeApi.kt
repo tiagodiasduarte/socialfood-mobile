@@ -4,9 +4,7 @@ import kotlinx.io.IOException
 import pt.socialfood.data.api.HomeApi
 import pt.socialfood.data.network.model.home.HomeSectionResponse
 
-class FakeHomeApi(
-    private val shouldThrow: Boolean = false,
-) : HomeApi {
+class FakeHomeApi(private val shouldThrow: Boolean = false) : HomeApi {
     private val fakeHomeSectionResponse =
         HomeSectionResponse(
             id = "section-id",
@@ -27,11 +25,7 @@ class FakeHomeApi(
         return fakeHomeSectionResponse
     }
 
-    override suspend fun create(
-        title: String,
-        type: String,
-        position: Int,
-    ): HomeSectionResponse {
+    override suspend fun create(title: String, type: String, position: Int): HomeSectionResponse {
         if (shouldThrow) throw IOException("test error")
         return fakeHomeSectionResponse
     }
@@ -62,10 +56,7 @@ class FakeHomeApi(
         return fakeHomeSectionResponse
     }
 
-    override suspend fun removeItem(
-        sectionId: String,
-        itemId: String,
-    ) {
+    override suspend fun removeItem(sectionId: String, itemId: String) {
         if (shouldThrow) throw IOException("test error")
     }
 }

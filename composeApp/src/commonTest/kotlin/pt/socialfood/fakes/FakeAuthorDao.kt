@@ -29,9 +29,8 @@ class FakeAuthorDao(private val shouldThrowOnWrite: Boolean = false) : AuthorDao
         FakeAuthorPagingSource { entities.sortedBy { it.position } }
 }
 
-private class FakeAuthorPagingSource(
-    private val loadEntities: () -> List<AuthorEntity>,
-) : PagingSource<Int, AuthorEntity>() {
+private class FakeAuthorPagingSource(private val loadEntities: () -> List<AuthorEntity>) :
+    PagingSource<Int, AuthorEntity>() {
 
     override fun getRefreshKey(state: PagingState<Int, AuthorEntity>): Int? = null
 

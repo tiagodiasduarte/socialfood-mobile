@@ -37,6 +37,7 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.FavouriteRed
+import pt.socialfood.ui.theme.ImagePlaceholderColor
 import pt.socialfood.ui.theme.SpaceSize
 
 internal val CardHeight = 180.dp
@@ -48,7 +49,7 @@ fun GuideCard(
     isFavourite: Boolean = false,
     onClick: () -> Unit = {},
     onFavouriteClick: (() -> Unit)? = null,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = if (width != null) {
@@ -61,7 +62,7 @@ fun GuideCard(
                 .height(CardHeight)
                 .clip(RoundedCornerShape(SpaceSize.large))
                 .clickable(onClick = onClick)
-        }
+        },
     ) {
         // Background image or fallback color
         if (guide.imageUrl != null) {
@@ -74,14 +75,14 @@ fun GuideCard(
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Color(0xFF2A2A2A)),
+                            .background(ImagePlaceholderColor),
                     )
                 },
                 error = {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Color(0xFF2A2A2A)),
+                            .background(ImagePlaceholderColor),
                     )
                 },
             )
@@ -89,7 +90,7 @@ fun GuideCard(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xFF2A2A2A)),
+                    .background(ImagePlaceholderColor),
             )
         }
 

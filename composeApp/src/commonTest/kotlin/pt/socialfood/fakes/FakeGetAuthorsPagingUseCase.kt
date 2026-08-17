@@ -4,7 +4,7 @@ import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.use_case.author.GetAuthorsPagingUseCase
+import pt.socialfood.domain.usecase.author.GetAuthorsPagingUseCase
 
 class FakeGetAuthorsPagingUseCase(
     private val result: () -> Flow<PagingData<Author>> = { flowOf(PagingData.empty()) },

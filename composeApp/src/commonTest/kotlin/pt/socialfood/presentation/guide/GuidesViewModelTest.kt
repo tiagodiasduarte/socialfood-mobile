@@ -1,5 +1,6 @@
 package pt.socialfood.presentation.guide
 
+import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -7,11 +8,11 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.User
-import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.guide.ObserveFavouriteGuideIdsUseCase
-import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.guide.GetGuidesPagingUseCase
-import pt.socialfood.domain.use_case.user.ObserveUserUseCase
+import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
+import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
+import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.fakes.FakeGetGuidesPagingUseCase
 import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeObserveFavouriteGuideIdsUseCase
@@ -25,17 +26,16 @@ import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GuidesViewModelTest {
-    private val fakeUser = User(id = "user-1", email = "user@test.com", name = "Test User")
+    private val fakeUser = User(id = "user-1", email = "user@test.com", name = "Test User", username = "testuser")
 
-    private fun guide(id: String) =
-        Guide(
-            id = id,
-            name = "Guide $id",
-            description = "Description $id",
-            visibility = GuideVisibility.PUBLIC,
-            author = Author(id = "author-1", name = "Author"),
-            numberOfRestaurant = 0,
-        )
+    private fun guide(id: String) = Guide(
+        id = id,
+        name = "Guide $id",
+        description = "Description $id",
+        visibility = GuideVisibility.PUBLIC,
+        author = Author(id = "author-1", name = "Author", username = "author"),
+        numberOfRestaurant = 0,
+    )
 
     private fun createViewModel(
         getGuidesPaging: GetGuidesPagingUseCase = FakeGetGuidesPagingUseCase(),
@@ -69,7 +69,7 @@ class GuidesViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given onTabSelected 1 is called before observeUser emits when observeUser later emits then guides is re-invoked with the resolved userId`() =
         runTestWithMainDispatcher {
             // Given
@@ -110,7 +110,7 @@ class GuidesViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given current user changes when observeUser emits a new user then guides is re-invoked with the new user id`() =
         runTestWithMainDispatcher {
             // Given
@@ -133,18 +133,30 @@ class GuidesViewModelTest {
         }
 
     @Test
-    fun `given favourite ids are observed then favouriteGuideIds reflects them`() =
-        runTestWithMainDispatcher {
-            // Given
-            val observeFavouriteGuideIds = FakeObserveFavouriteGuideIdsUseCase(initial = setOf("g1"))
+    fun `given the current user is observed then user reflects the emitted value`() = runTestWithMainDispatcher {
+        // Given
+        val observeUser = FakeObserveUserUseCase(initial = fakeUser)
 
-            // When
-            val vm = createViewModel(observeFavouriteGuideIds = observeFavouriteGuideIds)
-            advanceUntilIdle()
-
-            // Then
-            assertEquals(setOf("g1"), vm.favouriteGuideIds.value)
+        // When / Then
+        val vm = createViewModel(observeUser = observeUser)
+        vm.user.test {
+            awaitItem()
+            assertEquals(fakeUser, awaitItem())
         }
+    }
+
+    @Test
+    fun `given favourite ids are observed then favouriteGuideIds reflects them`() = runTestWithMainDispatcher {
+        // Given
+        val observeFavouriteGuideIds = FakeObserveFavouriteGuideIdsUseCase(initial = setOf("g1"))
+
+        // When
+        val vm = createViewModel(observeFavouriteGuideIds = observeFavouriteGuideIds)
+        advanceUntilIdle()
+
+        // Then
+        assertEquals(setOf("g1"), vm.favouriteGuideIds.value)
+    }
 
     @Test
     fun `given a guide is not favourited when onToggleGuideFavourite is called then markGuideFavourite is invoked`() =
@@ -169,7 +181,7 @@ class GuidesViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given a guide is already favourited when onToggleGuideFavourite is called then unmarkGuideFavourite is invoked`() =
         runTestWithMainDispatcher {
             // Given

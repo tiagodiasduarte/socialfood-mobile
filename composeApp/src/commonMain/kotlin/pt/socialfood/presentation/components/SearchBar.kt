@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -16,9 +18,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.search_bar_clear_button_description
 
 @Composable
 fun SearchBar(
@@ -46,6 +51,20 @@ fun SearchBar(
                 modifier = Modifier.size(20.dp),
             )
         },
+        trailingIcon = if (searchQuery.isNotEmpty()) {
+            {
+                IconButton(onClick = { onQueryChange("") }) {
+                    Icon(
+                        Icons.Default.Close,
+                        contentDescription = stringResource(Res.string.search_bar_clear_button_description),
+                        tint = MaterialTheme.colorScheme.outline,
+                        modifier = Modifier.size(20.dp),
+                    )
+                }
+            }
+        } else {
+            null
+        },
         singleLine = true,
         shape = RoundedCornerShape(25),
         colors = TextFieldDefaults.colors(
@@ -65,7 +84,7 @@ fun SearchBar(
             .border(
                 width = 1.dp,
                 color = Color(0xFFE5E7EB),
-                shape = RoundedCornerShape(25)
-            )
+                shape = RoundedCornerShape(25),
+            ),
     )
 }

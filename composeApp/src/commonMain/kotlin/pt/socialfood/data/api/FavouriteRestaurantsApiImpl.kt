@@ -10,9 +10,7 @@ import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 
-class FavouriteRestaurantsApiImpl(
-    private val client: HttpClient
-) : FavouriteRestaurantsApi {
+class FavouriteRestaurantsApiImpl(private val client: HttpClient) : FavouriteRestaurantsApi {
 
     override suspend fun markFavourite(restaurantId: String) {
         client.post("restaurants/$restaurantId/favourite")

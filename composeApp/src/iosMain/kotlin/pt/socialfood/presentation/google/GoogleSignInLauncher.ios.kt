@@ -12,10 +12,7 @@ object GoogleSignInBridge {
 }
 
 @Composable
-actual fun rememberGoogleSignInLauncher(
-    onIdToken: (String) -> Unit,
-    onError: (String) -> Unit,
-): () -> Unit = remember {
+actual fun rememberGoogleSignInLauncher(onIdToken: (String) -> Unit, onError: (String) -> Unit): () -> Unit = remember {
     {
         val delegate = GoogleSignInBridge.delegate
         if (delegate != null) {

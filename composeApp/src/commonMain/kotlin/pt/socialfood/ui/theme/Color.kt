@@ -30,9 +30,11 @@ val DarkLightColorTheme = darkColorScheme(
     outlineVariant = Color(0xFFE0E0E0),
 )
 
-
 val GreyBackground = Color(0xFFF2F2F2)
+val ImagePlaceholderColor = Color(0xFF2A2A2A)
 val GreenStatus = Color(0xFF005C0C)
 val FavouriteRed = Color(0xFFEF4444)
 val ProfileGradientStart = Color(0xFFF05A1A)
 val ProfileGradientEnd = Color(0xFFB82010)
+
+val StarColor = Color(0xFFFFC107)

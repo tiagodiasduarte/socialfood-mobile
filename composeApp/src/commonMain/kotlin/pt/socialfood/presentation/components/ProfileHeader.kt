@@ -33,9 +33,11 @@ val ProfileAvatarSize = 96.dp
 val ProfileAvatarRingSize = 108.dp
 val ProfileAvatarOverlap = ProfileAvatarRingSize / 2
 
+@Suppress("LongMethod")
 @Composable
 fun ProfileHeader(
     name: String,
+    username: String,
     imageUrl: String?,
     facebookUrl: String?,
     instagramUrl: String?,
@@ -93,11 +95,21 @@ fun ProfileHeader(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
-            Text(
-                text = name,
-                style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onBackground,
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
+            ) {
+                Text(
+                    text = name,
+                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+                Text(
+                    text = "@$username",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
 
             SocialButtons(
                 facebookUrl = facebookUrl,
@@ -116,6 +128,7 @@ private fun ProfileHeaderPreview() {
     AppTheme {
         ProfileHeader(
             name = "John Doe",
+            username = "johndoe",
             imageUrl = null,
             facebookUrl = "https://facebook.com/johndoe",
             instagramUrl = "https://instagram.com/johndoe",

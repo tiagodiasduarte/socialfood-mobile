@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -31,8 +31,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.resources.stringResource
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.favorite_card_remove_button_description
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -40,8 +38,11 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.favorite_card_remove_button_description
 
 internal val CardHeight = 125.dp
+
 @Composable
 fun FavoriteGuideCard(
     guide: Guide,
@@ -101,7 +102,7 @@ fun FavoriteGuideCard(
 
             IconButton(onClick = onRemoveClick) {
                 Icon(
-                    imageVector = Icons.Outlined.Close,
+                    imageVector = Icons.Outlined.Delete,
                     contentDescription = stringResource(Res.string.favorite_card_remove_button_description),
                     tint = FavouriteRed,
                 )
@@ -120,7 +121,7 @@ fun FavoriteGuideCardPreview() {
                 name = "Michelin Star Favorites",
                 description = "A curated collection of the finest dining experiences",
                 visibility = GuideVisibility.PUBLIC,
-                author = Author(id = "a1", name = "Sarah Mitchell"),
+                author = Author(id = "a1", name = "Sarah Mitchell", username = "sarahmitchell"),
                 numberOfRestaurant = 8,
             ),
         )

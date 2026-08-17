@@ -50,6 +50,7 @@ import pt.socialfood.presentation.guide.detail.restaurant.RestaurantItemCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.GreyBackground
+import pt.socialfood.ui.theme.ImagePlaceholderColor
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
@@ -102,14 +103,14 @@ private fun GuideDetailContent(
     onRetry: () -> Unit = {},
     onToggleFavourite: () -> Unit = {},
 ) {
-    when (val current = state) {
+    when (state) {
         GuideDetailUiState.Loading -> GuideDetailPlaceholder()
 
         is GuideDetailUiState.Loaded ->
             GuideDetailLoaded(
-                guide = current.guide,
-                currentUserId = current.currentUserId,
-                isFavourite = current.isFavourite,
+                guide = state.guide,
+                currentUserId = state.currentUserId,
+                isFavourite = state.isFavourite,
                 onEditClick = { onEditClick(it) },
                 onBackClick = onBackClick,
                 onRestaurantClick = onRestaurantClick,
@@ -117,7 +118,7 @@ private fun GuideDetailContent(
                 onToggleFavourite = onToggleFavourite,
             )
 
-        GuideDetailUiState.Error ->
+        is GuideDetailUiState.Error ->
             GuideDetailError(
                 onBackClick = onBackClick,
                 onRetry = onRetry,
@@ -126,10 +127,7 @@ private fun GuideDetailContent(
 }
 
 @Composable
-private fun GuideDetailError(
-    onBackClick: () -> Unit,
-    onRetry: () -> Unit,
-) {
+private fun GuideDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         IconButton(
             onClick = onBackClick,
@@ -162,10 +160,9 @@ private fun GuideDetailLoaded(
     onToggleFavourite: () -> Unit = {},
 ) {
     LazyColumn(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .background(GreyBackground),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(GreyBackground),
         verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
         item {
@@ -213,11 +210,10 @@ private fun GuideDetailLoaded(
                     text = stringResource(Res.string.guide_detail_restaurants_section_title),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground,
-                    modifier =
-                        Modifier.padding(
-                            horizontal = SpaceSize.large,
-                            vertical = SpaceSize.large,
-                        ),
+                    modifier = Modifier.padding(
+                        horizontal = SpaceSize.large,
+                        vertical = SpaceSize.large,
+                    ),
                 )
             }
 
@@ -234,6 +230,7 @@ private fun GuideDetailLoaded(
     }
 }
 
+@Suppress("LongMethod")
 @Composable
 private fun TopImageContent(
     guide: Guide,
@@ -244,10 +241,9 @@ private fun TopImageContent(
     onToggleFavourite: () -> Unit = {},
 ) {
     Box(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .height(GuideImageHeight),
+        modifier = Modifier
+            .fillMaxSize()
+            .height(GuideImageHeight),
     ) {
         if (guide.imageUrl != null) {
             SubcomposeAsyncImage(
@@ -256,14 +252,14 @@ private fun TopImageContent(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
                 loading = {
-                    Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
+                    Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
                 },
                 error = {
-                    Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
+                    Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
                 },
             )
         } else {
-            Box(Modifier.fillMaxSize().background(Color(0xFF2A2A2A)))
+            Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
         }
 
         Box(modifier = Modifier.fillMaxSize().detailImageScrim())
@@ -281,10 +277,9 @@ private fun TopImageContent(
         }
 
         Row(
-            modifier =
-                Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(SpaceSize.large),
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(SpaceSize.large),
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
         ) {
             if (guide.author.id == currentUserId) {
@@ -334,12 +329,11 @@ private fun GuidInfo(guide: Guide) {
             }
 
         Row(
-            modifier =
-                Modifier
-                    .height(24.dp)
-                    .clip(RoundedCornerShape(SpaceSize.medium))
-                    .background(bgColor)
-                    .padding(horizontal = SpaceSize.medium, vertical = SpaceSize.small),
+            modifier = Modifier
+                .height(24.dp)
+                .clip(RoundedCornerShape(SpaceSize.medium))
+                .background(bgColor)
+                .padding(horizontal = SpaceSize.medium, vertical = SpaceSize.small),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
         ) {
@@ -381,11 +375,10 @@ private fun GuidInfo(guide: Guide) {
         )
 
         Text(
-            text =
-                stringResource(
-                    Res.string.guide_detail_restaurants_count_label,
-                    guide.numberOfRestaurant,
-                ),
+            text = stringResource(
+                Res.string.guide_detail_restaurants_count_label,
+                guide.numberOfRestaurant,
+            ),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -395,7 +388,7 @@ private fun GuidInfo(guide: Guide) {
 @Composable
 @Preview
 fun GuideDetailScreenPreview() {
-    val author = Author(id = "u1", name = "Sarah Mitchell")
+    val author = Author(id = "u1", name = "Sarah Mitchell", username = "sarahmitchell")
     val restaurants =
         listOf(
             Restaurant(
@@ -449,9 +442,9 @@ fun GuideDetailScreenPreview() {
             id = "g1",
             name = "Michelin Star Favorites",
             description =
-                "A carefully curated collection of the finest dining experiences in the city. " +
-                    "Each restaurant has been personally visited and reviewed to ensure exceptional quality, " +
-                    "impeccable service, and unforgettable culinary moments.",
+            "A carefully curated collection of the finest dining experiences in the city. " +
+                "Each restaurant has been personally visited and reviewed to ensure exceptional quality, " +
+                "impeccable service, and unforgettable culinary moments.",
             numberOfRestaurant = 8,
             visibility = GuideVisibility.PUBLIC,
             author = author,

@@ -14,18 +14,13 @@ import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.data.network.model.restaurant.UpdateRestaurantRequest
 
-class RestaurantApiImpl(
-    private val client: HttpClient
-) : RestaurantApi {
+class RestaurantApiImpl(private val client: HttpClient) : RestaurantApi {
 
-    override suspend fun importRestaurants(): Boolean =
-        client.post("admin/import/restaurants").body()
+    override suspend fun importRestaurants(): Boolean = client.post("admin/import/restaurants").body()
 
-    override suspend fun delete(id: String): Boolean =
-        client.delete("restaurants/$id").body()
+    override suspend fun delete(id: String): Boolean = client.delete("restaurants/$id").body()
 
-    override suspend fun findAll(): List<RestaurantResponse> =
-        client.get("restaurants/all").body()
+    override suspend fun findAll(): List<RestaurantResponse> = client.get("restaurants/all").body()
 
     override suspend fun findRestaurants(page: Int, limit: Int, query: String?): PagedResponse<RestaurantResponse> =
         client.get("restaurants/all") {
@@ -34,13 +29,11 @@ class RestaurantApiImpl(
             if (!query.isNullOrBlank()) parameter("search", query)
         }.body()
 
-    override suspend fun findById(id: String): RestaurantResponse =
-        client.get("restaurants/$id").body()
+    override suspend fun findById(id: String): RestaurantResponse = client.get("restaurants/$id").body()
 
-    override suspend fun findByPlaceId(placeId: String): RestaurantResponse =
-        client.get("restaurants") {
-            parameter("placeId", placeId)
-        }.body()
+    override suspend fun findByPlaceId(placeId: String): RestaurantResponse = client.get("restaurants") {
+        parameter("placeId", placeId)
+    }.body()
 
     override suspend fun addByPlaceId(placeId: String) {
         client.post("restaurants") {
@@ -57,19 +50,18 @@ class RestaurantApiImpl(
         address: String,
         phoneNumber: String,
         websiteUrl: String,
-    ): RestaurantResponse =
-        client.put("restaurants/$id") {
-            contentType(ContentType.Application.Json)
-            setBody(
-                UpdateRestaurantRequest(
-                    name = name,
-                    description = description,
-                    country = country,
-                    city = city,
-                    address = address,
-                    phoneNumber = phoneNumber,
-                    websiteUrl = websiteUrl,
-                )
-            )
-        }.body()
+    ): RestaurantResponse = client.put("restaurants/$id") {
+        contentType(ContentType.Application.Json)
+        setBody(
+            UpdateRestaurantRequest(
+                name = name,
+                description = description,
+                country = country,
+                city = city,
+                address = address,
+                phoneNumber = phoneNumber,
+                websiteUrl = websiteUrl,
+            ),
+        )
+    }.body()
 }

@@ -31,16 +31,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.back_button_description
-import socialfood.composeapp.generated.resources.favourites_restaurants_title
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
+import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.back_button_description
+import socialfood.composeapp.generated.resources.favorite_card_remove_button_description
+import socialfood.composeapp.generated.resources.favourites_restaurants_title
 
 private const val LOAD_MORE_THRESHOLD = 10
 
@@ -62,6 +64,7 @@ fun FavouriteRestaurantsScreen(
         onLoadMore = viewModel::loadMore,
         onRetry = viewModel::loadFirstPage,
         onRestaurantClick = onRestaurantClick,
+        onRemoveClick = viewModel::removeFavourite,
     )
 }
 
@@ -75,6 +78,7 @@ private fun FavouriteRestaurantsContent(
     onLoadMore: () -> Unit,
     onRetry: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onRemoveClick: (restaurantId: String) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
 
@@ -102,7 +106,7 @@ private fun FavouriteRestaurantsContent(
         when (state) {
             FavouriteRestaurantsUiState.Loading -> FavouriteRestaurantsPlaceholder(modifier = Modifier.fillMaxSize())
 
-            FavouriteRestaurantsUiState.Error -> ErrorContent(
+            is FavouriteRestaurantsUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),
                 onRetryClick = onRetry,
             )
@@ -125,9 +129,13 @@ private fun FavouriteRestaurantsContent(
                         verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
                     ) {
                         items(state.restaurants, key = { it.id }) { restaurant ->
-                            FavoriteRestaurantCard(
+                            RestaurantSmallCard(
                                 restaurant = restaurant,
+                                removeButtonContentDescription = stringResource(
+                                    Res.string.favorite_card_remove_button_description,
+                                ),
                                 onClick = { onRestaurantClick(restaurant.id) },
+                                onRemoveClick = { onRemoveClick(restaurant.id) },
                             )
                         }
                     }

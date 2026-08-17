@@ -6,7 +6,7 @@ import java.util.Properties
 
 val appId = "pt.socialfood"
 val appNamespace = "pt.socialfood"
-val appVersionName = "0.1.0"
+val appVersionName = "1.0.0"
 val buildDateKey = "BUILD_DATE"
 val githubActionsKey = "GITHUB_ACTIONS"
 val githubRunNumberKey = "GITHUB_RUN_NUMBER"
@@ -56,7 +56,7 @@ kotlin {
 
     listOf(
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
@@ -218,6 +218,9 @@ tasks.withType<Detekt>().configureEach {
 }
 
 kover {
+    currentProject {
+        copyVariant("businessLogic", "debug")
+    }
     reports {
         filters {
             excludes {
@@ -226,11 +229,12 @@ kover {
                     $$"*$Lambda$*",
                     "socialfood.composeapp.generated.resources.*",
                     "*_Impl",
-                    "*_Impl$*",
                     "$appNamespace.BuildConfig",
+                    "$appNamespace.core.*",
                     "$appNamespace.di.*",
                     "$appNamespace.data.network.model.*",
                     "$appNamespace.presentation.navigation.Route*",
+                    "$appNamespace.ui.theme.*",
                 )
                 annotatedBy("androidx.compose.ui.tooling.preview.Preview")
             }
@@ -240,9 +244,26 @@ kover {
                 onCheck = true
             }
         }
+        variant("businessLogic") {
+            filters {
+                includes {
+                    classes(
+                        "*RepositoryImpl",
+                        "*UseCaseImpl",
+                        "*ViewModel",
+                        "*MapperKt",
+                    )
+                }
+            }
+            verify {
+                rule("Repository, UseCase, ViewModel and Mapper coverage") {
+                    minBound(minValue = 85, coverageUnits = CoverageUnit.LINE)
+                }
+            }
+        }
         verify {
-            rule {
-                minBound(minValue = 19, coverageUnits = CoverageUnit.LINE)
+            rule("Overall coverage") {
+                minBound(minValue = 25, coverageUnits = CoverageUnit.LINE)
             }
         }
     }

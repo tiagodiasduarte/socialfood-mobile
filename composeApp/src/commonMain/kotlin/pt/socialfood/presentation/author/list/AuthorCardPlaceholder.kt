@@ -48,6 +48,10 @@ fun AuthorCardPlaceholder(alpha: Float, modifier: Modifier = Modifier) {
             Column(modifier = Modifier.weight(1f)) {
                 ShimmerBox(modifier = Modifier.width(140.dp).height(20.dp), alpha = alpha)
 
+                Spacer(Modifier.height(SpaceSize.small))
+
+                ShimmerBox(modifier = Modifier.width(90.dp).height(14.dp), alpha = alpha)
+
                 Spacer(Modifier.height(SpaceSize.large))
 
                 Row(

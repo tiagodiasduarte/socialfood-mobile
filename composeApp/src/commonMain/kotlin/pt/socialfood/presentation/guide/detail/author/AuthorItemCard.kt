@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -30,7 +30,7 @@ private val CardHeight = 80.dp
 @Composable
 fun AuthorItemCard(author: Author, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier.width(400.dp).height(CardHeight).clickable(onClick = onClick),
+        modifier = modifier.fillMaxWidth().height(CardHeight).clickable(onClick = onClick),
         shape = RoundedCornerShape(SpaceSize.large),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
@@ -43,13 +43,19 @@ fun AuthorItemCard(author: Author, onClick: () -> Unit, modifier: Modifier = Mod
             UserImage(
                 imageUrl = author.imageUrl,
                 name = author.name,
-                imageSize = 44.dp)
+                imageSize = 44.dp,
+            )
 
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(
                     text = author.name,
                     style = AppTypography.labelLarge.copy(fontWeight = FontWeight.SemiBold),
                     color = MaterialTheme.colorScheme.onBackground,
+                )
+                Text(
+                    text = "@${author.username}",
+                    style = AppTypography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
         }
@@ -64,6 +70,7 @@ fun AuthorItemCardPreview() {
             author = Author(
                 id = "u1",
                 name = "Sarah Mitchell",
+                username = "sarahmitchell",
             ),
             onClick = {},
         )

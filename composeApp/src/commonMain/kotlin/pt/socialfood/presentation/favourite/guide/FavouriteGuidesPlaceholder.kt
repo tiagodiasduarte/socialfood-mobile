@@ -21,7 +21,6 @@ import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
-
 @Composable
 fun FavouriteGuidesPlaceholder(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()

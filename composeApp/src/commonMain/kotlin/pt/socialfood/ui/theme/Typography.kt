@@ -23,65 +23,65 @@ val AppTypography: Typography
     @Composable get() {
         val inter = interFontFamily()
         return Typography(
-            headlineMedium = TextStyle(   // "Welcome back"
+            headlineMedium = TextStyle( // "Welcome back"
                 fontSize = 24.sp,
                 fontFamily = inter,
                 fontWeight = FontWeight.Medium,
-                lineHeight = 32.sp
+                lineHeight = 32.sp,
             ),
-            headlineSmall = TextStyle(   // "Welcome back"
+            headlineSmall = TextStyle( // "Welcome back"
                 fontSize = 16.sp,
                 fontFamily = inter,
                 fontWeight = FontWeight.Normal,
-                lineHeight = 32.sp
+                lineHeight = 32.sp,
             ),
-            titleLarge = TextStyle(       // App name
+            titleLarge = TextStyle( // App name
                 fontSize = 30.sp,
                 fontFamily = inter,
                 fontWeight = FontWeight.Bold,
-                lineHeight = 36.sp
+                lineHeight = 36.sp,
             ),
-            titleMedium = TextStyle(      // "Continue with Google"
+            titleMedium = TextStyle( // "Continue with Google"
                 fontSize = 20.sp,
                 fontFamily = inter,
                 fontWeight = FontWeight.Medium,
-                lineHeight = 24.sp
+                lineHeight = 24.sp,
             ),
-            titleSmall = TextStyle(      // "Continue with Google"
+            titleSmall = TextStyle( // "Continue with Google"
                 fontSize = 16.sp,
                 fontFamily = inter,
                 fontWeight = FontWeight.Medium,
-                lineHeight = 24.sp
+                lineHeight = 24.sp,
             ),
-            labelLarge = TextStyle(       // Field labels + "Sign in" button
+            labelLarge = TextStyle( // Field labels + "Sign in" button
                 fontSize = 16.sp,
                 fontFamily = inter,
                 fontWeight = FontWeight.Medium,
-                lineHeight = 24.sp
+                lineHeight = 24.sp,
             ),
-            labelMedium = TextStyle(       // "Email and Password"
+            labelMedium = TextStyle( // "Email and Password"
                 fontSize = 14.sp,
                 fontFamily = inter,
                 fontWeight = FontWeight.Medium,
-                lineHeight = 20.sp
+                lineHeight = 20.sp,
             ),
             bodyLarge = TextStyle(
                 fontSize = 18.sp,
                 fontFamily = inter,
                 fontWeight = FontWeight.Medium,
-                lineHeight = 28.sp
+                lineHeight = 28.sp,
             ),
-            bodyMedium = TextStyle(       // "Placeholder Or continue with"
+            bodyMedium = TextStyle( // "Placeholder Or continue with"
                 fontSize = 14.sp,
                 fontFamily = inter,
                 fontWeight = FontWeight.Normal,
-                lineHeight = 20.sp
+                lineHeight = 20.sp,
             ),
             bodySmall = TextStyle(
                 fontSize = 12.sp,
                 fontFamily = inter,
                 fontWeight = FontWeight.Normal,
-                lineHeight = 20.sp
+                lineHeight = 20.sp,
             ),
         )
     }

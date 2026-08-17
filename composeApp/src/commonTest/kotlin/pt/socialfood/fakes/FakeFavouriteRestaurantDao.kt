@@ -28,11 +28,10 @@ class FakeFavouriteRestaurantDao(private val shouldThrowOnWrite: Boolean = false
         restaurantIds.forEach { entities.remove(it) }
     }
 
-    override suspend fun getPaged(limit: Int, offset: Int): List<FavouriteRestaurantEntity> =
-        entities.values
-            .sortedByDescending { it.favouritedAt }
-            .drop(offset)
-            .take(limit)
+    override suspend fun getPaged(limit: Int, offset: Int): List<FavouriteRestaurantEntity> = entities.values
+        .sortedByDescending { it.favouritedAt }
+        .drop(offset)
+        .take(limit)
 
     override suspend fun countAll(): Int = entities.size
 

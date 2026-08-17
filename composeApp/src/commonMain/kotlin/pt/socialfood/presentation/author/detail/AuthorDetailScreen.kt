@@ -24,16 +24,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.author_detail_guides_section_title
-import socialfood.composeapp.generated.resources.back_button_description
 import pt.socialfood.domain.model.AuthorDetail
-import pt.socialfood.presentation.components.buttons.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.ProfileHeader
+import pt.socialfood.presentation.components.buttons.ActionButton
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.author_detail_guides_section_title
+import socialfood.composeapp.generated.resources.back_button_description
 
 @Composable
 fun AuthorDetailScreen(
@@ -68,7 +68,7 @@ private fun AuthorDetailContent(
             onGuideClick = onGuideClick,
         )
 
-        AuthorDetailUiState.Error -> AuthorDetailError(
+        is AuthorDetailUiState.Error -> AuthorDetailError(
             onBackClick = onBackClick,
             onRetry = onRetry,
         )
@@ -89,7 +89,7 @@ private fun AuthorDetailLoaded(
         item {
             AuthorHeader(
                 author = author,
-                onBackClick = onBackClick
+                onBackClick = onBackClick,
             )
         }
 
@@ -120,13 +120,12 @@ private fun AuthorDetailLoaded(
         }
     }
 }
+
 @Composable
-private fun AuthorHeader(
-    author: AuthorDetail,
-    onBackClick: () -> Unit,
-) {
+private fun AuthorHeader(author: AuthorDetail, onBackClick: () -> Unit) {
     ProfileHeader(
         name = author.name,
+        username = author.username,
         imageUrl = author.imageUrl,
         facebookUrl = author.facebookUrl,
         instagramUrl = author.instagramUrl,
@@ -148,10 +147,7 @@ private fun AuthorHeader(
 }
 
 @Composable
-private fun AuthorDetailError(
-    onBackClick: () -> Unit,
-    onRetry: () -> Unit,
-) {
+private fun AuthorDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         IconButton(
             onClick = onBackClick,
@@ -166,7 +162,7 @@ private fun AuthorDetailError(
 
         ErrorContent(
             modifier = Modifier.fillMaxSize(),
-            onRetryClick = onRetry
+            onRetryClick = onRetry,
         )
     }
 }
@@ -205,6 +201,7 @@ private fun AuthorDetailLoadedPreview() {
     val author = AuthorDetail(
         id = "a1",
         name = "Sarah Mitchell",
+        username = "sarahmitchell",
         guidesCount = 12,
         followersCount = 2400,
         followingCount = 180,

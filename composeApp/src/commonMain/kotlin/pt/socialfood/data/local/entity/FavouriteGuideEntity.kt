@@ -13,6 +13,7 @@ data class FavouriteGuideEntity(
     val visibility: String,
     val authorId: String,
     val authorName: String,
+    val authorUsername: String,
     val authorImageUrl: String?,
     val numberOfRestaurant: Int,
     val imageUrl: String?,

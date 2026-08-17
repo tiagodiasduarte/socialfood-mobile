@@ -1,15 +1,18 @@
 package pt.socialfood.fakes
 
+import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.SettingsRepository
 
 class FakeSettingsRepository : SettingsRepository {
 
     private var token: String? = null
     private var pendingVerificationEmail: String? = null
-    private var favouritesSyncCheckpoint: String? = null
+    private var lastFavouritesSyncedAt: String? = null
     private var lastFavouritesSyncAttemptAt: Long? = null
-    private var favouriteRestaurantsSyncCheckpoint: String? = null
+    private var lastFavouriteRestaurantsSyncedAt: String? = null
     private var lastFavouriteRestaurantsSyncAttemptAt: Long? = null
+    private val lastRestaurantVisitStatusSyncedAt = mutableMapOf<VisitStatus, String>()
+    private val lastRestaurantVisitStatusSyncAttemptAt = mutableMapOf<VisitStatus, Long>()
 
     override suspend fun getToken(): String? = token
 
@@ -31,10 +34,10 @@ class FakeSettingsRepository : SettingsRepository {
         pendingVerificationEmail = null
     }
 
-    override suspend fun getFavouritesSyncCheckpoint(): String? = favouritesSyncCheckpoint
+    override suspend fun getLastFavouritesSyncedAt(): String? = lastFavouritesSyncedAt
 
-    override suspend fun saveFavouritesSyncCheckpoint(checkpoint: String) {
-        favouritesSyncCheckpoint = checkpoint
+    override suspend fun saveLastFavouritesSyncedAt(syncedAt: String) {
+        lastFavouritesSyncedAt = syncedAt
     }
 
     override suspend fun getLastFavouritesSyncAttemptAt(): Long? = lastFavouritesSyncAttemptAt
@@ -43,15 +46,29 @@ class FakeSettingsRepository : SettingsRepository {
         lastFavouritesSyncAttemptAt = timestamp
     }
 
-    override suspend fun getFavouriteRestaurantsSyncCheckpoint(): String? = favouriteRestaurantsSyncCheckpoint
+    override suspend fun getLastFavouriteRestaurantsSyncedAt(): String? = lastFavouriteRestaurantsSyncedAt
 
-    override suspend fun saveFavouriteRestaurantsSyncCheckpoint(checkpoint: String) {
-        favouriteRestaurantsSyncCheckpoint = checkpoint
+    override suspend fun saveLastFavouriteRestaurantsSyncedAt(syncedAt: String) {
+        lastFavouriteRestaurantsSyncedAt = syncedAt
     }
 
     override suspend fun getLastFavouriteRestaurantsSyncAttemptAt(): Long? = lastFavouriteRestaurantsSyncAttemptAt
 
     override suspend fun saveLastFavouriteRestaurantsSyncAttemptAt(timestamp: Long) {
         lastFavouriteRestaurantsSyncAttemptAt = timestamp
+    }
+
+    override suspend fun getLastRestaurantVisitStatusSyncedAt(status: VisitStatus): String? =
+        lastRestaurantVisitStatusSyncedAt[status]
+
+    override suspend fun saveLastRestaurantVisitStatusSyncedAt(status: VisitStatus, syncedAt: String) {
+        lastRestaurantVisitStatusSyncedAt[status] = syncedAt
+    }
+
+    override suspend fun getLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus): Long? =
+        lastRestaurantVisitStatusSyncAttemptAt[status]
+
+    override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus, timestamp: Long) {
+        lastRestaurantVisitStatusSyncAttemptAt[status] = timestamp
     }
 }

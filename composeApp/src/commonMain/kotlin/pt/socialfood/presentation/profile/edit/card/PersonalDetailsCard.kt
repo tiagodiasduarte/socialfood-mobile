@@ -7,32 +7,42 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.resources.stringResource
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.edit_profile_city_label
-import socialfood.composeapp.generated.resources.edit_profile_city_placeholder
-import socialfood.composeapp.generated.resources.edit_profile_country_label
-import socialfood.composeapp.generated.resources.edit_profile_country_placeholder
-import socialfood.composeapp.generated.resources.edit_profile_name_label
-import socialfood.composeapp.generated.resources.edit_profile_name_placeholder
-import socialfood.composeapp.generated.resources.edit_profile_personal_details_title
 import pt.socialfood.presentation.components.card.SectionCard
 import pt.socialfood.presentation.profile.edit.EditProfileUiState
 import pt.socialfood.presentation.profile.edit.ProfileTextField
+import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.edit_profile_email_label
+import socialfood.composeapp.generated.resources.edit_profile_name_label
+import socialfood.composeapp.generated.resources.edit_profile_name_placeholder
+import socialfood.composeapp.generated.resources.edit_profile_personal_details_title
+import socialfood.composeapp.generated.resources.edit_profile_username_label
+import socialfood.composeapp.generated.resources.edit_profile_username_placeholder
 
 @Composable
 fun PersonalDetailsCard(
     state: EditProfileUiState.Loaded,
     onNameChange: (String) -> Unit,
-    onCityChange: (String) -> Unit,
-    onCountryChange: (String) -> Unit,
+    onUsernameChange: (String) -> Unit,
 ) {
     SectionCard {
         Text(
             text = stringResource(Res.string.edit_profile_personal_details_title),
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.SemiBold,
+        )
+
+        Spacer(Modifier.height(SpaceSize.large))
+
+        ProfileTextField(
+            label = stringResource(Res.string.edit_profile_email_label),
+            value = state.email,
+            placeholder = "",
+            onValueChange = {},
+            enabled = false,
         )
 
         Spacer(Modifier.height(SpaceSize.large))
@@ -47,19 +57,26 @@ fun PersonalDetailsCard(
         Spacer(Modifier.height(SpaceSize.large))
 
         ProfileTextField(
-            label = stringResource(Res.string.edit_profile_city_label),
-            value = state.city,
-            placeholder = stringResource(Res.string.edit_profile_city_placeholder),
-            onValueChange = onCityChange,
+            label = stringResource(Res.string.edit_profile_username_label),
+            value = state.username,
+            placeholder = stringResource(Res.string.edit_profile_username_placeholder),
+            onValueChange = onUsernameChange,
         )
+    }
+}
 
-        Spacer(Modifier.height(SpaceSize.large))
-
-        ProfileTextField(
-            label = stringResource(Res.string.edit_profile_country_label),
-            value = state.country,
-            placeholder = stringResource(Res.string.edit_profile_country_placeholder),
-            onValueChange = onCountryChange,
+@Preview
+@Composable
+private fun PersonalDetailsCardPreview() {
+    AppTheme {
+        PersonalDetailsCard(
+            state = EditProfileUiState.Loaded(
+                name = "John Doe",
+                email = "john.doe@email.com",
+                username = "johndoe",
+            ),
+            onNameChange = {},
+            onUsernameChange = {},
         )
     }
 }

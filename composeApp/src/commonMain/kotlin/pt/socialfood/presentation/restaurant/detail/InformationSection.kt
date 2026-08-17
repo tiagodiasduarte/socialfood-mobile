@@ -37,6 +37,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.GreyBackground
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.google_icon
 import socialfood.composeapp.generated.resources.map_navigation_icon
@@ -44,18 +48,9 @@ import socialfood.composeapp.generated.resources.restaurant_detail_information_t
 import socialfood.composeapp.generated.resources.restaurant_detail_navigate_description
 import socialfood.composeapp.generated.resources.restaurant_detail_reviews_count
 import socialfood.composeapp.generated.resources.sign_in_google_button_description
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
-import pt.socialfood.ui.theme.SpaceSize
-
 
 @Composable
-internal fun InformationSection(
-    restaurant: Restaurant,
-    onNavigateClick: () -> Unit,
-    onWebsiteClick: () -> Unit,
-) {
+internal fun InformationSection(restaurant: Restaurant, onNavigateClick: () -> Unit, onWebsiteClick: () -> Unit) {
     Column {
         Text(
             text = stringResource(Res.string.restaurant_detail_information_title),
@@ -69,7 +64,7 @@ internal fun InformationSection(
         InformationCard(
             restaurant = restaurant,
             onNavigateClick = onNavigateClick,
-            onWebsiteClick = onWebsiteClick
+            onWebsiteClick = onWebsiteClick,
         )
 
         Spacer(Modifier.height(SpaceSize.xlarge))
@@ -79,11 +74,7 @@ internal fun InformationSection(
 }
 
 @Composable
-private fun InformationCard(
-    restaurant: Restaurant,
-    onNavigateClick: () -> Unit,
-    onWebsiteClick: () -> Unit,
-) {
+private fun InformationCard(restaurant: Restaurant, onNavigateClick: () -> Unit, onWebsiteClick: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth().padding(horizontal = SpaceSize.large),
         shape = RoundedCornerShape(12.dp),
@@ -127,11 +118,8 @@ private fun InformationCard(
     }
 }
 
-
 @Composable
-private fun GoogleDataCard(
-    restaurant: Restaurant,
-) {
+private fun GoogleDataCard(restaurant: Restaurant) {
     Card(
         modifier = Modifier.fillMaxWidth().padding(horizontal = SpaceSize.large),
         shape = RoundedCornerShape(12.dp),
@@ -214,7 +202,7 @@ fun RatingItem(rating: Double, reviewCount: Int) {
             Modifier
                 .clip(RoundedCornerShape(4.dp))
                 .background(color = GreyBackground)
-                .padding(SpaceSize.small)
+                .padding(SpaceSize.small),
         ) {
             Icon(
                 imageVector = Icons.Outlined.Star,
@@ -228,7 +216,6 @@ fun RatingItem(rating: Double, reviewCount: Int) {
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onBackground,
             )
-
         }
 
         Spacer(modifier = Modifier.width(SpaceSize.large))

@@ -9,7 +9,6 @@ import pt.socialfood.domain.model.AuthorDetail
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 
-
 fun GuideResponse.toGuide() = Guide(
     id = this.id,
     name = this.name,
@@ -17,7 +16,7 @@ fun GuideResponse.toGuide() = Guide(
     visibility = this.visibility,
     author = this.author.toAuthor(),
     numberOfRestaurant = this.numberOfRestaurants,
-    imageUrl = this.imageUrl
+    imageUrl = this.imageUrl,
 )
 
 fun AuthorDetailResponse.GuideResponse.toAuthorDetailGuide() = AuthorDetail.Guide(
@@ -47,6 +46,7 @@ fun Guide.toGuideEntity(scope: String, position: Int) = GuideEntity(
     visibility = this.visibility.name,
     authorId = this.author.id,
     authorName = this.author.name,
+    authorUsername = this.author.username,
     authorImageUrl = this.author.imageUrl,
     numberOfRestaurant = this.numberOfRestaurant,
     imageUrl = this.imageUrl,
@@ -61,6 +61,7 @@ fun GuideEntity.toGuide() = Guide(
     author = Author(
         id = this.authorId,
         name = this.authorName,
+        username = this.authorUsername,
         imageUrl = this.authorImageUrl,
     ),
     numberOfRestaurant = this.numberOfRestaurant,

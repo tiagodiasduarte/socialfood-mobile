@@ -25,6 +25,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.presentation.components.buttons.IconTextButton
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.GreyBackground
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.error_content_description
 import socialfood.composeapp.generated.resources.error_content_error_code_label
@@ -32,10 +36,6 @@ import socialfood.composeapp.generated.resources.error_content_retry_button
 import socialfood.composeapp.generated.resources.error_content_subtitle
 import socialfood.composeapp.generated.resources.error_content_title
 import socialfood.composeapp.generated.resources.server_error_icon
-import pt.socialfood.presentation.components.buttons.IconTextButton
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
-import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
 fun ErrorContent(

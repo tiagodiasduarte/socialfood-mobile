@@ -1,11 +1,10 @@
 package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
-import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
 
-class FakeUnmarkGuideFavouriteUseCase(
-    private val result: Result<Unit> = Result.Success(Unit),
-) : UnmarkGuideFavouriteUseCase {
+class FakeUnmarkGuideFavouriteUseCase(private val result: Result<Unit> = Result.Success(Unit)) :
+    UnmarkGuideFavouriteUseCase {
     var invokeCount: Int = 0
         private set
     var lastGuideId: String? = null

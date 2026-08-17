@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.presentation.components.card.SectionCard
-import pt.socialfood.presentation.image_picker.toImageBitmap
+import pt.socialfood.presentation.imagepicker.toImageBitmap
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
@@ -122,16 +122,14 @@ fun GuideDetailsCard(
                     isError = titleError,
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                    keyboardActions =
-                        KeyboardActions(
-                            onNext = { focusManager.moveFocus(FocusDirection.Down) },
-                        ),
+                    keyboardActions = KeyboardActions(
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                    ),
                     shape = RoundedCornerShape(12.dp),
-                    colors =
-                        OutlinedTextFieldDefaults.colors(
-                            unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
-                            focusedBorderColor = MaterialTheme.colorScheme.primary,
-                        ),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    ),
                     modifier = Modifier.fillMaxWidth(),
                 )
                 if (titleError) {
@@ -147,12 +145,11 @@ fun GuideDetailsCard(
                 Text(
                     text = stringResource(Res.string.edit_guide_details_description_label),
                     style = MaterialTheme.typography.labelMedium,
-                    color =
-                        if (descriptionError) {
-                            MaterialTheme.colorScheme.error
-                        } else {
-                            MaterialTheme.colorScheme.onBackground
-                        },
+                    color = if (descriptionError) {
+                        MaterialTheme.colorScheme.error
+                    } else {
+                        MaterialTheme.colorScheme.onBackground
+                    },
                 )
                 OutlinedTextField(
                     value = description,
@@ -168,10 +165,10 @@ fun GuideDetailsCard(
                     minLines = 4,
                     shape = RoundedCornerShape(12.dp),
                     colors =
-                        OutlinedTextFieldDefaults.colors(
-                            unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
-                            focusedBorderColor = MaterialTheme.colorScheme.primary,
-                        ),
+                    OutlinedTextFieldDefaults.colors(
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    ),
                     modifier = Modifier.fillMaxWidth(),
                 )
                 if (descriptionError) {
@@ -198,33 +195,33 @@ private fun CoverImagePicker(
 
     Box(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .aspectRatio(16f / 9f)
-                .then(
-                    if (!hasContent) {
-                        Modifier.drawBehind {
-                            drawRoundRect(
-                                color = dashedBorderColor,
-                                style =
-                                    Stroke(
-                                        width = 1.dp.toPx(),
-                                        pathEffect = PathEffect.dashPathEffect(floatArrayOf(12f, 6f)),
-                                    ),
-                                cornerRadius = CornerRadius(12.dp.toPx()),
-                            )
-                        }
-                    } else {
-                        Modifier
-                    },
-                ).clip(RoundedCornerShape(12.dp))
-                .background(
-                    if (hasContent) {
-                        MaterialTheme.colorScheme.surfaceVariant
-                    } else {
-                        MaterialTheme.colorScheme.surface
-                    },
-                ).clickable(enabled = !isUploadingPhoto, onClick = onPickImage),
+        Modifier
+            .fillMaxWidth()
+            .aspectRatio(16f / 9f)
+            .then(
+                if (!hasContent) {
+                    Modifier.drawBehind {
+                        drawRoundRect(
+                            color = dashedBorderColor,
+                            style =
+                            Stroke(
+                                width = 1.dp.toPx(),
+                                pathEffect = PathEffect.dashPathEffect(floatArrayOf(12f, 6f)),
+                            ),
+                            cornerRadius = CornerRadius(12.dp.toPx()),
+                        )
+                    }
+                } else {
+                    Modifier
+                },
+            ).clip(RoundedCornerShape(12.dp))
+            .background(
+                if (hasContent) {
+                    MaterialTheme.colorScheme.surfaceVariant
+                } else {
+                    MaterialTheme.colorScheme.surface
+                },
+            ).clickable(enabled = !isUploadingPhoto, onClick = onPickImage),
         contentAlignment = Alignment.Center,
     ) {
         when {
@@ -232,6 +229,7 @@ private fun CoverImagePicker(
                 val bitmap = remember(pendingImage.first) { pendingImage.first.toImageBitmap() }
                 PendingCoverImage(bitmap)
             }
+
             image != null -> {
                 AsyncImage(
                     model = image,
@@ -240,6 +238,7 @@ private fun CoverImagePicker(
                     modifier = Modifier.fillMaxSize(),
                 )
             }
+
             else -> {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -269,10 +268,9 @@ private fun CoverImagePicker(
 
         if (isUploadingPhoto) {
             Box(
-                modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(alpha = 0.4f)),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.4f)),
                 contentAlignment = Alignment.Center,
             ) {
                 CircularProgressIndicator(
@@ -283,13 +281,12 @@ private fun CoverImagePicker(
             }
         } else if (image != null || pendingImage != null) {
             Box(
-                modifier =
-                    Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(SpaceSize.medium)
-                        .size(32.dp)
-                        .clip(CircleShape)
-                        .background(Color.Black.copy(alpha = 0.5f)),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(SpaceSize.medium)
+                    .size(32.dp)
+                    .clip(CircleShape)
+                    .background(Color.Black.copy(alpha = 0.5f)),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(

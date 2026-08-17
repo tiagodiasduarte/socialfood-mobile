@@ -13,6 +13,7 @@ class FakeRestaurantVisitStatusRepository(
         PagedRestaurantVisitStatus(visits = emptyList(), page = 1, total = 0, hasMore = false),
     ),
     private val syncResult: Result<Unit> = Result.Success(Unit),
+    private val statusResult: Result<VisitStatus?> = Result.Success(null),
 ) : RestaurantVisitStatusRepository {
 
     var lastMarkedRestaurant: Restaurant? = null
@@ -35,6 +36,8 @@ class FakeRestaurantVisitStatusRepository(
         lastStatus = status
         return unmarkResult
     }
+
+    override suspend fun getStatus(restaurantId: String): Result<VisitStatus?> = statusResult
 
     override suspend fun getPaged(status: VisitStatus, page: Int, limit: Int): Result<PagedRestaurantVisitStatus> {
         lastStatus = status

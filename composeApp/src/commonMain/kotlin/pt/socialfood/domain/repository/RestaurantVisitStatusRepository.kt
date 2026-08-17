@@ -10,6 +10,8 @@ interface RestaurantVisitStatusRepository {
 
     suspend fun unmark(restaurantId: String, status: VisitStatus): Result<Unit>
 
+    suspend fun getStatus(restaurantId: String): Result<VisitStatus?>
+
     suspend fun getPaged(status: VisitStatus, page: Int, limit: Int): Result<PagedRestaurantVisitStatus>
 
     suspend fun sync(status: VisitStatus): Result<Unit>

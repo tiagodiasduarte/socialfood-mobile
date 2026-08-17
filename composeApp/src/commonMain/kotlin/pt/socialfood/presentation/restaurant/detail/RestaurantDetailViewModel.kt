@@ -8,10 +8,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
+import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.usecase.favourite.restaurant.IsRestaurantFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.restaurant.MarkRestaurantFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
 import pt.socialfood.domain.usecase.restaurant.GetRestaurantByIdUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetVisitStatusUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.MarkRestaurantVisitStatusUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
 class RestaurantDetailViewModel(
@@ -19,6 +22,8 @@ class RestaurantDetailViewModel(
     private val isRestaurantFavourite: IsRestaurantFavouriteUseCase,
     private val markRestaurantFavourite: MarkRestaurantFavouriteUseCase,
     private val unmarkRestaurantFavourite: UnmarkRestaurantFavouriteUseCase,
+    private val getVisitStatus: GetVisitStatusUseCase,
+    private val markRestaurantVisitStatus: MarkRestaurantVisitStatusUseCase,
     private val restaurantId: String,
 ) : ViewModel() {
 
@@ -34,12 +39,15 @@ class RestaurantDetailViewModel(
             _state.value = RestaurantDetailUiState.Loading
             val restaurantDeferred = async { getRestaurantById(restaurantId) }
             val isFavouriteDeferred = async { isRestaurantFavourite(restaurantId) }
+            val visitStatusDeferred = async { getVisitStatus(restaurantId) }
             val restaurantResult = restaurantDeferred.await()
             val isFavouriteResult = isFavouriteDeferred.await()
+            val visitStatusResult = visitStatusDeferred.await()
             _state.value = when (restaurantResult) {
                 is Result.Success -> RestaurantDetailUiState.Loaded(
                     restaurant = restaurantResult.data,
                     isFavourite = (isFavouriteResult as? Result.Success)?.data ?: false,
+                    visitStatus = (visitStatusResult as? Result.Success)?.data,
                 )
                 is Result.Failure -> RestaurantDetailUiState.Error(restaurantResult.error.toErrorCode())
             }
@@ -60,6 +68,24 @@ class RestaurantDetailViewModel(
             if (result is Result.Failure) {
                 val stateNow = _state.value as? RestaurantDetailUiState.Loaded ?: return@launch
                 _state.value = stateNow.copy(isFavourite = !newIsFavourite)
+            }
+        }
+    }
+
+    fun addToWishlist() = markVisitStatus(VisitStatus.WISH)
+
+    fun moveToVisited() = markVisitStatus(VisitStatus.VISITED)
+
+    private fun markVisitStatus(status: VisitStatus) {
+        val current = _state.value as? RestaurantDetailUiState.Loaded ?: return
+        val previousStatus = current.visitStatus
+        _state.value = current.copy(visitStatus = status)
+
+        viewModelScope.launch {
+            val result = markRestaurantVisitStatus(current.restaurant, status)
+            if (result is Result.Failure) {
+                val stateNow = _state.value as? RestaurantDetailUiState.Loaded ?: return@launch
+                _state.value = stateNow.copy(visitStatus = previousStatus)
             }
         }
     }

@@ -48,6 +48,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.buttons.ActionButton
 import pt.socialfood.presentation.components.detailImageScrim
@@ -58,8 +59,10 @@ import pt.socialfood.ui.theme.ImagePlaceholderColor
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
+import socialfood.composeapp.generated.resources.restaurant_detail_add_to_wishlist_button
 import socialfood.composeapp.generated.resources.restaurant_detail_favourite_description
 import socialfood.composeapp.generated.resources.restaurant_detail_more_options_description
+import socialfood.composeapp.generated.resources.restaurant_detail_move_to_visited_button
 import socialfood.composeapp.generated.resources.restaurant_detail_opening_hours_title
 import socialfood.composeapp.generated.resources.restaurant_detail_share_button
 
@@ -78,6 +81,8 @@ fun RestaurantDetailScreen(
         onBackClick = onBackClick,
         onRetry = viewModel::load,
         onToggleFavourite = viewModel::toggleFavourite,
+        onAddToWishlist = viewModel::addToWishlist,
+        onMoveToVisited = viewModel::moveToVisited,
     )
 }
 
@@ -87,6 +92,8 @@ private fun RestaurantDetailContent(
     onBackClick: () -> Unit,
     onRetry: () -> Unit,
     onToggleFavourite: () -> Unit = {},
+    onAddToWishlist: () -> Unit = {},
+    onMoveToVisited: () -> Unit = {},
 ) {
     when (state) {
         RestaurantDetailUiState.Loading -> RestaurantDetailPlaceholder()
@@ -94,8 +101,11 @@ private fun RestaurantDetailContent(
         is RestaurantDetailUiState.Loaded -> RestaurantDetailLoaded(
             restaurant = state.restaurant,
             isFavourite = state.isFavourite,
+            visitStatus = state.visitStatus,
             onBackClick = onBackClick,
             onToggleFavourite = onToggleFavourite,
+            onAddToWishlist = onAddToWishlist,
+            onMoveToVisited = onMoveToVisited,
         )
 
         is RestaurantDetailUiState.Error -> RestaurantDetailError(onBackClick = onBackClick, onRetry = onRetry)
@@ -127,8 +137,11 @@ private fun RestaurantDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) 
 private fun RestaurantDetailLoaded(
     restaurant: Restaurant,
     isFavourite: Boolean,
+    visitStatus: VisitStatus?,
     onBackClick: () -> Unit,
     onToggleFavourite: () -> Unit = {},
+    onAddToWishlist: () -> Unit = {},
+    onMoveToVisited: () -> Unit = {},
 ) {
     val uriHandler = LocalUriHandler.current
 
@@ -141,9 +154,12 @@ private fun RestaurantDetailLoaded(
             TopSection(
                 restaurant = restaurant,
                 isFavourite = isFavourite,
+                visitStatus = visitStatus,
                 onBackClick = onBackClick,
                 onShareClick = {},
                 onFavoriteClick = onToggleFavourite,
+                onAddToWishlistClick = onAddToWishlist,
+                onMoveToVisitedClick = onMoveToVisited,
             )
 
             TitleSection(restaurant = restaurant)
@@ -199,9 +215,12 @@ private fun RestaurantDetailLoaded(
 private fun TopSection(
     restaurant: Restaurant,
     isFavourite: Boolean,
+    visitStatus: VisitStatus?,
     onBackClick: () -> Unit,
     onShareClick: () -> Unit,
     onFavoriteClick: () -> Unit,
+    onAddToWishlistClick: () -> Unit,
+    onMoveToVisitedClick: () -> Unit,
 ) {
     val imageUrl = restaurant.photoNames.firstOrNull()
 
@@ -278,6 +297,23 @@ private fun TopSection(
                             onShareClick()
                         },
                     )
+                    when (visitStatus) {
+                        VisitStatus.WISH -> DropdownMenuItem(
+                            text = { Text(stringResource(Res.string.restaurant_detail_move_to_visited_button)) },
+                            onClick = {
+                                isMenuExpanded = false
+                                onMoveToVisitedClick()
+                            },
+                        )
+                        VisitStatus.VISITED -> Unit
+                        null -> DropdownMenuItem(
+                            text = { Text(stringResource(Res.string.restaurant_detail_add_to_wishlist_button)) },
+                            onClick = {
+                                isMenuExpanded = false
+                                onAddToWishlistClick()
+                            },
+                        )
+                    }
                 }
             }
         }
@@ -393,6 +429,7 @@ private fun RestaurantDetailScreenPreview() {
         RestaurantDetailLoaded(
             restaurant = restaurant,
             isFavourite = false,
+            visitStatus = null,
             onBackClick = {},
         )
     }

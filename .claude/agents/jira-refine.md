@@ -28,11 +28,11 @@ A ticket ID is required. If none was given, stop immediately and report:
 Error: No ticket ID provided. Usage: Refine <TICKET_ID> or --ticket <TICKET_ID>
 ```
 
-Do not call `jira_next_to_refine` or proceed to any other step.
+Do not search Jira for a ticket to refine, or proceed to any other step.
 
 ## Step 2 — Analyse the ticket
 
-Source `scripts/jira.sh` and call `jira_get_issue <TICKET_ID>` to fetch the ticket's summary, description, and type.
+Resolve the Atlassian `cloudId` with `mcp__atlassian__getAccessibleAtlassianResources`, then call `mcp__atlassian__getJiraIssue` (`issueIdOrKey: <TICKET_ID>`) to fetch the ticket's summary, description, and type.
 
 Identify:
 - What feature or fix is being requested
@@ -60,9 +60,8 @@ Using this analysis, write the following to `.plans/<TICKET_ID>-jira.md`:
 
 ## Step 4 — Update Jira
 
-Source `scripts/jira.sh` and:
-1. Call `jira_update_description <TICKET_ID>` to push the description to Jira.
-2. Call `jira_transition <TICKET_ID> "To Do"`.
+1. Call `mcp__atlassian__editJiraIssue` (`issueIdOrKey: <TICKET_ID>`, `contentFormat: "markdown"`, `fields: { description: <the markdown from Step 3> }`) to push the description to Jira.
+2. Call `mcp__atlassian__getTransitionsForJiraIssue` (`issueIdOrKey: <TICKET_ID>`), find the transition whose name is "To Do", and call `mcp__atlassian__transitionJiraIssue` with that `transition.id`. If no "To Do" transition is available, skip with a warning rather than failing.
 3. Wait 5 seconds for the Jira index to update.
 
 ## Step 5 — Report
@@ -72,6 +71,6 @@ Report the ticket ID and confirm it was transitioned to "To Do".
 ## Rules
 
 - No architecture decisions, file names, or implementation steps in the description. Acceptance criteria must be observable outcomes. Keep it under 15 lines.
-- Always source `scripts/jira.sh` before calling any `jira_*` function.
+- Resolve the `cloudId` once and reuse it for every `mcp__atlassian__*` call.
 - Never modify production code — this agent only writes the Jira description file and talks to Jira.
 - Never commit, push, or open a PR.

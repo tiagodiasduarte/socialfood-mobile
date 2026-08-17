@@ -73,6 +73,18 @@ class RestaurantVisitStatusRepositoryImpl(
         Result.Failure(e.toDataError())
     }
 
+    override suspend fun getStatus(restaurantId: String): Result<VisitStatus?> = try {
+        val entity = restaurantVisitStatusDao.getByRestaurantId(restaurantId)
+        val status = if (entity == null || entity.syncState == SyncState.PENDING_REMOVE.name) {
+            null
+        } else {
+            VisitStatus.valueOf(entity.status)
+        }
+        Result.Success(status)
+    } catch (e: SQLiteException) {
+        Result.Failure(e.toDataError())
+    }
+
     override suspend fun getPaged(status: VisitStatus, page: Int, limit: Int): Result<PagedRestaurantVisitStatus> =
         try {
             val offset = (page - 1) * limit

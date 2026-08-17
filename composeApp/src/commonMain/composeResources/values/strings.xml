@@ -224,6 +224,8 @@
     <string name="restaurant_detail_favourite_description">Add to favourites</string>
     <string name="restaurant_detail_more_options_description">More options</string>
     <string name="restaurant_detail_share_button">Share</string>
+    <string name="restaurant_detail_add_to_wishlist_button">Add to wishlist</string>
+    <string name="restaurant_detail_move_to_visited_button">Move to visited list</string>
 
     <string name="favorite_card_remove_button_description">Remove from favorites</string>
     <string name="wish_card_remove_button_description">Remove from wish list</string>

@@ -100,6 +100,51 @@ class RestaurantVisitStatusRepositoryImplTest {
             assertEquals(SyncState.PENDING_REMOVE.name, stored?.syncState)
         }
 
+    // getStatus
+
+    @Test
+    fun `given a stored visit when getStatus is called then returns its status`() = runTest {
+        // Given
+        val status = Random.nextEnum<VisitStatus>()
+        val (repo, dao, _) = createRepository()
+        dao.upsert(fakeRestaurant.toRestaurantVisitEntityForTest(status, SyncState.SYNCED))
+
+        // When
+        val result = repo.getStatus(fakeRestaurant.id)
+
+        // Then
+        assertIs<Result.Success<VisitStatus?>>(result)
+        assertEquals(status, result.data)
+    }
+
+    @Test
+    fun `given no stored visit when getStatus is called then returns null`() = runTest {
+        // Given
+        val (repo, _, _) = createRepository()
+
+        // When
+        val result = repo.getStatus(fakeRestaurant.id)
+
+        // Then
+        assertIs<Result.Success<VisitStatus?>>(result)
+        assertEquals(null, result.data)
+    }
+
+    @Test
+    fun `given a visit stuck PENDING_REMOVE when getStatus is called then returns null`() = runTest {
+        // Given
+        val status = Random.nextEnum<VisitStatus>()
+        val (repo, dao, _) = createRepository()
+        dao.upsert(fakeRestaurant.toRestaurantVisitEntityForTest(status, SyncState.PENDING_REMOVE))
+
+        // When
+        val result = repo.getStatus(fakeRestaurant.id)
+
+        // Then
+        assertIs<Result.Success<VisitStatus?>>(result)
+        assertEquals(null, result.data)
+    }
+
     // getPaged
 
     @Test

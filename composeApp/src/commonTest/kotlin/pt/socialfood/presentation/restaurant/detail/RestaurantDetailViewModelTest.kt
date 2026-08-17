@@ -6,15 +6,19 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeGetRestaurantByIdUseCase
+import pt.socialfood.fakes.FakeGetVisitStatusUseCase
 import pt.socialfood.fakes.FakeIsRestaurantFavouriteUseCase
 import pt.socialfood.fakes.FakeMarkRestaurantFavouriteUseCase
+import pt.socialfood.fakes.FakeMarkRestaurantVisitStatusUseCase
 import pt.socialfood.fakes.FakeUnmarkRestaurantFavouriteUseCase
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -36,18 +40,29 @@ class RestaurantDetailViewModelTest {
             phoneNumber = "+351910000000",
         )
 
+    private fun createViewModel(
+        getRestaurantById: FakeGetRestaurantByIdUseCase = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
+        isRestaurantFavourite: FakeIsRestaurantFavouriteUseCase =
+            FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
+        markRestaurantFavourite: FakeMarkRestaurantFavouriteUseCase = FakeMarkRestaurantFavouriteUseCase(),
+        unmarkRestaurantFavourite: FakeUnmarkRestaurantFavouriteUseCase = FakeUnmarkRestaurantFavouriteUseCase(),
+        getVisitStatus: FakeGetVisitStatusUseCase = FakeGetVisitStatusUseCase(),
+        markRestaurantVisitStatus: FakeMarkRestaurantVisitStatusUseCase = FakeMarkRestaurantVisitStatusUseCase(),
+    ) = RestaurantDetailViewModel(
+        getRestaurantById = getRestaurantById,
+        isRestaurantFavourite = isRestaurantFavourite,
+        markRestaurantFavourite = markRestaurantFavourite,
+        unmarkRestaurantFavourite = unmarkRestaurantFavourite,
+        getVisitStatus = getVisitStatus,
+        markRestaurantVisitStatus = markRestaurantVisitStatus,
+        restaurantId = fakeRestaurant.id,
+    )
+
     @Test
     fun `given restaurant is already a favourite when loaded then state reflects isFavourite true`() =
         runTestWithMainDispatcher {
             // Given
-            val vm =
-                RestaurantDetailViewModel(
-                    getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
-                    isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(true)),
-                    markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(),
-                    unmarkRestaurantFavourite = FakeUnmarkRestaurantFavouriteUseCase(),
-                    restaurantId = fakeRestaurant.id,
-                )
+            val vm = createViewModel(isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(true)))
 
             // When / Then
             vm.state.test {
@@ -58,19 +73,26 @@ class RestaurantDetailViewModelTest {
         }
 
     @Test
+    fun `given restaurant already has a visit status when loaded then state reflects it`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm = createViewModel(getVisitStatus = FakeGetVisitStatusUseCase(Result.Success(VisitStatus.WISH)))
+
+            // When / Then
+            vm.state.test {
+                assertEquals(RestaurantDetailUiState.Loading, awaitItem())
+                val loaded = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
+                assertEquals(VisitStatus.WISH, loaded.visitStatus)
+            }
+        }
+
+    @Test
     @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given restaurant is not a favourite when toggleFavourite is called then flips isFavourite optimistically and calls mark`() =
         runTestWithMainDispatcher {
             // Given
             val mark = FakeMarkRestaurantFavouriteUseCase()
-            val vm =
-                RestaurantDetailViewModel(
-                    getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
-                    isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
-                    markRestaurantFavourite = mark,
-                    unmarkRestaurantFavourite = FakeUnmarkRestaurantFavouriteUseCase(),
-                    restaurantId = fakeRestaurant.id,
-                )
+            val vm = createViewModel(markRestaurantFavourite = mark)
 
             // When / Then
             vm.state.test {
@@ -96,14 +118,10 @@ class RestaurantDetailViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val unmark = FakeUnmarkRestaurantFavouriteUseCase()
-            val vm =
-                RestaurantDetailViewModel(
-                    getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
-                    isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(true)),
-                    markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(),
-                    unmarkRestaurantFavourite = unmark,
-                    restaurantId = fakeRestaurant.id,
-                )
+            val vm = createViewModel(
+                isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(true)),
+                unmarkRestaurantFavourite = unmark,
+            )
 
             // When / Then
             vm.state.test {
@@ -128,16 +146,11 @@ class RestaurantDetailViewModelTest {
     fun `given mark fails when toggleFavourite is called then reverts the optimistic flip`() =
         runTestWithMainDispatcher {
             // Given
-            val vm =
-                RestaurantDetailViewModel(
-                    getRestaurantById = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
-                    isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
-                    markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(
-                        Result.Failure(DataError.Network(Exception("test error"))),
-                    ),
-                    unmarkRestaurantFavourite = FakeUnmarkRestaurantFavouriteUseCase(),
-                    restaurantId = fakeRestaurant.id,
-                )
+            val vm = createViewModel(
+                markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(
+                    Result.Failure(DataError.Network(Exception("test error"))),
+                ),
+            )
 
             // When / Then
             vm.state.test {
@@ -152,6 +165,87 @@ class RestaurantDetailViewModelTest {
 
                 val reverted = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
                 assertFalse(reverted.isFavourite)
+            }
+        }
+
+    @Test
+    fun `given no visit status when addToWishlist is called then sets visitStatus to WISH and marks it`() =
+        runTestWithMainDispatcher {
+            // Given
+            val mark = FakeMarkRestaurantVisitStatusUseCase()
+            val vm = createViewModel(markRestaurantVisitStatus = mark)
+
+            // When / Then
+            vm.state.test {
+                assertEquals(RestaurantDetailUiState.Loading, awaitItem())
+                val initial = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
+                assertNull(initial.visitStatus)
+
+                vm.addToWishlist()
+
+                val updated = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
+                assertEquals(VisitStatus.WISH, updated.visitStatus)
+
+                cancelAndIgnoreRemainingEvents()
+            }
+
+            advanceUntilIdle()
+            assertEquals(fakeRestaurant, mark.lastMarkedRestaurant)
+            assertEquals(VisitStatus.WISH, mark.lastStatus)
+        }
+
+    @Test
+    fun `given the restaurant is wished when moveToVisited is called then sets visitStatus to VISITED and marks it`() =
+        runTestWithMainDispatcher {
+            // Given
+            val mark = FakeMarkRestaurantVisitStatusUseCase()
+            val vm = createViewModel(
+                getVisitStatus = FakeGetVisitStatusUseCase(Result.Success(VisitStatus.WISH)),
+                markRestaurantVisitStatus = mark,
+            )
+
+            // When / Then
+            vm.state.test {
+                assertEquals(RestaurantDetailUiState.Loading, awaitItem())
+                val initial = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
+                assertEquals(VisitStatus.WISH, initial.visitStatus)
+
+                vm.moveToVisited()
+
+                val updated = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
+                assertEquals(VisitStatus.VISITED, updated.visitStatus)
+
+                cancelAndIgnoreRemainingEvents()
+            }
+
+            advanceUntilIdle()
+            assertEquals(fakeRestaurant, mark.lastMarkedRestaurant)
+            assertEquals(VisitStatus.VISITED, mark.lastStatus)
+        }
+
+    @Test
+    fun `given mark fails when addToWishlist is called then reverts the optimistic visitStatus`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm = createViewModel(
+                markRestaurantVisitStatus = FakeMarkRestaurantVisitStatusUseCase(
+                    Result.Failure(DataError.Network(Exception("test error"))),
+                ),
+            )
+
+            // When / Then
+            vm.state.test {
+                assertEquals(RestaurantDetailUiState.Loading, awaitItem())
+                val initial = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
+                assertNull(initial.visitStatus)
+
+                vm.addToWishlist()
+
+                val updated = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
+                assertEquals(VisitStatus.WISH, updated.visitStatus)
+
+                val reverted = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
+                assertNull(reverted.visitStatus)
             }
         }
 }

@@ -168,6 +168,8 @@ import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCase
 import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCaseImpl
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusUseCase
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusUseCaseImpl
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetVisitStatusUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetVisitStatusUseCaseImpl
 import pt.socialfood.domain.usecase.restaurantvisitstatus.MarkRestaurantVisitStatusUseCase
 import pt.socialfood.domain.usecase.restaurantvisitstatus.MarkRestaurantVisitStatusUseCaseImpl
 import pt.socialfood.domain.usecase.restaurantvisitstatus.SyncRestaurantVisitStatusUseCase
@@ -322,6 +324,7 @@ val useCaseModule =
         factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
         factory<GetUsersUseCase> { GetUsersUseCaseImpl(get()) }
         factory<GetRestaurantVisitStatusUseCase> { GetRestaurantVisitStatusUseCaseImpl(get()) }
+        factory<GetVisitStatusUseCase> { GetVisitStatusUseCaseImpl(get()) }
         factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
         factory<IsRestaurantFavouriteUseCase> { IsRestaurantFavouriteUseCaseImpl(get()) }
         factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
@@ -367,7 +370,9 @@ val viewModelModule =
         factory { GuidesViewModel(get(), get(), get(), get(), get()) }
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
         factory { ProfileViewModel(get(), get(), get()) }
-        factory { (restaurantId: String) -> RestaurantDetailViewModel(get(), get(), get(), get(), restaurantId) }
+        factory { (restaurantId: String) ->
+            RestaurantDetailViewModel(get(), get(), get(), get(), get(), get(), restaurantId)
+        }
         factory { RestaurantVisitedViewModel(get(), get()) }
         factory { RestaurantWishlistViewModel(get(), get(), get()) }
         factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }

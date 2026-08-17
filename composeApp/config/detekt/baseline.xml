@@ -2,17 +2,13 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
-    <ID>ComplexCondition:FavouriteGuidesScreen.kt$reachedBottom &amp;&amp; state is FavouriteGuidesUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
-    <ID>ComplexCondition:FavouriteRestaurantsScreen.kt$reachedBottom &amp;&amp; state is FavouriteRestaurantsUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
-    <ID>ComplexCondition:RestaurantVisitedScreen.kt$reachedBottom &amp;&amp; state is RestaurantVisitedUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
-    <ID>ComplexCondition:RestaurantWishlistScreen.kt$reachedBottom &amp;&amp; state is RestaurantWishlistUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
-    <ID>ComplexCondition:SignUpViewModel.kt$SignUpViewModel$name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()</ID>
     <ID>CyclomaticComplexMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>FunctionNaming:MainViewController.kt$fun MainViewController()</ID>
     <ID>LongMethod:EditGuideScreen.kt$@Composable private fun GuideLoaded( state: EditGuideUiState.Loaded, initialTab: Int = TAB_DETAILS, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, onVisibilityChange: (GuideVisibility) -&gt; Unit, onAddRestaurantsClick: () -&gt; Unit, onRestaurantRemoved: (String) -&gt; Unit, onPhotoSelected: (ByteArray, String) -&gt; Unit, onDeleteGuide: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>LongMethod:EditProfilePlaceholder.kt$@Composable internal fun EditProfilePlaceholder()</ID>
     <ID>LongMethod:ErrorContent.kt$@Composable fun ErrorContent( modifier: Modifier = Modifier, errorCode: String? = null, backgroundColor: Color = GreyBackground, onRetryClick: () -&gt; Unit = {}, )</ID>
+    <ID>LongMethod:FavouriteRestaurantsScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable private fun FavouriteRestaurantsContent( state: FavouriteRestaurantsUiState, isRefreshing: Boolean, onBackClick: () -&gt; Unit, onRefresh: () -&gt; Unit, onLoadMore: () -&gt; Unit, onRetry: () -&gt; Unit, onRestaurantClick: (restaurantId: String) -&gt; Unit = {}, onRemoveClick: (restaurantId: String) -&gt; Unit = {}, )</ID>
     <ID>LongMethod:GuideCard.kt$@Composable fun GuideCard( guide: Guide, width: Dp? = null, isFavourite: Boolean = false, onClick: () -&gt; Unit = {}, onFavouriteClick: (() -&gt; Unit)? = null, modifier: Modifier = Modifier, )</ID>
     <ID>LongMethod:GuideDetailPlaceholder.kt$@Composable fun GuideDetailPlaceholder(modifier: Modifier = Modifier)</ID>
     <ID>LongMethod:GuideDetailScreen.kt$@Composable @Preview fun GuideDetailScreenPreview()</ID>
@@ -24,6 +20,8 @@
     <ID>LongMethod:GuideStatusCard.kt$@Composable fun GuideStatusCard( visibility: GuideVisibility, restaurantCount: Int, hasImage: Boolean, onVisibilityChange: (GuideVisibility) -&gt; Unit, modifier: Modifier = Modifier, )</ID>
     <ID>LongMethod:ProfileDrawerContent.kt$@Composable private fun DrawerUserContent( user: User, onLogoutClick: () -&gt; Unit, onProfileClick: (authorId: String) -&gt; Unit = {}, onEditProfileClick: () -&gt; Unit = {}, onFavouriteGuidesClick: () -&gt; Unit = {}, onFavouriteRestaurantsClick: () -&gt; Unit = {}, onWishRestaurantsClick: () -&gt; Unit = {}, onVisitedRestaurantsClick: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:ProfilePictureCard.kt$@Composable fun ProfilePictureCard(state: EditProfileUiState.Loaded, onPhotoSelected: (ByteArray, String) -&gt; Unit)</ID>
+    <ID>LongMethod:RestaurantVisitedScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable private fun VisitedRestaurantsContent( state: RestaurantVisitedUiState, isRefreshing: Boolean, onBackClick: () -&gt; Unit, onRefresh: () -&gt; Unit, onLoadMore: () -&gt; Unit, onRetry: () -&gt; Unit, onRestaurantClick: (restaurantId: String) -&gt; Unit = {}, onRemoveClick: (restaurantId: String) -&gt; Unit = {}, )</ID>
+    <ID>LongMethod:RestaurantWishlistScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable private fun RestaurantWishlistContent( state: RestaurantWishlistUiState, isRefreshing: Boolean, onBackClick: () -&gt; Unit, onRefresh: () -&gt; Unit, onLoadMore: () -&gt; Unit, onRetry: () -&gt; Unit, onRestaurantClick: (restaurantId: String) -&gt; Unit = {}, onAddClick: () -&gt; Unit = {}, onRemoveClick: (restaurantId: String) -&gt; Unit = {}, )</ID>
     <ID>LongMethod:ValidateCodeScreen.kt$@Composable private fun ValidateCodeFormView( state: ValidateCodeUiState, onValidateClick: (String) -&gt; Unit, onResendClick: () -&gt; Unit, onRestartClick: () -&gt; Unit, )</ID>
     <ID>MagicNumber:AuthorCardPlaceholder.kt$3</ID>
     <ID>MagicNumber:AuthorDetailPlaceholder.kt$4</ID>

@@ -91,7 +91,8 @@ private fun VisitedRestaurantsContent(
     }
 
     LaunchedEffect(reachedBottom, state) {
-        if (reachedBottom && state is RestaurantVisitedUiState.Loaded && state.hasMore && !state.isLoadingMore) {
+        val canLoadMore = state is RestaurantVisitedUiState.Loaded && state.hasMore && !state.isLoadingMore
+        if (reachedBottom && canLoadMore) {
             onLoadMore()
         }
     }

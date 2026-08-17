@@ -10,6 +10,8 @@ import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
+private const val AUTHOR_CARD_COUNT = 6
+
 @Composable
 fun AuthorsSkeleton(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
@@ -18,7 +20,7 @@ fun AuthorsSkeleton(modifier: Modifier = Modifier) {
         modifier = modifier.padding(horizontal = SpaceSize.large),
         verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
     ) {
-        repeat(6) {
+        repeat(AUTHOR_CARD_COUNT) {
             AuthorCardSkeleton(alpha = alpha)
         }
     }

@@ -15,6 +15,8 @@ import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
+private const val SKELETON_ITEM_COUNT = 5
+
 @Composable
 fun GuidesSkeleton(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
@@ -23,7 +25,7 @@ fun GuidesSkeleton(modifier: Modifier = Modifier) {
         modifier = modifier.padding(horizontal = SpaceSize.large),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        repeat(5) {
+        repeat(SKELETON_ITEM_COUNT) {
             ShimmerBox(
                 modifier = Modifier
                     .fillMaxWidth()

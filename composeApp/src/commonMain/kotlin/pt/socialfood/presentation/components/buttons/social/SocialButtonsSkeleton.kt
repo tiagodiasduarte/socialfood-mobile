@@ -11,13 +11,15 @@ import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
 
+private const val SOCIAL_BUTTON_COUNT = 3
+
 @Composable
 fun SocialButtonsSkeleton(alpha: Float, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(SocialButtonsRowSpacing),
     ) {
-        repeat(3) {
+        repeat(SOCIAL_BUTTON_COUNT) {
             ShimmerBox(
                 modifier = Modifier.size(SocialButtonsIconSize),
                 alpha = alpha,

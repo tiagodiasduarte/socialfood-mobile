@@ -22,6 +22,9 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
+private const val HOME_SECTION_COUNT = 3
+private const val SECTION_CARD_COUNT = 3
+
 @Composable
 fun HomeSkeleton(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
@@ -30,7 +33,7 @@ fun HomeSkeleton(modifier: Modifier = Modifier) {
         modifier = modifier.background(GreyBackground),
         verticalArrangement = Arrangement.spacedBy(SpaceSize.xlarge),
     ) {
-        repeat(3) {
+        repeat(HOME_SECTION_COUNT) {
             HomeSectionSkeleton(alpha = alpha)
         }
     }
@@ -58,7 +61,7 @@ private fun HomeSectionSkeleton(alpha: Float) {
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
             contentPadding = PaddingValues(horizontal = SpaceSize.large),
         ) {
-            items(3) {
+            items(SECTION_CARD_COUNT) {
                 ShimmerBox(
                     modifier = Modifier
                         .width(280.dp)

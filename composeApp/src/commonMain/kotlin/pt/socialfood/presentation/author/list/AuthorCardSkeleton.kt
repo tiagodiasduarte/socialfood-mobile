@@ -25,6 +25,8 @@ import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
+private const val STAT_ITEM_COUNT = 3
+
 @Composable
 fun AuthorCardSkeleton(alpha: Float, modifier: Modifier = Modifier) {
     Box(
@@ -58,7 +60,7 @@ fun AuthorCardSkeleton(alpha: Float, modifier: Modifier = Modifier) {
                     horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    repeat(3) { index ->
+                    repeat(STAT_ITEM_COUNT) { index ->
                         StatItemSkeleton(alpha = alpha)
                         if (index < 2) {
                             ShimmerBox(modifier = Modifier.width(1.dp).height(16.dp), alpha = alpha)

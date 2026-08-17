@@ -26,6 +26,8 @@ import pt.socialfood.ui.theme.ProfileGradientEnd
 import pt.socialfood.ui.theme.ProfileGradientStart
 import pt.socialfood.ui.theme.SpaceSize
 
+private const val STATS_ITEM_COUNT = 3
+
 @Composable
 fun ProfileHeaderSkeleton(
     alpha: Float,
@@ -100,7 +102,7 @@ private fun StatsRowSkeleton(alpha: Float) {
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        repeat(3) { index ->
+        repeat(STATS_ITEM_COUNT) { index ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(SpaceSize.small),

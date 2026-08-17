@@ -32,6 +32,7 @@ import pt.socialfood.ui.theme.SpaceSize
 
 private const val RESTAURANT_ITEM_SKELETON_COUNT = 4
 
+@Suppress("LongMethod")
 @Composable
 fun GuideDetailSkeleton(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()

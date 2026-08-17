@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.FavouritesGuidesApi
+import pt.socialfood.data.currentTimeMillis
 import pt.socialfood.data.local.dao.FavouriteDao
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.data.network.extensions.toDataError
@@ -17,8 +18,6 @@ import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.mapper.toFavouriteGuide
 import pt.socialfood.mapper.toFavouriteGuideEntity
 import pt.socialfood.mapper.toGuide
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 
 private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
 
@@ -186,7 +185,4 @@ class FavouritesGuidesRepositoryImpl(
 
         return Result.Success(Unit)
     }
-
-    @OptIn(ExperimentalTime::class)
-    private fun currentTimeMillis(): Long = Clock.System.now().toEpochMilliseconds()
 }

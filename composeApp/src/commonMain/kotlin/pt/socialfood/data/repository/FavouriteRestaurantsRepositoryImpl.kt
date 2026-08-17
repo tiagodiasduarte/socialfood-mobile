@@ -3,6 +3,7 @@ package pt.socialfood.data.repository
 import androidx.sqlite.SQLiteException
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.FavouriteRestaurantsApi
+import pt.socialfood.data.currentTimeMillis
 import pt.socialfood.data.local.dao.FavouriteRestaurantDao
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.data.network.extensions.toDataError
@@ -15,8 +16,6 @@ import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.mapper.toFavouriteRestaurant
 import pt.socialfood.mapper.toFavouriteRestaurantEntity
 import pt.socialfood.mapper.toRestaurant
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 
 private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
 private const val MAX_FAVOURITES_FETCH = 500
@@ -188,7 +187,4 @@ class FavouriteRestaurantsRepositoryImpl(
 
         return Result.Success(Unit)
     }
-
-    @OptIn(ExperimentalTime::class)
-    private fun currentTimeMillis(): Long = Clock.System.now().toEpochMilliseconds()
 }

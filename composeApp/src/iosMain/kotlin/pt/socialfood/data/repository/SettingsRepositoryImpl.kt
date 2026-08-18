@@ -30,7 +30,7 @@ class SettingsRepositoryImpl : SettingsRepository {
     }
 
     override suspend fun getThemeMode(): ThemeMode {
-        val stored = defaults.stringForKey(KEY_THEME_MODE) ?: return ThemeMode.SYSTEM
+        val stored = defaults.stringForKey(KEY_THEME_MODE) ?: return ThemeMode.LIGHT
         return ThemeMode.valueOf(stored)
     }
 

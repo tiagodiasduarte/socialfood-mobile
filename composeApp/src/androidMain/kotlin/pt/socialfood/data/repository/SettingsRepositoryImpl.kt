@@ -44,7 +44,7 @@ class SettingsRepositoryImpl(private val context: Context) : SettingsRepository 
     }
 
     override suspend fun getThemeMode(): ThemeMode {
-        val stored = context.dataStore.data.first()[THEME_MODE] ?: return ThemeMode.SYSTEM
+        val stored = context.dataStore.data.first()[THEME_MODE] ?: return ThemeMode.LIGHT
         return ThemeMode.valueOf(stored)
     }
 

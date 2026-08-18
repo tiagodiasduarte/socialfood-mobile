@@ -21,11 +21,11 @@ fun AppTheme(content: @Composable () -> Unit) {
         ThemeMode.SYSTEM -> isSystemInDarkTheme()
     }
 
-    val colorScheme = dynamicColorScheme(useDarkTheme)
-        ?: if (useDarkTheme) DarkLightColorTheme else LightColorTheme
-
+    // The Light/Dark/System picker always controls the palette -- dynamic color (Android 12+)
+    // is intentionally not consulted here, since it would silently override the app's branded
+    // colors (primary/onPrimary) with wallpaper-derived ones regardless of the user's choice.
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = if (useDarkTheme) DarkLightColorTheme else LightColorTheme,
         typography = AppTypography,
         content = content,
     )

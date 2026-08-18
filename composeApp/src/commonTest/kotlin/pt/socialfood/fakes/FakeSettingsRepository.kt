@@ -7,7 +7,7 @@ import pt.socialfood.domain.repository.SettingsRepository
 class FakeSettingsRepository : SettingsRepository {
 
     private var token: String? = null
-    private var themeMode: ThemeMode = ThemeMode.SYSTEM
+    private var themeMode: ThemeMode = ThemeMode.LIGHT
     private var pendingVerificationEmail: String? = null
     private var lastFavouritesSyncedAt: String? = null
     private var lastFavouritesSyncAttemptAt: Long? = null

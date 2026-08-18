@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.ProfileHeaderSkeleton
@@ -74,7 +73,7 @@ private fun AuthorGuideCardSkeleton(modifier: Modifier = Modifier, alpha: Float)
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(SpaceSize.large))
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(SpaceSize.medium),
     ) {
         Row(

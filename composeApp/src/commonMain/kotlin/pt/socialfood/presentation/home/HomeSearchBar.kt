@@ -49,12 +49,12 @@ fun HomeSearchBar(searchQuery: String, onQueryChange: (String) -> Unit, onClick:
         singleLine = true,
         shape = RoundedCornerShape(25),
         colors = TextFieldDefaults.colors(
-            unfocusedContainerColor = Color.White,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
             focusedContainerColor = MaterialTheme.colorScheme.background,
             unfocusedIndicatorColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
-            disabledContainerColor = Color.White,
+            disabledContainerColor = MaterialTheme.colorScheme.surface,
         ),
         modifier = Modifier
             .padding(horizontal = SpaceSize.large)

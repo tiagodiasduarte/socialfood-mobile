@@ -207,21 +207,7 @@ private fun DrawerUserContent(
 
         HorizontalDivider()
 
-        Column(modifier = Modifier.navigationBarsPadding().padding(vertical = SpaceSize.medium)) {
-            DrawerMenuRow(
-                icon = Res.drawable.theme_icon,
-                label = stringResource(Res.string.profile_theme_button),
-                contentDescription = stringResource(Res.string.profile_theme_button_description),
-                onClick = onThemeClick,
-            )
-            DrawerMenuRow(
-                icon = Res.drawable.logout_icon,
-                label = stringResource(Res.string.profile_logout_button),
-                contentDescription = stringResource(Res.string.profile_logout_button_description),
-                color = MaterialTheme.colorScheme.primary,
-                onClick = onLogoutClick,
-            )
-        }
+        DrawerBottomMenu(onThemeClick = onThemeClick, onLogoutClick = onLogoutClick)
 
         Text(
             text = if (appBuildDate.isNotBlank()) "v$appVersion ($appBuildDate)" else "v$appVersion",
@@ -231,6 +217,25 @@ private fun DrawerUserContent(
                 .fillMaxWidth()
                 .padding(SpaceSize.large),
             textAlign = TextAlign.Center,
+        )
+    }
+}
+
+@Composable
+private fun DrawerBottomMenu(onThemeClick: () -> Unit, onLogoutClick: () -> Unit) {
+    Column(modifier = Modifier.navigationBarsPadding().padding(vertical = SpaceSize.medium)) {
+        DrawerMenuRow(
+            icon = Res.drawable.theme_icon,
+            label = stringResource(Res.string.profile_theme_button),
+            contentDescription = stringResource(Res.string.profile_theme_button_description),
+            onClick = onThemeClick,
+        )
+        DrawerMenuRow(
+            icon = Res.drawable.logout_icon,
+            label = stringResource(Res.string.profile_logout_button),
+            contentDescription = stringResource(Res.string.profile_logout_button_description),
+            color = MaterialTheme.colorScheme.primary,
+            onClick = onLogoutClick,
         )
     }
 }

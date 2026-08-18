@@ -103,7 +103,7 @@ class KtorHttpClient(
     }
 
     companion object {
-        private const val TAG = "HTTP"
+        private const val TAG = "KtorHttpClient"
         private const val REQUEST_TIMEOUT_MS = 15_000L
         private const val CONNECT_TIMEOUT_MS = 15_000L
         private const val SOCKET_TIMEOUT_MS = 15_000L

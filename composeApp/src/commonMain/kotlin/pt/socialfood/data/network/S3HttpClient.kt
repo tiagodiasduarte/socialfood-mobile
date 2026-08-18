@@ -10,10 +10,7 @@ import io.ktor.client.plugins.logging.Logging
 
 // Plain HTTP client for direct S3 uploads via presigned URLs.
 // No base URL, no auth header — S3 presigned URLs carry their own auth in the URL.
-class S3HttpClient(
-    private val isDebug: Boolean = true,
-    engine: HttpClientEngine? = null,
-) {
+class S3HttpClient(private val isDebug: Boolean = true, engine: HttpClientEngine? = null) {
 
     private val config: HttpClientConfig<*>.() -> Unit = {
 

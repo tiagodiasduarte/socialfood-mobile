@@ -16,7 +16,7 @@ class S3HttpClient(private val isDebug: Boolean = true, engine: HttpClientEngine
         expectSuccess = true
 
         install(Logging) {
-            logger = KermitKtorLogger("S3")
+            logger = KermitKtorLogger(TAG)
             level = if (isDebug) LogLevel.HEADERS else LogLevel.NONE
         }
 
@@ -34,6 +34,7 @@ class S3HttpClient(private val isDebug: Boolean = true, engine: HttpClientEngine
     }
 
     companion object {
+        private const val TAG = "S3"
         private const val REQUEST_TIMEOUT_MS = 120_000L
         private const val CONNECT_TIMEOUT_MS = 30_000L
         private const val SOCKET_TIMEOUT_MS = 120_000L

@@ -193,7 +193,7 @@ private fun ValidateCodeFormView(
                     containerColor = colorScheme.primary,
                     disabledContainerColor = ShimmerColor,
                     contentColor = colorScheme.onPrimary,
-                    disabledContentColor = Color.White,
+                    disabledContentColor = colorScheme.onPrimary,
                 ),
             ) {
                 Text(

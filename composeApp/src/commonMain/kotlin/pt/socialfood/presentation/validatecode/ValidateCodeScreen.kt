@@ -46,6 +46,7 @@ import org.koin.core.parameter.parametersOf
 import pt.socialfood.presentation.components.AppImage
 import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.ShimmerColor
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
@@ -271,7 +272,7 @@ private fun OtpBox(digit: String, isCurrent: Boolean) {
         modifier = Modifier
             .size(48.dp)
             .background(
-                color = MaterialTheme.colorScheme.background,
+                color = GreyBackground,
                 shape = RoundedCornerShape(12.dp),
             )
             .border(

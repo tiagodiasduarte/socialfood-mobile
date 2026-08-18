@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +26,7 @@ import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.presentation.guide.detail.author.AuthorItemCardSkeleton
 import pt.socialfood.presentation.restaurant.RestaurantSmallCardSkeleton
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.ShimmerColor
 import pt.socialfood.ui.theme.SpaceSize
 
@@ -40,7 +40,7 @@ fun GuideDetailSkeleton(modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(GreyBackground),
         verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
         item {

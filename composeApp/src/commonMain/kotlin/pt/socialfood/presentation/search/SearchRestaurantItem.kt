@@ -33,6 +33,7 @@ import coil3.compose.SubcomposeAsyncImage
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
+import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.ui.theme.StarColor
 
@@ -60,11 +61,11 @@ fun SearchRestaurantItem(restaurant: Restaurant, onClick: () -> Unit = {}, modif
                         contentDescription = restaurant.name,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize(),
-                        loading = { Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) },
-                        error = { Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) },
+                        loading = { Box(Modifier.fillMaxSize().background(GreyBackground)) },
+                        error = { Box(Modifier.fillMaxSize().background(GreyBackground)) },
                     )
                 } else {
-                    Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background))
+                    Box(Modifier.fillMaxSize().background(GreyBackground))
                 }
             }
 

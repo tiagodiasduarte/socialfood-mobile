@@ -15,7 +15,6 @@ import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -34,6 +33,7 @@ import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.SearchBar
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.search_search_placeholder
@@ -87,7 +87,7 @@ fun SearchScreenContent(
     onClearSuggestions: () -> Unit = {},
     onResultClick: (Search) -> Unit = {},
 ) {
-    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+    Column(modifier = Modifier.fillMaxSize().background(GreyBackground)) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()

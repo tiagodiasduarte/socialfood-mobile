@@ -23,6 +23,7 @@ import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.BorderGrey
+import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.app_name
@@ -37,7 +38,7 @@ fun HomeHeader(
     onSearchClick: () -> Unit = {},
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.background),
+        modifier = Modifier.fillMaxWidth().background(GreyBackground),
     ) {
         Box(
             modifier = Modifier

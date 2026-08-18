@@ -39,6 +39,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.google_icon
@@ -200,7 +201,7 @@ fun RatingItem(rating: Double, reviewCount: Int) {
         Row(
             Modifier
                 .clip(RoundedCornerShape(4.dp))
-                .background(color = MaterialTheme.colorScheme.background)
+                .background(color = GreyBackground)
                 .padding(SpaceSize.small),
         ) {
             Icon(

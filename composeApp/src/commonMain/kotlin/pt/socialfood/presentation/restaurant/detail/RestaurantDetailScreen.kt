@@ -54,6 +54,7 @@ import pt.socialfood.presentation.components.buttons.ActionButton
 import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
+import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.ImagePlaceholderColor
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
@@ -113,7 +114,7 @@ private fun RestaurantDetailContent(
 
 @Composable
 private fun RestaurantDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
-    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+    Column(modifier = Modifier.fillMaxSize().background(GreyBackground)) {
         IconButton(
             onClick = onBackClick,
             modifier = Modifier.padding(SpaceSize.medium),
@@ -144,7 +145,7 @@ private fun RestaurantDetailLoaded(
 ) {
     val uriHandler = LocalUriHandler.current
 
-    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+    Box(modifier = Modifier.fillMaxSize().background(GreyBackground)) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

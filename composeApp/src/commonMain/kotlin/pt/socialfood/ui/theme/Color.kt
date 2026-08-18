@@ -6,13 +6,11 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
-private val GreyBackground = Color(0xFFF2F2F2)
-
 val LightColorTheme = lightColorScheme(
     primary = Color(0xFFE8450A),
     onPrimary = Color.White,
     secondary = Color(0xFFE8450A),
-    background = GreyBackground,
+    background = Color.White,
     onBackground = Color(0xFF1A1A1A),
     surface = Color.White,
     onSurface = Color(0xFF1A1A1A),
@@ -25,7 +23,7 @@ val DarkLightColorTheme = darkColorScheme(
     primary = Color(0xFFE8450A),
     onPrimary = Color.White,
     secondary = Color(0xFFE8450A),
-    background = GreyBackground,
+    background = Color.White,
     onBackground = Color(0xFF1A1A1A),
     surface = Color.White,
     onSurface = Color(0xFF1A1A1A),
@@ -34,6 +32,7 @@ val DarkLightColorTheme = darkColorScheme(
     outlineVariant = Color(0xFFE0E0E0),
 )
 
+val GreyBackground = Color(0xFFF2F2F2)
 val ImagePlaceholderColor = Color(0xFF2A2A2A)
 val GreenStatus = Color(0xFF005C0C)
 val FavouriteRed = Color(0xFFEF4444)

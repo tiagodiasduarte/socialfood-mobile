@@ -29,6 +29,7 @@ import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.ProfileHeader
 import pt.socialfood.presentation.components.buttons.ActionButton
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.author_detail_guides_section_title
@@ -83,7 +84,7 @@ private fun AuthorDetailLoaded(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(GreyBackground),
     ) {
         item {
             AuthorHeader(

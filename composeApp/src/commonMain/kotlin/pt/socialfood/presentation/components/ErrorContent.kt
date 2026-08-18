@@ -27,6 +27,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.presentation.components.buttons.IconTextButton
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.error_content_description
@@ -40,7 +41,7 @@ import socialfood.composeapp.generated.resources.server_error_icon
 fun ErrorContent(
     modifier: Modifier = Modifier,
     errorCode: String? = null,
-    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    backgroundColor: Color = GreyBackground,
     onRetryClick: () -> Unit = {},
 ) {
     Column(

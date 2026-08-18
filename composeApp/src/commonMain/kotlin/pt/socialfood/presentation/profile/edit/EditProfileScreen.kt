@@ -43,6 +43,7 @@ import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
 import pt.socialfood.presentation.profile.edit.card.ProfilePictureCard
 import pt.socialfood.presentation.profile.edit.card.SocialNetworkCard
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
@@ -64,7 +65,7 @@ fun EditProfileScreen(onBackClick: () -> Unit, viewModel: EditProfileViewModel =
     when (val s = state) {
         is EditProfileUiState.Loading -> EditProfileSkeleton()
         is EditProfileUiState.Error -> Column(
-            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
+            modifier = Modifier.fillMaxSize().background(GreyBackground),
         ) {
             TopBar(isSaving = false, showSaveButton = false, onBackClick = onBackClick, onSaveClick = {})
             ErrorContent(modifier = Modifier.fillMaxSize(), onRetryClick = viewModel::retry)
@@ -108,7 +109,7 @@ private fun EditProfileContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(GreyBackground),
     ) {
         TopBar(
             isSaving = state.isSaving,

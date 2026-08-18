@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.ui.theme.GreenStatus
 import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.ui.theme.StatusGuide
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.edit_guide_details_public_image_warning
 import socialfood.composeapp.generated.resources.edit_guide_needs_restaurants_warning
@@ -145,12 +145,12 @@ private fun PublicationRuleRow(met: Boolean, label: String) {
             imageVector = if (met) Icons.Filled.CheckCircle else Icons.Outlined.CheckCircle,
             contentDescription = null,
             modifier = Modifier.size(16.dp),
-            tint = if (met) GreenStatus else Color.Red,
+            tint = if (met) StatusGuide else Color.Red,
         )
         Text(
             text = label,
             style = MaterialTheme.typography.bodySmall,
-            color = if (met) GreenStatus else Color.Red,
+            color = if (met) StatusGuide else Color.Red,
         )
     }
 }

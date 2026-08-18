@@ -20,8 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.BorderGrey
-import pt.socialfood.ui.theme.GreyBackground
+import pt.socialfood.ui.theme.SearchBorder
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.home_search_bar_placeholder
@@ -50,12 +49,12 @@ fun HomeSearchBar(searchQuery: String, onQueryChange: (String) -> Unit, onClick:
         singleLine = true,
         shape = RoundedCornerShape(25),
         colors = TextFieldDefaults.colors(
-            unfocusedContainerColor = Color.White,
-            focusedContainerColor = GreyBackground,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+            focusedContainerColor = MaterialTheme.colorScheme.background,
             unfocusedIndicatorColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
-            disabledContainerColor = Color.White,
+            disabledContainerColor = MaterialTheme.colorScheme.surface,
         ),
         modifier = Modifier
             .padding(horizontal = SpaceSize.large)
@@ -63,7 +62,7 @@ fun HomeSearchBar(searchQuery: String, onQueryChange: (String) -> Unit, onClick:
             .height(50.dp)
             .border(
                 width = 1.dp,
-                color = BorderGrey,
+                color = SearchBorder,
                 shape = RoundedCornerShape(25),
             )
             .clickable(onClick = onClick),

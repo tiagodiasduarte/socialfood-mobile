@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import pt.socialfood.ui.theme.StarColor
+import pt.socialfood.ui.theme.Star
 
 @Composable
 fun RatingStars(rating: Double, modifier: Modifier = Modifier, maxStars: Int = 5, starSize: Dp = 20.dp) {
@@ -30,7 +30,7 @@ fun RatingStars(rating: Double, modifier: Modifier = Modifier, maxStars: Int = 5
             Icon(
                 imageVector = icon,
                 contentDescription = "Rating star",
-                tint = StarColor,
+                tint = Star,
                 modifier = Modifier.size(starSize),
             )
         }

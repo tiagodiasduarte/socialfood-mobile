@@ -33,9 +33,8 @@ import coil3.compose.SubcomposeAsyncImage
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
-import pt.socialfood.ui.theme.StarColor
+import pt.socialfood.ui.theme.Star
 
 private val ThumbnailSize = 75.dp
 
@@ -61,11 +60,11 @@ fun SearchRestaurantItem(restaurant: Restaurant, onClick: () -> Unit = {}, modif
                         contentDescription = restaurant.name,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize(),
-                        loading = { Box(Modifier.fillMaxSize().background(GreyBackground)) },
-                        error = { Box(Modifier.fillMaxSize().background(GreyBackground)) },
+                        loading = { Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) },
+                        error = { Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) },
                     )
                 } else {
-                    Box(Modifier.fillMaxSize().background(GreyBackground))
+                    Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background))
                 }
             }
 
@@ -110,7 +109,7 @@ fun SearchRestaurantItem(restaurant: Restaurant, onClick: () -> Unit = {}, modif
                     Icon(
                         imageVector = Icons.Filled.Star,
                         contentDescription = null,
-                        tint = StarColor,
+                        tint = Star,
                         modifier = Modifier.size(14.dp),
                     )
                     Text(

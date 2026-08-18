@@ -212,14 +212,14 @@ private fun AuthorChip(author: Author) {
                         Text(
                             initials,
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = Color.White,
+                            color = MaterialTheme.colorScheme.onPrimary,
                         )
                     },
                     error = {
                         Text(
                             initials,
                             style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                            color = Color.White,
+                            color = MaterialTheme.colorScheme.onPrimary,
                         )
                     },
                 )
@@ -227,7 +227,7 @@ private fun AuthorChip(author: Author) {
                 Text(
                     initials,
                     style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onPrimary,
                 )
             }
         }

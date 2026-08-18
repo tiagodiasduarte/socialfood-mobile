@@ -39,7 +39,7 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.SpaceSize
-import pt.socialfood.ui.theme.StarColor
+import pt.socialfood.ui.theme.Star
 
 internal val CardHeight = 125.dp
 private const val IMAGE_SIZE = 95
@@ -150,7 +150,7 @@ private fun RestaurantRatingRow(restaurant: Restaurant) {
         Icon(
             imageVector = Icons.Filled.Star,
             contentDescription = null,
-            tint = StarColor,
+            tint = Star,
             modifier = Modifier.size(14.dp),
         )
 

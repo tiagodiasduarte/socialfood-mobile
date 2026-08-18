@@ -21,8 +21,11 @@ fun AppTheme(content: @Composable () -> Unit) {
         ThemeMode.SYSTEM -> isSystemInDarkTheme()
     }
 
+    val colorScheme = dynamicColorScheme(useDarkTheme)
+        ?: if (useDarkTheme) DarkLightColorTheme else LightColorTheme
+
     MaterialTheme(
-        colorScheme = if (useDarkTheme) DarkLightColorTheme else LightColorTheme,
+        colorScheme = colorScheme,
         typography = AppTypography,
         content = content,
     )

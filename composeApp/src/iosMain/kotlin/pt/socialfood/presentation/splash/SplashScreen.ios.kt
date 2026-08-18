@@ -8,14 +8,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import pt.socialfood.presentation.startup.StartupViewModel
+import pt.socialfood.ui.theme.SplashBackgroundOrange
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.social_food_splash
-
-private val SplashBackgroundColor = Color(0xFFF54900)
 
 @Composable
 actual fun SplashScreen(
@@ -32,7 +30,7 @@ actual fun SplashScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(SplashBackgroundColor),
+            .background(SplashBackgroundOrange),
         contentAlignment = Alignment.Center,
     ) {
         Image(

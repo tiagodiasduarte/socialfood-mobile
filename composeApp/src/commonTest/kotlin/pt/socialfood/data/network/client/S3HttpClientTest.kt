@@ -1,4 +1,4 @@
-package pt.socialfood.data.network
+package pt.socialfood.data.network.client
 
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond

@@ -8,6 +8,7 @@ import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.includes
 import org.koin.dsl.module
+import pt.socialfood.core.isDebugBuild
 import pt.socialfood.data.api.AuthApi
 import pt.socialfood.data.api.AuthApiImpl
 import pt.socialfood.data.api.AuthorsApi
@@ -35,10 +36,10 @@ import pt.socialfood.data.api.SearchApiImpl
 import pt.socialfood.data.api.UserApi
 import pt.socialfood.data.api.UserApiImpl
 import pt.socialfood.data.local.AppDatabase
-import pt.socialfood.data.network.ImageHttpClient
-import pt.socialfood.data.network.KtorHttpClient
-import pt.socialfood.data.network.S3HttpClient
 import pt.socialfood.data.network.SessionManager
+import pt.socialfood.data.network.client.CoilHttpClient
+import pt.socialfood.data.network.client.KtorHttpClient
+import pt.socialfood.data.network.client.S3HttpClient
 import pt.socialfood.data.paging.asAuthorCacheTransactionRunner
 import pt.socialfood.data.paging.asGuideCacheTransactionRunner
 import pt.socialfood.data.paging.asHomeCacheTransactionRunner
@@ -223,7 +224,7 @@ expect val platformModule: Module
 
 val networkModule =
     module {
-        single { AppImageLoaderFactory(get<ImageHttpClient>().client) }
+        single { AppImageLoaderFactory(get<CoilHttpClient>().client) }
         single<AuthApi> { AuthApiImpl(get()) }
         single<AuthorsApi> { AuthorsApiImpl(get()) }
         single<ConfigsApi> { ConfigsApiImpl(get()) }
@@ -233,12 +234,12 @@ val networkModule =
         single<HomeApi> { HomeApiImpl(get()) }
         single<HttpClient> { get<KtorHttpClient>().client }
         single<ImageCache> { get<AppImageLoaderFactory>() }
-        single { ImageHttpClient() }
-        single { KtorHttpClient(get()) }
+        single { CoilHttpClient(isDebugBuild) }
+        single { KtorHttpClient(get(), isDebugBuild) }
         single<PlacesApi> { PlacesApiImpl(get()) }
         single<RestaurantApi> { RestaurantApiImpl(get()) }
         single<S3Api> { S3ApiImpl(get<S3HttpClient>().client) }
-        single { S3HttpClient() }
+        single { S3HttpClient(isDebugBuild) }
         single<SearchApi> { SearchApiImpl(get()) }
         single { SessionManager(get()) }
         single<UserApi> { UserApiImpl(get()) }

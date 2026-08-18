@@ -8,6 +8,7 @@ import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.includes
 import org.koin.dsl.module
+import pt.socialfood.core.isDebugBuild
 import pt.socialfood.data.api.AuthApi
 import pt.socialfood.data.api.AuthApiImpl
 import pt.socialfood.data.api.AuthorsApi
@@ -233,12 +234,12 @@ val networkModule =
         single<HomeApi> { HomeApiImpl(get()) }
         single<HttpClient> { get<KtorHttpClient>().client }
         single<ImageCache> { get<AppImageLoaderFactory>() }
-        single { CoilHttpClient() }
-        single { KtorHttpClient(get()) }
+        single { CoilHttpClient(isDebug = isDebugBuild) }
+        single { KtorHttpClient(sessionManager = get(), isDebug = isDebugBuild) }
         single<PlacesApi> { PlacesApiImpl(get()) }
         single<RestaurantApi> { RestaurantApiImpl(get()) }
         single<S3Api> { S3ApiImpl(get<S3HttpClient>().client) }
-        single { S3HttpClient() }
+        single { S3HttpClient(isDebug = isDebugBuild) }
         single<SearchApi> { SearchApiImpl(get()) }
         single { SessionManager(get()) }
         single<UserApi> { UserApiImpl(get()) }

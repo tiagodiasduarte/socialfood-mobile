@@ -40,7 +40,6 @@ import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
@@ -107,7 +106,7 @@ private fun RestaurantWishlistContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(GreyBackground),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         TopBar(onBackClick = onBackClick, onAddClick = onAddClick)
 

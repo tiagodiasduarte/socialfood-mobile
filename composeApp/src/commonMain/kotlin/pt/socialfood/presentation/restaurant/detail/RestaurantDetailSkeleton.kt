@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
 private const val OPENING_HOURS_DAY_COUNT = 7
@@ -43,7 +42,7 @@ private const val GALLERY_THUMBNAIL_COUNT = 5
 internal fun RestaurantDetailSkeleton() {
     val alpha = rememberShimmerAlpha()
 
-    Box(modifier = Modifier.fillMaxSize().background(GreyBackground)) {
+    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

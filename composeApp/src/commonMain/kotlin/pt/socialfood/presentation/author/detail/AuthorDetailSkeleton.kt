@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +27,6 @@ import pt.socialfood.presentation.components.ProfileHeaderTopActionSkeleton
 import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
 private const val GUIDE_CARD_SKELETON_COUNT = 4
@@ -38,7 +38,7 @@ fun AuthorDetailSkeleton(modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(GreyBackground),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         item {
             ProfileHeaderSkeleton(alpha = alpha) {

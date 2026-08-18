@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,7 +34,6 @@ import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -85,7 +85,7 @@ fun GuidesScreenContent(
         onRefresh = { guides.refresh() },
         modifier = Modifier
             .fillMaxSize()
-            .background(GreyBackground),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         LazyColumn(
             state = listState,

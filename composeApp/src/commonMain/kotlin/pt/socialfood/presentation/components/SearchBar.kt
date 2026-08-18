@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.BorderGrey
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.search_bar_clear_button_description
@@ -69,9 +68,9 @@ fun SearchBar(
         singleLine = true,
         shape = RoundedCornerShape(25),
         colors = TextFieldDefaults.colors(
-            unfocusedContainerColor = GreyBackground,
-            focusedContainerColor = GreyBackground,
-            disabledContainerColor = GreyBackground,
+            unfocusedContainerColor = MaterialTheme.colorScheme.background,
+            focusedContainerColor = MaterialTheme.colorScheme.background,
+            disabledContainerColor = MaterialTheme.colorScheme.background,
             unfocusedIndicatorColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,

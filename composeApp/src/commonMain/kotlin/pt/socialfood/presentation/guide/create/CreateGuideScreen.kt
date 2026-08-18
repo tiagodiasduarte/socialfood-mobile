@@ -40,7 +40,6 @@ import pt.socialfood.presentation.guide.GuideValidationErrorDialog
 import pt.socialfood.presentation.guide.edit.card.GuideDetailsCard
 import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.create_guide_create_title
@@ -97,7 +96,7 @@ private fun CreateGuideContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(GreyBackground)
+            .background(MaterialTheme.colorScheme.background)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = { focusManager.clearFocus() })
             },

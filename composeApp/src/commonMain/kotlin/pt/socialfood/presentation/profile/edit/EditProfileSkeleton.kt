@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
 private const val PERSONAL_DETAILS_FIELD_COUNT = 3
@@ -40,7 +39,7 @@ internal fun EditProfileSkeleton() {
         modifier =
         Modifier
             .fillMaxSize()
-            .background(GreyBackground),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         // Top bar skeleton
         Row(

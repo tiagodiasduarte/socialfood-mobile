@@ -49,7 +49,6 @@ import pt.socialfood.presentation.guide.detail.author.AuthorItemCard
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.ImagePlaceholderColor
 import pt.socialfood.ui.theme.PrivateBadgeGrey
 import pt.socialfood.ui.theme.PublicBadgeBackground
@@ -165,7 +164,7 @@ private fun GuideDetailLoaded(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(GreyBackground),
+            .background(MaterialTheme.colorScheme.background),
         verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
         item {

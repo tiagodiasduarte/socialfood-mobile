@@ -26,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -190,7 +191,7 @@ private fun TopBar(isSaving: Boolean, showSaveButton: Boolean, onBackClick: () -
                     CircularProgressIndicator(
                         modifier = Modifier.size(SpaceSize.large),
                         strokeWidth = 2.dp,
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = Color.White,
                     )
                 } else {
                     Text(

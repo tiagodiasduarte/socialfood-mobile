@@ -27,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,7 +48,6 @@ import pt.socialfood.presentation.guide.detail.author.AuthorItemCard
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.ImagePlaceholderColor
 import pt.socialfood.ui.theme.PrivateBadgeGrey
 import pt.socialfood.ui.theme.PublicBadgeBackground
@@ -145,7 +143,7 @@ private fun GuideDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
 
         ErrorContent(
             modifier = Modifier.fillMaxSize(),
-            backgroundColor = Color.White,
+            backgroundColor = MaterialTheme.colorScheme.surface,
             onRetryClick = onRetry,
         )
     }
@@ -165,7 +163,7 @@ private fun GuideDetailLoaded(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(GreyBackground),
+            .background(MaterialTheme.colorScheme.background),
         verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
         item {
@@ -328,7 +326,7 @@ private fun GuidInfo(guide: Guide) {
             if (guide.visibility == GuideVisibility.PUBLIC) {
                 PublicBadgeBackground
             } else {
-                Color.White
+                MaterialTheme.colorScheme.surface
             }
 
         Row(

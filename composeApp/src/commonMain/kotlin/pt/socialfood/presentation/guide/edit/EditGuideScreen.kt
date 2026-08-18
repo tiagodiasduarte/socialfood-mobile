@@ -52,7 +52,6 @@ import pt.socialfood.presentation.guide.edit.card.GuideRestaurantsCard
 import pt.socialfood.presentation.guide.edit.card.GuideStatusCard
 import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.edit_guide_delete_button
@@ -259,7 +258,7 @@ private fun GuideLoaded(
         TAB_DETAILS -> LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(GreyBackground),
+                .background(MaterialTheme.colorScheme.background),
             contentPadding = PaddingValues(SpaceSize.large),
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
@@ -283,7 +282,7 @@ private fun GuideLoaded(
         TAB_RESTAURANTS -> LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(GreyBackground),
+                .background(MaterialTheme.colorScheme.background),
             contentPadding = PaddingValues(SpaceSize.large),
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
@@ -299,7 +298,7 @@ private fun GuideLoaded(
         TAB_STATUS -> LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(GreyBackground),
+                .background(MaterialTheme.colorScheme.background),
             contentPadding = PaddingValues(SpaceSize.large),
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {

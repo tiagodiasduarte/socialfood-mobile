@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import pt.socialfood.domain.model.Place
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
@@ -82,7 +81,7 @@ internal fun PlaceThumbnail(imageUrl: String?) {
         modifier = Modifier
             .size(64.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(GreyBackground),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         if (imageUrl != null) {
             SubcomposeAsyncImage(
@@ -90,8 +89,8 @@ internal fun PlaceThumbnail(imageUrl: String?) {
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
-                loading = { Box(Modifier.fillMaxSize().background(GreyBackground)) },
-                error = { Box(Modifier.fillMaxSize().background(GreyBackground)) },
+                loading = { Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) },
+                error = { Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) },
             )
         }
     }

@@ -23,7 +23,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.no_results_description
@@ -33,7 +32,7 @@ import socialfood.composeapp.generated.resources.no_results_title
 @Composable
 fun NoResultsContent(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.background(GreyBackground)
+        modifier = modifier.background(MaterialTheme.colorScheme.background)
             .padding(SpaceSize.xlarge),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,

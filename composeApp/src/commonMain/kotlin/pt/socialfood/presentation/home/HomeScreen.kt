@@ -38,7 +38,6 @@ import pt.socialfood.presentation.guide.list.GuideCard
 import pt.socialfood.presentation.restaurant.RestaurantCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
 private val cardWidth = 300.dp
@@ -96,7 +95,7 @@ fun HomeScreenContent(
         modifier = Modifier.fillMaxSize(),
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize().background(GreyBackground),
+            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
             verticalArrangement = Arrangement.spacedBy(SpaceSize.xlarge),
             contentPadding = PaddingValues(bottom = SpaceSize.xxlarge),
         ) {

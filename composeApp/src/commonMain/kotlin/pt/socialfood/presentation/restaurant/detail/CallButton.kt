@@ -24,7 +24,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.restaurant_detail_call_button
@@ -37,7 +36,7 @@ internal fun BoxScope.CallButton(onClick: () -> Unit) {
             .fillMaxWidth()
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(Color.Transparent, GreyBackground),
+                    colors = listOf(Color.Transparent, MaterialTheme.colorScheme.background),
                     startY = 0f,
                     endY = Float.POSITIVE_INFINITY,
                 ),

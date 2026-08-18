@@ -56,10 +56,10 @@
     <string name="profile_favorite_guides_button_description">Favorite Guides button</string>
     <string name="profile_favorites_restaurants_button">Favorite Restaurants</string>
     <string name="profile_favorites_restaurants_button_description">Favorites Restaurants button</string>
-    <string name="profile_wish_restaurants_button">Wish to Visit</string>
-    <string name="profile_wish_restaurants_button_description">Wish to Visit button</string>
-    <string name="profile_visited_restaurants_button">Visited</string>
-    <string name="profile_visited_restaurants_button_description">Visited button</string>
+    <string name="profile_wish_restaurants_button">Restaurant Wishlist</string>
+    <string name="profile_wish_restaurants_button_description">Restaurant Wishlist button</string>
+    <string name="profile_visited_restaurants_button">Visited Restaurants</string>
+    <string name="profile_visited_restaurants_button_description">Visited Restaurants button</string>
     <string name="profile_logout_button">Log Out</string>
     <string name="profile_logout_button_description">Log Out button</string>
 
@@ -82,9 +82,9 @@
 
     <string name="favourites_guides_title">Favourite Guides</string>
     <string name="favourites_restaurants_title">Favourite Restaurants</string>
-    <string name="wish_restaurants_title">Wish to Visit</string>
+    <string name="wish_restaurants_title">Restaurant Wishlist</string>
     <string name="wish_add_button_description">Add restaurant to wish list</string>
-    <string name="visited_restaurants_title">Visited</string>
+    <string name="visited_restaurants_title">Visited Restaurants</string>
 
     <string name="guides_title">Guides</string>
     <string name="guides_tab_all">All Guides</string>

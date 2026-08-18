@@ -1,14 +1,17 @@
 package pt.socialfood.data.network
 
 import io.ktor.client.HttpClient
+import io.ktor.client.HttpClientConfig
+import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
 
 // Plain HTTP client for direct S3 uploads via presigned URLs.
 // No base URL, no auth header — S3 presigned URLs carry their own auth in the URL.
-class S3HttpClient(private val isDebug: Boolean = true) {
-    val client = HttpClient {
+class S3HttpClient(private val isDebug: Boolean = true, engine: HttpClientEngine? = null) {
+
+    private val config: HttpClientConfig<*>.() -> Unit = {
 
         expectSuccess = true
 
@@ -18,9 +21,21 @@ class S3HttpClient(private val isDebug: Boolean = true) {
         }
 
         install(HttpTimeout) {
-            requestTimeoutMillis = 120_000
-            connectTimeoutMillis = 30_000
-            socketTimeoutMillis = 120_000
+            requestTimeoutMillis = REQUEST_TIMEOUT_MS
+            connectTimeoutMillis = CONNECT_TIMEOUT_MS
+            socketTimeoutMillis = SOCKET_TIMEOUT_MS
         }
+    }
+
+    val client = if (engine != null) {
+        HttpClient(engine, config)
+    } else {
+        HttpClient(config)
+    }
+
+    companion object {
+        private const val REQUEST_TIMEOUT_MS = 120_000L
+        private const val CONNECT_TIMEOUT_MS = 30_000L
+        private const val SOCKET_TIMEOUT_MS = 120_000L
     }
 }

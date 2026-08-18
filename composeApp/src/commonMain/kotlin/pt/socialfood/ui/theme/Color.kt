@@ -40,3 +40,10 @@ val ProfileGradientStart = Color(0xFFF05A1A)
 val ProfileGradientEnd = Color(0xFFB82010)
 
 val StarColor = Color(0xFFFFC107)
+
+val ShimmerColor = Color(0xFFD0D0D0)
+val BorderGrey = Color(0xFFE5E7EB)
+val PublicBadgeBackground = Color(0xFFF0FDF4)
+val PublicBadgeGreen = Color(0xFF008236)
+val PrivateBadgeGrey = Color(0xFF364153)
+val SplashBackgroundOrange = Color(0xFFF54900)

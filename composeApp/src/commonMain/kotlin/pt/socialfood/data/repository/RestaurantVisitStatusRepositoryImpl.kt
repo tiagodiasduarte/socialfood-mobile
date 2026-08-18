@@ -20,6 +20,7 @@ import pt.socialfood.mapper.toRestaurantVisitStatus
 import pt.socialfood.mapper.toRestaurantVisitStatusEntity
 private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
 private const val MAX_RESTAURANT_VISITS_FETCH = 500
+private const val TAG = "RestaurantVisitStatusRepository"
 
 class RestaurantVisitStatusRepositoryImpl(
     private val restaurantVisitStatusApi: RestaurantVisitStatusApi,
@@ -27,7 +28,7 @@ class RestaurantVisitStatusRepositoryImpl(
     private val settingsRepository: SettingsRepository,
 ) : RestaurantVisitStatusRepository {
 
-    private val logger = Logger.withTag("RestaurantVisitStatusRepository")
+    private val logger = Logger.withTag(TAG)
 
     override suspend fun mark(restaurant: Restaurant, status: VisitStatus): Result<Unit> = try {
         val entity = restaurant.toRestaurantVisitStatusEntity(

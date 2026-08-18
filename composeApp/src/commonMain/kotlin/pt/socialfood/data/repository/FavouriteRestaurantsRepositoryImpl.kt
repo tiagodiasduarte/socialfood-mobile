@@ -20,6 +20,7 @@ import pt.socialfood.mapper.toRestaurant
 
 private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
 private const val MAX_FAVOURITES_FETCH = 500
+private const val TAG = "FavouriteRestaurantsRepository"
 
 class FavouriteRestaurantsRepositoryImpl(
     private val favouriteRestaurantsApi: FavouriteRestaurantsApi,
@@ -27,7 +28,7 @@ class FavouriteRestaurantsRepositoryImpl(
     private val settingsRepository: SettingsRepository,
 ) : FavouriteRestaurantsRepository {
 
-    private val logger = Logger.withTag("FavouriteRestaurantsRepository")
+    private val logger = Logger.withTag(TAG)
 
     override suspend fun markFavourite(restaurant: Restaurant): Result<Unit> = try {
         val entity = restaurant.toFavouriteRestaurantEntity(

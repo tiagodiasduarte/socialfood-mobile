@@ -15,9 +15,10 @@ import kotlin.time.Duration.Companion.milliseconds
 
 class RestaurantsRepositoryImpl(private val restaurantApi: RestaurantApi) : RestaurantsRepository {
 
-    private val logger = Logger.withTag("RestaurantsRepository")
+    private val logger = Logger.withTag(TAG)
 
     companion object {
+        private const val TAG = "RestaurantsRepository"
         internal val ENRICHMENT_POLL_INTERVAL_MS = 2_000.milliseconds
         internal const val ENRICHMENT_POLL_MAX_ATTEMPTS = 10
     }

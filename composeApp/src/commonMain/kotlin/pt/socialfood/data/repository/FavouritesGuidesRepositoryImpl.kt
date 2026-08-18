@@ -25,6 +25,7 @@ private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
 // The number of favourites a user can have is bounded, so one page covers the whole set —
 // no need for true incremental pagination when hydrating newly-added favourites.
 private const val MAX_FAVOURITES_FETCH = 500
+private const val TAG = "FavouritesGuidesRepository"
 
 @Suppress("TooManyFunctions")
 class FavouritesGuidesRepositoryImpl(
@@ -33,7 +34,7 @@ class FavouritesGuidesRepositoryImpl(
     private val settingsRepository: SettingsRepository,
 ) : FavouritesGuidesRepository {
 
-    private val logger = Logger.withTag("FavouritesGuidesRepository")
+    private val logger = Logger.withTag(TAG)
 
     override suspend fun markFavourite(guide: Guide): Result<Unit> = try {
         val entity = guide.toFavouriteGuideEntity(

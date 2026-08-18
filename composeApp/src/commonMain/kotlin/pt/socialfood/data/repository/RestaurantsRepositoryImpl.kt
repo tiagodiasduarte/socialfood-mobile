@@ -1,5 +1,6 @@
 package pt.socialfood.data.repository
 
+import co.touchlab.kermit.Logger
 import kotlinx.coroutines.delay
 import kotlinx.io.IOException
 import pt.socialfood.core.Result
@@ -13,6 +14,8 @@ import pt.socialfood.mapper.toRestaurant
 import kotlin.time.Duration.Companion.milliseconds
 
 class RestaurantsRepositoryImpl(private val restaurantApi: RestaurantApi) : RestaurantsRepository {
+
+    private val logger = Logger.withTag("RestaurantsRepository")
 
     companion object {
         internal val ENRICHMENT_POLL_INTERVAL_MS = 2_000.milliseconds
@@ -55,7 +58,7 @@ class RestaurantsRepositoryImpl(private val restaurantApi: RestaurantApi) : Rest
         repeat(ENRICHMENT_POLL_MAX_ATTEMPTS) {
             when (val result = safeApiCall { restaurantApi.findByPlaceId(placeId).toRestaurant() }) {
                 is Result.Success -> return result
-                is Result.Failure -> println("Restaurant not ready yet (${result.error})")
+                is Result.Failure -> logger.d { "Restaurant not ready yet (${result.error})" }
             }
 
             delay(ENRICHMENT_POLL_INTERVAL_MS)

@@ -1,6 +1,7 @@
 package pt.socialfood.data.repository
 
 import androidx.sqlite.SQLiteException
+import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import pt.socialfood.core.Result
@@ -32,6 +33,8 @@ class FavouritesGuidesRepositoryImpl(
     private val settingsRepository: SettingsRepository,
 ) : FavouritesGuidesRepository {
 
+    private val logger = Logger.withTag("FavouritesGuidesRepository")
+
     override suspend fun markFavourite(guide: Guide): Result<Unit> = try {
         val entity = guide.toFavouriteGuideEntity(
             favouritedAt = currentTimeMillis(),
@@ -41,10 +44,10 @@ class FavouritesGuidesRepositoryImpl(
 
         when (val result = safeApiCall { favouritesApi.markFavourite(guide.id) }) {
             is Result.Failure ->
-                println(
+                logger.w {
                     "markFavourite(${guide.id}) failed (${result.error}); " +
-                        "row stays PENDING_ADD, retried by the next syncFavourites().",
-                )
+                        "row stays PENDING_ADD, retried by the next syncFavourites()."
+                }
             is Result.Success -> {
                 favouriteDao.updateSyncState(guide.id, FavouriteSyncState.SYNCED.name)
             }
@@ -60,10 +63,10 @@ class FavouritesGuidesRepositoryImpl(
 
         when (val result = safeApiCall { favouritesApi.unmarkFavourite(guideId) }) {
             is Result.Failure ->
-                println(
+                logger.w {
                     "unmarkFavourite($guideId) failed (${result.error}); " +
-                        "row stays PENDING_REMOVE, retried by the next syncFavourites().",
-                )
+                        "row stays PENDING_REMOVE, retried by the next syncFavourites()."
+                }
             is Result.Success -> {
                 favouriteDao.deleteByGuideId(guideId)
             }
@@ -141,12 +144,12 @@ class FavouritesGuidesRepositoryImpl(
         try {
             when (val result = safeApiCall { favouritesApi.markFavourite(guideId) }) {
                 is Result.Failure ->
-                    println("markFavourite($guideId) still failing (${result.error}); retried next sync.")
+                    logger.w { "markFavourite($guideId) still failing (${result.error}); retried next sync." }
                 is Result.Success ->
                     favouriteDao.updateSyncState(guideId, FavouriteSyncState.SYNCED.name)
             }
         } catch (e: SQLiteException) {
-            println("markFavourite($guideId) local update failed ($e); retried next sync.")
+            logger.w(e) { "markFavourite($guideId) local update failed; retried next sync." }
         }
     }
 
@@ -154,12 +157,12 @@ class FavouritesGuidesRepositoryImpl(
         try {
             when (val result = safeApiCall { favouritesApi.unmarkFavourite(guideId) }) {
                 is Result.Failure ->
-                    println("unmarkFavourite($guideId) still failing (${result.error}); retried next sync.")
+                    logger.w { "unmarkFavourite($guideId) still failing (${result.error}); retried next sync." }
                 is Result.Success ->
                     favouriteDao.deleteByGuideId(guideId)
             }
         } catch (e: SQLiteException) {
-            println("unmarkFavourite($guideId) local update failed ($e); retried next sync.")
+            logger.w(e) { "unmarkFavourite($guideId) local update failed; retried next sync." }
         }
     }
 

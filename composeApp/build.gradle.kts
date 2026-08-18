@@ -93,6 +93,7 @@ kotlin {
             implementation(libs.coil.network.ktor3)
             implementation(libs.jetbrains.lifecycle.viewmodelNavigation3)
             implementation(libs.jetbrains.navigation3.ui)
+            implementation(libs.kermit)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.core)
             implementation(libs.kotlinx.serialization.json)

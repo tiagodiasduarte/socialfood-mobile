@@ -14,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,8 +21,7 @@ import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.BorderGrey
-import pt.socialfood.ui.theme.GreyBackground
+import pt.socialfood.ui.theme.SearchBorder
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.app_name
@@ -38,13 +36,13 @@ fun HomeHeader(
     onSearchClick: () -> Unit = {},
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth().background(GreyBackground),
+        modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.background),
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(65.dp)
-                .background(Color.White),
+                .background(MaterialTheme.colorScheme.surface),
         ) {
             UserImage(
                 name = userName,
@@ -70,7 +68,7 @@ fun HomeHeader(
             HorizontalDivider(
                 Modifier.height(1.dp)
                     .align(alignment = Alignment.BottomStart)
-                    .background(BorderGrey),
+                    .background(SearchBorder),
             )
         }
 

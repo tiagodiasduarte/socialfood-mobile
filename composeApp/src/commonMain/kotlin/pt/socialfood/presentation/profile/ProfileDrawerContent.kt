@@ -263,7 +263,7 @@ private fun DrawerHeader(user: User, onEditProfileClick: () -> Unit) {
                 modifier = Modifier
                     .size(DrawerAvatarRingSize)
                     .clip(CircleShape)
-                    .background(Color.White),
+                    .background(MaterialTheme.colorScheme.surface),
                 contentAlignment = Alignment.Center,
             ) {
                 UserImage(name = user.name, imageUrl = user.imageUrl, imageSize = DrawerAvatarSize)

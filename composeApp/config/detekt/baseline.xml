@@ -7,7 +7,7 @@
     <ID>LongMethod:EditGuideScreen.kt$@Composable private fun GuideLoaded( state: EditGuideUiState.Loaded, initialTab: Int = TAB_DETAILS, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, onVisibilityChange: (GuideVisibility) -&gt; Unit, onAddRestaurantsClick: () -&gt; Unit, onRestaurantRemoved: (String) -&gt; Unit, onPhotoSelected: (ByteArray, String) -&gt; Unit, onDeleteGuide: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>LongMethod:EditProfileSkeleton.kt$@Composable internal fun EditProfileSkeleton()</ID>
-    <ID>LongMethod:ErrorContent.kt$@Composable fun ErrorContent( modifier: Modifier = Modifier, errorCode: String? = null, backgroundColor: Color = GreyBackground, onRetryClick: () -&gt; Unit = {}, )</ID>
+    <ID>LongMethod:ErrorContent.kt$@Composable fun ErrorContent( modifier: Modifier = Modifier, errorCode: String? = null, backgroundColor: Color = MaterialTheme.colorScheme.background, onRetryClick: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:GuideCard.kt$@Composable fun GuideCard( guide: Guide, width: Dp? = null, isFavourite: Boolean = false, onClick: () -&gt; Unit = {}, onFavouriteClick: (() -&gt; Unit)? = null, modifier: Modifier = Modifier, )</ID>
     <ID>LongMethod:GuideDetailScreen.kt$@Composable @Preview fun GuideDetailScreenPreview()</ID>
     <ID>LongMethod:GuideDetailScreen.kt$@Composable private fun GuidInfo(guide: Guide)</ID>

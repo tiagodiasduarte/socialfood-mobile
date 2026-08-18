@@ -14,11 +14,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.ProfileHeaderSkeleton
@@ -26,7 +26,6 @@ import pt.socialfood.presentation.components.ProfileHeaderTopActionSkeleton
 import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
 private const val GUIDE_CARD_SKELETON_COUNT = 4
@@ -38,7 +37,7 @@ fun AuthorDetailSkeleton(modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(GreyBackground),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         item {
             ProfileHeaderSkeleton(alpha = alpha) {
@@ -74,7 +73,7 @@ private fun AuthorGuideCardSkeleton(modifier: Modifier = Modifier, alpha: Float)
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(SpaceSize.large))
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(SpaceSize.medium),
     ) {
         Row(

@@ -46,7 +46,7 @@ import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.buttons.ActionButton
 import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.presentation.guide.detail.author.AuthorItemCard
-import pt.socialfood.presentation.guide.detail.restaurant.RestaurantItemCard
+import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.GreyBackground
@@ -218,7 +218,7 @@ private fun GuideDetailLoaded(
             }
 
             itemsIndexed(guide.restaurants, key = { _, r -> r.id }) { _, restaurant ->
-                RestaurantItemCard(
+                RestaurantSmallCard(
                     modifier = Modifier.padding(horizontal = SpaceSize.large),
                     restaurant = restaurant,
                     onClick = { onRestaurantClick(restaurant.id) },

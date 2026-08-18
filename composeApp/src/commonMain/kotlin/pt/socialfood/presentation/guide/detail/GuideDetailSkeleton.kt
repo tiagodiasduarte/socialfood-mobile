@@ -25,13 +25,14 @@ import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.ShimmerColor
 import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.presentation.guide.detail.author.AuthorItemCardSkeleton
-import pt.socialfood.presentation.guide.detail.restaurant.RestaurantItemCardSkeleton
+import pt.socialfood.presentation.restaurant.RestaurantSmallCardSkeleton
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
 private const val RESTAURANT_ITEM_SKELETON_COUNT = 4
 
+@Suppress("LongMethod")
 @Composable
 fun GuideDetailSkeleton(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
@@ -118,7 +119,7 @@ fun GuideDetailSkeleton(modifier: Modifier = Modifier) {
         }
 
         items(RESTAURANT_ITEM_SKELETON_COUNT) {
-            RestaurantItemCardSkeleton(
+            RestaurantSmallCardSkeleton(
                 modifier = Modifier.padding(horizontal = SpaceSize.large),
                 alpha = alpha,
             )

@@ -47,8 +47,8 @@ private const val IMAGE_SIZE = 95
 @Composable
 fun RestaurantSmallCard(
     restaurant: Restaurant,
-    removeButtonContentDescription: String,
     modifier: Modifier = Modifier,
+    removeButtonContentDescription: String? = null,
     onClick: () -> Unit = {},
     onRemoveClick: () -> Unit = {},
 ) {
@@ -70,12 +70,14 @@ fun RestaurantSmallCard(
         ) {
             RestaurantCardInfo(restaurant = restaurant, modifier = Modifier.weight(1f))
 
-            IconButton(onClick = onRemoveClick) {
-                Icon(
-                    imageVector = Icons.Outlined.Delete,
-                    contentDescription = removeButtonContentDescription,
-                    tint = FavouriteRed,
-                )
+            if (removeButtonContentDescription != null) {
+                IconButton(onClick = onRemoveClick) {
+                    Icon(
+                        imageVector = Icons.Outlined.Delete,
+                        contentDescription = removeButtonContentDescription,
+                        tint = FavouriteRed,
+                    )
+                }
             }
         }
     }

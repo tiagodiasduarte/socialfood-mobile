@@ -234,12 +234,12 @@ val networkModule =
         single<HomeApi> { HomeApiImpl(get()) }
         single<HttpClient> { get<KtorHttpClient>().client }
         single<ImageCache> { get<AppImageLoaderFactory>() }
-        single { CoilHttpClient(isDebug = isDebugBuild) }
-        single { KtorHttpClient(sessionManager = get(), isDebug = isDebugBuild) }
+        single { CoilHttpClient(isDebugBuild) }
+        single { KtorHttpClient(get(), isDebugBuild) }
         single<PlacesApi> { PlacesApiImpl(get()) }
         single<RestaurantApi> { RestaurantApiImpl(get()) }
         single<S3Api> { S3ApiImpl(get<S3HttpClient>().client) }
-        single { S3HttpClient(isDebug = isDebugBuild) }
+        single { S3HttpClient(isDebugBuild) }
         single<SearchApi> { SearchApiImpl(get()) }
         single { SessionManager(get()) }
         single<UserApi> { UserApiImpl(get()) }

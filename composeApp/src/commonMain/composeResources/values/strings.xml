@@ -60,8 +60,6 @@
     <string name="profile_wish_restaurants_button_description">Restaurant Wishlist button</string>
     <string name="profile_visited_restaurants_button">Visited Restaurants</string>
     <string name="profile_visited_restaurants_button_description">Visited Restaurants button</string>
-    <string name="profile_settings_button">Settings</string>
-    <string name="profile_settings_button_description">Settings button</string>
     <string name="profile_logout_button">Log Out</string>
     <string name="profile_logout_button_description">Log Out button</string>
 

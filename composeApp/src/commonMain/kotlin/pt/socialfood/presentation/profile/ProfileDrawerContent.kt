@@ -64,8 +64,6 @@ import socialfood.composeapp.generated.resources.profile_logout_button
 import socialfood.composeapp.generated.resources.profile_logout_button_description
 import socialfood.composeapp.generated.resources.profile_profile_button
 import socialfood.composeapp.generated.resources.profile_profile_button_description
-import socialfood.composeapp.generated.resources.profile_settings_button
-import socialfood.composeapp.generated.resources.profile_settings_button_description
 import socialfood.composeapp.generated.resources.profile_stat_followers_label
 import socialfood.composeapp.generated.resources.profile_stat_following_label
 import socialfood.composeapp.generated.resources.profile_stat_guides_label
@@ -74,7 +72,6 @@ import socialfood.composeapp.generated.resources.profile_visited_restaurants_but
 import socialfood.composeapp.generated.resources.profile_wish_restaurants_button
 import socialfood.composeapp.generated.resources.profile_wish_restaurants_button_description
 import socialfood.composeapp.generated.resources.restaurants_icon
-import socialfood.composeapp.generated.resources.settings_icon
 import socialfood.composeapp.generated.resources.visited_icon
 import socialfood.composeapp.generated.resources.wish_icon
 
@@ -195,11 +192,6 @@ private fun DrawerUserContent(
         HorizontalDivider()
 
         Column(modifier = Modifier.navigationBarsPadding().padding(vertical = SpaceSize.medium)) {
-            DrawerMenuRow(
-                icon = Res.drawable.settings_icon,
-                label = stringResource(Res.string.profile_settings_button),
-                contentDescription = stringResource(Res.string.profile_settings_button_description),
-            )
             DrawerMenuRow(
                 icon = Res.drawable.logout_icon,
                 label = stringResource(Res.string.profile_logout_button),

@@ -1,4 +1,4 @@
-package pt.socialfood.data.network
+package pt.socialfood.data.network.client
 
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
@@ -20,6 +20,10 @@ import io.ktor.http.encodedPath
 import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import pt.socialfood.data.network.ApiException
+import pt.socialfood.data.network.KermitKtorLogger
+import pt.socialfood.data.network.NetworkConfig
+import pt.socialfood.data.network.SessionManager
 import pt.socialfood.data.network.model.ErrorResponse
 import pt.socialfood.domain.error.ErrorCode
 

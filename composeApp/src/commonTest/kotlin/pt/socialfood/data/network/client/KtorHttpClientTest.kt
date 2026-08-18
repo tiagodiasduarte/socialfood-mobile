@@ -1,4 +1,4 @@
-package pt.socialfood.data.network
+package pt.socialfood.data.network.client
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -11,6 +11,8 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.Serializable
+import pt.socialfood.data.network.ApiException
+import pt.socialfood.data.network.SessionManager
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.fakes.FakeSettingsRepository
 import kotlin.test.Test

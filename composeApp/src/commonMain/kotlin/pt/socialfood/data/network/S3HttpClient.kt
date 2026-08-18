@@ -5,7 +5,6 @@ import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 
 // Plain HTTP client for direct S3 uploads via presigned URLs.
@@ -17,11 +16,7 @@ class S3HttpClient(private val isDebug: Boolean = true, engine: HttpClientEngine
         expectSuccess = true
 
         install(Logging) {
-            logger = object : Logger {
-                override fun log(message: String) {
-                    println("[S3] $message")
-                }
-            }
+            logger = KermitKtorLogger(TAG)
             level = if (isDebug) LogLevel.HEADERS else LogLevel.NONE
         }
 
@@ -39,6 +34,7 @@ class S3HttpClient(private val isDebug: Boolean = true, engine: HttpClientEngine
     }
 
     companion object {
+        private const val TAG = "S3HttpClient"
         private const val REQUEST_TIMEOUT_MS = 120_000L
         private const val CONNECT_TIMEOUT_MS = 30_000L
         private const val SOCKET_TIMEOUT_MS = 120_000L

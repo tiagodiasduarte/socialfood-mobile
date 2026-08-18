@@ -1,6 +1,7 @@
 package pt.socialfood.data.repository
 
 import androidx.sqlite.SQLiteException
+import co.touchlab.kermit.Logger
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.RestaurantVisitStatusApi
 import pt.socialfood.data.currentTimeMillis
@@ -19,12 +20,15 @@ import pt.socialfood.mapper.toRestaurantVisitStatus
 import pt.socialfood.mapper.toRestaurantVisitStatusEntity
 private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
 private const val MAX_RESTAURANT_VISITS_FETCH = 500
+private const val TAG = "RestaurantVisitStatusRepository"
 
 class RestaurantVisitStatusRepositoryImpl(
     private val restaurantVisitStatusApi: RestaurantVisitStatusApi,
     private val restaurantVisitStatusDao: RestaurantVisitStatusDao,
     private val settingsRepository: SettingsRepository,
 ) : RestaurantVisitStatusRepository {
+
+    private val logger = Logger.withTag(TAG)
 
     override suspend fun mark(restaurant: Restaurant, status: VisitStatus): Result<Unit> = try {
         val entity = restaurant.toRestaurantVisitStatusEntity(
@@ -36,10 +40,10 @@ class RestaurantVisitStatusRepositoryImpl(
 
         when (val result = safeApiCall { restaurantVisitStatusApi.mark(restaurant.id, status) }) {
             is Result.Failure ->
-                println(
+                logger.w {
                     "mark(${restaurant.id}, $status) failed (${result.error}); " +
-                        "row stays PENDING_ADD, retried by the next sync($status).",
-                )
+                        "row stays PENDING_ADD, retried by the next sync($status)."
+                }
 
             is Result.Success<*> -> {
                 restaurantVisitStatusDao.updateSyncState(restaurant.id, SyncState.SYNCED.name)
@@ -56,10 +60,10 @@ class RestaurantVisitStatusRepositoryImpl(
 
         when (val result = safeApiCall { restaurantVisitStatusApi.unmark(restaurantId) }) {
             is Result.Failure ->
-                println(
+                logger.w {
                     "unmark($restaurantId, $status) failed (${result.error}); " +
-                        "row stays PENDING_REMOVE, retried by the next sync($status).",
-                )
+                        "row stays PENDING_REMOVE, retried by the next sync($status)."
+                }
 
             is Result.Success<*> -> {
                 restaurantVisitStatusDao.deleteByRestaurantId(restaurantId)
@@ -143,12 +147,12 @@ class RestaurantVisitStatusRepositoryImpl(
         try {
             when (val result = safeApiCall { restaurantVisitStatusApi.mark(restaurantId, status) }) {
                 is Result.Failure ->
-                    println("mark($restaurantId, $status) still failing (${result.error}); retried next sync.")
+                    logger.w { "mark($restaurantId, $status) still failing (${result.error}); retried next sync." }
                 is Result.Success ->
                     restaurantVisitStatusDao.updateSyncState(restaurantId, SyncState.SYNCED.name)
             }
         } catch (e: SQLiteException) {
-            println("mark($restaurantId, $status) local update failed ($e); retried next sync.")
+            logger.w(e) { "mark($restaurantId, $status) local update failed; retried next sync." }
         }
     }
 
@@ -156,12 +160,12 @@ class RestaurantVisitStatusRepositoryImpl(
         try {
             when (val result = safeApiCall { restaurantVisitStatusApi.unmark(restaurantId) }) {
                 is Result.Failure ->
-                    println("unmark($restaurantId, $status) still failing (${result.error}); retried next sync.")
+                    logger.w { "unmark($restaurantId, $status) still failing (${result.error}); retried next sync." }
                 is Result.Success ->
                     restaurantVisitStatusDao.deleteByRestaurantId(restaurantId)
             }
         } catch (e: SQLiteException) {
-            println("unmark($restaurantId, $status) local update failed ($e); retried next sync.")
+            logger.w(e) { "unmark($restaurantId, $status) local update failed; retried next sync." }
         }
     }
 

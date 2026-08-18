@@ -5,8 +5,9 @@ import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+
+private const val TAG = "CoilHttpClient"
 
 // Plain HTTP client used only by Coil's network fetcher for async image loading.
 // No base URL, no auth header, no 401 -> sessionManager.clear() — image URLs are absolute
@@ -15,11 +16,7 @@ class ImageHttpClient(private val isDebug: Boolean = true, engine: HttpClientEng
     private val config: HttpClientConfig<*>.() -> Unit = {
 
         install(Logging) {
-            logger = object : Logger {
-                override fun log(message: String) {
-                    println("[Image] $message")
-                }
-            }
+            logger = KermitKtorLogger(TAG)
             level = if (isDebug) LogLevel.HEADERS else LogLevel.NONE
         }
 

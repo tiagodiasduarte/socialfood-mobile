@@ -11,7 +11,6 @@ import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
@@ -50,11 +49,7 @@ class KtorHttpClient(
         }
 
         install(Logging) {
-            logger = object : Logger {
-                override fun log(message: String) {
-                    println("[HTTP] $message")
-                }
-            }
+            logger = KermitKtorLogger(TAG)
             level = if (isDebug) LogLevel.ALL else LogLevel.NONE
         }
 
@@ -108,6 +103,7 @@ class KtorHttpClient(
     }
 
     companion object {
+        private const val TAG = "KtorHttpClient"
         private const val REQUEST_TIMEOUT_MS = 15_000L
         private const val CONNECT_TIMEOUT_MS = 15_000L
         private const val SOCKET_TIMEOUT_MS = 15_000L

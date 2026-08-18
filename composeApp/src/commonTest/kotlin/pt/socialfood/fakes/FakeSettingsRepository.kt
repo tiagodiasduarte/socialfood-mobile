@@ -1,11 +1,13 @@
 package pt.socialfood.fakes
 
+import pt.socialfood.domain.model.ThemeMode
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.SettingsRepository
 
 class FakeSettingsRepository : SettingsRepository {
 
     private var token: String? = null
+    private var themeMode: ThemeMode = ThemeMode.SYSTEM
     private var pendingVerificationEmail: String? = null
     private var lastFavouritesSyncedAt: String? = null
     private var lastFavouritesSyncAttemptAt: Long? = null
@@ -22,6 +24,12 @@ class FakeSettingsRepository : SettingsRepository {
 
     override suspend fun clearToken() {
         token = null
+    }
+
+    override suspend fun getThemeMode(): ThemeMode = themeMode
+
+    override suspend fun saveThemeMode(mode: ThemeMode) {
+        themeMode = mode
     }
 
     override suspend fun getPendingVerificationEmail(): String? = pendingVerificationEmail

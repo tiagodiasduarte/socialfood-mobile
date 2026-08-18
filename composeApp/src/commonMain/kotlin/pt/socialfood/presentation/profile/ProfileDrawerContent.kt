@@ -26,6 +26,9 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +48,7 @@ import pt.socialfood.core.appVersion
 import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.presentation.components.buttons.ActionButton
+import pt.socialfood.presentation.theme.ThemeBottomSheet
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.ProfileGradientEnd
@@ -67,11 +71,14 @@ import socialfood.composeapp.generated.resources.profile_profile_button_descript
 import socialfood.composeapp.generated.resources.profile_stat_followers_label
 import socialfood.composeapp.generated.resources.profile_stat_following_label
 import socialfood.composeapp.generated.resources.profile_stat_guides_label
+import socialfood.composeapp.generated.resources.profile_theme_button
+import socialfood.composeapp.generated.resources.profile_theme_button_description
 import socialfood.composeapp.generated.resources.profile_visited_restaurants_button
 import socialfood.composeapp.generated.resources.profile_visited_restaurants_button_description
 import socialfood.composeapp.generated.resources.profile_wish_restaurants_button
 import socialfood.composeapp.generated.resources.profile_wish_restaurants_button_description
 import socialfood.composeapp.generated.resources.restaurants_icon
+import socialfood.composeapp.generated.resources.theme_icon
 import socialfood.composeapp.generated.resources.visited_icon
 import socialfood.composeapp.generated.resources.wish_icon
 
@@ -89,6 +96,7 @@ fun ProfileDrawerContent(
     onVisitedRestaurantsClick: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    var showThemeSheet by remember { mutableStateOf(false) }
 
     ProfileDrawerSheet(
         state = state,
@@ -99,7 +107,12 @@ fun ProfileDrawerContent(
         onFavouriteRestaurantsClick = onFavouriteRestaurantsClick,
         onWishRestaurantsClick = onWishRestaurantsClick,
         onVisitedRestaurantsClick = onVisitedRestaurantsClick,
+        onThemeClick = { showThemeSheet = true },
     )
+
+    if (showThemeSheet) {
+        ThemeBottomSheet(onDismiss = { showThemeSheet = false })
+    }
 }
 
 @Composable
@@ -112,6 +125,7 @@ private fun ProfileDrawerSheet(
     onFavouriteRestaurantsClick: () -> Unit = {},
     onWishRestaurantsClick: () -> Unit = {},
     onVisitedRestaurantsClick: () -> Unit = {},
+    onThemeClick: () -> Unit = {},
 ) {
     ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.surface, windowInsets = WindowInsets(0.dp)) {
         when (state) {
@@ -124,6 +138,7 @@ private fun ProfileDrawerSheet(
                 onFavouriteRestaurantsClick = onFavouriteRestaurantsClick,
                 onWishRestaurantsClick = onWishRestaurantsClick,
                 onVisitedRestaurantsClick = onVisitedRestaurantsClick,
+                onThemeClick = onThemeClick,
             )
 
             ProfileUiState.Loading -> Box(
@@ -148,6 +163,7 @@ private fun DrawerUserContent(
     onFavouriteRestaurantsClick: () -> Unit = {},
     onWishRestaurantsClick: () -> Unit = {},
     onVisitedRestaurantsClick: () -> Unit = {},
+    onThemeClick: () -> Unit = {},
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         DrawerHeader(user = user, onEditProfileClick = onEditProfileClick)
@@ -192,6 +208,12 @@ private fun DrawerUserContent(
         HorizontalDivider()
 
         Column(modifier = Modifier.navigationBarsPadding().padding(vertical = SpaceSize.medium)) {
+            DrawerMenuRow(
+                icon = Res.drawable.theme_icon,
+                label = stringResource(Res.string.profile_theme_button),
+                contentDescription = stringResource(Res.string.profile_theme_button_description),
+                onClick = onThemeClick,
+            )
             DrawerMenuRow(
                 icon = Res.drawable.logout_icon,
                 label = stringResource(Res.string.profile_logout_button),

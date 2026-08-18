@@ -27,7 +27,7 @@ import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.presentation.guide.detail.author.AuthorItemCardSkeleton
 import pt.socialfood.presentation.restaurant.RestaurantSmallCardSkeleton
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.ShimmerColor
+import pt.socialfood.ui.theme.Shimmer
 import pt.socialfood.ui.theme.SpaceSize
 
 private const val RESTAURANT_ITEM_SKELETON_COUNT = 4
@@ -136,7 +136,7 @@ private fun HeroImageSkeleton(alpha: Float) {
             .fillMaxWidth()
             .height(GuideImageHeight)
             .alpha(alpha)
-            .background(ShimmerColor),
+            .background(Shimmer),
     ) {
         ShimmerBox(
             modifier = Modifier

@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.BorderGrey
+import pt.socialfood.ui.theme.SearchBorder
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.home_search_bar_placeholder
@@ -62,7 +62,7 @@ fun HomeSearchBar(searchQuery: String, onQueryChange: (String) -> Unit, onClick:
             .height(50.dp)
             .border(
                 width = 1.dp,
-                color = BorderGrey,
+                color = SearchBorder,
                 shape = RoundedCornerShape(25),
             )
             .clickable(onClick = onClick),

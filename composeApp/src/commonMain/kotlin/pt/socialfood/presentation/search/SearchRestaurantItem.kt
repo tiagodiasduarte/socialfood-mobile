@@ -34,7 +34,7 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
-import pt.socialfood.ui.theme.StarColor
+import pt.socialfood.ui.theme.Star
 
 private val ThumbnailSize = 75.dp
 
@@ -109,7 +109,7 @@ fun SearchRestaurantItem(restaurant: Restaurant, onClick: () -> Unit = {}, modif
                     Icon(
                         imageVector = Icons.Filled.Star,
                         contentDescription = null,
-                        tint = StarColor,
+                        tint = Star,
                         modifier = Modifier.size(14.dp),
                     )
                     Text(

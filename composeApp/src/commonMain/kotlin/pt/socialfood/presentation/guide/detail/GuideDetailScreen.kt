@@ -49,9 +49,9 @@ import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.ImagePlaceholderColor
-import pt.socialfood.ui.theme.PrivateBadgeGrey
+import pt.socialfood.ui.theme.PrivateBadge
+import pt.socialfood.ui.theme.PublicBadge
 import pt.socialfood.ui.theme.PublicBadgeBackground
-import pt.socialfood.ui.theme.PublicBadgeGreen
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
@@ -344,12 +344,12 @@ private fun GuidInfo(guide: Guide) {
                         painter = painterResource(Res.drawable.guides_public_icon),
                         contentDescription = stringResource(Res.string.guide_detail_public_icon_description),
                         modifier = Modifier.size(20.dp),
-                        colorFilter = ColorFilter.tint(PublicBadgeGreen),
+                        colorFilter = ColorFilter.tint(PublicBadge),
                     )
                     Text(
                         text = stringResource(Res.string.guide_detail_public_label),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = PublicBadgeGreen,
+                        color = PublicBadge,
                     )
                 }
 
@@ -358,12 +358,12 @@ private fun GuidInfo(guide: Guide) {
                         painter = painterResource(Res.drawable.guides_private_icon),
                         contentDescription = stringResource(Res.string.guide_detail_private_icon_description),
                         modifier = Modifier.size(20.dp),
-                        colorFilter = ColorFilter.tint(PrivateBadgeGrey),
+                        colorFilter = ColorFilter.tint(PrivateBadge),
                     )
                     Text(
                         text = stringResource(Res.string.guide_detail_private_label),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = PrivateBadgeGrey,
+                        color = PrivateBadge,
                     )
                 }
             }

@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.BorderGrey
+import pt.socialfood.ui.theme.SearchBorder
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.search_bar_clear_button_description
@@ -83,7 +83,7 @@ fun SearchBar(
             .fillMaxWidth()
             .border(
                 width = 1.dp,
-                color = BorderGrey,
+                color = SearchBorder,
                 shape = RoundedCornerShape(25),
             ),
     )

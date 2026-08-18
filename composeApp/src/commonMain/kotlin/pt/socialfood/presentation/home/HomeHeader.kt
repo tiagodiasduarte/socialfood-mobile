@@ -21,7 +21,7 @@ import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.BorderGrey
+import pt.socialfood.ui.theme.SearchBorder
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.app_name
@@ -68,7 +68,7 @@ fun HomeHeader(
             HorizontalDivider(
                 Modifier.height(1.dp)
                     .align(alignment = Alignment.BottomStart)
-                    .background(BorderGrey),
+                    .background(SearchBorder),
             )
         }
 

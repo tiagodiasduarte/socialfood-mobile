@@ -40,7 +40,7 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.SpaceSize
-import pt.socialfood.ui.theme.StarColor
+import pt.socialfood.ui.theme.Star
 
 @Composable
 fun RestaurantCard(
@@ -163,7 +163,7 @@ private fun RestaurantCardInfo(restaurant: Restaurant) {
             Icon(
                 imageVector = Icons.Filled.Star,
                 contentDescription = null,
-                tint = StarColor,
+                tint = Star,
                 modifier = Modifier.size(16.dp),
             )
 

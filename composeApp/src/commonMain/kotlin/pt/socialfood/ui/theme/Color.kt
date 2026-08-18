@@ -6,12 +6,10 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
-private val GreyBackground = Color(0xFFF2F2F2)
-
 val LightColorTheme = lightColorScheme(
     primary = Color(0xFFE8450A),
     onPrimary = Color.White,
-    background = GreyBackground,
+    background = Color(0xFFF2F2F2),
     onBackground = Color(0xFF1A1A1A),
     surface = Color.White,
     onSurface = Color(0xFF1A1A1A),
@@ -23,7 +21,7 @@ val LightColorTheme = lightColorScheme(
 val DarkLightColorTheme = darkColorScheme(
     primary = Color(0xFFE8450A),
     onPrimary = Color.White,
-    background = GreyBackground,
+    background = Color(0xFFF2F2F2),
     onBackground = Color(0xFF1A1A1A),
     surface = Color.White,
     onSurface = Color(0xFF1A1A1A),
@@ -32,17 +30,14 @@ val DarkLightColorTheme = darkColorScheme(
     outlineVariant = Color(0xFFE0E0E0),
 )
 
-val ImagePlaceholderColor = Color(0xFF2A2A2A)
-val GreenStatus = Color(0xFF005C0C)
 val FavouriteRed = Color(0xFFEF4444)
-val ProfileGradientStart = Color(0xFFF05A1A)
+val ImagePlaceholderColor = Color(0xFF2A2A2A)
+val PrivateBadge = Color(0xFF364153)
 val ProfileGradientEnd = Color(0xFFB82010)
-
-val StarColor = Color(0xFFFFC107)
-
-val ShimmerColor = Color(0xFFD0D0D0)
-val BorderGrey = Color(0xFFE5E7EB)
+val ProfileGradientStart = Color(0xFFF05A1A)
+val PublicBadge = Color(0xFF008236)
 val PublicBadgeBackground = Color(0xFFF0FDF4)
-val PublicBadgeGreen = Color(0xFF008236)
-val PrivateBadgeGrey = Color(0xFF364153)
-val SplashBackgroundOrange = Color(0xFFF54900)
+val SearchBorder = Color(0xFFE5E7EB)
+val Shimmer = Color(0xFFD0D0D0)
+val Star = Color(0xFFFFC107)
+val StatusGuide = Color(0xFF005C0C)

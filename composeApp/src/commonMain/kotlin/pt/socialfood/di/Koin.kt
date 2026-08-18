@@ -35,10 +35,10 @@ import pt.socialfood.data.api.SearchApiImpl
 import pt.socialfood.data.api.UserApi
 import pt.socialfood.data.api.UserApiImpl
 import pt.socialfood.data.local.AppDatabase
+import pt.socialfood.data.network.SessionManager
 import pt.socialfood.data.network.client.CoilHttpClient
 import pt.socialfood.data.network.client.KtorHttpClient
 import pt.socialfood.data.network.client.S3HttpClient
-import pt.socialfood.data.network.SessionManager
 import pt.socialfood.data.paging.asAuthorCacheTransactionRunner
 import pt.socialfood.data.paging.asGuideCacheTransactionRunner
 import pt.socialfood.data.paging.asHomeCacheTransactionRunner

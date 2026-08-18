@@ -51,6 +51,9 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.ImagePlaceholderColor
+import pt.socialfood.ui.theme.PrivateBadgeGrey
+import pt.socialfood.ui.theme.PublicBadgeBackground
+import pt.socialfood.ui.theme.PublicBadgeGreen
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
@@ -323,9 +326,9 @@ private fun GuidInfo(guide: Guide) {
     ) {
         val bgColor =
             if (guide.visibility == GuideVisibility.PUBLIC) {
-                Color(0xFFF0FDF4)
+                PublicBadgeBackground
             } else {
-                Color(0xFFFFFFFF)
+                Color.White
             }
 
         Row(
@@ -343,12 +346,12 @@ private fun GuidInfo(guide: Guide) {
                         painter = painterResource(Res.drawable.guides_public_icon),
                         contentDescription = stringResource(Res.string.guide_detail_public_icon_description),
                         modifier = Modifier.size(20.dp),
-                        colorFilter = ColorFilter.tint(Color(0xFF008236)),
+                        colorFilter = ColorFilter.tint(PublicBadgeGreen),
                     )
                     Text(
                         text = stringResource(Res.string.guide_detail_public_label),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = Color(0xFF008236),
+                        color = PublicBadgeGreen,
                     )
                 }
 
@@ -357,12 +360,12 @@ private fun GuidInfo(guide: Guide) {
                         painter = painterResource(Res.drawable.guides_private_icon),
                         contentDescription = stringResource(Res.string.guide_detail_private_icon_description),
                         modifier = Modifier.size(20.dp),
-                        colorFilter = ColorFilter.tint(Color(0xFF364153)),
+                        colorFilter = ColorFilter.tint(PrivateBadgeGrey),
                     )
                     Text(
                         text = stringResource(Res.string.guide_detail_private_label),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = Color(0xFF364153),
+                        color = PrivateBadgeGrey,
                     )
                 }
             }

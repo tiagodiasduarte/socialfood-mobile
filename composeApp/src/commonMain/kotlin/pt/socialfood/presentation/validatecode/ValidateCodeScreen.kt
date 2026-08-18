@@ -46,6 +46,8 @@ import org.koin.core.parameter.parametersOf
 import pt.socialfood.presentation.components.AppImage
 import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.GreyBackground
+import pt.socialfood.ui.theme.ShimmerColor
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.validate_code_button
@@ -190,7 +192,7 @@ private fun ValidateCodeFormView(
                 shape = RoundedCornerShape(50.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorScheme.primary,
-                    disabledContainerColor = Color(0xFFD0D0D0),
+                    disabledContainerColor = ShimmerColor,
                     contentColor = colorScheme.onPrimary,
                     disabledContentColor = Color.White,
                 ),
@@ -270,7 +272,7 @@ private fun OtpBox(digit: String, isCurrent: Boolean) {
         modifier = Modifier
             .size(48.dp)
             .background(
-                color = Color(0xFFF2F2F2),
+                color = GreyBackground,
                 shape = RoundedCornerShape(12.dp),
             )
             .border(

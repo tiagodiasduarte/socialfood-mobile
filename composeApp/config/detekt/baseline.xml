@@ -19,29 +19,16 @@
     <ID>LongMethod:ProfilePictureCard.kt$@Composable fun ProfilePictureCard(state: EditProfileUiState.Loaded, onPhotoSelected: (ByteArray, String) -&gt; Unit)</ID>
     <ID>LongMethod:ValidateCodeScreen.kt$@Composable private fun ValidateCodeFormView( state: ValidateCodeUiState, onValidateClick: (String) -&gt; Unit, onResendClick: () -&gt; Unit, onRestartClick: () -&gt; Unit, )</ID>
     <ID>MagicNumber:EditGuideViewModel.kt$EditGuideViewModel$3</ID>
-    <ID>MagicNumber:GuideDetailScreen.kt$0xFF008236</ID>
-    <ID>MagicNumber:GuideDetailScreen.kt$0xFF364153</ID>
-    <ID>MagicNumber:GuideDetailScreen.kt$0xFFF0FDF4</ID>
-    <ID>MagicNumber:GuideDetailScreen.kt$0xFFFFFFFF</ID>
     <ID>MagicNumber:GuideDetailsCard.kt$12f</ID>
     <ID>MagicNumber:GuideDetailsCard.kt$16f</ID>
     <ID>MagicNumber:GuideDetailsCard.kt$6f</ID>
     <ID>MagicNumber:GuideDetailsCard.kt$9f</ID>
-    <ID>MagicNumber:HomeHeader.kt$0xE5E7EB</ID>
-    <ID>MagicNumber:HomeSearchBar.kt$0xFFE5E7EB</ID>
-    <ID>MagicNumber:HomeSearchBar.kt$0xFFF2F2F2</ID>
     <ID>MagicNumber:HomeSearchBar.kt$25</ID>
     <ID>MagicNumber:ImageHttpClient.kt$ImageHttpClient$120_000</ID>
     <ID>MagicNumber:ImageHttpClient.kt$ImageHttpClient$30_000</ID>
     <ID>MagicNumber:RatingStars.kt$0.5</ID>
-    <ID>MagicNumber:RatingStars.kt$0xFFFFC107</ID>
-    <ID>MagicNumber:SearchBar.kt$0xFFE5E7EB</ID>
     <ID>MagicNumber:SearchBar.kt$25</ID>
     <ID>MagicNumber:SearchRestaurantsViewModel.kt$SearchRestaurantsViewModel$3</ID>
-    <ID>MagicNumber:ShimmerBox.kt$0xFFD0D0D0</ID>
-    <ID>MagicNumber:SplashScreen.ios.kt$0xFFF54900</ID>
-    <ID>MagicNumber:ValidateCodeScreen.kt$0xFFD0D0D0</ID>
-    <ID>MagicNumber:ValidateCodeScreen.kt$0xFFF2F2F2</ID>
     <ID>ReturnCount:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>TooManyFunctions:EditGuideViewModel.kt$EditGuideViewModel : ViewModel</ID>
     <ID>TooManyFunctions:GuidesRepository.kt$GuidesRepository</ID>

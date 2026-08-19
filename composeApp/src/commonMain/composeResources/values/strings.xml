@@ -73,7 +73,6 @@
     <string name="theme_light_label">Light</string>
     <string name="theme_dark_label">Dark</string>
     <string name="theme_system_label">System default</string>
-    <string name="theme_sheet_cancel_button">Cancel</string>
 
     <string name="guide_detail_error_label">Failed to load guide</string>
     <string name="guide_detail_restaurants_section_title">Restaurants in this guide</string>

@@ -2,6 +2,8 @@ package pt.socialfood.data.repository
 
 import androidx.sqlite.SQLiteException
 import co.touchlab.kermit.Logger
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.RestaurantVisitStatusApi
 import pt.socialfood.data.currentTimeMillis
@@ -32,6 +34,7 @@ class RestaurantVisitStatusRepositoryImpl(
 ) : RestaurantVisitStatusRepository {
 
     private val logger = Logger.withTag(TAG)
+    private val syncMutex = Mutex()
 
     override suspend fun mark(restaurant: Restaurant, status: VisitStatus): Result<Unit> = try {
         val entity = restaurant.toRestaurantVisitStatusEntity(
@@ -108,14 +111,14 @@ class RestaurantVisitStatusRepositoryImpl(
         }
 
     @Suppress("ReturnCount")
-    override suspend fun sync(): Result<Unit> {
+    override suspend fun sync(): Result<Unit> = syncMutex.withLock {
         val now = currentTimeMillis()
         val lastAttempt = settingsRepository.getLastRestaurantVisitStatusSyncAttemptAt()
         if (lastAttempt != null && now - lastAttempt < MIN_SYNC_INTERVAL_MS) {
-            return Result.Success(Unit)
+            return@withLock Result.Success(Unit)
         }
 
-        return try {
+        try {
             settingsRepository.saveLastRestaurantVisitStatusSyncAttemptAt(now)
 
             val pending = restaurantVisitStatusDao.getPending()
@@ -129,7 +132,7 @@ class RestaurantVisitStatusRepositoryImpl(
                 since = syncedAt.orEmpty(),
             )
             val changes = when (val result = safeApiCall { restaurantVisitStatusApi.sync(request) }) {
-                is Result.Failure -> return result
+                is Result.Failure -> return@withLock result
                 is Result.Success -> result.data
             }
 
@@ -141,11 +144,17 @@ class RestaurantVisitStatusRepositoryImpl(
             }
 
             val applyResult = applyChanges(changes)
-            if (applyResult is Result.Failure) return applyResult
+            if (applyResult is Result.Failure) return@withLock applyResult
 
             settingsRepository.saveLastRestaurantVisitStatusSyncedAt(changes.syncedAt)
             Result.Success(Unit)
         } catch (e: SQLiteException) {
+            Result.Failure(e.toDataError())
+        } catch (e: IllegalArgumentException) {
+            logger.w {
+                "sync() failed to map server response ($e); local pending state already flushed, retried " +
+                    "via the next sync's unchanged `since` cursor."
+            }
             Result.Failure(e.toDataError())
         }
     }

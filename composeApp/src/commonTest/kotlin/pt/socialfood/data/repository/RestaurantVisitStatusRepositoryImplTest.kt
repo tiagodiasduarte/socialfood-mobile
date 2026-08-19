@@ -251,6 +251,25 @@ class RestaurantVisitStatusRepositoryImplTest {
     }
 
     @Test
+    fun `given sync response has an unrecognized status when sync is called then returns Failure`() = runTest {
+        // Given
+        val api = FakeRestaurantVisitStatusApi()
+        val restaurantId = api.fakeRestaurants.items.first().id
+        api.fakeSyncResponse = api.fakeSyncResponse.copy(
+            updated = listOf(RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(restaurantId, "UNKNOWN")),
+        )
+        val (repo, _, settings) = createRepository(api = api)
+        settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
+
+        // When
+        val result = repo.sync()
+
+        // Then
+        assertIs<Result.Failure>(result)
+        assertEquals(null, settings.getLastRestaurantVisitStatusSyncedAt())
+    }
+
+    @Test
     fun `given DAO write throws when sync is called then does not advance syncedAt`() = runTest {
         // Given
         val status = Random.nextEnum<VisitStatus>()

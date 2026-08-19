@@ -5,6 +5,7 @@ import pt.socialfood.core.Result
 import pt.socialfood.data.local.entity.SyncState
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.data.paging.RestaurantVisitStatusCacheTransactionRunner
+import pt.socialfood.domain.model.PagedRestaurantVisitStatus
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeRestaurantVisitStatusApi
@@ -19,6 +20,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -154,6 +156,61 @@ class RestaurantVisitStatusRepositoryImplTest {
         // Then
         assertIs<Result.Success<VisitStatus?>>(result)
         assertEquals(null, result.data)
+    }
+
+    // getPaged
+
+    @Test
+    fun `given cached visits when getPaged is called then reads from DAO only and never calls the API`() = runTest {
+        // Given
+        val status = Random.nextEnum<VisitStatus>()
+        val (repo, dao, _) = createRepository(api = FakeRestaurantVisitStatusApi(shouldThrow = true))
+        dao.upsert(fakeRestaurant.toRestaurantVisitEntityForTest(status, SyncState.SYNCED))
+
+        // When
+        val result = repo.getPaged(status = status, page = 1, limit = 10)
+
+        // Then
+        assertIs<Result.Success<PagedRestaurantVisitStatus>>(result)
+        assertEquals(1, result.data.visits.size)
+        assertEquals(
+            fakeRestaurant.id,
+            result.data.visits
+                .first()
+                .restaurant.id,
+        )
+    }
+
+    @Test
+    fun `given visits with a different status when getPaged is called then excludes them`() = runTest {
+        // Given
+        val (repo, dao, _) = createRepository()
+        dao.upsert(
+            fakeRestaurant.toRestaurantVisitEntityForTest(VisitStatus.WISHLIST, SyncState.SYNCED),
+        )
+
+        // When
+        val result = repo.getPaged(status = VisitStatus.VISITED, page = 1, limit = 10)
+
+        // Then
+        assertIs<Result.Success<PagedRestaurantVisitStatus>>(result)
+        assertTrue(result.data.visits.isEmpty())
+    }
+
+    @Test
+    fun `given a visit stuck PENDING_REMOVE when getPaged is called then excludes it`() = runTest {
+        // Given
+        val status = Random.nextEnum<VisitStatus>()
+        val (repo, dao, _) = createRepository()
+        dao.upsert(fakeRestaurant.toRestaurantVisitEntityForTest(status, SyncState.PENDING_REMOVE))
+
+        // When
+        val result = repo.getPaged(status = status, page = 1, limit = 10)
+
+        // Then
+        assertIs<Result.Success<PagedRestaurantVisitStatus>>(result)
+        assertTrue(result.data.visits.isEmpty())
+        assertEquals(0, result.data.total)
     }
 
     // getPagingFlow

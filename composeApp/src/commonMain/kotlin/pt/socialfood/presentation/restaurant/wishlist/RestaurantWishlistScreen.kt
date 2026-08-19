@@ -2,7 +2,6 @@ package pt.socialfood.presentation.restaurant.wishlist
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -11,11 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -23,16 +23,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.paging.LoadState
-import androidx.paging.LoadStates
-import androidx.paging.PagingData
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemKey
-import kotlinx.coroutines.flow.flowOf
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.model.Restaurant
@@ -48,6 +46,8 @@ import socialfood.composeapp.generated.resources.wish_add_button_description
 import socialfood.composeapp.generated.resources.wish_card_remove_button_description
 import socialfood.composeapp.generated.resources.wish_restaurants_title
 
+private const val LOAD_MORE_THRESHOLD = 10
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RestaurantWishlistScreen(
@@ -56,29 +56,51 @@ fun RestaurantWishlistScreen(
     onAddClick: (onRestaurantAdded: (Restaurant) -> Unit) -> Unit = {},
     viewModel: RestaurantWishlistViewModel = koinViewModel(),
 ) {
-    val restaurants = viewModel.restaurants.collectAsLazyPagingItems()
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
 
     RestaurantWishlistContent(
-        restaurants = restaurants,
+        state = state,
+        isRefreshing = isRefreshing,
         onBackClick = onBackClick,
+        onRefresh = viewModel::refresh,
+        onLoadMore = viewModel::loadMore,
+        onRetry = viewModel::loadFirstPage,
         onRestaurantClick = onRestaurantClick,
         onAddClick = { onAddClick(viewModel::addToWishlist) },
         onRemoveClick = viewModel::removeFromWishlist,
     )
 }
 
-@Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RestaurantWishlistContent(
-    restaurants: LazyPagingItems<Restaurant>,
+    state: RestaurantWishlistUiState,
+    isRefreshing: Boolean,
     onBackClick: () -> Unit,
+    onRefresh: () -> Unit,
+    onLoadMore: () -> Unit,
+    onRetry: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onAddClick: () -> Unit = {},
     onRemoveClick: (restaurantId: String) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
-    val isRefreshing = restaurants.loadState.refresh is LoadState.Loading && restaurants.itemCount > 0
+
+    val reachedBottom by remember(listState) {
+        derivedStateOf {
+            val lastVisible = listState.layoutInfo.visibleItemsInfo.lastOrNull()
+            val totalItems = listState.layoutInfo.totalItemsCount
+            lastVisible != null && totalItems > 0 && lastVisible.index >= totalItems - 1 - LOAD_MORE_THRESHOLD
+        }
+    }
+
+    LaunchedEffect(reachedBottom, state) {
+        val canLoadMore = state is RestaurantWishlistUiState.Loaded && state.hasMore && !state.isLoadingMore
+        if (reachedBottom && canLoadMore) {
+            onLoadMore()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -87,57 +109,63 @@ private fun RestaurantWishlistContent(
     ) {
         TopBar(onBackClick = onBackClick, onAddClick = onAddClick)
 
-        when {
-            restaurants.loadState.refresh is LoadState.Loading && restaurants.itemCount == 0 ->
-                RestaurantWishlistSkeleton(modifier = Modifier.fillMaxSize())
+        when (state) {
+            RestaurantWishlistUiState.Loading -> RestaurantWishlistSkeleton(modifier = Modifier.fillMaxSize())
 
-            restaurants.loadState.refresh is LoadState.Error && restaurants.itemCount == 0 -> ErrorContent(
+            is RestaurantWishlistUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),
-                onRetryClick = { restaurants.retry() },
+                onRetryClick = onRetry,
             )
 
-            restaurants.loadState.refresh is LoadState.NotLoading &&
-                restaurants.loadState.append.endOfPaginationReached &&
-                restaurants.itemCount == 0 -> NoResultsContent(modifier = Modifier.fillMaxSize())
+            is RestaurantWishlistUiState.Loaded -> if (state.restaurants.isEmpty()) {
+                NoResultsContent(modifier = Modifier.fillMaxSize())
+            } else {
+                RestaurantWishlistList(
+                    restaurants = state.restaurants,
+                    listState = listState,
+                    isRefreshing = isRefreshing,
+                    onRefresh = onRefresh,
+                    onRestaurantClick = onRestaurantClick,
+                    onRemoveClick = onRemoveClick,
+                )
+            }
+        }
+    }
+}
 
-            else -> PullToRefreshBox(
-                isRefreshing = isRefreshing,
-                onRefresh = { restaurants.refresh() },
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                LazyColumn(
-                    state = listState,
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(
-                        horizontal = SpaceSize.large,
-                        vertical = SpaceSize.large,
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun RestaurantWishlistList(
+    restaurants: List<Restaurant>,
+    listState: LazyListState,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
+    onRestaurantClick: (restaurantId: String) -> Unit,
+    onRemoveClick: (restaurantId: String) -> Unit,
+) {
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        onRefresh = onRefresh,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                horizontal = SpaceSize.large,
+                vertical = SpaceSize.large,
+            ),
+            verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+        ) {
+            items(restaurants, key = { it.id }) { restaurant ->
+                RestaurantSmallCard(
+                    restaurant = restaurant,
+                    removeButtonContentDescription = stringResource(
+                        Res.string.wish_card_remove_button_description,
                     ),
-                    verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-                ) {
-                    items(count = restaurants.itemCount, key = restaurants.itemKey { it.id }) { index ->
-                        restaurants[index]?.let { restaurant ->
-                            RestaurantSmallCard(
-                                restaurant = restaurant,
-                                removeButtonContentDescription = stringResource(
-                                    Res.string.wish_card_remove_button_description,
-                                ),
-                                onClick = { onRestaurantClick(restaurant.id) },
-                                onRemoveClick = { onRemoveClick(restaurant.id) },
-                            )
-                        }
-                    }
-
-                    if (restaurants.loadState.append is LoadState.Loading) {
-                        item {
-                            Box(
-                                modifier = Modifier.fillMaxWidth().padding(SpaceSize.large),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                CircularProgressIndicator()
-                            }
-                        }
-                    }
-                }
+                    onClick = { onRestaurantClick(restaurant.id) },
+                    onRemoveClick = { onRemoveClick(restaurant.id) },
+                )
             }
         }
     }
@@ -213,12 +241,14 @@ private fun RestaurantWishlistScreenLoadedPreview() {
             phoneNumber = "+351 920 000 000",
         ),
     )
-    val items = flowOf(PagingData.from(restaurants)).collectAsLazyPagingItems()
-
     AppTheme {
         RestaurantWishlistContent(
-            restaurants = items,
+            state = RestaurantWishlistUiState.Loaded(restaurants = restaurants, hasMore = false),
+            isRefreshing = false,
             onBackClick = {},
+            onRefresh = {},
+            onLoadMore = {},
+            onRetry = {},
         )
     }
 }
@@ -226,17 +256,14 @@ private fun RestaurantWishlistScreenLoadedPreview() {
 @Preview
 @Composable
 private fun RestaurantWishlistScreenEmptyPreview() {
-    val emptyLoadState = LoadState.NotLoading(endOfPaginationReached = true)
-    val items = flowOf(
-        PagingData.empty<Restaurant>(
-            sourceLoadStates = LoadStates(refresh = emptyLoadState, prepend = emptyLoadState, append = emptyLoadState),
-        ),
-    ).collectAsLazyPagingItems()
-
     AppTheme {
         RestaurantWishlistContent(
-            restaurants = items,
+            state = RestaurantWishlistUiState.Loaded(restaurants = emptyList(), hasMore = false),
+            isRefreshing = false,
             onBackClick = {},
+            onRefresh = {},
+            onLoadMore = {},
+            onRetry = {},
         )
     }
 }

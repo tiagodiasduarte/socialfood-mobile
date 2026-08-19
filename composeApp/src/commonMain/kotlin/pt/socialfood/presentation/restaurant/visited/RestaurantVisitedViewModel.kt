@@ -2,29 +2,103 @@ package pt.socialfood.presentation.restaurant.visited
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import androidx.paging.map
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.Result
 import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusPagingUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusUseCase
 import pt.socialfood.domain.usecase.restaurantvisitstatus.UnmarkRestaurantVisitStatusUseCase
+import pt.socialfood.presentation.error.toErrorCode
 
+private const val PAGE_SIZE = 20
 private val STATUS = VisitStatus.VISITED
 
 class RestaurantVisitedViewModel(
-    private val getRestaurantVisitStatusPaging: GetRestaurantVisitStatusPagingUseCase,
+    private val getRestaurantVisitStatus: GetRestaurantVisitStatusUseCase,
     private val unmarkRestaurantVisitStatus: UnmarkRestaurantVisitStatusUseCase,
 ) : ViewModel() {
 
-    val restaurants: Flow<PagingData<Restaurant>> = getRestaurantVisitStatusPaging(STATUS)
-        .map { pagingData -> pagingData.map { it.restaurant } }
-        .cachedIn(viewModelScope)
+    private val _state = MutableStateFlow<RestaurantVisitedUiState>(RestaurantVisitedUiState.Loading)
+    val state: StateFlow<RestaurantVisitedUiState> = _state.asStateFlow()
+
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+
+    private var currentPage = 1
+
+    init {
+        loadFirstPage()
+    }
+
+    fun loadFirstPage() {
+        viewModelScope.launch {
+            _state.value = RestaurantVisitedUiState.Loading
+            currentPage = 1
+            when (val result = getRestaurantVisitStatus(status = STATUS, page = 1, limit = PAGE_SIZE)) {
+                is Result.Success -> {
+                    currentPage = result.data.page
+                    _state.value = RestaurantVisitedUiState.Loaded(
+                        restaurants = result.data.visits.map { it.restaurant },
+                        hasMore = result.data.hasMore,
+                    )
+                }
+                is Result.Failure -> _state.value = RestaurantVisitedUiState.Error(result.error.toErrorCode())
+            }
+        }
+    }
+
+    fun refresh() {
+        viewModelScope.launch {
+            _isRefreshing.value = true
+            currentPage = 1
+            when (val result = getRestaurantVisitStatus(status = STATUS, page = 1, limit = PAGE_SIZE)) {
+                is Result.Success -> {
+                    currentPage = result.data.page
+                    _state.value = RestaurantVisitedUiState.Loaded(
+                        restaurants = result.data.visits.map { it.restaurant },
+                        hasMore = result.data.hasMore,
+                    )
+                }
+                is Result.Failure -> _state.value = RestaurantVisitedUiState.Error(result.error.toErrorCode())
+            }
+            _isRefreshing.value = false
+        }
+    }
+
+    fun loadMore() {
+        val current = _state.value as? RestaurantVisitedUiState.Loaded ?: return
+        if (!current.hasMore || current.isLoadingMore) return
+
+        viewModelScope.launch {
+            _state.value = current.copy(isLoadingMore = true)
+            val nextPage = currentPage + 1
+            when (val result = getRestaurantVisitStatus(status = STATUS, page = nextPage, limit = PAGE_SIZE)) {
+                is Result.Success -> {
+                    currentPage = result.data.page
+                    _state.value = current.copy(
+                        restaurants = current.restaurants + result.data.visits.map { it.restaurant },
+                        hasMore = result.data.hasMore,
+                        isLoadingMore = false,
+                    )
+                }
+                is Result.Failure -> _state.value = current.copy(isLoadingMore = false)
+            }
+        }
+    }
 
     fun removeFromVisited(restaurantId: String) {
-        viewModelScope.launch { unmarkRestaurantVisitStatus(restaurantId, STATUS) }
+        val current = _state.value as? RestaurantVisitedUiState.Loaded ?: return
+        val removedRestaurant = current.restaurants.find { it.id == restaurantId } ?: return
+        _state.value = current.copy(restaurants = current.restaurants.filterNot { it.id == restaurantId })
+
+        viewModelScope.launch {
+            val result = unmarkRestaurantVisitStatus(restaurantId, STATUS)
+            if (result is Result.Failure) {
+                val stateNow = _state.value as? RestaurantVisitedUiState.Loaded ?: return@launch
+                _state.value = stateNow.copy(restaurants = listOf(removedRestaurant) + stateNow.restaurants)
+            }
+        }
     }
 }

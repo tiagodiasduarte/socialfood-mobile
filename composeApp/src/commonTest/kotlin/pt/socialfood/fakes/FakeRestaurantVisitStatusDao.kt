@@ -49,6 +49,16 @@ class FakeRestaurantVisitStatusDao(
         entities.values.filter { it.status == status }.forEach { entities.remove(it.restaurantId) }
     }
 
+    override suspend fun getPaged(status: String, limit: Int, offset: Int): List<RestaurantVisitStatusEntity> =
+        entities.values
+            .filter { it.status == status && it.syncState != "PENDING_REMOVE" }
+            .sortedByDescending { it.recordedAt }
+            .drop(offset)
+            .take(limit)
+
+    override suspend fun countAll(status: String): Int =
+        entities.values.count { it.status == status && it.syncState != "PENDING_REMOVE" }
+
     override suspend fun getByRestaurantId(restaurantId: String): RestaurantVisitStatusEntity? = entities[restaurantId]
 
     override suspend fun getPending(): List<RestaurantVisitStatusEntity> =

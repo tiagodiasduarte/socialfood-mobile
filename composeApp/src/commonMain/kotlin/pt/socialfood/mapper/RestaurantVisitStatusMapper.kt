@@ -33,6 +33,7 @@ fun Restaurant.toRestaurantVisitStatusEntity(
     status: VisitStatus,
     recordedAt: Long,
     syncState: SyncState,
+    position: Int,
 ): RestaurantVisitStatusEntity = RestaurantVisitStatusEntity(
     restaurantId = this.id,
     name = this.name,
@@ -50,9 +51,8 @@ fun Restaurant.toRestaurantVisitStatusEntity(
     status = status.name,
     recordedAt = recordedAt,
     syncState = syncState.name,
+    position = position,
 )
 
 fun RestaurantVisitStatusEntity.toRestaurantStatusEntry(): RestaurantVisitStatusSyncResponse.RestaurantStatusEntry =
     RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(id = this.restaurantId, status = this.status)
-
-fun RestaurantVisitStatusSyncResponse.RestaurantStatusEntry.toVisitStatus(): VisitStatus = VisitStatus.valueOf(status)

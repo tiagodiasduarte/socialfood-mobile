@@ -23,4 +23,5 @@ data class RestaurantVisitStatusEntity(
     val status: String,
     val recordedAt: Long,
     val syncState: String,
+    val position: Int,
 )

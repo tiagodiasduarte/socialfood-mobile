@@ -23,6 +23,15 @@ class FakeRestaurantVisitStatusApi(private val shouldThrow: Boolean = false) : R
     var lastSyncRequest: RestaurantStatusSyncRequest? = null
         private set
 
+    var findCallCount: Int = 0
+        private set
+
+    var lastFindStatus: VisitStatus? = null
+        private set
+
+    var lastFindPage: Int? = null
+        private set
+
     var fakeRestaurants = PagedResponse(
         items = listOf(fakeRestaurantResponse),
         page = 1,
@@ -48,7 +57,10 @@ class FakeRestaurantVisitStatusApi(private val shouldThrow: Boolean = false) : R
 
     override suspend fun find(status: VisitStatus, page: Int, limit: Int): PagedResponse<RestaurantResponse> {
         if (shouldThrow) throw IOException("test error")
-        return fakeRestaurants
+        findCallCount++
+        lastFindStatus = status
+        lastFindPage = page
+        return fakeRestaurants.copy(page = page, limit = limit)
     }
 
     override suspend fun sync(request: RestaurantStatusSyncRequest): RestaurantVisitStatusSyncResponse {

@@ -32,6 +32,7 @@ class RestaurantVisitStatusMapperTest {
         status = Random.nextEnum<VisitStatus>().name,
         recordedAt = Random.nextLong(),
         syncState = Random.nextEnum<SyncState>().name,
+        position = Random.nextInt(),
     )
 
     @Test
@@ -89,9 +90,10 @@ class RestaurantVisitStatusMapperTest {
         val status = Random.nextEnum<VisitStatus>()
         val recordedAt = Random.nextLong()
         val syncState = Random.nextEnum<SyncState>()
+        val position = Random.nextInt()
 
         // When
-        val result = restaurant.toRestaurantVisitStatusEntity(status, recordedAt, syncState)
+        val result = restaurant.toRestaurantVisitStatusEntity(status, recordedAt, syncState, position)
 
         // Then
         assertEquals(
@@ -112,6 +114,7 @@ class RestaurantVisitStatusMapperTest {
                 status = status.name,
                 recordedAt = recordedAt,
                 syncState = syncState.name,
+                position = position,
             ),
             result,
         )

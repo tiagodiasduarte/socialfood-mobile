@@ -4,11 +4,12 @@ import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.local.entity.SyncState
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
-import pt.socialfood.domain.model.PagedRestaurantVisitStatus
+import pt.socialfood.data.paging.RestaurantVisitStatusCacheTransactionRunner
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeRestaurantVisitStatusApi
 import pt.socialfood.fakes.FakeRestaurantVisitStatusDao
+import pt.socialfood.fakes.FakeRestaurantVisitStatusRemoteKeyDao
 import pt.socialfood.fakes.FakeSettingsRepository
 import pt.socialfood.mapper.toRestaurantVisitStatusEntity
 import pt.socialfood.random.nextEnum
@@ -17,7 +18,7 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
-import kotlin.test.assertTrue
+import kotlin.test.assertNotNull
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -31,8 +32,17 @@ class RestaurantVisitStatusRepositoryImplTest {
         api: FakeRestaurantVisitStatusApi = FakeRestaurantVisitStatusApi(),
         dao: FakeRestaurantVisitStatusDao = FakeRestaurantVisitStatusDao(),
         settings: FakeSettingsRepository = FakeSettingsRepository(),
-    ): Triple<RestaurantVisitStatusRepositoryImpl, FakeRestaurantVisitStatusDao, FakeSettingsRepository> =
-        Triple(RestaurantVisitStatusRepositoryImpl(api, dao, settings), dao, settings)
+    ): Triple<RestaurantVisitStatusRepositoryImpl, FakeRestaurantVisitStatusDao, FakeSettingsRepository> = Triple(
+        RestaurantVisitStatusRepositoryImpl(
+            restaurantVisitStatusApi = api,
+            restaurantVisitStatusDao = dao,
+            restaurantVisitStatusRemoteKeyDao = FakeRestaurantVisitStatusRemoteKeyDao(),
+            transactionRunner = RestaurantVisitStatusCacheTransactionRunner { it() },
+            settingsRepository = settings,
+        ),
+        dao,
+        settings,
+    )
 
     // mark
 
@@ -146,65 +156,26 @@ class RestaurantVisitStatusRepositoryImplTest {
         assertEquals(null, result.data)
     }
 
-    // getPaged
+    // getPagingFlow
 
     @Test
-    fun `given cached visits when getPaged is called then reads from DAO only and never calls the API`() = runTest {
+    fun `given getPagingFlow is called then returns a non-null Pager-backed flow for the status`() = runTest {
         // Given
-        val status = Random.nextEnum<VisitStatus>()
-        val (repo, dao, _) = createRepository(api = FakeRestaurantVisitStatusApi(shouldThrow = true))
-        dao.upsert(fakeRestaurant.toRestaurantVisitEntityForTest(status, SyncState.SYNCED))
+        val (repo, _, _) = createRepository()
 
         // When
-        val result = repo.getPaged(status = status, page = 1, limit = 10)
+        val wishlistFlow = repo.getPagingFlow(VisitStatus.WISHLIST)
+        val visitedFlow = repo.getPagingFlow(VisitStatus.VISITED)
 
         // Then
-        assertIs<Result.Success<PagedRestaurantVisitStatus>>(result)
-        assertEquals(1, result.data.visits.size)
-        assertEquals(
-            fakeRestaurant.id,
-            result.data.visits
-                .first()
-                .restaurant.id,
-        )
-    }
-
-    @Test
-    fun `given visits with a different status when getPaged is called then excludes them`() = runTest {
-        // Given
-        val (repo, dao, _) = createRepository()
-        dao.upsert(
-            fakeRestaurant.toRestaurantVisitEntityForTest(VisitStatus.WISHLIST, SyncState.SYNCED),
-        )
-
-        // When
-        val result = repo.getPaged(status = VisitStatus.VISITED, page = 1, limit = 10)
-
-        // Then
-        assertIs<Result.Success<PagedRestaurantVisitStatus>>(result)
-        assertTrue(result.data.visits.isEmpty())
-    }
-
-    @Test
-    fun `given a visit stuck PENDING_REMOVE when getPaged is called then excludes it`() = runTest {
-        // Given
-        val status = Random.nextEnum<VisitStatus>()
-        val (repo, dao, _) = createRepository()
-        dao.upsert(fakeRestaurant.toRestaurantVisitEntityForTest(status, SyncState.PENDING_REMOVE))
-
-        // When
-        val result = repo.getPaged(status = status, page = 1, limit = 10)
-
-        // Then
-        assertIs<Result.Success<PagedRestaurantVisitStatus>>(result)
-        assertTrue(result.data.visits.isEmpty())
-        assertEquals(0, result.data.total)
+        assertNotNull(wishlistFlow)
+        assertNotNull(visitedFlow)
     }
 
     // sync
 
     @Test
-    fun `given changes available when sync is called then applies them and advances syncedAt`() = runTest {
+    fun `given changes available when sync is called then advances syncedAt`() = runTest {
         // Given
         val status = Random.nextEnum<VisitStatus>()
         val api = FakeRestaurantVisitStatusApi()
@@ -212,7 +183,7 @@ class RestaurantVisitStatusRepositoryImplTest {
         api.fakeSyncResponse = api.fakeSyncResponse.copy(
             updated = listOf(RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(restaurantId, status.name)),
         )
-        val (repo, dao, settings) = createRepository(api = api)
+        val (repo, _, settings) = createRepository(api = api)
         settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
 
         // When
@@ -221,22 +192,16 @@ class RestaurantVisitStatusRepositoryImplTest {
         // Then
         assertIs<Result.Success<Unit>>(result)
         assertEquals("2026-08-01T10:30:00Z", settings.getLastRestaurantVisitStatusSyncedAt())
-        assertTrue(dao.getPaged(status = status.name, limit = 10, offset = 0).isNotEmpty())
     }
 
     @Test
-    fun `given a restaurant exists as VISITED when sync reports it as WISHLIST then changes its state`() = runTest {
+    fun `given pending adds when sync is called then marks them SYNCED`() = runTest {
         // Given
-        val api = FakeRestaurantVisitStatusApi()
-        val (repo, dao, settings) = createRepository(api = api)
-        val existingId = api.fakeRestaurants.items.first().id
-        val existingRestaurant = Random.nextRestaurant(id = existingId)
-        dao.upsert(existingRestaurant.toRestaurantVisitEntityForTest(VisitStatus.VISITED, SyncState.SYNCED))
-        api.fakeSyncResponse = api.fakeSyncResponse.copy(
-            updated = listOf(
-                RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(existingId, VisitStatus.WISHLIST.name),
-            ),
+        val status = Random.nextEnum<VisitStatus>()
+        val dao = FakeRestaurantVisitStatusDao(
+            initialEntities = listOf(fakeRestaurant.toRestaurantVisitEntityForTest(status, SyncState.PENDING_ADD)),
         )
+        val (repo, _, settings) = createRepository(dao = dao)
         settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
 
         // When
@@ -244,25 +209,36 @@ class RestaurantVisitStatusRepositoryImplTest {
 
         // Then
         assertIs<Result.Success<Unit>>(result)
-        val stored = dao.getByRestaurantId(existingId)
-        assertEquals(VisitStatus.WISHLIST.name, stored?.status)
-        assertEquals(1, dao.getPaged(status = VisitStatus.WISHLIST.name, limit = 10, offset = 0).size)
-        assertTrue(dao.getPaged(status = VisitStatus.VISITED.name, limit = 10, offset = 0).isEmpty())
+        assertEquals(SyncState.SYNCED.name, dao.getByRestaurantId(fakeRestaurant.id)?.syncState)
+    }
+
+    @Test
+    fun `given pending removes when sync is called then deletes them`() = runTest {
+        // Given
+        val status = Random.nextEnum<VisitStatus>()
+        val dao = FakeRestaurantVisitStatusDao(
+            initialEntities = listOf(fakeRestaurant.toRestaurantVisitEntityForTest(status, SyncState.PENDING_REMOVE)),
+        )
+        val (repo, _, settings) = createRepository(dao = dao)
+        settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
+
+        // When
+        val result = repo.sync()
+
+        // Then
+        assertIs<Result.Success<Unit>>(result)
+        assertEquals(null, dao.getByRestaurantId(fakeRestaurant.id))
     }
 
     @Test
     fun `given DAO write throws when sync is called then does not advance syncedAt`() = runTest {
         // Given
         val status = Random.nextEnum<VisitStatus>()
-        val api = FakeRestaurantVisitStatusApi()
-        val restaurantId = api.fakeRestaurants.items.first().id
-        api.fakeSyncResponse = api.fakeSyncResponse.copy(
-            updated = listOf(RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(restaurantId, status.name)),
+        val dao = FakeRestaurantVisitStatusDao(
+            shouldThrowOnWrite = true,
+            initialEntities = listOf(fakeRestaurant.toRestaurantVisitEntityForTest(status, SyncState.PENDING_ADD)),
         )
-        val (repo, _, settings) = createRepository(
-            api = api,
-            dao = FakeRestaurantVisitStatusDao(shouldThrowOnWrite = true),
-        )
+        val (repo, _, settings) = createRepository(dao = dao)
         settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
 
         // When
@@ -309,4 +285,5 @@ private fun Restaurant.toRestaurantVisitEntityForTest(status: VisitStatus, syncS
         status = status,
         recordedAt = Clock.System.now().toEpochMilliseconds(),
         syncState = syncState,
+        position = 0,
     )

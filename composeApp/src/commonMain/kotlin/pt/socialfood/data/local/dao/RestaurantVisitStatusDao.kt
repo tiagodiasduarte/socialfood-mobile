@@ -1,5 +1,6 @@
 package pt.socialfood.data.local.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
@@ -23,14 +24,12 @@ interface RestaurantVisitStatusDao {
 
     @Query(
         "SELECT * FROM $RESTAURANT_VISIT_STATUS_TABLE WHERE status = :status AND syncState != 'PENDING_REMOVE' " +
-            "ORDER BY recordedAt DESC LIMIT :limit OFFSET :offset",
+            "ORDER BY position ASC",
     )
-    suspend fun getPaged(status: String, limit: Int, offset: Int): List<RestaurantVisitStatusEntity>
+    fun pagingSource(status: String): PagingSource<Int, RestaurantVisitStatusEntity>
 
-    @Query(
-        "SELECT COUNT(*) FROM $RESTAURANT_VISIT_STATUS_TABLE WHERE status = :status AND syncState != 'PENDING_REMOVE'",
-    )
-    suspend fun countAll(status: String): Int
+    @Query("DELETE FROM $RESTAURANT_VISIT_STATUS_TABLE WHERE status = :status")
+    suspend fun deleteByStatus(status: String)
 
     @Query("SELECT * FROM $RESTAURANT_VISIT_STATUS_TABLE WHERE restaurantId = :restaurantId LIMIT 1")
     suspend fun getByRestaurantId(restaurantId: String): RestaurantVisitStatusEntity?

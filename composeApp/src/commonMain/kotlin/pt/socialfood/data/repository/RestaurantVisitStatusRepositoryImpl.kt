@@ -8,7 +8,6 @@ import pt.socialfood.data.currentTimeMillis
 import pt.socialfood.data.local.dao.RestaurantVisitStatusDao
 import pt.socialfood.data.local.entity.SyncState
 import pt.socialfood.data.network.extensions.toDataError
-import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantStatusSyncRequest
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.PagedRestaurantVisitStatus
@@ -17,7 +16,6 @@ import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.mapper.toRestaurant
-import pt.socialfood.mapper.toRestaurantStatusEntry
 import pt.socialfood.mapper.toRestaurantVisitStatus
 import pt.socialfood.mapper.toRestaurantVisitStatusEntity
 import pt.socialfood.mapper.toVisitStatus
@@ -45,7 +43,7 @@ class RestaurantVisitStatusRepositoryImpl(
             is Result.Failure ->
                 logger.w {
                     "mark(${restaurant.id}, $status) failed (${result.error}); " +
-                        "row stays PENDING_ADD, retried by the next sync."
+                        "row stays PENDING_ADD, retried by the next sync($status)."
                 }
 
             is Result.Success<*> -> {
@@ -65,7 +63,7 @@ class RestaurantVisitStatusRepositoryImpl(
             is Result.Failure ->
                 logger.w {
                     "unmark($restaurantId, $status) failed (${result.error}); " +
-                        "row stays PENDING_REMOVE, retried by the next sync."
+                        "row stays PENDING_REMOVE, retried by the next sync($status)."
                 }
 
             is Result.Success<*> -> {
@@ -118,26 +116,12 @@ class RestaurantVisitStatusRepositoryImpl(
         return try {
             settingsRepository.saveLastRestaurantVisitStatusSyncAttemptAt(now)
 
-            val pending = restaurantVisitStatusDao.getPending()
-            val pendingAdds = pending.filter { it.syncState == SyncState.PENDING_ADD.name }
-            val pendingRemoves = pending.filter { it.syncState == SyncState.PENDING_REMOVE.name }
+            pushPendingMutations()
 
             val syncedAt = settingsRepository.getLastRestaurantVisitStatusSyncedAt()
-            val request = RestaurantStatusSyncRequest(
-                updated = pendingAdds.map { it.toRestaurantStatusEntry() },
-                removedIds = pendingRemoves.map { it.restaurantId },
-                since = syncedAt.orEmpty(),
-            )
-            val changes = when (val result = safeApiCall { restaurantVisitStatusApi.sync(request) }) {
+            val changes = when (val result = safeApiCall { restaurantVisitStatusApi.sync(syncedAt) }) {
                 is Result.Failure -> return result
                 is Result.Success -> result.data
-            }
-
-            if (pendingAdds.isNotEmpty()) {
-                restaurantVisitStatusDao.updateSyncState(pendingAdds.map { it.restaurantId }, SyncState.SYNCED.name)
-            }
-            if (pendingRemoves.isNotEmpty()) {
-                restaurantVisitStatusDao.deleteByRestaurantIds(pendingRemoves.map { it.restaurantId })
             }
 
             val applyResult = applyChanges(changes)
@@ -147,6 +131,43 @@ class RestaurantVisitStatusRepositoryImpl(
             Result.Success(Unit)
         } catch (e: SQLiteException) {
             Result.Failure(e.toDataError())
+        }
+    }
+
+    private suspend fun pushPendingMutations() {
+        restaurantVisitStatusDao.getPending().forEach { entity ->
+            val status = VisitStatus.valueOf(entity.status)
+            when (SyncState.valueOf(entity.syncState)) {
+                SyncState.PENDING_ADD -> pushPendingAdd(entity.restaurantId, status)
+                SyncState.PENDING_REMOVE -> pushPendingRemove(entity.restaurantId)
+                SyncState.SYNCED -> Unit
+            }
+        }
+    }
+
+    private suspend fun pushPendingAdd(restaurantId: String, status: VisitStatus) {
+        try {
+            when (val result = safeApiCall { restaurantVisitStatusApi.mark(restaurantId, status) }) {
+                is Result.Failure ->
+                    logger.w { "mark($restaurantId, $status) still failing (${result.error}); retried next sync." }
+                is Result.Success ->
+                    restaurantVisitStatusDao.updateSyncState(restaurantId, SyncState.SYNCED.name)
+            }
+        } catch (e: SQLiteException) {
+            logger.w(e) { "mark($restaurantId, $status) local update failed; retried next sync." }
+        }
+    }
+
+    private suspend fun pushPendingRemove(restaurantId: String) {
+        try {
+            when (val result = safeApiCall { restaurantVisitStatusApi.unmark(restaurantId) }) {
+                is Result.Failure ->
+                    logger.w { "unmark($restaurantId) still failing (${result.error}); retried next sync." }
+                is Result.Success ->
+                    restaurantVisitStatusDao.deleteByRestaurantId(restaurantId)
+            }
+        } catch (e: SQLiteException) {
+            logger.w(e) { "unmark($restaurantId) local update failed; retried next sync." }
         }
     }
 

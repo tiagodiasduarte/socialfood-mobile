@@ -52,7 +52,4 @@ fun Restaurant.toRestaurantVisitStatusEntity(
     syncState = syncState.name,
 )
 
-fun RestaurantVisitStatusEntity.toRestaurantStatusEntry(): RestaurantVisitStatusSyncResponse.RestaurantStatusEntry =
-    RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(id = this.restaurantId, status = this.status)
-
 fun RestaurantVisitStatusSyncResponse.RestaurantStatusEntry.toVisitStatus(): VisitStatus = VisitStatus.valueOf(status)

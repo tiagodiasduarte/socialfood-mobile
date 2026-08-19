@@ -6,6 +6,7 @@ import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
@@ -27,7 +28,7 @@ internal val VisitStatus.pathSegment: String
 class RestaurantVisitStatusApiImpl(private val client: HttpClient) : RestaurantVisitStatusApi {
 
     override suspend fun mark(restaurantId: String, status: VisitStatus) {
-        client.post("me/restaurants/${status.pathSegment}/$restaurantId")
+        client.put("me/restaurants/${status.pathSegment}/$restaurantId")
     }
 
     override suspend fun unmark(restaurantId: String) {

@@ -107,17 +107,17 @@ class RestaurantVisitStatusRepositoryImpl(
     @Suppress("ReturnCount")
     override suspend fun sync(status: VisitStatus): Result<Unit> {
         val now = currentTimeMillis()
-        val lastAttempt = settingsRepository.getLastRestaurantVisitStatusSyncAttemptAt(status)
+        val lastAttempt = settingsRepository.getLastRestaurantVisitStatusSyncAttemptAt()
         if (lastAttempt != null && now - lastAttempt < MIN_SYNC_INTERVAL_MS) {
             return Result.Success(Unit)
         }
 
         return try {
-            settingsRepository.saveLastRestaurantVisitStatusSyncAttemptAt(status, now)
+            settingsRepository.saveLastRestaurantVisitStatusSyncAttemptAt(now)
 
             pushPendingMutations(status)
 
-            val syncedAt = settingsRepository.getLastRestaurantVisitStatusSyncedAt(status)
+            val syncedAt = settingsRepository.getLastRestaurantVisitStatusSyncedAt()
             val changes = when (val result = safeApiCall { restaurantVisitStatusApi.sync(status, since = syncedAt) }) {
                 is Result.Failure -> return result
                 is Result.Success -> result.data
@@ -126,7 +126,7 @@ class RestaurantVisitStatusRepositoryImpl(
             val applyResult = applyChanges(changes)
             if (applyResult is Result.Failure) return applyResult
 
-            settingsRepository.saveLastRestaurantVisitStatusSyncedAt(status, changes.syncedAt)
+            settingsRepository.saveLastRestaurantVisitStatusSyncedAt(changes.syncedAt)
             Result.Success(Unit)
         } catch (e: SQLiteException) {
             Result.Failure(e.toDataError())

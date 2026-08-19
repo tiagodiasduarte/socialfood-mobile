@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.flowOf
 import platform.Foundation.NSUserDefaults
 import pt.socialfood.data.security.KeychainTokenStore
 import pt.socialfood.domain.model.ThemeMode
-import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.SettingsRepository
 
 private const val KEY_THEME_MODE = "theme_mode"
@@ -85,19 +84,19 @@ class SettingsRepositoryImpl : SettingsRepository {
         defaults.setInteger(timestamp, KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT)
     }
 
-    override suspend fun getLastRestaurantVisitStatusSyncedAt(status: VisitStatus): String? =
+    override suspend fun getLastRestaurantVisitStatusSyncedAt(): String? =
         defaults.stringForKey(KEY_LAST_RESTAURANT_VISIT_STATUS_SYNCED_AT)
 
-    override suspend fun saveLastRestaurantVisitStatusSyncedAt(status: VisitStatus, syncedAt: String) {
+    override suspend fun saveLastRestaurantVisitStatusSyncedAt(syncedAt: String) {
         defaults.setObject(syncedAt, KEY_LAST_RESTAURANT_VISIT_STATUS_SYNCED_AT)
     }
 
-    override suspend fun getLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus): Long? {
+    override suspend fun getLastRestaurantVisitStatusSyncAttemptAt(): Long? {
         val key = KEY_LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT
         return if (defaults.objectForKey(key) != null) defaults.integerForKey(key) else null
     }
 
-    override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus, timestamp: Long) {
+    override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(timestamp: Long) {
         defaults.setInteger(timestamp, KEY_LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT)
     }
 }

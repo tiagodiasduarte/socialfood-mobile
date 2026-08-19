@@ -5,14 +5,18 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import pt.socialfood.data.security.TokenCipher
+import pt.socialfood.domain.model.ThemeMode
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.SettingsRepository
 
 private val Context.dataStore by preferencesDataStore(name = "socialfood_settings")
 
 private val USER_JWT_TOKEN = stringPreferencesKey("user_jwt_token")
+private val THEME_MODE = stringPreferencesKey("theme_mode")
 private val PENDING_VERIFICATION_EMAIL = stringPreferencesKey("pending_verification_email")
 private val LAST_FAVOURITES_SYNCED_AT = stringPreferencesKey("last_favourites_synced_at")
 private val LAST_FAVOURITES_SYNC_ATTEMPT_AT = longPreferencesKey("last_favourites_sync_attempt_at")
@@ -39,6 +43,13 @@ class SettingsRepositoryImpl(private val context: Context) : SettingsRepository 
 
     override suspend fun clearToken() {
         context.dataStore.edit { it.remove(USER_JWT_TOKEN) }
+    }
+
+    override fun observeThemeMode(): Flow<ThemeMode> =
+        context.dataStore.data.map { prefs -> prefs[THEME_MODE]?.let { ThemeMode.valueOf(it) } ?: ThemeMode.LIGHT }
+
+    override suspend fun saveThemeMode(mode: ThemeMode) {
+        context.dataStore.edit { it[THEME_MODE] = mode.name }
     }
 
     override suspend fun getPendingVerificationEmail(): String? =

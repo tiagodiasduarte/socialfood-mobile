@@ -1,5 +1,7 @@
 package pt.socialfood.domain.repository
 
+import kotlinx.coroutines.flow.Flow
+import pt.socialfood.domain.model.ThemeMode
 import pt.socialfood.domain.model.VisitStatus
 
 @Suppress("TooManyFunctions")
@@ -7,6 +9,9 @@ interface SettingsRepository {
     suspend fun getToken(): String?
     suspend fun saveToken(token: String)
     suspend fun clearToken()
+
+    fun observeThemeMode(): Flow<ThemeMode>
+    suspend fun saveThemeMode(mode: ThemeMode)
 
     suspend fun getPendingVerificationEmail(): String?
     suspend fun savePendingVerificationEmail(email: String)

@@ -49,6 +49,7 @@ import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.presentation.components.buttons.ActionButton
 import pt.socialfood.presentation.theme.ThemeBottomSheet
+import pt.socialfood.presentation.theme.isThemeModeSelectionSupported
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.ProfileGradientEnd
@@ -224,12 +225,14 @@ private fun DrawerUserContent(
 @Composable
 private fun DrawerBottomMenu(onThemeClick: () -> Unit, onLogoutClick: () -> Unit) {
     Column(modifier = Modifier.navigationBarsPadding().padding(vertical = SpaceSize.medium)) {
-        DrawerMenuRow(
-            icon = Res.drawable.theme_icon,
-            label = stringResource(Res.string.profile_theme_button),
-            contentDescription = stringResource(Res.string.profile_theme_button_description),
-            onClick = onThemeClick,
-        )
+        if (isThemeModeSelectionSupported) {
+            DrawerMenuRow(
+                icon = Res.drawable.theme_icon,
+                label = stringResource(Res.string.profile_theme_button),
+                contentDescription = stringResource(Res.string.profile_theme_button_description),
+                onClick = onThemeClick,
+            )
+        }
         DrawerMenuRow(
             icon = Res.drawable.logout_icon,
             label = stringResource(Res.string.profile_logout_button),

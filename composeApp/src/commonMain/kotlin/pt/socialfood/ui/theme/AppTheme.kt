@@ -1,6 +1,5 @@
 package pt.socialfood.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,11 +14,7 @@ fun AppTheme(content: @Composable () -> Unit) {
     val themeManager: ThemeManager = remember { getKoin().get() }
     val themeMode by themeManager.themeMode.collectAsStateWithLifecycle()
 
-    val useDarkTheme = when (themeMode) {
-        ThemeMode.LIGHT -> false
-        ThemeMode.DARK -> true
-        ThemeMode.SYSTEM -> isSystemInDarkTheme()
-    }
+    val useDarkTheme = resolveUseDarkTheme(themeMode)
 
     MaterialTheme(
         colorScheme = if (useDarkTheme) DarkLightColorTheme else LightColorTheme,
@@ -27,3 +22,6 @@ fun AppTheme(content: @Composable () -> Unit) {
         content = content,
     )
 }
+
+@Composable
+internal expect fun resolveUseDarkTheme(themeMode: ThemeMode): Boolean

@@ -5,7 +5,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import pt.socialfood.data.security.TokenCipher
 import pt.socialfood.domain.model.ThemeMode
 import pt.socialfood.domain.model.VisitStatus
@@ -43,10 +45,8 @@ class SettingsRepositoryImpl(private val context: Context) : SettingsRepository 
         context.dataStore.edit { it.remove(USER_JWT_TOKEN) }
     }
 
-    override suspend fun getThemeMode(): ThemeMode {
-        val stored = context.dataStore.data.first()[THEME_MODE] ?: return ThemeMode.LIGHT
-        return ThemeMode.valueOf(stored)
-    }
+    override fun observeThemeMode(): Flow<ThemeMode> =
+        context.dataStore.data.map { prefs -> prefs[THEME_MODE]?.let { ThemeMode.valueOf(it) } ?: ThemeMode.LIGHT }
 
     override suspend fun saveThemeMode(mode: ThemeMode) {
         context.dataStore.edit { it[THEME_MODE] = mode.name }

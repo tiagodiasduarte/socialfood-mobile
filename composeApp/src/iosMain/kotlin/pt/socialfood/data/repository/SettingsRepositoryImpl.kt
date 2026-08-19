@@ -1,5 +1,7 @@
 package pt.socialfood.data.repository
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import platform.Foundation.NSUserDefaults
 import pt.socialfood.data.security.KeychainTokenStore
 import pt.socialfood.domain.model.ThemeMode
@@ -29,9 +31,9 @@ class SettingsRepositoryImpl : SettingsRepository {
         KeychainTokenStore.delete()
     }
 
-    override suspend fun getThemeMode(): ThemeMode {
-        val stored = defaults.stringForKey(KEY_THEME_MODE) ?: return ThemeMode.LIGHT
-        return ThemeMode.valueOf(stored)
+    override fun observeThemeMode(): Flow<ThemeMode> {
+        val stored = defaults.stringForKey(KEY_THEME_MODE)
+        return flowOf(stored?.let { ThemeMode.valueOf(it) } ?: ThemeMode.LIGHT)
     }
 
     override suspend fun saveThemeMode(mode: ThemeMode) {

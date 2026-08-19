@@ -2,19 +2,10 @@ package pt.socialfood.ui.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.koin.mp.KoinPlatform.getKoin
-import pt.socialfood.data.ThemeManager
-import pt.socialfood.domain.model.ThemeMode
 
 @Composable
 fun AppTheme(content: @Composable () -> Unit) {
-    val themeManager: ThemeManager = remember { getKoin().get() }
-    val themeMode by themeManager.themeMode.collectAsStateWithLifecycle()
-
-    val useDarkTheme = resolveUseDarkTheme(themeMode)
+    val useDarkTheme = resolveUseDarkTheme()
 
     MaterialTheme(
         colorScheme = if (useDarkTheme) DarkLightColorTheme else LightColorTheme,
@@ -24,4 +15,4 @@ fun AppTheme(content: @Composable () -> Unit) {
 }
 
 @Composable
-internal expect fun resolveUseDarkTheme(themeMode: ThemeMode): Boolean
+internal expect fun resolveUseDarkTheme(): Boolean

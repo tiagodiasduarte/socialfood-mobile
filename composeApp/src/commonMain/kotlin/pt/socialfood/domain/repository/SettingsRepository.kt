@@ -1,5 +1,6 @@
 package pt.socialfood.domain.repository
 
+import kotlinx.coroutines.flow.Flow
 import pt.socialfood.domain.model.ThemeMode
 import pt.socialfood.domain.model.VisitStatus
 
@@ -9,7 +10,7 @@ interface SettingsRepository {
     suspend fun saveToken(token: String)
     suspend fun clearToken()
 
-    suspend fun getThemeMode(): ThemeMode
+    fun observeThemeMode(): Flow<ThemeMode>
     suspend fun saveThemeMode(mode: ThemeMode)
 
     suspend fun getPendingVerificationEmail(): String?

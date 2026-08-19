@@ -2,7 +2,9 @@ package pt.socialfood.presentation.theme
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pt.socialfood.domain.model.ThemeMode
 import pt.socialfood.domain.usecase.theme.ObserveThemeModeUseCase
@@ -12,6 +14,7 @@ class ThemeViewModel(observeThemeMode: ObserveThemeModeUseCase, private val setT
     ViewModel() {
 
     val themeMode: StateFlow<ThemeMode> = observeThemeMode()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, ThemeMode.LIGHT)
 
     fun onThemeModeSelected(mode: ThemeMode) {
         viewModelScope.launch {

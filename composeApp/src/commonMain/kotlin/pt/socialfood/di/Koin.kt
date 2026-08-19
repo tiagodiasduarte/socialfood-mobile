@@ -8,7 +8,6 @@ import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.includes
 import org.koin.dsl.module
-import pt.socialfood.data.ThemeManager
 import pt.socialfood.data.api.AuthApi
 import pt.socialfood.data.api.AuthApiImpl
 import pt.socialfood.data.api.AuthorsApi
@@ -247,7 +246,6 @@ val networkModule =
         single { S3HttpClient() }
         single<SearchApi> { SearchApiImpl(get()) }
         single { SessionManager(get()) }
-        single { ThemeManager(get()) }
         single<UserApi> { UserApiImpl(get()) }
         single<RestaurantVisitStatusApi> { RestaurantVisitStatusApiImpl(get()) }
     }

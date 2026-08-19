@@ -297,7 +297,7 @@ private fun TopSection(
                         },
                     )
                     when (visitStatus) {
-                        VisitStatus.WISH -> DropdownMenuItem(
+                        VisitStatus.WISHLIST -> DropdownMenuItem(
                             text = { Text(stringResource(Res.string.restaurant_detail_move_to_visited_button)) },
                             onClick = {
                                 isMenuExpanded = false

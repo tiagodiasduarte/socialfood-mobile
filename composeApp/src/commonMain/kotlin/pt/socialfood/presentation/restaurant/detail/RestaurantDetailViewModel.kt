@@ -72,7 +72,7 @@ class RestaurantDetailViewModel(
         }
     }
 
-    fun addToWishlist() = markVisitStatus(VisitStatus.WISH)
+    fun addToWishlist() = markVisitStatus(VisitStatus.WISHLIST)
 
     fun moveToVisited() = markVisitStatus(VisitStatus.VISITED)
 

@@ -25,7 +25,7 @@ import kotlin.test.assertTrue
 class RestaurantWishlistViewModelTest {
     private fun wished(id: String) = RestaurantVisitStatus(
         restaurant = Random.nextRestaurant(id = id),
-        status = VisitStatus.WISH,
+        status = VisitStatus.WISHLIST,
         recordedAt = 0L,
     )
 
@@ -50,7 +50,7 @@ class RestaurantWishlistViewModelTest {
             assertEquals(1, state.restaurants.size)
             assertEquals("r1", state.restaurants.first().id)
         }
-        assertEquals(VisitStatus.WISH, useCase.lastStatus)
+        assertEquals(VisitStatus.WISHLIST, useCase.lastStatus)
     }
 
     @Test
@@ -169,7 +169,7 @@ class RestaurantWishlistViewModelTest {
         }
         advanceUntilIdle()
         assertEquals(newRestaurant, markUseCase.lastMarkedRestaurant)
-        assertEquals(VisitStatus.WISH, markUseCase.lastStatus)
+        assertEquals(VisitStatus.WISHLIST, markUseCase.lastStatus)
     }
 
     @Test
@@ -233,7 +233,7 @@ class RestaurantWishlistViewModelTest {
             }
             advanceUntilIdle()
             assertEquals("r1", unmarkUseCase.lastUnmarkedRestaurantId)
-            assertEquals(VisitStatus.WISH, unmarkUseCase.lastStatus)
+            assertEquals(VisitStatus.WISHLIST, unmarkUseCase.lastStatus)
         }
 
     @Test

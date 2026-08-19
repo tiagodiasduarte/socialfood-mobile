@@ -173,7 +173,7 @@ class RestaurantVisitStatusRepositoryImplTest {
         // Given
         val (repo, dao, _) = createRepository()
         dao.upsert(
-            fakeRestaurant.toRestaurantVisitEntityForTest(VisitStatus.WISH, SyncState.SYNCED),
+            fakeRestaurant.toRestaurantVisitEntityForTest(VisitStatus.WISHLIST, SyncState.SYNCED),
         )
 
         // When
@@ -219,23 +219,23 @@ class RestaurantVisitStatusRepositoryImplTest {
     }
 
     @Test
-    fun `given a restaurant exists as VISITED when sync reports it as WISH then changes its state`() = runTest {
+    fun `given a restaurant exists as VISITED when sync reports it as WISHLIST then changes its state`() = runTest {
         // Given
         val api = FakeRestaurantVisitStatusApi()
         val (repo, dao, settings) = createRepository(api = api)
         val existingId = api.fakeRestaurants.items.first().id
         val existingRestaurant = Random.nextRestaurant(id = existingId)
         dao.upsert(existingRestaurant.toRestaurantVisitEntityForTest(VisitStatus.VISITED, SyncState.SYNCED))
-        settings.saveLastRestaurantVisitStatusSyncAttemptAt(VisitStatus.WISH, 0L)
+        settings.saveLastRestaurantVisitStatusSyncAttemptAt(VisitStatus.WISHLIST, 0L)
 
         // When
-        val result = repo.sync(VisitStatus.WISH)
+        val result = repo.sync(VisitStatus.WISHLIST)
 
         // Then
         assertIs<Result.Success<Unit>>(result)
         val stored = dao.getByRestaurantId(existingId)
-        assertEquals(VisitStatus.WISH.name, stored?.status)
-        assertEquals(1, dao.getPaged(status = VisitStatus.WISH.name, limit = 10, offset = 0).size)
+        assertEquals(VisitStatus.WISHLIST.name, stored?.status)
+        assertEquals(1, dao.getPaged(status = VisitStatus.WISHLIST.name, limit = 10, offset = 0).size)
         assertTrue(dao.getPaged(status = VisitStatus.VISITED.name, limit = 10, offset = 0).isEmpty())
     }
 
@@ -290,10 +290,10 @@ class RestaurantVisitStatusRepositoryImplTest {
     fun `given a status when sync is called then does not advance syncedAt for the other status`() = runTest {
         // Given
         val (repo, _, settings) = createRepository()
-        settings.saveLastRestaurantVisitStatusSyncAttemptAt(VisitStatus.WISH, 0L)
+        settings.saveLastRestaurantVisitStatusSyncAttemptAt(VisitStatus.WISHLIST, 0L)
 
         // When
-        val result = repo.sync(VisitStatus.WISH)
+        val result = repo.sync(VisitStatus.WISHLIST)
 
         // Then
         assertIs<Result.Success<Unit>>(result)

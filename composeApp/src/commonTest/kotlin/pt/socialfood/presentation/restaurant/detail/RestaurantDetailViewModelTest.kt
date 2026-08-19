@@ -76,13 +76,13 @@ class RestaurantDetailViewModelTest {
     fun `given restaurant already has a visit status when loaded then state reflects it`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = createViewModel(getVisitStatus = FakeGetVisitStatusUseCase(Result.Success(VisitStatus.WISH)))
+            val vm = createViewModel(getVisitStatus = FakeGetVisitStatusUseCase(Result.Success(VisitStatus.WISHLIST)))
 
             // When / Then
             vm.state.test {
                 assertEquals(RestaurantDetailUiState.Loading, awaitItem())
                 val loaded = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
-                assertEquals(VisitStatus.WISH, loaded.visitStatus)
+                assertEquals(VisitStatus.WISHLIST, loaded.visitStatus)
             }
         }
 
@@ -169,7 +169,7 @@ class RestaurantDetailViewModelTest {
         }
 
     @Test
-    fun `given no visit status when addToWishlist is called then sets visitStatus to WISH and marks it`() =
+    fun `given no visit status when addToWishlist is called then sets visitStatus to WISHLIST and marks it`() =
         runTestWithMainDispatcher {
             // Given
             val mark = FakeMarkRestaurantVisitStatusUseCase()
@@ -184,14 +184,14 @@ class RestaurantDetailViewModelTest {
                 vm.addToWishlist()
 
                 val updated = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
-                assertEquals(VisitStatus.WISH, updated.visitStatus)
+                assertEquals(VisitStatus.WISHLIST, updated.visitStatus)
 
                 cancelAndIgnoreRemainingEvents()
             }
 
             advanceUntilIdle()
             assertEquals(fakeRestaurant, mark.lastMarkedRestaurant)
-            assertEquals(VisitStatus.WISH, mark.lastStatus)
+            assertEquals(VisitStatus.WISHLIST, mark.lastStatus)
         }
 
     @Test
@@ -200,7 +200,7 @@ class RestaurantDetailViewModelTest {
             // Given
             val mark = FakeMarkRestaurantVisitStatusUseCase()
             val vm = createViewModel(
-                getVisitStatus = FakeGetVisitStatusUseCase(Result.Success(VisitStatus.WISH)),
+                getVisitStatus = FakeGetVisitStatusUseCase(Result.Success(VisitStatus.WISHLIST)),
                 markRestaurantVisitStatus = mark,
             )
 
@@ -208,7 +208,7 @@ class RestaurantDetailViewModelTest {
             vm.state.test {
                 assertEquals(RestaurantDetailUiState.Loading, awaitItem())
                 val initial = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
-                assertEquals(VisitStatus.WISH, initial.visitStatus)
+                assertEquals(VisitStatus.WISHLIST, initial.visitStatus)
 
                 vm.moveToVisited()
 
@@ -242,7 +242,7 @@ class RestaurantDetailViewModelTest {
                 vm.addToWishlist()
 
                 val updated = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
-                assertEquals(VisitStatus.WISH, updated.visitStatus)
+                assertEquals(VisitStatus.WISHLIST, updated.visitStatus)
 
                 val reverted = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
                 assertNull(reverted.visitStatus)

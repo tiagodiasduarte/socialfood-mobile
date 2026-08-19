@@ -4,6 +4,7 @@ import kotlinx.io.IOException
 import pt.socialfood.data.api.RestaurantVisitStatusApi
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
+import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantStatusSyncRequest
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.random.nextRestaurantResponse
@@ -17,6 +18,9 @@ class FakeRestaurantVisitStatusApi(private val shouldThrow: Boolean = false) : R
         private set
 
     var lastUnmarkedRestaurantId: String? = null
+        private set
+
+    var lastSyncRequest: RestaurantStatusSyncRequest? = null
         private set
 
     var fakeRestaurants = PagedResponse(
@@ -47,12 +51,9 @@ class FakeRestaurantVisitStatusApi(private val shouldThrow: Boolean = false) : R
         return fakeRestaurants
     }
 
-    override suspend fun sync(status: VisitStatus, since: String?): RestaurantVisitStatusSyncResponse {
+    override suspend fun sync(request: RestaurantStatusSyncRequest): RestaurantVisitStatusSyncResponse {
         if (shouldThrow) throw IOException("test error")
-        return fakeSyncResponse.copy(
-            updated = listOf(
-                RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(fakeRestaurantResponse.id, status),
-            ),
-        )
+        lastSyncRequest = request
+        return fakeSyncResponse
     }
 }

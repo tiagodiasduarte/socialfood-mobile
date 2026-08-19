@@ -3,28 +3,22 @@ package pt.socialfood.domain.usecase.restaurantvisitstatus
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeRestaurantVisitStatusRepository
-import pt.socialfood.random.nextEnum
-import kotlin.random.Random
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 class SyncRestaurantVisitStatusUseCaseImplTest {
     @Test
-    fun `given repository succeeds when invoked then delegates status and returns Success`() = runTest {
+    fun `given repository succeeds when invoked then returns Success`() = runTest {
         // Given
-        val status = Random.nextEnum<VisitStatus>()
         val repository = FakeRestaurantVisitStatusRepository(syncResult = Result.Success(Unit))
         val useCase = SyncRestaurantVisitStatusUseCaseImpl(repository)
 
         // When
-        val result = useCase(status)
+        val result = useCase()
 
         // Then
         assertIs<Result.Success<Unit>>(result)
-        assertEquals(status, repository.lastStatus)
     }
 
     @Test
@@ -35,7 +29,7 @@ class SyncRestaurantVisitStatusUseCaseImplTest {
         val useCase = SyncRestaurantVisitStatusUseCaseImpl(repository)
 
         // When
-        val result = useCase(Random.nextEnum())
+        val result = useCase()
 
         // Then
         assertIs<Result.Failure>(result)

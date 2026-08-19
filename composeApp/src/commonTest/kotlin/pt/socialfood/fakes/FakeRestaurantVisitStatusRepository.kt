@@ -44,8 +44,5 @@ class FakeRestaurantVisitStatusRepository(
         return pagedResult
     }
 
-    override suspend fun sync(status: VisitStatus): Result<Unit> {
-        lastStatus = status
-        return syncResult
-    }
+    override suspend fun sync(): Result<Unit> = syncResult
 }

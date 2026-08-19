@@ -3,6 +3,7 @@ package pt.socialfood.data.repository
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.local.entity.SyncState
+import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.domain.model.PagedRestaurantVisitStatus
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
@@ -206,15 +207,20 @@ class RestaurantVisitStatusRepositoryImplTest {
     fun `given changes available when sync is called then applies them and advances syncedAt`() = runTest {
         // Given
         val status = Random.nextEnum<VisitStatus>()
-        val (repo, dao, settings) = createRepository()
-        settings.saveLastRestaurantVisitStatusSyncAttemptAt(status, 0L)
+        val api = FakeRestaurantVisitStatusApi()
+        val restaurantId = api.fakeRestaurants.items.first().id
+        api.fakeSyncResponse = api.fakeSyncResponse.copy(
+            updated = listOf(RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(restaurantId, status)),
+        )
+        val (repo, dao, settings) = createRepository(api = api)
+        settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
 
         // When
-        val result = repo.sync(status)
+        val result = repo.sync()
 
         // Then
         assertIs<Result.Success<Unit>>(result)
-        assertEquals("2026-08-01T10:30:00Z", settings.getLastRestaurantVisitStatusSyncedAt(status))
+        assertEquals("2026-08-01T10:30:00Z", settings.getLastRestaurantVisitStatusSyncedAt())
         assertTrue(dao.getPaged(status = status.name, limit = 10, offset = 0).isNotEmpty())
     }
 
@@ -226,10 +232,15 @@ class RestaurantVisitStatusRepositoryImplTest {
         val existingId = api.fakeRestaurants.items.first().id
         val existingRestaurant = Random.nextRestaurant(id = existingId)
         dao.upsert(existingRestaurant.toRestaurantVisitEntityForTest(VisitStatus.VISITED, SyncState.SYNCED))
-        settings.saveLastRestaurantVisitStatusSyncAttemptAt(VisitStatus.WISH, 0L)
+        api.fakeSyncResponse = api.fakeSyncResponse.copy(
+            updated = listOf(
+                RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(existingId, VisitStatus.WISH),
+            ),
+        )
+        settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
 
         // When
-        val result = repo.sync(VisitStatus.WISH)
+        val result = repo.sync()
 
         // Then
         assertIs<Result.Success<Unit>>(result)
@@ -243,61 +254,52 @@ class RestaurantVisitStatusRepositoryImplTest {
     fun `given DAO write throws when sync is called then does not advance syncedAt`() = runTest {
         // Given
         val status = Random.nextEnum<VisitStatus>()
-        val (repo, _, settings) = createRepository(dao = FakeRestaurantVisitStatusDao(shouldThrowOnWrite = true))
-        settings.saveLastRestaurantVisitStatusSyncAttemptAt(status, 0L)
+        val api = FakeRestaurantVisitStatusApi()
+        val restaurantId = api.fakeRestaurants.items.first().id
+        api.fakeSyncResponse = api.fakeSyncResponse.copy(
+            updated = listOf(RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(restaurantId, status)),
+        )
+        val (repo, _, settings) = createRepository(
+            api = api,
+            dao = FakeRestaurantVisitStatusDao(shouldThrowOnWrite = true),
+        )
+        settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
 
         // When
-        val result = repo.sync(status)
+        val result = repo.sync()
 
         // Then
         assertIs<Result.Failure>(result)
-        assertEquals(null, settings.getLastRestaurantVisitStatusSyncedAt(status))
+        assertEquals(null, settings.getLastRestaurantVisitStatusSyncedAt())
     }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given last sync attempt was recent when sync is called then returns early without calling the API`() =
         runTest {
             // Given
-            val status = Random.nextEnum<VisitStatus>()
             val (repo, _, settings) = createRepository(api = FakeRestaurantVisitStatusApi(shouldThrow = true))
-            settings.saveLastRestaurantVisitStatusSyncAttemptAt(status, now())
+            settings.saveLastRestaurantVisitStatusSyncAttemptAt(now())
 
             // When
-            val result = repo.sync(status)
+            val result = repo.sync()
 
             // Then
             assertIs<Result.Success<Unit>>(result)
-            assertEquals(null, settings.getLastRestaurantVisitStatusSyncedAt(status))
+            assertEquals(null, settings.getLastRestaurantVisitStatusSyncedAt())
         }
 
     @Test
     fun `given last sync attempt was long ago when sync is called then proceeds`() = runTest {
         // Given
-        val status = Random.nextEnum<VisitStatus>()
         val (repo, _, settings) = createRepository()
-        settings.saveLastRestaurantVisitStatusSyncAttemptAt(status, 0L)
+        settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
 
         // When
-        val result = repo.sync(status)
+        val result = repo.sync()
 
         // Then
         assertIs<Result.Success<Unit>>(result)
-        assertEquals("2026-08-01T10:30:00Z", settings.getLastRestaurantVisitStatusSyncedAt(status))
-    }
-
-    @Test
-    fun `given a status when sync is called then does not advance syncedAt for the other status`() = runTest {
-        // Given
-        val (repo, _, settings) = createRepository()
-        settings.saveLastRestaurantVisitStatusSyncAttemptAt(VisitStatus.WISH, 0L)
-
-        // When
-        val result = repo.sync(VisitStatus.WISH)
-
-        // Then
-        assertIs<Result.Success<Unit>>(result)
-        assertEquals(null, settings.getLastRestaurantVisitStatusSyncedAt(VisitStatus.VISITED))
+        assertEquals("2026-08-01T10:30:00Z", settings.getLastRestaurantVisitStatusSyncedAt())
     }
 }
 

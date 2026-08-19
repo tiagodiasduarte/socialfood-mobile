@@ -40,10 +40,14 @@ class FakeRestaurantVisitStatusDao(private val shouldThrowOnWrite: Boolean = fal
 
     override suspend fun getByRestaurantId(restaurantId: String): RestaurantVisitStatusEntity? = entities[restaurantId]
 
-    override suspend fun getPending(status: String): List<RestaurantVisitStatusEntity> =
-        entities.values.filter { it.status == status && it.syncState != "SYNCED" }
+    override suspend fun getPending(): List<RestaurantVisitStatusEntity> =
+        entities.values.filter { it.syncState != "SYNCED" }
 
     override suspend fun updateSyncState(restaurantId: String, syncState: String) {
         entities[restaurantId]?.let { entities[restaurantId] = it.copy(syncState = syncState) }
+    }
+
+    override suspend fun updateSyncState(restaurantIds: List<String>, syncState: String) {
+        restaurantIds.forEach { updateSyncState(it, syncState) }
     }
 }

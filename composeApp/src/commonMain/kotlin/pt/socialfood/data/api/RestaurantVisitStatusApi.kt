@@ -2,6 +2,7 @@ package pt.socialfood.data.api
 
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
+import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantStatusSyncRequest
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.domain.model.VisitStatus
 
@@ -12,5 +13,5 @@ interface RestaurantVisitStatusApi {
 
     suspend fun find(status: VisitStatus, page: Int, limit: Int): PagedResponse<RestaurantResponse>
 
-    suspend fun sync(status: VisitStatus, since: String?): RestaurantVisitStatusSyncResponse
+    suspend fun sync(request: RestaurantStatusSyncRequest): RestaurantVisitStatusSyncResponse
 }

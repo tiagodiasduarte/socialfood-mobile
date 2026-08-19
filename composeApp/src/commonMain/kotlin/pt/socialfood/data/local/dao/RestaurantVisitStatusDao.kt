@@ -35,9 +35,12 @@ interface RestaurantVisitStatusDao {
     @Query("SELECT * FROM $RESTAURANT_VISIT_STATUS_TABLE WHERE restaurantId = :restaurantId LIMIT 1")
     suspend fun getByRestaurantId(restaurantId: String): RestaurantVisitStatusEntity?
 
-    @Query("SELECT * FROM $RESTAURANT_VISIT_STATUS_TABLE WHERE status = :status AND syncState != 'SYNCED'")
-    suspend fun getPending(status: String): List<RestaurantVisitStatusEntity>
+    @Query("SELECT * FROM $RESTAURANT_VISIT_STATUS_TABLE WHERE syncState != 'SYNCED'")
+    suspend fun getPending(): List<RestaurantVisitStatusEntity>
 
     @Query("UPDATE $RESTAURANT_VISIT_STATUS_TABLE SET syncState = :syncState WHERE restaurantId = :restaurantId")
     suspend fun updateSyncState(restaurantId: String, syncState: String)
+
+    @Query("UPDATE $RESTAURANT_VISIT_STATUS_TABLE SET syncState = :syncState WHERE restaurantId IN (:restaurantIds)")
+    suspend fun updateSyncState(restaurantIds: List<String>, syncState: String)
 }

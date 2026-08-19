@@ -7,7 +7,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.first
 import pt.socialfood.data.security.TokenCipher
-import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.SettingsRepository
 
 private val Context.dataStore by preferencesDataStore(name = "socialfood_settings")
@@ -80,17 +79,17 @@ class SettingsRepositoryImpl(private val context: Context) : SettingsRepository 
         context.dataStore.edit { it[LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT] = timestamp }
     }
 
-    override suspend fun getLastRestaurantVisitStatusSyncedAt(status: VisitStatus): String? =
+    override suspend fun getLastRestaurantVisitStatusSyncedAt(): String? =
         context.dataStore.data.first()[LAST_RESTAURANT_VISIT_STATUS_SYNCED_AT]
 
-    override suspend fun saveLastRestaurantVisitStatusSyncedAt(status: VisitStatus, syncedAt: String) {
+    override suspend fun saveLastRestaurantVisitStatusSyncedAt(syncedAt: String) {
         context.dataStore.edit { it[LAST_RESTAURANT_VISIT_STATUS_SYNCED_AT] = syncedAt }
     }
 
-    override suspend fun getLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus): Long? =
+    override suspend fun getLastRestaurantVisitStatusSyncAttemptAt(): Long? =
         context.dataStore.data.first()[LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT]
 
-    override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(status: VisitStatus, timestamp: Long) {
+    override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(timestamp: Long) {
         context.dataStore.edit { it[LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT] = timestamp }
     }
 }

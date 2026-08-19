@@ -42,6 +42,7 @@ import pt.socialfood.data.network.SessionManager
 import pt.socialfood.data.paging.asAuthorCacheTransactionRunner
 import pt.socialfood.data.paging.asGuideCacheTransactionRunner
 import pt.socialfood.data.paging.asHomeCacheTransactionRunner
+import pt.socialfood.data.paging.asRestaurantVisitStatusCacheTransactionRunner
 import pt.socialfood.data.repository.AuthRepositoryImpl
 import pt.socialfood.data.repository.AuthorsRepositoryImpl
 import pt.socialfood.data.repository.ConfigsRepositoryImpl
@@ -166,6 +167,8 @@ import pt.socialfood.domain.usecase.restaurant.GetRestaurantsUseCase
 import pt.socialfood.domain.usecase.restaurant.GetRestaurantsUseCaseImpl
 import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCase
 import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCaseImpl
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusPagingUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusPagingUseCaseImpl
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusUseCase
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusUseCaseImpl
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetVisitStatusUseCase
@@ -290,7 +293,13 @@ val repositoryModule =
         single<SearchRepository> { SearchRepositoryImpl(get()) }
         single<UsersRepository> { UsersRepositoryImpl(get()) }
         single<RestaurantVisitStatusRepository> {
-            RestaurantVisitStatusRepositoryImpl(get(), get<AppDatabase>().restaurantVisitStatusDao(), get())
+            RestaurantVisitStatusRepositoryImpl(
+                restaurantVisitStatusApi = get(),
+                restaurantVisitStatusDao = get<AppDatabase>().restaurantVisitStatusDao(),
+                restaurantVisitStatusRemoteKeyDao = get<AppDatabase>().restaurantVisitStatusRemoteKeyDao(),
+                transactionRunner = get<AppDatabase>().asRestaurantVisitStatusCacheTransactionRunner(),
+                settingsRepository = get(),
+            )
         }
     }
 
@@ -329,6 +338,7 @@ val useCaseModule =
         factory<GetUserByIdUseCase> { GetUserByIdUseCaseImpl(get()) }
         factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
         factory<GetUsersUseCase> { GetUsersUseCaseImpl(get()) }
+        factory<GetRestaurantVisitStatusPagingUseCase> { GetRestaurantVisitStatusPagingUseCaseImpl(get()) }
         factory<GetRestaurantVisitStatusUseCase> { GetRestaurantVisitStatusUseCaseImpl(get()) }
         factory<GetVisitStatusUseCase> { GetVisitStatusUseCaseImpl(get()) }
         factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }

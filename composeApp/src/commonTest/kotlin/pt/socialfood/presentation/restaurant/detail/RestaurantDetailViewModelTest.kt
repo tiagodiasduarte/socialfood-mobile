@@ -73,18 +73,17 @@ class RestaurantDetailViewModelTest {
         }
 
     @Test
-    fun `given restaurant already has a visit status when loaded then state reflects it`() =
-        runTestWithMainDispatcher {
-            // Given
-            val vm = createViewModel(getVisitStatus = FakeGetVisitStatusUseCase(Result.Success(VisitStatus.WISHLIST)))
+    fun `given restaurant already has a visit status when loaded then state reflects it`() = runTestWithMainDispatcher {
+        // Given
+        val vm = createViewModel(getVisitStatus = FakeGetVisitStatusUseCase(Result.Success(VisitStatus.WISHLIST)))
 
-            // When / Then
-            vm.state.test {
-                assertEquals(RestaurantDetailUiState.Loading, awaitItem())
-                val loaded = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
-                assertEquals(VisitStatus.WISHLIST, loaded.visitStatus)
-            }
+        // When / Then
+        vm.state.test {
+            assertEquals(RestaurantDetailUiState.Loading, awaitItem())
+            val loaded = assertIs<RestaurantDetailUiState.Loaded>(awaitItem())
+            assertEquals(VisitStatus.WISHLIST, loaded.visitStatus)
         }
+    }
 
     @Test
     @Suppress("MaxLineLength", "ktlint:standard:max-line-length")

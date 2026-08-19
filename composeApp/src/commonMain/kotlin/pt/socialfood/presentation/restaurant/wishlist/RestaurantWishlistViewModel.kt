@@ -15,7 +15,7 @@ import pt.socialfood.domain.usecase.restaurantvisitstatus.UnmarkRestaurantVisitS
 import pt.socialfood.presentation.error.toErrorCode
 
 private const val PAGE_SIZE = 20
-private val STATUS = VisitStatus.WISH
+private val STATUS = VisitStatus.WISHLIST
 
 class RestaurantWishlistViewModel(
     private val getRestaurantVisitStatus: GetRestaurantVisitStatusUseCase,

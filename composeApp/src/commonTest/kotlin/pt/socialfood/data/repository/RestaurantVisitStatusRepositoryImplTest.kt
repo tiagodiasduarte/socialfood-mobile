@@ -174,7 +174,7 @@ class RestaurantVisitStatusRepositoryImplTest {
         // Given
         val (repo, dao, _) = createRepository()
         dao.upsert(
-            fakeRestaurant.toRestaurantVisitEntityForTest(VisitStatus.WISH, SyncState.SYNCED),
+            fakeRestaurant.toRestaurantVisitEntityForTest(VisitStatus.WISHLIST, SyncState.SYNCED),
         )
 
         // When
@@ -225,7 +225,7 @@ class RestaurantVisitStatusRepositoryImplTest {
     }
 
     @Test
-    fun `given a restaurant exists as VISITED when sync reports it as WISH then changes its state`() = runTest {
+    fun `given a restaurant exists as VISITED when sync reports it as WISHLIST then changes its state`() = runTest {
         // Given
         val api = FakeRestaurantVisitStatusApi()
         val (repo, dao, settings) = createRepository(api = api)
@@ -234,7 +234,7 @@ class RestaurantVisitStatusRepositoryImplTest {
         dao.upsert(existingRestaurant.toRestaurantVisitEntityForTest(VisitStatus.VISITED, SyncState.SYNCED))
         api.fakeSyncResponse = api.fakeSyncResponse.copy(
             updated = listOf(
-                RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(existingId, VisitStatus.WISH.name),
+                RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(existingId, VisitStatus.WISHLIST.name),
             ),
         )
         settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
@@ -245,8 +245,8 @@ class RestaurantVisitStatusRepositoryImplTest {
         // Then
         assertIs<Result.Success<Unit>>(result)
         val stored = dao.getByRestaurantId(existingId)
-        assertEquals(VisitStatus.WISH.name, stored?.status)
-        assertEquals(1, dao.getPaged(status = VisitStatus.WISH.name, limit = 10, offset = 0).size)
+        assertEquals(VisitStatus.WISHLIST.name, stored?.status)
+        assertEquals(1, dao.getPaged(status = VisitStatus.WISHLIST.name, limit = 10, offset = 0).size)
         assertTrue(dao.getPaged(status = VisitStatus.VISITED.name, limit = 10, offset = 0).isEmpty())
     }
 

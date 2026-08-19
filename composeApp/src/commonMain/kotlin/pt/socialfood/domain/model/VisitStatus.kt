@@ -1,3 +1,3 @@
 package pt.socialfood.domain.model
 
-enum class VisitStatus { WISH, VISITED }
+enum class VisitStatus { WISHLIST, VISITED }

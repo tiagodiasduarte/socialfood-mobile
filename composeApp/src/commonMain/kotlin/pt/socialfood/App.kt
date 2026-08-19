@@ -43,7 +43,7 @@ fun App(prewarmedStartupViewModel: StartupViewModel? = null) {
     }
 
     AppTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface) {
             when (val dest = destination) {
                 AppDestination.Splash -> SplashScreen(
                     viewModel = prewarmedStartupViewModel ?: koinViewModel(),

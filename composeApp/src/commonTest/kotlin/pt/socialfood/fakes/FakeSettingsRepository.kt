@@ -1,10 +1,14 @@
 package pt.socialfood.fakes
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import pt.socialfood.domain.model.ThemeMode
 import pt.socialfood.domain.repository.SettingsRepository
 
 class FakeSettingsRepository : SettingsRepository {
 
     private var token: String? = null
+    private val themeMode = MutableStateFlow(ThemeMode.LIGHT)
     private var pendingVerificationEmail: String? = null
     private var lastFavouritesSyncedAt: String? = null
     private var lastFavouritesSyncAttemptAt: Long? = null
@@ -21,6 +25,12 @@ class FakeSettingsRepository : SettingsRepository {
 
     override suspend fun clearToken() {
         token = null
+    }
+
+    override fun observeThemeMode(): Flow<ThemeMode> = themeMode
+
+    override suspend fun saveThemeMode(mode: ThemeMode) {
+        themeMode.value = mode
     }
 
     override suspend fun getPendingVerificationEmail(): String? = pendingVerificationEmail

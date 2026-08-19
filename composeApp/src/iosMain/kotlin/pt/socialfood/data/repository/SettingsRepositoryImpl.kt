@@ -1,9 +1,13 @@
 package pt.socialfood.data.repository
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import platform.Foundation.NSUserDefaults
 import pt.socialfood.data.security.KeychainTokenStore
+import pt.socialfood.domain.model.ThemeMode
 import pt.socialfood.domain.repository.SettingsRepository
 
+private const val KEY_THEME_MODE = "theme_mode"
 private const val KEY_PENDING_VERIFICATION_EMAIL = "pending_verification_email"
 private const val KEY_LAST_FAVOURITES_SYNCED_AT = "last_favourites_synced_at"
 private const val KEY_LAST_FAVOURITES_SYNC_ATTEMPT_AT = "last_favourites_sync_attempt_at"
@@ -24,6 +28,15 @@ class SettingsRepositoryImpl : SettingsRepository {
 
     override suspend fun clearToken() {
         KeychainTokenStore.delete()
+    }
+
+    override fun observeThemeMode(): Flow<ThemeMode> {
+        val stored = defaults.stringForKey(KEY_THEME_MODE)
+        return flowOf(stored?.let { ThemeMode.valueOf(it) } ?: ThemeMode.LIGHT)
+    }
+
+    override suspend fun saveThemeMode(mode: ThemeMode) {
+        defaults.setObject(mode.name, KEY_THEME_MODE)
     }
 
     override suspend fun getPendingVerificationEmail(): String? = defaults.stringForKey(KEY_PENDING_VERIFICATION_EMAIL)

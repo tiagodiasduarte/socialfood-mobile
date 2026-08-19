@@ -14,5 +14,5 @@ interface RestaurantVisitStatusRepository {
 
     suspend fun getPaged(status: VisitStatus, page: Int, limit: Int): Result<PagedRestaurantVisitStatus>
 
-    suspend fun sync(status: VisitStatus): Result<Unit>
+    suspend fun sync(): Result<Unit>
 }

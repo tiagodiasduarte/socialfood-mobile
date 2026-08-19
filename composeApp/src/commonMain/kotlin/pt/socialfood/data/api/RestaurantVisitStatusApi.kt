@@ -12,5 +12,5 @@ interface RestaurantVisitStatusApi {
 
     suspend fun find(status: VisitStatus, page: Int, limit: Int): PagedResponse<RestaurantResponse>
 
-    suspend fun sync(status: VisitStatus, since: String?): RestaurantVisitStatusSyncResponse
+    suspend fun sync(since: String?): RestaurantVisitStatusSyncResponse
 }

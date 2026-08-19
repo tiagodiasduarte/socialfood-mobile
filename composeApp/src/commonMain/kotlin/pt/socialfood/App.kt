@@ -12,12 +12,12 @@ import androidx.compose.ui.Modifier
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.mp.KoinPlatform.getKoin
 import pt.socialfood.data.network.SessionManager
-import pt.socialfood.presentation.favourite.FavouritesSyncEffect
 import pt.socialfood.presentation.navigation.NavigationRoot
 import pt.socialfood.presentation.signin.SignInScreen
 import pt.socialfood.presentation.signup.SignUpScreen
 import pt.socialfood.presentation.splash.SplashScreen
 import pt.socialfood.presentation.startup.StartupViewModel
+import pt.socialfood.presentation.sync.SyncEffect
 import pt.socialfood.presentation.validatecode.ValidateCodeScreen
 import pt.socialfood.ui.theme.AppTheme
 
@@ -53,7 +53,7 @@ fun App(prewarmedStartupViewModel: StartupViewModel? = null) {
                 )
                 AppDestination.Home -> {
                     NavigationRoot()
-                    FavouritesSyncEffect()
+                    SyncEffect()
                 }
                 AppDestination.Login -> SignInScreen(
                     onSignInSuccess = { navigate(AppDestination.Home) },

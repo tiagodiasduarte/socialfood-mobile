@@ -221,6 +221,7 @@ import pt.socialfood.presentation.search.SearchViewModel
 import pt.socialfood.presentation.signin.SignInViewModel
 import pt.socialfood.presentation.signup.SignUpViewModel
 import pt.socialfood.presentation.startup.StartupViewModel
+import pt.socialfood.presentation.sync.SyncViewModel
 import pt.socialfood.presentation.theme.ThemeViewModel
 import pt.socialfood.presentation.validatecode.ValidateCodeViewModel
 
@@ -387,6 +388,7 @@ val viewModelModule =
         factory { SignInViewModel(get(), get()) }
         factory { SignUpViewModel(get()) }
         factory { StartupViewModel(get(), get(), get()) }
+        factory { SyncViewModel(get(), get(), get(), get()) }
         factory { ThemeViewModel(get(), get()) }
         factory { (email: String) -> ValidateCodeViewModel(get(), get(), get(), email) }
     }

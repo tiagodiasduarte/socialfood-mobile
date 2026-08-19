@@ -1,7 +1,6 @@
 package pt.socialfood.data.network.model.restaurantvisitstatus
 
 import kotlinx.serialization.Serializable
-import pt.socialfood.domain.model.VisitStatus
 
 @Serializable
 data class RestaurantVisitStatusSyncResponse(
@@ -11,5 +10,5 @@ data class RestaurantVisitStatusSyncResponse(
 ) {
 
     @Serializable
-    data class RestaurantStatusEntry(val restaurantId: String, val status: VisitStatus)
+    data class RestaurantStatusEntry(val id: String, val status: String)
 }

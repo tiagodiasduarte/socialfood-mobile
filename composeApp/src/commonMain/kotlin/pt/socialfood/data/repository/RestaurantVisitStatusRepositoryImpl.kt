@@ -18,6 +18,7 @@ import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.mapper.toRestaurant
 import pt.socialfood.mapper.toRestaurantVisitStatus
 import pt.socialfood.mapper.toRestaurantVisitStatusEntity
+import pt.socialfood.mapper.toVisitStatus
 private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
 private const val MAX_RESTAURANT_VISITS_FETCH = 500
 private const val TAG = "RestaurantVisitStatusRepository"
@@ -105,7 +106,7 @@ class RestaurantVisitStatusRepositoryImpl(
         }
 
     @Suppress("ReturnCount")
-    override suspend fun sync(status: VisitStatus): Result<Unit> {
+    override suspend fun sync(): Result<Unit> {
         val now = currentTimeMillis()
         val lastAttempt = settingsRepository.getLastRestaurantVisitStatusSyncAttemptAt()
         if (lastAttempt != null && now - lastAttempt < MIN_SYNC_INTERVAL_MS) {
@@ -115,10 +116,10 @@ class RestaurantVisitStatusRepositoryImpl(
         return try {
             settingsRepository.saveLastRestaurantVisitStatusSyncAttemptAt(now)
 
-            pushPendingMutations(status)
+            pushPendingMutations()
 
             val syncedAt = settingsRepository.getLastRestaurantVisitStatusSyncedAt()
-            val changes = when (val result = safeApiCall { restaurantVisitStatusApi.sync(status, since = syncedAt) }) {
+            val changes = when (val result = safeApiCall { restaurantVisitStatusApi.sync(syncedAt) }) {
                 is Result.Failure -> return result
                 is Result.Success -> result.data
             }
@@ -133,11 +134,12 @@ class RestaurantVisitStatusRepositoryImpl(
         }
     }
 
-    private suspend fun pushPendingMutations(status: VisitStatus) {
-        restaurantVisitStatusDao.getPending(status.name).forEach { entity ->
+    private suspend fun pushPendingMutations() {
+        restaurantVisitStatusDao.getPending().forEach { entity ->
+            val status = VisitStatus.valueOf(entity.status)
             when (SyncState.valueOf(entity.syncState)) {
                 SyncState.PENDING_ADD -> pushPendingAdd(entity.restaurantId, status)
-                SyncState.PENDING_REMOVE -> pushPendingRemove(entity.restaurantId, status)
+                SyncState.PENDING_REMOVE -> pushPendingRemove(entity.restaurantId)
                 SyncState.SYNCED -> Unit
             }
         }
@@ -156,16 +158,16 @@ class RestaurantVisitStatusRepositoryImpl(
         }
     }
 
-    private suspend fun pushPendingRemove(restaurantId: String, status: VisitStatus) {
+    private suspend fun pushPendingRemove(restaurantId: String) {
         try {
             when (val result = safeApiCall { restaurantVisitStatusApi.unmark(restaurantId) }) {
                 is Result.Failure ->
-                    logger.w { "unmark($restaurantId, $status) still failing (${result.error}); retried next sync." }
+                    logger.w { "unmark($restaurantId) still failing (${result.error}); retried next sync." }
                 is Result.Success ->
                     restaurantVisitStatusDao.deleteByRestaurantId(restaurantId)
             }
         } catch (e: SQLiteException) {
-            logger.w(e) { "unmark($restaurantId, $status) local update failed; retried next sync." }
+            logger.w(e) { "unmark($restaurantId) local update failed; retried next sync." }
         }
     }
 
@@ -174,7 +176,7 @@ class RestaurantVisitStatusRepositoryImpl(
             restaurantVisitStatusDao.deleteByRestaurantIds(changes.removedIds)
         }
 
-        val updatedByStatus = changes.updated.groupBy({ it.status }, { it.restaurantId })
+        val updatedByStatus = changes.updated.groupBy({ it.toVisitStatus() }, { it.id })
         for ((entryStatus, restaurantIds) in updatedByStatus) {
             val applyResult = applyUpdatedForStatus(entryStatus, restaurantIds.toSet())
             if (applyResult is Result.Failure) return applyResult

@@ -19,6 +19,9 @@ class FakeRestaurantVisitStatusApi(private val shouldThrow: Boolean = false) : R
     var lastUnmarkedRestaurantId: String? = null
         private set
 
+    var lastSyncSince: String? = null
+        private set
+
     var fakeRestaurants = PagedResponse(
         items = listOf(fakeRestaurantResponse),
         page = 1,
@@ -47,12 +50,9 @@ class FakeRestaurantVisitStatusApi(private val shouldThrow: Boolean = false) : R
         return fakeRestaurants
     }
 
-    override suspend fun sync(status: VisitStatus, since: String?): RestaurantVisitStatusSyncResponse {
+    override suspend fun sync(since: String?): RestaurantVisitStatusSyncResponse {
         if (shouldThrow) throw IOException("test error")
-        return fakeSyncResponse.copy(
-            updated = listOf(
-                RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(fakeRestaurantResponse.id, status),
-            ),
-        )
+        lastSyncSince = since
+        return fakeSyncResponse
     }
 }

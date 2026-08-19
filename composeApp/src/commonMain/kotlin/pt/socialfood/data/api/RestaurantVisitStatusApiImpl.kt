@@ -5,14 +5,9 @@ import io.ktor.client.call.body
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import io.ktor.client.request.post
 import io.ktor.client.request.put
-import io.ktor.client.request.setBody
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
-import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantStatusSyncRequest
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.domain.model.VisitStatus
 
@@ -41,9 +36,8 @@ class RestaurantVisitStatusApiImpl(private val client: HttpClient) : RestaurantV
             parameter("limit", limit)
         }.body()
 
-    override suspend fun sync(request: RestaurantStatusSyncRequest): RestaurantVisitStatusSyncResponse =
-        client.post("me/restaurants/status/sync") {
-            contentType(ContentType.Application.Json)
-            setBody(request)
+    override suspend fun sync(since: String?): RestaurantVisitStatusSyncResponse =
+        client.get("me/restaurants/status/sync") {
+            if (!since.isNullOrBlank()) parameter("since", since)
         }.body()
 }

@@ -231,7 +231,7 @@ class RestaurantVisitStatusRepositoryImplTest {
     }
 
     @Test
-    fun `given DAO write throws when sync is called then does not advance syncedAt`() = runTest {
+    fun `given a pending row fails to push when sync is called then still succeeds and advances syncedAt`() = runTest {
         // Given
         val status = Random.nextEnum<VisitStatus>()
         val dao = FakeRestaurantVisitStatusDao(
@@ -245,9 +245,24 @@ class RestaurantVisitStatusRepositoryImplTest {
         val result = repo.sync()
 
         // Then
-        assertIs<Result.Failure>(result)
-        assertEquals(null, settings.getLastRestaurantVisitStatusSyncedAt())
+        assertIs<Result.Success<Unit>>(result)
+        assertEquals("2026-08-01T10:30:00Z", settings.getLastRestaurantVisitStatusSyncedAt())
     }
+
+    @Test
+    fun `given the sync api call fails when sync is called then returns Failure and does not advance syncedAt`() =
+        runTest {
+            // Given
+            val (repo, _, settings) = createRepository(api = FakeRestaurantVisitStatusApi(shouldThrow = true))
+            settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
+
+            // When
+            val result = repo.sync()
+
+            // Then
+            assertIs<Result.Failure>(result)
+            assertEquals(null, settings.getLastRestaurantVisitStatusSyncedAt())
+        }
 
     @Test
     fun `given last sync attempt was recent when sync is called then returns early without calling the API`() =

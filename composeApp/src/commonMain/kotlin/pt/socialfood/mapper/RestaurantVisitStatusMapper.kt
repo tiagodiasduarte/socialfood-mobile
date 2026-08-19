@@ -2,6 +2,7 @@ package pt.socialfood.mapper
 
 import pt.socialfood.data.local.entity.RestaurantVisitStatusEntity
 import pt.socialfood.data.local.entity.SyncState
+import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
@@ -50,3 +51,8 @@ fun Restaurant.toRestaurantVisitStatusEntity(
     recordedAt = recordedAt,
     syncState = syncState.name,
 )
+
+fun RestaurantVisitStatusEntity.toRestaurantStatusEntry(): RestaurantVisitStatusSyncResponse.RestaurantStatusEntry =
+    RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(id = this.restaurantId, status = this.status)
+
+fun RestaurantVisitStatusSyncResponse.RestaurantStatusEntry.toVisitStatus(): VisitStatus = VisitStatus.valueOf(status)

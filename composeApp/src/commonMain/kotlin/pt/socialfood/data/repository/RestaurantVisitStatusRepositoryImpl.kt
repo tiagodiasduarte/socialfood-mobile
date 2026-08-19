@@ -17,8 +17,10 @@ import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.mapper.toRestaurant
+import pt.socialfood.mapper.toRestaurantStatusEntry
 import pt.socialfood.mapper.toRestaurantVisitStatus
 import pt.socialfood.mapper.toRestaurantVisitStatusEntity
+import pt.socialfood.mapper.toVisitStatus
 private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
 private const val MAX_RESTAURANT_VISITS_FETCH = 500
 private const val TAG = "RestaurantVisitStatusRepository"
@@ -122,12 +124,7 @@ class RestaurantVisitStatusRepositoryImpl(
 
             val syncedAt = settingsRepository.getLastRestaurantVisitStatusSyncedAt()
             val request = RestaurantStatusSyncRequest(
-                updated = pendingAdds.map {
-                    RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(
-                        id = it.restaurantId,
-                        status = VisitStatus.valueOf(it.status),
-                    )
-                },
+                updated = pendingAdds.map { it.toRestaurantStatusEntry() },
                 removedIds = pendingRemoves.map { it.restaurantId },
                 since = syncedAt.orEmpty(),
             )
@@ -158,7 +155,7 @@ class RestaurantVisitStatusRepositoryImpl(
             restaurantVisitStatusDao.deleteByRestaurantIds(changes.removedIds)
         }
 
-        val updatedByStatus = changes.updated.groupBy({ it.status }, { it.id })
+        val updatedByStatus = changes.updated.groupBy({ it.toVisitStatus() }, { it.id })
         for ((entryStatus, restaurantIds) in updatedByStatus) {
             val applyResult = applyUpdatedForStatus(entryStatus, restaurantIds.toSet())
             if (applyResult is Result.Failure) return applyResult

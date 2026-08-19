@@ -210,7 +210,7 @@ class RestaurantVisitStatusRepositoryImplTest {
         val api = FakeRestaurantVisitStatusApi()
         val restaurantId = api.fakeRestaurants.items.first().id
         api.fakeSyncResponse = api.fakeSyncResponse.copy(
-            updated = listOf(RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(restaurantId, status)),
+            updated = listOf(RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(restaurantId, status.name)),
         )
         val (repo, dao, settings) = createRepository(api = api)
         settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
@@ -234,7 +234,7 @@ class RestaurantVisitStatusRepositoryImplTest {
         dao.upsert(existingRestaurant.toRestaurantVisitEntityForTest(VisitStatus.VISITED, SyncState.SYNCED))
         api.fakeSyncResponse = api.fakeSyncResponse.copy(
             updated = listOf(
-                RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(existingId, VisitStatus.WISH),
+                RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(existingId, VisitStatus.WISH.name),
             ),
         )
         settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
@@ -257,7 +257,7 @@ class RestaurantVisitStatusRepositoryImplTest {
         val api = FakeRestaurantVisitStatusApi()
         val restaurantId = api.fakeRestaurants.items.first().id
         api.fakeSyncResponse = api.fakeSyncResponse.copy(
-            updated = listOf(RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(restaurantId, status)),
+            updated = listOf(RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(restaurantId, status.name)),
         )
         val (repo, _, settings) = createRepository(
             api = api,

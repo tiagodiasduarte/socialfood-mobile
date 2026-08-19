@@ -16,7 +16,7 @@ private const val VISITED_PATH_SEGMENT = "visited"
 
 internal val VisitStatus.pathSegment: String
     get() = when (this) {
-        VisitStatus.WISH -> WISH_PATH_SEGMENT
+        VisitStatus.WISHLIST -> WISH_PATH_SEGMENT
         VisitStatus.VISITED -> VISITED_PATH_SEGMENT
     }
 

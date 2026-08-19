@@ -29,7 +29,7 @@ fun FavouritesSyncEffect(
     LifecycleEventEffect(Lifecycle.Event.ON_START) {
         scope.launch { syncFavourites() }
         scope.launch { syncFavouriteRestaurants() }
-        scope.launch { syncRestaurantVisits(VisitStatus.WISH) }
+        scope.launch { syncRestaurantVisits(VisitStatus.WISHLIST) }
         scope.launch { syncRestaurantVisits(VisitStatus.VISITED) }
     }
 
@@ -39,7 +39,7 @@ fun FavouritesSyncEffect(
             if (wasOnline == false && isOnline) {
                 syncFavourites()
                 syncFavouriteRestaurants()
-                syncRestaurantVisits(VisitStatus.WISH)
+                syncRestaurantVisits(VisitStatus.WISHLIST)
                 syncRestaurantVisits(VisitStatus.VISITED)
             }
             wasOnline = isOnline

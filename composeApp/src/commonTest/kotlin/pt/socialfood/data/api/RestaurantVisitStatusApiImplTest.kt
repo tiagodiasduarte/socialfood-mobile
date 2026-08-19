@@ -6,9 +6,9 @@ import kotlin.test.assertEquals
 
 class RestaurantVisitStatusApiImplTest {
     @Test
-    fun `given WISH when pathSegment is read then returns wishlist`() {
+    fun `given WISHLIST when pathSegment is read then returns wishlist`() {
         // Given
-        val status = VisitStatus.WISH
+        val status = VisitStatus.WISHLIST
 
         // When
         val result = status.pathSegment

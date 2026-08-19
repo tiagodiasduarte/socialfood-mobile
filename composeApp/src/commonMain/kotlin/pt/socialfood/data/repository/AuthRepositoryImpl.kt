@@ -2,66 +2,25 @@ package pt.socialfood.data.repository
 
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.AuthApi
-import pt.socialfood.data.network.extensions.toErrorEntity
+import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.repository.AuthRepository
 
-class AuthRepositoryImpl(
-    private val authApi: AuthApi
-) : AuthRepository {
+class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {
 
-    override suspend fun login(email: String, password: String): Result<String> {
-        return try {
+    override suspend fun login(email: String, password: String): Result<String> =
+        safeApiCall { authApi.login(email, password).token }
 
-            val token = authApi.login(email,password).token
-            Result.Success(token)
+    override suspend fun register(name: String, email: String, password: String): Result<Unit> =
+        safeApiCall { authApi.register(name, email, password) }
 
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
-        }
-    }
+    override suspend fun validateCode(email: String, code: String): Result<String> =
+        safeApiCall { authApi.validateCode(email = email, code = code).token }
 
-    override suspend fun register(name: String, email: String, password: String): Result<Unit> {
-        return try {
-            val token = authApi.register(name, email, password)
-            Result.Success(token)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
-        }
-    }
+    override suspend fun resendVerificationCode(email: String): Result<Unit> =
+        safeApiCall { authApi.resendVerificationCode(email) }
 
-    override suspend fun validateCode(email: String, code: String): Result<String> {
-        return try {
-            val response = authApi.validateCode(email = email, code = code)
-            Result.Success(response.token)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
-        }
-    }
+    override suspend fun loginWithGoogle(idToken: String): Result<String> =
+        safeApiCall { authApi.loginWithGoogle(idToken).token }
 
-    override suspend fun resendVerificationCode(email: String): Result<Unit> {
-        return try {
-            val result = authApi.resendVerificationCode(email)
-            Result.Success(result)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
-        }
-    }
-
-    override suspend fun loginWithGoogle(idToken: String): Result<String> {
-        return try {
-            val token = authApi.loginWithGoogle(idToken).token
-            Result.Success(token)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
-        }
-    }
-
-    override suspend fun logout(): Result<Boolean> {
-        return try {
-            val result = authApi.logout()
-            Result.Success(result)
-        } catch (exception: Exception) {
-            Result.Error(exception.toErrorEntity())
-        }
-    }
+    override suspend fun logout(): Result<Boolean> = safeApiCall { authApi.logout() }
 }

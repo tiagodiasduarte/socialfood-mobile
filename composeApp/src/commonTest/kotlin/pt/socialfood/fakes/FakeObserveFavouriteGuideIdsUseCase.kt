@@ -2,11 +2,9 @@ package pt.socialfood.fakes
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import pt.socialfood.domain.use_case.favourite.guide.ObserveFavouriteGuideIdsUseCase
+import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
 
-class FakeObserveFavouriteGuideIdsUseCase(
-    initial: Set<String> = emptySet(),
-) : ObserveFavouriteGuideIdsUseCase {
+class FakeObserveFavouriteGuideIdsUseCase(initial: Set<String> = emptySet()) : ObserveFavouriteGuideIdsUseCase {
     private val ids = MutableStateFlow(initial)
 
     fun emit(ids: Set<String>) {

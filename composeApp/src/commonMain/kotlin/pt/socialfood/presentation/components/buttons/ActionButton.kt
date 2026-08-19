@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.components
+package pt.socialfood.presentation.components.buttons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ActionButton(modifier: Modifier = Modifier ,onClick: () -> Unit, content: @Composable () -> Unit) {
+fun ActionButton(modifier: Modifier = Modifier, onClick: () -> Unit, content: @Composable () -> Unit) {
     Box(
         modifier = modifier
             .size(40.dp)

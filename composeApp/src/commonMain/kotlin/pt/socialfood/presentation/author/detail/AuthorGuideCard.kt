@@ -21,18 +21,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.ui.theme.ImagePlaceholderColor
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.author_detail_restaurants_count_label
-import pt.socialfood.ui.theme.SpaceSize
 
-
+@Suppress("LongMethod")
 @Composable
 fun AuthorGuideCard(
     guideName: String,
@@ -40,7 +40,7 @@ fun AuthorGuideCard(
     numberOfRestaurant: Int,
     imageUrl: String?,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier.fillMaxWidth().clickable(onClick = onClick),
@@ -59,7 +59,7 @@ fun AuthorGuideCard(
                 modifier = Modifier
                     .size(72.dp)
                     .clip(RoundedCornerShape(SpaceSize.medium))
-                    .background(Color(0xFF2A2A2A)),
+                    .background(ImagePlaceholderColor),
             ) {
                 if (imageUrl != null) {
                     SubcomposeAsyncImage(
@@ -98,7 +98,7 @@ fun AuthorGuideCard(
                 Text(
                     text = stringResource(
                         Res.string.author_detail_restaurants_count_label,
-                        numberOfRestaurant
+                        numberOfRestaurant,
                     ),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,

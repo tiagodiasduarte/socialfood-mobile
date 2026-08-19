@@ -1,5 +1,6 @@
 package pt.socialfood.fakes
 
+import kotlinx.io.IOException
 import pt.socialfood.data.api.AuthorsApi
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.author.AuthorDetailResponse
@@ -8,7 +9,7 @@ import pt.socialfood.data.network.model.author.AuthorResponse
 class FakeAuthorsApi(
     private val shouldThrow: Boolean = false,
     private val items: List<AuthorResponse> = listOf(
-        AuthorResponse(id = "author-id", name = "Author Name", imageUrl = null),
+        AuthorResponse(id = "author-id", name = "Author Name", username = "authorname", imageUrl = null),
     ),
     private val total: Int = 25,
 ) : AuthorsApi {
@@ -16,6 +17,7 @@ class FakeAuthorsApi(
     private val fakeAuthorDetailResponse = AuthorDetailResponse(
         id = "author-id",
         name = "Author Name",
+        username = "authorname",
         imageUrl = null,
         guidesCount = 3,
         followersCount = 10,
@@ -30,7 +32,7 @@ class FakeAuthorsApi(
         private set
 
     override suspend fun findAuthors(page: Int, limit: Int, query: String?): PagedResponse<AuthorResponse> {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         findAuthorsCallCount++
         lastFindAuthorsPage = page
         return PagedResponse(
@@ -42,7 +44,7 @@ class FakeAuthorsApi(
     }
 
     override suspend fun findAuthorById(id: String): AuthorDetailResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return fakeAuthorDetailResponse
     }
 }

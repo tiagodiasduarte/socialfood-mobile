@@ -1,5 +1,6 @@
 package pt.socialfood.fakes
 
+import kotlinx.io.IOException
 import pt.socialfood.data.api.FavouriteRestaurantsApi
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
@@ -41,26 +42,26 @@ class FakeFavouriteRestaurantsApi(private val shouldThrow: Boolean = false) : Fa
     var fakeSyncResponse = FavouriteSyncResponse(
         addedIds = listOf(fakeRestaurantResponse.id),
         removedIds = emptyList(),
-        nextCheckpoint = "checkpoint-1",
+        syncedAt = "2026-08-01T10:30:00Z",
     )
 
     override suspend fun markFavourite(restaurantId: String) {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         lastMarkedRestaurantId = restaurantId
     }
 
     override suspend fun unmarkFavourite(restaurantId: String) {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         lastUnmarkedRestaurantId = restaurantId
     }
 
     override suspend fun findFavouriteRestaurants(page: Int, limit: Int): PagedResponse<RestaurantResponse> {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return fakeFavouriteRestaurants
     }
 
     override suspend fun syncFavouriteRestaurants(since: String?): FavouriteSyncResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return fakeSyncResponse
     }
 }

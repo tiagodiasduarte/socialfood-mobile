@@ -2,24 +2,24 @@ name: iOS Build for TestFlight
 
 on:
   schedule:
-    - cron: '0 10 * * *'  # 10:00 UTC
+    - cron: '0 10 * * *'  # 10:00 UTC (11:00 Lisbon/WEST summer)
   workflow_dispatch:
 
 jobs:
   ios-build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      # ----------------- CHECKOUT -----------------
+      - name: Checkout develop
+        uses: actions/checkout@v4
         with:
           ref: develop
 
       # ----------------- SET BUILD DATE -----------------
-      - name: Set BUILD_DATE
-        run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
+      - uses: ./.github/actions/set-build-date
 
       # ----------------- SET COMMIT HASH -----------------
-      - name: Set COMMIT_HASH
-        run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+      - uses: ./.github/actions/set-commit-hash
 
       # ----------------- SETUP JAVA (required for KMP) -----------------
       - name: Setup Java
@@ -39,6 +39,11 @@ jobs:
           GOOGLE_REVERSE_CLIENT_ID_WEB = com.googleusercontent.apps.$(echo ${GOOGLE_CLIENT_ID_IOS} | sed 's/.apps.googleusercontent.com//')
           EOF
           sed -i '' "s/TEAM_ID=/TEAM_ID=${TEAM_ID}/" iosApp/Configuration/Config.xcconfig
+
+      # ----------------- SETUP GOOGLESERVICE-INFO.PLIST -----------------
+      - uses: ./.github/actions/setup-google-service-info-plist
+        with:
+          google-service-info-plist-base64: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_BASE64 }}
 
       # ----------------- INSTALL DEPENDENCIES -----------------
       - run: sudo gem install cocoapods fastlane

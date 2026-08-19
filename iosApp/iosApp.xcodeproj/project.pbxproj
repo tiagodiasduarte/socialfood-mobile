@@ -104,6 +104,7 @@
 				A9CD87928E00D2F776D66985 /* Frameworks */,
 				D8C782F0951A7BD3949C37F6 /* Resources */,
 				B86123ED78A85CB7367BDBA6 /* [CP] Embed Pods Frameworks */,
+				F9324812B51B23DAA0AC5653 /* Crashlytics */,
 			);
 			buildRules = (
 			);
@@ -223,6 +224,26 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-iosApp/Pods-iosApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		F9324812B51B23DAA0AC5653 /* Crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = Crashlytics;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$CONFIGURATION\" = \"Release\" ]; then\n  \"${PODS_ROOT}/FirebaseCrashlytics/run\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

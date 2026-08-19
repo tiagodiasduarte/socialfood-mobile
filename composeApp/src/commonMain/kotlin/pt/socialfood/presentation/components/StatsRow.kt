@@ -16,41 +16,44 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.AppTypography
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.profile_stat_followers_label
 import socialfood.composeapp.generated.resources.profile_stat_following_label
 import socialfood.composeapp.generated.resources.profile_stat_guides_label
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun StatsRow(
-    guidesCount: Int? = null,
-    followersCount: Int? = null,
-    followingCount: Int? = null,
-) {
+fun StatsRow(guidesCount: Int? = null, followersCount: Int? = null, followingCount: Int? = null) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         StatItem(value = guidesCount?.toString() ?: "-", label = stringResource(Res.string.profile_stat_guides_label))
         Box(
-            modifier = Modifier
-                .padding(horizontal = SpaceSize.large)
-                .size(width = 1.dp, height = 32.dp)
-                .background(MaterialTheme.colorScheme.outlineVariant)
-        )
-        StatItem(value = followersCount?.toString() ?: "-", label = stringResource(Res.string.profile_stat_followers_label))
-        Box(
-            modifier = Modifier
+            modifier =
+            Modifier
                 .padding(horizontal = SpaceSize.large)
                 .size(width = 1.dp, height = 32.dp)
                 .background(MaterialTheme.colorScheme.outlineVariant),
         )
-        StatItem(value = followingCount?.toString() ?: "-", label = stringResource(Res.string.profile_stat_following_label))
+        StatItem(
+            value = followersCount?.toString() ?: "-",
+            label = stringResource(Res.string.profile_stat_followers_label),
+        )
+        Box(
+            modifier =
+            Modifier
+                .padding(horizontal = SpaceSize.large)
+                .size(width = 1.dp, height = 32.dp)
+                .background(MaterialTheme.colorScheme.outlineVariant),
+        )
+        StatItem(
+            value = followingCount?.toString() ?: "-",
+            label = stringResource(Res.string.profile_stat_following_label),
+        )
     }
-
 }
 
 @Composable

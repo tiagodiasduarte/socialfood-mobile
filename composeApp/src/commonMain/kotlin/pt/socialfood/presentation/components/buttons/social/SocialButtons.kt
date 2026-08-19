@@ -12,6 +12,8 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.facebook_icon
 import socialfood.composeapp.generated.resources.instagram_icon
@@ -19,19 +21,12 @@ import socialfood.composeapp.generated.resources.social_facebook_icon_descriptio
 import socialfood.composeapp.generated.resources.social_instagram_icon_description
 import socialfood.composeapp.generated.resources.social_youtube_icon_description
 import socialfood.composeapp.generated.resources.youtube_icon
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 
 internal val SocialButtonsIconSize = 38.dp
 internal val SocialButtonsRowSpacing = SpaceSize.medium
 
 @Composable
-fun SocialButtons(
-    facebookUrl: String?,
-    instagramUrl: String?,
-    youtubeUrl: String?,
-    modifier: Modifier = Modifier,
-) {
+fun SocialButtons(facebookUrl: String?, instagramUrl: String?, youtubeUrl: String?, modifier: Modifier = Modifier) {
     val hasAnyLink = !facebookUrl.isNullOrBlank() || !instagramUrl.isNullOrBlank() || !youtubeUrl.isNullOrBlank()
     if (!hasAnyLink) return
 
@@ -66,11 +61,7 @@ fun SocialButtons(
 }
 
 @Composable
-private fun SocialLinkIcon(
-    icon: DrawableResource,
-    contentDescription: String,
-    onClick: () -> Unit,
-) {
+private fun SocialLinkIcon(icon: DrawableResource, contentDescription: String, onClick: () -> Unit) {
     Image(
         painter = painterResource(icon),
         contentDescription = contentDescription,

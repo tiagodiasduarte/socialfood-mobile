@@ -2,6 +2,7 @@ package pt.socialfood.fakes
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import androidx.sqlite.SQLiteException
 import pt.socialfood.data.local.dao.GuideDao
 import pt.socialfood.data.local.entity.GuideEntity
 
@@ -12,7 +13,7 @@ class FakeGuideDao(private val shouldThrowOnWrite: Boolean = false) : GuideDao {
     fun getAll(): List<GuideEntity> = entities.toList()
 
     override suspend fun upsertAll(guides: List<GuideEntity>) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw SQLiteException("test error")
         guides.forEach { guide ->
             val index = entities.indexOfFirst { it.id == guide.id && it.scope == guide.scope }
             if (index >= 0) entities[index] = guide else entities.add(guide)
@@ -20,7 +21,7 @@ class FakeGuideDao(private val shouldThrowOnWrite: Boolean = false) : GuideDao {
     }
 
     override suspend fun deleteByScope(scope: String) {
-        if (shouldThrowOnWrite) throw RuntimeException("test error")
+        if (shouldThrowOnWrite) throw SQLiteException("test error")
         entities.removeAll { it.scope == scope }
     }
 
@@ -28,9 +29,8 @@ class FakeGuideDao(private val shouldThrowOnWrite: Boolean = false) : GuideDao {
         FakeGuidePagingSource { entities.filter { it.scope == scope }.sortedBy { it.position } }
 }
 
-private class FakeGuidePagingSource(
-    private val loadEntities: () -> List<GuideEntity>,
-) : PagingSource<Int, GuideEntity>() {
+private class FakeGuidePagingSource(private val loadEntities: () -> List<GuideEntity>) :
+    PagingSource<Int, GuideEntity>() {
 
     override fun getRefreshKey(state: PagingState<Int, GuideEntity>): Int? = null
 

@@ -17,13 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.buttons.social.SocialButtons
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.ProfileGradientEnd
 import pt.socialfood.ui.theme.ProfileGradientStart
 import pt.socialfood.ui.theme.SpaceSize
@@ -33,9 +31,11 @@ val ProfileAvatarSize = 96.dp
 val ProfileAvatarRingSize = 108.dp
 val ProfileAvatarOverlap = ProfileAvatarRingSize / 2
 
+@Suppress("LongMethod")
 @Composable
 fun ProfileHeader(
     name: String,
+    username: String,
     imageUrl: String?,
     facebookUrl: String?,
     instagramUrl: String?,
@@ -46,7 +46,7 @@ fun ProfileHeader(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(GreyBackground),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         Box(
             modifier = Modifier
@@ -74,7 +74,7 @@ fun ProfileHeader(
                     modifier = Modifier
                         .size(ProfileAvatarRingSize)
                         .clip(CircleShape)
-                        .background(Color.White),
+                        .background(MaterialTheme.colorScheme.surface),
                     contentAlignment = Alignment.Center,
                 ) {
                     UserImage(
@@ -93,11 +93,21 @@ fun ProfileHeader(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
-            Text(
-                text = name,
-                style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onBackground,
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
+            ) {
+                Text(
+                    text = name,
+                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+                Text(
+                    text = "@$username",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
 
             SocialButtons(
                 facebookUrl = facebookUrl,
@@ -116,6 +126,7 @@ private fun ProfileHeaderPreview() {
     AppTheme {
         ProfileHeader(
             name = "John Doe",
+            username = "johndoe",
             imageUrl = null,
             facebookUrl = "https://facebook.com/johndoe",
             instagramUrl = "https://instagram.com/johndoe",

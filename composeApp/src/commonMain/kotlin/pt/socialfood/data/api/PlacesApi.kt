@@ -7,7 +7,6 @@ interface PlacesApi {
     suspend fun search(query: String): PlaceResponse
 
     companion object {
-        fun buildImageUrl(photoName: String): String =
-            "$API_URL/places/photo?ref=$photoName"
+        fun buildImageUrl(photoName: String): String = "$API_URL/places/photo?ref=$photoName"
     }
 }

@@ -26,21 +26,21 @@ private const val SCOPE = "user-1"
 
 @OptIn(ExperimentalPagingApi::class)
 class GuideRemoteMediatorTest {
-
     private val config = PagingConfig(pageSize = 10)
-    private val emptyState = PagingState<Int, GuideEntity>(
-        pages = emptyList(),
-        anchorPosition = null,
-        config = config,
-        leadingPlaceholderCount = 0,
-    )
+    private val emptyState =
+        PagingState<Int, GuideEntity>(
+            pages = emptyList(),
+            anchorPosition = null,
+            config = config,
+            leadingPlaceholderCount = 0,
+        )
 
     private fun guideResponse(id: String) = GuideResponse(
         id = id,
         name = "Guide $id",
         description = "Description $id",
         visibility = GuideVisibility.PUBLIC,
-        author = AuthorResponse(id = "author-id", name = "Author", imageUrl = null),
+        author = AuthorResponse(id = "author-id", name = "Author", username = "author", imageUrl = null),
         numberOfRestaurants = 0,
         imageUrl = null,
     )
@@ -53,6 +53,7 @@ class GuideRemoteMediatorTest {
         visibility = "PUBLIC",
         authorId = "author-id",
         authorName = "Author",
+        authorUsername = "author",
         authorImageUrl = null,
         numberOfRestaurant = 0,
         imageUrl = null,
@@ -73,154 +74,171 @@ class GuideRemoteMediatorTest {
     )
 
     @Test
-    fun `given empty cache when REFRESH load is triggered then fetches page 1 and upserts into GuideDao for the scope`() = runTest {
-        // Given
-        val api = FakeGuidesApi(items = listOf(guideResponse("g1"), guideResponse("g2")), total = 2)
-        val guideDao = FakeGuideDao()
-        val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
-        val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
+    fun `given empty cache when REFRESH load is triggered then fetches page 1 and upserts into GuideDao for the scope`() =
+        runTest {
+            // Given
+            val api = FakeGuidesApi(items = listOf(guideResponse("g1"), guideResponse("g2")), total = 2)
+            val guideDao = FakeGuideDao()
+            val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
+            val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
 
-        // When
-        val result = mediator.load(LoadType.REFRESH, emptyState)
+            // When
+            val result = mediator.load(LoadType.REFRESH, emptyState)
 
-        // Then
-        assertIs<RemoteMediator.MediatorResult.Success>(result)
-        assertEquals(1, api.findGuidesCallCount)
-        assertEquals(1, api.lastFindGuidesPage)
-        assertEquals(SCOPE, api.lastFindGuidesUserId)
-        val cached = guideDao.getAll()
-        assertEquals(listOf("g1", "g2"), cached.map { it.id })
-        assertTrue(cached.all { it.scope == SCOPE })
-    }
-
-    @Test
-    fun `given REFRESH succeeds when load completes then old cached rows and remote key for the scope are replaced not merged`() = runTest {
-        // Given
-        val guideDao = FakeGuideDao()
-        val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
-        guideDao.upsertAll(listOf(guideEntity(id = "old-id")))
-        guideRemoteKeyDao.upsert(GuideRemoteKeyEntity(scope = SCOPE, nextPage = 2, endOfPaginationReached = false))
-        val api = FakeGuidesApi(items = listOf(guideResponse("new-id")), total = 1)
-        val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
-
-        // When
-        val result = mediator.load(LoadType.REFRESH, emptyState)
-
-        // Then
-        assertIs<RemoteMediator.MediatorResult.Success>(result)
-        val cached = guideDao.getAll()
-        assertEquals(listOf("new-id"), cached.map { it.id })
-        val remoteKey = guideRemoteKeyDao.getByScope(SCOPE)
-        assertNull(remoteKey?.nextPage)
-        assertEquals(true, remoteKey?.endOfPaginationReached)
-    }
+            // Then
+            assertIs<RemoteMediator.MediatorResult.Success>(result)
+            assertEquals(1, api.findGuidesCallCount)
+            assertEquals(1, api.lastFindGuidesPage)
+            assertEquals(SCOPE, api.lastFindGuidesUserId)
+            val cached = guideDao.getAll()
+            assertEquals(listOf("g1", "g2"), cached.map { it.id })
+            assertTrue(cached.all { it.scope == SCOPE })
+        }
 
     @Test
-    fun `given cache has a next page key when APPEND load is triggered then fetches that page and appends it`() = runTest {
-        // Given
-        val guideDao = FakeGuideDao()
-        val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
-        guideDao.upsertAll(listOf(guideEntity(id = "g1", position = 0)))
-        guideRemoteKeyDao.upsert(GuideRemoteKeyEntity(scope = SCOPE, nextPage = 2, endOfPaginationReached = false))
-        val api = FakeGuidesApi(items = listOf(guideResponse("g2")), total = 11)
-        val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
+    fun `given REFRESH succeeds when load completes then old cached rows and remote key for the scope are replaced not merged`() =
+        runTest {
+            // Given
+            val guideDao = FakeGuideDao()
+            val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
+            guideDao.upsertAll(listOf(guideEntity(id = "old-id")))
+            guideRemoteKeyDao.upsert(GuideRemoteKeyEntity(scope = SCOPE, nextPage = 2, endOfPaginationReached = false))
+            val api = FakeGuidesApi(items = listOf(guideResponse("new-id")), total = 1)
+            val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
 
-        // When
-        val result = mediator.load(LoadType.APPEND, emptyState)
+            // When
+            val result = mediator.load(LoadType.REFRESH, emptyState)
 
-        // Then
-        assertIs<RemoteMediator.MediatorResult.Success>(result)
-        assertEquals(2, api.lastFindGuidesPage)
-        val cached = guideDao.getAll()
-        assertEquals(listOf("g1", "g2"), cached.map { it.id })
-    }
-
-    @Test
-    fun `given cache has no next page key when APPEND load is triggered then returns Success with endOfPaginationReached true without calling the api`() = runTest {
-        // Given
-        val guideDao = FakeGuideDao()
-        val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
-        guideRemoteKeyDao.upsert(GuideRemoteKeyEntity(scope = SCOPE, nextPage = null, endOfPaginationReached = true))
-        val api = FakeGuidesApi()
-        val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
-
-        // When
-        val result = mediator.load(LoadType.APPEND, emptyState)
-
-        // Then
-        assertIs<RemoteMediator.MediatorResult.Success>(result)
-        assertTrue(result.endOfPaginationReached)
-        assertEquals(0, api.findGuidesCallCount)
-    }
+            // Then
+            assertIs<RemoteMediator.MediatorResult.Success>(result)
+            val cached = guideDao.getAll()
+            assertEquals(listOf("new-id"), cached.map { it.id })
+            val remoteKey = guideRemoteKeyDao.getByScope(SCOPE)
+            assertNull(remoteKey?.nextPage)
+            assertEquals(true, remoteKey?.endOfPaginationReached)
+        }
 
     @Test
-    fun `given response page times limit is greater than or equal to total when load is triggered then endOfPaginationReached is true and the remote key reflects it`() = runTest {
-        // Given
-        val api = FakeGuidesApi(items = listOf(guideResponse("g1")), total = 1)
-        val guideDao = FakeGuideDao()
-        val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
-        val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
+    fun `given cache has a next page key when APPEND load is triggered then fetches that page and appends it`() =
+        runTest {
+            // Given
+            val guideDao = FakeGuideDao()
+            val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
+            guideDao.upsertAll(listOf(guideEntity(id = "g1", position = 0)))
+            guideRemoteKeyDao.upsert(GuideRemoteKeyEntity(scope = SCOPE, nextPage = 2, endOfPaginationReached = false))
+            val api = FakeGuidesApi(items = listOf(guideResponse("g2")), total = 11)
+            val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
 
-        // When
-        val result = mediator.load(LoadType.REFRESH, emptyState)
+            // When
+            val result = mediator.load(LoadType.APPEND, emptyState)
 
-        // Then
-        assertIs<RemoteMediator.MediatorResult.Success>(result)
-        assertTrue(result.endOfPaginationReached)
-        val remoteKey = guideRemoteKeyDao.getByScope(SCOPE)
-        assertEquals(true, remoteKey?.endOfPaginationReached)
-        assertNull(remoteKey?.nextPage)
-    }
-
-    @Test
-    fun `given api throws when load is triggered then returns MediatorResult Error without clearing the existing cache`() = runTest {
-        // Given
-        val guideDao = FakeGuideDao()
-        val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
-        guideDao.upsertAll(listOf(guideEntity(id = "existing-id")))
-        val api = FakeGuidesApi(shouldThrow = true)
-        val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
-
-        // When
-        val result = mediator.load(LoadType.REFRESH, emptyState)
-
-        // Then
-        assertIs<RemoteMediator.MediatorResult.Error>(result)
-        assertEquals(listOf("existing-id"), guideDao.getAll().map { it.id })
-    }
+            // Then
+            assertIs<RemoteMediator.MediatorResult.Success>(result)
+            assertEquals(2, api.lastFindGuidesPage)
+            val cached = guideDao.getAll()
+            assertEquals(listOf("g1", "g2"), cached.map { it.id })
+        }
 
     @Test
-    fun `given PREPEND load is triggered then returns Success with endOfPaginationReached true immediately without calling the api`() = runTest {
-        // Given
-        val api = FakeGuidesApi()
-        val guideDao = FakeGuideDao()
-        val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
-        val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
+    fun `given cache has no next page key when APPEND load is triggered then returns Success with endOfPaginationReached true without calling the api`() =
+        runTest {
+            // Given
+            val guideDao = FakeGuideDao()
+            val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
+            guideRemoteKeyDao.upsert(
+                GuideRemoteKeyEntity(scope = SCOPE, nextPage = null, endOfPaginationReached = true),
+            )
+            val api = FakeGuidesApi()
+            val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
 
-        // When
-        val result = mediator.load(LoadType.PREPEND, emptyState)
+            // When
+            val result = mediator.load(LoadType.APPEND, emptyState)
 
-        // Then
-        assertIs<RemoteMediator.MediatorResult.Success>(result)
-        assertTrue(result.endOfPaginationReached)
-        assertEquals(0, api.findGuidesCallCount)
-    }
+            // Then
+            assertIs<RemoteMediator.MediatorResult.Success>(result)
+            assertTrue(result.endOfPaginationReached)
+            assertEquals(0, api.findGuidesCallCount)
+        }
 
     @Test
-    fun `given cache is populated after a REFRESH load when read through a TestPager then the PagingSource surfaces the cached rows`() = runTest {
-        // Given
-        val api = FakeGuidesApi(items = listOf(guideResponse("g1"), guideResponse("g2")), total = 2)
-        val guideDao = FakeGuideDao()
-        val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
-        val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
+    fun `given response page times limit is greater than or equal to total when load is triggered then endOfPaginationReached is true and the remote key reflects it`() =
+        runTest {
+            // Given
+            val api = FakeGuidesApi(items = listOf(guideResponse("g1")), total = 1)
+            val guideDao = FakeGuideDao()
+            val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
+            val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
 
-        // When
-        mediator.load(LoadType.REFRESH, emptyState)
-        val testPager = TestPager(config, guideDao.pagingSource(SCOPE))
-        val loadResult = testPager.refresh()
+            // When
+            val result = mediator.load(LoadType.REFRESH, emptyState)
 
-        // Then
-        assertIs<PagingSource.LoadResult.Page<Int, GuideEntity>>(loadResult)
-        assertEquals(listOf("g1", "g2"), loadResult.data.map { it.id })
-    }
+            // Then
+            assertIs<RemoteMediator.MediatorResult.Success>(result)
+            assertTrue(result.endOfPaginationReached)
+            val remoteKey = guideRemoteKeyDao.getByScope(SCOPE)
+            assertEquals(true, remoteKey?.endOfPaginationReached)
+            assertNull(remoteKey?.nextPage)
+        }
+
+    @Test
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
+    fun `given api throws when load is triggered then returns MediatorResult Error without clearing the existing cache`() =
+        runTest {
+            // Given
+            val guideDao = FakeGuideDao()
+            val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
+            guideDao.upsertAll(listOf(guideEntity(id = "existing-id")))
+            val api = FakeGuidesApi(shouldThrow = true)
+            val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
+
+            // When
+            val result = mediator.load(LoadType.REFRESH, emptyState)
+
+            // Then
+            assertIs<RemoteMediator.MediatorResult.Error>(result)
+            assertEquals(listOf("existing-id"), guideDao.getAll().map { it.id })
+        }
+
+    @Test
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
+    fun `given PREPEND load is triggered then returns Success with endOfPaginationReached true immediately without calling the api`() =
+        runTest {
+            // Given
+            val api = FakeGuidesApi()
+            val guideDao = FakeGuideDao()
+            val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
+            val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
+
+            // When
+            val result = mediator.load(LoadType.PREPEND, emptyState)
+
+            // Then
+            assertIs<RemoteMediator.MediatorResult.Success>(result)
+            assertTrue(result.endOfPaginationReached)
+            assertEquals(0, api.findGuidesCallCount)
+        }
+
+    @Test
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
+    fun `given cache is populated after a REFRESH load when read through a TestPager then the PagingSource surfaces the cached rows`() =
+        runTest {
+            // Given
+            val api = FakeGuidesApi(items = listOf(guideResponse("g1"), guideResponse("g2")), total = 2)
+            val guideDao = FakeGuideDao()
+            val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
+            val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
+
+            // When
+            mediator.load(LoadType.REFRESH, emptyState)
+            val testPager = TestPager(config, guideDao.pagingSource(SCOPE))
+            val loadResult = testPager.refresh()
+
+            // Then
+            assertIs<PagingSource.LoadResult.Page<Int, GuideEntity>>(loadResult)
+            assertEquals(listOf("g1", "g2"), loadResult.data.map { it.id })
+        }
 }

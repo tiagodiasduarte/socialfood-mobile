@@ -13,11 +13,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
-
-val ShimmerColor = Color(0xFFD0D0D0)
+import pt.socialfood.ui.theme.Shimmer
 
 @Composable
 fun rememberShimmerAlpha(): Float {
@@ -35,15 +33,11 @@ fun rememberShimmerAlpha(): Float {
 }
 
 @Composable
-fun ShimmerBox(
-    modifier: Modifier = Modifier,
-    alpha: Float,
-    shape: Shape = RoundedCornerShape(8.dp),
-) {
+fun ShimmerBox(modifier: Modifier = Modifier, alpha: Float, shape: Shape = RoundedCornerShape(8.dp)) {
     Box(
         modifier = modifier
             .alpha(alpha)
             .clip(shape)
-            .background(ShimmerColor),
+            .background(Shimmer),
     )
 }

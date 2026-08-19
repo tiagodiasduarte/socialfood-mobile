@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.Image
@@ -22,8 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -44,8 +44,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import pt.socialfood.presentation.image_picker.toImageBitmap
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.presentation.components.card.SectionCard
+import pt.socialfood.presentation.imagepicker.toImageBitmap
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.edit_guide_details_cover_image_click_label
 import socialfood.composeapp.generated.resources.edit_guide_details_cover_image_hint
@@ -57,9 +60,6 @@ import socialfood.composeapp.generated.resources.edit_guide_details_section_deta
 import socialfood.composeapp.generated.resources.edit_guide_details_title_error
 import socialfood.composeapp.generated.resources.edit_guide_details_title_label
 import socialfood.composeapp.generated.resources.edit_guide_details_title_placeholder
-import pt.socialfood.presentation.components.card.SectionCard
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
 fun GuideDetailsCard(
@@ -145,7 +145,11 @@ fun GuideDetailsCard(
                 Text(
                     text = stringResource(Res.string.edit_guide_details_description_label),
                     style = MaterialTheme.typography.labelMedium,
-                    color = if (descriptionError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onBackground,
+                    color = if (descriptionError) {
+                        MaterialTheme.colorScheme.error
+                    } else {
+                        MaterialTheme.colorScheme.onBackground
+                    },
                 )
                 OutlinedTextField(
                     value = description,
@@ -160,7 +164,8 @@ fun GuideDetailsCard(
                     isError = descriptionError,
                     minLines = 4,
                     shape = RoundedCornerShape(12.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
+                    colors =
+                    OutlinedTextFieldDefaults.colors(
                         unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
                         focusedBorderColor = MaterialTheme.colorScheme.primary,
                     ),
@@ -189,27 +194,34 @@ private fun CoverImagePicker(
     val dashedBorderColor = MaterialTheme.colorScheme.outlineVariant
 
     Box(
-        modifier = Modifier
+        modifier =
+        Modifier
             .fillMaxWidth()
             .aspectRatio(16f / 9f)
             .then(
-                if (!hasContent) Modifier.drawBehind {
-                    drawRoundRect(
-                        color = dashedBorderColor,
-                        style = Stroke(
-                            width = 1.dp.toPx(),
-                            pathEffect = PathEffect.dashPathEffect(floatArrayOf(12f, 6f)),
-                        ),
-                        cornerRadius = CornerRadius(12.dp.toPx()),
-                    )
-                } else Modifier
-            )
-            .clip(RoundedCornerShape(12.dp))
+                if (!hasContent) {
+                    Modifier.drawBehind {
+                        drawRoundRect(
+                            color = dashedBorderColor,
+                            style =
+                            Stroke(
+                                width = 1.dp.toPx(),
+                                pathEffect = PathEffect.dashPathEffect(floatArrayOf(12f, 6f)),
+                            ),
+                            cornerRadius = CornerRadius(12.dp.toPx()),
+                        )
+                    }
+                } else {
+                    Modifier
+                },
+            ).clip(RoundedCornerShape(12.dp))
             .background(
-                if (hasContent) MaterialTheme.colorScheme.surfaceVariant
-                else MaterialTheme.colorScheme.surface
-            )
-            .clickable(enabled = !isUploadingPhoto, onClick = onPickImage),
+                if (hasContent) {
+                    MaterialTheme.colorScheme.surfaceVariant
+                } else {
+                    MaterialTheme.colorScheme.surface
+                },
+            ).clickable(enabled = !isUploadingPhoto, onClick = onPickImage),
         contentAlignment = Alignment.Center,
     ) {
         when {
@@ -217,6 +229,7 @@ private fun CoverImagePicker(
                 val bitmap = remember(pendingImage.first) { pendingImage.first.toImageBitmap() }
                 PendingCoverImage(bitmap)
             }
+
             image != null -> {
                 AsyncImage(
                     model = image,
@@ -225,6 +238,7 @@ private fun CoverImagePicker(
                     modifier = Modifier.fillMaxSize(),
                 )
             }
+
             else -> {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,

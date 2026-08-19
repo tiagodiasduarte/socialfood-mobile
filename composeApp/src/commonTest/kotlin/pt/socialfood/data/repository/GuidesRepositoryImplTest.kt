@@ -3,7 +3,7 @@ package pt.socialfood.data.repository
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.paging.GuideCacheTransactionRunner
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.PagedGuides
@@ -18,14 +18,12 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class GuidesRepositoryImplTest {
-
-    private fun createRepository(shouldThrow: Boolean = false): GuidesRepositoryImpl =
-        GuidesRepositoryImpl(
-            guideApi = FakeGuidesApi(shouldThrow),
-            guideDao = FakeGuideDao(),
-            guideRemoteKeyDao = FakeGuideRemoteKeyDao(),
-            transactionRunner = GuideCacheTransactionRunner { it() },
-        )
+    private fun createRepository(shouldThrow: Boolean = false): GuidesRepositoryImpl = GuidesRepositoryImpl(
+        guideApi = FakeGuidesApi(shouldThrow),
+        guideDao = FakeGuideDao(),
+        guideRemoteKeyDao = FakeGuideRemoteKeyDao(),
+        transactionRunner = GuideCacheTransactionRunner { it() },
+    )
 
     // create
 
@@ -52,8 +50,8 @@ class GuidesRepositoryImplTest {
         val result = repo.create(name = "Guide Name", description = "Description", userId = "user-id")
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     // delete
@@ -80,8 +78,8 @@ class GuidesRepositoryImplTest {
         val result = repo.delete(id = "guide-id")
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     // findGuides
@@ -109,29 +107,31 @@ class GuidesRepositoryImplTest {
         val result = repo.findGuides()
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     // findGuidesPaged
 
     @Test
-    fun `given valid pagination params when findGuidesPaged is called then returns Success with PagedGuides and correct hasMore flag`() = runTest {
-        // Given
-        val repo = createRepository()
-        val page = 1
-        val limit = 10
-        // FakeGuidesApi returns total = 25, so page * limit = 10 < 25 → hasMore = true
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
+    fun `given valid pagination params when findGuidesPaged is called then returns Success with PagedGuides and correct hasMore flag`() =
+        runTest {
+            // Given
+            val repo = createRepository()
+            val page = 1
+            val limit = 10
+            // FakeGuidesApi returns total = 25, so page * limit = 10 < 25 → hasMore = true
 
-        // When
-        val result = repo.findGuidesPaged(page = page, limit = limit, query = null)
+            // When
+            val result = repo.findGuidesPaged(page = page, limit = limit, query = null)
 
-        // Then
-        assertIs<Result.Success<PagedGuides>>(result)
-        assertEquals(page, result.data.page)
-        assertEquals(25, result.data.total)
-        assertTrue(result.data.hasMore)
-    }
+            // Then
+            assertIs<Result.Success<PagedGuides>>(result)
+            assertEquals(page, result.data.page)
+            assertEquals(25, result.data.total)
+            assertTrue(result.data.hasMore)
+        }
 
     @Test
     fun `given api throws when findGuidesPaged is called then returns Error Unknown`() = runTest {
@@ -142,8 +142,8 @@ class GuidesRepositoryImplTest {
         val result = repo.findGuidesPaged(page = 1, limit = 10, query = null)
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     // update
@@ -154,14 +154,15 @@ class GuidesRepositoryImplTest {
         val repo = createRepository()
 
         // When
-        val result = repo.update(
-            id = "guide-id",
-            name = "Updated Name",
-            userId = "user-id",
-            description = "Updated Description",
-            restaurantIds = emptyList(),
-            visibility = GuideVisibility.PUBLIC,
-        )
+        val result =
+            repo.update(
+                id = "guide-id",
+                name = "Updated Name",
+                userId = "user-id",
+                description = "Updated Description",
+                restaurantIds = emptyList(),
+                visibility = GuideVisibility.PUBLIC,
+            )
 
         // Then
         assertIs<Result.Success<Guide>>(result)
@@ -174,18 +175,19 @@ class GuidesRepositoryImplTest {
         val repo = createRepository(shouldThrow = true)
 
         // When
-        val result = repo.update(
-            id = "guide-id",
-            name = "Updated Name",
-            userId = "user-id",
-            description = "Updated Description",
-            restaurantIds = emptyList(),
-            visibility = GuideVisibility.PUBLIC,
-        )
+        val result =
+            repo.update(
+                id = "guide-id",
+                name = "Updated Name",
+                userId = "user-id",
+                description = "Updated Description",
+                restaurantIds = emptyList(),
+                visibility = GuideVisibility.PUBLIC,
+            )
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     // findById
@@ -212,29 +214,31 @@ class GuidesRepositoryImplTest {
         val result = repo.findById(id = "guide-id")
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     // getPhotoPresignedUrl
 
     @Test
-    fun `given valid params when getPhotoPresignedUrl is called then returns Success with PresignedUrlData`() = runTest {
-        // Given
-        val repo = createRepository()
+    fun `given valid params when getPhotoPresignedUrl is called then returns Success with PresignedUrlData`() =
+        runTest {
+            // Given
+            val repo = createRepository()
 
-        // When
-        val result = repo.getPhotoPresignedUrl(
-            guideId = "guide-id",
-            fileName = "photo.jpg",
-            mimeType = "image/jpeg",
-        )
+            // When
+            val result =
+                repo.getPhotoPresignedUrl(
+                    guideId = "guide-id",
+                    fileName = "photo.jpg",
+                    mimeType = "image/jpeg",
+                )
 
-        // Then
-        assertIs<Result.Success<PresignedUrlData>>(result)
-        assertEquals("https://upload.example.com/photo", result.data.uploadUrl)
-        assertEquals("https://public.example.com/photo", result.data.publicUrl)
-    }
+            // Then
+            assertIs<Result.Success<PresignedUrlData>>(result)
+            assertEquals("https://upload.example.com/photo", result.data.uploadUrl)
+            assertEquals("https://public.example.com/photo", result.data.publicUrl)
+        }
 
     @Test
     fun `given api throws when getPhotoPresignedUrl is called then returns Error Unknown`() = runTest {
@@ -242,15 +246,16 @@ class GuidesRepositoryImplTest {
         val repo = createRepository(shouldThrow = true)
 
         // When
-        val result = repo.getPhotoPresignedUrl(
-            guideId = "guide-id",
-            fileName = "photo.jpg",
-            mimeType = "image/jpeg",
-        )
+        val result =
+            repo.getPhotoPresignedUrl(
+                guideId = "guide-id",
+                fileName = "photo.jpg",
+                mimeType = "image/jpeg",
+            )
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     // addRestaurantGuide
@@ -261,11 +266,12 @@ class GuidesRepositoryImplTest {
         val repo = createRepository()
 
         // When
-        val result = repo.addRestaurantGuide(
-            guideId = "guide-id",
-            userId = "user-id",
-            placeId = "place-id",
-        )
+        val result =
+            repo.addRestaurantGuide(
+                guideId = "guide-id",
+                userId = "user-id",
+                placeId = "place-id",
+            )
 
         // Then
         assertIs<Result.Success<Guide>>(result)
@@ -278,15 +284,16 @@ class GuidesRepositoryImplTest {
         val repo = createRepository(shouldThrow = true)
 
         // When
-        val result = repo.addRestaurantGuide(
-            guideId = "guide-id",
-            userId = "user-id",
-            placeId = "place-id",
-        )
+        val result =
+            repo.addRestaurantGuide(
+                guideId = "guide-id",
+                userId = "user-id",
+                placeId = "place-id",
+            )
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     // addPhoto
@@ -313,8 +320,8 @@ class GuidesRepositoryImplTest {
         val result = repo.addPhoto(guideId = "guide-id", imageUrl = "https://example.com/photo.jpg")
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     // deletePhoto
@@ -341,23 +348,25 @@ class GuidesRepositoryImplTest {
         val result = repo.deletePhoto(guideId = "guide-id")
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     // getGuidesPagingFlow
 
     @Test
-    fun `given getGuidesPagingFlow is called then the returned Pager is configured with a RemoteMediator scoped to userId or ALL`() = runTest {
-        // Given
-        val repo = createRepository()
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
+    fun `given getGuidesPagingFlow is called then the returned Pager is configured with a RemoteMediator scoped to userId or ALL`() =
+        runTest {
+            // Given
+            val repo = createRepository()
 
-        // When
-        val scopedFlow = repo.getGuidesPagingFlow(userId = "user-1")
-        val defaultScopeFlow = repo.getGuidesPagingFlow(userId = null)
+            // When
+            val scopedFlow = repo.getGuidesPagingFlow(userId = "user-1")
+            val defaultScopeFlow = repo.getGuidesPagingFlow(userId = null)
 
-        // Then
-        assertNotNull(scopedFlow)
-        assertNotNull(defaultScopeFlow)
-    }
+            // Then
+            assertNotNull(scopedFlow)
+            assertNotNull(defaultScopeFlow)
+        }
 }

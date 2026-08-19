@@ -2,7 +2,7 @@ package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.PagedAuthors
-import pt.socialfood.domain.use_case.author.FindAuthorsUseCase
+import pt.socialfood.domain.usecase.author.FindAuthorsUseCase
 
 class FakeFindAuthorsUseCase(
     private val result: (page: Int, query: String?) -> Result<PagedAuthors> = { page, _ ->

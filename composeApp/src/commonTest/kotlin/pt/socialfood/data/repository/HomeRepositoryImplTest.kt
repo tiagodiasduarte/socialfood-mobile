@@ -5,7 +5,7 @@ import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.local.entity.HomeSectionEntity
 import pt.socialfood.data.paging.HomeCacheTransactionRunner
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.HomeItemType
 import pt.socialfood.domain.model.HomeSection
 import pt.socialfood.domain.model.HomeSectionType
@@ -21,12 +21,11 @@ class HomeRepositoryImplTest {
     private fun createRepository(
         shouldThrow: Boolean = false,
         homeDao: FakeHomeDao = FakeHomeDao(),
-    ): HomeRepositoryImpl =
-        HomeRepositoryImpl(
-            homeApi = FakeHomeApi(shouldThrow),
-            homeDao = homeDao,
-            transactionRunner = HomeCacheTransactionRunner { it() },
-        )
+    ): HomeRepositoryImpl = HomeRepositoryImpl(
+        homeApi = FakeHomeApi(shouldThrow),
+        homeDao = homeDao,
+        transactionRunner = HomeCacheTransactionRunner { it() },
+    )
 
     // findAll
 
@@ -68,8 +67,8 @@ class HomeRepositoryImplTest {
         val result = repo.findAll()
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     @Test
@@ -81,8 +80,8 @@ class HomeRepositoryImplTest {
         val result = repo.findAll()
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     @Test
@@ -98,8 +97,8 @@ class HomeRepositoryImplTest {
                     position = 0,
                     isActive = true,
                     itemsJson = "[]",
-                )
-            )
+                ),
+            ),
         )
         val repo = createRepository(shouldThrow = true, homeDao = homeDao)
 
@@ -128,8 +127,8 @@ class HomeRepositoryImplTest {
                     position = 0,
                     isActive = true,
                     itemsJson = "[]",
-                )
-            )
+                ),
+            ),
         )
 
         // When
@@ -165,8 +164,8 @@ class HomeRepositoryImplTest {
         val result = repo.findById(id = "section-id")
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     // create
@@ -194,8 +193,8 @@ class HomeRepositoryImplTest {
         val result = repo.create(title = "Section Title", type = HomeSectionType.RESTAURANT_LIST, position = 0)
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     // update
@@ -236,8 +235,8 @@ class HomeRepositoryImplTest {
         )
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     // delete
@@ -264,8 +263,8 @@ class HomeRepositoryImplTest {
         val result = repo.delete(id = "section-id")
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     // addItem
@@ -302,8 +301,8 @@ class HomeRepositoryImplTest {
         )
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 
     // removeItem
@@ -330,7 +329,7 @@ class HomeRepositoryImplTest {
         val result = repo.removeItem(sectionId = "section-id", itemId = "item-id")
 
         // Then
-        assertIs<Result.Error>(result)
-        assertEquals(ErrorEntity.Unknown, result.error)
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
     }
 }

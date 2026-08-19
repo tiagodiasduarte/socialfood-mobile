@@ -4,6 +4,7 @@
     <string name="back_button_description">Back button</string>
     <string name="show_password_content_description">Show password</string>
     <string name="hide_password_content_description">Hide password</string>
+    <string name="search_bar_clear_button_description">Clear search</string>
 
     <string name="sign_in_title_label">Welcome back</string>
     <string name="sign_in_subtitle_label">Sign in to continue exploring</string>
@@ -17,6 +18,8 @@
     <string name="sign_in_google_button_description">Google icon</string>
     <string name="sign_in_no_account_label">Don't have an account?</string>
     <string name="sign_in_sign_up_button">Sign Up</string>
+    <string name="sign_in_invalid_email">Please enter your email</string>
+    <string name="sign_in_invalid_password">Please enter your password</string>
 
     <string name="sign_up_title_label">Create account</string>
     <string name="sign_up_subtitle_label">Join us to explore the best restaurants</string>
@@ -27,34 +30,49 @@
     <string name="sign_up_confirm_password_placeholder_label">••••••••</string>
     <string name="sign_up_already_have_account_label">Already have an account?</string>
     <string name="sign_up_sign_in_label">Sign In</string>
+    <string name="sign_up_fill_all_fields">Please fill in all fields</string>
+    <string name="sign_up_password_mismatch">Passwords don’t match</string>
 
     <string name="validate_code_title_label">Verify your email</string>
     <string name="validate_code_subtitle_label">Enter the 6-digit code we sent to your email</string>
     <string name="validate_code_button">Verify</string>
-    <string name="validate_code_resend_label">Didn\'t receive the code?</string>
+    <string name="validate_code_resend_label">Didn’t receive the code?</string>
     <string name="validate_code_resend_button">Resend code</string>
     <string name="validate_code_restart_signup_label">Not you? Restart sign up</string>
+    <string name="validate_code_empty_code">Please enter the code</string>
 
     <string name="home_title_label">Discover dining</string>
     <string name="home_subtitle_label">Find your next favorite restaurant</string>
     <string name="home_list_see_all_label">See All</string>
     <string name="home_list_view_all_label">View All</string>
+    <string name="home_search_bar_placeholder">Search authors, guides and restaurants…</string>
 
-    <string name="profile_contact_card_title_label">Contact Information</string>
     <string name="profile_stat_guides_label">Guides</string>
     <string name="profile_stat_followers_label">Followers</string>
     <string name="profile_stat_following_label">Following</string>
-    <string name="profile_guides_button">Guides</string>
-    <string name="profile_guides_button_description">Guides button</string>
+    <string name="profile_profile_button">Profile</string>
+    <string name="profile_profile_button_description">Profile button</string>
     <string name="profile_favorite_guides_button">Favorite Guides</string>
     <string name="profile_favorite_guides_button_description">Favorite Guides button</string>
-    <string name="profile_favorites_restaurants_button">Favorites Restaurants</string>
+    <string name="profile_favorites_restaurants_button">Favorite Restaurants</string>
     <string name="profile_favorites_restaurants_button_description">Favorites Restaurants button</string>
+    <string name="profile_wish_restaurants_button">Restaurant Wishlist</string>
+    <string name="profile_wish_restaurants_button_description">Restaurant Wishlist button</string>
+    <string name="profile_visited_restaurants_button">Visited Restaurants</string>
+    <string name="profile_visited_restaurants_button_description">Visited Restaurants button</string>
+    <string name="profile_theme_button">Theme</string>
+    <string name="profile_theme_button_description">Theme button</string>
     <string name="profile_logout_button">Log Out</string>
     <string name="profile_logout_button_description">Log Out button</string>
 
     <string name="profile_edit_profile_button">Edit Profile</string>
     <string name="profile_edit_profile_button_description">Edit profile button</string>
+    <string name="profile_drawer_close_button_description">Close menu</string>
+
+    <string name="theme_sheet_title">Theme</string>
+    <string name="theme_light_label">Light</string>
+    <string name="theme_dark_label">Dark</string>
+    <string name="theme_system_label">System default</string>
 
     <string name="guide_detail_error_label">Failed to load guide</string>
     <string name="guide_detail_restaurants_section_title">Restaurants in this guide</string>
@@ -71,15 +89,16 @@
 
     <string name="favourites_guides_title">Favourite Guides</string>
     <string name="favourites_restaurants_title">Favourite Restaurants</string>
+    <string name="wish_restaurants_title">Restaurant Wishlist</string>
+    <string name="wish_add_button_description">Add restaurant to wish list</string>
+    <string name="visited_restaurants_title">Visited Restaurants</string>
 
     <string name="guides_title">Guides</string>
-    <string name="guides_search_placeholder">Search guides…</string>
     <string name="guides_tab_all">All Guides</string>
     <string name="guides_tab_my">My Guides</string>
     <string name="guides_add_button_description">Add guide</string>
 
     <string name="authors_title">Authors</string>
-    <string name="authors_search_placeholder">Search authors…</string>
     <string name="authors_error_label">Failed to load authors</string>
     <string name="authors_follow_button">Follow</string>
     <string name="authors_following_button">Following</string>
@@ -144,13 +163,17 @@
     <string name="edit_profile_picture_upload_label">Upload a new profile picture</string>
     <string name="edit_profile_picture_change_button">Change Photo</string>
     <string name="edit_profile_google_info">You are connected with Google account. Add a password to edit your contact information.</string>
+    <string name="edit_profile_save_error_title">Couldn’t save profile</string>
+    <string name="edit_profile_save_error_dismiss">OK</string>
     <string name="edit_profile_personal_details_title">Personal Details</string>
     <string name="edit_profile_name_label">Name</string>
     <string name="edit_profile_name_placeholder">John Doe</string>
-    <string name="edit_profile_city_label">City</string>
-    <string name="edit_profile_city_placeholder">New York</string>
-    <string name="edit_profile_country_label">Country</string>
-    <string name="edit_profile_country_placeholder">United States</string>
+    <string name="edit_profile_email_label">Email</string>
+    <string name="edit_profile_username_label">Username</string>
+    <string name="edit_profile_clear_field_button_description">Clear field</string>
+    <string name="edit_profile_username_placeholder">johndoe</string>
+    <string name="edit_profile_author_mode_title">Author mode</string>
+    <string name="edit_profile_author_mode_description">Enable to become an author and start creating public guides.</string>
     <string name="edit_profile_social_title">Social Networks</string>
     <string name="edit_profile_facebook_label">Facebook</string>
     <string name="edit_profile_facebook_placeholder">https://facebook.com/yourprofile</string>
@@ -164,18 +187,28 @@
     <string name="social_youtube_icon_description">YouTube</string>
 
     <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_search">Search</string>
     <string name="bottom_nav_guides">Guides</string>
     <string name="bottom_nav_authors">Authors</string>
     <string name="bottom_nav_profile">Profile</string>
 
+    <string name="search_search_placeholder">Search authors, guides and restaurants…</string>
+    <string name="search_section_restaurants_title">Restaurants</string>
+    <string name="search_section_guides_title">Guides</string>
+    <string name="search_section_authors_title">Authors</string>
+    <string name="search_suggestions_title">Suggestions</string>
+    <string name="search_suggestion_favorite_guides">Top favorite guides</string>
+    <string name="search_suggestion_favorite_restaurants">Top favorite restaurants</string>
+    <string name="search_suggestion_most_followed">Most followed</string>
+
     <string name="no_results_title">No Results Found</string>
-    <string name="no_results_subtitle">We couldn\'t find any matches for your search.</string>
-    <string name="no_results_description">Try adjusting your filters or search terms to find what you\'re looking for.</string>
+    <string name="no_results_subtitle">We couldn’t find any matches for your search.</string>
+    <string name="no_results_description">Try adjusting your filters or search terms to find what you’re looking for.</string>
     <string name="no_results_retry_button">Try Again</string>
 
     <string name="error_content_title">Server Error</string>
     <string name="error_content_subtitle">Oops! Something went wrong on our end.</string>
-    <string name="error_content_description">We\'re having trouble connecting to our servers. Please try again in a moment.</string>
+    <string name="error_content_description">We’re having trouble connecting to our servers. Please try again in a moment.</string>
     <string name="error_content_retry_button">Try Again</string>
     <string name="error_content_go_home_button">Go to Home</string>
     <string name="error_content_error_code_label">Error Code: %1$s</string>
@@ -193,9 +226,42 @@
     <string name="restaurant_detail_call_button">Call for Reservation</string>
     <string name="restaurant_detail_reviews_count">%1$d reviews</string>
     <string name="restaurant_detail_navigate_description">Navigate to restaurant</string>
-    <string name="restaurant_detail_share_description">Share restaurant</string>
     <string name="restaurant_detail_favourite_description">Add to favourites</string>
+    <string name="restaurant_detail_more_options_description">More options</string>
+    <string name="restaurant_detail_share_button">Share</string>
+    <string name="restaurant_detail_add_to_wishlist_button">Add to wishlist</string>
+    <string name="restaurant_detail_move_to_visited_button">Move to visited list</string>
 
     <string name="favorite_card_remove_button_description">Remove from favorites</string>
+    <string name="wish_card_remove_button_description">Remove from wish list</string>
+    <string name="visited_card_remove_button_description">Remove from visited</string>
+
+    <string name="error_code_user_already_exists">An account with this email already exists.</string>
+    <string name="error_code_invalid_credentials">Incorrect email or password.</string>
+    <string name="error_code_email_not_verified">Please verify your email before continuing.</string>
+    <string name="error_code_email_already_verified">This email is already verified.</string>
+    <string name="error_code_invalid_code">That code isn’t valid.</string>
+    <string name="error_code_code_expired">This code has expired. Please request a new one.</string>
+    <string name="error_code_no_pending_verification">There’s no pending verification for this account.</string>
+    <string name="error_code_resend_too_soon">Please wait a moment before requesting another code.</string>
+    <string name="error_code_invalid_google_token">Google sign-in failed. Please try again.</string>
+    <string name="error_code_user_not_found">User not found.</string>
+    <string name="error_code_guide_not_found">Guide not found.</string>
+    <string name="error_code_author_not_found">Author not found.</string>
+    <string name="error_code_restaurant_not_found">Restaurant not found.</string>
+    <string name="error_code_restaurant_not_in_guide">This restaurant isn’t part of the guide.</string>
+    <string name="error_code_home_section_not_found">Section not found.</string>
+    <string name="error_code_cannot_follow_self">You can’t follow yourself.</string>
+    <string name="error_code_already_following">You’re already following this author.</string>
+    <string name="error_code_not_following">You’re not following this author.</string>
+    <string name="error_code_already_favourited">This is already in your favourites.</string>
+    <string name="error_code_not_favourited">This isn’t in your favourites.</string>
+    <string name="error_code_item_type_mismatch">This item can’t be added to this section.</string>
+    <string name="error_code_forbidden">You don’t have permission to do that.</string>
+    <string name="error_code_invalid_request">Something about that request wasn’t valid.</string>
+    <string name="error_code_internal_error">Something went wrong on our end. Please try again.</string>
+    <string name="error_code_invalid_social_link">That social link doesn’t look valid.</string>
+    <string name="error_code_unknown">Something went wrong. Please try again.</string>
+    <string name="error_network_message">No internet connection. Please check your connection and try again.</string>
 
 </resources>

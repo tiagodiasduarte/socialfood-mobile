@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -26,21 +27,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.back_button_description
-import socialfood.composeapp.generated.resources.favourites_restaurants_title
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
+import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.back_button_description
+import socialfood.composeapp.generated.resources.favorite_card_remove_button_description
+import socialfood.composeapp.generated.resources.favourites_restaurants_title
 
 private const val LOAD_MORE_THRESHOLD = 10
 
@@ -62,6 +63,7 @@ fun FavouriteRestaurantsScreen(
         onLoadMore = viewModel::loadMore,
         onRetry = viewModel::loadFirstPage,
         onRestaurantClick = onRestaurantClick,
+        onRemoveClick = viewModel::removeFavourite,
     )
 }
 
@@ -75,6 +77,7 @@ private fun FavouriteRestaurantsContent(
     onLoadMore: () -> Unit,
     onRetry: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onRemoveClick: (restaurantId: String) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
 
@@ -87,7 +90,8 @@ private fun FavouriteRestaurantsContent(
     }
 
     LaunchedEffect(reachedBottom, state) {
-        if (reachedBottom && state is FavouriteRestaurantsUiState.Loaded && state.hasMore && !state.isLoadingMore) {
+        val canLoadMore = state is FavouriteRestaurantsUiState.Loaded && state.hasMore && !state.isLoadingMore
+        if (reachedBottom && canLoadMore) {
             onLoadMore()
         }
     }
@@ -95,14 +99,14 @@ private fun FavouriteRestaurantsContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(GreyBackground),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         TopBar(onBackClick = onBackClick)
 
         when (state) {
-            FavouriteRestaurantsUiState.Loading -> FavouriteRestaurantsPlaceholder(modifier = Modifier.fillMaxSize())
+            FavouriteRestaurantsUiState.Loading -> FavouriteRestaurantsSkeleton(modifier = Modifier.fillMaxSize())
 
-            FavouriteRestaurantsUiState.Error -> ErrorContent(
+            is FavouriteRestaurantsUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),
                 onRetryClick = onRetry,
             )
@@ -110,28 +114,52 @@ private fun FavouriteRestaurantsContent(
             is FavouriteRestaurantsUiState.Loaded -> if (state.restaurants.isEmpty()) {
                 NoResultsContent(modifier = Modifier.fillMaxSize())
             } else {
-                PullToRefreshBox(
+                FavouriteRestaurantsList(
+                    restaurants = state.restaurants,
+                    listState = listState,
                     isRefreshing = isRefreshing,
                     onRefresh = onRefresh,
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    LazyColumn(
-                        state = listState,
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(
-                            horizontal = SpaceSize.large,
-                            vertical = SpaceSize.large,
-                        ),
-                        verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-                    ) {
-                        items(state.restaurants, key = { it.id }) { restaurant ->
-                            FavoriteRestaurantCard(
-                                restaurant = restaurant,
-                                onClick = { onRestaurantClick(restaurant.id) },
-                            )
-                        }
-                    }
-                }
+                    onRestaurantClick = onRestaurantClick,
+                    onRemoveClick = onRemoveClick,
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun FavouriteRestaurantsList(
+    restaurants: List<Restaurant>,
+    listState: LazyListState,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
+    onRestaurantClick: (restaurantId: String) -> Unit,
+    onRemoveClick: (restaurantId: String) -> Unit,
+) {
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        onRefresh = onRefresh,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                horizontal = SpaceSize.large,
+                vertical = SpaceSize.large,
+            ),
+            verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+        ) {
+            items(restaurants, key = { it.id }) { restaurant ->
+                RestaurantSmallCard(
+                    restaurant = restaurant,
+                    removeButtonContentDescription = stringResource(
+                        Res.string.favorite_card_remove_button_description,
+                    ),
+                    onClick = { onRestaurantClick(restaurant.id) },
+                    onRemoveClick = { onRemoveClick(restaurant.id) },
+                )
             }
         }
     }
@@ -142,7 +170,7 @@ private fun TopBar(onBackClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(SpaceSize.medium),
         verticalAlignment = Alignment.CenterVertically,
     ) {

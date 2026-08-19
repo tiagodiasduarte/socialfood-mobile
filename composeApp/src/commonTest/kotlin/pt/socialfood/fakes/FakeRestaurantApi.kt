@@ -1,5 +1,6 @@
 package pt.socialfood.fakes
 
+import kotlinx.io.IOException
 import pt.socialfood.data.api.RestaurantApi
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
@@ -34,22 +35,22 @@ class FakeRestaurantApi(
     )
 
     override suspend fun importRestaurants(): Boolean {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return true
     }
 
     override suspend fun delete(id: String): Boolean {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return true
     }
 
     override suspend fun findAll(): List<RestaurantResponse> {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return listOf(fakeRestaurantResponse)
     }
 
     override suspend fun findRestaurants(page: Int, limit: Int, query: String?): PagedResponse<RestaurantResponse> {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return PagedResponse(
             items = listOf(fakeRestaurantResponse),
             page = page,
@@ -59,21 +60,21 @@ class FakeRestaurantApi(
     }
 
     override suspend fun findById(id: String): RestaurantResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return fakeRestaurantResponse
     }
 
     override suspend fun findByPlaceId(placeId: String): RestaurantResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         findByPlaceIdInvokeCount++
         if (findByPlaceIdInvokeCount <= findByPlaceIdFailuresBeforeSuccess) {
-            throw RuntimeException("not found")
+            throw IOException("not found")
         }
         return fakeRestaurantResponse
     }
 
     override suspend fun addByPlaceId(placeId: String) {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
     }
 
     override suspend fun update(
@@ -86,7 +87,7 @@ class FakeRestaurantApi(
         phoneNumber: String,
         websiteUrl: String,
     ): RestaurantResponse {
-        if (shouldThrow) throw RuntimeException("test error")
+        if (shouldThrow) throw IOException("test error")
         return fakeRestaurantResponse
     }
 }

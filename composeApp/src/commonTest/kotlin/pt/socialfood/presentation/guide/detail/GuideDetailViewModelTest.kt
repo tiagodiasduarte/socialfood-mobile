@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -23,30 +23,31 @@ import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GuideDetailViewModelTest {
+    private val fakeGuide =
+        Guide(
+            id = "guide-id",
+            name = "Guide Name",
+            description = "Guide Description",
+            visibility = GuideVisibility.PUBLIC,
+            author = Author(id = "author-id", name = "Author", username = "author"),
+            numberOfRestaurant = 0,
+        )
 
-    private val fakeGuide = Guide(
-        id = "guide-id",
-        name = "Guide Name",
-        description = "Guide Description",
-        visibility = GuideVisibility.PUBLIC,
-        author = Author(id = "author-id", name = "Author"),
-        numberOfRestaurant = 0,
-    )
-
-    private val fakeUser = User(id = "user-id", email = "user@test.com", name = "Test User")
+    private val fakeUser = User(id = "user-id", email = "user@test.com", name = "Test User", username = "testuser")
 
     @Test
     fun `given guide is already a favourite when loaded then state reflects isFavourite true`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = GuideDetailViewModel(
-                getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
-                getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
-                isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(true)),
-                markGuideFavourite = FakeMarkGuideFavouriteUseCase(),
-                unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
-                guideId = fakeGuide.id,
-            )
+            val vm =
+                GuideDetailViewModel(
+                    getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
+                    getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
+                    isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(true)),
+                    markGuideFavourite = FakeMarkGuideFavouriteUseCase(),
+                    unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
+                    guideId = fakeGuide.id,
+                )
 
             // When / Then
             vm.state.test {
@@ -57,18 +58,20 @@ class GuideDetailViewModelTest {
         }
 
     @Test
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given guide is not a favourite when toggleFavourite is called then flips isFavourite optimistically and calls mark`() =
         runTestWithMainDispatcher {
             // Given
             val mark = FakeMarkGuideFavouriteUseCase()
-            val vm = GuideDetailViewModel(
-                getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
-                getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
-                isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
-                markGuideFavourite = mark,
-                unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
-                guideId = fakeGuide.id,
-            )
+            val vm =
+                GuideDetailViewModel(
+                    getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
+                    getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
+                    isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
+                    markGuideFavourite = mark,
+                    unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
+                    guideId = fakeGuide.id,
+                )
 
             // When / Then
             vm.state.test {
@@ -94,14 +97,15 @@ class GuideDetailViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val unmark = FakeUnmarkGuideFavouriteUseCase()
-            val vm = GuideDetailViewModel(
-                getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
-                getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
-                isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(true)),
-                markGuideFavourite = FakeMarkGuideFavouriteUseCase(),
-                unmarkGuideFavourite = unmark,
-                guideId = fakeGuide.id,
-            )
+            val vm =
+                GuideDetailViewModel(
+                    getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
+                    getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
+                    isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(true)),
+                    markGuideFavourite = FakeMarkGuideFavouriteUseCase(),
+                    unmarkGuideFavourite = unmark,
+                    guideId = fakeGuide.id,
+                )
 
             // When / Then
             vm.state.test {
@@ -126,14 +130,17 @@ class GuideDetailViewModelTest {
     fun `given mark fails when toggleFavourite is called then reverts the optimistic flip`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = GuideDetailViewModel(
-                getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
-                getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
-                isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
-                markGuideFavourite = FakeMarkGuideFavouriteUseCase(Result.Error(ErrorEntity.Unknown)),
-                unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
-                guideId = fakeGuide.id,
-            )
+            val vm =
+                GuideDetailViewModel(
+                    getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
+                    getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
+                    isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
+                    markGuideFavourite = FakeMarkGuideFavouriteUseCase(
+                        Result.Failure(DataError.Network(Exception("test error"))),
+                    ),
+                    unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
+                    guideId = fakeGuide.id,
+                )
 
             // When / Then
             vm.state.test {

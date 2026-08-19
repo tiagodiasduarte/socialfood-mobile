@@ -1,22 +1,11 @@
 package pt.socialfood.data.network.extensions
 
-import io.ktor.client.plugins.*
-import io.ktor.http.*
-import pt.socialfood.domain.error.ErrorEntity
+import io.ktor.client.plugins.ResponseException
+import pt.socialfood.data.network.ApiException
+import pt.socialfood.domain.error.DataError
 
-fun Throwable.toErrorEntity(): ErrorEntity = when (this) {
-    is ResponseException -> mapStatusCode(response.status)
-    is HttpRequestTimeoutException -> ErrorEntity.Network.TIMEOUT
-    else -> ErrorEntity.Unknown
+fun Throwable.toDataError(): DataError = when (this) {
+    is ApiException -> DataError.Known(statusCode = response.status.value, errorCode = errorCode, message = message)
+    is ResponseException -> DataError.Unknown(statusCode = response.status.value, message = response.status.description)
+    else -> DataError.Network(this)
 }
-
-private fun mapStatusCode(status: HttpStatusCode): ErrorEntity =
-    when (status) {
-        HttpStatusCode.Unauthorized -> ErrorEntity.Unauthorized
-        HttpStatusCode.Forbidden -> ErrorEntity.Network.ACCESS_DENIED
-        HttpStatusCode.NotFound -> ErrorEntity.Network.NOT_FOUND
-        HttpStatusCode.RequestTimeout -> ErrorEntity.Network.TIMEOUT
-        HttpStatusCode.InternalServerError -> ErrorEntity.Network.INTERNAL_SERVER_ERROR
-        HttpStatusCode.ServiceUnavailable -> ErrorEntity.Network.SERVER_UNAVAILABLE
-        else -> ErrorEntity.Network.UNKNOWN
-    }

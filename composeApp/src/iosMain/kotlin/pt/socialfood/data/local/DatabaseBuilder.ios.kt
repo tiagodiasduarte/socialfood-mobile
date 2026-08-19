@@ -16,7 +16,7 @@ fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
             appropriateForURL = null,
             create = false,
             error = null,
-        )
+        ),
     )
     val dbFilePath = documentDirectory.path + "/$DATABASE_NAME"
     return Room.databaseBuilder(name = dbFilePath)

@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.repository.SettingsRepository
-import pt.socialfood.domain.use_case.configs.GetConfigsUseCase
-import pt.socialfood.domain.use_case.user.GetUserMeUseCase
+import pt.socialfood.domain.usecase.configs.GetConfigsUseCase
+import pt.socialfood.domain.usecase.user.GetUserMeUseCase
 
 private const val MIN_STARTUP_DURATION_MILLIS = 1000L
 

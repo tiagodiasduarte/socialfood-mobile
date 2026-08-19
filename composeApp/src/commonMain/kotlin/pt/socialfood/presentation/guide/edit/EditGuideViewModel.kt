@@ -2,8 +2,6 @@ package pt.socialfood.presentation.guide.edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,14 +9,21 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorEntity
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.repository.GuidesRepository
-import pt.socialfood.domain.use_case.guide.DeleteGuideUseCase
-import pt.socialfood.domain.use_case.guide.GetGuideByIdUseCase
-import pt.socialfood.domain.use_case.guide.UpdateGuideUseCase
-import pt.socialfood.domain.use_case.photo.UploadPhotoUseCase
+import pt.socialfood.domain.usecase.guide.DeleteGuideUseCase
+import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCase
+import pt.socialfood.domain.usecase.guide.UpdateGuideUseCase
+import pt.socialfood.domain.usecase.photo.UploadPhotoUseCase
+import pt.socialfood.presentation.error.toErrorCode
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.edit_guide_details_description_error
+import socialfood.composeapp.generated.resources.edit_guide_details_public_image_warning
+import socialfood.composeapp.generated.resources.edit_guide_details_public_restaurants_warning
+import socialfood.composeapp.generated.resources.edit_guide_details_title_error
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 class EditGuideViewModel(
     private val getGuideById: GetGuideByIdUseCase,
@@ -28,7 +33,6 @@ class EditGuideViewModel(
     private val deleteGuide: DeleteGuideUseCase,
     private val guideId: String,
 ) : ViewModel() {
-
     private val _state = MutableStateFlow<EditGuideUiState>(EditGuideUiState.Loading)
     val state: StateFlow<EditGuideUiState> = _state
 
@@ -62,15 +66,17 @@ class EditGuideViewModel(
             _state.value = EditGuideUiState.Loading
 
             when (val result = getGuideById(id)) {
-                is Result.Success -> _state.value = EditGuideUiState.Loaded(
-                    guide = result.data,
-                    title = result.data.name,
-                    description = result.data.description,
-                    visibility = result.data.visibility,
-                    restaurants = result.data.restaurants,
-                    imageUrl = result.data.imageUrl,
-                )
-                is Result.Error -> _state.value = EditGuideUiState.Error
+                is Result.Success ->
+                    _state.value =
+                        EditGuideUiState.Loaded(
+                            guide = result.data,
+                            title = result.data.name,
+                            description = result.data.description,
+                            visibility = result.data.visibility,
+                            restaurants = result.data.restaurants,
+                            imageUrl = result.data.imageUrl,
+                        )
+                is Result.Failure -> _state.value = EditGuideUiState.Error(result.error.toErrorCode())
             }
         }
     }
@@ -100,19 +106,22 @@ class EditGuideViewModel(
         val loaded = _state.value as? EditGuideUiState.Loaded ?: return
         if (loaded.isSaving || loaded.isUploadingPhoto) return
 
-        val errors = buildList {
-            if (loaded.title.isBlank()) add(ErrorEntity.Validation.EmptyTitle)
-            if (loaded.description.isBlank()) add(ErrorEntity.Validation.EmptyDescription)
-            if (loaded.visibility == GuideVisibility.PUBLIC) {
-                if (loaded.restaurants.size < 3) add(ErrorEntity.Validation.PublicGuideNeedsMoreRestaurants)
-                if (loaded.imageUrl == null && loaded.pendingImage == null) add(ErrorEntity.Validation.PublicGuideNeedsImage)
+        val errors =
+            buildList {
+                if (loaded.title.isBlank()) add(Res.string.edit_guide_details_title_error)
+                if (loaded.description.isBlank()) add(Res.string.edit_guide_details_description_error)
+                if (loaded.visibility == GuideVisibility.PUBLIC) {
+                    if (loaded.restaurants.size < 3) add(Res.string.edit_guide_details_public_restaurants_warning)
+                    if (loaded.imageUrl == null && loaded.pendingImage == null) {
+                        add(Res.string.edit_guide_details_public_image_warning)
+                    }
+                }
             }
-        }
         if (errors.isNotEmpty()) {
             updateLoaded {
                 copy(
-                    titleError = ErrorEntity.Validation.EmptyTitle in errors,
-                    descriptionError = ErrorEntity.Validation.EmptyDescription in errors,
+                    titleError = Res.string.edit_guide_details_title_error in errors,
+                    descriptionError = Res.string.edit_guide_details_description_error in errors,
                     validationErrors = errors,
                 )
             }
@@ -124,11 +133,12 @@ class EditGuideViewModel(
                 updateLoaded { copy(isUploadingPhoto = true) }
 
                 val (bytes, mimeType) = loaded.pendingImage
-                val ext = when (mimeType) {
-                    "image/png" -> "png"
-                    "image/webp" -> "webp"
-                    else -> "jpg"
-                }
+                val ext =
+                    when (mimeType) {
+                        "image/png" -> "png"
+                        "image/webp" -> "webp"
+                        else -> "jpg"
+                    }
                 val fileName = "photo_${Clock.System.now().toEpochMilliseconds()}.$ext"
                 val presigned = guidesRepository.getPhotoPresignedUrl(guideId, fileName, mimeType)
                 if (presigned is Result.Success) {
@@ -146,14 +156,16 @@ class EditGuideViewModel(
             val current = _state.value as? EditGuideUiState.Loaded ?: return@launch
             updateLoaded { copy(isSaving = true) }
 
-            when (updateGuide(
-                id = guideId,
-                title = current.title,
-                description = current.description,
-                restaurantIds = current.restaurants.map { it.id },
-                visibility = current.visibility,
-            )) {
-                is Result.Error -> updateLoaded { copy(isSaving = false) }
+            when (
+                updateGuide(
+                    id = guideId,
+                    title = current.title,
+                    description = current.description,
+                    restaurantIds = current.restaurants.map { it.id },
+                    visibility = current.visibility,
+                )
+            ) {
+                is Result.Failure -> updateLoaded { copy(isSaving = false) }
                 is Result.Success -> _events.emit(UiEvent.NavigateBack)
             }
         }
@@ -165,18 +177,19 @@ class EditGuideViewModel(
         viewModelScope.launch {
             updateLoaded { copy(isDeleting = true) }
             when (deleteGuide(guideId)) {
-                is Result.Error -> updateLoaded { copy(isDeleting = false) }
+                is Result.Failure -> updateLoaded { copy(isDeleting = false) }
                 is Result.Success -> _events.emit(UiEvent.GuideDeleted)
             }
         }
     }
 
-    fun onRetry(){
+    fun onRetry() {
         loadGuide(guideId)
     }
 
     sealed class UiEvent {
         data object NavigateBack : UiEvent()
+
         data object GuideDeleted : UiEvent()
     }
 }

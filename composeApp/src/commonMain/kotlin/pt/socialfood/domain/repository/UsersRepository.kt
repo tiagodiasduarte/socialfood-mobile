@@ -6,7 +6,6 @@ import pt.socialfood.domain.model.PagedUsers
 import pt.socialfood.domain.model.PresignedUrlData
 import pt.socialfood.domain.model.User
 
-
 interface UsersRepository {
     val currentUser: StateFlow<User?>
 
@@ -24,17 +23,21 @@ interface UsersRepository {
 
     suspend fun update(
         id: String,
-        role: String? = null,
         imageUrl: String? = null,
         name: String? = null,
-        city: String? = null,
-        country: String? = null,
+        username: String? = null,
         facebookUrl: String? = null,
         instagramUrl: String? = null,
         youtubeUrl: String? = null,
+        isAuthor: Boolean? = null,
     ): Result<User>
 
     suspend fun updatePhoto(id: String, imageUrl: String): Result<Boolean>
 
-    suspend fun getPresignedUrl(userId: String, fileName: String, mimeType: String, context: String): Result<PresignedUrlData>
+    suspend fun getPresignedUrl(
+        userId: String,
+        fileName: String,
+        mimeType: String,
+        context: String,
+    ): Result<PresignedUrlData>
 }

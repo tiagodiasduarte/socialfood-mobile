@@ -16,11 +16,12 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.guide.ObserveFavouriteGuideIdsUseCase
-import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.guide.GetGuidesPagingUseCase
-import pt.socialfood.domain.use_case.user.ObserveUserUseCase
+import pt.socialfood.domain.model.User
+import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
+import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
+import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 
 const val ALL_GUIDES_TAB = 0
 const val MY_GUIDES_TAB = 1
@@ -37,6 +38,9 @@ class GuidesViewModel(
     private val _selectedTab = MutableStateFlow(ALL_GUIDES_TAB)
     val selectedTab: StateFlow<Int> = _selectedTab.asStateFlow()
 
+    val user: StateFlow<User?> = observeUser()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, null)
+
     val guides: Flow<PagingData<Guide>> = combine(_selectedTab, observeUser()) { tab, user ->
         if (tab == MY_GUIDES_TAB) user?.id else null
     }
@@ -48,7 +52,7 @@ class GuidesViewModel(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Eagerly,
-            initialValue = emptySet()
+            initialValue = emptySet(),
         )
 
     fun onTabSelected(tab: Int) {

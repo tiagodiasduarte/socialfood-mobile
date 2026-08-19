@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -27,8 +26,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,24 +33,25 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.back_button_description
-import socialfood.composeapp.generated.resources.edit_profile_google_info
-import socialfood.composeapp.generated.resources.edit_profile_save_button
-import socialfood.composeapp.generated.resources.edit_profile_title
+import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.presentation.components.ErrorAlertDialog
 import pt.socialfood.presentation.components.ErrorContent
+import pt.socialfood.presentation.error.stringResource
+import pt.socialfood.presentation.profile.edit.card.AuthorModeCard
 import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
 import pt.socialfood.presentation.profile.edit.card.ProfilePictureCard
 import pt.socialfood.presentation.profile.edit.card.SocialNetworkCard
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.back_button_description
+import socialfood.composeapp.generated.resources.edit_profile_save_button
+import socialfood.composeapp.generated.resources.edit_profile_save_error_dismiss
+import socialfood.composeapp.generated.resources.edit_profile_save_error_title
+import socialfood.composeapp.generated.resources.edit_profile_title
 
 @Composable
-fun EditProfileScreen(
-    onBackClick: () -> Unit,
-    viewModel: EditProfileViewModel = koinViewModel(),
-) {
+fun EditProfileScreen(onBackClick: () -> Unit, viewModel: EditProfileViewModel = koinViewModel()) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     if (state is EditProfileUiState.Loaded) {
@@ -63,24 +61,26 @@ fun EditProfileScreen(
     }
 
     when (val s = state) {
-        is EditProfileUiState.Loading -> EditProfilePlaceholder()
+        is EditProfileUiState.Loading -> EditProfileSkeleton()
         is EditProfileUiState.Error -> Column(
-            modifier = Modifier.fillMaxSize().background(GreyBackground),
+            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
         ) {
             TopBar(isSaving = false, showSaveButton = false, onBackClick = onBackClick, onSaveClick = {})
             ErrorContent(modifier = Modifier.fillMaxSize(), onRetryClick = viewModel::retry)
         }
+
         is EditProfileUiState.Loaded -> EditProfileContent(
             state = s,
             onBackClick = onBackClick,
             onSaveClick = viewModel::save,
             onPhotoSelected = viewModel::onPhotoSelected,
             onNameChange = viewModel::onNameChange,
-            onCityChange = viewModel::onCityChange,
-            onCountryChange = viewModel::onCountryChange,
+            onUsernameChange = viewModel::onUsernameChange,
             onFacebookUrlChange = viewModel::onFacebookUrlChange,
             onInstagramUrlChange = viewModel::onInstagramUrlChange,
             onYoutubeUrlChange = viewModel::onYoutubeUrlChange,
+            onAuthorModeChange = viewModel::onAuthorModeChange,
+            onDismissSaveError = viewModel::dismissSaveError,
         )
     }
 }
@@ -92,16 +92,22 @@ private fun EditProfileContent(
     onSaveClick: () -> Unit,
     onPhotoSelected: (ByteArray, String) -> Unit,
     onNameChange: (String) -> Unit,
-    onCityChange: (String) -> Unit,
-    onCountryChange: (String) -> Unit,
+    onUsernameChange: (String) -> Unit,
     onFacebookUrlChange: (String) -> Unit,
     onInstagramUrlChange: (String) -> Unit,
     onYoutubeUrlChange: (String) -> Unit,
+    onAuthorModeChange: (Boolean) -> Unit,
+    onDismissSaveError: () -> Unit,
 ) {
+    val saveError = state.saveError
+    if (saveError != null) {
+        SaveErrorDialog(errorCode = saveError, onDismiss = onDismissSaveError)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(GreyBackground),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         TopBar(
             isSaving = state.isSaving,
@@ -119,34 +125,15 @@ private fun EditProfileContent(
         ) {
             ProfilePictureCard(state = state, onPhotoSelected = onPhotoSelected)
 
-            if (state.isGoogleConnected) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(SpaceSize.medium))
-                        .background(Color(0xFFEFF6FF))
-                        .padding(SpaceSize.large),
-                    horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = null,
-                        tint = Color(0xFF3B82F6),
-                        modifier = Modifier.size(20.dp),
-                    )
-                    Text(
-                        text = stringResource(Res.string.edit_profile_google_info),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color(0xFF1E40AF),
-                    )
-                }
-            }
-
             PersonalDetailsCard(
                 state = state,
                 onNameChange = onNameChange,
-                onCityChange = onCityChange,
-                onCountryChange = onCountryChange,
+                onUsernameChange = onUsernameChange,
+            )
+
+            AuthorModeCard(
+                state = state,
+                onAuthorModeChange = onAuthorModeChange,
             )
 
             SocialNetworkCard(
@@ -160,12 +147,17 @@ private fun EditProfileContent(
 }
 
 @Composable
-private fun TopBar(
-    isSaving: Boolean,
-    showSaveButton: Boolean,
-    onBackClick: () -> Unit,
-    onSaveClick: () -> Unit,
-) {
+private fun SaveErrorDialog(errorCode: ErrorCode, onDismiss: () -> Unit) {
+    ErrorAlertDialog(
+        title = stringResource(Res.string.edit_profile_save_error_title),
+        message = stringResource(errorCode.stringResource()),
+        confirmButtonText = stringResource(Res.string.edit_profile_save_error_dismiss),
+        onDismiss = onDismiss,
+    )
+}
+
+@Composable
+private fun TopBar(isSaving: Boolean, showSaveButton: Boolean, onBackClick: () -> Unit, onSaveClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -198,7 +190,7 @@ private fun TopBar(
                     CircularProgressIndicator(
                         modifier = Modifier.size(SpaceSize.large),
                         strokeWidth = 2.dp,
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onPrimary,
                     )
                 } else {
                     Text(
@@ -220,8 +212,8 @@ private fun EditProfileScreenPreview() {
         EditProfileContent(
             state = EditProfileUiState.Loaded(
                 name = "John Doe",
-                city = "New York",
-                country = "United States",
+                email = "john.doe@email.com",
+                username = "johndoe",
                 facebookUrl = "",
                 instagramUrl = "",
                 youtubeUrl = "",
@@ -231,11 +223,12 @@ private fun EditProfileScreenPreview() {
             onSaveClick = {},
             onPhotoSelected = { _, _ -> },
             onNameChange = {},
-            onCityChange = {},
-            onCountryChange = {},
+            onUsernameChange = {},
             onFacebookUrlChange = {},
             onInstagramUrlChange = {},
             onYoutubeUrlChange = {},
+            onAuthorModeChange = {},
+            onDismissSaveError = {},
         )
     }
 }

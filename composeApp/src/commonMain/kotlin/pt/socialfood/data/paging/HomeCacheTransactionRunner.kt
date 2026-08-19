@@ -8,7 +8,6 @@ fun interface HomeCacheTransactionRunner {
     suspend fun run(block: suspend () -> Unit)
 }
 
-fun AppDatabase.asHomeCacheTransactionRunner(): HomeCacheTransactionRunner =
-    HomeCacheTransactionRunner { block ->
-        useWriterConnection { transactor -> transactor.immediateTransaction { block() } }
-    }
+fun AppDatabase.asHomeCacheTransactionRunner(): HomeCacheTransactionRunner = HomeCacheTransactionRunner { block ->
+    useWriterConnection { transactor -> transactor.immediateTransaction { block() } }
+}

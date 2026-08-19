@@ -4,19 +4,19 @@ import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed interface Route: NavKey {
+sealed interface Route : NavKey {
 
     @Serializable
-    data object Authors: Route
+    data object Authors : Route
 
     @Serializable
-    data object Guides: Route
+    data object Guides : Route
 
     @Serializable
-    data object Home: Route
+    data object Home : Route
 
     @Serializable
-    data object Profile: Route
+    data object Search : Route
 
     @Serializable
     data class GuideDetail(val guideId: String) : Route
@@ -44,4 +44,13 @@ sealed interface Route: NavKey {
 
     @Serializable
     data object FavouriteRestaurants : Route
+
+    @Serializable
+    data object WishRestaurants : Route
+
+    @Serializable
+    data object AddWishRestaurant : Route
+
+    @Serializable
+    data object VisitedRestaurants : Route
 }

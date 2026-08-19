@@ -1,8 +1,8 @@
 package pt.socialfood.core
 
-import pt.socialfood.domain.error.ErrorEntity
+import pt.socialfood.domain.error.DataError
 
 sealed class Result<out T> {
     data class Success<T>(val data: T) : Result<T>()
-    data class Error(val error: ErrorEntity) : Result<Nothing>()
+    data class Failure(val error: DataError) : Result<Nothing>()
 }

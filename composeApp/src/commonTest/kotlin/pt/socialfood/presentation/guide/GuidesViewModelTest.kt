@@ -1,5 +1,6 @@
 package pt.socialfood.presentation.guide
 
+import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -7,11 +8,11 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.User
-import pt.socialfood.domain.use_case.favourite.guide.MarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.favourite.guide.ObserveFavouriteGuideIdsUseCase
-import pt.socialfood.domain.use_case.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.use_case.guide.GetGuidesPagingUseCase
-import pt.socialfood.domain.use_case.user.ObserveUserUseCase
+import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
+import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
+import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.fakes.FakeGetGuidesPagingUseCase
 import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeObserveFavouriteGuideIdsUseCase
@@ -25,15 +26,14 @@ import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GuidesViewModelTest {
-
-    private val fakeUser = User(id = "user-1", email = "user@test.com", name = "Test User")
+    private val fakeUser = User(id = "user-1", email = "user@test.com", name = "Test User", username = "testuser")
 
     private fun guide(id: String) = Guide(
         id = id,
         name = "Guide $id",
         description = "Description $id",
         visibility = GuideVisibility.PUBLIC,
-        author = Author(id = "author-1", name = "Author"),
+        author = Author(id = "author-1", name = "Author", username = "author"),
         numberOfRestaurant = 0,
     )
 
@@ -43,81 +43,106 @@ class GuidesViewModelTest {
         observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase = FakeObserveFavouriteGuideIdsUseCase(),
         markGuideFavourite: MarkGuideFavouriteUseCase = FakeMarkGuideFavouriteUseCase(),
         unmarkGuideFavourite: UnmarkGuideFavouriteUseCase = FakeUnmarkGuideFavouriteUseCase(),
-    ) = GuidesViewModel(getGuidesPaging, markGuideFavourite, unmarkGuideFavourite, observeUser, observeFavouriteGuideIds)
+    ) = GuidesViewModel(
+        getGuidesPaging,
+        markGuideFavourite,
+        unmarkGuideFavourite,
+        observeUser,
+        observeFavouriteGuideIds,
+    )
 
     @Test
-    fun `given selectedTab is 0 when guides is collected then getGuidesPaging is invoked with userId null`() = runTestWithMainDispatcher {
-        // Given
-        val getGuidesPaging = FakeGetGuidesPagingUseCase()
-        val vm = createViewModel(getGuidesPaging = getGuidesPaging)
+    fun `given selectedTab is 0 when guides is collected then getGuidesPaging is invoked with userId null`() =
+        runTestWithMainDispatcher {
+            // Given
+            val getGuidesPaging = FakeGetGuidesPagingUseCase()
+            val vm = createViewModel(getGuidesPaging = getGuidesPaging)
 
-        // When
-        val job = launch { vm.guides.collect {} }
-        advanceUntilIdle()
+            // When
+            val job = launch { vm.guides.collect {} }
+            advanceUntilIdle()
 
-        // Then
-        assertEquals(1, getGuidesPaging.invokeCount)
-        assertNull(getGuidesPaging.lastUserId)
-        job.cancel()
-    }
-
-    @Test
-    fun `given onTabSelected 1 is called before observeUser emits when observeUser later emits then guides is re-invoked with the resolved userId`() = runTestWithMainDispatcher {
-        // Given
-        val observeUser = FakeObserveUserUseCase(initial = null)
-        val getGuidesPaging = FakeGetGuidesPagingUseCase()
-        val vm = createViewModel(getGuidesPaging = getGuidesPaging, observeUser = observeUser)
-        val job = launch { vm.guides.collect {} }
-        advanceUntilIdle()
-
-        // When
-        vm.onTabSelected(1)
-        advanceUntilIdle()
-        observeUser.emit(fakeUser)
-        advanceUntilIdle()
-
-        // Then
-        assertEquals(fakeUser.id, getGuidesPaging.lastUserId)
-        job.cancel()
-    }
+            // Then
+            assertEquals(1, getGuidesPaging.invokeCount)
+            assertNull(getGuidesPaging.lastUserId)
+            job.cancel()
+        }
 
     @Test
-    fun `given onTabSelected is called with the same tab twice then getGuidesPaging is not invoked a second time`() = runTestWithMainDispatcher {
-        // Given
-        val getGuidesPaging = FakeGetGuidesPagingUseCase()
-        val vm = createViewModel(getGuidesPaging = getGuidesPaging)
-        val job = launch { vm.guides.collect {} }
-        advanceUntilIdle()
-        val countAfterInit = getGuidesPaging.invokeCount
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
+    fun `given onTabSelected 1 is called before observeUser emits when observeUser later emits then guides is re-invoked with the resolved userId`() =
+        runTestWithMainDispatcher {
+            // Given
+            val observeUser = FakeObserveUserUseCase(initial = null)
+            val getGuidesPaging = FakeGetGuidesPagingUseCase()
+            val vm = createViewModel(getGuidesPaging = getGuidesPaging, observeUser = observeUser)
+            val job = launch { vm.guides.collect {} }
+            advanceUntilIdle()
 
-        // When
-        vm.onTabSelected(0)
-        advanceUntilIdle()
+            // When
+            vm.onTabSelected(1)
+            advanceUntilIdle()
+            observeUser.emit(fakeUser)
+            advanceUntilIdle()
 
-        // Then
-        assertEquals(countAfterInit, getGuidesPaging.invokeCount)
-        job.cancel()
-    }
+            // Then
+            assertEquals(fakeUser.id, getGuidesPaging.lastUserId)
+            job.cancel()
+        }
 
     @Test
-    fun `given current user changes when observeUser emits a new user then guides is re-invoked with the new user id`() = runTestWithMainDispatcher {
+    fun `given onTabSelected is called with the same tab twice then getGuidesPaging is not invoked a second time`() =
+        runTestWithMainDispatcher {
+            // Given
+            val getGuidesPaging = FakeGetGuidesPagingUseCase()
+            val vm = createViewModel(getGuidesPaging = getGuidesPaging)
+            val job = launch { vm.guides.collect {} }
+            advanceUntilIdle()
+            val countAfterInit = getGuidesPaging.invokeCount
+
+            // When
+            vm.onTabSelected(0)
+            advanceUntilIdle()
+
+            // Then
+            assertEquals(countAfterInit, getGuidesPaging.invokeCount)
+            job.cancel()
+        }
+
+    @Test
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
+    fun `given current user changes when observeUser emits a new user then guides is re-invoked with the new user id`() =
+        runTestWithMainDispatcher {
+            // Given
+            val observeUser = FakeObserveUserUseCase(fakeUser)
+            val getGuidesPaging = FakeGetGuidesPagingUseCase()
+            val vm = createViewModel(getGuidesPaging = getGuidesPaging, observeUser = observeUser)
+            val job = launch { vm.guides.collect {} }
+            advanceUntilIdle()
+            vm.onTabSelected(1)
+            advanceUntilIdle()
+
+            // When
+            val otherUser = fakeUser.copy(id = "user-2")
+            observeUser.emit(otherUser)
+            advanceUntilIdle()
+
+            // Then
+            assertEquals(otherUser.id, getGuidesPaging.lastUserId)
+            job.cancel()
+        }
+
+    @Test
+    fun `given the current user is observed then user reflects the emitted value`() = runTestWithMainDispatcher {
         // Given
-        val observeUser = FakeObserveUserUseCase(fakeUser)
-        val getGuidesPaging = FakeGetGuidesPagingUseCase()
-        val vm = createViewModel(getGuidesPaging = getGuidesPaging, observeUser = observeUser)
-        val job = launch { vm.guides.collect {} }
-        advanceUntilIdle()
-        vm.onTabSelected(1)
-        advanceUntilIdle()
+        val observeUser = FakeObserveUserUseCase(initial = fakeUser)
 
-        // When
-        val otherUser = fakeUser.copy(id = "user-2")
-        observeUser.emit(otherUser)
-        advanceUntilIdle()
-
-        // Then
-        assertEquals(otherUser.id, getGuidesPaging.lastUserId)
-        job.cancel()
+        // When / Then
+        val vm = createViewModel(observeUser = observeUser)
+        vm.user.test {
+            awaitItem()
+            assertEquals(fakeUser, awaitItem())
+        }
     }
 
     @Test
@@ -134,42 +159,50 @@ class GuidesViewModelTest {
     }
 
     @Test
-    fun `given a guide is not favourited when onToggleGuideFavourite is called then markGuideFavourite is invoked`() = runTestWithMainDispatcher {
-        // Given
-        val markGuideFavourite = FakeMarkGuideFavouriteUseCase()
-        val unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase()
-        val vm = createViewModel(markGuideFavourite = markGuideFavourite, unmarkGuideFavourite = unmarkGuideFavourite)
-        val target = guide("g1")
+    fun `given a guide is not favourited when onToggleGuideFavourite is called then markGuideFavourite is invoked`() =
+        runTestWithMainDispatcher {
+            // Given
+            val markGuideFavourite = FakeMarkGuideFavouriteUseCase()
+            val unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase()
+            val vm =
+                createViewModel(
+                    markGuideFavourite = markGuideFavourite,
+                    unmarkGuideFavourite = unmarkGuideFavourite,
+                )
+            val target = guide("g1")
 
-        // When
-        vm.onToggleGuideFavourite(target)
-        advanceUntilIdle()
+            // When
+            vm.onToggleGuideFavourite(target)
+            advanceUntilIdle()
 
-        // Then
-        assertEquals(target, markGuideFavourite.lastGuide)
-        assertEquals(0, unmarkGuideFavourite.invokeCount)
-    }
+            // Then
+            assertEquals(target, markGuideFavourite.lastGuide)
+            assertEquals(0, unmarkGuideFavourite.invokeCount)
+        }
 
     @Test
-    fun `given a guide is already favourited when onToggleGuideFavourite is called then unmarkGuideFavourite is invoked`() = runTestWithMainDispatcher {
-        // Given
-        val markGuideFavourite = FakeMarkGuideFavouriteUseCase()
-        val unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase()
-        val observeFavouriteGuideIds = FakeObserveFavouriteGuideIdsUseCase(initial = setOf("g1"))
-        val vm = createViewModel(
-            observeFavouriteGuideIds = observeFavouriteGuideIds,
-            markGuideFavourite = markGuideFavourite,
-            unmarkGuideFavourite = unmarkGuideFavourite,
-        )
-        val target = guide("g1")
-        advanceUntilIdle()
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
+    fun `given a guide is already favourited when onToggleGuideFavourite is called then unmarkGuideFavourite is invoked`() =
+        runTestWithMainDispatcher {
+            // Given
+            val markGuideFavourite = FakeMarkGuideFavouriteUseCase()
+            val unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase()
+            val observeFavouriteGuideIds = FakeObserveFavouriteGuideIdsUseCase(initial = setOf("g1"))
+            val vm =
+                createViewModel(
+                    observeFavouriteGuideIds = observeFavouriteGuideIds,
+                    markGuideFavourite = markGuideFavourite,
+                    unmarkGuideFavourite = unmarkGuideFavourite,
+                )
+            val target = guide("g1")
+            advanceUntilIdle()
 
-        // When
-        vm.onToggleGuideFavourite(target)
-        advanceUntilIdle()
+            // When
+            vm.onToggleGuideFavourite(target)
+            advanceUntilIdle()
 
-        // Then
-        assertEquals("g1", unmarkGuideFavourite.lastGuideId)
-        assertEquals(0, markGuideFavourite.invokeCount)
-    }
+            // Then
+            assertEquals("g1", unmarkGuideFavourite.lastGuideId)
+            assertEquals(0, markGuideFavourite.invokeCount)
+        }
 }

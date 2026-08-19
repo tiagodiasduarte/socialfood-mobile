@@ -9,7 +9,7 @@ class FakeFavouriteRestaurantsRepository(
     private val markResult: Result<Unit> = Result.Success(Unit),
     private val unmarkResult: Result<Unit> = Result.Success(Unit),
     private val pagedResult: Result<PagedFavouriteRestaurants> = Result.Success(
-        PagedFavouriteRestaurants(favourites = emptyList(), page = 1, total = 0, hasMore = false)
+        PagedFavouriteRestaurants(favourites = emptyList(), page = 1, total = 0, hasMore = false),
     ),
     private val isFavouriteResult: Result<Boolean> = Result.Success(false),
     private val syncResult: Result<Unit> = Result.Success(Unit),
@@ -19,6 +19,9 @@ class FakeFavouriteRestaurantsRepository(
         private set
 
     var lastUnmarkedRestaurantId: String? = null
+        private set
+
+    var lastIsFavouriteRestaurantId: String? = null
         private set
 
     override suspend fun markFavourite(restaurant: Restaurant): Result<Unit> {
@@ -33,7 +36,10 @@ class FakeFavouriteRestaurantsRepository(
 
     override suspend fun getFavouritesPaged(page: Int, limit: Int): Result<PagedFavouriteRestaurants> = pagedResult
 
-    override suspend fun isFavourite(restaurantId: String): Result<Boolean> = isFavouriteResult
+    override suspend fun isFavourite(restaurantId: String): Result<Boolean> {
+        lastIsFavouriteRestaurantId = restaurantId
+        return isFavouriteResult
+    }
 
     override suspend fun syncFavourites(): Result<Unit> = syncResult
 }

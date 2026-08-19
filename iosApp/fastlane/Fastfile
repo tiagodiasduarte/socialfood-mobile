@@ -44,14 +44,16 @@ platform :ios do
       xcodeproj: "iosApp.xcodeproj"
     )
 
-    build_date = ENV["BUILD_DATE"] || ""
+    # Set explicitly (rather than relying on inherited env or xcargs) so it's
+    # guaranteed to be a real process env var for xcodebuild and everything it
+    # spawns, including the KMP framework's "Run Script" build phase.
+    ENV["BUILD_DATE"] = ENV["BUILD_DATE"] || Time.now.strftime("%Y%m%d-%H%M")
 
     build_ios_app(
       scheme: "iosApp",
       workspace: "iosApp.xcworkspace",
       output_name: "DeployIosApp.ipa",
-      output_directory: "build",
-      xcargs: "BUILD_DATE=#{build_date}"
+      output_directory: "build"
     )
 
     pilot(

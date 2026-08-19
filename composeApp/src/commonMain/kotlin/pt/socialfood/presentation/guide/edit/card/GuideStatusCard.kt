@@ -29,6 +29,9 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.ui.theme.StatusGuide
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.edit_guide_details_public_image_warning
 import socialfood.composeapp.generated.resources.edit_guide_needs_restaurants_warning
@@ -38,9 +41,6 @@ import socialfood.composeapp.generated.resources.edit_guide_visibility_private
 import socialfood.composeapp.generated.resources.edit_guide_visibility_public
 import socialfood.composeapp.generated.resources.guides_private_icon
 import socialfood.composeapp.generated.resources.guides_public_icon
-import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.ui.theme.GreenStatus
-import pt.socialfood.ui.theme.SpaceSize
 
 private const val MIN_RESTAURANTS = 3
 
@@ -82,10 +82,11 @@ fun GuideStatusCard(
                                 contentDescription = null,
                                 modifier = Modifier.size(18.dp),
                                 colorFilter = ColorFilter.tint(
-                                    if (visibility == GuideVisibility.PUBLIC)
+                                    if (visibility == GuideVisibility.PUBLIC) {
                                         MaterialTheme.colorScheme.primary
-                                    else
+                                    } else {
                                         MaterialTheme.colorScheme.onSurfaceVariant
+                                    },
                                 ),
                             )
                         },
@@ -101,10 +102,11 @@ fun GuideStatusCard(
                                 contentDescription = null,
                                 modifier = Modifier.size(18.dp),
                                 colorFilter = ColorFilter.tint(
-                                    if (visibility == GuideVisibility.PRIVATE)
+                                    if (visibility == GuideVisibility.PRIVATE) {
                                         MaterialTheme.colorScheme.primary
-                                    else
+                                    } else {
                                         MaterialTheme.colorScheme.onSurfaceVariant
+                                    },
                                 ),
                             )
                         },
@@ -143,12 +145,12 @@ private fun PublicationRuleRow(met: Boolean, label: String) {
             imageVector = if (met) Icons.Filled.CheckCircle else Icons.Outlined.CheckCircle,
             contentDescription = null,
             modifier = Modifier.size(16.dp),
-            tint = if (met) GreenStatus else Color.Red,
+            tint = if (met) StatusGuide else Color.Red,
         )
         Text(
             text = label,
             style = MaterialTheme.typography.bodySmall,
-            color = if (met) GreenStatus else Color.Red,
+            color = if (met) StatusGuide else Color.Red,
         )
     }
 }

@@ -8,6 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.presentation.components.card.SectionCard
+import pt.socialfood.presentation.profile.edit.EditProfileUiState
+import pt.socialfood.presentation.profile.edit.ProfileTextField
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.edit_profile_facebook_label
 import socialfood.composeapp.generated.resources.edit_profile_facebook_placeholder
@@ -16,10 +20,6 @@ import socialfood.composeapp.generated.resources.edit_profile_instagram_placehol
 import socialfood.composeapp.generated.resources.edit_profile_social_title
 import socialfood.composeapp.generated.resources.edit_profile_youtube_label
 import socialfood.composeapp.generated.resources.edit_profile_youtube_placeholder
-import pt.socialfood.presentation.components.card.SectionCard
-import pt.socialfood.presentation.profile.edit.EditProfileUiState
-import pt.socialfood.presentation.profile.edit.ProfileTextField
-import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
 fun SocialNetworkCard(
@@ -42,6 +42,7 @@ fun SocialNetworkCard(
             value = state.facebookUrl,
             placeholder = stringResource(Res.string.edit_profile_facebook_placeholder),
             onValueChange = onFacebookUrlChange,
+            clearable = true,
         )
 
         Spacer(Modifier.height(SpaceSize.large))
@@ -51,6 +52,7 @@ fun SocialNetworkCard(
             value = state.instagramUrl,
             placeholder = stringResource(Res.string.edit_profile_instagram_placeholder),
             onValueChange = onInstagramUrlChange,
+            clearable = true,
         )
 
         Spacer(Modifier.height(SpaceSize.large))
@@ -60,6 +62,7 @@ fun SocialNetworkCard(
             value = state.youtubeUrl,
             placeholder = stringResource(Res.string.edit_profile_youtube_placeholder),
             onValueChange = onYoutubeUrlChange,
+            clearable = true,
         )
     }
 }

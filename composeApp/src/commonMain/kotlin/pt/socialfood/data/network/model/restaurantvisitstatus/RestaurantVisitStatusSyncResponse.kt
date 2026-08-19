@@ -11,5 +11,5 @@ data class RestaurantVisitStatusSyncResponse(
 ) {
 
     @Serializable
-    data class RestaurantStatusEntry(val restaurantId: String, val status: VisitStatus)
+    data class RestaurantStatusEntry(val id: String, val status: VisitStatus)
 }

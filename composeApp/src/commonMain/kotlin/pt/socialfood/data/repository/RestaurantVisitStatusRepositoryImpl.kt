@@ -124,7 +124,7 @@ class RestaurantVisitStatusRepositoryImpl(
             val request = RestaurantStatusSyncRequest(
                 updated = pendingAdds.map {
                     RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(
-                        restaurantId = it.restaurantId,
+                        id = it.restaurantId,
                         status = VisitStatus.valueOf(it.status),
                     )
                 },
@@ -158,7 +158,7 @@ class RestaurantVisitStatusRepositoryImpl(
             restaurantVisitStatusDao.deleteByRestaurantIds(changes.removedIds)
         }
 
-        val updatedByStatus = changes.updated.groupBy({ it.status }, { it.restaurantId })
+        val updatedByStatus = changes.updated.groupBy({ it.status }, { it.id })
         for ((entryStatus, restaurantIds) in updatedByStatus) {
             val applyResult = applyUpdatedForStatus(entryStatus, restaurantIds.toSet())
             if (applyResult is Result.Failure) return applyResult

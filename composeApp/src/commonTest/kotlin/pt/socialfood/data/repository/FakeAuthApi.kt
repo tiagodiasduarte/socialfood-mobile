@@ -9,7 +9,7 @@ class FakeAuthApi(private val shouldThrow: Boolean = false) : AuthApi {
 
     override suspend fun login(username: String, password: String): LoginResponse {
         if (shouldThrow) throw IOException("test error")
-        return LoginResponse(userId = "uid", token = "token")
+        return LoginResponse(userId = "uid", token = "token", refreshToken = "refresh-token")
     }
 
     override suspend fun register(name: String, username: String, password: String) {
@@ -18,12 +18,12 @@ class FakeAuthApi(private val shouldThrow: Boolean = false) : AuthApi {
 
     override suspend fun loginWithGoogle(idToken: String): LoginResponse {
         if (shouldThrow) throw IOException("test error")
-        return LoginResponse(userId = "uid", token = "token")
+        return LoginResponse(userId = "uid", token = "token", refreshToken = "refresh-token")
     }
 
     override suspend fun validateCode(email: String, code: String): ValidateCodeResponse {
         if (shouldThrow) throw IOException("test error")
-        return ValidateCodeResponse(userId = "uid", token = "newtoken")
+        return ValidateCodeResponse(userId = "uid", token = "newtoken", refreshToken = "new-refresh-token")
     }
 
     override suspend fun resendVerificationCode(email: String) {

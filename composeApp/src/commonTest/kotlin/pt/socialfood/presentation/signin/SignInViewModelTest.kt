@@ -7,6 +7,7 @@ import pt.socialfood.core.Result
 import pt.socialfood.data.network.SessionManager
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.domain.model.AuthTokens
 import pt.socialfood.domain.usecase.login.LoginUseCaseImpl
 import pt.socialfood.domain.usecase.login.LoginWithGoogleUseCaseImpl
 import pt.socialfood.fakes.FakeAuthRepository
@@ -20,7 +21,7 @@ import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SignInViewModelTest {
-    private fun createViewModel(loginResult: Result<String>): SignInViewModel {
+    private fun createViewModel(loginResult: Result<AuthTokens>): SignInViewModel {
         val sessionManager = SessionManager(FakeSettingsRepository())
         val fakeRepo = FakeAuthRepository(loginResult)
         val loginUseCase = LoginUseCaseImpl(sessionManager, fakeRepo)
@@ -31,7 +32,7 @@ class SignInViewModelTest {
     @Test
     fun `given a new view model when created then state is Idle`() = runTest {
         // Given
-        val vm = createViewModel(Result.Success("token"))
+        val vm = createViewModel(Result.Success(AuthTokens("token", "refresh-token")))
 
         // When / Then
         vm.state.test {
@@ -43,7 +44,7 @@ class SignInViewModelTest {
     fun `given an empty email when sign in is called then state is InvalidCredentials error`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = createViewModel(Result.Success("token"))
+            val vm = createViewModel(Result.Success(AuthTokens("token", "refresh-token")))
 
             vm.state.test {
                 assertEquals(SignInUiState.Idle, awaitItem())
@@ -60,7 +61,7 @@ class SignInViewModelTest {
     fun `given an empty password when sign in is called then state is InvalidCredentials error`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = createViewModel(Result.Success("token"))
+            val vm = createViewModel(Result.Success(AuthTokens("token", "refresh-token")))
 
             vm.state.test {
                 assertEquals(SignInUiState.Idle, awaitItem())
@@ -76,7 +77,7 @@ class SignInViewModelTest {
     @Test
     fun `given valid credentials when sign in is called then state is Success`() = runTestWithMainDispatcher {
         // Given
-        val vm = createViewModel(Result.Success("token"))
+        val vm = createViewModel(Result.Success(AuthTokens("token", "refresh-token")))
 
         vm.state.test {
             assertEquals(SignInUiState.Idle, awaitItem())
@@ -111,7 +112,7 @@ class SignInViewModelTest {
     fun `given google sign in succeeds when onGoogleSignIn is called then state is Success`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = createViewModel(Result.Success("token"))
+            val vm = createViewModel(Result.Success(AuthTokens("token", "refresh-token")))
 
             vm.state.test {
                 assertEquals(SignInUiState.Idle, awaitItem())
@@ -145,7 +146,7 @@ class SignInViewModelTest {
     @Test
     fun `given onGoogleSignInError is called then state is Error UNKNOWN`() = runTestWithMainDispatcher {
         // Given
-        val vm = createViewModel(Result.Success("token"))
+        val vm = createViewModel(Result.Success(AuthTokens("token", "refresh-token")))
 
         vm.state.test {
             assertEquals(SignInUiState.Idle, awaitItem())

@@ -20,14 +20,24 @@ private const val KEY_LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT = "last_resta
 class SettingsRepositoryImpl : SettingsRepository {
     private val defaults = NSUserDefaults.standardUserDefaults
 
-    override suspend fun getToken(): String? = KeychainTokenStore.get()
+    override suspend fun getToken(): String? = KeychainTokenStore.get(KeychainTokenStore.ACCESS_TOKEN_ACCOUNT)
 
     override suspend fun saveToken(token: String) {
-        KeychainTokenStore.save(token)
+        KeychainTokenStore.save(KeychainTokenStore.ACCESS_TOKEN_ACCOUNT, token)
     }
 
     override suspend fun clearToken() {
-        KeychainTokenStore.delete()
+        KeychainTokenStore.delete(KeychainTokenStore.ACCESS_TOKEN_ACCOUNT)
+    }
+
+    override suspend fun getRefreshToken(): String? = KeychainTokenStore.get(KeychainTokenStore.REFRESH_TOKEN_ACCOUNT)
+
+    override suspend fun saveRefreshToken(token: String) {
+        KeychainTokenStore.save(KeychainTokenStore.REFRESH_TOKEN_ACCOUNT, token)
+    }
+
+    override suspend fun clearRefreshToken() {
+        KeychainTokenStore.delete(KeychainTokenStore.REFRESH_TOKEN_ACCOUNT)
     }
 
     override fun observeThemeMode(): Flow<ThemeMode> {

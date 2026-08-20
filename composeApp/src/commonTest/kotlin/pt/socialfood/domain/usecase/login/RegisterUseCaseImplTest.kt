@@ -3,6 +3,7 @@ package pt.socialfood.domain.usecase.login
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
+import pt.socialfood.domain.model.AuthTokens
 import pt.socialfood.fakes.FakeAuthRepository
 import pt.socialfood.fakes.FakeSettingsRepository
 import kotlin.test.Test
@@ -18,7 +19,7 @@ class RegisterUseCaseImplTest {
             val settingsRepository = FakeSettingsRepository()
             val fakeRepo =
                 FakeAuthRepository(
-                    loginResult = Result.Success("token"),
+                    loginResult = Result.Success(AuthTokens("token", "refresh-token")),
                     registerResult = Result.Success(Unit),
                 )
             val useCase = RegisterUseCaseImpl(fakeRepo, settingsRepository)
@@ -37,7 +38,7 @@ class RegisterUseCaseImplTest {
         val settingsRepository = FakeSettingsRepository()
         val fakeRepo =
             FakeAuthRepository(
-                loginResult = Result.Success("token"),
+                loginResult = Result.Success(AuthTokens("token", "refresh-token")),
                 registerResult = Result.Failure(DataError.Network(Exception("test error"))),
             )
         val useCase = RegisterUseCaseImpl(fakeRepo, settingsRepository)

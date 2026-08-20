@@ -9,7 +9,7 @@ import kotlin.test.assertNull
 class SessionManagerTest {
 
     @Test
-    fun `given no token saved when session manager is created then token is null`() {
+    fun `given no tokens saved when session manager is created then tokens are null`() {
         // Given
         val settingsRepository = FakeSettingsRepository()
 
@@ -17,48 +17,54 @@ class SessionManagerTest {
         val sessionManager = SessionManager(settingsRepository)
 
         // Then
-        assertNull(sessionManager.token)
+        assertNull(sessionManager.accessToken)
+        assertNull(sessionManager.refreshToken)
     }
 
     @Test
-    fun `given a token when saveToken is called then token is set and persisted`() = runTest {
+    fun `given tokens when saveTokens is called then tokens are set and persisted`() = runTest {
         // Given
         val settingsRepository = FakeSettingsRepository()
         val sessionManager = SessionManager(settingsRepository)
 
         // When
-        sessionManager.saveToken("jwt-token")
+        sessionManager.saveTokens("jwt-token", "refresh-token")
 
         // Then
-        assertEquals("jwt-token", sessionManager.token)
+        assertEquals("jwt-token", sessionManager.accessToken)
+        assertEquals("refresh-token", sessionManager.refreshToken)
         assertEquals("jwt-token", settingsRepository.getToken())
+        assertEquals("refresh-token", settingsRepository.getRefreshToken())
     }
 
     @Test
-    fun `given a persisted token when a new SessionManager is created then token is reloaded`() = runTest {
+    fun `given persisted tokens when a new SessionManager is created then tokens are reloaded`() = runTest {
         // Given
         val settingsRepository = FakeSettingsRepository()
-        SessionManager(settingsRepository).saveToken("jwt-token")
+        SessionManager(settingsRepository).saveTokens("jwt-token", "refresh-token")
 
         // When
         val reloaded = SessionManager(settingsRepository)
 
         // Then
-        assertEquals("jwt-token", reloaded.token)
+        assertEquals("jwt-token", reloaded.accessToken)
+        assertEquals("refresh-token", reloaded.refreshToken)
     }
 
     @Test
-    fun `given a saved token when clear is called then token is cleared and removed from storage`() = runTest {
+    fun `given saved tokens when clear is called then tokens are cleared and removed from storage`() = runTest {
         // Given
         val settingsRepository = FakeSettingsRepository()
         val sessionManager = SessionManager(settingsRepository)
-        sessionManager.saveToken("jwt-token")
+        sessionManager.saveTokens("jwt-token", "refresh-token")
 
         // When
         sessionManager.clear()
 
         // Then
-        assertNull(sessionManager.token)
+        assertNull(sessionManager.accessToken)
+        assertNull(sessionManager.refreshToken)
         assertNull(settingsRepository.getToken())
+        assertNull(settingsRepository.getRefreshToken())
     }
 }

@@ -18,7 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -35,6 +34,7 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
+import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
@@ -113,7 +113,7 @@ private fun FavouriteGuidesContent(
             is FavouriteGuidesUiState.Loaded -> if (state.guides.isEmpty()) {
                 NoResultsContent(modifier = Modifier.fillMaxSize())
             } else {
-                PullToRefreshBox(
+                PullToRefreshContent(
                     isRefreshing = isRefreshing,
                     onRefresh = onRefresh,
                     modifier = Modifier.fillMaxSize(),

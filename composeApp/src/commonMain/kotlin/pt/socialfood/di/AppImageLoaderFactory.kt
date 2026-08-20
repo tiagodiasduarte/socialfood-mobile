@@ -12,7 +12,7 @@ interface ImageCache {
 }
 
 // Builds the shared Coil ImageLoader, wired with the dedicated, unauthenticated
-// ImageHttpClient so image requests never pick up KtorHttpClient's Authorization header,
+// CoilHttpClient so image requests never pick up KtorHttpClient's Authorization header,
 // base-URL/path prefix, or 401 -> session-clear behavior.
 class AppImageLoaderFactory(private val httpClient: HttpClient) :
     SingletonImageLoader.Factory,

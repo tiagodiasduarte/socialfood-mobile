@@ -1,7 +1,6 @@
 package pt.socialfood.data.network.model.author
 
 import kotlinx.serialization.Serializable
-import pt.socialfood.data.network.model.guide.GuideResponse
 
 @Serializable
 data class AuthorDetailResponse(

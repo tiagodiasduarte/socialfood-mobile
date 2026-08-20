@@ -35,7 +35,7 @@ import pt.socialfood.data.api.SearchApiImpl
 import pt.socialfood.data.api.UserApi
 import pt.socialfood.data.api.UserApiImpl
 import pt.socialfood.data.local.AppDatabase
-import pt.socialfood.data.network.ImageHttpClient
+import pt.socialfood.data.network.CoilHttpClient
 import pt.socialfood.data.network.KtorHttpClient
 import pt.socialfood.data.network.S3HttpClient
 import pt.socialfood.data.network.SessionManager
@@ -232,17 +232,17 @@ expect val platformModule: Module
 
 val networkModule =
     module {
-        single { AppImageLoaderFactory(get<ImageHttpClient>().client) }
+        single { AppImageLoaderFactory(get<CoilHttpClient>().client) }
         single<AuthApi> { AuthApiImpl(get()) }
         single<AuthorsApi> { AuthorsApiImpl(get()) }
         single<ConfigsApi> { ConfigsApiImpl(get()) }
+        single { CoilHttpClient() }
         single<FavouriteRestaurantsApi> { FavouriteRestaurantsApiImpl(get()) }
         single<FavouritesGuidesApi> { FavouritesGuidesApiImpl(get()) }
         single<GuidesApi> { GuidesApiImpl(get()) }
         single<HomeApi> { HomeApiImpl(get()) }
         single<HttpClient> { get<KtorHttpClient>().client }
         single<ImageCache> { get<AppImageLoaderFactory>() }
-        single { ImageHttpClient() }
         single { KtorHttpClient(get()) }
         single<PlacesApi> { PlacesApiImpl(get()) }
         single<RestaurantApi> { RestaurantApiImpl(get()) }

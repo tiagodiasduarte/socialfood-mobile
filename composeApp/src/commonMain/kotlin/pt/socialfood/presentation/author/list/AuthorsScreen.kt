@@ -12,9 +12,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -33,6 +30,7 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
+import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
@@ -66,21 +64,11 @@ private fun AuthorsContent(
     val listState = rememberLazyListState()
 
     val isRefreshing = authors.loadState.refresh is LoadState.Loading && authors.itemCount > 0
-    val pullToRefreshState = rememberPullToRefreshState()
 
-    PullToRefreshBox(
+    PullToRefreshContent(
         isRefreshing = isRefreshing,
         onRefresh = { authors.refresh() },
         modifier = Modifier.fillMaxSize(),
-        state = pullToRefreshState,
-        indicator = {
-            PullToRefreshDefaults.Indicator(
-                modifier = Modifier.align(Alignment.TopCenter),
-                isRefreshing = isRefreshing,
-                state = pullToRefreshState,
-                color = MaterialTheme.colorScheme.primary,
-            )
-        },
     ) {
         LazyColumn(
             state = listState,

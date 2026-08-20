@@ -19,9 +19,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -36,6 +33,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
+import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
@@ -139,21 +137,10 @@ private fun FavouriteRestaurantsList(
     onRestaurantClick: (restaurantId: String) -> Unit,
     onRemoveClick: (restaurantId: String) -> Unit,
 ) {
-    val pullToRefreshState = rememberPullToRefreshState()
-
-    PullToRefreshBox(
+    PullToRefreshContent(
         isRefreshing = isRefreshing,
         onRefresh = onRefresh,
         modifier = Modifier.fillMaxSize(),
-        state = pullToRefreshState,
-        indicator = {
-            PullToRefreshDefaults.Indicator(
-                modifier = Modifier.align(Alignment.TopCenter),
-                isRefreshing = isRefreshing,
-                state = pullToRefreshState,
-                color = MaterialTheme.colorScheme.primary,
-            )
-        },
     ) {
         LazyColumn(
             state = listState,

@@ -19,9 +19,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,6 +35,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
+import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
@@ -75,7 +73,6 @@ private fun VisitedRestaurantsContent(
 ) {
     val listState = rememberLazyListState()
     val isRefreshing = restaurants.loadState.refresh is LoadState.Loading && restaurants.itemCount > 0
-    val pullToRefreshState = rememberPullToRefreshState()
 
     Column(
         modifier = Modifier
@@ -97,19 +94,10 @@ private fun VisitedRestaurantsContent(
                 restaurants.loadState.append.endOfPaginationReached &&
                 restaurants.itemCount == 0 -> NoResultsContent(modifier = Modifier.fillMaxSize())
 
-            else -> PullToRefreshBox(
+            else -> PullToRefreshContent(
                 isRefreshing = isRefreshing,
                 onRefresh = { restaurants.refresh() },
                 modifier = Modifier.fillMaxSize(),
-                state = pullToRefreshState,
-                indicator = {
-                    PullToRefreshDefaults.Indicator(
-                        modifier = Modifier.align(Alignment.TopCenter),
-                        isRefreshing = isRefreshing,
-                        state = pullToRefreshState,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                },
             ) {
                 LazyColumn(
                     state = listState,

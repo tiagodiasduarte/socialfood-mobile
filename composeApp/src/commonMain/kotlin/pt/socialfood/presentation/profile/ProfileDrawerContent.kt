@@ -83,8 +83,8 @@ import socialfood.composeapp.generated.resources.theme_icon
 import socialfood.composeapp.generated.resources.visited_icon
 import socialfood.composeapp.generated.resources.wish_icon
 
-private val DrawerAvatarSize = 64.dp
-private val DrawerAvatarRingSize = 68.dp
+private val DrawerAvatarSize = 44.dp
+private val DrawerAvatarRingSize = 48.dp
 
 @Composable
 fun ProfileDrawerContent(
@@ -216,7 +216,7 @@ private fun DrawerUserContent(
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(SpaceSize.large),
+                .padding(bottom = SpaceSize.large),
             textAlign = TextAlign.Center,
         )
     }
@@ -224,7 +224,7 @@ private fun DrawerUserContent(
 
 @Composable
 private fun DrawerBottomMenu(onThemeClick: () -> Unit, onLogoutClick: () -> Unit) {
-    Column(modifier = Modifier.navigationBarsPadding().padding(vertical = SpaceSize.medium)) {
+    Column(modifier = Modifier.navigationBarsPadding().padding(vertical = SpaceSize.small)) {
         if (isThemeModeSelectionSupported) {
             DrawerMenuRow(
                 icon = Res.drawable.theme_icon,
@@ -280,7 +280,7 @@ private fun DrawerHeader(user: User, onEditProfileClick: () -> Unit) {
             Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.small)) {
                 Text(
                     text = user.name,
-                    style = AppTypography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    style = AppTypography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = Color.White,
                 )
                 Text(
@@ -290,7 +290,7 @@ private fun DrawerHeader(user: User, onEditProfileClick: () -> Unit) {
                 )
             }
 
-            Spacer(Modifier.height(SpaceSize.medium))
+            Spacer(Modifier.height(SpaceSize.small))
 
             DrawerStatsRow()
         }
@@ -299,43 +299,29 @@ private fun DrawerHeader(user: User, onEditProfileClick: () -> Unit) {
 
 @Composable
 private fun DrawerStatsRow() {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+    Row(horizontalArrangement = Arrangement.spacedBy(SpaceSize.large)) {
         DrawerStatItem(
-            value = "-",
+            value = "13",
             label = stringResource(Res.string.profile_stat_guides_label),
-            modifier = Modifier.weight(1f),
         )
-        DrawerStatDivider()
         DrawerStatItem(
-            value = "-",
+            value = "5555",
             label = stringResource(Res.string.profile_stat_followers_label),
-            modifier = Modifier.weight(1f),
         )
-        DrawerStatDivider()
         DrawerStatItem(
-            value = "-",
+            value = "8463",
             label = stringResource(Res.string.profile_stat_following_label),
-            modifier = Modifier.weight(1f),
         )
     }
 }
 
 @Composable
 private fun DrawerStatItem(value: String, label: String, modifier: Modifier = Modifier) {
-    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = value, style = AppTypography.titleLarge.copy(fontWeight = FontWeight.Bold), color = Color.White)
+    Row(modifier = modifier) {
+        Text(text = value, style = AppTypography.bodySmall.copy(fontWeight = FontWeight.Bold), color = Color.White)
+        Spacer(Modifier.width(SpaceSize.small))
         Text(text = label, style = AppTypography.bodySmall, color = Color.White.copy(alpha = 0.85f))
     }
-}
-
-@Composable
-private fun DrawerStatDivider() {
-    Box(
-        modifier = Modifier
-            .width(1.dp)
-            .height(SpaceSize.xxlarge)
-            .background(Color.White.copy(alpha = 0.3f)),
-    )
 }
 
 @Composable

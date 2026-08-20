@@ -48,11 +48,13 @@ SocialFood follows Clean Architecture, detailed in full on the [Architecture wik
 
 The Screens and UI elements are built entirely using Jetpack Compose.
 
-The app supports three theme modes, user-selectable from the profile drawer and persisted via `SettingsRepository`:
+The app supports three theme modes, persisted via `SettingsRepository`:
 
 - **Light** — the default light color scheme
 - **Dark** — the default dark color scheme
 - **System** — follows the device's system-wide light/dark setting
+
+On Android, the mode is user-selectable from the profile drawer; iOS always follows the system setting.
 
 ## Testing
 

@@ -25,7 +25,7 @@ A Kotlin Multiplatform app for discovering and sharing restaurant guides, built 
 |-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | UI              | [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) 1.10                                                                                                                                         |
 | Language        | [Kotlin](https://kotlinlang.org) 2.3 (Multiplatform)                                                                                                                                                                      |
-| Networking      | [Ktor](https://ktor.io) 3.4 (OkHttp on Android, Darwin on iOS), with the `Auth` plugin handling access/refresh token attachment and renewal                                                                              |
+| Networking      | [Ktor](https://ktor.io) 3.4 (OkHttp on Android, Darwin on iOS), with the `Auth` plugin handling access/refresh token attachment and renewal                                                                               |
 | DI              | [Koin](https://insert-koin.io) 4.2                                                                                                                                                                                        |
 | Navigation      | [JetBrains Navigation 3](https://developer.android.com/guide/navigation/navigation-3)                                                                                                                                     |
 | Images          | [Coil](https://coil-kt.github.io/coil/) 3.4                                                                                                                                                                               |
@@ -43,7 +43,7 @@ SocialFood follows Clean Architecture, detailed in full on the [Architecture wik
 
 ## UI
 
-The Screens and UI elements are built entirely using Jetpack Compose. Paginated lists (guides, authors, wishlist, visited restaurants) render through Paging 3's Compose integration — `collectAsLazyPagingItems()` over a `Flow<PagingData<T>>` exposed by the ViewModel — instead of hand-rolled page/loadMore state.
+The Screens and UI elements are built entirely using Jetpack Compose. Paginated lists (guides, authors, wishlist, visited restaurants) render through Paging 3's Compose integration — `collectAsLazyPagingItems()` over a `Flow<PagingData<T>>` exposed by the ViewModel — instead of hand-rolled page/loadMore state. Light/dark/system theme is user-selectable from the profile drawer and persisted via `SettingsRepository`.
 
 ## Testing
 

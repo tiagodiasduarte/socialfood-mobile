@@ -7,9 +7,9 @@
 
 A Kotlin Multiplatform app for discovering and sharing restaurant guides, built with a single Compose Multiplatform codebase for **Android** and **iOS**.
 
-📖 Deeper docs (architecture, CI/CD internals, SDK inventory and testing) live in the [project wiki](https://github.com/tiagodiasduarte/socialfood-mobile/wiki).
-
 It's a personal project to explore Compose Multiplatform in a real app, and a work in progress 🚧.
+
+📖 Deeper docs (architecture, CI/CD internals, SDK inventory and testing) live in the [project wiki](https://github.com/tiagodiasduarte/socialfood-mobile/wiki).
 
 ## Features
 

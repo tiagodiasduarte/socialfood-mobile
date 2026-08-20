@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.ApplicationExtension
 import io.gitlab.arturbosch.detekt.Detekt
 import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -116,7 +117,7 @@ kotlin {
     }
 }
 
-android {
+extensions.configure<ApplicationExtension> {
     namespace = appNamespace
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 

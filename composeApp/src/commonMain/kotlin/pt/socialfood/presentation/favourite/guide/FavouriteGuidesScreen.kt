@@ -19,6 +19,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -79,6 +81,7 @@ private fun FavouriteGuidesContent(
     onRemoveClick: (guideId: String) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
+    val pullToRefreshState = rememberPullToRefreshState()
 
     val reachedBottom by remember(listState) {
         derivedStateOf {
@@ -117,6 +120,15 @@ private fun FavouriteGuidesContent(
                     isRefreshing = isRefreshing,
                     onRefresh = onRefresh,
                     modifier = Modifier.fillMaxSize(),
+                    state = pullToRefreshState,
+                    indicator = {
+                        PullToRefreshDefaults.Indicator(
+                            modifier = Modifier.align(Alignment.TopCenter),
+                            isRefreshing = isRefreshing,
+                            state = pullToRefreshState,
+                            color = MaterialTheme.colorScheme.primary,
+                        )
+                    },
                 ) {
                     LazyColumn(
                         state = listState,

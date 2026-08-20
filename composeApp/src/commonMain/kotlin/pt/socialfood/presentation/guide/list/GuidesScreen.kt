@@ -13,6 +13,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -79,6 +81,7 @@ fun GuidesScreenContent(
     val listState = rememberLazyListState()
 
     val isRefreshing = guides.loadState.refresh is LoadState.Loading && guides.itemCount > 0
+    val pullToRefreshState = rememberPullToRefreshState()
 
     PullToRefreshBox(
         isRefreshing = isRefreshing,
@@ -86,6 +89,15 @@ fun GuidesScreenContent(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
+        state = pullToRefreshState,
+        indicator = {
+            PullToRefreshDefaults.Indicator(
+                modifier = Modifier.align(Alignment.TopCenter),
+                isRefreshing = isRefreshing,
+                state = pullToRefreshState,
+                color = MaterialTheme.colorScheme.primary,
+            )
+        },
     ) {
         LazyColumn(
             state = listState,

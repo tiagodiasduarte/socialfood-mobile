@@ -15,6 +15,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -88,11 +90,21 @@ fun HomeScreenContent(
     val loaded = state as? HomeUiState.Loaded
     val favouriteRestaurantIds = loaded?.favouriteRestaurantIds ?: emptySet()
     val favouriteGuideIds = loaded?.favouriteGuideIds ?: emptySet()
+    val pullToRefreshState = rememberPullToRefreshState()
 
     PullToRefreshBox(
         isRefreshing = isRefreshing,
         onRefresh = onRefresh,
         modifier = Modifier.fillMaxSize(),
+        state = pullToRefreshState,
+        indicator = {
+            PullToRefreshDefaults.Indicator(
+                modifier = Modifier.align(Alignment.TopCenter),
+                isRefreshing = isRefreshing,
+                state = pullToRefreshState,
+                color = MaterialTheme.colorScheme.primary,
+            )
+        },
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),

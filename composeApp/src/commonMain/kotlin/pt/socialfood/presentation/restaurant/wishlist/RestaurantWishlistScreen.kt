@@ -21,7 +21,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,6 +37,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
+import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
@@ -100,7 +100,7 @@ private fun RestaurantWishlistContent(
                 restaurants.loadState.append.endOfPaginationReached &&
                 restaurants.itemCount == 0 -> NoResultsContent(modifier = Modifier.fillMaxSize())
 
-            else -> PullToRefreshBox(
+            else -> PullToRefreshContent(
                 isRefreshing = isRefreshing,
                 onRefresh = { restaurants.refresh() },
                 modifier = Modifier.fillMaxSize(),

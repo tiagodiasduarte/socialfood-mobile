@@ -35,20 +35,21 @@ import platform.Security.kSecValueData
 @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
 internal object KeychainTokenStore {
     private const val SERVICE = "pt.socialfood.session"
-    private const val ACCOUNT = "jwt_token"
+    const val ACCESS_TOKEN_ACCOUNT = "jwt_token"
+    const val REFRESH_TOKEN_ACCOUNT = "jwt_refresh_token"
 
     @Suppress("MagicNumber")
-    fun save(value: String) {
+    fun save(account: String, value: String) {
         @Suppress("CAST_NEVER_SUCCEEDS")
         val data = requireNotNull((value as NSString).dataUsingEncoding(NSUTF8StringEncoding))
         // Delete-then-add keeps this simple and avoids branching on SecItemUpdate's
         // errSecItemNotFound vs success; token writes are infrequent (login/refresh/logout).
-        delete()
+        delete(account)
 
         val query = CFDictionaryCreateMutable(null, 5, null, null)
         CFDictionarySetValue(query, kSecClass, kSecClassGenericPassword)
         CFDictionarySetValue(query, kSecAttrService, CFBridgingRetain(SERVICE))
-        CFDictionarySetValue(query, kSecAttrAccount, CFBridgingRetain(ACCOUNT))
+        CFDictionarySetValue(query, kSecAttrAccount, CFBridgingRetain(account))
         CFDictionarySetValue(query, kSecValueData, CFBridgingRetain(data))
         CFDictionarySetValue(query, kSecAttrAccessible, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
 
@@ -57,11 +58,11 @@ internal object KeychainTokenStore {
     }
 
     @Suppress("MagicNumber")
-    fun get(): String? = memScoped {
+    fun get(account: String): String? = memScoped {
         val query = CFDictionaryCreateMutable(null, 4, null, null)
         CFDictionarySetValue(query, kSecClass, kSecClassGenericPassword)
         CFDictionarySetValue(query, kSecAttrService, CFBridgingRetain(SERVICE))
-        CFDictionarySetValue(query, kSecAttrAccount, CFBridgingRetain(ACCOUNT))
+        CFDictionarySetValue(query, kSecAttrAccount, CFBridgingRetain(account))
         CFDictionarySetValue(query, kSecReturnData, kCFBooleanTrue)
         CFDictionarySetValue(query, kSecMatchLimit, kSecMatchLimitOne)
 
@@ -77,11 +78,11 @@ internal object KeychainTokenStore {
     }
 
     @Suppress("MagicNumber")
-    fun delete() {
+    fun delete(account: String) {
         val query = CFDictionaryCreateMutable(null, 3, null, null)
         CFDictionarySetValue(query, kSecClass, kSecClassGenericPassword)
         CFDictionarySetValue(query, kSecAttrService, CFBridgingRetain(SERVICE))
-        CFDictionarySetValue(query, kSecAttrAccount, CFBridgingRetain(ACCOUNT))
+        CFDictionarySetValue(query, kSecAttrAccount, CFBridgingRetain(account))
         SecItemDelete(query)
         CFBridgingRelease(query)
     }

@@ -1,15 +1,22 @@
 package pt.socialfood.fakes
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import pt.socialfood.domain.model.ThemeMode
 import pt.socialfood.domain.repository.SettingsRepository
 
 class FakeSettingsRepository : SettingsRepository {
 
     private var token: String? = null
+    private var refreshToken: String? = null
+    private val themeMode = MutableStateFlow(ThemeMode.LIGHT)
     private var pendingVerificationEmail: String? = null
     private var lastFavouritesSyncedAt: String? = null
     private var lastFavouritesSyncAttemptAt: Long? = null
     private var lastFavouriteRestaurantsSyncedAt: String? = null
     private var lastFavouriteRestaurantsSyncAttemptAt: Long? = null
+    private var lastRestaurantVisitStatusSyncedAt: String? = null
+    private var lastRestaurantVisitStatusSyncAttemptAt: Long? = null
 
     override suspend fun getToken(): String? = token
 
@@ -19,6 +26,22 @@ class FakeSettingsRepository : SettingsRepository {
 
     override suspend fun clearToken() {
         token = null
+    }
+
+    override suspend fun getRefreshToken(): String? = refreshToken
+
+    override suspend fun saveRefreshToken(token: String) {
+        refreshToken = token
+    }
+
+    override suspend fun clearRefreshToken() {
+        refreshToken = null
+    }
+
+    override fun observeThemeMode(): Flow<ThemeMode> = themeMode
+
+    override suspend fun saveThemeMode(mode: ThemeMode) {
+        themeMode.value = mode
     }
 
     override suspend fun getPendingVerificationEmail(): String? = pendingVerificationEmail
@@ -53,5 +76,17 @@ class FakeSettingsRepository : SettingsRepository {
 
     override suspend fun saveLastFavouriteRestaurantsSyncAttemptAt(timestamp: Long) {
         lastFavouriteRestaurantsSyncAttemptAt = timestamp
+    }
+
+    override suspend fun getLastRestaurantVisitStatusSyncedAt(): String? = lastRestaurantVisitStatusSyncedAt
+
+    override suspend fun saveLastRestaurantVisitStatusSyncedAt(syncedAt: String) {
+        lastRestaurantVisitStatusSyncedAt = syncedAt
+    }
+
+    override suspend fun getLastRestaurantVisitStatusSyncAttemptAt(): Long? = lastRestaurantVisitStatusSyncAttemptAt
+
+    override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(timestamp: Long) {
+        lastRestaurantVisitStatusSyncAttemptAt = timestamp
     }
 }

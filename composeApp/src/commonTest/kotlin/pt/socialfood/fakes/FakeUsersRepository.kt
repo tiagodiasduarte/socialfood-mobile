@@ -12,7 +12,6 @@ import pt.socialfood.random.nextPresignedUrlData
 import pt.socialfood.random.nextUser
 import kotlin.random.Random
 
-@Suppress("LongParameterList")
 class FakeUsersRepository(
     currentUser: User? = null,
     private val getUsersResult: Result<List<User>> = Result.Success(emptyList()),
@@ -61,6 +60,8 @@ class FakeUsersRepository(
     var lastUpdateInstagramUrl: String? = null
         private set
     var lastUpdateYoutubeUrl: String? = null
+        private set
+    var lastUpdateIsAuthor: Boolean? = null
         private set
 
     var updatePhotoInvokeCount: Int = 0
@@ -113,6 +114,7 @@ class FakeUsersRepository(
         facebookUrl: String?,
         instagramUrl: String?,
         youtubeUrl: String?,
+        isAuthor: Boolean?,
     ): Result<User> {
         updateInvokeCount++
         lastUpdateId = id
@@ -122,6 +124,7 @@ class FakeUsersRepository(
         lastUpdateFacebookUrl = facebookUrl
         lastUpdateInstagramUrl = instagramUrl
         lastUpdateYoutubeUrl = youtubeUrl
+        lastUpdateIsAuthor = isAuthor
         return updateResult
     }
 

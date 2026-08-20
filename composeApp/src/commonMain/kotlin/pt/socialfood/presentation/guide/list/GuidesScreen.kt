@@ -11,7 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -32,8 +32,8 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
+import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,7 +62,7 @@ fun GuidesScreen(
     )
 }
 
-@Suppress("LongParameterList", "LongMethod")
+@Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GuidesScreenContent(
@@ -80,12 +80,12 @@ fun GuidesScreenContent(
 
     val isRefreshing = guides.loadState.refresh is LoadState.Loading && guides.itemCount > 0
 
-    PullToRefreshBox(
+    PullToRefreshContent(
         isRefreshing = isRefreshing,
         onRefresh = { guides.refresh() },
         modifier = Modifier
             .fillMaxSize()
-            .background(GreyBackground),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         LazyColumn(
             state = listState,
@@ -106,7 +106,7 @@ fun GuidesScreenContent(
 
             when (guides.loadState.refresh) {
                 is LoadState.Loading if guides.itemCount == 0 -> item {
-                    GuidesPlaceholder()
+                    GuidesSkeleton()
                 }
 
                 is LoadState.Error if guides.itemCount == 0 -> item {
@@ -162,7 +162,7 @@ fun GuidesScreenPreview() {
             description = "The finest dining experiences in the city",
             numberOfRestaurant = 8,
             author = Author(id = "u1", name = "Sarah M.", username = "sarahm"),
-            visibility = GuideVisibility.PUBLIC
+            visibility = GuideVisibility.PUBLIC,
         ),
         Guide(
             id = "2",
@@ -170,7 +170,7 @@ fun GuidesScreenPreview() {
             description = "Undiscovered culinary treasures",
             numberOfRestaurant = 12,
             author = Author(id = "u2", name = "Michael R.", username = "michaelr"),
-            visibility = GuideVisibility.PUBLIC
+            visibility = GuideVisibility.PUBLIC,
         ),
         Guide(
             id = "3",
@@ -178,7 +178,7 @@ fun GuidesScreenPreview() {
             description = "Romantic ambiance and exceptional cuisine",
             numberOfRestaurant = 6,
             author = Author(id = "u3", name = "Ana P.", username = "anap"),
-            visibility = GuideVisibility.PUBLIC
+            visibility = GuideVisibility.PUBLIC,
         ),
     )
     val guides = flowOf(PagingData.from(guideList)).collectAsLazyPagingItems()

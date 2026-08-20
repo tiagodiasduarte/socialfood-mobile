@@ -10,4 +10,5 @@ data class UpdateUserRequest(
     val facebookUrl: String? = null,
     val instagramUrl: String? = null,
     val youtubeUrl: String? = null,
+    val isAuthor: Boolean? = null,
 )

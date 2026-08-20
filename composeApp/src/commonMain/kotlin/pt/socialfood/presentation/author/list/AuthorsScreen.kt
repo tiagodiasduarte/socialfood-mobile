@@ -11,7 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,8 +30,8 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
+import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,14 +65,14 @@ private fun AuthorsContent(
 
     val isRefreshing = authors.loadState.refresh is LoadState.Loading && authors.itemCount > 0
 
-    PullToRefreshBox(
+    PullToRefreshContent(
         isRefreshing = isRefreshing,
         onRefresh = { authors.refresh() },
         modifier = Modifier.fillMaxSize(),
     ) {
         LazyColumn(
             state = listState,
-            modifier = Modifier.fillMaxSize().background(GreyBackground),
+            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
             contentPadding = PaddingValues(bottom = SpaceSize.xxlarge),
         ) {
@@ -86,7 +86,7 @@ private fun AuthorsContent(
 
             when (authors.loadState.refresh) {
                 is LoadState.Loading if authors.itemCount == 0 -> item {
-                    AuthorsPlaceholder()
+                    AuthorsSkeleton()
                 }
 
                 is LoadState.Error if authors.itemCount == 0 -> item {

@@ -37,18 +37,16 @@ class FakeFavouriteDao(private val shouldThrowOnWrite: Boolean = false) : Favour
 
     override fun observeAllIds(): Flow<List<String>> = idsFlow
 
-    override suspend fun getPaged(limit: Int, offset: Int): List<FavouriteGuideEntity> =
-        entities.values
-            .sortedByDescending { it.favouritedAt }
-            .drop(offset)
-            .take(limit)
+    override suspend fun getPaged(limit: Int, offset: Int): List<FavouriteGuideEntity> = entities.values
+        .sortedByDescending { it.favouritedAt }
+        .drop(offset)
+        .take(limit)
 
     override suspend fun countAll(): Int = entities.size
 
     override suspend fun getByGuideId(guideId: String): FavouriteGuideEntity? = entities[guideId]
 
-    override suspend fun getPending(): List<FavouriteGuideEntity> =
-        entities.values.filter { it.syncState != "SYNCED" }
+    override suspend fun getPending(): List<FavouriteGuideEntity> = entities.values.filter { it.syncState != "SYNCED" }
 
     override suspend fun updateSyncState(guideId: String, syncState: String) {
         entities[guideId]?.let { entities[guideId] = it.copy(syncState = syncState) }

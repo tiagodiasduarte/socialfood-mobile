@@ -16,25 +16,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.authors_separator
-import socialfood.composeapp.generated.resources.authors_stat_followers_label
-import socialfood.composeapp.generated.resources.authors_stat_following_label
-import socialfood.composeapp.generated.resources.authors_stat_guides_label
 import pt.socialfood.domain.model.Author
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.presentation.components.card.SectionCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.authors_separator
+import socialfood.composeapp.generated.resources.authors_stat_followers_label
+import socialfood.composeapp.generated.resources.authors_stat_following_label
+import socialfood.composeapp.generated.resources.authors_stat_guides_label
 
 val AuthorCardHeight = 132.dp
 
 @Composable
-fun AuthorCard(
-    author: Author,
-    onAuthorClick: () -> Unit = {},
-    modifier: Modifier = Modifier,
-) {
+fun AuthorCard(author: Author, onAuthorClick: () -> Unit = {}, modifier: Modifier = Modifier) {
     SectionCard(modifier = modifier.height(AuthorCardHeight)) {
         Row(
             modifier = Modifier
@@ -45,7 +41,7 @@ fun AuthorCard(
             UserImage(
                 imageUrl = author.imageUrl,
                 name = author.name,
-                imageSize = 56.dp
+                imageSize = 56.dp,
             )
 
             Column(modifier = Modifier.weight(1f)) {
@@ -69,7 +65,7 @@ fun AuthorCard(
                 ) {
                     StatItem(
                         value = "-",
-                        label = stringResource(Res.string.authors_stat_guides_label)
+                        label = stringResource(Res.string.authors_stat_guides_label),
                     )
                     Text(
                         text = stringResource(Res.string.authors_separator),
@@ -78,7 +74,7 @@ fun AuthorCard(
                     )
                     StatItem(
                         value = "-",
-                        label = stringResource(Res.string.authors_stat_followers_label)
+                        label = stringResource(Res.string.authors_stat_followers_label),
                     )
 
                     Text(
@@ -88,7 +84,7 @@ fun AuthorCard(
                     )
                     StatItem(
                         value = "-",
-                        label = stringResource(Res.string.authors_stat_following_label)
+                        label = stringResource(Res.string.authors_stat_following_label),
                     )
                 }
             }

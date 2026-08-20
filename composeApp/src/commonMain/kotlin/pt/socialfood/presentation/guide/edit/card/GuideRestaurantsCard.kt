@@ -22,28 +22,24 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.presentation.guide.create.restaurants.RestaurantItem
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.edit_guide_restaurants_add_button
 import socialfood.composeapp.generated.resources.edit_guide_restaurants_empty_hint
 import socialfood.composeapp.generated.resources.edit_guide_restaurants_empty_label
 import socialfood.composeapp.generated.resources.edit_guide_restaurants_title_label
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.guide.create.restaurants.RestaurantItem
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun GuideRestaurantsCard(
-    restaurants: List<Restaurant>,
-    onAddClick: () -> Unit,
-    onRemoveClick: (String) -> Unit,
-) {
+fun GuideRestaurantsCard(restaurants: List<Restaurant>, onAddClick: () -> Unit, onRemoveClick: (String) -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
@@ -76,7 +72,7 @@ fun GuideRestaurantsCard(
                     ),
                     contentPadding = PaddingValues(
                         horizontal = SpaceSize.large,
-                        vertical = SpaceSize.medium
+                        vertical = SpaceSize.medium,
                     ),
                 ) {
                     Icon(

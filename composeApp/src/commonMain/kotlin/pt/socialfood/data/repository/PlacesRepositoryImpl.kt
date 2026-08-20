@@ -7,11 +7,7 @@ import pt.socialfood.domain.model.Place
 import pt.socialfood.domain.repository.PlacesRepository
 import pt.socialfood.mapper.toPlaces
 
-class PlacesRepositoryImpl(
-    private val placesApi: PlacesApi,
-) : PlacesRepository {
+class PlacesRepositoryImpl(private val placesApi: PlacesApi) : PlacesRepository {
 
-    override suspend fun search(query: String): Result<List<Place>> {
-        return safeApiCall { placesApi.search(query).toPlaces() }
-    }
+    override suspend fun search(query: String): Result<List<Place>> = safeApiCall { placesApi.search(query).toPlaces() }
 }

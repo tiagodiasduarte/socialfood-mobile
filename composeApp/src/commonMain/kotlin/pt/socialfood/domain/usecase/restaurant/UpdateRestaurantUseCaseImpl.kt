@@ -4,9 +4,7 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.repository.RestaurantsRepository
 
-class UpdateRestaurantUseCaseImpl(
-    private val repository: RestaurantsRepository,
-) : UpdateRestaurantUseCase {
+class UpdateRestaurantUseCaseImpl(private val repository: RestaurantsRepository) : UpdateRestaurantUseCase {
     override suspend operator fun invoke(
         id: String,
         name: String,

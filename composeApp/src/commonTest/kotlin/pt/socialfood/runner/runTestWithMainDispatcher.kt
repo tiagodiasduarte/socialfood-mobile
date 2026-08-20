@@ -12,7 +12,7 @@ import kotlinx.coroutines.test.setMain
 @OptIn(ExperimentalCoroutinesApi::class)
 fun runTestWithMainDispatcher(
     dispatcher: TestDispatcher = StandardTestDispatcher(),
-    testBody: suspend TestScope.() -> Unit
+    testBody: suspend TestScope.() -> Unit,
 ) = runTest(dispatcher) {
     Dispatchers.setMain(dispatcher)
     try {

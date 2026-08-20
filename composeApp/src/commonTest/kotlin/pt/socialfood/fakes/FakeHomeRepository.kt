@@ -10,7 +10,6 @@ import pt.socialfood.domain.repository.HomeRepository
 import pt.socialfood.random.nextHomeSection
 import kotlin.random.Random
 
-@Suppress("LongParameterList")
 class FakeHomeRepository(
     private val findAllResult: Result<List<HomeSection>> = Result.Success(emptyList()),
     homeSections: List<HomeSection> = emptyList(),

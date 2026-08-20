@@ -9,7 +9,7 @@ class FakeFavouriteRestaurantsRepository(
     private val markResult: Result<Unit> = Result.Success(Unit),
     private val unmarkResult: Result<Unit> = Result.Success(Unit),
     private val pagedResult: Result<PagedFavouriteRestaurants> = Result.Success(
-        PagedFavouriteRestaurants(favourites = emptyList(), page = 1, total = 0, hasMore = false)
+        PagedFavouriteRestaurants(favourites = emptyList(), page = 1, total = 0, hasMore = false),
     ),
     private val isFavouriteResult: Result<Boolean> = Result.Success(false),
     private val syncResult: Result<Unit> = Result.Success(Unit),

@@ -26,7 +26,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,11 +37,11 @@ import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.presentation.components.ErrorAlertDialog
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.error.stringResource
+import pt.socialfood.presentation.profile.edit.card.AuthorModeCard
 import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
 import pt.socialfood.presentation.profile.edit.card.ProfilePictureCard
 import pt.socialfood.presentation.profile.edit.card.SocialNetworkCard
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
@@ -62,9 +61,9 @@ fun EditProfileScreen(onBackClick: () -> Unit, viewModel: EditProfileViewModel =
     }
 
     when (val s = state) {
-        is EditProfileUiState.Loading -> EditProfilePlaceholder()
+        is EditProfileUiState.Loading -> EditProfileSkeleton()
         is EditProfileUiState.Error -> Column(
-            modifier = Modifier.fillMaxSize().background(GreyBackground),
+            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
         ) {
             TopBar(isSaving = false, showSaveButton = false, onBackClick = onBackClick, onSaveClick = {})
             ErrorContent(modifier = Modifier.fillMaxSize(), onRetryClick = viewModel::retry)
@@ -80,12 +79,12 @@ fun EditProfileScreen(onBackClick: () -> Unit, viewModel: EditProfileViewModel =
             onFacebookUrlChange = viewModel::onFacebookUrlChange,
             onInstagramUrlChange = viewModel::onInstagramUrlChange,
             onYoutubeUrlChange = viewModel::onYoutubeUrlChange,
+            onAuthorModeChange = viewModel::onAuthorModeChange,
             onDismissSaveError = viewModel::dismissSaveError,
         )
     }
 }
 
-@Suppress("LongParameterList")
 @Composable
 private fun EditProfileContent(
     state: EditProfileUiState.Loaded,
@@ -97,6 +96,7 @@ private fun EditProfileContent(
     onFacebookUrlChange: (String) -> Unit,
     onInstagramUrlChange: (String) -> Unit,
     onYoutubeUrlChange: (String) -> Unit,
+    onAuthorModeChange: (Boolean) -> Unit,
     onDismissSaveError: () -> Unit,
 ) {
     val saveError = state.saveError
@@ -107,7 +107,7 @@ private fun EditProfileContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(GreyBackground),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         TopBar(
             isSaving = state.isSaving,
@@ -129,6 +129,11 @@ private fun EditProfileContent(
                 state = state,
                 onNameChange = onNameChange,
                 onUsernameChange = onUsernameChange,
+            )
+
+            AuthorModeCard(
+                state = state,
+                onAuthorModeChange = onAuthorModeChange,
             )
 
             SocialNetworkCard(
@@ -185,7 +190,7 @@ private fun TopBar(isSaving: Boolean, showSaveButton: Boolean, onBackClick: () -
                     CircularProgressIndicator(
                         modifier = Modifier.size(SpaceSize.large),
                         strokeWidth = 2.dp,
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onPrimary,
                     )
                 } else {
                     Text(
@@ -222,6 +227,7 @@ private fun EditProfileScreenPreview() {
             onFacebookUrlChange = {},
             onInstagramUrlChange = {},
             onYoutubeUrlChange = {},
+            onAuthorModeChange = {},
             onDismissSaveError = {},
         )
     }

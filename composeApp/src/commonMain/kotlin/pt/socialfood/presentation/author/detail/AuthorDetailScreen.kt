@@ -24,16 +24,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.domain.model.AuthorDetail
+import pt.socialfood.presentation.components.ErrorContent
+import pt.socialfood.presentation.components.ProfileHeader
+import pt.socialfood.presentation.components.buttons.ActionButton
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.author_detail_guides_section_title
 import socialfood.composeapp.generated.resources.back_button_description
-import pt.socialfood.domain.model.AuthorDetail
-import pt.socialfood.presentation.components.buttons.ActionButton
-import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.ProfileHeader
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
-import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
 fun AuthorDetailScreen(
@@ -60,7 +59,7 @@ private fun AuthorDetailContent(
     onRetry: () -> Unit,
 ) {
     when (state) {
-        AuthorDetailUiState.Loading -> AuthorDetailPlaceholder()
+        AuthorDetailUiState.Loading -> AuthorDetailSkeleton()
 
         is AuthorDetailUiState.Loaded -> AuthorDetailLoaded(
             author = state.author,
@@ -84,12 +83,12 @@ private fun AuthorDetailLoaded(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(GreyBackground),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         item {
             AuthorHeader(
                 author = author,
-                onBackClick = onBackClick
+                onBackClick = onBackClick,
             )
         }
 
@@ -120,11 +119,9 @@ private fun AuthorDetailLoaded(
         }
     }
 }
+
 @Composable
-private fun AuthorHeader(
-    author: AuthorDetail,
-    onBackClick: () -> Unit,
-) {
+private fun AuthorHeader(author: AuthorDetail, onBackClick: () -> Unit) {
     ProfileHeader(
         name = author.name,
         username = author.username,
@@ -149,10 +146,7 @@ private fun AuthorHeader(
 }
 
 @Composable
-private fun AuthorDetailError(
-    onBackClick: () -> Unit,
-    onRetry: () -> Unit,
-) {
+private fun AuthorDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         IconButton(
             onClick = onBackClick,
@@ -167,7 +161,7 @@ private fun AuthorDetailError(
 
         ErrorContent(
             modifier = Modifier.fillMaxSize(),
-            onRetryClick = onRetry
+            onRetryClick = onRetry,
         )
     }
 }

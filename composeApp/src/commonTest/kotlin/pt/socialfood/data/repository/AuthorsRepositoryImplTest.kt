@@ -16,18 +16,17 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class AuthorsRepositoryImplTest {
-    private fun createRepository(shouldThrow: Boolean = false): AuthorsRepositoryImpl =
-        AuthorsRepositoryImpl(
-            authorsApi = FakeAuthorsApi(shouldThrow),
-            authorDao = FakeAuthorDao(),
-            authorRemoteKeyDao = FakeAuthorRemoteKeyDao(),
-            transactionRunner = AuthorCacheTransactionRunner { it() },
-        )
+    private fun createRepository(shouldThrow: Boolean = false): AuthorsRepositoryImpl = AuthorsRepositoryImpl(
+        authorsApi = FakeAuthorsApi(shouldThrow),
+        authorDao = FakeAuthorDao(),
+        authorRemoteKeyDao = FakeAuthorRemoteKeyDao(),
+        transactionRunner = AuthorCacheTransactionRunner { it() },
+    )
 
     // findAuthors
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given valid pagination params when findAuthors is called then returns Success with PagedAuthors and correct hasMore flag`() =
         runTest {
             // Given
@@ -52,49 +51,46 @@ class AuthorsRepositoryImplTest {
         }
 
     @Test
-    fun `given api throws when findAuthors is called then returns Error Unknown`() =
-        runTest {
-            // Given
-            val repo = createRepository(shouldThrow = true)
+    fun `given api throws when findAuthors is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
 
-            // When
-            val result = repo.findAuthors(page = 1, limit = 10, query = null)
+        // When
+        val result = repo.findAuthors(page = 1, limit = 10, query = null)
 
-            // Then
-            assertIs<Result.Failure>(result)
-            assertIs<DataError.Network>(result.error)
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
 
     // findAuthorById
 
     @Test
-    fun `given valid id when findAuthorById is called then returns Success with AuthorDetail`() =
-        runTest {
-            // Given
-            val repo = createRepository()
+    fun `given valid id when findAuthorById is called then returns Success with AuthorDetail`() = runTest {
+        // Given
+        val repo = createRepository()
 
-            // When
-            val result = repo.findAuthorById(id = "author-id")
+        // When
+        val result = repo.findAuthorById(id = "author-id")
 
-            // Then
-            assertIs<Result.Success<AuthorDetail>>(result)
-            assertEquals("author-id", result.data.id)
-            assertEquals("Author Name", result.data.name)
-        }
+        // Then
+        assertIs<Result.Success<AuthorDetail>>(result)
+        assertEquals("author-id", result.data.id)
+        assertEquals("Author Name", result.data.name)
+    }
 
     @Test
-    fun `given api throws when findAuthorById is called then returns Error Unknown`() =
-        runTest {
-            // Given
-            val repo = createRepository(shouldThrow = true)
+    fun `given api throws when findAuthorById is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
 
-            // When
-            val result = repo.findAuthorById(id = "author-id")
+        // When
+        val result = repo.findAuthorById(id = "author-id")
 
-            // Then
-            assertIs<Result.Failure>(result)
-            assertIs<DataError.Network>(result.error)
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
 
     // getAuthorsPagingFlow
 

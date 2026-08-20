@@ -22,20 +22,19 @@ class HomeRepositoryImpl(
     private val homeDao: HomeDao,
     private val transactionRunner: HomeCacheTransactionRunner,
 ) : HomeRepository {
-    override suspend fun findAll(): Result<List<HomeSection>> =
-        when (val result = safeApiCall { homeApi.findAll() }) {
-            is Result.Failure -> fallbackToCache(result.error)
-            is Result.Success ->
-                try {
-                    transactionRunner.run {
-                        homeDao.deleteAll()
-                        homeDao.upsertAll(result.data.map { it.toHomeSectionEntity() })
-                    }
-                    Result.Success(result.data.map { it.toHomeSection() })
-                } catch (e: SQLiteException) {
-                    fallbackToCache(e.toDataError())
+    override suspend fun findAll(): Result<List<HomeSection>> = when (val result = safeApiCall { homeApi.findAll() }) {
+        is Result.Failure -> fallbackToCache(result.error)
+        is Result.Success ->
+            try {
+                transactionRunner.run {
+                    homeDao.deleteAll()
+                    homeDao.upsertAll(result.data.map { it.toHomeSectionEntity() })
                 }
-        }
+                Result.Success(result.data.map { it.toHomeSection() })
+            } catch (e: SQLiteException) {
+                fallbackToCache(e.toDataError())
+            }
+    }
 
     private suspend fun fallbackToCache(error: DataError): Result<List<HomeSection>> {
         val cached = homeDao.getAllActive()
@@ -52,11 +51,7 @@ class HomeRepositoryImpl(
     override suspend fun findById(id: String): Result<HomeSection> =
         safeApiCall { homeApi.findById(id).toHomeSection() }
 
-    override suspend fun create(
-        title: String,
-        type: HomeSectionType,
-        position: Int,
-    ): Result<HomeSection> =
+    override suspend fun create(title: String, type: HomeSectionType, position: Int): Result<HomeSection> =
         safeApiCall { homeApi.create(title, type.name, position).toHomeSection() }
 
     override suspend fun update(
@@ -69,26 +64,20 @@ class HomeRepositoryImpl(
     ): Result<HomeSection> =
         safeApiCall { homeApi.update(id, title, position, isActive, restaurantIds, guideIds).toHomeSection() }
 
-    override suspend fun delete(id: String): Result<Boolean> =
-        safeApiCall {
-            homeApi.delete(id)
-            true
-        }
+    override suspend fun delete(id: String): Result<Boolean> = safeApiCall {
+        homeApi.delete(id)
+        true
+    }
 
     override suspend fun addItem(
         sectionId: String,
         itemId: String,
         itemType: HomeItemType,
         position: Int,
-    ): Result<HomeSection> =
-        safeApiCall { homeApi.addItem(sectionId, itemId, itemType.name, position).toHomeSection() }
+    ): Result<HomeSection> = safeApiCall { homeApi.addItem(sectionId, itemId, itemType.name, position).toHomeSection() }
 
-    override suspend fun removeItem(
-        sectionId: String,
-        itemId: String,
-    ): Result<Boolean> =
-        safeApiCall {
-            homeApi.removeItem(sectionId, itemId)
-            true
-        }
+    override suspend fun removeItem(sectionId: String, itemId: String): Result<Boolean> = safeApiCall {
+        homeApi.removeItem(sectionId, itemId)
+        true
+    }
 }

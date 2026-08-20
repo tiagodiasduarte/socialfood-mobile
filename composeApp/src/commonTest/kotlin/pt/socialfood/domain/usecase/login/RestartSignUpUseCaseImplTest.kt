@@ -9,7 +9,7 @@ import kotlin.test.assertNull
 
 class RestartSignUpUseCaseImplTest {
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given a pending verification email when invoked then pendingVerificationEmail is cleared and returns Success`() =
         runTest {
             // Given

@@ -31,12 +31,12 @@ class KtorHttpClientTest {
             requestedUrls += request.url.toString()
             respond(
                 content = "true",
-                headers = headersOf(HttpHeaders.ContentType, "application/json")
+                headers = headersOf(HttpHeaders.ContentType, "application/json"),
             )
         }
         val client = KtorHttpClient(
             sessionManager = SessionManager(FakeSettingsRepository()),
-            engine = engine
+            engine = engine,
         ).client
         return client to requestedUrls
     }
@@ -55,17 +55,16 @@ class KtorHttpClientTest {
         }
 
     @Test
-    fun `given the restaurant import request when sent through the client then it resolves under v1`() =
-        runTest {
-            // Given
-            val (client, requestedUrls) = createMockClient()
+    fun `given the restaurant import request when sent through the client then it resolves under v1`() = runTest {
+        // Given
+        val (client, requestedUrls) = createMockClient()
 
-            // When
-            client.post("admin/import/restaurants")
+        // When
+        client.post("admin/import/restaurants")
 
-            // Then
-            assertEquals("https://api.socialfood.pt/v1/admin/import/restaurants", requestedUrls.single())
-        }
+        // Then
+        assertEquals("https://api.socialfood.pt/v1/admin/import/restaurants", requestedUrls.single())
+    }
 
     @Test
     fun `given a 400 error body that does not match the success DTO when body is read then it throws ApiException`() =

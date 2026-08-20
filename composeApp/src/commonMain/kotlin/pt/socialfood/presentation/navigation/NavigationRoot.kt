@@ -7,6 +7,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
@@ -32,6 +33,8 @@ import pt.socialfood.presentation.profile.ProfileDrawerContent
 import pt.socialfood.presentation.profile.edit.EditProfileScreen
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailScreen
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsScreen
+import pt.socialfood.presentation.restaurant.visited.RestaurantVisitedScreen
+import pt.socialfood.presentation.restaurant.wishlist.RestaurantWishlistScreen
 import pt.socialfood.presentation.search.SearchScreen
 
 private const val NAVIGATION_TRANSITION_DURATION_MILLIS = 300
@@ -76,10 +79,19 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                     scope.launch { drawerState.close() }
                     navigator.navigate(Route.FavouriteRestaurants)
                 },
+                onWishRestaurantsClick = {
+                    scope.launch { drawerState.close() }
+                    navigator.navigate(Route.WishRestaurants)
+                },
+                onVisitedRestaurantsClick = {
+                    scope.launch { drawerState.close() }
+                    navigator.navigate(Route.VisitedRestaurants)
+                },
             )
         },
     ) {
         Scaffold(
+            containerColor = MaterialTheme.colorScheme.surface,
             bottomBar = {
                 if (showBottomBar) {
                     BottomNavigationBar(
@@ -198,6 +210,26 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 },
                             )
                         }
+                        entry<Route.WishRestaurants> {
+                            RestaurantWishlistScreen(
+                                onBackClick = navigator::goBack,
+                                onRestaurantClick = { restaurantId ->
+                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
+                                },
+                                onAddClick = { onRestaurantAdded ->
+                                    onRestaurantAddedRef.value = onRestaurantAdded
+                                    navigator.navigate(Route.AddWishRestaurant)
+                                },
+                            )
+                        }
+                        entry<Route.VisitedRestaurants> {
+                            RestaurantVisitedScreen(
+                                onBackClick = navigator::goBack,
+                                onRestaurantClick = { restaurantId ->
+                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
+                                },
+                            )
+                        }
                         entry<Route.Home> {
                             HomeScreen(
                                 onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
@@ -205,6 +237,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                     navigator.navigate(Route.RestaurantDetail(restaurantId))
                                 },
                                 onProfileClick = { scope.launch { drawerState.open() } },
+                                onSearchClick = { navigator.navigate(Route.Search) },
                             )
                         }
                         entry<Route.EditProfile> {
@@ -213,6 +246,16 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         entry<Route.AddRestaurants> { route ->
                             SearchRestaurantsScreen(
                                 guideId = route.guideId,
+                                onBackClick = navigator::goBack,
+                                onRestaurantAdded = { restaurant ->
+                                    onRestaurantAddedRef.value?.invoke(restaurant)
+                                    navigator.goBack()
+                                },
+                            )
+                        }
+                        entry<Route.AddWishRestaurant> {
+                            SearchRestaurantsScreen(
+                                guideId = "",
                                 onBackClick = navigator::goBack,
                                 onRestaurantAdded = { restaurant ->
                                     onRestaurantAddedRef.value?.invoke(restaurant)

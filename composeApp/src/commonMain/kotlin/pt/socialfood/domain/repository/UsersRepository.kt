@@ -15,17 +15,12 @@ interface UsersRepository {
 
     suspend fun getUsers(): Result<List<User>>
 
-    suspend fun findUsers(
-        page: Int,
-        limit: Int,
-        query: String? = null,
-    ): Result<PagedUsers>
+    suspend fun findUsers(page: Int, limit: Int, query: String? = null): Result<PagedUsers>
 
     suspend fun getUserMe(): Result<User>
 
     suspend fun findById(id: String): Result<User>
 
-    @Suppress("LongParameterList")
     suspend fun update(
         id: String,
         imageUrl: String? = null,
@@ -34,12 +29,10 @@ interface UsersRepository {
         facebookUrl: String? = null,
         instagramUrl: String? = null,
         youtubeUrl: String? = null,
+        isAuthor: Boolean? = null,
     ): Result<User>
 
-    suspend fun updatePhoto(
-        id: String,
-        imageUrl: String,
-    ): Result<Boolean>
+    suspend fun updatePhoto(id: String, imageUrl: String): Result<Boolean>
 
     suspend fun getPresignedUrl(
         userId: String,

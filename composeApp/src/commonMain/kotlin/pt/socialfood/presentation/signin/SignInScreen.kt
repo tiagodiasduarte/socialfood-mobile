@@ -136,7 +136,6 @@ private fun SignInScreenContent(
     }
 }
 
-@Suppress("LongParameterList")
 @Composable
 private fun SignInFormView(
     state: SignInUiState,
@@ -215,7 +214,7 @@ private fun SignInHeader() {
     )
 }
 
-@Suppress("LongMethod", "LongParameterList")
+@Suppress("LongMethod")
 @Composable
 private fun SignInFormFields(
     state: SignInUiState,

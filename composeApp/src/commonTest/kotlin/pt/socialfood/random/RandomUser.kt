@@ -4,7 +4,6 @@ import pt.socialfood.domain.model.User
 import pt.socialfood.domain.model.UserRole
 import kotlin.random.Random
 
-@Suppress("LongParameterList")
 fun Random.nextUser(
     id: String = nextString(),
     email: String = nextEmail(),
@@ -18,6 +17,7 @@ fun Random.nextUser(
     instagramUrl: String? = nextNullable { nextUrl() },
     youtubeUrl: String? = nextNullable { nextUrl() },
     isVerified: Boolean = nextBoolean(),
+    isAuthor: Boolean = nextBoolean(),
 ) = User(
     id = id,
     email = email,
@@ -31,4 +31,5 @@ fun Random.nextUser(
     instagramUrl = instagramUrl,
     youtubeUrl = youtubeUrl,
     isVerified = isVerified,
+    isAuthor = isAuthor,
 )

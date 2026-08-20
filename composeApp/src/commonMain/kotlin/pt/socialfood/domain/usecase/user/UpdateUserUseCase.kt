@@ -3,7 +3,6 @@ package pt.socialfood.domain.usecase.user
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.User
 
-@Suppress("LongParameterList")
 interface UpdateUserUseCase {
     suspend operator fun invoke(
         id: String,
@@ -13,5 +12,6 @@ interface UpdateUserUseCase {
         facebookUrl: String? = null,
         instagramUrl: String? = null,
         youtubeUrl: String? = null,
+        isAuthor: Boolean? = null,
     ): Result<User>
 }

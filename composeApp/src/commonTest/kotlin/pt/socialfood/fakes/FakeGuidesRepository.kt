@@ -13,7 +13,6 @@ import pt.socialfood.random.nextGuide
 import pt.socialfood.random.nextPagedGuides
 import kotlin.random.Random
 
-@Suppress("LongParameterList")
 class FakeGuidesRepository(
     private val deleteResult: Result<Boolean> = Result.Success(true),
     private val createResult: Result<Guide> = Result.Success(Random.nextGuide()),

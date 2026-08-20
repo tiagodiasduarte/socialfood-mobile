@@ -29,30 +29,28 @@ class AuthorsRepositoryImpl(
     private val authorRemoteKeyDao: AuthorRemoteKeyDao,
     private val transactionRunner: AuthorCacheTransactionRunner,
 ) : AuthorsRepository {
-    override suspend fun findAuthors(page: Int, limit: Int, query: String?): Result<PagedAuthors> =
-        safeApiCall {
-            val response = authorsApi.findAuthors(page = page, limit = limit, query = query)
-            val hasMore = response.page * response.limit < response.total
-            PagedAuthors(
-                authors = response.items.map { it.toAuthor() },
-                page = response.page,
-                hasMore = hasMore,
-            )
-        }
+    override suspend fun findAuthors(page: Int, limit: Int, query: String?): Result<PagedAuthors> = safeApiCall {
+        val response = authorsApi.findAuthors(page = page, limit = limit, query = query)
+        val hasMore = response.page * response.limit < response.total
+        PagedAuthors(
+            authors = response.items.map { it.toAuthor() },
+            page = response.page,
+            hasMore = hasMore,
+        )
+    }
 
     override suspend fun findAuthorById(id: String): Result<AuthorDetail> =
         safeApiCall { authorsApi.findAuthorById(id).toAuthorDetail() }
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun getAuthorsPagingFlow(): Flow<PagingData<Author>> =
-        Pager(
-            config = PagingConfig(pageSize = AUTHORS_PAGE_SIZE),
-            remoteMediator = AuthorRemoteMediator(
-                authorsApi = authorsApi,
-                authorDao = authorDao,
-                authorRemoteKeyDao = authorRemoteKeyDao,
-                transactionRunner = transactionRunner,
-            ),
-            pagingSourceFactory = { authorDao.pagingSource() },
-        ).flow.map { pagingData -> pagingData.map { it.toAuthor() } }
+    override fun getAuthorsPagingFlow(): Flow<PagingData<Author>> = Pager(
+        config = PagingConfig(pageSize = AUTHORS_PAGE_SIZE),
+        remoteMediator = AuthorRemoteMediator(
+            authorsApi = authorsApi,
+            authorDao = authorDao,
+            authorRemoteKeyDao = authorRemoteKeyDao,
+            transactionRunner = transactionRunner,
+        ),
+        pagingSourceFactory = { authorDao.pagingSource() },
+    ).flow.map { pagingData -> pagingData.map { it.toAuthor() } }
 }

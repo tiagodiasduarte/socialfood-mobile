@@ -26,6 +26,9 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +48,8 @@ import pt.socialfood.core.appVersion
 import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.presentation.components.buttons.ActionButton
+import pt.socialfood.presentation.theme.ThemeBottomSheet
+import pt.socialfood.presentation.theme.isThemeModeSelectionSupported
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.ProfileGradientEnd
@@ -64,16 +69,22 @@ import socialfood.composeapp.generated.resources.profile_logout_button
 import socialfood.composeapp.generated.resources.profile_logout_button_description
 import socialfood.composeapp.generated.resources.profile_profile_button
 import socialfood.composeapp.generated.resources.profile_profile_button_description
-import socialfood.composeapp.generated.resources.profile_settings_button
-import socialfood.composeapp.generated.resources.profile_settings_button_description
 import socialfood.composeapp.generated.resources.profile_stat_followers_label
 import socialfood.composeapp.generated.resources.profile_stat_following_label
 import socialfood.composeapp.generated.resources.profile_stat_guides_label
+import socialfood.composeapp.generated.resources.profile_theme_button
+import socialfood.composeapp.generated.resources.profile_theme_button_description
+import socialfood.composeapp.generated.resources.profile_visited_restaurants_button
+import socialfood.composeapp.generated.resources.profile_visited_restaurants_button_description
+import socialfood.composeapp.generated.resources.profile_wish_restaurants_button
+import socialfood.composeapp.generated.resources.profile_wish_restaurants_button_description
 import socialfood.composeapp.generated.resources.restaurants_icon
-import socialfood.composeapp.generated.resources.settings_icon
+import socialfood.composeapp.generated.resources.theme_icon
+import socialfood.composeapp.generated.resources.visited_icon
+import socialfood.composeapp.generated.resources.wish_icon
 
-private val DrawerAvatarSize = 64.dp
-private val DrawerAvatarRingSize = 68.dp
+private val DrawerAvatarSize = 44.dp
+private val DrawerAvatarRingSize = 48.dp
 
 @Composable
 fun ProfileDrawerContent(
@@ -82,8 +93,11 @@ fun ProfileDrawerContent(
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
+    onWishRestaurantsClick: () -> Unit = {},
+    onVisitedRestaurantsClick: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    var showThemeSheet by remember { mutableStateOf(false) }
 
     ProfileDrawerSheet(
         state = state,
@@ -92,10 +106,16 @@ fun ProfileDrawerContent(
         onEditProfileClick = onEditProfileClick,
         onFavouriteGuidesClick = onFavouriteGuidesClick,
         onFavouriteRestaurantsClick = onFavouriteRestaurantsClick,
+        onWishRestaurantsClick = onWishRestaurantsClick,
+        onVisitedRestaurantsClick = onVisitedRestaurantsClick,
+        onThemeClick = { showThemeSheet = true },
     )
+
+    if (showThemeSheet) {
+        ThemeBottomSheet(onDismiss = { showThemeSheet = false })
+    }
 }
 
-@Suppress("LongParameterList")
 @Composable
 private fun ProfileDrawerSheet(
     state: ProfileUiState,
@@ -104,6 +124,9 @@ private fun ProfileDrawerSheet(
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
+    onWishRestaurantsClick: () -> Unit = {},
+    onVisitedRestaurantsClick: () -> Unit = {},
+    onThemeClick: () -> Unit = {},
 ) {
     ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.surface, windowInsets = WindowInsets(0.dp)) {
         when (state) {
@@ -114,6 +137,9 @@ private fun ProfileDrawerSheet(
                 onEditProfileClick = onEditProfileClick,
                 onFavouriteGuidesClick = onFavouriteGuidesClick,
                 onFavouriteRestaurantsClick = onFavouriteRestaurantsClick,
+                onWishRestaurantsClick = onWishRestaurantsClick,
+                onVisitedRestaurantsClick = onVisitedRestaurantsClick,
+                onThemeClick = onThemeClick,
             )
 
             ProfileUiState.Loading -> Box(
@@ -128,7 +154,6 @@ private fun ProfileDrawerSheet(
     }
 }
 
-@Suppress("LongParameterList")
 @Composable
 private fun DrawerUserContent(
     user: User,
@@ -137,6 +162,9 @@ private fun DrawerUserContent(
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
+    onWishRestaurantsClick: () -> Unit = {},
+    onVisitedRestaurantsClick: () -> Unit = {},
+    onThemeClick: () -> Unit = {},
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         DrawerHeader(user = user, onEditProfileClick = onEditProfileClick)
@@ -162,26 +190,25 @@ private fun DrawerUserContent(
                 contentDescription = stringResource(Res.string.profile_favorites_restaurants_button_description),
                 onClick = onFavouriteRestaurantsClick,
             )
+            DrawerMenuRow(
+                icon = Res.drawable.wish_icon,
+                label = stringResource(Res.string.profile_wish_restaurants_button),
+                contentDescription = stringResource(Res.string.profile_wish_restaurants_button_description),
+                onClick = onWishRestaurantsClick,
+            )
+            DrawerMenuRow(
+                icon = Res.drawable.visited_icon,
+                label = stringResource(Res.string.profile_visited_restaurants_button),
+                contentDescription = stringResource(Res.string.profile_visited_restaurants_button_description),
+                onClick = onVisitedRestaurantsClick,
+            )
         }
 
         Spacer(modifier = Modifier.weight(1f))
 
         HorizontalDivider()
 
-        Column(modifier = Modifier.navigationBarsPadding().padding(vertical = SpaceSize.medium)) {
-            DrawerMenuRow(
-                icon = Res.drawable.settings_icon,
-                label = stringResource(Res.string.profile_settings_button),
-                contentDescription = stringResource(Res.string.profile_settings_button_description),
-            )
-            DrawerMenuRow(
-                icon = Res.drawable.logout_icon,
-                label = stringResource(Res.string.profile_logout_button),
-                contentDescription = stringResource(Res.string.profile_logout_button_description),
-                color = MaterialTheme.colorScheme.primary,
-                onClick = onLogoutClick,
-            )
-        }
+        DrawerBottomMenu(onThemeClick = onThemeClick, onLogoutClick = onLogoutClick)
 
         Text(
             text = if (appBuildDate.isNotBlank()) "v$appVersion ($appBuildDate)" else "v$appVersion",
@@ -189,8 +216,29 @@ private fun DrawerUserContent(
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(SpaceSize.large),
+                .padding(bottom = SpaceSize.large),
             textAlign = TextAlign.Center,
+        )
+    }
+}
+
+@Composable
+private fun DrawerBottomMenu(onThemeClick: () -> Unit, onLogoutClick: () -> Unit) {
+    Column(modifier = Modifier.navigationBarsPadding().padding(vertical = SpaceSize.small)) {
+        if (isThemeModeSelectionSupported) {
+            DrawerMenuRow(
+                icon = Res.drawable.theme_icon,
+                label = stringResource(Res.string.profile_theme_button),
+                contentDescription = stringResource(Res.string.profile_theme_button_description),
+                onClick = onThemeClick,
+            )
+        }
+        DrawerMenuRow(
+            icon = Res.drawable.logout_icon,
+            label = stringResource(Res.string.profile_logout_button),
+            contentDescription = stringResource(Res.string.profile_logout_button_description),
+            color = MaterialTheme.colorScheme.primary,
+            onClick = onLogoutClick,
         )
     }
 }
@@ -223,7 +271,7 @@ private fun DrawerHeader(user: User, onEditProfileClick: () -> Unit) {
                 modifier = Modifier
                     .size(DrawerAvatarRingSize)
                     .clip(CircleShape)
-                    .background(Color.White),
+                    .background(MaterialTheme.colorScheme.surface),
                 contentAlignment = Alignment.Center,
             ) {
                 UserImage(name = user.name, imageUrl = user.imageUrl, imageSize = DrawerAvatarSize)
@@ -232,7 +280,7 @@ private fun DrawerHeader(user: User, onEditProfileClick: () -> Unit) {
             Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.small)) {
                 Text(
                     text = user.name,
-                    style = AppTypography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                    style = AppTypography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = Color.White,
                 )
                 Text(
@@ -242,7 +290,7 @@ private fun DrawerHeader(user: User, onEditProfileClick: () -> Unit) {
                 )
             }
 
-            Spacer(Modifier.height(SpaceSize.medium))
+            Spacer(Modifier.height(SpaceSize.small))
 
             DrawerStatsRow()
         }
@@ -251,43 +299,29 @@ private fun DrawerHeader(user: User, onEditProfileClick: () -> Unit) {
 
 @Composable
 private fun DrawerStatsRow() {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+    Row(horizontalArrangement = Arrangement.spacedBy(SpaceSize.large)) {
         DrawerStatItem(
-            value = "-",
+            value = "13",
             label = stringResource(Res.string.profile_stat_guides_label),
-            modifier = Modifier.weight(1f),
         )
-        DrawerStatDivider()
         DrawerStatItem(
-            value = "-",
+            value = "5555",
             label = stringResource(Res.string.profile_stat_followers_label),
-            modifier = Modifier.weight(1f),
         )
-        DrawerStatDivider()
         DrawerStatItem(
-            value = "-",
+            value = "8463",
             label = stringResource(Res.string.profile_stat_following_label),
-            modifier = Modifier.weight(1f),
         )
     }
 }
 
 @Composable
 private fun DrawerStatItem(value: String, label: String, modifier: Modifier = Modifier) {
-    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = value, style = AppTypography.titleLarge.copy(fontWeight = FontWeight.Bold), color = Color.White)
+    Row(modifier = modifier) {
+        Text(text = value, style = AppTypography.bodySmall.copy(fontWeight = FontWeight.Bold), color = Color.White)
+        Spacer(Modifier.width(SpaceSize.small))
         Text(text = label, style = AppTypography.bodySmall, color = Color.White.copy(alpha = 0.85f))
     }
-}
-
-@Composable
-private fun DrawerStatDivider() {
-    Box(
-        modifier = Modifier
-            .width(1.dp)
-            .height(SpaceSize.xxlarge)
-            .background(Color.White.copy(alpha = 0.3f)),
-    )
 }
 
 @Composable

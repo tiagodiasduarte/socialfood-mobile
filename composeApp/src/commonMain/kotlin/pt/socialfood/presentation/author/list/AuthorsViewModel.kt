@@ -13,10 +13,7 @@ import pt.socialfood.domain.model.User
 import pt.socialfood.domain.usecase.author.GetAuthorsPagingUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 
-class AuthorsViewModel(
-    getAuthorsPaging: GetAuthorsPagingUseCase,
-    observeUser: ObserveUserUseCase,
-) : ViewModel() {
+class AuthorsViewModel(getAuthorsPaging: GetAuthorsPagingUseCase, observeUser: ObserveUserUseCase) : ViewModel() {
 
     val authors: Flow<PagingData<Author>> = getAuthorsPaging().cachedIn(viewModelScope)
 

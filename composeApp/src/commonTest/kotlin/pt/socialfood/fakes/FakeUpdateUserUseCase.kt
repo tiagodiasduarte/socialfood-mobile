@@ -4,10 +4,10 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.User
 import pt.socialfood.domain.usecase.user.UpdateUserUseCase
 
-class FakeUpdateUserUseCase(
-    private val result: Result<User>,
-) : UpdateUserUseCase {
+class FakeUpdateUserUseCase(private val result: Result<User>) : UpdateUserUseCase {
     var invokeCount: Int = 0
+        private set
+    var lastIsAuthor: Boolean? = null
         private set
 
     override suspend fun invoke(
@@ -18,8 +18,10 @@ class FakeUpdateUserUseCase(
         facebookUrl: String?,
         instagramUrl: String?,
         youtubeUrl: String?,
+        isAuthor: Boolean?,
     ): Result<User> {
         invokeCount++
+        lastIsAuthor = isAuthor
         return result
     }
 }

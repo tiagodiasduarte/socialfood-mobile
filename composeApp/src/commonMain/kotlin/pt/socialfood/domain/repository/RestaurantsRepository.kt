@@ -4,7 +4,6 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.PagedRestaurants
 import pt.socialfood.domain.model.Restaurant
 
-
 interface RestaurantsRepository {
 
     suspend fun importRestaurants(): Result<Boolean>

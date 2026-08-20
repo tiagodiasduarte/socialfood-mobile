@@ -13,7 +13,7 @@ class ValidateCodeUseCaseImpl(
     override suspend operator fun invoke(email: String, code: String): Result<Boolean> {
         return when (val result = repository.validateCode(email = email, code = code)) {
             is Result.Success -> {
-                sessionManager.saveToken(result.data)
+                sessionManager.saveTokens(result.data.accessToken, result.data.refreshToken)
                 settingsRepository.clearPendingVerificationEmail()
                 Result.Success(true)
             }

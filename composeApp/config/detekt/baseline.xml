@@ -2,110 +2,29 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
-    <ID>ComplexCondition:FavouriteGuidesScreen.kt$reachedBottom &amp;&amp; state is FavouriteGuidesUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
-    <ID>ComplexCondition:FavouriteRestaurantsScreen.kt$reachedBottom &amp;&amp; state is FavouriteRestaurantsUiState.Loaded &amp;&amp; state.hasMore &amp;&amp; !state.isLoadingMore</ID>
-    <ID>ComplexCondition:SignUpViewModel.kt$SignUpViewModel$name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()</ID>
     <ID>CyclomaticComplexMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>FunctionNaming:MainViewController.kt$fun MainViewController()</ID>
     <ID>LongMethod:EditGuideScreen.kt$@Composable private fun GuideLoaded( state: EditGuideUiState.Loaded, initialTab: Int = TAB_DETAILS, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, onVisibilityChange: (GuideVisibility) -&gt; Unit, onAddRestaurantsClick: () -&gt; Unit, onRestaurantRemoved: (String) -&gt; Unit, onPhotoSelected: (ByteArray, String) -&gt; Unit, onDeleteGuide: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
-    <ID>LongMethod:EditProfilePlaceholder.kt$@Composable internal fun EditProfilePlaceholder()</ID>
-    <ID>LongMethod:ErrorContent.kt$@Composable fun ErrorContent( modifier: Modifier = Modifier, errorCode: String? = null, backgroundColor: Color = GreyBackground, onRetryClick: () -&gt; Unit = {}, )</ID>
-    <ID>LongMethod:FavoriteRestaurantCard.kt$@Composable fun FavoriteRestaurantCard( restaurant: Restaurant, modifier: Modifier = Modifier, onClick: () -&gt; Unit = {}, onRemoveClick: () -&gt; Unit = {}, )</ID>
-    <ID>LongMethod:GuideCard.kt$@Composable fun GuideCard( guide: Guide, width: Dp? = null, isFavourite: Boolean = false, onClick: () -&gt; Unit = {}, onFavouriteClick: (() -&gt; Unit)? = null, modifier: Modifier = Modifier )</ID>
-    <ID>LongMethod:GuideDetailPlaceholder.kt$@Composable fun GuideDetailPlaceholder(modifier: Modifier = Modifier)</ID>
+    <ID>LongMethod:EditProfileSkeleton.kt$@Composable internal fun EditProfileSkeleton()</ID>
+    <ID>LongMethod:ErrorContent.kt$@Composable fun ErrorContent( modifier: Modifier = Modifier, errorCode: String? = null, backgroundColor: Color = MaterialTheme.colorScheme.background, onRetryClick: () -&gt; Unit = {}, )</ID>
+    <ID>LongMethod:GuideCard.kt$@Composable fun GuideCard( guide: Guide, width: Dp? = null, isFavourite: Boolean = false, onClick: () -&gt; Unit = {}, onFavouriteClick: (() -&gt; Unit)? = null, modifier: Modifier = Modifier, )</ID>
     <ID>LongMethod:GuideDetailScreen.kt$@Composable @Preview fun GuideDetailScreenPreview()</ID>
     <ID>LongMethod:GuideDetailScreen.kt$@Composable private fun GuidInfo(guide: Guide)</ID>
     <ID>LongMethod:GuideDetailScreen.kt$@Composable private fun GuideDetailLoaded( guide: Guide, currentUserId: String?, isFavourite: Boolean, onEditClick: (id: String) -&gt; Unit, onBackClick: () -&gt; Unit, onRestaurantClick: (restaurantId: String) -&gt; Unit = {}, onAuthorClick: (authorId: String) -&gt; Unit = {}, onToggleFavourite: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:GuideDetailsCard.kt$@Composable fun GuideDetailsCard( modifier: Modifier = Modifier, title: String, description: String, titleError: Boolean, descriptionError: Boolean, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, imageUrl: String? = null, isUploadingPhoto: Boolean = false, onPickImage: () -&gt; Unit = {}, pendingImage: Pair&lt;ByteArray, String&gt;? = null, )</ID>
     <ID>LongMethod:GuideDetailsCard.kt$@Composable private fun CoverImagePicker( image: String?, pendingImage: Pair&lt;ByteArray, String&gt;?, isUploadingPhoto: Boolean, onPickImage: () -&gt; Unit, )</ID>
-    <ID>LongMethod:GuideRestaurantsCard.kt$@Composable fun GuideRestaurantsCard( restaurants: List&lt;Restaurant&gt;, onAddClick: () -&gt; Unit, onRemoveClick: (String) -&gt; Unit, )</ID>
+    <ID>LongMethod:GuideRestaurantsCard.kt$@Composable fun GuideRestaurantsCard(restaurants: List&lt;Restaurant&gt;, onAddClick: () -&gt; Unit, onRemoveClick: (String) -&gt; Unit)</ID>
     <ID>LongMethod:GuideStatusCard.kt$@Composable fun GuideStatusCard( visibility: GuideVisibility, restaurantCount: Int, hasImage: Boolean, onVisibilityChange: (GuideVisibility) -&gt; Unit, modifier: Modifier = Modifier, )</ID>
-    <ID>LongMethod:ProfilePictureCard.kt$@Composable fun ProfilePictureCard( state: EditProfileUiState.Loaded, onPhotoSelected: (ByteArray, String) -&gt; Unit, )</ID>
-    <ID>LongMethod:RestaurantCard.kt$@Composable fun RestaurantCard( restaurant: Restaurant, modifier: Modifier = Modifier, width: Dp? = null, isFavourite: Boolean = false, onClick: () -&gt; Unit = {}, onFavouriteClick: () -&gt; Unit = {}, )</ID>
-    <ID>LongMethod:RestaurantDetailPlaceholder.kt$@Composable internal fun RestaurantDetailPlaceholder()</ID>
-    <ID>LongMethod:RestaurantDetailScreen.kt$@Composable private fun RestaurantDetailLoaded( restaurant: Restaurant, isFavourite: Boolean, onBackClick: () -&gt; Unit, onToggleFavourite: () -&gt; Unit = {}, )</ID>
-    <ID>LongMethod:RestaurantDetailScreen.kt$@Composable private fun TopSection( restaurant: Restaurant, isFavourite: Boolean, onBackClick: () -&gt; Unit, onShareClick: () -&gt; Unit, onFavoriteClick: () -&gt; Unit, )</ID>
-    <ID>LongMethod:SignInScreen.kt$@Suppress("LongParameterList") @Composable private fun SignInFormView( state: SignInUiState, email: String, onEmailChange: (String) -&gt; Unit, password: String, onPasswordChange: (String) -&gt; Unit, onSignInClick: (email: String, password: String) -&gt; Unit, onSignUpClick: () -&gt; Unit, onGoogleSignInClick: () -&gt; Unit, )</ID>
-    <ID>LongMethod:SignUpScreen.kt$@Composable private fun SignUpFormView( state: SignUpUiState, onSignUpClick: (name: String, email: String, password: String, confirmPassword: String) -&gt; Unit, onSignInClick: () -&gt; Unit, )</ID>
+    <ID>LongMethod:ProfilePictureCard.kt$@Composable fun ProfilePictureCard(state: EditProfileUiState.Loaded, onPhotoSelected: (ByteArray, String) -&gt; Unit)</ID>
     <ID>LongMethod:ValidateCodeScreen.kt$@Composable private fun ValidateCodeFormView( state: ValidateCodeUiState, onValidateClick: (String) -&gt; Unit, onResendClick: () -&gt; Unit, onRestartClick: () -&gt; Unit, )</ID>
-    <ID>LongParameterList:CreateGuideScreen.kt$( state: CreateGuideUiState, onBackClick: () -&gt; Unit, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, onCreateGuide: () -&gt; Unit, onPhotoSelected: (ByteArray, String) -&gt; Unit = { _, _ -&gt; }, onDismissErrors: () -&gt; Unit = {}, )</ID>
-    <ID>LongParameterList:EditGuideScreen.kt$( state: EditGuideUiState, initialTab: Int = TAB_DETAILS, onBackClick: () -&gt; Unit, onAddRestaurantsClick: () -&gt; Unit, onRestaurantRemoved: (String) -&gt; Unit, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, onVisibilityChange: (GuideVisibility) -&gt; Unit = {}, onRetry: () -&gt; Unit, onSaveGuide: () -&gt; Unit, onPhotoSelected: (ByteArray, String) -&gt; Unit = { _, _ -&gt; }, onDeleteGuide: () -&gt; Unit = {}, onDismissErrors: () -&gt; Unit = {}, )</ID>
-    <ID>LongParameterList:EditGuideScreen.kt$( state: EditGuideUiState.Loaded, initialTab: Int = TAB_DETAILS, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, onVisibilityChange: (GuideVisibility) -&gt; Unit, onAddRestaurantsClick: () -&gt; Unit, onRestaurantRemoved: (String) -&gt; Unit, onPhotoSelected: (ByteArray, String) -&gt; Unit, onDeleteGuide: () -&gt; Unit = {}, )</ID>
-    <ID>LongParameterList:FavouriteGuidesScreen.kt$( state: FavouriteGuidesUiState, isRefreshing: Boolean, onBackClick: () -&gt; Unit, onRefresh: () -&gt; Unit, onLoadMore: () -&gt; Unit, onRetry: () -&gt; Unit, onGuideClick: (guideId: String) -&gt; Unit = {}, onRemoveClick: (guideId: String) -&gt; Unit = {}, )</ID>
-    <ID>LongParameterList:FavouriteRestaurantsScreen.kt$( state: FavouriteRestaurantsUiState, isRefreshing: Boolean, onBackClick: () -&gt; Unit, onRefresh: () -&gt; Unit, onLoadMore: () -&gt; Unit, onRetry: () -&gt; Unit, onRestaurantClick: (restaurantId: String) -&gt; Unit = {}, onRemoveClick: (restaurantId: String) -&gt; Unit = {}, )</ID>
-    <ID>LongParameterList:GuideCard.kt$( guide: Guide, width: Dp? = null, isFavourite: Boolean = false, onClick: () -&gt; Unit = {}, onFavouriteClick: (() -&gt; Unit)? = null, modifier: Modifier = Modifier )</ID>
-    <ID>LongParameterList:GuideDetailScreen.kt$( guide: Guide, currentUserId: String?, isFavourite: Boolean, onEditClick: (id: String) -&gt; Unit, onBackClick: () -&gt; Unit, onRestaurantClick: (restaurantId: String) -&gt; Unit = {}, onAuthorClick: (authorId: String) -&gt; Unit = {}, onToggleFavourite: () -&gt; Unit = {}, )</ID>
-    <ID>LongParameterList:GuideDetailScreen.kt$( guideId: String, onBackClick: () -&gt; Unit, onEditClick: (guideId: String) -&gt; Unit = {}, onRestaurantClick: (restaurantId: String) -&gt; Unit = {}, onAuthorClick: (authorId: String) -&gt; Unit = {}, viewModel: GuideDetailViewModel = koinViewModel { parametersOf(guideId) }, )</ID>
-    <ID>LongParameterList:GuideDetailsCard.kt$( modifier: Modifier = Modifier, title: String, description: String, titleError: Boolean, descriptionError: Boolean, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, imageUrl: String? = null, isUploadingPhoto: Boolean = false, onPickImage: () -&gt; Unit = {}, pendingImage: Pair&lt;ByteArray, String&gt;? = null, )</ID>
-    <ID>LongParameterList:GuidesApi.kt$GuidesApi$( id: String, name: String, userId: String, description: String, restaurantIds: List&lt;String&gt;, visibility: String, )</ID>
-    <ID>LongParameterList:GuidesRepository.kt$GuidesRepository$( id: String, name: String, userId: String, description: String, restaurantIds: List&lt;String&gt;, visibility: GuideVisibility, )</ID>
-    <ID>LongParameterList:HomeApi.kt$HomeApi$( id: String, title: String, position: Int, isActive: Boolean, restaurantIds: List&lt;String&gt; = emptyList(), guideIds: List&lt;String&gt; = emptyList(), )</ID>
-    <ID>LongParameterList:HomeRepository.kt$HomeRepository$( id: String, title: String, position: Int, isActive: Boolean, restaurantIds: List&lt;String&gt; = emptyList(), guideIds: List&lt;String&gt; = emptyList(), )</ID>
-    <ID>LongParameterList:InformationSection.kt$( icon: ImageVector, text: String, textColor: Color = MaterialTheme.colorScheme.onBackground, textDecoration: TextDecoration? = null, trailingIcon: Painter? = null, trailingIconTint: Color = MaterialTheme.colorScheme.onSurfaceVariant, onClick: () -&gt; Unit = {}, onTrailingClick: () -&gt; Unit = {}, )</ID>
-    <ID>LongParameterList:RestaurantApi.kt$RestaurantApi$( id: String, name: String, description: String?, country: String, city: String, address: String, phoneNumber: String, websiteUrl: String, )</ID>
-    <ID>LongParameterList:RestaurantCard.kt$( restaurant: Restaurant, modifier: Modifier = Modifier, width: Dp? = null, isFavourite: Boolean = false, onClick: () -&gt; Unit = {}, onFavouriteClick: () -&gt; Unit = {}, )</ID>
-    <ID>LongParameterList:RestaurantsRepository.kt$RestaurantsRepository$( id: String, name: String, description: String?, country: String, city: String, address: String, phoneNumber: String, websiteUrl: String, )</ID>
-    <ID>LongParameterList:SearchRestaurantsScreen.kt$( state: SearchRestaurantsUiState, searchQuery: String, isImportingRestaurant: Boolean, onBackClick: () -&gt; Unit, onSearchQueryChange: (String) -&gt; Unit, onRestaurantClicked: (String) -&gt; Unit, )</ID>
-    <ID>LongParameterList:UpdateHomeSectionUseCase.kt$UpdateHomeSectionUseCase$( id: String, title: String, position: Int, isActive: Boolean, restaurantIds: List&lt;String&gt; = emptyList(), guideIds: List&lt;String&gt; = emptyList(), )</ID>
-    <ID>LongParameterList:UpdateRestaurantUseCase.kt$UpdateRestaurantUseCase$( id: String, name: String, description: String?, country: String, city: String, address: String, phoneNumber: String, websiteUrl: String, )</ID>
-    <ID>LongParameterList:ValidateCodeScreen.kt$( state: ValidateCodeUiState, onValidateClick: (String) -&gt; Unit, onResendClick: () -&gt; Unit, onRestartClick: () -&gt; Unit, onValidateSuccess: () -&gt; Unit, onRestartSignUp: () -&gt; Unit, )</ID>
-    <ID>MagicNumber:AuthorCardPlaceholder.kt$3</ID>
-    <ID>MagicNumber:AuthorDetailPlaceholder.kt$4</ID>
-    <ID>MagicNumber:AuthorGuideCard.kt$0xFF2A2A2A</ID>
-    <ID>MagicNumber:AuthorsPlaceholder.kt$6</ID>
-    <ID>MagicNumber:Color.kt$0xFF005C0C</ID>
-    <ID>MagicNumber:Color.kt$0xFF1A1A1A</ID>
-    <ID>MagicNumber:Color.kt$0xFF4A5565</ID>
-    <ID>MagicNumber:Color.kt$0xFF9E9E9E</ID>
-    <ID>MagicNumber:Color.kt$0xFFB82010</ID>
-    <ID>MagicNumber:Color.kt$0xFFE0E0E0</ID>
-    <ID>MagicNumber:Color.kt$0xFFE8450A</ID>
-    <ID>MagicNumber:Color.kt$0xFFEF4444</ID>
-    <ID>MagicNumber:Color.kt$0xFFF05A1A</ID>
-    <ID>MagicNumber:Color.kt$0xFFF2F2F2</ID>
-    <ID>MagicNumber:Color.kt$0xFFFFC107</ID>
     <ID>MagicNumber:EditGuideViewModel.kt$EditGuideViewModel$3</ID>
-    <ID>MagicNumber:EditProfilePlaceholder.kt$3</ID>
-    <ID>MagicNumber:FavouriteGuidesPlaceholder.kt$0.5f</ID>
-    <ID>MagicNumber:FavouriteGuidesPlaceholder.kt$0.7f</ID>
-    <ID>MagicNumber:FavouriteGuidesPlaceholder.kt$5</ID>
-    <ID>MagicNumber:FavouriteRestaurantsPlaceholder.kt$0.5f</ID>
-    <ID>MagicNumber:FavouriteRestaurantsPlaceholder.kt$0.7f</ID>
-    <ID>MagicNumber:FavouriteRestaurantsPlaceholder.kt$5</ID>
-    <ID>MagicNumber:GuideCard.kt$0xFF2A2A2A</ID>
-    <ID>MagicNumber:GuideDetailPlaceholder.kt$4</ID>
-    <ID>MagicNumber:GuideDetailScreen.kt$0xFF008236</ID>
-    <ID>MagicNumber:GuideDetailScreen.kt$0xFF2A2A2A</ID>
-    <ID>MagicNumber:GuideDetailScreen.kt$0xFF364153</ID>
-    <ID>MagicNumber:GuideDetailScreen.kt$0xFFF0FDF4</ID>
-    <ID>MagicNumber:GuideDetailScreen.kt$0xFFFFFFFF</ID>
     <ID>MagicNumber:GuideDetailsCard.kt$12f</ID>
     <ID>MagicNumber:GuideDetailsCard.kt$16f</ID>
     <ID>MagicNumber:GuideDetailsCard.kt$6f</ID>
     <ID>MagicNumber:GuideDetailsCard.kt$9f</ID>
-    <ID>MagicNumber:GuidesPlaceholder.kt$5</ID>
-    <ID>MagicNumber:HomeHeader.kt$0xE5E7EB</ID>
-    <ID>MagicNumber:HomePlaceholder.kt$3</ID>
-    <ID>MagicNumber:HomeSearchBar.kt$0xFFE5E7EB</ID>
-    <ID>MagicNumber:HomeSearchBar.kt$0xFFF2F2F2</ID>
     <ID>MagicNumber:HomeSearchBar.kt$25</ID>
-    <ID>MagicNumber:ImageHttpClient.kt$ImageHttpClient$120_000</ID>
-    <ID>MagicNumber:ImageHttpClient.kt$ImageHttpClient$30_000</ID>
-    <ID>MagicNumber:ProfileHeaderPlaceholder.kt$3</ID>
-    <ID>MagicNumber:RatingStars.kt$0.5</ID>
-    <ID>MagicNumber:RatingStars.kt$0xFFFFC107</ID>
-    <ID>MagicNumber:RestaurantDetailScreen.kt$0xFF2A2A2A</ID>
-    <ID>MagicNumber:S3HttpClient.kt$S3HttpClient$120_000</ID>
-    <ID>MagicNumber:S3HttpClient.kt$S3HttpClient$30_000</ID>
-    <ID>MagicNumber:SearchBar.kt$0xFFE5E7EB</ID>
     <ID>MagicNumber:SearchBar.kt$25</ID>
-    <ID>MagicNumber:SearchRestaurantsViewModel.kt$SearchRestaurantsViewModel$3</ID>
-    <ID>MagicNumber:ShimmerBox.kt$0xFFD0D0D0</ID>
-    <ID>MagicNumber:SocialButtonsPlaceholder.kt$3</ID>
-    <ID>MagicNumber:SplashScreen.ios.kt$0xFFF54900</ID>
-    <ID>MagicNumber:ValidateCodeScreen.kt$0xFFD0D0D0</ID>
-    <ID>MagicNumber:ValidateCodeScreen.kt$0xFFF2F2F2</ID>
     <ID>ReturnCount:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>TooManyFunctions:EditGuideViewModel.kt$EditGuideViewModel : ViewModel</ID>
     <ID>TooManyFunctions:GuidesRepository.kt$GuidesRepository</ID>

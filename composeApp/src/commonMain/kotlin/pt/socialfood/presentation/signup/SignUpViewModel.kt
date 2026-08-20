@@ -12,16 +12,15 @@ import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.sign_up_fill_all_fields
 import socialfood.composeapp.generated.resources.sign_up_password_mismatch
 
-class SignUpViewModel(
-    private val register: RegisterUseCase,
-) : ViewModel() {
+class SignUpViewModel(private val register: RegisterUseCase) : ViewModel() {
 
     private val _state = MutableStateFlow<SignUpUiState>(SignUpUiState.Idle)
     val state: StateFlow<SignUpUiState> = _state
 
     fun onSignUp(name: String, email: String, password: String, confirmPassword: String) {
         viewModelScope.launch {
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            val hasEmptyField = name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()
+            if (hasEmptyField) {
                 _state.value = SignUpUiState.ValidationError(Res.string.sign_up_fill_all_fields)
                 return@launch
             }

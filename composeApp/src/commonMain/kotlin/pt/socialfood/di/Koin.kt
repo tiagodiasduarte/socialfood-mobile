@@ -26,6 +26,8 @@ import pt.socialfood.data.api.PlacesApi
 import pt.socialfood.data.api.PlacesApiImpl
 import pt.socialfood.data.api.RestaurantApi
 import pt.socialfood.data.api.RestaurantApiImpl
+import pt.socialfood.data.api.RestaurantVisitStatusApi
+import pt.socialfood.data.api.RestaurantVisitStatusApiImpl
 import pt.socialfood.data.api.S3Api
 import pt.socialfood.data.api.S3ApiImpl
 import pt.socialfood.data.api.SearchApi
@@ -33,13 +35,14 @@ import pt.socialfood.data.api.SearchApiImpl
 import pt.socialfood.data.api.UserApi
 import pt.socialfood.data.api.UserApiImpl
 import pt.socialfood.data.local.AppDatabase
-import pt.socialfood.data.network.ImageHttpClient
+import pt.socialfood.data.network.CoilHttpClient
 import pt.socialfood.data.network.KtorHttpClient
 import pt.socialfood.data.network.S3HttpClient
 import pt.socialfood.data.network.SessionManager
 import pt.socialfood.data.paging.asAuthorCacheTransactionRunner
 import pt.socialfood.data.paging.asGuideCacheTransactionRunner
 import pt.socialfood.data.paging.asHomeCacheTransactionRunner
+import pt.socialfood.data.paging.asRestaurantVisitStatusCacheTransactionRunner
 import pt.socialfood.data.repository.AuthRepositoryImpl
 import pt.socialfood.data.repository.AuthorsRepositoryImpl
 import pt.socialfood.data.repository.ConfigsRepositoryImpl
@@ -49,6 +52,7 @@ import pt.socialfood.data.repository.GuidesRepositoryImpl
 import pt.socialfood.data.repository.HomeRepositoryImpl
 import pt.socialfood.data.repository.PhotosRepositoryImpl
 import pt.socialfood.data.repository.PlacesRepositoryImpl
+import pt.socialfood.data.repository.RestaurantVisitStatusRepositoryImpl
 import pt.socialfood.data.repository.RestaurantsRepositoryImpl
 import pt.socialfood.data.repository.SearchRepositoryImpl
 import pt.socialfood.data.repository.UsersRepositoryImpl
@@ -61,6 +65,7 @@ import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.repository.HomeRepository
 import pt.socialfood.domain.repository.PhotosRepository
 import pt.socialfood.domain.repository.PlacesRepository
+import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.domain.repository.SearchRepository
 import pt.socialfood.domain.repository.UsersRepository
@@ -162,12 +167,28 @@ import pt.socialfood.domain.usecase.restaurant.GetRestaurantsUseCase
 import pt.socialfood.domain.usecase.restaurant.GetRestaurantsUseCaseImpl
 import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCase
 import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCaseImpl
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusPagingUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusPagingUseCaseImpl
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusUseCaseImpl
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetVisitStatusUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetVisitStatusUseCaseImpl
+import pt.socialfood.domain.usecase.restaurantvisitstatus.MarkRestaurantVisitStatusUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.MarkRestaurantVisitStatusUseCaseImpl
+import pt.socialfood.domain.usecase.restaurantvisitstatus.SyncRestaurantVisitStatusUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.SyncRestaurantVisitStatusUseCaseImpl
+import pt.socialfood.domain.usecase.restaurantvisitstatus.UnmarkRestaurantVisitStatusUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.UnmarkRestaurantVisitStatusUseCaseImpl
 import pt.socialfood.domain.usecase.search.GetGuideSuggestionsUseCase
 import pt.socialfood.domain.usecase.search.GetGuideSuggestionsUseCaseImpl
 import pt.socialfood.domain.usecase.search.GetRestaurantSuggestionsUseCase
 import pt.socialfood.domain.usecase.search.GetRestaurantSuggestionsUseCaseImpl
 import pt.socialfood.domain.usecase.search.SearchUseCase
 import pt.socialfood.domain.usecase.search.SearchUseCaseImpl
+import pt.socialfood.domain.usecase.theme.ObserveThemeModeUseCase
+import pt.socialfood.domain.usecase.theme.ObserveThemeModeUseCaseImpl
+import pt.socialfood.domain.usecase.theme.SetThemeModeUseCase
+import pt.socialfood.domain.usecase.theme.SetThemeModeUseCaseImpl
 import pt.socialfood.domain.usecase.user.FindUsersUseCase
 import pt.socialfood.domain.usecase.user.FindUsersUseCaseImpl
 import pt.socialfood.domain.usecase.user.GetPresignedUrlUseCase
@@ -197,27 +218,31 @@ import pt.socialfood.presentation.profile.ProfileViewModel
 import pt.socialfood.presentation.profile.edit.EditProfileViewModel
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
+import pt.socialfood.presentation.restaurant.visited.RestaurantVisitedViewModel
+import pt.socialfood.presentation.restaurant.wishlist.RestaurantWishlistViewModel
 import pt.socialfood.presentation.search.SearchViewModel
 import pt.socialfood.presentation.signin.SignInViewModel
 import pt.socialfood.presentation.signup.SignUpViewModel
 import pt.socialfood.presentation.startup.StartupViewModel
+import pt.socialfood.presentation.sync.SyncViewModel
+import pt.socialfood.presentation.theme.ThemeViewModel
 import pt.socialfood.presentation.validatecode.ValidateCodeViewModel
 
 expect val platformModule: Module
 
 val networkModule =
     module {
-        single { AppImageLoaderFactory(get<ImageHttpClient>().client) }
+        single { AppImageLoaderFactory(get<CoilHttpClient>().client) }
         single<AuthApi> { AuthApiImpl(get()) }
         single<AuthorsApi> { AuthorsApiImpl(get()) }
         single<ConfigsApi> { ConfigsApiImpl(get()) }
+        single { CoilHttpClient() }
         single<FavouriteRestaurantsApi> { FavouriteRestaurantsApiImpl(get()) }
         single<FavouritesGuidesApi> { FavouritesGuidesApiImpl(get()) }
         single<GuidesApi> { GuidesApiImpl(get()) }
         single<HomeApi> { HomeApiImpl(get()) }
         single<HttpClient> { get<KtorHttpClient>().client }
         single<ImageCache> { get<AppImageLoaderFactory>() }
-        single { ImageHttpClient() }
         single { KtorHttpClient(get()) }
         single<PlacesApi> { PlacesApiImpl(get()) }
         single<RestaurantApi> { RestaurantApiImpl(get()) }
@@ -226,6 +251,7 @@ val networkModule =
         single<SearchApi> { SearchApiImpl(get()) }
         single { SessionManager(get()) }
         single<UserApi> { UserApiImpl(get()) }
+        single<RestaurantVisitStatusApi> { RestaurantVisitStatusApiImpl(get()) }
     }
 
 val repositoryModule =
@@ -266,6 +292,15 @@ val repositoryModule =
         single<RestaurantsRepository> { RestaurantsRepositoryImpl(get()) }
         single<SearchRepository> { SearchRepositoryImpl(get()) }
         single<UsersRepository> { UsersRepositoryImpl(get()) }
+        single<RestaurantVisitStatusRepository> {
+            RestaurantVisitStatusRepositoryImpl(
+                restaurantVisitStatusApi = get(),
+                restaurantVisitStatusDao = get<AppDatabase>().restaurantVisitStatusDao(),
+                restaurantVisitStatusRemoteKeyDao = get<AppDatabase>().restaurantVisitStatusRemoteKeyDao(),
+                transactionRunner = get<AppDatabase>().asRestaurantVisitStatusCacheTransactionRunner(),
+                settingsRepository = get(),
+            )
+        }
     }
 
 val useCaseModule =
@@ -303,6 +338,9 @@ val useCaseModule =
         factory<GetUserByIdUseCase> { GetUserByIdUseCaseImpl(get()) }
         factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
         factory<GetUsersUseCase> { GetUsersUseCaseImpl(get()) }
+        factory<GetRestaurantVisitStatusPagingUseCase> { GetRestaurantVisitStatusPagingUseCaseImpl(get()) }
+        factory<GetRestaurantVisitStatusUseCase> { GetRestaurantVisitStatusUseCaseImpl(get()) }
+        factory<GetVisitStatusUseCase> { GetVisitStatusUseCaseImpl(get()) }
         factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
         factory<IsRestaurantFavouriteUseCase> { IsRestaurantFavouriteUseCaseImpl(get()) }
         factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
@@ -310,8 +348,10 @@ val useCaseModule =
         factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
         factory<MarkGuideFavouriteUseCase> { MarkGuideFavouriteUseCaseImpl(get()) }
         factory<MarkRestaurantFavouriteUseCase> { MarkRestaurantFavouriteUseCaseImpl(get()) }
+        factory<MarkRestaurantVisitStatusUseCase> { MarkRestaurantVisitStatusUseCaseImpl(get()) }
         factory<ObserveFavouriteGuideIdsUseCase> { ObserveFavouriteGuideIdsUseCaseImpl(get()) }
         factory<ObserveHomeSectionsUseCase> { ObserveHomeSectionsUseCaseImpl(get()) }
+        factory<ObserveThemeModeUseCase> { ObserveThemeModeUseCaseImpl(get()) }
         factory<ObserveUserUseCase> { ObserveUserUseCaseImpl(get()) }
         factory<RegisterUseCase> { RegisterUseCaseImpl(get(), get()) }
         factory<RemoveHomeSectionItemUseCase> { RemoveHomeSectionItemUseCaseImpl(get()) }
@@ -319,10 +359,13 @@ val useCaseModule =
         factory<RestartSignUpUseCase> { RestartSignUpUseCaseImpl(get()) }
         factory<SearchPlacesUseCase> { SearchPlacesUseCaseImpl(get()) }
         factory<SearchUseCase> { SearchUseCaseImpl(get()) }
+        factory<SetThemeModeUseCase> { SetThemeModeUseCaseImpl(get()) }
         factory<SyncFavouriteRestaurantsUseCase> { SyncFavouriteRestaurantsUseCaseImpl(get()) }
         factory<SyncFavouritesUseCase> { SyncFavouritesUseCaseImpl(get()) }
+        factory<SyncRestaurantVisitStatusUseCase> { SyncRestaurantVisitStatusUseCaseImpl(get()) }
         factory<UnmarkGuideFavouriteUseCase> { UnmarkGuideFavouriteUseCaseImpl(get()) }
         factory<UnmarkRestaurantFavouriteUseCase> { UnmarkRestaurantFavouriteUseCaseImpl(get()) }
+        factory<UnmarkRestaurantVisitStatusUseCase> { UnmarkRestaurantVisitStatusUseCaseImpl(get()) }
         factory<UpdateGuideUseCase> { UpdateGuideUseCaseImpl(get(), get()) }
         factory<UpdateHomeSectionUseCase> { UpdateHomeSectionUseCaseImpl(get()) }
         factory<UpdateRestaurantUseCase> { UpdateRestaurantUseCaseImpl(get()) }
@@ -345,12 +388,18 @@ val viewModelModule =
         factory { GuidesViewModel(get(), get(), get(), get(), get()) }
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
         factory { ProfileViewModel(get(), get(), get()) }
-        factory { (restaurantId: String) -> RestaurantDetailViewModel(get(), get(), get(), get(), restaurantId) }
+        factory { (restaurantId: String) ->
+            RestaurantDetailViewModel(get(), get(), get(), get(), get(), get(), restaurantId)
+        }
+        factory { RestaurantVisitedViewModel(get(), get()) }
+        factory { RestaurantWishlistViewModel(get(), get(), get()) }
         factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
         factory { SearchViewModel(get(), get(), get()) }
         factory { SignInViewModel(get(), get()) }
         factory { SignUpViewModel(get()) }
         factory { StartupViewModel(get(), get(), get()) }
+        factory { SyncViewModel(get(), get(), get(), get()) }
+        factory { ThemeViewModel(get(), get()) }
         factory { (email: String) -> ValidateCodeViewModel(get(), get(), get(), email) }
     }
 

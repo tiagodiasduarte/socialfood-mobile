@@ -20,7 +20,7 @@ import kotlin.test.assertFalse
 @OptIn(ExperimentalCoroutinesApi::class)
 class SearchRestaurantsViewModelTest {
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given addByPlaceId and the enrichment wait both succeed when onAddRestaurant is called then dialog closes and RestaurantAdded is emitted`() =
         runTestWithMainDispatcher {
             // Given
@@ -44,7 +44,7 @@ class SearchRestaurantsViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given addByPlaceId fails when onAddRestaurant is called then no RestaurantAdded event is emitted and dialog closes and it never waits for enrichment`() =
         runTestWithMainDispatcher {
             // Given
@@ -64,7 +64,7 @@ class SearchRestaurantsViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength")
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     fun `given the enrichment wait times out when onAddRestaurant is called then no RestaurantAdded event is emitted and dialog closes`() =
         runTestWithMainDispatcher {
             // Given

@@ -43,7 +43,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.presentation.components.AppImage
 import pt.socialfood.presentation.error.stringResource
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.Shimmer
+import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.validate_code_button
 import socialfood.composeapp.generated.resources.validate_code_resend_button
@@ -51,9 +55,6 @@ import socialfood.composeapp.generated.resources.validate_code_resend_label
 import socialfood.composeapp.generated.resources.validate_code_restart_signup_label
 import socialfood.composeapp.generated.resources.validate_code_subtitle_label
 import socialfood.composeapp.generated.resources.validate_code_title_label
-import pt.socialfood.presentation.components.AppImage
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 
 private const val CODE_LENGTH = 6
 
@@ -85,7 +86,6 @@ private fun ValidateCodeContent(
     onValidateSuccess: () -> Unit,
     onRestartSignUp: () -> Unit,
 ) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -95,7 +95,8 @@ private fun ValidateCodeContent(
         when (state) {
             is ValidateCodeUiState.Error,
             is ValidateCodeUiState.ValidationError,
-            ValidateCodeUiState.Idle -> ValidateCodeFormView(
+            ValidateCodeUiState.Idle,
+            -> ValidateCodeFormView(
                 state = state,
                 onValidateClick = onValidateClick,
                 onResendClick = onResendClick,
@@ -190,9 +191,9 @@ private fun ValidateCodeFormView(
                 shape = RoundedCornerShape(50.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorScheme.primary,
-                    disabledContainerColor = Color(0xFFD0D0D0),
+                    disabledContainerColor = Shimmer,
                     contentColor = colorScheme.onPrimary,
-                    disabledContentColor = Color.White,
+                    disabledContentColor = colorScheme.onPrimary,
                 ),
             ) {
                 Text(
@@ -237,11 +238,7 @@ private fun ValidateCodeFormView(
 }
 
 @Composable
-private fun OtpInput(
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-) {
+private fun OtpInput(value: String, onValueChange: (String) -> Unit, modifier: Modifier = Modifier) {
     BasicTextField(
         value = value,
         onValueChange = { new ->
@@ -274,14 +271,20 @@ private fun OtpBox(digit: String, isCurrent: Boolean) {
         modifier = Modifier
             .size(48.dp)
             .background(
-                color = Color(0xFFF2F2F2),
+                color = MaterialTheme.colorScheme.background,
                 shape = RoundedCornerShape(12.dp),
             )
             .border(
                 width = if (isCurrent || filled) 1.5.dp else 0.dp,
-                color = if (filled) colorScheme.primary else if (isCurrent) colorScheme.primary.copy(
-                    alpha = 0.5f
-                ) else Color.Transparent,
+                color = if (filled) {
+                    colorScheme.primary
+                } else if (isCurrent) {
+                    colorScheme.primary.copy(
+                        alpha = 0.5f,
+                    )
+                } else {
+                    Color.Transparent
+                },
                 shape = RoundedCornerShape(12.dp),
             ),
         contentAlignment = Alignment.Center,

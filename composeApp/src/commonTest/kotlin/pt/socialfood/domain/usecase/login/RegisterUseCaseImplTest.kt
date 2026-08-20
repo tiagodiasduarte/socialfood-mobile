@@ -3,6 +3,7 @@ package pt.socialfood.domain.usecase.login
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
+import pt.socialfood.domain.model.AuthTokens
 import pt.socialfood.fakes.FakeAuthRepository
 import pt.socialfood.fakes.FakeSettingsRepository
 import kotlin.test.Test
@@ -18,7 +19,7 @@ class RegisterUseCaseImplTest {
             val settingsRepository = FakeSettingsRepository()
             val fakeRepo =
                 FakeAuthRepository(
-                    loginResult = Result.Success("token"),
+                    loginResult = Result.Success(AuthTokens("token", "refresh-token")),
                     registerResult = Result.Success(Unit),
                 )
             val useCase = RegisterUseCaseImpl(fakeRepo, settingsRepository)
@@ -32,22 +33,21 @@ class RegisterUseCaseImplTest {
         }
 
     @Test
-    fun `given failed register when invoked then pendingVerificationEmail is untouched and returns Error`() =
-        runTest {
-            // Given
-            val settingsRepository = FakeSettingsRepository()
-            val fakeRepo =
-                FakeAuthRepository(
-                    loginResult = Result.Success("token"),
-                    registerResult = Result.Failure(DataError.Network(Exception("test error"))),
-                )
-            val useCase = RegisterUseCaseImpl(fakeRepo, settingsRepository)
+    fun `given failed register when invoked then pendingVerificationEmail is untouched and returns Error`() = runTest {
+        // Given
+        val settingsRepository = FakeSettingsRepository()
+        val fakeRepo =
+            FakeAuthRepository(
+                loginResult = Result.Success(AuthTokens("token", "refresh-token")),
+                registerResult = Result.Failure(DataError.Network(Exception("test error"))),
+            )
+        val useCase = RegisterUseCaseImpl(fakeRepo, settingsRepository)
 
-            // When
-            val result = useCase.invoke("John Doe", "john.doe@test.com", "password")
+        // When
+        val result = useCase.invoke("John Doe", "john.doe@test.com", "password")
 
-            // Then
-            assertIs<Result.Failure>(result)
-            assertNull(settingsRepository.getPendingVerificationEmail())
-        }
+        // Then
+        assertIs<Result.Failure>(result)
+        assertNull(settingsRepository.getPendingVerificationEmail())
+    }
 }

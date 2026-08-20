@@ -1,8 +1,10 @@
 package pt.socialfood.data.repository
 
 import androidx.sqlite.SQLiteException
+import co.touchlab.kermit.Logger
 import pt.socialfood.core.Result
 import pt.socialfood.data.api.FavouriteRestaurantsApi
+import pt.socialfood.data.currentTimeMillis
 import pt.socialfood.data.local.dao.FavouriteRestaurantDao
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.data.network.extensions.toDataError
@@ -15,11 +17,10 @@ import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.mapper.toFavouriteRestaurant
 import pt.socialfood.mapper.toFavouriteRestaurantEntity
 import pt.socialfood.mapper.toRestaurant
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 
 private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
 private const val MAX_FAVOURITES_FETCH = 500
+private const val TAG = "FavouriteRestaurantsRepository"
 
 class FavouriteRestaurantsRepositoryImpl(
     private val favouriteRestaurantsApi: FavouriteRestaurantsApi,
@@ -27,78 +28,73 @@ class FavouriteRestaurantsRepositoryImpl(
     private val settingsRepository: SettingsRepository,
 ) : FavouriteRestaurantsRepository {
 
-    override suspend fun markFavourite(restaurant: Restaurant): Result<Unit> =
-        try {
-            val entity = restaurant.toFavouriteRestaurantEntity(
-                favouritedAt = currentTimeMillis(),
-                syncState = FavouriteSyncState.PENDING_ADD,
-            )
-            favouriteRestaurantDao.upsert(entity)
+    private val logger = Logger.withTag(TAG)
 
-            when (val result = safeApiCall { favouriteRestaurantsApi.markFavourite(restaurant.id) }) {
-                is Result.Failure ->
-                    println(
-                        "markFavourite(${restaurant.id}) failed (${result.error}); " +
-                            "row stays PENDING_ADD, retried by the next syncFavourites().",
-                    )
+    override suspend fun markFavourite(restaurant: Restaurant): Result<Unit> = try {
+        val entity = restaurant.toFavouriteRestaurantEntity(
+            favouritedAt = currentTimeMillis(),
+            syncState = FavouriteSyncState.PENDING_ADD,
+        )
+        favouriteRestaurantDao.upsert(entity)
 
-                is Result.Success<*> -> {
-                    favouriteRestaurantDao.updateSyncState(restaurant.id, FavouriteSyncState.SYNCED.name)
+        when (val result = safeApiCall { favouriteRestaurantsApi.markFavourite(restaurant.id) }) {
+            is Result.Failure ->
+                logger.w {
+                    "markFavourite(${restaurant.id}) failed (${result.error}); " +
+                        "row stays PENDING_ADD, retried by the next syncFavourites()."
                 }
-            }
 
-            Result.Success(Unit)
-        } catch (e: SQLiteException) {
-            Result.Failure(e.toDataError())
+            is Result.Success<*> -> {
+                favouriteRestaurantDao.updateSyncState(restaurant.id, FavouriteSyncState.SYNCED.name)
+            }
         }
 
-    override suspend fun unmarkFavourite(restaurantId: String): Result<Unit> =
-        try {
-            favouriteRestaurantDao.updateSyncState(restaurantId, FavouriteSyncState.PENDING_REMOVE.name)
+        Result.Success(Unit)
+    } catch (e: SQLiteException) {
+        Result.Failure(e.toDataError())
+    }
 
-            when (val result = safeApiCall { favouriteRestaurantsApi.unmarkFavourite(restaurantId) }) {
-                is Result.Failure ->
-                    println(
-                        "unmarkFavourite($restaurantId) failed (${result.error}); " +
-                            "row stays PENDING_REMOVE, retried by the next syncFavourites().",
-                    )
+    override suspend fun unmarkFavourite(restaurantId: String): Result<Unit> = try {
+        favouriteRestaurantDao.updateSyncState(restaurantId, FavouriteSyncState.PENDING_REMOVE.name)
 
-                is Result.Success<*> -> {
-                    favouriteRestaurantDao.deleteByRestaurantId(restaurantId)
+        when (val result = safeApiCall { favouriteRestaurantsApi.unmarkFavourite(restaurantId) }) {
+            is Result.Failure ->
+                logger.w {
+                    "unmarkFavourite($restaurantId) failed (${result.error}); " +
+                        "row stays PENDING_REMOVE, retried by the next syncFavourites()."
                 }
+
+            is Result.Success<*> -> {
+                favouriteRestaurantDao.deleteByRestaurantId(restaurantId)
             }
-
-            Result.Success(Unit)
-        } catch (e: SQLiteException) {
-            Result.Failure(e.toDataError())
         }
 
-    override suspend fun getFavouritesPaged(
-        page: Int,
-        limit: Int,
-    ): Result<PagedFavouriteRestaurants> =
-        try {
-            val offset = (page - 1) * limit
-            val entities = favouriteRestaurantDao.getPaged(limit = limit, offset = offset)
-            val total = favouriteRestaurantDao.countAll()
-            Result.Success(
-                PagedFavouriteRestaurants(
-                    favourites = entities.map { it.toFavouriteRestaurant() },
-                    page = page,
-                    total = total,
-                    hasMore = page * limit < total,
-                ),
-            )
-        } catch (e: SQLiteException) {
-            Result.Failure(e.toDataError())
-        }
+        Result.Success(Unit)
+    } catch (e: SQLiteException) {
+        Result.Failure(e.toDataError())
+    }
 
-    override suspend fun isFavourite(restaurantId: String): Result<Boolean> =
-        try {
-            Result.Success(favouriteRestaurantDao.getByRestaurantId(restaurantId) != null)
-        } catch (e: SQLiteException) {
-            Result.Failure(e.toDataError())
-        }
+    override suspend fun getFavouritesPaged(page: Int, limit: Int): Result<PagedFavouriteRestaurants> = try {
+        val offset = (page - 1) * limit
+        val entities = favouriteRestaurantDao.getPaged(limit = limit, offset = offset)
+        val total = favouriteRestaurantDao.countAll()
+        Result.Success(
+            PagedFavouriteRestaurants(
+                favourites = entities.map { it.toFavouriteRestaurant() },
+                page = page,
+                total = total,
+                hasMore = page * limit < total,
+            ),
+        )
+    } catch (e: SQLiteException) {
+        Result.Failure(e.toDataError())
+    }
+
+    override suspend fun isFavourite(restaurantId: String): Result<Boolean> = try {
+        Result.Success(favouriteRestaurantDao.getByRestaurantId(restaurantId) != null)
+    } catch (e: SQLiteException) {
+        Result.Failure(e.toDataError())
+    }
 
     @Suppress("ReturnCount")
     override suspend fun syncFavourites(): Result<Unit> {
@@ -145,12 +141,12 @@ class FavouriteRestaurantsRepositoryImpl(
         try {
             when (val result = safeApiCall { favouriteRestaurantsApi.markFavourite(restaurantId) }) {
                 is Result.Failure ->
-                    println("markFavourite($restaurantId) still failing (${result.error}); retried next sync.")
+                    logger.w { "markFavourite($restaurantId) still failing (${result.error}); retried next sync." }
                 is Result.Success ->
                     favouriteRestaurantDao.updateSyncState(restaurantId, FavouriteSyncState.SYNCED.name)
             }
         } catch (e: SQLiteException) {
-            println("markFavourite($restaurantId) local update failed ($e); retried next sync.")
+            logger.w(e) { "markFavourite($restaurantId) local update failed; retried next sync." }
         }
     }
 
@@ -158,12 +154,12 @@ class FavouriteRestaurantsRepositoryImpl(
         try {
             when (val result = safeApiCall { favouriteRestaurantsApi.unmarkFavourite(restaurantId) }) {
                 is Result.Failure ->
-                    println("unmarkFavourite($restaurantId) still failing (${result.error}); retried next sync.")
+                    logger.w { "unmarkFavourite($restaurantId) still failing (${result.error}); retried next sync." }
                 is Result.Success ->
                     favouriteRestaurantDao.deleteByRestaurantId(restaurantId)
             }
         } catch (e: SQLiteException) {
-            println("unmarkFavourite($restaurantId) local update failed ($e); retried next sync.")
+            logger.w(e) { "unmarkFavourite($restaurantId) local update failed; retried next sync." }
         }
     }
 
@@ -195,7 +191,4 @@ class FavouriteRestaurantsRepositoryImpl(
 
         return Result.Success(Unit)
     }
-
-    @OptIn(ExperimentalTime::class)
-    private fun currentTimeMillis(): Long = Clock.System.now().toEpochMilliseconds()
 }

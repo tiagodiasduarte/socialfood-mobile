@@ -18,7 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -26,23 +25,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.back_button_description
-import socialfood.composeapp.generated.resources.favourites_guides_title
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
+import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.back_button_description
+import socialfood.composeapp.generated.resources.favourites_guides_title
 
 private const val LOAD_MORE_THRESHOLD = 10
 
@@ -91,7 +89,8 @@ private fun FavouriteGuidesContent(
     }
 
     LaunchedEffect(reachedBottom, state) {
-        if (reachedBottom && state is FavouriteGuidesUiState.Loaded && state.hasMore && !state.isLoadingMore) {
+        val canLoadMore = state is FavouriteGuidesUiState.Loaded && state.hasMore && !state.isLoadingMore
+        if (reachedBottom && canLoadMore) {
             onLoadMore()
         }
     }
@@ -99,12 +98,12 @@ private fun FavouriteGuidesContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(GreyBackground),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         TopBar(onBackClick = onBackClick)
 
         when (state) {
-            FavouriteGuidesUiState.Loading -> FavouriteGuidesPlaceholder(modifier = Modifier.fillMaxSize())
+            FavouriteGuidesUiState.Loading -> FavouriteGuidesSkeleton(modifier = Modifier.fillMaxSize())
 
             is FavouriteGuidesUiState.Error -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),
@@ -114,7 +113,7 @@ private fun FavouriteGuidesContent(
             is FavouriteGuidesUiState.Loaded -> if (state.guides.isEmpty()) {
                 NoResultsContent(modifier = Modifier.fillMaxSize())
             } else {
-                PullToRefreshBox(
+                PullToRefreshContent(
                     isRefreshing = isRefreshing,
                     onRefresh = onRefresh,
                     modifier = Modifier.fillMaxSize(),
@@ -147,7 +146,7 @@ private fun TopBar(onBackClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(SpaceSize.medium),
         verticalAlignment = Alignment.CenterVertically,
     ) {

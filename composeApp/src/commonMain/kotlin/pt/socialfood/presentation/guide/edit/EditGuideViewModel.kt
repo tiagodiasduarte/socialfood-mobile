@@ -93,10 +93,7 @@ class EditGuideViewModel(
         updateLoaded { copy(visibility = value) }
     }
 
-    fun onPhotoSelected(
-        bytes: ByteArray,
-        mimeType: String,
-    ) {
+    fun onPhotoSelected(bytes: ByteArray, mimeType: String) {
         updateLoaded { copy(pendingImage = Pair(bytes, mimeType)) }
     }
 

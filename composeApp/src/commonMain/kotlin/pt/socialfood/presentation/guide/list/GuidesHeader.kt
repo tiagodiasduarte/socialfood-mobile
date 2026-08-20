@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,7 +32,6 @@ import socialfood.composeapp.generated.resources.guides_tab_all
 import socialfood.composeapp.generated.resources.guides_tab_my
 import socialfood.composeapp.generated.resources.guides_title
 
-@Suppress("LongParameterList")
 @Composable
 fun GuidesHeader(
     selectedTab: Int,
@@ -49,7 +47,7 @@ fun GuidesHeader(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color.White),
+            .background(MaterialTheme.colorScheme.surface),
     ) {
         Box(
             modifier = Modifier

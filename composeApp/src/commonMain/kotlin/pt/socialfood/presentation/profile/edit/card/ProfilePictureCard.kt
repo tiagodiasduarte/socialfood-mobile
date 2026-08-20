@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.runtime.remember
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.material3.CircularProgressIndicator
@@ -20,30 +19,27 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.edit_profile_picture_change_button
-import socialfood.composeapp.generated.resources.edit_profile_picture_section_title
-import socialfood.composeapp.generated.resources.edit_profile_picture_upload_label
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.presentation.components.card.SectionCard
 import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
 import pt.socialfood.presentation.imagepicker.toImageBitmap
 import pt.socialfood.presentation.profile.edit.EditProfileUiState
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.edit_profile_picture_change_button
+import socialfood.composeapp.generated.resources.edit_profile_picture_section_title
+import socialfood.composeapp.generated.resources.edit_profile_picture_upload_label
 
 @Composable
-fun ProfilePictureCard(
-    state: EditProfileUiState.Loaded,
-    onPhotoSelected: (ByteArray, String) -> Unit,
-) {
+fun ProfilePictureCard(state: EditProfileUiState.Loaded, onPhotoSelected: (ByteArray, String) -> Unit) {
     val pickImage = rememberImagePickerLauncher(onResult = onPhotoSelected)
 
     SectionCard {
@@ -89,13 +85,13 @@ fun ProfilePictureCard(
                         CircularProgressIndicator(
                             modifier = Modifier.size(14.dp),
                             strokeWidth = 2.dp,
-                            color = Color.White,
+                            color = MaterialTheme.colorScheme.onPrimary,
                         )
                     } else {
                         Icon(
                             imageVector = Icons.Outlined.CameraAlt,
                             contentDescription = null,
-                            tint = Color.White,
+                            tint = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier.size(14.dp),
                         )
                     }

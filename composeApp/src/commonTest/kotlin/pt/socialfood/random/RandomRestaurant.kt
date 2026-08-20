@@ -3,7 +3,6 @@ package pt.socialfood.random
 import pt.socialfood.domain.model.Restaurant
 import kotlin.random.Random
 
-@Suppress("LongParameterList")
 fun Random.nextRestaurant(
     id: String = nextString(),
     name: String = nextString(),

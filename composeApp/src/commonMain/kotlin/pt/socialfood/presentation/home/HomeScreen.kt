@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -34,11 +33,11 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
+import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.presentation.guide.list.GuideCard
 import pt.socialfood.presentation.restaurant.RestaurantCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
 
 private val cardWidth = 300.dp
@@ -50,6 +49,7 @@ fun HomeScreen(
     onGuideClick: (guideId: String) -> Unit = {},
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onProfileClick: () -> Unit = {},
+    onSearchClick: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val sections by viewModel.sections.collectAsStateWithLifecycle()
@@ -65,12 +65,12 @@ fun HomeScreen(
         onGuideClick = onGuideClick,
         onRestaurantClick = onRestaurantClick,
         onProfileClick = onProfileClick,
+        onSearchClick = onSearchClick,
         onToggleGuideFavourite = viewModel::onToggleGuideFavourite,
         onToggleRestaurantFavourite = viewModel::onToggleRestaurantFavourite,
     )
 }
 
-@Suppress("LongParameterList")
 @Composable
 fun HomeScreenContent(
     state: HomeUiState,
@@ -81,6 +81,7 @@ fun HomeScreenContent(
     onGuideClick: (guideId: String) -> Unit = {},
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onProfileClick: () -> Unit = {},
+    onSearchClick: () -> Unit = {},
     onToggleGuideFavourite: (Guide) -> Unit = {},
     onToggleRestaurantFavourite: (Restaurant) -> Unit = {},
 ) {
@@ -88,13 +89,13 @@ fun HomeScreenContent(
     val favouriteRestaurantIds = loaded?.favouriteRestaurantIds ?: emptySet()
     val favouriteGuideIds = loaded?.favouriteGuideIds ?: emptySet()
 
-    PullToRefreshBox(
+    PullToRefreshContent(
         isRefreshing = isRefreshing,
         onRefresh = onRefresh,
         modifier = Modifier.fillMaxSize(),
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize().background(GreyBackground),
+            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
             verticalArrangement = Arrangement.spacedBy(SpaceSize.xlarge),
             contentPadding = PaddingValues(bottom = SpaceSize.xxlarge),
         ) {
@@ -103,6 +104,7 @@ fun HomeScreenContent(
                     userName = user?.name.orEmpty(),
                     userImageUrl = user?.imageUrl,
                     onProfileClick = onProfileClick,
+                    onSearchClick = onSearchClick,
                 )
             }
 
@@ -123,7 +125,7 @@ fun HomeScreenContent(
 
                 state is HomeUiState.Loading -> {
                     item {
-                        HomePlaceholder()
+                        HomeSkeleton()
                     }
                 }
 
@@ -143,7 +145,6 @@ fun HomeScreenContent(
     }
 }
 
-@Suppress("LongParameterList")
 @Composable
 private fun HomeSectionRow(
     section: HomeSection,
@@ -199,7 +200,6 @@ private fun HomeSectionRow(
     }
 }
 
-@Suppress("LongParameterList")
 @Composable
 private fun HomeSectionItemCard(
     item: HomeSectionItem,

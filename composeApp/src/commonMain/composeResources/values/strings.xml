@@ -45,6 +45,7 @@
     <string name="home_subtitle_label">Find your next favorite restaurant</string>
     <string name="home_list_see_all_label">See All</string>
     <string name="home_list_view_all_label">View All</string>
+    <string name="home_search_bar_placeholder">Search authors, guides and restaurants…</string>
 
     <string name="profile_stat_guides_label">Guides</string>
     <string name="profile_stat_followers_label">Followers</string>
@@ -55,14 +56,23 @@
     <string name="profile_favorite_guides_button_description">Favorite Guides button</string>
     <string name="profile_favorites_restaurants_button">Favorite Restaurants</string>
     <string name="profile_favorites_restaurants_button_description">Favorites Restaurants button</string>
-    <string name="profile_settings_button">Settings</string>
-    <string name="profile_settings_button_description">Settings button</string>
+    <string name="profile_wish_restaurants_button">Restaurant Wishlist</string>
+    <string name="profile_wish_restaurants_button_description">Restaurant Wishlist button</string>
+    <string name="profile_visited_restaurants_button">Visited Restaurants</string>
+    <string name="profile_visited_restaurants_button_description">Visited Restaurants button</string>
+    <string name="profile_theme_button">Theme</string>
+    <string name="profile_theme_button_description">Theme button</string>
     <string name="profile_logout_button">Log Out</string>
     <string name="profile_logout_button_description">Log Out button</string>
 
     <string name="profile_edit_profile_button">Edit Profile</string>
     <string name="profile_edit_profile_button_description">Edit profile button</string>
     <string name="profile_drawer_close_button_description">Close menu</string>
+
+    <string name="theme_sheet_title">Theme</string>
+    <string name="theme_light_label">Light</string>
+    <string name="theme_dark_label">Dark</string>
+    <string name="theme_system_label">System default</string>
 
     <string name="guide_detail_error_label">Failed to load guide</string>
     <string name="guide_detail_restaurants_section_title">Restaurants in this guide</string>
@@ -79,6 +89,9 @@
 
     <string name="favourites_guides_title">Favourite Guides</string>
     <string name="favourites_restaurants_title">Favourite Restaurants</string>
+    <string name="wish_restaurants_title">Restaurant Wishlist</string>
+    <string name="wish_add_button_description">Add restaurant to wish list</string>
+    <string name="visited_restaurants_title">Visited Restaurants</string>
 
     <string name="guides_title">Guides</string>
     <string name="guides_tab_all">All Guides</string>
@@ -159,6 +172,8 @@
     <string name="edit_profile_username_label">Username</string>
     <string name="edit_profile_clear_field_button_description">Clear field</string>
     <string name="edit_profile_username_placeholder">johndoe</string>
+    <string name="edit_profile_author_mode_title">Author mode</string>
+    <string name="edit_profile_author_mode_description">Enable to become an author and start creating public guides.</string>
     <string name="edit_profile_social_title">Social Networks</string>
     <string name="edit_profile_facebook_label">Facebook</string>
     <string name="edit_profile_facebook_placeholder">https://facebook.com/yourprofile</string>
@@ -177,7 +192,7 @@
     <string name="bottom_nav_authors">Authors</string>
     <string name="bottom_nav_profile">Profile</string>
 
-    <string name="search_search_placeholder">Search…</string>
+    <string name="search_search_placeholder">Search authors, guides and restaurants…</string>
     <string name="search_section_restaurants_title">Restaurants</string>
     <string name="search_section_guides_title">Guides</string>
     <string name="search_section_authors_title">Authors</string>
@@ -211,10 +226,15 @@
     <string name="restaurant_detail_call_button">Call for Reservation</string>
     <string name="restaurant_detail_reviews_count">%1$d reviews</string>
     <string name="restaurant_detail_navigate_description">Navigate to restaurant</string>
-    <string name="restaurant_detail_share_description">Share restaurant</string>
     <string name="restaurant_detail_favourite_description">Add to favourites</string>
+    <string name="restaurant_detail_more_options_description">More options</string>
+    <string name="restaurant_detail_share_button">Share</string>
+    <string name="restaurant_detail_add_to_wishlist_button">Add to wishlist</string>
+    <string name="restaurant_detail_move_to_visited_button">Move to visited list</string>
 
     <string name="favorite_card_remove_button_description">Remove from favorites</string>
+    <string name="wish_card_remove_button_description">Remove from wish list</string>
+    <string name="visited_card_remove_button_description">Remove from visited</string>
 
     <string name="error_code_user_already_exists">An account with this email already exists.</string>
     <string name="error_code_invalid_credentials">Incorrect email or password.</string>

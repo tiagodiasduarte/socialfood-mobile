@@ -1,19 +1,23 @@
 package pt.socialfood
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.mp.KoinPlatform.getKoin
 import pt.socialfood.data.network.SessionManager
-import pt.socialfood.presentation.favourite.FavouritesSyncEffect
 import pt.socialfood.presentation.navigation.NavigationRoot
 import pt.socialfood.presentation.signin.SignInScreen
 import pt.socialfood.presentation.signup.SignUpScreen
 import pt.socialfood.presentation.splash.SplashScreen
 import pt.socialfood.presentation.startup.StartupViewModel
+import pt.socialfood.presentation.sync.SyncEffect
 import pt.socialfood.presentation.validatecode.ValidateCodeScreen
 import pt.socialfood.ui.theme.AppTheme
 
@@ -39,30 +43,32 @@ fun App(prewarmedStartupViewModel: StartupViewModel? = null) {
     }
 
     AppTheme {
-        when (val dest = destination) {
-            AppDestination.Splash -> SplashScreen(
-                viewModel = prewarmedStartupViewModel ?: koinViewModel(),
-                onNavigateToHome = { navigate(AppDestination.Home) },
-                onNavigateToLogin = { navigate(AppDestination.Login) },
-                onNavigateToValidateCode = { email -> navigate(AppDestination.ValidateCode(email)) },
-            )
-            AppDestination.Home -> {
-                NavigationRoot()
-                FavouritesSyncEffect()
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface) {
+            when (val dest = destination) {
+                AppDestination.Splash -> SplashScreen(
+                    viewModel = prewarmedStartupViewModel ?: koinViewModel(),
+                    onNavigateToHome = { navigate(AppDestination.Home) },
+                    onNavigateToLogin = { navigate(AppDestination.Login) },
+                    onNavigateToValidateCode = { email -> navigate(AppDestination.ValidateCode(email)) },
+                )
+                AppDestination.Home -> {
+                    NavigationRoot()
+                    SyncEffect()
+                }
+                AppDestination.Login -> SignInScreen(
+                    onSignInSuccess = { navigate(AppDestination.Home) },
+                    onSignUpClick = { navigate(AppDestination.SignUp) },
+                )
+                AppDestination.SignUp -> SignUpScreen(
+                    onSignUpSuccess = { email -> navigate(AppDestination.ValidateCode(email)) },
+                    onSignInClick = { navigate(AppDestination.Login) },
+                )
+                is AppDestination.ValidateCode -> ValidateCodeScreen(
+                    email = dest.email,
+                    onValidateSuccess = { navigate(AppDestination.Home) },
+                    onRestartSignUp = { navigate(AppDestination.SignUp) },
+                )
             }
-            AppDestination.Login -> SignInScreen(
-                onSignInSuccess = { navigate(AppDestination.Home) },
-                onSignUpClick = { navigate(AppDestination.SignUp) },
-            )
-            AppDestination.SignUp -> SignUpScreen(
-                onSignUpSuccess = { email -> navigate(AppDestination.ValidateCode(email)) },
-                onSignInClick = { navigate(AppDestination.Login) },
-            )
-            is AppDestination.ValidateCode -> ValidateCodeScreen(
-                email = dest.email,
-                onValidateSuccess = { navigate(AppDestination.Home) },
-                onRestartSignUp = { navigate(AppDestination.SignUp) },
-            )
         }
     }
 }

@@ -1,6 +1,7 @@
 package pt.socialfood.presentation.guide.create
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -36,16 +36,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.create_guide_create_title
-import socialfood.composeapp.generated.resources.create_guide_save_button
 import pt.socialfood.presentation.guide.GuideValidationErrorDialog
 import pt.socialfood.presentation.guide.edit.card.GuideDetailsCard
 import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.GreyBackground
 import pt.socialfood.ui.theme.SpaceSize
-
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.create_guide_create_title
+import socialfood.composeapp.generated.resources.create_guide_save_button
 
 @Composable
 fun CreateGuideScreen(
@@ -98,7 +96,7 @@ private fun CreateGuideContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(GreyBackground)
+            .background(MaterialTheme.colorScheme.background)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = { focusManager.clearFocus() })
             },
@@ -146,11 +144,7 @@ private fun CreateGuideContent(
 }
 
 @Composable
-private fun TopBar(
-    isLoading: Boolean,
-    onBackClick: () -> Unit,
-    onCreateGuide: () -> Unit,
-) {
+private fun TopBar(isLoading: Boolean, onBackClick: () -> Unit, onCreateGuide: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

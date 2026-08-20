@@ -49,7 +49,7 @@ class SearchRestaurantsViewModel(
             _state.value = SearchRestaurantsUiState.Loaded(emptyList())
             return
         }
-        if (query.length < 3) {
+        if (query.length < MIN_QUERY_LENGTH) {
             return
         }
         searchJob = viewModelScope.launch {
@@ -92,5 +92,6 @@ class SearchRestaurantsViewModel(
 
     companion object {
         private val SEARCH_DEBOUNCE_MS = 300.milliseconds
+        private const val MIN_QUERY_LENGTH = 3
     }
 }

@@ -11,9 +11,6 @@ interface ImageCache {
     fun clear(url: String)
 }
 
-// Builds the shared Coil ImageLoader, wired with the dedicated, unauthenticated
-// CoilHttpClient so image requests never pick up KtorHttpClient's Authorization header,
-// base-URL/path prefix, or 401 -> session-clear behavior.
 class AppImageLoaderFactory(private val httpClient: HttpClient) :
     SingletonImageLoader.Factory,
     ImageCache {

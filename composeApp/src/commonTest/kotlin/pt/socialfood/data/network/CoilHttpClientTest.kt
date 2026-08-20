@@ -10,13 +10,6 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertNull
 
-/**
- * Verifies the core safety invariant configured (by omission) in [CoilHttpClient]: image
- * requests must never carry the main API's Authorization header, since image URLs are absolute
- * URLs to other hosts (e.g. S3) and must never trigger a 401 -> sessionManager.clear() logout.
- * Instantiates the real [CoilHttpClient] with an injected [MockEngine] so the outgoing request
- * headers can be asserted against production code, without making a real network call.
- */
 class CoilHttpClientTest {
 
     private fun createMockClient(): Pair<HttpClient, MutableList<String?>> {

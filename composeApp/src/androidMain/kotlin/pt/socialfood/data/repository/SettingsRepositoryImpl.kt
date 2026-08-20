@@ -15,6 +15,7 @@ import pt.socialfood.domain.repository.SettingsRepository
 private val Context.dataStore by preferencesDataStore(name = "socialfood_settings")
 
 private val USER_JWT_TOKEN = stringPreferencesKey("user_jwt_token")
+private val USER_JWT_REFRESH_TOKEN = stringPreferencesKey("user_jwt_refresh_token")
 private val THEME_MODE = stringPreferencesKey("theme_mode")
 private val PENDING_VERIFICATION_EMAIL = stringPreferencesKey("pending_verification_email")
 private val LAST_FAVOURITES_SYNCED_AT = stringPreferencesKey("last_favourites_synced_at")
@@ -42,6 +43,19 @@ class SettingsRepositoryImpl(private val context: Context) : SettingsRepository 
 
     override suspend fun clearToken() {
         context.dataStore.edit { it.remove(USER_JWT_TOKEN) }
+    }
+
+    override suspend fun getRefreshToken(): String? {
+        val stored = context.dataStore.data.first()[USER_JWT_REFRESH_TOKEN] ?: return null
+        return tokenCipher.decryptOrNull(stored)
+    }
+
+    override suspend fun saveRefreshToken(token: String) {
+        context.dataStore.edit { it[USER_JWT_REFRESH_TOKEN] = tokenCipher.encrypt(token) }
+    }
+
+    override suspend fun clearRefreshToken() {
+        context.dataStore.edit { it.remove(USER_JWT_REFRESH_TOKEN) }
     }
 
     override fun observeThemeMode(): Flow<ThemeMode> =

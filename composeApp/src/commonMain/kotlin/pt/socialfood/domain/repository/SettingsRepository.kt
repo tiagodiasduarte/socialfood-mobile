@@ -9,6 +9,10 @@ interface SettingsRepository {
     suspend fun saveToken(token: String)
     suspend fun clearToken()
 
+    suspend fun getRefreshToken(): String?
+    suspend fun saveRefreshToken(token: String)
+    suspend fun clearRefreshToken()
+
     fun observeThemeMode(): Flow<ThemeMode>
     suspend fun saveThemeMode(mode: ThemeMode)
 

@@ -3,6 +3,7 @@ package pt.socialfood.data.repository
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
+import pt.socialfood.domain.model.AuthTokens
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -13,7 +14,7 @@ class AuthRepositoryImplTest {
         AuthRepositoryImpl(FakeAuthApi(shouldThrow))
 
     @Test
-    fun `given valid credentials when login is called then returns Success with token`() = runTest {
+    fun `given valid credentials when login is called then returns Success with tokens`() = runTest {
         // Given
         val repo = createRepository()
 
@@ -21,8 +22,8 @@ class AuthRepositoryImplTest {
         val result = repo.login("user@test.com", "password")
 
         // Then
-        assertIs<Result.Success<String>>(result)
-        assertEquals("token", result.data)
+        assertIs<Result.Success<AuthTokens>>(result)
+        assertEquals(AuthTokens("token", "refresh-token"), result.data)
     }
 
     @Test
@@ -64,7 +65,7 @@ class AuthRepositoryImplTest {
     }
 
     @Test
-    fun `given valid token when validateCode is called then returns Success with new token`() = runTest {
+    fun `given valid token when validateCode is called then returns Success with new tokens`() = runTest {
         // Given
         val repo = createRepository()
 
@@ -72,8 +73,8 @@ class AuthRepositoryImplTest {
         val result = repo.validateCode("user@test.com", "sometoken")
 
         // Then
-        assertIs<Result.Success<String>>(result)
-        assertEquals("newtoken", result.data)
+        assertIs<Result.Success<AuthTokens>>(result)
+        assertEquals(AuthTokens("newtoken", "new-refresh-token"), result.data)
     }
 
     @Test
@@ -115,7 +116,7 @@ class AuthRepositoryImplTest {
     }
 
     @Test
-    fun `given valid id token when loginWithGoogle is called then returns Success with token`() = runTest {
+    fun `given valid id token when loginWithGoogle is called then returns Success with tokens`() = runTest {
         // Given
         val repo = createRepository()
 
@@ -123,8 +124,8 @@ class AuthRepositoryImplTest {
         val result = repo.loginWithGoogle("google_id_token")
 
         // Then
-        assertIs<Result.Success<String>>(result)
-        assertEquals("token", result.data)
+        assertIs<Result.Success<AuthTokens>>(result)
+        assertEquals(AuthTokens("token", "refresh-token"), result.data)
     }
 
     @Test

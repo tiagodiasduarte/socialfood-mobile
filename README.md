@@ -11,7 +11,7 @@ A Kotlin Multiplatform app for discovering and sharing restaurant guides, built 
 
 ## Features
 
-- 🔐 Email sign-up/sign-in with code verification, plus Google Sign-In
+- 🔐 Email sign-up/sign-in with code verification, plus Google Sign-In — sessions renew automatically via refresh tokens, so you stay signed in
 - 📍 Restaurant guides — browse, search, build your own, and favourite guides and restaurants for quick access
 - 🔎 Global search across guides, restaurants, and authors, with top-favorites suggestion shortcuts when the query is empty
 - 👥 Authors — browse and search profiles, follow them, and see the guides they've created

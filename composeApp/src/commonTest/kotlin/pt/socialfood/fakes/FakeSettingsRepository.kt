@@ -8,6 +8,7 @@ import pt.socialfood.domain.repository.SettingsRepository
 class FakeSettingsRepository : SettingsRepository {
 
     private var token: String? = null
+    private var refreshToken: String? = null
     private val themeMode = MutableStateFlow(ThemeMode.LIGHT)
     private var pendingVerificationEmail: String? = null
     private var lastFavouritesSyncedAt: String? = null
@@ -25,6 +26,16 @@ class FakeSettingsRepository : SettingsRepository {
 
     override suspend fun clearToken() {
         token = null
+    }
+
+    override suspend fun getRefreshToken(): String? = refreshToken
+
+    override suspend fun saveRefreshToken(token: String) {
+        refreshToken = token
+    }
+
+    override suspend fun clearRefreshToken() {
+        refreshToken = null
     }
 
     override fun observeThemeMode(): Flow<ThemeMode> = themeMode

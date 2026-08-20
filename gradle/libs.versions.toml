@@ -27,6 +27,7 @@ kotlinxSerializationJson = "1.10.0"
 kover = "0.9.9"
 ksp = "2.3.0"
 ktlint = "14.2.0"
+ktorClientAuth = "3.4.0"
 ktorClientContentNegotiation = "3.4.0"
 ktorClientCore = "3.4.0"
 ktorClientDarwin = "3.4.0"
@@ -77,6 +78,7 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktorClientAuth" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorClientContentNegotiation" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktorClientDarwin" }

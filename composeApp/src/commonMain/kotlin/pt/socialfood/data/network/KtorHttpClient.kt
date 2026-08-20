@@ -4,23 +4,31 @@ import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.plugins.DefaultRequest
+import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.header
-import io.ktor.http.HttpHeaders
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.URLProtocol
+import io.ktor.http.contentType
 import io.ktor.http.encodedPath
 import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.io.IOException
 import kotlinx.serialization.json.Json
 import pt.socialfood.data.network.model.ErrorResponse
+import pt.socialfood.data.network.model.login.RefreshTokenRequest
+import pt.socialfood.data.network.model.login.RefreshTokenResponse
 import pt.socialfood.domain.error.ErrorCode
 
 class KtorHttpClient(
@@ -53,9 +61,48 @@ class KtorHttpClient(
             level = if (isDebug) LogLevel.ALL else LogLevel.NONE
         }
 
-        install(DefaultRequest) {
-            sessionManager.token?.let {
-                header(HttpHeaders.Authorization, "Bearer $it")
+        install(Auth) {
+            bearer {
+                sendWithoutRequest { true }
+
+                loadTokens {
+                    val access = sessionManager.accessToken
+                    val refresh = sessionManager.refreshToken
+                    if (access != null && refresh != null) {
+                        BearerTokens(accessToken = access, refreshToken = refresh)
+                    } else {
+                        null
+                    }
+                }
+
+                refreshTokens {
+                    val refresh = sessionManager.refreshToken ?: return@refreshTokens null
+                    try {
+                        val response: RefreshTokenResponse = client.post("auth/refresh") {
+                            markAsRefreshTokenRequest()
+                            contentType(ContentType.Application.Json)
+                            setBody(RefreshTokenRequest(refreshToken = refresh))
+                        }.body()
+
+                        sessionManager.saveTokens(
+                            newAccessToken = response.token,
+                            newRefreshToken = response.refreshToken,
+                        )
+
+                        BearerTokens(accessToken = response.token, refreshToken = response.refreshToken)
+                    } catch (e: ClientRequestException) {
+                        if (e.response.status == HttpStatusCode.Unauthorized ||
+                            e.response.status == HttpStatusCode.Forbidden
+                        ) {
+                            sessionManager.clear()
+                        }
+                        null
+                    } catch (@Suppress("SwallowedException") _: IOException) {
+                        // Transient network failure while refreshing: fail this attempt without
+                        // clearing the session, so the next request can retry the refresh.
+                        null
+                    }
+                }
             }
         }
 
@@ -75,10 +122,6 @@ class KtorHttpClient(
 
         HttpResponseValidator {
             validateResponse { response ->
-                if (response.status == HttpStatusCode.Unauthorized) {
-                    sessionManager.clear()
-                }
-
                 if (!response.status.isSuccess()) {
                     val body = try {
                         response.body<ErrorResponse>()

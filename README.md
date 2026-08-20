@@ -25,12 +25,13 @@ A Kotlin Multiplatform app for discovering and sharing restaurant guides, built 
 |-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | UI              | [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) 1.10                                                                                                                                         |
 | Language        | [Kotlin](https://kotlinlang.org) 2.3 (Multiplatform)                                                                                                                                                                      |
-| Networking      | [Ktor](https://ktor.io) 3.4 (OkHttp on Android, Darwin on iOS)                                                                                                                                                            |
+| Networking      | [Ktor](https://ktor.io) 3.4 (OkHttp on Android, Darwin on iOS), with the `Auth` plugin handling access/refresh token attachment and renewal                                                                              |
 | DI              | [Koin](https://insert-koin.io) 4.2                                                                                                                                                                                        |
 | Navigation      | [JetBrains Navigation 3](https://developer.android.com/guide/navigation/navigation-3)                                                                                                                                     |
 | Images          | [Coil](https://coil-kt.github.io/coil/) 3.4                                                                                                                                                                               |
 | Serialization   | [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization)                                                                                                                                                  |
 | Local cache     | [Room](https://developer.android.com/kotlin/multiplatform/room)                                                                                                                                                           |
+| Pagination      | [Paging 3](https://developer.android.com/kotlin/multiplatform/paging) 3.5, backed by Room via `RemoteMediator`                                                                                                            |
 | Crash reporting | [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics) (native on both platforms)                                                                                                                           |
 | Coverage        | [Kover](https://github.com/Kotlin/kotlinx-kover)                                                                                                                                                                          |
 | Static analysis | [ktlint](https://pinterest.github.io/ktlint/) + [Detekt](https://detekt.dev)                                                                                                                                              |
@@ -42,7 +43,7 @@ SocialFood follows Clean Architecture, detailed in full on the [Architecture wik
 
 ## UI
 
-The Screens and UI elements are built entirely using Jetpack Compose.
+The Screens and UI elements are built entirely using Jetpack Compose. Paginated lists (guides, authors, wishlist, visited restaurants) render through Paging 3's Compose integration — `collectAsLazyPagingItems()` over a `Flow<PagingData<T>>` exposed by the ViewModel — instead of hand-rolled page/loadMore state.
 
 ## Testing
 

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <baseline version="1.0">
-    <file name="src/commonMain/kotlin/pt/socialfood/domain/repository/AuthRepository.kt">
-        <error line="13" column="1" source="standard:no-blank-line-before-rbrace" />
-    </file>
     <file name="src/commonMain/kotlin/pt/socialfood/domain/usecase/login/ValidateCodeUseCaseImpl.kt">
         <error line="13" column="88" source="standard:function-expression-body" />
     </file>
@@ -16,12 +13,8 @@
         <error line="8" column="11" source="standard:keyword-spacing" />
         <error line="20" column="11" source="standard:keyword-spacing" />
     </file>
-    <file name="src/commonTest/kotlin/pt/socialfood/presentation/restaurant/detail/RestaurantDetailViewModelTest.kt">
-        <error line="76" column="93" source="standard:function-signature" />
-    </file>
     <file name="src/commonTest/kotlin/pt/socialfood/runner/runTestWithMainDispatcher.kt">
         <error line="1" column="1" source="standard:filename" />
-        <error line="15" column="43" source="standard:trailing-comma-on-declaration-site" />
     </file>
     <file name="src/iosMain/kotlin/pt/socialfood/MainViewController.kt">
         <error line="5" column="5" source="standard:function-naming" />

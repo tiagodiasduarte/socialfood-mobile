@@ -7,12 +7,7 @@ import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
 
-private const val TAG = "CoilHttpClient"
-
-// Plain HTTP client used only by Coil's network fetcher for async image loading.
-// No base URL, no auth header, no 401 -> sessionManager.clear() — image URLs are absolute
-// URLs to other hosts (e.g. S3), and a broken/expired image URL must never clear the session.
-class ImageHttpClient(private val isDebug: Boolean = true, engine: HttpClientEngine? = null) {
+class CoilHttpClient(private val isDebug: Boolean = true, engine: HttpClientEngine? = null) {
     private val config: HttpClientConfig<*>.() -> Unit = {
 
         install(Logging) {
@@ -21,11 +16,18 @@ class ImageHttpClient(private val isDebug: Boolean = true, engine: HttpClientEng
         }
 
         install(HttpTimeout) {
-            requestTimeoutMillis = 120_000
-            connectTimeoutMillis = 30_000
-            socketTimeoutMillis = 120_000
+            requestTimeoutMillis = REQUEST_TIMEOUT_MS
+            connectTimeoutMillis = CONNECT_TIMEOUT_MS
+            socketTimeoutMillis = SOCKET_TIMEOUT_MS
         }
     }
 
     val client = if (engine != null) HttpClient(engine, config) else HttpClient(config)
+
+    companion object {
+        private const val TAG = "CoilHttpClient"
+        private const val REQUEST_TIMEOUT_MS = 120_000L
+        private const val CONNECT_TIMEOUT_MS = 30_000L
+        private const val SOCKET_TIMEOUT_MS = 120_000L
+    }
 }

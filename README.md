@@ -9,6 +9,8 @@ A Kotlin Multiplatform app for discovering and sharing restaurant guides, built 
 
 📖 Deeper docs (architecture, CI/CD internals, SDK inventory and testing) live in the [project wiki](https://github.com/tiagodiasduarte/socialfood-mobile/wiki).
 
+It's a personal project to explore Compose Multiplatform in a real app, and a work in progress 🚧.
+
 ## Features
 
 - 🔐 Email sign-up/sign-in with code verification, plus Google Sign-In — sessions renew automatically via refresh tokens, so you stay signed in
@@ -31,6 +33,8 @@ A Kotlin Multiplatform app for discovering and sharing restaurant guides, built 
 | Images          | [Coil](https://coil-kt.github.io/coil/) 3.4                                                                                                                                                                               |
 | Serialization   | [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization)                                                                                                                                                  |
 | Local cache     | [Room](https://developer.android.com/kotlin/multiplatform/room)                                                                                                                                                           |
+| Pagination      | [Paging 3](https://developer.android.com/kotlin/multiplatform/paging) 3.5, backed by Room via `RemoteMediator`                                                                                                            |
+| Logging         | [Kermit](https://kermit.touchlab.co) 2.1                                                                                                                                                                                  |
 | Crash reporting | [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics) (native on both platforms)                                                                                                                           |
 | Coverage        | [Kover](https://github.com/Kotlin/kotlinx-kover)                                                                                                                                                                          |
 | Static analysis | [ktlint](https://pinterest.github.io/ktlint/) + [Detekt](https://detekt.dev)                                                                                                                                              |
@@ -43,6 +47,14 @@ SocialFood follows Clean Architecture, detailed in full on the [Architecture wik
 ## UI
 
 The Screens and UI elements are built entirely using Jetpack Compose.
+
+The app supports three theme modes, persisted via `SettingsRepository`:
+
+- **Light** — the default light color scheme
+- **Dark** — the default dark color scheme
+- **System** — follows the device's system-wide light/dark setting
+
+On Android, the mode is user-selectable from the profile drawer; iOS always follows the system setting.
 
 ## Testing
 

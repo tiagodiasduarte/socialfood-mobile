@@ -1,8 +1,12 @@
 package pt.socialfood.presentation.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -28,6 +32,7 @@ import pt.socialfood.presentation.guide.create.CreateGuideScreen
 import pt.socialfood.presentation.guide.detail.GuideDetailScreen
 import pt.socialfood.presentation.guide.edit.EditGuideScreen
 import pt.socialfood.presentation.guide.list.GuidesScreen
+import pt.socialfood.presentation.guide.map.GuideMapScreen
 import pt.socialfood.presentation.home.HomeScreen
 import pt.socialfood.presentation.profile.ProfileDrawerContent
 import pt.socialfood.presentation.profile.edit.EditProfileScreen
@@ -187,6 +192,27 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                     navigator.navigate(Route.RestaurantDetail(restaurantId))
                                 },
                                 onAuthorClick = { authorId -> navigator.navigate(Route.AuthorDetail(authorId)) },
+                            )
+                        }
+                        entry<Route.GuideMap>(
+                            metadata = NavDisplay.transitionSpec {
+                                slideInVertically(
+                                    initialOffsetY = { fullHeight -> fullHeight },
+                                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                                ) togetherWith ExitTransition.None
+                            } + NavDisplay.popTransitionSpec {
+                                EnterTransition.None togetherWith
+                                    slideOutVertically(
+                                        targetOffsetY = { fullHeight -> fullHeight },
+                                        animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                                    )
+                            },
+                        ) { route ->
+                            GuideMapScreen(
+                                guideId = route.guideId,
+                                guideName = route.guideName,
+                                restaurantsCount = route.restaurantsCount,
+                                onBackClick = navigator::goBack,
                             )
                         }
                         entry<Route.Guides> {

@@ -32,19 +32,19 @@ fun FilledButton(onClick: () -> Unit, modifier: Modifier = Modifier, text: Strin
             contentColor = MaterialTheme.colorScheme.onPrimary,
         ),
     ) {
-        if (icon != null) {
+        icon?.let {
             Icon(
-                imageVector = icon,
+                imageVector = it,
                 contentDescription = null,
                 modifier = Modifier.size(18.dp),
             )
-            if (text != null) {
+            text?.let {
                 Spacer(Modifier.width(SpaceSize.small))
             }
         }
-        if (text != null) {
+        text?.let {
             Text(
-                text = text,
+                text = it,
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(vertical = SpaceSize.small),

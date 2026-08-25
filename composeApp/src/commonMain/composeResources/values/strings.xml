@@ -75,11 +75,12 @@
     <string name="theme_system_label">System default</string>
 
     <string name="guide_detail_error_label">Failed to load guide</string>
-    <string name="guide_detail_restaurants_section_title">Restaurants in this guide</string>
+    <string name="guide_detail_restaurants_section_title">Restaurants</string>
     <string name="guide_detail_back_button_description">Back</string>
     <string name="guide_detail_share_button_description">Share</string>
     <string name="guide_detail_edit_button_description">Edit</string>
     <string name="guide_detail_favourite_button_description">Favourite</string>
+    <string name="guide_detail_map_button_description">Map</string>
     <string name="guide_map_empty_message">This guide has no restaurants to show on the map.</string>
     <string name="guide_map_locations_count_label">%1$d locations</string>
     <string name="guide_map_close_button_description">Close</string>

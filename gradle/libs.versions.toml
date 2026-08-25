@@ -18,6 +18,7 @@ detekt = "1.23.8"
 firebaseBom = "34.8.0"
 firebaseCrashlyticsPlugin = "3.0.7"
 google-services = "4.4.4"
+googleMapsCompose = "6.6.0"
 googleid = "1.1.1"
 kermit = "2.1.0"
 koin = "4.2.0-alpha3"
@@ -37,6 +38,7 @@ ktorClientOkhttp = "3.4.0"
 ktorSerializationKotlinxJson = "3.4.0"
 multiplatform-nav3-ui = "1.0.0-alpha05"
 paging = "3.5.0"
+playServicesMaps = "20.0.0"
 room = "2.8.4"
 sqlite = "2.7.0"
 turbine = "1.1.0"
@@ -69,6 +71,7 @@ compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-pre
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+google-maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "googleMapsCompose" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 jetbrains-lifecycle-viewmodelNavigation3 = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "compose-multiplatform-lifecycle" }
 jetbrains-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "multiplatform-nav3-ui" }
@@ -86,6 +89,7 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "k
 ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorClientMock" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientOkhttp" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorSerializationKotlinxJson" }
+play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]

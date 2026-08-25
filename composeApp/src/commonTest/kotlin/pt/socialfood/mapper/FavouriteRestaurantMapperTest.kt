@@ -3,6 +3,7 @@ package pt.socialfood.mapper
 import pt.socialfood.data.local.entity.FavouriteRestaurantEntity
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.domain.model.FavouriteRestaurant
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.random.nextEnum
 import pt.socialfood.random.nextNullable
@@ -56,6 +57,7 @@ class FavouriteRestaurantMapperTest {
                 userRatingCount = entity.userRatingCount,
                 websiteUrl = entity.websiteUrl,
                 phoneNumber = entity.phoneNumber,
+                location = Location(latitude = 0.0, longitude = 0.0),
             ),
             result,
         )

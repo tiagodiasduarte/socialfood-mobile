@@ -2,9 +2,13 @@ package pt.socialfood.mapper
 
 import pt.socialfood.data.local.entity.RestaurantVisitStatusEntity
 import pt.socialfood.data.local.entity.SyncState
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
+
+// RestaurantVisitStatusEntity doesn't persist coordinates, so this is not the real location.
+private val UnknownLocation = Location(latitude = 0.0, longitude = 0.0)
 
 fun RestaurantVisitStatusEntity.toRestaurant(): Restaurant = Restaurant(
     id = this.restaurantId,
@@ -20,6 +24,7 @@ fun RestaurantVisitStatusEntity.toRestaurant(): Restaurant = Restaurant(
     userRatingCount = this.userRatingCount,
     websiteUrl = this.websiteUrl,
     phoneNumber = this.phoneNumber,
+    location = UnknownLocation,
 )
 
 fun RestaurantVisitStatusEntity.toRestaurantVisitStatus(): RestaurantVisitStatus = RestaurantVisitStatus(

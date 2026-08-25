@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
@@ -205,6 +206,7 @@ fun RestaurantCardPreview() {
                 userRatingCount = 320,
                 websiteUrl = "",
                 phoneNumber = "+351 910 000 000",
+                location = Location(latitude = 38.7223, longitude = -9.1393),
             ),
         )
     }

@@ -9,6 +9,7 @@ import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.fakes.FakeDeleteGuideUseCase
 import pt.socialfood.fakes.FakeGetGuideByIdUseCase
@@ -55,6 +56,7 @@ class EditGuideViewModelTest {
         userRatingCount = 100,
         websiteUrl = null,
         phoneNumber = "+351910000000",
+        location = Location(latitude = 38.7223, longitude = -9.1393),
     )
 
     private fun createViewModel(

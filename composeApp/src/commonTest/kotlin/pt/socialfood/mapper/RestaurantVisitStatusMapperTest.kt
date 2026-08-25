@@ -2,6 +2,7 @@ package pt.socialfood.mapper
 
 import pt.socialfood.data.local.entity.RestaurantVisitStatusEntity
 import pt.socialfood.data.local.entity.SyncState
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
@@ -59,6 +60,7 @@ class RestaurantVisitStatusMapperTest {
                 userRatingCount = entity.userRatingCount,
                 websiteUrl = entity.websiteUrl,
                 phoneNumber = entity.phoneNumber,
+                location = Location(latitude = 0.0, longitude = 0.0),
             ),
             result,
         )

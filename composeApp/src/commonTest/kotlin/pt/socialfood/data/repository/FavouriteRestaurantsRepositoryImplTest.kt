@@ -3,6 +3,7 @@ package pt.socialfood.data.repository
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.local.entity.FavouriteSyncState
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.PagedFavouriteRestaurants
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.fakes.FakeFavouriteRestaurantDao
@@ -32,6 +33,7 @@ class FavouriteRestaurantsRepositoryImplTest {
             userRatingCount = 100,
             websiteUrl = null,
             phoneNumber = "+351910000000",
+            location = Location(latitude = 38.7223, longitude = -9.1393),
         )
 
     @OptIn(ExperimentalTime::class)

@@ -40,6 +40,7 @@ import org.koin.core.parameter.parametersOf
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.buttons.ActionButton
@@ -406,6 +407,7 @@ fun GuideDetailScreenPreview() {
                 userRatingCount = 320,
                 websiteUrl = "",
                 phoneNumber = "",
+                location = Location(latitude = 48.8566, longitude = 2.3522),
             ),
             Restaurant(
                 id = "r2",
@@ -421,6 +423,7 @@ fun GuideDetailScreenPreview() {
                 rating = 4.9,
                 userRatingCount = 210,
                 websiteUrl = "",
+                location = Location(latitude = 48.8738, longitude = 2.295),
             ),
             Restaurant(
                 id = "r3",
@@ -436,6 +439,7 @@ fun GuideDetailScreenPreview() {
                 userRatingCount = 180,
                 websiteUrl = "",
                 phoneNumber = "",
+                location = Location(latitude = 48.8462, longitude = 2.3372),
             ),
         )
     val guide =

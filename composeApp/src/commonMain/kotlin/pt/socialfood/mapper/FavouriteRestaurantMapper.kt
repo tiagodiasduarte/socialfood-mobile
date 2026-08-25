@@ -3,7 +3,11 @@ package pt.socialfood.mapper
 import pt.socialfood.data.local.entity.FavouriteRestaurantEntity
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.domain.model.FavouriteRestaurant
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+
+// FavouriteRestaurantEntity doesn't persist coordinates, so this is not the real location.
+private val UnknownLocation = Location(latitude = 0.0, longitude = 0.0)
 
 fun FavouriteRestaurantEntity.toRestaurant(): Restaurant = Restaurant(
     id = this.restaurantId,
@@ -19,6 +23,7 @@ fun FavouriteRestaurantEntity.toRestaurant(): Restaurant = Restaurant(
     userRatingCount = this.userRatingCount,
     websiteUrl = this.websiteUrl,
     phoneNumber = this.phoneNumber,
+    location = UnknownLocation,
 )
 
 fun FavouriteRestaurantEntity.toFavouriteRestaurant(): FavouriteRestaurant = FavouriteRestaurant(

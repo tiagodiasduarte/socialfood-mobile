@@ -7,9 +7,6 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
 
-// RestaurantVisitStatusEntity doesn't persist coordinates, so this is not the real location.
-private val UnknownLocation = Location(latitude = 0.0, longitude = 0.0)
-
 fun RestaurantVisitStatusEntity.toRestaurant(): Restaurant = Restaurant(
     id = this.restaurantId,
     name = this.name,
@@ -24,7 +21,7 @@ fun RestaurantVisitStatusEntity.toRestaurant(): Restaurant = Restaurant(
     userRatingCount = this.userRatingCount,
     websiteUrl = this.websiteUrl,
     phoneNumber = this.phoneNumber,
-    location = UnknownLocation,
+    location = Location(latitude = this.latitude, longitude = this.longitude),
 )
 
 fun RestaurantVisitStatusEntity.toRestaurantVisitStatus(): RestaurantVisitStatus = RestaurantVisitStatus(
@@ -52,6 +49,8 @@ fun Restaurant.toRestaurantVisitStatusEntity(
     websiteUrl = this.websiteUrl,
     phoneNumber = this.phoneNumber,
     imageUrl = this.photoNames.firstOrNull(),
+    latitude = this.location.latitude,
+    longitude = this.location.longitude,
     status = status.name,
     recordedAt = recordedAt,
     syncState = syncState.name,

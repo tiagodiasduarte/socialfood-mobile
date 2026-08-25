@@ -6,9 +6,6 @@ import pt.socialfood.domain.model.FavouriteRestaurant
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 
-// FavouriteRestaurantEntity doesn't persist coordinates, so this is not the real location.
-private val UnknownLocation = Location(latitude = 0.0, longitude = 0.0)
-
 fun FavouriteRestaurantEntity.toRestaurant(): Restaurant = Restaurant(
     id = this.restaurantId,
     name = this.name,
@@ -23,7 +20,7 @@ fun FavouriteRestaurantEntity.toRestaurant(): Restaurant = Restaurant(
     userRatingCount = this.userRatingCount,
     websiteUrl = this.websiteUrl,
     phoneNumber = this.phoneNumber,
-    location = UnknownLocation,
+    location = Location(latitude = this.latitude, longitude = this.longitude),
 )
 
 fun FavouriteRestaurantEntity.toFavouriteRestaurant(): FavouriteRestaurant = FavouriteRestaurant(
@@ -48,6 +45,8 @@ fun Restaurant.toFavouriteRestaurantEntity(
     websiteUrl = this.websiteUrl,
     phoneNumber = this.phoneNumber,
     imageUrl = this.photoNames.firstOrNull(),
+    latitude = this.location.latitude,
+    longitude = this.location.longitude,
     favouritedAt = favouritedAt,
     syncState = syncState.name,
 )

@@ -1,7 +1,6 @@
 package pt.socialfood.presentation.components.buttons
 
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -23,38 +22,66 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun IconTextButton(text: String, icon: ImageVector, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun FilledButton(onClick: () -> Unit, modifier: Modifier = Modifier, text: String? = null, icon: ImageVector? = null) {
     Button(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         shape = RoundedCornerShape(SpaceSize.large),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary,
         ),
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            modifier = Modifier.size(18.dp),
-        )
-        Spacer(Modifier.width(SpaceSize.small))
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(vertical = SpaceSize.small),
+        icon?.let {
+            Icon(
+                imageVector = it,
+                contentDescription = null,
+                modifier = Modifier.size(18.dp),
+            )
+            text?.let {
+                Spacer(Modifier.width(SpaceSize.small))
+            }
+        }
+        text?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(vertical = SpaceSize.small),
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun FilledButtonIconAndTextPreview() {
+    AppTheme {
+        FilledButton(
+            text = "Try Again",
+            icon = Icons.Outlined.Refresh,
+            onClick = {},
         )
     }
 }
 
 @Preview
 @Composable
-private fun IconTextButtonPreview() {
+private fun FilledButtonIconOnlyPreview() {
     AppTheme {
-        IconTextButton(
-            text = "Try Again",
+        FilledButton(
             icon = Icons.Outlined.Refresh,
+            onClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun FilledButtonTextOnlyPreview() {
+    AppTheme {
+        FilledButton(
+            text = "Try Again",
             onClick = {},
         )
     }

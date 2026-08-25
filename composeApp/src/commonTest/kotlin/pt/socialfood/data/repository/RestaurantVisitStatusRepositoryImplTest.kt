@@ -349,6 +349,79 @@ class RestaurantVisitStatusRepositoryImplTest {
         assertIs<Result.Success<Unit>>(result)
         assertEquals("2026-08-01T10:30:00Z", settings.getLastRestaurantVisitStatusSyncedAt())
     }
+
+    @Test
+    fun `given remote removed ids when sync is called then deletes them locally`() = runTest {
+        // Given
+        val status = Random.nextEnum<VisitStatus>()
+        val dao = FakeRestaurantVisitStatusDao(
+            initialEntities = listOf(fakeRestaurant.toRestaurantVisitEntityForTest(status, SyncState.SYNCED)),
+        )
+        val api = FakeRestaurantVisitStatusApi()
+        api.fakeSyncResponse = api.fakeSyncResponse.copy(removedIds = listOf(fakeRestaurant.id))
+        val (repo, _, settings) = createRepository(api = api, dao = dao)
+        settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
+
+        // When
+        val result = repo.sync()
+
+        // Then
+        assertIs<Result.Success<Unit>>(result)
+        assertEquals(null, dao.getByRestaurantId(fakeRestaurant.id))
+    }
+
+    @Test
+    fun `given a locally cached restaurant when sync reports it updated then patches its status in place`() = runTest {
+        // Given
+        val oldStatus = Random.nextEnum<VisitStatus>()
+        val newStatus = VisitStatus.entries.first { it != oldStatus }
+        val dao = FakeRestaurantVisitStatusDao(
+            initialEntities = listOf(
+                fakeRestaurant.toRestaurantVisitEntityForTest(oldStatus, SyncState.SYNCED),
+            ),
+        )
+        val api = FakeRestaurantVisitStatusApi()
+        api.fakeSyncResponse = api.fakeSyncResponse.copy(
+            updated = listOf(
+                RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(fakeRestaurant.id, newStatus.name),
+            ),
+        )
+        val (repo, _, settings) = createRepository(api = api, dao = dao)
+        settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
+
+        // When
+        val result = repo.sync()
+
+        // Then
+        assertIs<Result.Success<Unit>>(result)
+        val stored = dao.getByRestaurantId(fakeRestaurant.id)
+        assertNotNull(stored)
+        assertEquals(newStatus.name, stored.status)
+        assertEquals(SyncState.SYNCED.name, stored.syncState)
+        assertEquals(0, api.findCallCount)
+    }
+
+    @Test
+    fun `given an updated entry not cached locally when sync is called then skips it without error`() = runTest {
+        // Given
+        val status = Random.nextEnum<VisitStatus>()
+        val api = FakeRestaurantVisitStatusApi()
+        api.fakeSyncResponse = api.fakeSyncResponse.copy(
+            updated = listOf(
+                RestaurantVisitStatusSyncResponse.RestaurantStatusEntry(fakeRestaurant.id, status.name),
+            ),
+        )
+        val (repo, dao, settings) = createRepository(api = api)
+        settings.saveLastRestaurantVisitStatusSyncAttemptAt(0L)
+
+        // When
+        val result = repo.sync()
+
+        // Then
+        assertIs<Result.Success<Unit>>(result)
+        assertEquals(null, dao.getByRestaurantId(fakeRestaurant.id))
+        assertEquals(0, api.findCallCount)
+    }
 }
 
 @OptIn(ExperimentalTime::class)

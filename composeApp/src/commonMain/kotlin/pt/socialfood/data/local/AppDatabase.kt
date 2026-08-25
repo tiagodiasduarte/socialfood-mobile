@@ -24,7 +24,7 @@ import pt.socialfood.data.local.entity.RestaurantVisitStatusEntity
 import pt.socialfood.data.local.entity.RestaurantVisitStatusRemoteKeyEntity
 
 const val DATABASE_NAME = "socialfood.db"
-const val DATABASE_VERSION = 8
+const val DATABASE_VERSION = 9
 
 @Database(
     entities = [

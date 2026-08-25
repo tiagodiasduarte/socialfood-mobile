@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.restaurant.search.PlaceThumbnail
 import pt.socialfood.ui.theme.AppTheme
@@ -76,6 +77,7 @@ private fun RestaurantItemPreview() {
                 userRatingCount = 1200,
                 websiteUrl = "",
                 phoneNumber = "",
+                location = Location(latitude = 38.7223, longitude = -9.1393),
             ),
             onRemove = {},
         )

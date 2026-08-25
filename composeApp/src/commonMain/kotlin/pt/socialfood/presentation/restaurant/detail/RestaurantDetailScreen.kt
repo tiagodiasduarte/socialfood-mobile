@@ -47,6 +47,7 @@ import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.presentation.components.ErrorContent
@@ -423,6 +424,7 @@ private fun RestaurantDetailScreenPreview() {
         userRatingCount = 342,
         websiteUrl = "www.lejardin.com",
         phoneNumber = "+1 (555) 234-5678",
+        location = Location(latitude = 38.7223, longitude = -9.1393),
     )
     AppTheme {
         RestaurantDetailLoaded(

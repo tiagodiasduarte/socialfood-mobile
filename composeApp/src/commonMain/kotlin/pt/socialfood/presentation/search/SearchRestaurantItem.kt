@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
@@ -148,6 +149,7 @@ private fun SearchRestaurantItemPreview() {
                 userRatingCount = 500,
                 websiteUrl = null,
                 phoneNumber = "+351000000000",
+                location = Location(latitude = 41.1579, longitude = -8.6291),
             ),
         )
     }

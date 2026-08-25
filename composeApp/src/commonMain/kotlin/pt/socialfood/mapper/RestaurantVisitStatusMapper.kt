@@ -2,6 +2,7 @@ package pt.socialfood.mapper
 
 import pt.socialfood.data.local.entity.RestaurantVisitStatusEntity
 import pt.socialfood.data.local.entity.SyncState
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
@@ -20,6 +21,7 @@ fun RestaurantVisitStatusEntity.toRestaurant(): Restaurant = Restaurant(
     userRatingCount = this.userRatingCount,
     websiteUrl = this.websiteUrl,
     phoneNumber = this.phoneNumber,
+    location = Location(latitude = this.latitude, longitude = this.longitude),
 )
 
 fun RestaurantVisitStatusEntity.toRestaurantVisitStatus(): RestaurantVisitStatus = RestaurantVisitStatus(
@@ -47,6 +49,8 @@ fun Restaurant.toRestaurantVisitStatusEntity(
     websiteUrl = this.websiteUrl,
     phoneNumber = this.phoneNumber,
     imageUrl = this.photoNames.firstOrNull(),
+    latitude = this.location.latitude,
+    longitude = this.location.longitude,
     status = status.name,
     recordedAt = recordedAt,
     syncState = syncState.name,

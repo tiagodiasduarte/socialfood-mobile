@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.guide.create.restaurants.RestaurantItem
 import pt.socialfood.ui.theme.AppTheme
@@ -156,6 +157,7 @@ private fun GuideRestaurantsCardWithItemsPreview() {
                     userRatingCount = 1200,
                     websiteUrl = "",
                     phoneNumber = "",
+                    location = Location(latitude = 38.7106, longitude = -9.1425),
                 ),
                 Restaurant(
                     id = "2",
@@ -171,6 +173,7 @@ private fun GuideRestaurantsCardWithItemsPreview() {
                     userRatingCount = 8000,
                     websiteUrl = "",
                     phoneNumber = "",
+                    location = Location(latitude = 38.7089, longitude = -9.1469),
                 ),
             ),
             onAddClick = {},

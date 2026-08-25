@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
@@ -191,6 +192,7 @@ private fun RestaurantSmallCardPreview() {
                 userRatingCount = 320,
                 websiteUrl = "",
                 phoneNumber = "+351 910 000 000",
+                location = Location(latitude = 38.7223, longitude = -9.1393),
             ),
             removeButtonContentDescription = "Remove",
         )

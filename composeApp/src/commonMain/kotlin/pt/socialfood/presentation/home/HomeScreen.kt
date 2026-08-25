@@ -29,6 +29,7 @@ import pt.socialfood.domain.model.HomeItemType
 import pt.socialfood.domain.model.HomeSection
 import pt.socialfood.domain.model.HomeSectionItem
 import pt.socialfood.domain.model.HomeSectionType
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ErrorContent
@@ -269,6 +270,7 @@ fun HomeScreenPreview() {
         userRatingCount = 320,
         websiteUrl = "",
         phoneNumber = "",
+        location = Location(latitude = 38.7223, longitude = -9.1393),
     )
     val sections = listOf(
         HomeSection(

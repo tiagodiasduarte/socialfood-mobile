@@ -3,6 +3,7 @@ package pt.socialfood.mapper
 import pt.socialfood.data.local.entity.FavouriteRestaurantEntity
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.domain.model.FavouriteRestaurant
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 
 fun FavouriteRestaurantEntity.toRestaurant(): Restaurant = Restaurant(
@@ -19,6 +20,7 @@ fun FavouriteRestaurantEntity.toRestaurant(): Restaurant = Restaurant(
     userRatingCount = this.userRatingCount,
     websiteUrl = this.websiteUrl,
     phoneNumber = this.phoneNumber,
+    location = Location(latitude = this.latitude, longitude = this.longitude),
 )
 
 fun FavouriteRestaurantEntity.toFavouriteRestaurant(): FavouriteRestaurant = FavouriteRestaurant(
@@ -43,6 +45,8 @@ fun Restaurant.toFavouriteRestaurantEntity(
     websiteUrl = this.websiteUrl,
     phoneNumber = this.phoneNumber,
     imageUrl = this.photoNames.firstOrNull(),
+    latitude = this.location.latitude,
+    longitude = this.location.longitude,
     favouritedAt = favouritedAt,
     syncState = syncState.name,
 )

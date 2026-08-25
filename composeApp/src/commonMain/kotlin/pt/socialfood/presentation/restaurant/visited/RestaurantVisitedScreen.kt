@@ -32,6 +32,7 @@ import androidx.paging.compose.itemKey
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
@@ -180,6 +181,7 @@ private fun RestaurantVisitedScreenLoadedPreview() {
             userRatingCount = 320,
             websiteUrl = null,
             phoneNumber = "+351 910 000 000",
+            location = Location(latitude = 38.7223, longitude = -9.1393),
         ),
         Restaurant(
             id = "r2",
@@ -195,6 +197,7 @@ private fun RestaurantVisitedScreenLoadedPreview() {
             userRatingCount = 210,
             websiteUrl = null,
             phoneNumber = "+351 920 000 000",
+            location = Location(latitude = 41.1579, longitude = -8.6291),
         ),
     )
     val items = flowOf(PagingData.from(restaurants)).collectAsLazyPagingItems()

@@ -2,6 +2,7 @@ package pt.socialfood.mapper
 
 import pt.socialfood.data.api.PlacesApi.Companion.buildImageUrl
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.random.nextNullable
 import pt.socialfood.random.nextString
@@ -55,6 +56,7 @@ class RestaurantMapperTest {
                 websiteUrl = response.websiteUrl,
                 phoneNumber = response.phoneNumber,
                 regularOpeningHours = response.regularOpeningHours,
+                location = Location(latitude = response.location.latitude, longitude = response.location.longitude),
             ),
             result,
         )

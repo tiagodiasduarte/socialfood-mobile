@@ -7,6 +7,7 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.FavouriteRestaurant
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.PagedFavouriteRestaurants
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.fakes.FakeGetFavouriteRestaurantsUseCase
@@ -36,6 +37,7 @@ class FavouriteRestaurantsViewModelTest {
             userRatingCount = 100,
             websiteUrl = null,
             phoneNumber = "+351910000000",
+            location = Location(latitude = 38.7223, longitude = -9.1393),
         ),
         favouritedAt = 0L,
     )

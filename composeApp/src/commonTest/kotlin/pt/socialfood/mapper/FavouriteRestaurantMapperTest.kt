@@ -3,6 +3,7 @@ package pt.socialfood.mapper
 import pt.socialfood.data.local.entity.FavouriteRestaurantEntity
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.domain.model.FavouriteRestaurant
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.random.nextEnum
 import pt.socialfood.random.nextNullable
@@ -28,6 +29,8 @@ class FavouriteRestaurantMapperTest {
         websiteUrl = Random.nextNullable { nextUrl() },
         phoneNumber = Random.nextString(9),
         imageUrl = Random.nextNullable { nextUrl() },
+        latitude = Random.nextDouble(-90.0, 90.0),
+        longitude = Random.nextDouble(-180.0, 180.0),
         favouritedAt = Random.nextLong(),
         syncState = Random.nextEnum<FavouriteSyncState>().name,
     )
@@ -56,6 +59,7 @@ class FavouriteRestaurantMapperTest {
                 userRatingCount = entity.userRatingCount,
                 websiteUrl = entity.websiteUrl,
                 phoneNumber = entity.phoneNumber,
+                location = Location(latitude = entity.latitude, longitude = entity.longitude),
             ),
             result,
         )
@@ -102,6 +106,8 @@ class FavouriteRestaurantMapperTest {
                 websiteUrl = restaurant.websiteUrl,
                 phoneNumber = restaurant.phoneNumber,
                 imageUrl = restaurant.photoNames.firstOrNull(),
+                latitude = restaurant.location.latitude,
+                longitude = restaurant.location.longitude,
                 favouritedAt = favouritedAt,
                 syncState = syncState.name,
             ),

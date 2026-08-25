@@ -1,5 +1,6 @@
 package pt.socialfood.random
 
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import kotlin.random.Random
 
@@ -18,6 +19,7 @@ fun Random.nextRestaurant(
     websiteUrl: String? = nextNullable { nextUrl() },
     phoneNumber: String = nextString(9),
     regularOpeningHours: List<String>? = nextNullable { nextList { nextString(12) } },
+    location: Location = Location(latitude = nextDouble(-90.0, 90.0), longitude = nextDouble(-180.0, 180.0)),
 ) = Restaurant(
     id = id,
     name = name,
@@ -33,4 +35,5 @@ fun Random.nextRestaurant(
     websiteUrl = websiteUrl,
     phoneNumber = phoneNumber,
     regularOpeningHours = regularOpeningHours,
+    location = location,
 )

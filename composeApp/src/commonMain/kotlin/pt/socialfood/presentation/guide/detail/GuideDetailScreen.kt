@@ -29,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,6 +40,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -46,6 +48,7 @@ import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.buttons.ActionButton
+import pt.socialfood.presentation.components.buttons.OutlinedButton
 import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.presentation.guide.detail.author.AuthorItemCard
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
@@ -186,7 +189,7 @@ private fun GuideDetailLoaded(
                 onToggleFavourite = onToggleFavourite,
             )
 
-            GuidInfo(guide)
+            GuideInfo(guide)
 
             Text(
                 modifier = Modifier.padding(horizontal = SpaceSize.large),
@@ -230,16 +233,11 @@ private fun GuideDetailLoaded(
                         color = MaterialTheme.colorScheme.onBackground,
                     )
 
-                    IconButton(
+                    OutlinedButton(
+                        text = stringResource(Res.string.guide_detail_map_button_description),
+                        icon = Icons.Outlined.Map,
                         onClick = { onViewMapClick(guide.id, guide.name, guide.restaurants.size) },
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Map,
-                            tint = MaterialTheme.colorScheme.onBackground,
-                            contentDescription = stringResource(Res.string.guide_detail_map_button_description),
-                            modifier = Modifier.size(24.dp),
-                        )
-                    }
+                    )
                 }
             }
 
@@ -341,23 +339,17 @@ private fun TopImageContent(
 }
 
 @Composable
-private fun GuidInfo(guide: Guide) {
+private fun GuideInfo(guide: Guide) {
     Row(
-        modifier = Modifier.padding(horizontal = SpaceSize.large, vertical = SpaceSize.large),
+        modifier = Modifier.padding(SpaceSize.large),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
-        val bgColor = if (guide.visibility == GuideVisibility.PUBLIC) {
-            PublicBadgeBackground
-        } else {
-            MaterialTheme.colorScheme.surface
-        }
-
         Row(
             modifier = Modifier
                 .height(24.dp)
                 .clip(RoundedCornerShape(SpaceSize.medium))
-                .background(bgColor)
+                .background(guide.visibility.badgeBackgroundColor())
                 .padding(horizontal = SpaceSize.medium, vertical = SpaceSize.small),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
@@ -411,6 +403,10 @@ private fun GuidInfo(guide: Guide) {
 }
 
 @Composable
+private fun GuideVisibility.badgeBackgroundColor(): Color =
+    if (this == GuideVisibility.PUBLIC) PublicBadgeBackground else MaterialTheme.colorScheme.surface
+
+@Composable
 @Preview
 fun GuideDetailScreenPreview() {
     val author = Author(id = "u1", name = "Sarah Mitchell", username = "sarahmitchell")
@@ -445,6 +441,30 @@ fun GuideDetailScreenPreview() {
     AppTheme {
         GuideDetailContent(
             state = GuideDetailUiState.Loaded(guide, currentUserId = null),
+            onEditClick = {},
+            onBackClick = {},
+        )
+    }
+}
+
+@Composable
+@Preview
+fun GuideDetailScreenLoadingPreview() {
+    AppTheme {
+        GuideDetailContent(
+            state = GuideDetailUiState.Loading,
+            onEditClick = {},
+            onBackClick = {},
+        )
+    }
+}
+
+@Composable
+@Preview
+fun GuideDetailScreenErrorPreview() {
+    AppTheme {
+        GuideDetailContent(
+            state = GuideDetailUiState.Error(ErrorCode.GUIDE_NOT_FOUND),
             onEditClick = {},
             onBackClick = {},
         )

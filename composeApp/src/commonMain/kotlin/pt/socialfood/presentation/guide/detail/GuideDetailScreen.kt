@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Map
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -58,6 +60,7 @@ import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
 import socialfood.composeapp.generated.resources.guide_detail_edit_button_description
 import socialfood.composeapp.generated.resources.guide_detail_favourite_button_description
+import socialfood.composeapp.generated.resources.guide_detail_map_button_description
 import socialfood.composeapp.generated.resources.guide_detail_private_icon_description
 import socialfood.composeapp.generated.resources.guide_detail_private_label
 import socialfood.composeapp.generated.resources.guide_detail_public_icon_description
@@ -80,6 +83,7 @@ fun GuideDetailScreen(
     onEditClick: (guideId: String) -> Unit = {},
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onAuthorClick: (authorId: String) -> Unit = {},
+    onViewMapClick: (guideId: String, guideName: String, restaurantsCount: Int) -> Unit = { _, _, _ -> },
     viewModel: GuideDetailViewModel = koinViewModel { parametersOf(guideId) },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -90,6 +94,7 @@ fun GuideDetailScreen(
         onBackClick = onBackClick,
         onRestaurantClick = onRestaurantClick,
         onAuthorClick = onAuthorClick,
+        onViewMapClick = onViewMapClick,
         onRetry = viewModel::load,
         onToggleFavourite = viewModel::toggleFavourite,
     )
@@ -102,6 +107,7 @@ private fun GuideDetailContent(
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onAuthorClick: (authorId: String) -> Unit = {},
+    onViewMapClick: (guideId: String, guideName: String, restaurantsCount: Int) -> Unit = { _, _, _ -> },
     onRetry: () -> Unit = {},
     onToggleFavourite: () -> Unit = {},
 ) {
@@ -117,6 +123,7 @@ private fun GuideDetailContent(
                 onBackClick = onBackClick,
                 onRestaurantClick = onRestaurantClick,
                 onAuthorClick = onAuthorClick,
+                onViewMapClick = onViewMapClick,
                 onToggleFavourite = onToggleFavourite,
             )
 
@@ -150,6 +157,7 @@ private fun GuideDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
     }
 }
 
+@Suppress("LongMethod")
 @Composable
 private fun GuideDetailLoaded(
     guide: Guide,
@@ -159,6 +167,7 @@ private fun GuideDetailLoaded(
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onAuthorClick: (authorId: String) -> Unit = {},
+    onViewMapClick: (guideId: String, guideName: String, restaurantsCount: Int) -> Unit = { _, _, _ -> },
     onToggleFavourite: () -> Unit = {},
 ) {
     LazyColumn(
@@ -208,15 +217,30 @@ private fun GuideDetailLoaded(
 
         if (guide.restaurants.isNotEmpty()) {
             item {
-                Text(
-                    text = stringResource(Res.string.guide_detail_restaurants_section_title),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(
-                        horizontal = SpaceSize.large,
-                        vertical = SpaceSize.large,
-                    ),
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(SpaceSize.large),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text(
+                        text = stringResource(Res.string.guide_detail_restaurants_section_title),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+
+                    IconButton(
+                        onClick = { onViewMapClick(guide.id, guide.name, guide.restaurants.size) },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Map,
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            contentDescription = stringResource(Res.string.guide_detail_map_button_description),
+                            modifier = Modifier.size(24.dp),
+                        )
+                    }
+                }
             }
 
             itemsIndexed(guide.restaurants, key = { _, r -> r.id }) { _, restaurant ->
@@ -244,7 +268,7 @@ private fun TopImageContent(
 ) {
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .height(GuideImageHeight),
     ) {
         if (guide.imageUrl != null) {
@@ -323,12 +347,11 @@ private fun GuidInfo(guide: Guide) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
-        val bgColor =
-            if (guide.visibility == GuideVisibility.PUBLIC) {
-                PublicBadgeBackground
-            } else {
-                MaterialTheme.colorScheme.surface
-            }
+        val bgColor = if (guide.visibility == GuideVisibility.PUBLIC) {
+            PublicBadgeBackground
+        } else {
+            MaterialTheme.colorScheme.surface
+        }
 
         Row(
             modifier = Modifier
@@ -391,70 +414,34 @@ private fun GuidInfo(guide: Guide) {
 @Preview
 fun GuideDetailScreenPreview() {
     val author = Author(id = "u1", name = "Sarah Mitchell", username = "sarahmitchell")
-    val restaurants =
-        listOf(
-            Restaurant(
-                id = "r1",
-                name = "Le Jardin",
-                description = "",
-                city = "Downtown",
-                country = "French",
-                countryCode = "",
-                postalCode = "",
-                photoNames = emptyList(),
-                address = "",
-                rating = 4.8,
-                userRatingCount = 320,
-                websiteUrl = "",
-                phoneNumber = "",
-                location = Location(latitude = 48.8566, longitude = 2.3522),
-            ),
-            Restaurant(
-                id = "r2",
-                name = "Sakura",
-                description = "",
-                city = "Midtown",
-                country = "French",
-                countryCode = "French",
-                postalCode = "French",
-                phoneNumber = "",
-                photoNames = emptyList(),
-                address = "",
-                rating = 4.9,
-                userRatingCount = 210,
-                websiteUrl = "",
-                location = Location(latitude = 48.8738, longitude = 2.295),
-            ),
-            Restaurant(
-                id = "r3",
-                name = "Casa do Mar",
-                description = "",
-                city = "Midtown",
-                country = "French",
-                countryCode = "French",
-                postalCode = "French",
-                photoNames = emptyList(),
-                address = "",
-                rating = 4.7,
-                userRatingCount = 180,
-                websiteUrl = "",
-                phoneNumber = "",
-                location = Location(latitude = 48.8462, longitude = 2.3372),
-            ),
-        )
-    val guide =
-        Guide(
-            id = "g1",
-            name = "Michelin Star Favorites",
-            description =
-            "A carefully curated collection of the finest dining experiences in the city. " +
-                "Each restaurant has been personally visited and reviewed to ensure exceptional quality, " +
-                "impeccable service, and unforgettable culinary moments.",
-            numberOfRestaurant = 8,
-            visibility = GuideVisibility.PUBLIC,
-            author = author,
-            restaurants = restaurants,
-        )
+    val restaurant = Restaurant(
+        id = "r1",
+        name = "Le Jardin",
+        description = "",
+        city = "Downtown",
+        country = "French",
+        countryCode = "",
+        postalCode = "",
+        photoNames = emptyList(),
+        address = "",
+        rating = 4.8,
+        userRatingCount = 320,
+        websiteUrl = "",
+        phoneNumber = "",
+        location = Location(latitude = 48.8566, longitude = 2.3522),
+    )
+
+    val guide = Guide(
+        id = "g1",
+        name = "Michelin Star Favorites",
+        description = "A carefully curated collection of the finest dining experiences in the city. " +
+            "Each restaurant has been personally visited and reviewed to ensure exceptional quality, " +
+            "impeccable service, and unforgettable culinary moments.",
+        numberOfRestaurant = 8,
+        visibility = GuideVisibility.PUBLIC,
+        author = author,
+        restaurants = listOf(restaurant),
+    )
     AppTheme {
         GuideDetailContent(
             state = GuideDetailUiState.Loaded(guide, currentUserId = null),

@@ -192,6 +192,9 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                     navigator.navigate(Route.RestaurantDetail(restaurantId))
                                 },
                                 onAuthorClick = { authorId -> navigator.navigate(Route.AuthorDetail(authorId)) },
+                                onViewMapClick = { guideId, guideName, restaurantsCount ->
+                                    navigator.navigate(Route.GuideMap(guideId, guideName, restaurantsCount))
+                                },
                             )
                         }
                         entry<Route.GuideMap>(

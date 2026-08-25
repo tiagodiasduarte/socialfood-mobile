@@ -19,7 +19,7 @@ private const val PIN_MAX_FIT_SIZE = 1000.0
 private val PinTintColor = UIColor(red = 0xE8 / 255.0, green = 0x45 / 255.0, blue = 0x0A / 255.0, alpha = 1.0)
 
 @OptIn(ExperimentalForeignApi::class)
-internal class RestaurantPinAnnotationView(annotation: MKAnnotationProtocol?, reuseIdentifier: String?) :
+internal class RestaurantMarkerAnnotationView(annotation: MKAnnotationProtocol?, reuseIdentifier: String?) :
     MKAnnotationView(annotation, reuseIdentifier) {
 
     private val label = UILabel().apply {

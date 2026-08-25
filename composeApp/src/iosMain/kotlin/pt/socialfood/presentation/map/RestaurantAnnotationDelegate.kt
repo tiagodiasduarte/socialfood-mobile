@@ -15,9 +15,9 @@ internal class RestaurantAnnotationDelegate :
     MKMapViewDelegateProtocol {
     override fun mapView(mapView: MKMapView, viewForAnnotation: MKAnnotationProtocol): MKAnnotationView {
         val reusedView = mapView
-            .dequeueReusableAnnotationViewWithIdentifier(ANNOTATION_REUSE_ID) as? RestaurantPinAnnotationView
+            .dequeueReusableAnnotationViewWithIdentifier(ANNOTATION_REUSE_ID) as? RestaurantMarkerAnnotationView
         val annotationView = reusedView
-            ?: RestaurantPinAnnotationView(annotation = viewForAnnotation, reuseIdentifier = ANNOTATION_REUSE_ID)
+            ?: RestaurantMarkerAnnotationView(annotation = viewForAnnotation, reuseIdentifier = ANNOTATION_REUSE_ID)
 
         annotationView.annotation = viewForAnnotation
         annotationView.configure(viewForAnnotation.title.orEmpty())

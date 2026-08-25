@@ -31,7 +31,7 @@ private val PinTailShape = GenericShape { size, _ ->
 }
 
 @Composable
-internal fun MapRestaurantPin(name: String, selected: Boolean) {
+internal fun MapRestaurantMarker(name: String, selected: Boolean) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row(
             modifier = Modifier

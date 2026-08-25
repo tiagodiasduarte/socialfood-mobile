@@ -54,7 +54,7 @@ actual fun MapRestaurantView(restaurants: List<Restaurant>, modifier: Modifier) 
                     true
                 },
             ) {
-                MapRestaurantPin(name = restaurant.name, selected = isSelected)
+                MapRestaurantMarker(name = restaurant.name, selected = isSelected)
             }
         }
     }

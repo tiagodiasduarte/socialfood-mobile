@@ -50,6 +50,8 @@ class FakeGuidesApi(
         private set
     var lastFindGuidesUserId: String? = null
         private set
+    var findByIdCallCount: Int = 0
+        private set
 
     override suspend fun create(name: String, description: String, userId: String): GuideDetailResponse {
         if (shouldThrow) throw IOException("test error")
@@ -85,6 +87,7 @@ class FakeGuidesApi(
 
     override suspend fun findById(id: String): GuideDetailResponse {
         if (shouldThrow) throw IOException("test error")
+        findByIdCallCount++
         return defaultFakeGuideDetail
     }
 

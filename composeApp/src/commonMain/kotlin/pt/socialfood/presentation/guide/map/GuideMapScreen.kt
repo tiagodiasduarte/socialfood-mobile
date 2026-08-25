@@ -34,6 +34,7 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
+import pt.socialfood.presentation.map.MapRestaurantView
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
@@ -98,7 +99,7 @@ private fun GuideMapContent(
                         )
                     }
                 } else {
-                    RestaurantMapView(restaurants = state.guide.restaurants, modifier = Modifier.fillMaxSize())
+                    MapRestaurantView(restaurants = state.guide.restaurants, modifier = Modifier.fillMaxSize())
                 }
 
                 is GuideMapUiState.Error -> ErrorContent(

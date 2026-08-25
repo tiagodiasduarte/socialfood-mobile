@@ -312,6 +312,7 @@ private fun GuideLoaded(
             }
             item {
                 FilledButton(
+                    modifier = Modifier.fillMaxWidth(),
                     text = stringResource(Res.string.edit_guide_delete_button),
                     icon = Icons.Outlined.Delete,
                     onClick = onDeleteGuide,

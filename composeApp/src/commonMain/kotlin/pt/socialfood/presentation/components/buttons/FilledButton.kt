@@ -1,7 +1,6 @@
 package pt.socialfood.presentation.components.buttons
 
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -26,7 +25,7 @@ import pt.socialfood.ui.theme.SpaceSize
 fun FilledButton(onClick: () -> Unit, modifier: Modifier = Modifier, text: String? = null, icon: ImageVector? = null) {
     Button(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         shape = RoundedCornerShape(SpaceSize.large),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,

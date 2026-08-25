@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -96,6 +97,7 @@ fun ErrorContent(
         Spacer(Modifier.height(SpaceSize.xlarge))
 
         FilledButton(
+            modifier = Modifier.fillMaxWidth(),
             text = stringResource(Res.string.error_content_retry_button),
             icon = Icons.Outlined.Refresh,
             onClick = onRetryClick,

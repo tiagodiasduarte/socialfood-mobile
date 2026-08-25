@@ -13,6 +13,7 @@ val githubActionsKey = "GITHUB_ACTIONS"
 val githubRunNumberKey = "GITHUB_RUN_NUMBER"
 val googleClientIdKey = "GOOGLE_CLIENT_ID"
 val googleClientIdWebKey = "GOOGLE_CLIENT_ID_WEB"
+val googleMapsApiKeyKey = "GOOGLE_MAPS_API_KEY"
 val javaVersion = JavaVersion.VERSION_21
 val keyAliasKey = "KEY_ALIAS"
 val keyPasswordKey = "KEY_PASSWORD"
@@ -72,8 +73,10 @@ kotlin {
             implementation(libs.androidx.credentials)
             implementation(libs.androidx.credentials.play.services.auth)
             implementation(libs.androidx.datastore.preferences)
+            implementation(libs.google.maps.compose)
             implementation(libs.googleid)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.play.services.maps)
         }
         commonMain.dependencies {
             implementation(libs.compose.components.resources)
@@ -130,9 +133,11 @@ extensions.configure<ApplicationExtension> {
 
         val googleClientId = configValue(googleClientIdWebKey)
         val date = configValue(buildDateKey, localDefault = "local")
+        val googleMapsApiKey = configValue(googleMapsApiKeyKey)
 
         buildConfigField("String", googleClientIdKey, "\"$googleClientId\"")
         buildConfigField("String", buildDateKey, "\"$date\"")
+        manifestPlaceholders["GOOGLE_MAPS_API_KEY"] = googleMapsApiKey
     }
     buildFeatures {
         buildConfig = true

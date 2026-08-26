@@ -48,6 +48,7 @@ const val DATABASE_VERSION = 11
     exportSchema = true,
 )
 @ConstructedBy(AppDatabaseConstructor::class)
+@Suppress("TooManyFunctions")
 abstract class AppDatabase : RoomDatabase() {
     abstract fun authorDao(): AuthorDao
     abstract fun authorRemoteKeyDao(): AuthorRemoteKeyDao

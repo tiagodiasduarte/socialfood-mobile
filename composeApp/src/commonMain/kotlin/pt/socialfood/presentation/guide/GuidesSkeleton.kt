@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.guide.list
+package pt.socialfood.presentation.guide
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

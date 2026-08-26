@@ -74,25 +74,45 @@ class GuideRemoteMediatorTest {
     )
 
     @Test
-    fun `given empty cache when REFRESH runs then fetches page 1 and upserts into GuideDao for the scope`() = runTest {
-        // Given
-        val api = FakeGuidesApi(items = listOf(guideResponse("g1"), guideResponse("g2")), total = 2)
-        val guideDao = FakeGuideDao()
-        val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
-        val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
+    fun `given empty cache and a user scope when REFRESH runs then fetches page 1 from findMyGuides for the scope`() =
+        runTest {
+            // Given
+            val api = FakeGuidesApi(items = listOf(guideResponse("g1"), guideResponse("g2")), total = 2)
+            val guideDao = FakeGuideDao()
+            val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
+            val mediator = createMediator(api, guideDao, guideRemoteKeyDao)
 
-        // When
-        val result = mediator.load(LoadType.REFRESH, emptyState)
+            // When
+            val result = mediator.load(LoadType.REFRESH, emptyState)
 
-        // Then
-        assertIs<RemoteMediator.MediatorResult.Success>(result)
-        assertEquals(1, api.findGuidesCallCount)
-        assertEquals(1, api.lastFindGuidesPage)
-        assertEquals(SCOPE, api.lastFindGuidesUserId)
-        val cached = guideDao.getAll()
-        assertEquals(listOf("g1", "g2"), cached.map { it.id })
-        assertTrue(cached.all { it.scope == SCOPE })
-    }
+            // Then
+            assertIs<RemoteMediator.MediatorResult.Success>(result)
+            assertEquals(1, api.findMyGuidesCallCount)
+            assertEquals(1, api.lastFindMyGuidesPage)
+            assertEquals(0, api.findGuidesCallCount)
+            val cached = guideDao.getAll()
+            assertEquals(listOf("g1", "g2"), cached.map { it.id })
+            assertTrue(cached.all { it.scope == SCOPE })
+        }
+
+    @Test
+    fun `given the ALL scope when REFRESH is triggered then fetches page 1 from findGuides without a userId`() =
+        runTest {
+            // Given
+            val api = FakeGuidesApi(items = listOf(guideResponse("g1")), total = 1)
+            val guideDao = FakeGuideDao()
+            val guideRemoteKeyDao = FakeGuideRemoteKeyDao()
+            val mediator = createMediator(api, guideDao, guideRemoteKeyDao, scope = GUIDES_ALL_SCOPE)
+
+            // When
+            val result = mediator.load(LoadType.REFRESH, emptyState)
+
+            // Then
+            assertIs<RemoteMediator.MediatorResult.Success>(result)
+            assertEquals(1, api.findGuidesCallCount)
+            assertNull(api.lastFindGuidesUserId)
+            assertEquals(0, api.findMyGuidesCallCount)
+        }
 
     @Test
     fun `given REFRESH succeeds when load completes then old rows and remote key for scope are replaced not merged`() =
@@ -133,7 +153,7 @@ class GuideRemoteMediatorTest {
 
             // Then
             assertIs<RemoteMediator.MediatorResult.Success>(result)
-            assertEquals(2, api.lastFindGuidesPage)
+            assertEquals(2, api.lastFindMyGuidesPage)
             val cached = guideDao.getAll()
             assertEquals(listOf("g1", "g2"), cached.map { it.id })
         }
@@ -157,6 +177,7 @@ class GuideRemoteMediatorTest {
             assertIs<RemoteMediator.MediatorResult.Success>(result)
             assertTrue(result.endOfPaginationReached)
             assertEquals(0, api.findGuidesCallCount)
+            assertEquals(0, api.findMyGuidesCallCount)
         }
 
     @Test
@@ -210,6 +231,7 @@ class GuideRemoteMediatorTest {
         assertIs<RemoteMediator.MediatorResult.Success>(result)
         assertTrue(result.endOfPaginationReached)
         assertEquals(0, api.findGuidesCallCount)
+        assertEquals(0, api.findMyGuidesCallCount)
     }
 
     @Test

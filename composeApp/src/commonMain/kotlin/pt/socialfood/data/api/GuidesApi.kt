@@ -6,6 +6,7 @@ import pt.socialfood.data.network.model.guide.GuideResponse
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.network.model.photo.PresignedUrlResponse
 
+@Suppress("TooManyFunctions")
 interface GuidesApi {
     suspend fun create(name: String, description: String, userId: String): GuideDetailResponse
 
@@ -19,6 +20,8 @@ interface GuidesApi {
         query: String? = null,
         userId: String? = null,
     ): PagedResponse<GuideResponse>
+
+    suspend fun findMyGuides(page: Int, limit: Int): PagedResponse<GuideResponse>
 
     suspend fun findById(id: String): GuideDetailResponse
 

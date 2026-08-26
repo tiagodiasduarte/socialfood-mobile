@@ -209,11 +209,12 @@ import pt.socialfood.presentation.author.detail.AuthorDetailViewModel
 import pt.socialfood.presentation.author.list.AuthorsViewModel
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesViewModel
 import pt.socialfood.presentation.favourite.restaurant.FavouriteRestaurantsViewModel
+import pt.socialfood.presentation.guide.all.AllGuidesViewModel
 import pt.socialfood.presentation.guide.create.CreateGuideViewModel
 import pt.socialfood.presentation.guide.detail.GuideDetailViewModel
 import pt.socialfood.presentation.guide.edit.EditGuideViewModel
-import pt.socialfood.presentation.guide.list.GuidesViewModel
 import pt.socialfood.presentation.guide.map.GuideMapViewModel
+import pt.socialfood.presentation.guide.my.MyGuidesViewModel
 import pt.socialfood.presentation.home.HomeViewModel
 import pt.socialfood.presentation.profile.ProfileViewModel
 import pt.socialfood.presentation.profile.edit.EditProfileViewModel
@@ -378,6 +379,7 @@ val useCaseModule =
 
 val viewModelModule =
     module {
+        factory { AllGuidesViewModel(get(), get(), get(), get(), get()) }
         factory { (authorId: String) -> AuthorDetailViewModel(get(), authorId) }
         factory { AuthorsViewModel(get(), get()) }
         factory { CreateGuideViewModel(get(), get(), get()) }
@@ -387,8 +389,8 @@ val viewModelModule =
         factory { FavouriteRestaurantsViewModel(get(), get()) }
         factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
         factory { (guideId: String) -> GuideMapViewModel(get(), guideId) }
-        factory { GuidesViewModel(get(), get(), get(), get(), get()) }
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+        factory { MyGuidesViewModel(get(), get(), get(), get(), get()) }
         factory { ProfileViewModel(get(), get(), get()) }
         factory { (restaurantId: String) ->
             RestaurantDetailViewModel(get(), get(), get(), get(), get(), get(), restaurantId)

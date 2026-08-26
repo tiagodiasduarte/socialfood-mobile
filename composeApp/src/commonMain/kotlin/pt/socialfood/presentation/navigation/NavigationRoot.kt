@@ -28,10 +28,10 @@ import pt.socialfood.presentation.author.detail.AuthorDetailScreen
 import pt.socialfood.presentation.author.list.AuthorsScreen
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesScreen
 import pt.socialfood.presentation.favourite.restaurant.FavouriteRestaurantsScreen
+import pt.socialfood.presentation.guide.GuidesScreen
 import pt.socialfood.presentation.guide.create.CreateGuideScreen
 import pt.socialfood.presentation.guide.detail.GuideDetailScreen
 import pt.socialfood.presentation.guide.edit.EditGuideScreen
-import pt.socialfood.presentation.guide.list.GuidesScreen
 import pt.socialfood.presentation.guide.map.GuideMapScreen
 import pt.socialfood.presentation.home.HomeScreen
 import pt.socialfood.presentation.profile.ProfileDrawerContent

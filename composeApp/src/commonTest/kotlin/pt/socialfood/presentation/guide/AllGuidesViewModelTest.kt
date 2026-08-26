@@ -4,9 +4,6 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
-import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
@@ -18,6 +15,8 @@ import pt.socialfood.fakes.FakeObserveFavouriteGuideIdsUseCase
 import pt.socialfood.fakes.FakeObserveUserUseCase
 import pt.socialfood.fakes.FakeUnmarkGuideFavouriteUseCase
 import pt.socialfood.presentation.guide.all.AllGuidesViewModel
+import pt.socialfood.random.nextGuide
+import pt.socialfood.random.nextString
 import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.random.Random
@@ -27,20 +26,9 @@ import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class AllGuidesViewModelTest {
-    private val fakeUser = Random.nextUser()
-
-    private fun guide(id: String) = Guide(
-        id = id,
-        name = "Guide $id",
-        description = "Description $id",
-        visibility = GuideVisibility.PUBLIC,
-        author = Author(id = "author-1", name = "Author", username = "author"),
-        numberOfRestaurant = 0,
-    )
-
     private fun createViewModel(
         getGuidesPaging: GetGuidesPagingUseCase = FakeGetGuidesPagingUseCase(),
-        observeUser: ObserveUserUseCase = FakeObserveUserUseCase(fakeUser),
+        observeUser: ObserveUserUseCase = FakeObserveUserUseCase(Random.nextUser()),
         observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase = FakeObserveFavouriteGuideIdsUseCase(),
         markGuideFavourite: MarkGuideFavouriteUseCase = FakeMarkGuideFavouriteUseCase(),
         unmarkGuideFavourite: UnmarkGuideFavouriteUseCase = FakeUnmarkGuideFavouriteUseCase(),
@@ -72,27 +60,29 @@ class AllGuidesViewModelTest {
     @Test
     fun `given the current user is observed then user reflects the emitted value`() = runTestWithMainDispatcher {
         // Given
-        val observeUser = FakeObserveUserUseCase(initial = fakeUser)
+        val user = Random.nextUser()
+        val observeUser = FakeObserveUserUseCase(initial = user)
 
         // When / Then
         val vm = createViewModel(observeUser = observeUser)
         vm.user.test {
             awaitItem()
-            assertEquals(fakeUser, awaitItem())
+            assertEquals(user, awaitItem())
         }
     }
 
     @Test
     fun `given favourite ids are observed then favouriteGuideIds reflects them`() = runTestWithMainDispatcher {
         // Given
-        val observeFavouriteGuideIds = FakeObserveFavouriteGuideIdsUseCase(initial = setOf("g1"))
+        val guideId = Random.nextString()
+        val observeFavouriteGuideIds = FakeObserveFavouriteGuideIdsUseCase(initial = setOf(guideId))
 
         // When
         val vm = createViewModel(observeFavouriteGuideIds = observeFavouriteGuideIds)
         advanceUntilIdle()
 
         // Then
-        assertEquals(setOf("g1"), vm.favouriteGuideIds.value)
+        assertEquals(setOf(guideId), vm.favouriteGuideIds.value)
     }
 
     @Test
@@ -106,7 +96,7 @@ class AllGuidesViewModelTest {
                     markGuideFavourite = markGuideFavourite,
                     unmarkGuideFavourite = unmarkGuideFavourite,
                 )
-            val target = guide("g1")
+            val target = Random.nextGuide()
 
             // When
             vm.onToggleGuideFavourite(target)
@@ -123,14 +113,15 @@ class AllGuidesViewModelTest {
             // Given
             val markGuideFavourite = FakeMarkGuideFavouriteUseCase()
             val unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase()
-            val observeFavouriteGuideIds = FakeObserveFavouriteGuideIdsUseCase(initial = setOf("g1"))
+            val guideId = Random.nextString()
+            val observeFavouriteGuideIds = FakeObserveFavouriteGuideIdsUseCase(initial = setOf(guideId))
             val vm =
                 createViewModel(
                     observeFavouriteGuideIds = observeFavouriteGuideIds,
                     markGuideFavourite = markGuideFavourite,
                     unmarkGuideFavourite = unmarkGuideFavourite,
                 )
-            val target = guide("g1")
+            val target = Random.nextGuide(id = guideId)
             advanceUntilIdle()
 
             // When
@@ -138,7 +129,7 @@ class AllGuidesViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals("g1", unmarkGuideFavourite.lastGuideId)
+            assertEquals(guideId, unmarkGuideFavourite.lastGuideId)
             assertEquals(0, markGuideFavourite.invokeCount)
         }
 }

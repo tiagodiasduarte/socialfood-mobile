@@ -12,22 +12,21 @@ import pt.socialfood.data.network.model.guide.GuideResponse
 
 class FavouritesGuidesApiImpl(private val client: HttpClient) : FavouritesGuidesApi {
 
-    override suspend fun markFavourite(guideId: String) {
+    override suspend fun mark(guideId: String) {
         client.post("guides/$guideId/favourite")
     }
 
-    override suspend fun unmarkFavourite(guideId: String) {
+    override suspend fun unmark(guideId: String) {
         client.delete("guides/$guideId/favourite")
     }
 
-    override suspend fun findFavouriteGuides(page: Int, limit: Int): PagedResponse<GuideResponse> =
+    override suspend fun find(page: Int, limit: Int): PagedResponse<GuideResponse> =
         client.get("me/favourites/guides") {
             parameter("page", page)
             parameter("limit", limit)
         }.body()
 
-    override suspend fun syncFavouriteGuides(since: String?): FavouriteSyncResponse =
-        client.get("me/favourites/guides/sync") {
-            if (!since.isNullOrBlank()) parameter("since", since)
-        }.body()
+    override suspend fun sync(since: String?): FavouriteSyncResponse = client.get("me/favourites/guides/sync") {
+        if (!since.isNullOrBlank()) parameter("since", since)
+    }.body()
 }

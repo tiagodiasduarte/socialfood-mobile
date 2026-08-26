@@ -27,10 +27,6 @@ import pt.socialfood.mapper.toFavouriteGuideEntity
 import pt.socialfood.mapper.toGuide
 
 private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
-
-// The number of favourites a user can have is bounded, so one page covers the whole set —
-// no need for true incremental pagination when hydrating newly-added favourites.
-private const val MAX_FAVOURITES_FETCH = 500
 private const val PAGE_SIZE = 20
 private const val OPTIMISTIC_POSITION = Int.MIN_VALUE
 private const val TAG = "FavouritesGuidesRepository"
@@ -128,8 +124,7 @@ class FavouritesGuidesRepositoryImpl(
                 is Result.Success -> result.data
             }
 
-            val applyResult = applyChanges(changes)
-            if (applyResult is Result.Failure) return applyResult
+            applyChanges(changes)
 
             settingsRepository.saveLastFavouritesSyncedAt(changes.syncedAt)
             Result.Success(Unit)
@@ -174,32 +169,12 @@ class FavouritesGuidesRepositoryImpl(
         }
     }
 
-    private suspend fun applyChanges(changes: FavouriteSyncResponse): Result<Unit> {
+    // Newly-added ids aren't hydrated here - the next Paging REFRESH (on the favourites screen's
+    // next visit) repopulates the local cache from the server, matching
+    // RestaurantVisitStatusRepositoryImpl's post-Paging-3 sync behaviour.
+    private suspend fun applyChanges(changes: FavouriteSyncResponse) {
         if (changes.removedIds.isNotEmpty()) {
             favouriteDao.deleteByGuideIds(changes.removedIds)
         }
-
-        if (changes.addedIds.isNotEmpty()) {
-            val addedIds = changes.addedIds.toSet()
-            val now = currentTimeMillis()
-            val allFavourites = when (
-                val result = safeApiCall { favouritesApi.find(page = 1, limit = MAX_FAVOURITES_FETCH) }
-            ) {
-                is Result.Failure -> return result
-                is Result.Success -> result.data
-            }
-            val toUpsert = allFavourites.items
-                .filter { it.id in addedIds }
-                .map {
-                    it.toGuide().toFavouriteGuideEntity(
-                        favouritedAt = now,
-                        syncState = FavouriteSyncState.SYNCED,
-                        position = OPTIMISTIC_POSITION,
-                    )
-                }
-            favouriteDao.upsertAll(toUpsert)
-        }
-
-        return Result.Success(Unit)
     }
 }

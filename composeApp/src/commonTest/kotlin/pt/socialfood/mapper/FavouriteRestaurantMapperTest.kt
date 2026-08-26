@@ -2,7 +2,6 @@ package pt.socialfood.mapper
 
 import pt.socialfood.data.local.entity.FavouriteRestaurantEntity
 import pt.socialfood.data.local.entity.FavouriteSyncState
-import pt.socialfood.domain.model.FavouriteRestaurant
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.random.nextEnum
@@ -33,6 +32,7 @@ class FavouriteRestaurantMapperTest {
         longitude = Random.nextDouble(-180.0, 180.0),
         favouritedAt = Random.nextLong(),
         syncState = Random.nextEnum<FavouriteSyncState>().name,
+        position = Random.nextInt(),
     )
 
     @Test
@@ -66,29 +66,15 @@ class FavouriteRestaurantMapperTest {
     }
 
     @Test
-    fun `given a FavouriteRestaurantEntity when mapped to FavouriteRestaurant then wraps the restaurant`() {
-        // Given
-        val entity = randomFavouriteRestaurantEntity()
-
-        // When
-        val result = entity.toFavouriteRestaurant()
-
-        // Then
-        assertEquals(
-            FavouriteRestaurant(restaurant = entity.toRestaurant(), favouritedAt = entity.favouritedAt),
-            result,
-        )
-    }
-
-    @Test
     fun `given a Restaurant when mapped to entity then returns the equivalent FavouriteRestaurantEntity`() {
         // Given
         val restaurant = Random.nextRestaurant()
         val favouritedAt = Random.nextLong()
         val syncState = Random.nextEnum<FavouriteSyncState>()
+        val position = Random.nextInt()
 
         // When
-        val result = restaurant.toFavouriteRestaurantEntity(favouritedAt, syncState)
+        val result = restaurant.toFavouriteRestaurantEntity(favouritedAt, syncState, position)
 
         // Then
         assertEquals(
@@ -110,6 +96,7 @@ class FavouriteRestaurantMapperTest {
                 longitude = restaurant.location.longitude,
                 favouritedAt = favouritedAt,
                 syncState = syncState.name,
+                position = position,
             ),
             result,
         )

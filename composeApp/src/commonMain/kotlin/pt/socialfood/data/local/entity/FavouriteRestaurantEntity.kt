@@ -25,4 +25,5 @@ data class FavouriteRestaurantEntity(
     val favouritedAt: Long,
     /** One of [FavouriteSyncState]'s `name`s. Stored as a raw String to avoid a Room TypeConverter. */
     val syncState: String,
+    val position: Int,
 )

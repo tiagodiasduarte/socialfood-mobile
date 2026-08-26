@@ -117,8 +117,7 @@ class AllGuidesViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given a guide is already favourited when onToggleGuideFavourite is called then unmarkGuideFavourite is invoked`() =
+    fun `given a favourited guide when onToggleGuideFavourite is called then unmarkGuideFavourite is invoked`() =
         runTestWithMainDispatcher {
             // Given
             val markGuideFavourite = FakeMarkGuideFavouriteUseCase()

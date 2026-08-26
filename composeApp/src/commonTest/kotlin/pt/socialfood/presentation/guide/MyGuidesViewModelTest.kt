@@ -51,8 +51,7 @@ class MyGuidesViewModelTest {
     )
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given the current user is already available when guides is collected then getGuidesPaging is invoked with the user id`() =
+    fun `given the current user is available when guides is collected then getGuidesPaging is invoked with user id`() =
         runTestWithMainDispatcher {
             // Given
             val getGuidesPaging = FakeGetGuidesPagingUseCase()
@@ -69,8 +68,7 @@ class MyGuidesViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given the current user is null initially when observeUser later emits then guides is invoked with the resolved userId`() =
+    fun `given no current user initially when observeUser later emits then guides is invoked with resolved userId`() =
         runTestWithMainDispatcher {
             // Given
             val observeUser = FakeObserveUserUseCase(initial = null)
@@ -90,8 +88,7 @@ class MyGuidesViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given the current user changes when observeUser emits a new user then guides is re-invoked with the new user id`() =
+    fun `given the current user changes when observeUser emits new user then guides is re-invoked with new user id`() =
         runTestWithMainDispatcher {
             // Given
             val observeUser = FakeObserveUserUseCase(fakeUser)
@@ -159,8 +156,7 @@ class MyGuidesViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given a guide is already favourited when onToggleGuideFavourite is called then unmarkGuideFavourite is invoked`() =
+    fun `given a favourited guide when onToggleGuideFavourite is called then unmarkGuideFavourite is invoked`() =
         runTestWithMainDispatcher {
             // Given
             val markGuideFavourite = FakeMarkGuideFavouriteUseCase()

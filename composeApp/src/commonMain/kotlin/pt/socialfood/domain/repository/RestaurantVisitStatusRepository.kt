@@ -3,7 +3,6 @@ package pt.socialfood.domain.repository
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import pt.socialfood.core.Result
-import pt.socialfood.domain.model.PagedRestaurantVisitStatus
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
@@ -14,12 +13,6 @@ interface RestaurantVisitStatusRepository {
     suspend fun unmark(restaurantId: String, status: VisitStatus): Result<Unit>
 
     suspend fun getStatus(restaurantId: String): Result<VisitStatus?>
-
-    /**
-     * @deprecated in favor of [getPagingFlow]. Kept temporarily so the not-yet-migrated
-     * Wishlist/Visited screens keep working; remove once both are on Paging 3.
-     */
-    suspend fun getPaged(status: VisitStatus, page: Int, limit: Int): Result<PagedRestaurantVisitStatus>
 
     /**
      * Room-backed, refresh-on-fetch paging stream for the wishlist/visited list, scoped to

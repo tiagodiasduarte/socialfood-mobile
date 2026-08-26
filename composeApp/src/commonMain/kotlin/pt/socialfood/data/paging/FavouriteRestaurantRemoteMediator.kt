@@ -58,7 +58,7 @@ class FavouriteRestaurantRemoteMediator(
             val limit = state.config.pageSize
 
             when (
-                val result = safeApiCall { favouritesApi.findFavouriteRestaurants(page = page, limit = limit) }
+                val result = safeApiCall { favouritesApi.find(page = page, limit = limit) }
             ) {
                 is Result.Failure -> MediatorResult.Error(result.error.toThrowable())
                 is Result.Success<PagedResponse<RestaurantResponse>> ->

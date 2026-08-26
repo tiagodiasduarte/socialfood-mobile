@@ -51,7 +51,7 @@ class FavouriteRestaurantsRepositoryImpl(
         )
         favouriteRestaurantDao.upsert(entity)
 
-        when (val result = safeApiCall { favouriteRestaurantsApi.markFavourite(restaurant.id) }) {
+        when (val result = safeApiCall { favouriteRestaurantsApi.mark(restaurant.id) }) {
             is Result.Failure ->
                 logger.w {
                     "markFavourite(${restaurant.id}) failed (${result.error}); " +
@@ -71,7 +71,7 @@ class FavouriteRestaurantsRepositoryImpl(
     override suspend fun unmarkFavourite(restaurantId: String): Result<Unit> = try {
         favouriteRestaurantDao.updateSyncState(restaurantId, FavouriteSyncState.PENDING_REMOVE.name)
 
-        when (val result = safeApiCall { favouriteRestaurantsApi.unmarkFavourite(restaurantId) }) {
+        when (val result = safeApiCall { favouriteRestaurantsApi.unmark(restaurantId) }) {
             is Result.Failure ->
                 logger.w {
                     "unmarkFavourite($restaurantId) failed (${result.error}); " +
@@ -119,9 +119,7 @@ class FavouriteRestaurantsRepositoryImpl(
             pushPendingMutations()
 
             val syncedAt = settingsRepository.getLastFavouriteRestaurantsSyncedAt()
-            val changes = when (
-                val result = safeApiCall { favouriteRestaurantsApi.syncFavouriteRestaurants(since = syncedAt) }
-            ) {
+            val changes = when (val result = safeApiCall { favouriteRestaurantsApi.sync(since = syncedAt) }) {
                 is Result.Failure -> return result
                 is Result.Success -> result.data
             }
@@ -148,7 +146,7 @@ class FavouriteRestaurantsRepositoryImpl(
 
     private suspend fun pushPendingAdd(restaurantId: String) {
         try {
-            when (val result = safeApiCall { favouriteRestaurantsApi.markFavourite(restaurantId) }) {
+            when (val result = safeApiCall { favouriteRestaurantsApi.mark(restaurantId) }) {
                 is Result.Failure ->
                     logger.w { "markFavourite($restaurantId) still failing (${result.error}); retried next sync." }
                 is Result.Success ->
@@ -161,7 +159,7 @@ class FavouriteRestaurantsRepositoryImpl(
 
     private suspend fun pushPendingRemove(restaurantId: String) {
         try {
-            when (val result = safeApiCall { favouriteRestaurantsApi.unmarkFavourite(restaurantId) }) {
+            when (val result = safeApiCall { favouriteRestaurantsApi.unmark(restaurantId) }) {
                 is Result.Failure ->
                     logger.w { "unmarkFavourite($restaurantId) still failing (${result.error}); retried next sync." }
                 is Result.Success ->
@@ -180,9 +178,7 @@ class FavouriteRestaurantsRepositoryImpl(
         if (changes.addedIds.isNotEmpty()) {
             val addedIds = changes.addedIds.toSet()
             val now = currentTimeMillis()
-            val fetchResult = safeApiCall {
-                favouriteRestaurantsApi.findFavouriteRestaurants(page = 1, limit = MAX_FAVOURITES_FETCH)
-            }
+            val fetchResult = safeApiCall { favouriteRestaurantsApi.find(page = 1, limit = MAX_FAVOURITES_FETCH) }
             val allFavourites = when (fetchResult) {
                 is Result.Failure -> return fetchResult
                 is Result.Success -> fetchResult.data

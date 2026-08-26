@@ -1,12 +1,20 @@
 package pt.socialfood.fakes
 
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import androidx.sqlite.SQLiteException
 import pt.socialfood.data.local.dao.FavouriteRestaurantDao
 import pt.socialfood.data.local.entity.FavouriteRestaurantEntity
 
-class FakeFavouriteRestaurantDao(private val shouldThrowOnWrite: Boolean = false) : FavouriteRestaurantDao {
+class FakeFavouriteRestaurantDao(
+    private val shouldThrowOnWrite: Boolean = false,
+    initialEntities: List<FavouriteRestaurantEntity> = emptyList(),
+) : FavouriteRestaurantDao {
 
-    private val entities = LinkedHashMap<String, FavouriteRestaurantEntity>()
+    private val entities =
+        LinkedHashMap<String, FavouriteRestaurantEntity>(initialEntities.associateBy { it.restaurantId })
+
+    fun getAll(): List<FavouriteRestaurantEntity> = entities.values.toList()
 
     override suspend fun upsert(favourite: FavouriteRestaurantEntity) {
         if (shouldThrowOnWrite) throw SQLiteException("test error")
@@ -28,12 +36,16 @@ class FakeFavouriteRestaurantDao(private val shouldThrowOnWrite: Boolean = false
         restaurantIds.forEach { entities.remove(it) }
     }
 
-    override suspend fun getPaged(limit: Int, offset: Int): List<FavouriteRestaurantEntity> = entities.values
-        .sortedByDescending { it.favouritedAt }
-        .drop(offset)
-        .take(limit)
+    override suspend fun deleteAll() {
+        if (shouldThrowOnWrite) throw SQLiteException("test error")
+        entities.clear()
+    }
 
-    override suspend fun countAll(): Int = entities.size
+    override fun pagingSource(): PagingSource<Int, FavouriteRestaurantEntity> = FakeFavouriteRestaurantPagingSource {
+        entities.values
+            .filter { it.syncState != "PENDING_REMOVE" }
+            .sortedBy { it.position }
+    }
 
     override suspend fun getByRestaurantId(restaurantId: String): FavouriteRestaurantEntity? = entities[restaurantId]
 
@@ -42,5 +54,20 @@ class FakeFavouriteRestaurantDao(private val shouldThrowOnWrite: Boolean = false
 
     override suspend fun updateSyncState(restaurantId: String, syncState: String) {
         entities[restaurantId]?.let { entities[restaurantId] = it.copy(syncState = syncState) }
+    }
+}
+
+private class FakeFavouriteRestaurantPagingSource(private val loadEntities: () -> List<FavouriteRestaurantEntity>) :
+    PagingSource<Int, FavouriteRestaurantEntity>() {
+
+    override fun getRefreshKey(state: PagingState<Int, FavouriteRestaurantEntity>): Int? = null
+
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, FavouriteRestaurantEntity> {
+        val offset = params.key ?: 0
+        val all = loadEntities()
+        val data = all.drop(offset).take(params.loadSize)
+        val nextKey = if (offset + data.size >= all.size) null else offset + data.size
+        val prevKey = if (offset == 0) null else maxOf(0, offset - params.loadSize)
+        return LoadResult.Page(data = data, prevKey = prevKey, nextKey = nextKey)
     }
 }

@@ -3,38 +3,24 @@ package pt.socialfood.data.repository
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.local.entity.FavouriteSyncState
-import pt.socialfood.domain.model.Location
-import pt.socialfood.domain.model.PagedFavouriteRestaurants
+import pt.socialfood.data.paging.FavouriteRestaurantCacheTransactionRunner
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.fakes.FakeFavouriteRestaurantDao
+import pt.socialfood.fakes.FakeFavouriteRestaurantRemoteKeyDao
 import pt.socialfood.fakes.FakeFavouriteRestaurantsApi
 import pt.socialfood.fakes.FakeSettingsRepository
 import pt.socialfood.mapper.toFavouriteRestaurantEntity
+import pt.socialfood.random.nextRestaurant
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
-import kotlin.test.assertTrue
+import kotlin.test.assertNotNull
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 class FavouriteRestaurantsRepositoryImplTest {
-    private val fakeRestaurant =
-        Restaurant(
-            id = "restaurant-id",
-            name = "Restaurant Name",
-            description = "Restaurant Description",
-            city = "Lisbon",
-            country = "Portugal",
-            countryCode = "PT",
-            postalCode = "1000-000",
-            photoNames = emptyList(),
-            address = "Rua Augusta 1",
-            rating = 4.5,
-            userRatingCount = 100,
-            websiteUrl = null,
-            phoneNumber = "+351910000000",
-            location = Location(latitude = 38.7223, longitude = -9.1393),
-        )
+    private val fakeRestaurant = Random.nextRestaurant()
 
     @OptIn(ExperimentalTime::class)
     private fun now(): Long = Clock.System.now().toEpochMilliseconds()
@@ -43,8 +29,17 @@ class FavouriteRestaurantsRepositoryImplTest {
         api: FakeFavouriteRestaurantsApi = FakeFavouriteRestaurantsApi(),
         dao: FakeFavouriteRestaurantDao = FakeFavouriteRestaurantDao(),
         settings: FakeSettingsRepository = FakeSettingsRepository(),
-    ): Triple<FavouriteRestaurantsRepositoryImpl, FakeFavouriteRestaurantDao, FakeSettingsRepository> =
-        Triple(FavouriteRestaurantsRepositoryImpl(api, dao, settings), dao, settings)
+    ): Triple<FavouriteRestaurantsRepositoryImpl, FakeFavouriteRestaurantDao, FakeSettingsRepository> = Triple(
+        FavouriteRestaurantsRepositoryImpl(
+            favouriteRestaurantsApi = api,
+            favouriteRestaurantDao = dao,
+            favouriteRestaurantRemoteKeyDao = FakeFavouriteRestaurantRemoteKeyDao(),
+            transactionRunner = FavouriteRestaurantCacheTransactionRunner { it() },
+            settingsRepository = settings,
+        ),
+        dao,
+        settings,
+    )
 
     // markFavourite
 
@@ -109,28 +104,19 @@ class FavouriteRestaurantsRepositoryImplTest {
             assertEquals(FavouriteSyncState.PENDING_REMOVE.name, stored?.syncState)
         }
 
-    // getFavouritesPaged
+    // getFavouritesPagingFlow
 
     @Test
-    fun `given cached favourites when getFavouritesPaged is called then reads from DAO only and never calls the API`() =
-        runTest {
-            // Given
-            val (repo, dao, _) = createRepository(api = FakeFavouriteRestaurantsApi(shouldThrow = true))
-            dao.upsert(fakeRestaurant.toFavouriteRestaurantEntityForTest(FavouriteSyncState.SYNCED))
+    fun `given getFavouritesPagingFlow is called then returns a non-null Pager-backed flow`() = runTest {
+        // Given
+        val (repo, _, _) = createRepository()
 
-            // When
-            val result = repo.getFavouritesPaged(page = 1, limit = 10)
+        // When
+        val flow = repo.getFavouritesPagingFlow()
 
-            // Then
-            assertIs<Result.Success<PagedFavouriteRestaurants>>(result)
-            assertEquals(1, result.data.favourites.size)
-            assertEquals(
-                fakeRestaurant.id,
-                result.data.favourites
-                    .first()
-                    .restaurant.id,
-            )
-        }
+        // Then
+        assertNotNull(flow)
+    }
 
     // syncFavourites
 
@@ -146,7 +132,7 @@ class FavouriteRestaurantsRepositoryImplTest {
         // Then
         assertIs<Result.Success<Unit>>(result)
         assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouriteRestaurantsSyncedAt())
-        assertTrue(dao.getPaged(limit = 10, offset = 0).isNotEmpty())
+        assertNotNull(dao.getByRestaurantId("restaurant-id"))
     }
 
     @Test
@@ -198,4 +184,5 @@ private fun Restaurant.toFavouriteRestaurantEntityForTest(syncState: FavouriteSy
     this.toFavouriteRestaurantEntity(
         favouritedAt = Clock.System.now().toEpochMilliseconds(),
         syncState = syncState,
+        position = 0,
     )

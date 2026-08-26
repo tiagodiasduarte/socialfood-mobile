@@ -32,6 +32,12 @@ class FakeFavouriteRestaurantsApi(private val shouldThrow: Boolean = false) : Fa
     var lastUnmarkedRestaurantId: String? = null
         private set
 
+    var findFavouriteRestaurantsCallCount: Int = 0
+        private set
+
+    var lastFindFavouriteRestaurantsPage: Int? = null
+        private set
+
     var fakeFavouriteRestaurants = PagedResponse(
         items = listOf(fakeRestaurantResponse),
         page = 1,
@@ -57,6 +63,8 @@ class FakeFavouriteRestaurantsApi(private val shouldThrow: Boolean = false) : Fa
 
     override suspend fun findFavouriteRestaurants(page: Int, limit: Int): PagedResponse<RestaurantResponse> {
         if (shouldThrow) throw IOException("test error")
+        findFavouriteRestaurantsCallCount++
+        lastFindFavouriteRestaurantsPage = page
         return fakeFavouriteRestaurants
     }
 

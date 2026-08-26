@@ -41,6 +41,7 @@ import pt.socialfood.data.network.S3HttpClient
 import pt.socialfood.data.network.SessionManager
 import pt.socialfood.data.paging.asAuthorCacheTransactionRunner
 import pt.socialfood.data.paging.asFavouriteGuideCacheTransactionRunner
+import pt.socialfood.data.paging.asFavouriteRestaurantCacheTransactionRunner
 import pt.socialfood.data.paging.asGuideCacheTransactionRunner
 import pt.socialfood.data.paging.asHomeCacheTransactionRunner
 import pt.socialfood.data.paging.asRestaurantVisitStatusCacheTransactionRunner
@@ -96,8 +97,8 @@ import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseC
 import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCaseImpl
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCaseImpl
-import pt.socialfood.domain.usecase.favourite.restaurant.GetFavouriteRestaurantsUseCase
-import pt.socialfood.domain.usecase.favourite.restaurant.GetFavouriteRestaurantsUseCaseImpl
+import pt.socialfood.domain.usecase.favourite.restaurant.GetFavouriteRestaurantsPagingUseCase
+import pt.socialfood.domain.usecase.favourite.restaurant.GetFavouriteRestaurantsPagingUseCaseImpl
 import pt.socialfood.domain.usecase.favourite.restaurant.IsRestaurantFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.restaurant.IsRestaurantFavouriteUseCaseImpl
 import pt.socialfood.domain.usecase.favourite.restaurant.MarkRestaurantFavouriteUseCase
@@ -270,7 +271,13 @@ val repositoryModule =
         }
         single<ConfigsRepository> { ConfigsRepositoryImpl(get()) }
         single<FavouriteRestaurantsRepository> {
-            FavouriteRestaurantsRepositoryImpl(get(), get<AppDatabase>().favouriteRestaurantDao(), get())
+            FavouriteRestaurantsRepositoryImpl(
+                favouriteRestaurantsApi = get(),
+                favouriteRestaurantDao = get<AppDatabase>().favouriteRestaurantDao(),
+                favouriteRestaurantRemoteKeyDao = get<AppDatabase>().favouriteRestaurantRemoteKeyDao(),
+                transactionRunner = get<AppDatabase>().asFavouriteRestaurantCacheTransactionRunner(),
+                settingsRepository = get(),
+            )
         }
         single<FavouritesGuidesRepository> {
             FavouritesGuidesRepositoryImpl(
@@ -332,7 +339,7 @@ val useCaseModule =
         factory<GetAuthorsUseCase> { GetAuthorsUseCaseImpl(get()) }
         factory<GetConfigsUseCase> { GetConfigsUseCaseImpl(get()) }
         factory<GetFavouriteGuidesPagingUseCase> { GetFavouriteGuidesPagingUseCaseImpl(get()) }
-        factory<GetFavouriteRestaurantsUseCase> { GetFavouriteRestaurantsUseCaseImpl(get()) }
+        factory<GetFavouriteRestaurantsPagingUseCase> { GetFavouriteRestaurantsPagingUseCaseImpl(get()) }
         factory<GetGuideByIdUseCase> { GetGuideByIdUseCaseImpl(get()) }
         factory<GetGuideSuggestionsUseCase> { GetGuideSuggestionsUseCaseImpl(get()) }
         factory<GetGuidesPagingUseCase> { GetGuidesPagingUseCaseImpl(get()) }

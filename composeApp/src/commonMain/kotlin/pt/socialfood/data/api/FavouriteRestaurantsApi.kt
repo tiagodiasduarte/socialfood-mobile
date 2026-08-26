@@ -11,5 +11,5 @@ interface FavouriteRestaurantsApi {
 
     suspend fun findFavouriteRestaurants(page: Int, limit: Int): PagedResponse<RestaurantResponse>
 
-    suspend fun syncFavouriteRestaurants(since: String?): FavouriteSyncResponse<RestaurantResponse>
+    suspend fun syncFavouriteRestaurants(since: String?): FavouriteSyncResponse
 }

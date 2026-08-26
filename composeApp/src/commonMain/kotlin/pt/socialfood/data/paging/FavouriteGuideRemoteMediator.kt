@@ -57,7 +57,7 @@ class FavouriteGuideRemoteMediator(
 
             val limit = state.config.pageSize
 
-            when (val result = safeApiCall { favouritesApi.findFavouriteGuides(page = page, limit = limit) }) {
+            when (val result = safeApiCall { favouritesApi.find(page = page, limit = limit) }) {
                 is Result.Failure -> MediatorResult.Error(result.error.toThrowable())
                 is Result.Success<PagedResponse<GuideResponse>> -> applyResponse(result.data, loadType, page, limit)
             }

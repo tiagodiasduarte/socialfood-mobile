@@ -55,7 +55,7 @@ class FavouritesGuidesRepositoryImpl(
         )
         favouriteDao.upsert(entity)
 
-        when (val result = safeApiCall { favouritesApi.markFavourite(guide.id) }) {
+        when (val result = safeApiCall { favouritesApi.mark(guide.id) }) {
             is Result.Failure ->
                 logger.w {
                     "markFavourite(${guide.id}) failed (${result.error}); " +
@@ -74,7 +74,7 @@ class FavouritesGuidesRepositoryImpl(
     override suspend fun unmarkFavourite(guideId: String): Result<Unit> = try {
         favouriteDao.updateSyncState(guideId, FavouriteSyncState.PENDING_REMOVE.name)
 
-        when (val result = safeApiCall { favouritesApi.unmarkFavourite(guideId) }) {
+        when (val result = safeApiCall { favouritesApi.unmark(guideId) }) {
             is Result.Failure ->
                 logger.w {
                     "unmarkFavourite($guideId) failed (${result.error}); " +
@@ -123,7 +123,7 @@ class FavouritesGuidesRepositoryImpl(
             pushPendingMutations()
 
             val syncedAt = settingsRepository.getLastFavouritesSyncedAt()
-            val changes = when (val result = safeApiCall { favouritesApi.syncFavouriteGuides(since = syncedAt) }) {
+            val changes = when (val result = safeApiCall { favouritesApi.sync(since = syncedAt) }) {
                 is Result.Failure -> return result
                 is Result.Success -> result.data
             }
@@ -150,7 +150,7 @@ class FavouritesGuidesRepositoryImpl(
 
     private suspend fun pushPendingAdd(guideId: String) {
         try {
-            when (val result = safeApiCall { favouritesApi.markFavourite(guideId) }) {
+            when (val result = safeApiCall { favouritesApi.mark(guideId) }) {
                 is Result.Failure ->
                     logger.w { "markFavourite($guideId) still failing (${result.error}); retried next sync." }
                 is Result.Success ->
@@ -163,7 +163,7 @@ class FavouritesGuidesRepositoryImpl(
 
     private suspend fun pushPendingRemove(guideId: String) {
         try {
-            when (val result = safeApiCall { favouritesApi.unmarkFavourite(guideId) }) {
+            when (val result = safeApiCall { favouritesApi.unmark(guideId) }) {
                 is Result.Failure ->
                     logger.w { "unmarkFavourite($guideId) still failing (${result.error}); retried next sync." }
                 is Result.Success ->
@@ -183,7 +183,7 @@ class FavouritesGuidesRepositoryImpl(
             val addedIds = changes.addedIds.toSet()
             val now = currentTimeMillis()
             val allFavourites = when (
-                val result = safeApiCall { favouritesApi.findFavouriteGuides(page = 1, limit = MAX_FAVOURITES_FETCH) }
+                val result = safeApiCall { favouritesApi.find(page = 1, limit = MAX_FAVOURITES_FETCH) }
             ) {
                 is Result.Failure -> return result
                 is Result.Success -> result.data

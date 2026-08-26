@@ -52,24 +52,24 @@ class FakeFavouritesGuidesApi(private val shouldThrow: Boolean = false) : Favour
         syncedAt = "2026-08-01T10:30:00Z",
     )
 
-    override suspend fun markFavourite(guideId: String) {
+    override suspend fun mark(guideId: String) {
         if (shouldThrow) throw IOException("test error")
         lastMarkedGuideId = guideId
     }
 
-    override suspend fun unmarkFavourite(guideId: String) {
+    override suspend fun unmark(guideId: String) {
         if (shouldThrow) throw IOException("test error")
         lastUnmarkedGuideId = guideId
     }
 
-    override suspend fun findFavouriteGuides(page: Int, limit: Int): PagedResponse<GuideResponse> {
+    override suspend fun find(page: Int, limit: Int): PagedResponse<GuideResponse> {
         if (shouldThrow) throw IOException("test error")
         findFavouriteGuidesCallCount++
         lastFindFavouriteGuidesPage = page
         return fakeFavouriteGuides
     }
 
-    override suspend fun syncFavouriteGuides(since: String?): FavouriteSyncResponse {
+    override suspend fun sync(since: String?): FavouriteSyncResponse {
         if (shouldThrow) throw IOException("test error")
         return fakeSyncResponse
     }

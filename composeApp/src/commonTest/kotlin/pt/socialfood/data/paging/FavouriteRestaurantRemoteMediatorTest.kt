@@ -27,13 +27,12 @@ import kotlin.test.assertTrue
 @OptIn(ExperimentalPagingApi::class)
 class FavouriteRestaurantRemoteMediatorTest {
     private val config = PagingConfig(pageSize = 10)
-    private val emptyState =
-        PagingState<Int, FavouriteRestaurantEntity>(
-            pages = emptyList(),
-            anchorPosition = null,
-            config = config,
-            leadingPlaceholderCount = 0,
-        )
+    private val emptyState = PagingState<Int, FavouriteRestaurantEntity>(
+        pages = emptyList(),
+        anchorPosition = null,
+        config = config,
+        leadingPlaceholderCount = 0,
+    )
 
     private fun entity(id: String, position: Int = 0) =
         Random.nextRestaurantResponse(id = id).toRestaurant().toFavouriteRestaurantEntity(
@@ -50,7 +49,7 @@ class FavouriteRestaurantRemoteMediatorTest {
         favouritesApi = api,
         favouriteDao = dao,
         remoteKeyDao = remoteKeyDao,
-        transactionRunner = FavouriteRestaurantCacheTransactionRunner { it() },
+        transactionRunner = { it() },
     )
 
     @Test
@@ -123,8 +122,10 @@ class FavouriteRestaurantRemoteMediatorTest {
                 ),
             )
             val api = FakeFavouriteRestaurantsApi()
-            api.fakeFavouriteRestaurants =
-                api.fakeFavouriteRestaurants.copy(items = listOf(Random.nextRestaurantResponse(id = "r2")), total = 11)
+            api.fakeFavouriteRestaurants = api.fakeFavouriteRestaurants.copy(
+                items = listOf(Random.nextRestaurantResponse(id = "r2")),
+                total = 11,
+            )
             val mediator = createMediator(api, dao, remoteKeyDao)
 
             // When
@@ -166,8 +167,10 @@ class FavouriteRestaurantRemoteMediatorTest {
     fun `given page times limit reaches total when loaded then pagination ends and remote key reflects it`() = runTest {
         // Given
         val api = FakeFavouriteRestaurantsApi()
-        api.fakeFavouriteRestaurants =
-            api.fakeFavouriteRestaurants.copy(items = listOf(Random.nextRestaurantResponse(id = "r1")), total = 1)
+        api.fakeFavouriteRestaurants = api.fakeFavouriteRestaurants.copy(
+            items = listOf(Random.nextRestaurantResponse(id = "r1")),
+            total = 1,
+        )
         val dao = FakeFavouriteRestaurantDao()
         val remoteKeyDao = FakeFavouriteRestaurantRemoteKeyDao()
         val mediator = createMediator(api, dao, remoteKeyDao)

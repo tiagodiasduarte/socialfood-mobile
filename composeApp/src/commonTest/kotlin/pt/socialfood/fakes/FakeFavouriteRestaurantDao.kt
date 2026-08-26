@@ -11,8 +11,7 @@ class FakeFavouriteRestaurantDao(
     initialEntities: List<FavouriteRestaurantEntity> = emptyList(),
 ) : FavouriteRestaurantDao {
 
-    private val entities =
-        LinkedHashMap<String, FavouriteRestaurantEntity>(initialEntities.associateBy { it.restaurantId })
+    private val entities = LinkedHashMap(initialEntities.associateBy { it.restaurantId })
 
     fun getAll(): List<FavouriteRestaurantEntity> = entities.values.toList()
 

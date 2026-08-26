@@ -27,7 +27,8 @@ class FavouritesGuidesApiImpl(private val client: HttpClient) : FavouritesGuides
         parameter("limit", limit)
     }.body()
 
-    override suspend fun sync(since: String?): FavouriteSyncResponse = client.get("$FAVOURITE_GUIDES_PATH/sync") {
-        if (!since.isNullOrBlank()) parameter("since", since)
-    }.body()
+    override suspend fun sync(since: String?): FavouriteSyncResponse<GuideResponse> =
+        client.get("$FAVOURITE_GUIDES_PATH/sync") {
+            if (!since.isNullOrBlank()) parameter("since", since)
+        }.body()
 }

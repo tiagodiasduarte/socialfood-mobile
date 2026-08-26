@@ -20,8 +20,7 @@ import kotlin.test.assertFalse
 @OptIn(ExperimentalCoroutinesApi::class)
 class SearchRestaurantsViewModelTest {
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given addByPlaceId and the enrichment wait both succeed when onAddRestaurant is called then dialog closes and RestaurantAdded is emitted`() =
+    fun `given addByPlaceId and enrichment succeed when onAddRestaurant is called then RestaurantAdded is emitted`() =
         runTestWithMainDispatcher {
             // Given
             val expectedRestaurant = Random.nextRestaurant()
@@ -44,8 +43,7 @@ class SearchRestaurantsViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given addByPlaceId fails when onAddRestaurant is called then no RestaurantAdded event is emitted and dialog closes and it never waits for enrichment`() =
+    fun `given addByPlaceId fails when onAddRestaurant is called then no event emitted and enrichment never awaited`() =
         runTestWithMainDispatcher {
             // Given
             val fakeAdd = FakeAddRestaurantByPlaceIdUseCase(
@@ -64,8 +62,7 @@ class SearchRestaurantsViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given the enrichment wait times out when onAddRestaurant is called then no RestaurantAdded event is emitted and dialog closes`() =
+    fun `given enrichment wait times out when onAddRestaurant is called then no event is emitted and dialog closes`() =
         runTestWithMainDispatcher {
             // Given
             val fakeAdd = FakeAddRestaurantByPlaceIdUseCase()

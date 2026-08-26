@@ -49,7 +49,7 @@ class FavouritesGuidesRepositoryImplTest {
         val (repo, dao, _) = createRepository()
 
         // When
-        val result = repo.markFavourite(fakeGuide)
+        val result = repo.mark(fakeGuide)
 
         // Then
         assertIs<Result.Success<Unit>>(result)
@@ -64,7 +64,7 @@ class FavouritesGuidesRepositoryImplTest {
             val (repo, dao, _) = createRepository(api = FakeFavouritesGuidesApi(shouldThrow = true))
 
             // When
-            val result = repo.markFavourite(fakeGuide)
+            val result = repo.mark(fakeGuide)
 
             // Then
             assertIs<Result.Success<Unit>>(result)
@@ -81,7 +81,7 @@ class FavouritesGuidesRepositoryImplTest {
         dao.upsert(fakeGuide.toFavouriteGuideEntityForTest(FavouriteSyncState.SYNCED))
 
         // When
-        val result = repo.unmarkFavourite(fakeGuide.id)
+        val result = repo.unmark(fakeGuide.id)
 
         // Then
         assertIs<Result.Success<Unit>>(result)
@@ -96,7 +96,7 @@ class FavouritesGuidesRepositoryImplTest {
             dao.upsert(fakeGuide.toFavouriteGuideEntityForTest(FavouriteSyncState.SYNCED))
 
             // When
-            val result = repo.unmarkFavourite(fakeGuide.id)
+            val result = repo.unmark(fakeGuide.id)
 
             // Then
             assertIs<Result.Success<Unit>>(result)
@@ -127,7 +127,7 @@ class FavouritesGuidesRepositoryImplTest {
         settings.saveLastFavouritesSyncAttemptAt(0L)
 
         // When
-        val result = repo.syncFavourites()
+        val result = repo.sync()
 
         // Then
         assertIs<Result.Success<Unit>>(result)
@@ -144,7 +144,7 @@ class FavouritesGuidesRepositoryImplTest {
         settings.saveLastFavouritesSyncAttemptAt(0L)
 
         // When
-        val result = repo.syncFavourites()
+        val result = repo.sync()
 
         // Then
         assertIs<Result.Success<Unit>>(result)
@@ -166,7 +166,7 @@ class FavouritesGuidesRepositoryImplTest {
         settings.saveLastFavouritesSyncAttemptAt(0L)
 
         // When
-        val result = repo.syncFavourites()
+        val result = repo.sync()
 
         // Then
         assertIs<Result.Success<Unit>>(result)
@@ -186,7 +186,7 @@ class FavouritesGuidesRepositoryImplTest {
         settings.saveLastFavouritesSyncAttemptAt(0L)
 
         // When
-        val result = repo.syncFavourites()
+        val result = repo.sync()
 
         // Then
         assertIs<Result.Failure>(result)
@@ -201,7 +201,7 @@ class FavouritesGuidesRepositoryImplTest {
             settings.saveLastFavouritesSyncAttemptAt(now())
 
             // When
-            val result = repo.syncFavourites()
+            val result = repo.sync()
 
             // Then
             assertIs<Result.Success<Unit>>(result)
@@ -215,7 +215,7 @@ class FavouritesGuidesRepositoryImplTest {
         settings.saveLastFavouritesSyncAttemptAt(0L)
 
         // When
-        val result = repo.syncFavourites()
+        val result = repo.sync()
 
         // Then
         assertIs<Result.Success<Unit>>(result)

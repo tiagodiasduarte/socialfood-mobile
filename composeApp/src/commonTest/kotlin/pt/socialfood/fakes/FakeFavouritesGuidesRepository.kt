@@ -26,12 +26,12 @@ class FakeFavouritesGuidesRepository(
     var lastIsFavouriteGuideId: String? = null
         private set
 
-    override suspend fun markFavourite(guide: Guide): Result<Unit> {
+    override suspend fun mark(guide: Guide): Result<Unit> {
         lastMarkedGuide = guide
         return markResult
     }
 
-    override suspend fun unmarkFavourite(guideId: String): Result<Unit> {
+    override suspend fun unmark(guideId: String): Result<Unit> {
         lastUnmarkedGuideId = guideId
         return unmarkResult
     }
@@ -45,5 +45,5 @@ class FakeFavouritesGuidesRepository(
 
     override fun observeFavouriteGuideIds(): Flow<Set<String>> = favouriteGuideIds
 
-    override suspend fun syncFavourites(): Result<Unit> = syncResult
+    override suspend fun sync(): Result<Unit> = syncResult
 }

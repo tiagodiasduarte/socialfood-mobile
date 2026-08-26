@@ -44,7 +44,7 @@ class FavouritesGuidesRepositoryImpl(
 
     private val logger = Logger.withTag(TAG)
 
-    override suspend fun markFavourite(guide: Guide): Result<Unit> = try {
+    override suspend fun mark(guide: Guide): Result<Unit> = try {
         val entity = guide.toFavouriteGuideEntity(
             favouritedAt = currentTimeMillis(),
             syncState = FavouriteSyncState.PENDING_ADD,
@@ -68,7 +68,7 @@ class FavouritesGuidesRepositoryImpl(
         Result.Failure(e.toDataError())
     }
 
-    override suspend fun unmarkFavourite(guideId: String): Result<Unit> = try {
+    override suspend fun unmark(guideId: String): Result<Unit> = try {
         favouriteDao.updateSyncState(guideId, FavouriteSyncState.PENDING_REMOVE.name)
 
         when (val result = safeApiCall { favouritesApi.unmark(guideId) }) {
@@ -107,7 +107,7 @@ class FavouritesGuidesRepositoryImpl(
     override fun observeFavouriteGuideIds(): Flow<Set<String>> = favouriteDao.observeAllIds().map { it.toSet() }
 
     @Suppress("ReturnCount")
-    override suspend fun syncFavourites(): Result<Unit> {
+    override suspend fun sync(): Result<Unit> {
         val now = currentTimeMillis()
         val lastAttempt = settingsRepository.getLastFavouritesSyncAttemptAt()
         if (lastAttempt != null && now - lastAttempt < MIN_SYNC_INTERVAL_MS) {

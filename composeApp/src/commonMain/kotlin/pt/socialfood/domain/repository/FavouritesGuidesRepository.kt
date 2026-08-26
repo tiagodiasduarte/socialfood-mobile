@@ -1,16 +1,22 @@
 package pt.socialfood.domain.repository
 
+import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.PagedFavouriteGuides
 
 interface FavouritesGuidesRepository {
     suspend fun markFavourite(guide: Guide): Result<Unit>
 
     suspend fun unmarkFavourite(guideId: String): Result<Unit>
 
-    suspend fun getFavouritesPaged(page: Int, limit: Int): Result<PagedFavouriteGuides>
+    /**
+     * Room-backed, refresh-on-fetch paging stream for the favourite guides list. Returns
+     * `Flow<PagingData<Guide>>` rather than a one-shot `Result` because Paging's error surface is
+     * `LoadState`/`RemoteMediator.MediatorResult`, not `Result`; see `FavouriteGuideRemoteMediator`
+     * for the sync logic.
+     */
+    fun getFavouritesPagingFlow(): Flow<PagingData<Guide>>
 
     suspend fun isFavourite(guideId: String): Result<Boolean>
 

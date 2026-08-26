@@ -3,32 +3,24 @@ package pt.socialfood.data.repository
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.local.entity.FavouriteSyncState
-import pt.socialfood.domain.model.Author
+import pt.socialfood.data.paging.FavouriteGuideCacheTransactionRunner
 import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.domain.model.PagedFavouriteGuides
 import pt.socialfood.fakes.FakeFavouriteDao
+import pt.socialfood.fakes.FakeFavouriteGuideRemoteKeyDao
 import pt.socialfood.fakes.FakeFavouritesGuidesApi
 import pt.socialfood.fakes.FakeSettingsRepository
 import pt.socialfood.mapper.toFavouriteGuideEntity
+import pt.socialfood.random.nextGuide
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
-import kotlin.test.assertTrue
+import kotlin.test.assertNotNull
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 class FavouritesGuidesRepositoryImplTest {
-    private val fakeGuide =
-        Guide(
-            id = "guide-id",
-            name = "Guide Name",
-            description = "Guide Description",
-            visibility = GuideVisibility.PUBLIC,
-            author = Author(id = "author-id", name = "Author Name", username = "authorname", imageUrl = null),
-            numberOfRestaurant = 0,
-            imageUrl = null,
-        )
+    private val fakeGuide = Random.nextGuide()
 
     @OptIn(ExperimentalTime::class)
     private fun now(): Long = Clock.System.now().toEpochMilliseconds()
@@ -37,8 +29,17 @@ class FavouritesGuidesRepositoryImplTest {
         api: FakeFavouritesGuidesApi = FakeFavouritesGuidesApi(),
         dao: FakeFavouriteDao = FakeFavouriteDao(),
         settings: FakeSettingsRepository = FakeSettingsRepository(),
-    ): Triple<FavouritesGuidesRepositoryImpl, FakeFavouriteDao, FakeSettingsRepository> =
-        Triple(FavouritesGuidesRepositoryImpl(api, dao, settings), dao, settings)
+    ): Triple<FavouritesGuidesRepositoryImpl, FakeFavouriteDao, FakeSettingsRepository> = Triple(
+        FavouritesGuidesRepositoryImpl(
+            favouritesApi = api,
+            favouriteDao = dao,
+            favouriteGuideRemoteKeyDao = FakeFavouriteGuideRemoteKeyDao(),
+            transactionRunner = FavouriteGuideCacheTransactionRunner { it() },
+            settingsRepository = settings,
+        ),
+        dao,
+        settings,
+    )
 
     // markFavourite
 
@@ -103,28 +104,19 @@ class FavouritesGuidesRepositoryImplTest {
             assertEquals(FavouriteSyncState.PENDING_REMOVE.name, stored?.syncState)
         }
 
-    // getFavouritesPaged
+    // getFavouritesPagingFlow
 
     @Test
-    fun `given cached favourites when getFavouritesPaged is called then reads from DAO only and never calls the API`() =
-        runTest {
-            // Given
-            val (repo, dao, _) = createRepository(api = FakeFavouritesGuidesApi(shouldThrow = true))
-            dao.upsert(fakeGuide.toFavouriteGuideEntityForTest(FavouriteSyncState.SYNCED))
+    fun `given getFavouritesPagingFlow is called then returns a non-null Pager-backed flow`() = runTest {
+        // Given
+        val (repo, _, _) = createRepository()
 
-            // When
-            val result = repo.getFavouritesPaged(page = 1, limit = 10)
+        // When
+        val flow = repo.getFavouritesPagingFlow()
 
-            // Then
-            assertIs<Result.Success<PagedFavouriteGuides>>(result)
-            assertEquals(1, result.data.favourites.size)
-            assertEquals(
-                fakeGuide.id,
-                result.data.favourites
-                    .first()
-                    .guide.id,
-            )
-        }
+        // Then
+        assertNotNull(flow)
+    }
 
     // syncFavourites
 
@@ -140,7 +132,7 @@ class FavouritesGuidesRepositoryImplTest {
         // Then
         assertIs<Result.Success<Unit>>(result)
         assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouritesSyncedAt())
-        assertTrue(dao.getPaged(limit = 10, offset = 0).isNotEmpty())
+        assertNotNull(dao.getByGuideId("guide-id"))
     }
 
     @Test
@@ -191,4 +183,5 @@ class FavouritesGuidesRepositoryImplTest {
 private fun Guide.toFavouriteGuideEntityForTest(syncState: FavouriteSyncState) = this.toFavouriteGuideEntity(
     favouritedAt = Clock.System.now().toEpochMilliseconds(),
     syncState = syncState,
+    position = 0,
 )

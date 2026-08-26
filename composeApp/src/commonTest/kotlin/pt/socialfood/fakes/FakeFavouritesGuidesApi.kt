@@ -33,6 +33,12 @@ class FakeFavouritesGuidesApi(private val shouldThrow: Boolean = false) : Favour
     var lastUnmarkedGuideId: String? = null
         private set
 
+    var findFavouriteGuidesCallCount: Int = 0
+        private set
+
+    var lastFindFavouriteGuidesPage: Int? = null
+        private set
+
     var fakeFavouriteGuides = PagedResponse(
         items = listOf(fakeGuideResponse),
         page = 1,
@@ -58,6 +64,8 @@ class FakeFavouritesGuidesApi(private val shouldThrow: Boolean = false) : Favour
 
     override suspend fun findFavouriteGuides(page: Int, limit: Int): PagedResponse<GuideResponse> {
         if (shouldThrow) throw IOException("test error")
+        findFavouriteGuidesCallCount++
+        lastFindFavouriteGuidesPage = page
         return fakeFavouriteGuides
     }
 

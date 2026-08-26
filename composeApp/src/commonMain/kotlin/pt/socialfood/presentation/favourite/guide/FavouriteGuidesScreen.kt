@@ -2,6 +2,7 @@ package pt.socialfood.presentation.favourite.guide
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -9,24 +10,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
+import androidx.paging.LoadStates
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
+import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.model.Author
@@ -42,8 +45,6 @@ import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
 import socialfood.composeapp.generated.resources.favourites_guides_title
 
-private const val LOAD_MORE_THRESHOLD = 10
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavouriteGuidesScreen(
@@ -51,49 +52,27 @@ fun FavouriteGuidesScreen(
     onGuideClick: (guideId: String) -> Unit = {},
     viewModel: FavouriteGuidesViewModel = koinViewModel(),
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
+    val guides = viewModel.guides.collectAsLazyPagingItems()
 
     FavouriteGuidesContent(
-        state = state,
-        isRefreshing = isRefreshing,
+        guides = guides,
         onBackClick = onBackClick,
-        onRefresh = viewModel::refresh,
-        onLoadMore = viewModel::loadMore,
-        onRetry = viewModel::loadFirstPage,
         onGuideClick = onGuideClick,
         onRemoveClick = viewModel::removeFavourite,
     )
 }
 
+@Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun FavouriteGuidesContent(
-    state: FavouriteGuidesUiState,
-    isRefreshing: Boolean,
+    guides: LazyPagingItems<Guide>,
     onBackClick: () -> Unit,
-    onRefresh: () -> Unit,
-    onLoadMore: () -> Unit,
-    onRetry: () -> Unit,
     onGuideClick: (guideId: String) -> Unit = {},
     onRemoveClick: (guideId: String) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
-
-    val reachedBottom by remember(listState) {
-        derivedStateOf {
-            val lastVisible = listState.layoutInfo.visibleItemsInfo.lastOrNull()
-            val totalItems = listState.layoutInfo.totalItemsCount
-            lastVisible != null && totalItems > 0 && lastVisible.index >= totalItems - 1 - LOAD_MORE_THRESHOLD
-        }
-    }
-
-    LaunchedEffect(reachedBottom, state) {
-        val canLoadMore = state is FavouriteGuidesUiState.Loaded && state.hasMore && !state.isLoadingMore
-        if (reachedBottom && canLoadMore) {
-            onLoadMore()
-        }
-    }
+    val isRefreshing = guides.loadState.refresh is LoadState.Loading && guides.itemCount > 0
 
     Column(
         modifier = Modifier
@@ -102,37 +81,51 @@ private fun FavouriteGuidesContent(
     ) {
         TopBar(onBackClick = onBackClick)
 
-        when (state) {
-            FavouriteGuidesUiState.Loading -> FavouriteGuidesSkeleton(modifier = Modifier.fillMaxSize())
+        when {
+            guides.loadState.refresh is LoadState.Loading && guides.itemCount == 0 ->
+                FavouriteGuidesSkeleton(modifier = Modifier.fillMaxSize())
 
-            is FavouriteGuidesUiState.Error -> ErrorContent(
+            guides.loadState.refresh is LoadState.Error && guides.itemCount == 0 -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),
-                onRetryClick = onRetry,
+                onRetryClick = { guides.retry() },
             )
 
-            is FavouriteGuidesUiState.Loaded -> if (state.guides.isEmpty()) {
-                NoResultsContent(modifier = Modifier.fillMaxSize())
-            } else {
-                PullToRefreshContent(
-                    isRefreshing = isRefreshing,
-                    onRefresh = onRefresh,
+            guides.loadState.refresh is LoadState.NotLoading &&
+                guides.loadState.append.endOfPaginationReached &&
+                guides.itemCount == 0 -> NoResultsContent(modifier = Modifier.fillMaxSize())
+
+            else -> PullToRefreshContent(
+                isRefreshing = isRefreshing,
+                onRefresh = { guides.refresh() },
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                LazyColumn(
+                    state = listState,
                     modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(
+                        horizontal = SpaceSize.large,
+                        vertical = SpaceSize.large,
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
                 ) {
-                    LazyColumn(
-                        state = listState,
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(
-                            horizontal = SpaceSize.large,
-                            vertical = SpaceSize.large,
-                        ),
-                        verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-                    ) {
-                        items(state.guides, key = { it.id }) { guide ->
+                    items(count = guides.itemCount, key = guides.itemKey { it.id }) { index ->
+                        guides[index]?.let { guide ->
                             FavoriteGuideCard(
                                 guide = guide,
                                 onClick = { onGuideClick(guide.id) },
                                 onRemoveClick = { onRemoveClick(guide.id) },
                             )
+                        }
+                    }
+
+                    if (guides.loadState.append is LoadState.Loading) {
+                        item {
+                            Box(
+                                modifier = Modifier.fillMaxWidth().padding(SpaceSize.large),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                CircularProgressIndicator()
+                            }
                         }
                     }
                 }
@@ -187,14 +180,12 @@ private fun FavouriteGuidesScreenLoadedPreview() {
             numberOfRestaurant = 5,
         ),
     )
+    val items = flowOf(PagingData.from(guides)).collectAsLazyPagingItems()
+
     AppTheme {
         FavouriteGuidesContent(
-            state = FavouriteGuidesUiState.Loaded(guides = guides, hasMore = false),
-            isRefreshing = false,
+            guides = items,
             onBackClick = {},
-            onRefresh = {},
-            onLoadMore = {},
-            onRetry = {},
         )
     }
 }
@@ -202,14 +193,17 @@ private fun FavouriteGuidesScreenLoadedPreview() {
 @Preview
 @Composable
 private fun FavouriteGuidesScreenEmptyPreview() {
+    val emptyLoadState = LoadState.NotLoading(endOfPaginationReached = true)
+    val items = flowOf(
+        PagingData.empty<Guide>(
+            sourceLoadStates = LoadStates(refresh = emptyLoadState, prepend = emptyLoadState, append = emptyLoadState),
+        ),
+    ).collectAsLazyPagingItems()
+
     AppTheme {
         FavouriteGuidesContent(
-            state = FavouriteGuidesUiState.Loaded(guides = emptyList(), hasMore = false),
-            isRefreshing = false,
+            guides = items,
             onBackClick = {},
-            onRefresh = {},
-            onLoadMore = {},
-            onRetry = {},
         )
     }
 }

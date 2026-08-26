@@ -7,7 +7,6 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.domain.model.User
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
@@ -19,14 +18,16 @@ import pt.socialfood.fakes.FakeObserveFavouriteGuideIdsUseCase
 import pt.socialfood.fakes.FakeObserveUserUseCase
 import pt.socialfood.fakes.FakeUnmarkGuideFavouriteUseCase
 import pt.socialfood.presentation.guide.all.AllGuidesViewModel
+import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class AllGuidesViewModelTest {
-    private val fakeUser = User(id = "user-1", email = "user@test.com", name = "Test User", username = "testuser")
+    private val fakeUser = Random.nextUser()
 
     private fun guide(id: String) = Guide(
         id = id,

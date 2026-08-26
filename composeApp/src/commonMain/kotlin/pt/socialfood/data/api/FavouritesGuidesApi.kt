@@ -11,5 +11,5 @@ interface FavouritesGuidesApi {
 
     suspend fun find(page: Int, limit: Int): PagedResponse<GuideResponse>
 
-    suspend fun sync(since: String?): FavouriteSyncResponse
+    suspend fun sync(since: String?): FavouriteSyncResponse<GuideResponse>
 }

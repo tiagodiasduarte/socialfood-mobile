@@ -121,9 +121,9 @@ class FavouritesGuidesRepositoryImplTest {
     // syncFavourites
 
     @Test
-    fun `given changes available when syncFavourites is called then advances syncedAt`() = runTest {
+    fun `given changes available when syncFavourites is called then applies them and advances syncedAt`() = runTest {
         // Given
-        val (repo, _, settings) = createRepository()
+        val (repo, dao, settings) = createRepository()
         settings.saveLastFavouritesSyncAttemptAt(0L)
 
         // When
@@ -132,6 +132,26 @@ class FavouritesGuidesRepositoryImplTest {
         // Then
         assertIs<Result.Success<Unit>>(result)
         assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouritesSyncedAt())
+        assertNotNull(dao.getByGuideId("guide-id"))
+    }
+
+    @Test
+    fun `given remote added guide when syncFavourites is called then hydrates it from the response`() = runTest {
+        // Given
+        val api = FakeFavouritesGuidesApi()
+        val addedGuide = api.fakeSyncResponse.added.first()
+        val (repo, dao, settings) = createRepository(api = api)
+        settings.saveLastFavouritesSyncAttemptAt(0L)
+
+        // When
+        val result = repo.syncFavourites()
+
+        // Then
+        assertIs<Result.Success<Unit>>(result)
+        assertEquals(0, api.findFavouriteGuidesCallCount)
+        val stored = dao.getByGuideId(addedGuide.id)
+        assertNotNull(stored)
+        assertEquals(FavouriteSyncState.SYNCED.name, stored.syncState)
     }
 
     @Test

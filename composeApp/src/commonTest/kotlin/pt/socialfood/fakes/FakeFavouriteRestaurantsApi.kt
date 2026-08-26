@@ -46,7 +46,7 @@ class FakeFavouriteRestaurantsApi(private val shouldThrow: Boolean = false) : Fa
     )
 
     var fakeSyncResponse = FavouriteSyncResponse(
-        addedIds = listOf(fakeRestaurantResponse.id),
+        added = listOf(fakeRestaurantResponse),
         removedIds = emptyList(),
         syncedAt = "2026-08-01T10:30:00Z",
     )
@@ -68,7 +68,7 @@ class FakeFavouriteRestaurantsApi(private val shouldThrow: Boolean = false) : Fa
         return fakeFavouriteRestaurants
     }
 
-    override suspend fun sync(since: String?): FavouriteSyncResponse {
+    override suspend fun sync(since: String?): FavouriteSyncResponse<RestaurantResponse> {
         if (shouldThrow) throw IOException("test error")
         return fakeSyncResponse
     }

@@ -121,9 +121,9 @@ class FavouriteRestaurantsRepositoryImplTest {
     // syncFavourites
 
     @Test
-    fun `given changes available when syncFavourites is called then advances syncedAt`() = runTest {
+    fun `given changes available when syncFavourites is called then applies them and advances syncedAt`() = runTest {
         // Given
-        val (repo, _, settings) = createRepository()
+        val (repo, dao, settings) = createRepository()
         settings.saveLastFavouriteRestaurantsSyncAttemptAt(0L)
 
         // When
@@ -132,6 +132,26 @@ class FavouriteRestaurantsRepositoryImplTest {
         // Then
         assertIs<Result.Success<Unit>>(result)
         assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouriteRestaurantsSyncedAt())
+        assertNotNull(dao.getByRestaurantId("restaurant-id"))
+    }
+
+    @Test
+    fun `given remote added restaurant when syncFavourites is called then hydrates it from the response`() = runTest {
+        // Given
+        val api = FakeFavouriteRestaurantsApi()
+        val addedRestaurant = api.fakeSyncResponse.added.first()
+        val (repo, dao, settings) = createRepository(api = api)
+        settings.saveLastFavouriteRestaurantsSyncAttemptAt(0L)
+
+        // When
+        val result = repo.syncFavourites()
+
+        // Then
+        assertIs<Result.Success<Unit>>(result)
+        assertEquals(0, api.findFavouriteRestaurantsCallCount)
+        val stored = dao.getByRestaurantId(addedRestaurant.id)
+        assertNotNull(stored)
+        assertEquals(FavouriteSyncState.SYNCED.name, stored.syncState)
     }
 
     @Test

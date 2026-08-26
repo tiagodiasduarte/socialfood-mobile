@@ -28,7 +28,8 @@ class FavouriteRestaurantsApiImpl(private val client: HttpClient) : FavouriteRes
             parameter("limit", limit)
         }.body()
 
-    override suspend fun sync(since: String?): FavouriteSyncResponse = client.get("$FAVOURITE_RESTAURANTS_PATH/sync") {
-        if (!since.isNullOrBlank()) parameter("since", since)
-    }.body()
+    override suspend fun sync(since: String?): FavouriteSyncResponse<RestaurantResponse> =
+        client.get("$FAVOURITE_RESTAURANTS_PATH/sync") {
+            if (!since.isNullOrBlank()) parameter("since", since)
+        }.body()
 }

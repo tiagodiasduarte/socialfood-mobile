@@ -17,6 +17,7 @@ import pt.socialfood.data.local.dao.FavouriteRestaurantRemoteKeyDao
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.data.network.extensions.toDataError
 import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
+import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.data.paging.FavouriteRestaurantCacheTransactionRunner
 import pt.socialfood.data.paging.FavouriteRestaurantRemoteMediator
 import pt.socialfood.domain.error.safeApiCall
@@ -168,12 +169,21 @@ class FavouriteRestaurantsRepositoryImpl(
         }
     }
 
-    // Newly-added ids aren't hydrated here - the next Paging REFRESH (on the favourites screen's
-    // next visit) repopulates the local cache from the server, matching
-    // RestaurantVisitStatusRepositoryImpl's post-Paging-3 sync behaviour.
-    private suspend fun applyChanges(changes: FavouriteSyncResponse) {
+    private suspend fun applyChanges(changes: FavouriteSyncResponse<RestaurantResponse>) {
         if (changes.removedIds.isNotEmpty()) {
             favouriteRestaurantDao.deleteByRestaurantIds(changes.removedIds)
+        }
+
+        if (changes.added.isNotEmpty()) {
+            val now = currentTimeMillis()
+            val toUpsert = changes.added.map {
+                it.toRestaurant().toFavouriteRestaurantEntity(
+                    favouritedAt = now,
+                    syncState = FavouriteSyncState.SYNCED,
+                    position = OPTIMISTIC_POSITION,
+                )
+            }
+            favouriteRestaurantDao.upsertAll(toUpsert)
         }
     }
 }

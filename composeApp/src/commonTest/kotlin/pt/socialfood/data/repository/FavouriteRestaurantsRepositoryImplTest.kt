@@ -121,9 +121,9 @@ class FavouriteRestaurantsRepositoryImplTest {
     // syncFavourites
 
     @Test
-    fun `given changes available when syncFavourites is called then applies them and advances syncedAt`() = runTest {
+    fun `given changes available when syncFavourites is called then advances syncedAt`() = runTest {
         // Given
-        val (repo, dao, settings) = createRepository()
+        val (repo, _, settings) = createRepository()
         settings.saveLastFavouriteRestaurantsSyncAttemptAt(0L)
 
         // When
@@ -132,13 +132,37 @@ class FavouriteRestaurantsRepositoryImplTest {
         // Then
         assertIs<Result.Success<Unit>>(result)
         assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouriteRestaurantsSyncedAt())
-        assertNotNull(dao.getByRestaurantId("restaurant-id"))
+    }
+
+    @Test
+    fun `given remote removed ids when syncFavourites is called then deletes them locally`() = runTest {
+        // Given
+        val dao = FakeFavouriteRestaurantDao(
+            initialEntities = listOf(fakeRestaurant.toFavouriteRestaurantEntityForTest(FavouriteSyncState.SYNCED)),
+        )
+        val api = FakeFavouriteRestaurantsApi()
+        api.fakeSyncResponse = api.fakeSyncResponse.copy(removedIds = listOf(fakeRestaurant.id))
+        val (repo, _, settings) = createRepository(api = api, dao = dao)
+        settings.saveLastFavouriteRestaurantsSyncAttemptAt(0L)
+
+        // When
+        val result = repo.syncFavourites()
+
+        // Then
+        assertIs<Result.Success<Unit>>(result)
+        assertEquals(null, dao.getByRestaurantId(fakeRestaurant.id))
     }
 
     @Test
     fun `given DAO write throws when syncFavourites is called then does not advance syncedAt`() = runTest {
         // Given
-        val (repo, _, settings) = createRepository(dao = FakeFavouriteRestaurantDao(shouldThrowOnWrite = true))
+        val dao = FakeFavouriteRestaurantDao(
+            shouldThrowOnWrite = true,
+            initialEntities = listOf(fakeRestaurant.toFavouriteRestaurantEntityForTest(FavouriteSyncState.SYNCED)),
+        )
+        val api = FakeFavouriteRestaurantsApi()
+        api.fakeSyncResponse = api.fakeSyncResponse.copy(removedIds = listOf(fakeRestaurant.id))
+        val (repo, _, settings) = createRepository(api = api, dao = dao)
         settings.saveLastFavouriteRestaurantsSyncAttemptAt(0L)
 
         // When

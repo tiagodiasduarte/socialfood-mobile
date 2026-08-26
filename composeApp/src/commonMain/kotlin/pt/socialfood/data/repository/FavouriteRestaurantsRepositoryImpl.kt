@@ -27,7 +27,6 @@ import pt.socialfood.mapper.toFavouriteRestaurantEntity
 import pt.socialfood.mapper.toRestaurant
 
 private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
-private const val MAX_FAVOURITES_FETCH = 500
 private const val PAGE_SIZE = 20
 private const val OPTIMISTIC_POSITION = Int.MIN_VALUE
 private const val TAG = "FavouriteRestaurantsRepository"
@@ -124,8 +123,7 @@ class FavouriteRestaurantsRepositoryImpl(
                 is Result.Success -> result.data
             }
 
-            val applyResult = applyChanges(changes)
-            if (applyResult is Result.Failure) return applyResult
+            applyChanges(changes)
 
             settingsRepository.saveLastFavouriteRestaurantsSyncedAt(changes.syncedAt)
             Result.Success(Unit)
@@ -170,31 +168,12 @@ class FavouriteRestaurantsRepositoryImpl(
         }
     }
 
-    private suspend fun applyChanges(changes: FavouriteSyncResponse): Result<Unit> {
+    // Newly-added ids aren't hydrated here - the next Paging REFRESH (on the favourites screen's
+    // next visit) repopulates the local cache from the server, matching
+    // RestaurantVisitStatusRepositoryImpl's post-Paging-3 sync behaviour.
+    private suspend fun applyChanges(changes: FavouriteSyncResponse) {
         if (changes.removedIds.isNotEmpty()) {
             favouriteRestaurantDao.deleteByRestaurantIds(changes.removedIds)
         }
-
-        if (changes.addedIds.isNotEmpty()) {
-            val addedIds = changes.addedIds.toSet()
-            val now = currentTimeMillis()
-            val fetchResult = safeApiCall { favouriteRestaurantsApi.find(page = 1, limit = MAX_FAVOURITES_FETCH) }
-            val allFavourites = when (fetchResult) {
-                is Result.Failure -> return fetchResult
-                is Result.Success -> fetchResult.data
-            }
-            val toUpsert = allFavourites.items
-                .filter { it.id in addedIds }
-                .map {
-                    it.toRestaurant().toFavouriteRestaurantEntity(
-                        favouritedAt = now,
-                        syncState = FavouriteSyncState.SYNCED,
-                        position = OPTIMISTIC_POSITION,
-                    )
-                }
-            favouriteRestaurantDao.upsertAll(toUpsert)
-        }
-
-        return Result.Success(Unit)
     }
 }

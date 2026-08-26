@@ -5,5 +5,5 @@ import pt.socialfood.domain.repository.FavouritesGuidesRepository
 
 class UnmarkGuideFavouriteUseCaseImpl(private val repository: FavouritesGuidesRepository) :
     UnmarkGuideFavouriteUseCase {
-    override suspend operator fun invoke(guideId: String): Result<Unit> = repository.unmarkFavourite(guideId)
+    override suspend operator fun invoke(guideId: String): Result<Unit> = repository.unmark(guideId)
 }

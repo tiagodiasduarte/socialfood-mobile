@@ -6,9 +6,9 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Guide
 
 interface FavouritesGuidesRepository {
-    suspend fun markFavourite(guide: Guide): Result<Unit>
+    suspend fun mark(guide: Guide): Result<Unit>
 
-    suspend fun unmarkFavourite(guideId: String): Result<Unit>
+    suspend fun unmark(guideId: String): Result<Unit>
 
     /**
      * Room-backed, refresh-on-fetch paging stream for the favourite guides list. Returns
@@ -20,9 +20,7 @@ interface FavouritesGuidesRepository {
 
     suspend fun isFavourite(guideId: String): Result<Boolean>
 
-    // Local-cache-only reactive stream, same intentional exception to the Result<T> convention
-    // as GuidesRepository.getGuidesPagingFlow — there's no network call or error surface to wrap.
     fun observeFavouriteGuideIds(): Flow<Set<String>>
 
-    suspend fun syncFavourites(): Result<Unit>
+    suspend fun sync(): Result<Unit>
 }

@@ -5,5 +5,5 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.repository.FavouritesGuidesRepository
 
 class MarkGuideFavouriteUseCaseImpl(private val repository: FavouritesGuidesRepository) : MarkGuideFavouriteUseCase {
-    override suspend operator fun invoke(guide: Guide): Result<Unit> = repository.markFavourite(guide)
+    override suspend operator fun invoke(guide: Guide): Result<Unit> = repository.mark(guide)
 }

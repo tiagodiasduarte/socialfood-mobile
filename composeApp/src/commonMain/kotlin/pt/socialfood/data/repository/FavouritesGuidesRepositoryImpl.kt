@@ -17,7 +17,6 @@ import pt.socialfood.data.local.dao.FavouriteGuideRemoteKeyDao
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.data.network.extensions.toDataError
 import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
-import pt.socialfood.data.network.model.guide.GuideResponse
 import pt.socialfood.data.paging.FavouriteGuideCacheTransactionRunner
 import pt.socialfood.data.paging.FavouriteGuideRemoteMediator
 import pt.socialfood.domain.error.safeApiCall
@@ -44,7 +43,7 @@ class FavouritesGuidesRepositoryImpl(
 
     private val logger = Logger.withTag(TAG)
 
-    override suspend fun markFavourite(guide: Guide): Result<Unit> = try {
+    override suspend fun mark(guide: Guide): Result<Unit> = try {
         val entity = guide.toFavouriteGuideEntity(
             favouritedAt = currentTimeMillis(),
             syncState = FavouriteSyncState.PENDING_ADD,
@@ -68,7 +67,7 @@ class FavouritesGuidesRepositoryImpl(
         Result.Failure(e.toDataError())
     }
 
-    override suspend fun unmarkFavourite(guideId: String): Result<Unit> = try {
+    override suspend fun unmark(guideId: String): Result<Unit> = try {
         favouriteDao.updateSyncState(guideId, FavouriteSyncState.PENDING_REMOVE.name)
 
         when (val result = safeApiCall { favouritesApi.unmark(guideId) }) {
@@ -107,7 +106,7 @@ class FavouritesGuidesRepositoryImpl(
     override fun observeFavouriteGuideIds(): Flow<Set<String>> = favouriteDao.observeAllIds().map { it.toSet() }
 
     @Suppress("ReturnCount")
-    override suspend fun syncFavourites(): Result<Unit> {
+    override suspend fun sync(): Result<Unit> {
         val now = currentTimeMillis()
         val lastAttempt = settingsRepository.getLastFavouritesSyncAttemptAt()
         if (lastAttempt != null && now - lastAttempt < MIN_SYNC_INTERVAL_MS) {
@@ -170,21 +169,12 @@ class FavouritesGuidesRepositoryImpl(
         }
     }
 
-    private suspend fun applyChanges(changes: FavouriteSyncResponse<GuideResponse>) {
+    // Newly-added ids aren't hydrated here - the next Paging REFRESH (on the favourites screen's
+    // next visit) repopulates the local cache from the server, matching
+    // RestaurantVisitStatusRepositoryImpl's post-Paging-3 sync behaviour.
+    private suspend fun applyChanges(changes: FavouriteSyncResponse) {
         if (changes.removedIds.isNotEmpty()) {
             favouriteDao.deleteByGuideIds(changes.removedIds)
-        }
-
-        if (changes.added.isNotEmpty()) {
-            val now = currentTimeMillis()
-            val toUpsert = changes.added.map {
-                it.toGuide().toFavouriteGuideEntity(
-                    favouritedAt = now,
-                    syncState = FavouriteSyncState.SYNCED,
-                    position = OPTIMISTIC_POSITION,
-                )
-            }
-            favouriteDao.upsertAll(toUpsert)
         }
     }
 }

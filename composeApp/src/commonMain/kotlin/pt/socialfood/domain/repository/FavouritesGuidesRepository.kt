@@ -20,8 +20,6 @@ interface FavouritesGuidesRepository {
 
     suspend fun isFavourite(guideId: String): Result<Boolean>
 
-    // Local-cache-only reactive stream, same intentional exception to the Result<T> convention
-    // as GuidesRepository.getGuidesPagingFlow — there's no network call or error surface to wrap.
     fun observeFavouriteGuideIds(): Flow<Set<String>>
 
     suspend fun sync(): Result<Unit>

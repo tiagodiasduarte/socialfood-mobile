@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.guide.list
+package pt.socialfood.presentation.guide
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

@@ -18,14 +18,14 @@ import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeObserveFavouriteGuideIdsUseCase
 import pt.socialfood.fakes.FakeObserveUserUseCase
 import pt.socialfood.fakes.FakeUnmarkGuideFavouriteUseCase
-import pt.socialfood.presentation.guide.list.GuidesViewModel
+import pt.socialfood.presentation.guide.all.AllGuidesViewModel
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class GuidesViewModelTest {
+class AllGuidesViewModelTest {
     private val fakeUser = User(id = "user-1", email = "user@test.com", name = "Test User", username = "testuser")
 
     private fun guide(id: String) = Guide(
@@ -43,7 +43,7 @@ class GuidesViewModelTest {
         observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase = FakeObserveFavouriteGuideIdsUseCase(),
         markGuideFavourite: MarkGuideFavouriteUseCase = FakeMarkGuideFavouriteUseCase(),
         unmarkGuideFavourite: UnmarkGuideFavouriteUseCase = FakeUnmarkGuideFavouriteUseCase(),
-    ) = GuidesViewModel(
+    ) = AllGuidesViewModel(
         getGuidesPaging,
         markGuideFavourite,
         unmarkGuideFavourite,
@@ -52,7 +52,7 @@ class GuidesViewModelTest {
     )
 
     @Test
-    fun `given selectedTab is 0 when guides is collected then getGuidesPaging is invoked with userId null`() =
+    fun `given the viewmodel is created when guides is collected then getGuidesPaging is invoked with userId null`() =
         runTestWithMainDispatcher {
             // Given
             val getGuidesPaging = FakeGetGuidesPagingUseCase()
@@ -65,70 +65,6 @@ class GuidesViewModelTest {
             // Then
             assertEquals(1, getGuidesPaging.invokeCount)
             assertNull(getGuidesPaging.lastUserId)
-            job.cancel()
-        }
-
-    @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given onTabSelected 1 is called before observeUser emits when observeUser later emits then guides is re-invoked with the resolved userId`() =
-        runTestWithMainDispatcher {
-            // Given
-            val observeUser = FakeObserveUserUseCase(initial = null)
-            val getGuidesPaging = FakeGetGuidesPagingUseCase()
-            val vm = createViewModel(getGuidesPaging = getGuidesPaging, observeUser = observeUser)
-            val job = launch { vm.guides.collect {} }
-            advanceUntilIdle()
-
-            // When
-            vm.onTabSelected(1)
-            advanceUntilIdle()
-            observeUser.emit(fakeUser)
-            advanceUntilIdle()
-
-            // Then
-            assertEquals(fakeUser.id, getGuidesPaging.lastUserId)
-            job.cancel()
-        }
-
-    @Test
-    fun `given onTabSelected is called with the same tab twice then getGuidesPaging is not invoked a second time`() =
-        runTestWithMainDispatcher {
-            // Given
-            val getGuidesPaging = FakeGetGuidesPagingUseCase()
-            val vm = createViewModel(getGuidesPaging = getGuidesPaging)
-            val job = launch { vm.guides.collect {} }
-            advanceUntilIdle()
-            val countAfterInit = getGuidesPaging.invokeCount
-
-            // When
-            vm.onTabSelected(0)
-            advanceUntilIdle()
-
-            // Then
-            assertEquals(countAfterInit, getGuidesPaging.invokeCount)
-            job.cancel()
-        }
-
-    @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given current user changes when observeUser emits a new user then guides is re-invoked with the new user id`() =
-        runTestWithMainDispatcher {
-            // Given
-            val observeUser = FakeObserveUserUseCase(fakeUser)
-            val getGuidesPaging = FakeGetGuidesPagingUseCase()
-            val vm = createViewModel(getGuidesPaging = getGuidesPaging, observeUser = observeUser)
-            val job = launch { vm.guides.collect {} }
-            advanceUntilIdle()
-            vm.onTabSelected(1)
-            advanceUntilIdle()
-
-            // When
-            val otherUser = fakeUser.copy(id = "user-2")
-            observeUser.emit(otherUser)
-            advanceUntilIdle()
-
-            // Then
-            assertEquals(otherUser.id, getGuidesPaging.lastUserId)
             job.cancel()
         }
 

@@ -114,8 +114,7 @@ class GuidesRepositoryImplTest {
     // findGuidesPaged
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given valid pagination params when findGuidesPaged is called then returns Success with PagedGuides and correct hasMore flag`() =
+    fun `given pagination params when findGuidesPaged is called then returns Success with hasMore flag correct`() =
         runTest {
             // Given
             val repo = createRepository()
@@ -423,8 +422,7 @@ class GuidesRepositoryImplTest {
     // getGuidesPagingFlow
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given getGuidesPagingFlow is called then the returned Pager is configured with a RemoteMediator scoped to userId or ALL`() =
+    fun `given getGuidesPagingFlow is called then Pager is configured with a RemoteMediator scoped to userId or ALL`() =
         runTest {
             // Given
             val repo = createRepository()

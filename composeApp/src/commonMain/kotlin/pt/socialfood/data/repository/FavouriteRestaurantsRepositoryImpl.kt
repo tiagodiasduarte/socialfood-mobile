@@ -9,6 +9,7 @@ import pt.socialfood.data.local.dao.FavouriteRestaurantDao
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.data.network.extensions.toDataError
 import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
+import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.PagedFavouriteRestaurants
 import pt.socialfood.domain.model.Restaurant
@@ -163,13 +164,13 @@ class FavouriteRestaurantsRepositoryImpl(
         }
     }
 
-    private suspend fun applyChanges(changes: FavouriteSyncResponse): Result<Unit> {
+    private suspend fun applyChanges(changes: FavouriteSyncResponse<RestaurantResponse>): Result<Unit> {
         if (changes.removedIds.isNotEmpty()) {
             favouriteRestaurantDao.deleteByRestaurantIds(changes.removedIds)
         }
 
-        if (changes.addedIds.isNotEmpty()) {
-            val addedIds = changes.addedIds.toSet()
+        if (changes.added.isNotEmpty()) {
+            val addedIds = changes.added.map { it.id }.toSet()
             val now = currentTimeMillis()
             val fetchResult = safeApiCall {
                 favouriteRestaurantsApi.findFavouriteRestaurants(page = 1, limit = MAX_FAVOURITES_FETCH)

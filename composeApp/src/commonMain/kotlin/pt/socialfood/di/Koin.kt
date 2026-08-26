@@ -40,6 +40,7 @@ import pt.socialfood.data.network.KtorHttpClient
 import pt.socialfood.data.network.S3HttpClient
 import pt.socialfood.data.network.SessionManager
 import pt.socialfood.data.paging.asAuthorCacheTransactionRunner
+import pt.socialfood.data.paging.asFavouriteGuideCacheTransactionRunner
 import pt.socialfood.data.paging.asGuideCacheTransactionRunner
 import pt.socialfood.data.paging.asHomeCacheTransactionRunner
 import pt.socialfood.data.paging.asRestaurantVisitStatusCacheTransactionRunner
@@ -85,8 +86,8 @@ import pt.socialfood.domain.usecase.favourite.SyncFavouriteRestaurantsUseCase
 import pt.socialfood.domain.usecase.favourite.SyncFavouriteRestaurantsUseCaseImpl
 import pt.socialfood.domain.usecase.favourite.SyncFavouritesUseCase
 import pt.socialfood.domain.usecase.favourite.SyncFavouritesUseCaseImpl
-import pt.socialfood.domain.usecase.favourite.guide.GetFavouriteGuidesUseCase
-import pt.socialfood.domain.usecase.favourite.guide.GetFavouriteGuidesUseCaseImpl
+import pt.socialfood.domain.usecase.favourite.guide.GetFavouriteGuidesPagingUseCase
+import pt.socialfood.domain.usecase.favourite.guide.GetFavouriteGuidesPagingUseCaseImpl
 import pt.socialfood.domain.usecase.favourite.guide.IsGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.IsGuideFavouriteUseCaseImpl
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
@@ -272,7 +273,13 @@ val repositoryModule =
             FavouriteRestaurantsRepositoryImpl(get(), get<AppDatabase>().favouriteRestaurantDao(), get())
         }
         single<FavouritesGuidesRepository> {
-            FavouritesGuidesRepositoryImpl(get(), get<AppDatabase>().favouriteDao(), get())
+            FavouritesGuidesRepositoryImpl(
+                favouritesApi = get(),
+                favouriteDao = get<AppDatabase>().favouriteDao(),
+                favouriteGuideRemoteKeyDao = get<AppDatabase>().favouriteGuideRemoteKeyDao(),
+                transactionRunner = get<AppDatabase>().asFavouriteGuideCacheTransactionRunner(),
+                settingsRepository = get(),
+            )
         }
         single<GuidesRepository> {
             GuidesRepositoryImpl(
@@ -324,7 +331,7 @@ val useCaseModule =
         factory<GetAuthorsPagingUseCase> { GetAuthorsPagingUseCaseImpl(get()) }
         factory<GetAuthorsUseCase> { GetAuthorsUseCaseImpl(get()) }
         factory<GetConfigsUseCase> { GetConfigsUseCaseImpl(get()) }
-        factory<GetFavouriteGuidesUseCase> { GetFavouriteGuidesUseCaseImpl(get()) }
+        factory<GetFavouriteGuidesPagingUseCase> { GetFavouriteGuidesPagingUseCaseImpl(get()) }
         factory<GetFavouriteRestaurantsUseCase> { GetFavouriteRestaurantsUseCaseImpl(get()) }
         factory<GetGuideByIdUseCase> { GetGuideByIdUseCaseImpl(get()) }
         factory<GetGuideSuggestionsUseCase> { GetGuideSuggestionsUseCaseImpl(get()) }

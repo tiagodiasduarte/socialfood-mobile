@@ -164,8 +164,7 @@ class FavouriteRestaurantsRepositoryImplTest {
     }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given last sync attempt was recent when syncFavourites is called then returns early without calling the API`() =
+    fun `given last sync attempt was recent when syncFavourites is called then returns early without calling API`() =
         runTest {
             // Given
             val (repo, _, settings) = createRepository(api = FakeFavouriteRestaurantsApi(shouldThrow = true))

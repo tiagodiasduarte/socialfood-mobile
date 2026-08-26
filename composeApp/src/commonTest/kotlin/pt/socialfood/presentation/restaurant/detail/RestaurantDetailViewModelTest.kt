@@ -88,8 +88,7 @@ class RestaurantDetailViewModelTest {
     }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given restaurant is not a favourite when toggleFavourite is called then flips isFavourite optimistically and calls mark`() =
+    fun `given restaurant is not a favourite when toggleFavourite is called then flips isFavourite and calls mark`() =
         runTestWithMainDispatcher {
             // Given
             val mark = FakeMarkRestaurantFavouriteUseCase()

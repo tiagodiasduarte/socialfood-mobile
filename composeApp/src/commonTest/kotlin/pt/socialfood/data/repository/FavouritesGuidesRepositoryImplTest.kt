@@ -121,9 +121,9 @@ class FavouritesGuidesRepositoryImplTest {
     // syncFavourites
 
     @Test
-    fun `given changes available when syncFavourites is called then applies them and advances syncedAt`() = runTest {
+    fun `given changes available when syncFavourites is called then advances syncedAt`() = runTest {
         // Given
-        val (repo, dao, settings) = createRepository()
+        val (repo, _, settings) = createRepository()
         settings.saveLastFavouritesSyncAttemptAt(0L)
 
         // When
@@ -132,13 +132,37 @@ class FavouritesGuidesRepositoryImplTest {
         // Then
         assertIs<Result.Success<Unit>>(result)
         assertEquals("2026-08-01T10:30:00Z", settings.getLastFavouritesSyncedAt())
-        assertNotNull(dao.getByGuideId("guide-id"))
+    }
+
+    @Test
+    fun `given remote removed ids when syncFavourites is called then deletes them locally`() = runTest {
+        // Given
+        val dao = FakeFavouriteDao(
+            initialEntities = listOf(fakeGuide.toFavouriteGuideEntityForTest(FavouriteSyncState.SYNCED)),
+        )
+        val api = FakeFavouritesGuidesApi()
+        api.fakeSyncResponse = api.fakeSyncResponse.copy(removedIds = listOf(fakeGuide.id))
+        val (repo, _, settings) = createRepository(api = api, dao = dao)
+        settings.saveLastFavouritesSyncAttemptAt(0L)
+
+        // When
+        val result = repo.syncFavourites()
+
+        // Then
+        assertIs<Result.Success<Unit>>(result)
+        assertEquals(null, dao.getByGuideId(fakeGuide.id))
     }
 
     @Test
     fun `given DAO write throws when syncFavourites is called then does not advance syncedAt`() = runTest {
         // Given
-        val (repo, _, settings) = createRepository(dao = FakeFavouriteDao(shouldThrowOnWrite = true))
+        val dao = FakeFavouriteDao(
+            shouldThrowOnWrite = true,
+            initialEntities = listOf(fakeGuide.toFavouriteGuideEntityForTest(FavouriteSyncState.SYNCED)),
+        )
+        val api = FakeFavouritesGuidesApi()
+        api.fakeSyncResponse = api.fakeSyncResponse.copy(removedIds = listOf(fakeGuide.id))
+        val (repo, _, settings) = createRepository(api = api, dao = dao)
         settings.saveLastFavouritesSyncAttemptAt(0L)
 
         // When

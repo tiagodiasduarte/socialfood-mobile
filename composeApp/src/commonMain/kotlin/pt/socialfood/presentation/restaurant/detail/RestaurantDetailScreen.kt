@@ -105,12 +105,6 @@ private fun RestaurantDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) 
             TopActionButtons(
                 showCloseButton = true,
                 onCloseClick = onBackClick,
-                showShareButton = false,
-                onShareClick = {},
-                showEditButton = false,
-                showFavouriteButton = false,
-                isFavourite = false,
-                showMenuButton = false,
             )
         }
 
@@ -241,9 +235,6 @@ private fun TopSection(
         TopActionButtons(
             showCloseButton = true,
             onCloseClick = onBackClick,
-            showShareButton = false,
-            onShareClick = {},
-            showEditButton = false,
             showFavouriteButton = true,
             isFavourite = isFavourite,
             onToggleFavourite = onFavoriteClick,

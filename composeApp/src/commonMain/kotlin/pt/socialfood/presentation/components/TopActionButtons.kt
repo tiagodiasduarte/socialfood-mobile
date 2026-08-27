@@ -42,17 +42,17 @@ private val IconSize = 24.dp
 @Suppress("LongMethod", "LongParameterList")
 @Composable
 fun TopActionButtons(
-    showCloseButton: Boolean,
-    onCloseClick: () -> Unit,
-    showShareButton: Boolean,
-    onShareClick: () -> Unit,
-    showEditButton: Boolean,
-    onEditClick: () -> Unit = {},
-    showFavouriteButton: Boolean,
-    isFavourite: Boolean,
-    onToggleFavourite: () -> Unit = {},
-    showMenuButton: Boolean,
-    onMenuClick: () -> Unit = {},
+    showCloseButton: Boolean = false,
+    onCloseClick: (() -> Unit)? = null,
+    showShareButton: Boolean = false,
+    onShareClick: (() -> Unit)? = null,
+    showEditButton: Boolean = false,
+    onEditClick: (() -> Unit)? = null,
+    showFavouriteButton: Boolean = false,
+    isFavourite: Boolean = false,
+    onToggleFavourite: (() -> Unit)? = null,
+    showMenuButton: Boolean = false,
+    onMenuClick: (() -> Unit)? = null,
     menuContent: @Composable () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
@@ -60,7 +60,7 @@ fun TopActionButtons(
         if (showCloseButton) {
             ActionButton(
                 modifier = Modifier.padding(SpaceSize.large),
-                onClick = onCloseClick,
+                onClick = onCloseClick ?: {},
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
@@ -78,7 +78,7 @@ fun TopActionButtons(
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
         ) {
             if (showShareButton) {
-                ActionButton(onClick = onShareClick) {
+                ActionButton(onClick = onShareClick ?: {}) {
                     Icon(
                         painter = painterResource(Res.drawable.share_icon),
                         tint = MaterialTheme.colorScheme.surface,
@@ -89,7 +89,7 @@ fun TopActionButtons(
             }
 
             if (showFavouriteButton) {
-                ActionButton(onClick = onToggleFavourite) {
+                ActionButton(onClick = onToggleFavourite ?: {}) {
                     Icon(
                         imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                         tint = if (isFavourite) FavouriteRed else MaterialTheme.colorScheme.surface,
@@ -100,7 +100,7 @@ fun TopActionButtons(
             }
 
             if (showEditButton) {
-                ActionButton(onClick = onEditClick) {
+                ActionButton(onClick = onEditClick ?: {}) {
                     Icon(
                         painter = painterResource(Res.drawable.guide_edit_icon),
                         contentDescription = stringResource(Res.string.guide_detail_edit_button_description),
@@ -112,7 +112,7 @@ fun TopActionButtons(
 
             if (showMenuButton) {
                 Box {
-                    ActionButton(onClick = onMenuClick) {
+                    ActionButton(onClick = onMenuClick ?: {}) {
                         Icon(
                             imageVector = Icons.Filled.MoreVert,
                             contentDescription = stringResource(Res.string.restaurant_detail_more_options_description),
@@ -134,14 +134,10 @@ fun TopActionButtonsPreview() {
         Box(modifier = Modifier.fillMaxWidth().height(80.dp).background(ImagePlaceholderColor)) {
             TopActionButtons(
                 showCloseButton = true,
-                onCloseClick = {},
                 showShareButton = true,
-                onShareClick = {},
                 showEditButton = true,
-                onEditClick = {},
                 showFavouriteButton = true,
                 isFavourite = true,
-                onToggleFavourite = {},
                 showMenuButton = true,
             )
         }

@@ -129,12 +129,6 @@ private fun AuthorHeader(author: AuthorDetail, onBackClick: () -> Unit) {
             TopActionButtons(
                 showCloseButton = true,
                 onCloseClick = onBackClick,
-                showShareButton = false,
-                onShareClick = {},
-                showEditButton = false,
-                showFavouriteButton = false,
-                isFavourite = false,
-                showMenuButton = false,
             )
         },
     )
@@ -147,12 +141,6 @@ private fun AuthorDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
             TopActionButtons(
                 showCloseButton = true,
                 onCloseClick = onBackClick,
-                showShareButton = false,
-                onShareClick = {},
-                showEditButton = false,
-                showFavouriteButton = false,
-                isFavourite = false,
-                showMenuButton = false,
             )
         }
 

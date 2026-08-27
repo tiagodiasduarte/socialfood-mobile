@@ -133,12 +133,6 @@ private fun GuideDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
             TopActionButtons(
                 showCloseButton = true,
                 onCloseClick = onBackClick,
-                showShareButton = false,
-                onShareClick = {},
-                showEditButton = false,
-                showFavouriteButton = false,
-                isFavourite = false,
-                showMenuButton = false,
             )
         }
 
@@ -283,13 +277,11 @@ private fun TopImageContent(
             showCloseButton = true,
             onCloseClick = onBackClick,
             showShareButton = !isOwnGuide,
-            onShareClick = {},
             showEditButton = isOwnGuide,
             onEditClick = { onEditClick(guide.id) },
             showFavouriteButton = true,
             isFavourite = isFavourite,
             onToggleFavourite = onToggleFavourite,
-            showMenuButton = false,
         )
     }
 }

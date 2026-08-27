@@ -38,6 +38,8 @@ import socialfood.composeapp.generated.resources.guide_edit_icon
 import socialfood.composeapp.generated.resources.restaurant_detail_more_options_description
 import socialfood.composeapp.generated.resources.share_icon
 
+private val IconSize = 24.dp
+
 @Suppress("LongMethod", "LongParameterList")
 @Composable
 fun TopActionButtons(
@@ -65,7 +67,7 @@ fun TopActionButtons(
                     imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
                     contentDescription = stringResource(Res.string.back_button_description),
                     tint = MaterialTheme.colorScheme.surface,
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(IconSize),
                 )
             }
         }
@@ -82,7 +84,7 @@ fun TopActionButtons(
                         painter = painterResource(Res.drawable.share_icon),
                         tint = MaterialTheme.colorScheme.surface,
                         contentDescription = stringResource(Res.string.guide_detail_share_button_description),
-                        modifier = Modifier.size(24.dp),
+                        modifier = Modifier.size(IconSize),
                     )
                 }
             }
@@ -93,7 +95,7 @@ fun TopActionButtons(
                         imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                         tint = if (isFavourite) FavouriteRed else MaterialTheme.colorScheme.surface,
                         contentDescription = stringResource(Res.string.guide_detail_favourite_button_description),
-                        modifier = Modifier.size(24.dp),
+                        modifier = Modifier.size(IconSize),
                     )
                 }
             }
@@ -104,7 +106,7 @@ fun TopActionButtons(
                         painter = painterResource(Res.drawable.guide_edit_icon),
                         contentDescription = stringResource(Res.string.guide_detail_edit_button_description),
                         tint = MaterialTheme.colorScheme.surface,
-                        modifier = Modifier.size(24.dp),
+                        modifier = Modifier.size(IconSize),
                     )
                 }
             }
@@ -116,7 +118,7 @@ fun TopActionButtons(
                             imageVector = Icons.Filled.MoreVert,
                             contentDescription = stringResource(Res.string.restaurant_detail_more_options_description),
                             tint = MaterialTheme.colorScheme.surface,
-                            modifier = Modifier.size(24.dp),
+                            modifier = Modifier.size(IconSize),
                         )
                     }
                     menuContent()
@@ -132,7 +134,7 @@ fun TopActionButtonsPreview() {
     AppTheme {
         Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.medium)) {
             // Own guide: close, edit and favourite (active)
-            Box(modifier = Modifier.fillMaxWidth().height(160.dp).background(ImagePlaceholderColor)) {
+            Box(modifier = Modifier.fillMaxWidth().background(ImagePlaceholderColor)) {
                 TopActionButtons(
                     showCloseButton = true,
                     onCloseClick = {},
@@ -148,7 +150,7 @@ fun TopActionButtonsPreview() {
             }
 
             // Restaurant: close, favourite (inactive) and menu
-            Box(modifier = Modifier.fillMaxWidth().height(160.dp).background(ImagePlaceholderColor)) {
+            Box(modifier = Modifier.fillMaxWidth().background(ImagePlaceholderColor)) {
                 TopActionButtons(
                     showCloseButton = true,
                     onCloseClick = {},

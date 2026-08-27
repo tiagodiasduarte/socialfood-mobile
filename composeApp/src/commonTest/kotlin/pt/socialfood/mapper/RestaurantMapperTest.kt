@@ -1,6 +1,5 @@
 package pt.socialfood.mapper
 
-import pt.socialfood.data.api.PlacesApi.Companion.buildImageUrl
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
@@ -49,7 +48,7 @@ class RestaurantMapperTest {
                 country = response.country,
                 countryCode = response.countryCode,
                 postalCode = response.postalCode,
-                imagesUrl = response.imagesUrl.map { buildImageUrl(it) },
+                imagesUrl = response.imagesUrl,
                 address = response.address,
                 rating = response.rating,
                 userRatingCount = response.userRatingCount,

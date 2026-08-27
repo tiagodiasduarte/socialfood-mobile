@@ -24,12 +24,7 @@ import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.authors_title
 
 @Composable
-fun AuthorsHeader(
-    userName: String = "",
-    userImageUrl: String? = null,
-    onProfileClick: () -> Unit = {},
-    modifier: Modifier = Modifier,
-) {
+fun AuthorsHeader(userImageUrl: String? = null, onProfileClick: () -> Unit = {}, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -41,7 +36,6 @@ fun AuthorsHeader(
                 .padding(SpaceSize.large),
         ) {
             UserImage(
-                name = userName,
                 imageUrl = userImageUrl,
                 imageSize = 32.dp,
                 modifier = Modifier

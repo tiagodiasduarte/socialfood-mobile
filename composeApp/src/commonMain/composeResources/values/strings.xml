@@ -5,6 +5,7 @@
     <string name="show_password_content_description">Show password</string>
     <string name="hide_password_content_description">Hide password</string>
     <string name="search_bar_clear_button_description">Clear search</string>
+    <string name="user_image_content_description">User profile picture</string>
 
     <string name="sign_in_title_label">Welcome back</string>
     <string name="sign_in_subtitle_label">Sign in to continue exploring</string>

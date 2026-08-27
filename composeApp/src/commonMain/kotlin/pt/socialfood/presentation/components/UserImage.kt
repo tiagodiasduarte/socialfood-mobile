@@ -3,6 +3,7 @@ package pt.socialfood.presentation.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
@@ -12,16 +13,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.ui.theme.ProfileGradientEnd
 import pt.socialfood.ui.theme.ProfileGradientStart
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.user_avatar_placeholder
+import socialfood.composeapp.generated.resources.user_image_content_description
 
 @Composable
-fun UserImage(name: String, imageUrl: String?, imageSize: Dp, modifier: Modifier = Modifier) {
+fun UserImage(imageUrl: String?, imageSize: Dp, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .size(imageSize)
@@ -36,30 +38,27 @@ fun UserImage(name: String, imageUrl: String?, imageSize: Dp, modifier: Modifier
         if (imageUrl != null) {
             SubcomposeAsyncImage(
                 model = imageUrl,
-                contentDescription = name,
+                contentDescription = stringResource(Res.string.user_image_content_description),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.size(imageSize),
                 loading = {
-                    Image(
-                        painter = painterResource(Res.drawable.user_avatar_placeholder),
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp),
-                    )
+                    Placeholder()
                 },
                 error = {
-                    Image(
-                        painter = painterResource(Res.drawable.user_avatar_placeholder),
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp),
-                    )
+                    Placeholder()
                 },
             )
         } else {
-            Image(
-                painter = painterResource(Res.drawable.user_avatar_placeholder),
-                contentDescription = null,
-                modifier = Modifier.size(18.dp),
-            )
+            Placeholder()
         }
     }
+}
+
+@Composable
+private fun Placeholder() {
+    Image(
+        painter = painterResource(Res.drawable.user_avatar_placeholder),
+        contentDescription = null,
+        modifier = Modifier.fillMaxSize(),
+    )
 }

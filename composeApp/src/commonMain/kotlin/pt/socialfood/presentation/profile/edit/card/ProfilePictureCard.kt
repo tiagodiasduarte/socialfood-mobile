@@ -69,7 +69,6 @@ fun ProfilePictureCard(state: EditProfileUiState.Loaded, onPhotoSelected: (ByteA
                 } else {
                     UserImage(
                         imageUrl = state.imageUrl,
-                        name = state.name,
                         imageSize = 72.dp,
                     )
                 }

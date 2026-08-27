@@ -16,12 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Map
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,22 +42,18 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.buttons.ActionButton
+import pt.socialfood.presentation.components.TopActionButtons
 import pt.socialfood.presentation.components.buttons.OutlinedButton
 import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.presentation.guide.detail.author.AuthorItemCard
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.ImagePlaceholderColor
 import pt.socialfood.ui.theme.PrivateBadge
 import pt.socialfood.ui.theme.PublicBadge
 import pt.socialfood.ui.theme.PublicBadgeBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.back_button_description
-import socialfood.composeapp.generated.resources.guide_detail_edit_button_description
-import socialfood.composeapp.generated.resources.guide_detail_favourite_button_description
 import socialfood.composeapp.generated.resources.guide_detail_map_button_description
 import socialfood.composeapp.generated.resources.guide_detail_private_icon_description
 import socialfood.composeapp.generated.resources.guide_detail_private_label
@@ -71,11 +62,8 @@ import socialfood.composeapp.generated.resources.guide_detail_public_label
 import socialfood.composeapp.generated.resources.guide_detail_restaurants_count_label
 import socialfood.composeapp.generated.resources.guide_detail_restaurants_section_title
 import socialfood.composeapp.generated.resources.guide_detail_separator
-import socialfood.composeapp.generated.resources.guide_detail_share_button_description
-import socialfood.composeapp.generated.resources.guide_edit_icon
 import socialfood.composeapp.generated.resources.guides_private_icon
 import socialfood.composeapp.generated.resources.guides_public_icon
-import socialfood.composeapp.generated.resources.share_icon
 
 internal val GuideImageHeight = 320.dp
 
@@ -141,14 +129,10 @@ private fun GuideDetailContent(
 @Composable
 private fun GuideDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        IconButton(
-            onClick = onBackClick,
-            modifier = Modifier.padding(SpaceSize.medium),
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                contentDescription = stringResource(Res.string.back_button_description),
-                tint = MaterialTheme.colorScheme.onBackground,
+        Box(modifier = Modifier.fillMaxWidth().height(56.dp)) {
+            TopActionButtons(
+                showCloseButton = true,
+                onCloseClick = onBackClick,
             )
         }
 
@@ -254,7 +238,6 @@ private fun GuideDetailLoaded(
     }
 }
 
-@Suppress("LongMethod")
 @Composable
 private fun TopImageContent(
     guide: Guide,
@@ -288,53 +271,18 @@ private fun TopImageContent(
 
         Box(modifier = Modifier.fillMaxSize().detailImageScrim())
 
-        ActionButton(
-            modifier = Modifier.padding(SpaceSize.large),
-            onClick = onBackClick,
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                contentDescription = stringResource(Res.string.back_button_description),
-                tint = MaterialTheme.colorScheme.surface,
-                modifier = Modifier.size(24.dp),
-            )
-        }
+        val isOwnGuide = guide.author.id == currentUserId
 
-        Row(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(SpaceSize.large),
-            horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-        ) {
-            if (guide.author.id == currentUserId) {
-                ActionButton(onClick = { onEditClick(guide.id) }) {
-                    Icon(
-                        painter = painterResource(Res.drawable.guide_edit_icon),
-                        contentDescription = stringResource(Res.string.guide_detail_edit_button_description),
-                        tint = MaterialTheme.colorScheme.surface,
-                        modifier = Modifier.size(24.dp),
-                    )
-                }
-            } else {
-                ActionButton(onClick = {}) {
-                    Icon(
-                        painter = painterResource(Res.drawable.share_icon),
-                        tint = MaterialTheme.colorScheme.surface,
-                        contentDescription = stringResource(Res.string.guide_detail_share_button_description),
-                        modifier = Modifier.size(24.dp),
-                    )
-                }
-            }
-
-            ActionButton(onClick = onToggleFavourite) {
-                Icon(
-                    imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                    tint = if (isFavourite) FavouriteRed else MaterialTheme.colorScheme.surface,
-                    contentDescription = stringResource(Res.string.guide_detail_favourite_button_description),
-                    modifier = Modifier.size(24.dp),
-                )
-            }
-        }
+        TopActionButtons(
+            showCloseButton = true,
+            onCloseClick = onBackClick,
+            showShareButton = !isOwnGuide,
+            showEditButton = isOwnGuide,
+            onEditClick = { onEditClick(guide.id) },
+            showFavouriteButton = true,
+            isFavourite = isFavourite,
+            onToggleFavourite = onToggleFavourite,
+        )
     }
 }
 

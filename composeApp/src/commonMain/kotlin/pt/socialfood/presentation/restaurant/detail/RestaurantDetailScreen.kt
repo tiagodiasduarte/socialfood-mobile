@@ -16,13 +16,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,6 +40,7 @@ import org.koin.core.parameter.parametersOf
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
+import pt.socialfood.presentation.components.BackContent
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.TopActionButtons
 import pt.socialfood.presentation.components.detailImageScrim
@@ -51,7 +48,6 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.ImagePlaceholderColor
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.back_button_description
 import socialfood.composeapp.generated.resources.restaurant_detail_add_to_wishlist_button
 import socialfood.composeapp.generated.resources.restaurant_detail_move_to_visited_button
 import socialfood.composeapp.generated.resources.restaurant_detail_opening_hours_title
@@ -106,16 +102,7 @@ private fun RestaurantDetailContent(
 @Composable
 private fun RestaurantDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        IconButton(
-            onClick = onBackClick,
-            modifier = Modifier.padding(SpaceSize.medium),
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                contentDescription = stringResource(Res.string.back_button_description),
-                tint = MaterialTheme.colorScheme.onBackground,
-            )
-        }
+        BackContent(onBackClick = onBackClick)
 
         ErrorContent(
             modifier = Modifier.fillMaxSize(),

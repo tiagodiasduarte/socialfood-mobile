@@ -6,33 +6,27 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import pt.socialfood.domain.model.AuthorDetail
+import pt.socialfood.presentation.components.BackContent
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.ProfileHeader
-import pt.socialfood.presentation.components.buttons.ActionButton
+import pt.socialfood.presentation.components.TopActionButtons
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.author_detail_guides_section_title
-import socialfood.composeapp.generated.resources.back_button_description
 
 @Composable
 fun AuthorDetailScreen(
@@ -130,17 +124,16 @@ private fun AuthorHeader(author: AuthorDetail, onBackClick: () -> Unit) {
         instagramUrl = author.instagramUrl,
         youtubeUrl = author.youtubeUrl,
         topAction = {
-            ActionButton(
-                modifier = Modifier.padding(SpaceSize.large),
-                onClick = onBackClick,
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                    contentDescription = stringResource(Res.string.back_button_description),
-                    tint = MaterialTheme.colorScheme.surface,
-                    modifier = Modifier.size(24.dp),
-                )
-            }
+            TopActionButtons(
+                showCloseButton = true,
+                onCloseClick = onBackClick,
+                showShareButton = false,
+                onShareClick = {},
+                showEditButton = false,
+                showFavouriteButton = false,
+                isFavourite = false,
+                showMenuButton = false,
+            )
         },
     )
 }
@@ -148,16 +141,7 @@ private fun AuthorHeader(author: AuthorDetail, onBackClick: () -> Unit) {
 @Composable
 private fun AuthorDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        IconButton(
-            onClick = onBackClick,
-            modifier = Modifier.padding(SpaceSize.medium),
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                contentDescription = stringResource(Res.string.back_button_description),
-                tint = MaterialTheme.colorScheme.onBackground,
-            )
-        }
+        BackContent(onBackClick = onBackClick)
 
         ErrorContent(
             modifier = Modifier.fillMaxSize(),

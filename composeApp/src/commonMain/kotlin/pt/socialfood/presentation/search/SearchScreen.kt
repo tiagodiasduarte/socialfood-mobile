@@ -220,7 +220,7 @@ private fun SearchScreenPreview() {
                             country = "Portugal",
                             countryCode = "PT",
                             postalCode = null,
-                            photoNames = emptyList(),
+                            imagesUrl = emptyList(),
                             address = "Rua de Cedofeita",
                             rating = 4.7,
                             userRatingCount = 500,

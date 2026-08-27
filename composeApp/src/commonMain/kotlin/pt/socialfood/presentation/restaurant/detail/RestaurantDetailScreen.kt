@@ -222,7 +222,7 @@ private fun TopSection(
     onAddToWishlistClick: () -> Unit,
     onMoveToVisitedClick: () -> Unit,
 ) {
-    val imageUrl = restaurant.photoNames.firstOrNull()
+    val imageUrl = restaurant.imagesUrl.firstOrNull()
 
     Box(
         modifier = Modifier
@@ -346,7 +346,7 @@ private fun TitleSection(restaurant: Restaurant) {
 
 @Composable
 private fun PhotoGallerySection(restaurant: Restaurant) {
-    val galleryPhotos = restaurant.photoNames.drop(1).take(GALLERY_PHOTO_COUNT)
+    val galleryPhotos = restaurant.imagesUrl.drop(1).take(GALLERY_PHOTO_COUNT)
     if (galleryPhotos.isNotEmpty()) {
         PhotoGallery(
             photos = galleryPhotos,
@@ -418,7 +418,7 @@ private fun RestaurantDetailScreenPreview() {
         country = "French",
         countryCode = "French",
         postalCode = "French",
-        photoNames = emptyList(),
+        imagesUrl = emptyList(),
         address = "123 Gourmet Street, Downtown, Lisbon",
         rating = 4.8,
         userRatingCount = 342,

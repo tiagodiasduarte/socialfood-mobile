@@ -7,7 +7,7 @@ data class RestaurantResponse(
     val id: String,
     val name: String,
     val description: String?,
-    val photoNames: List<String>,
+    val imagesUrl: List<String>,
     val city: String,
     val country: String,
     val countryCode: String,

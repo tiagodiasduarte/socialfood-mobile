@@ -177,7 +177,7 @@ fun GuideMapScreenPreview() {
             country = "France",
             countryCode = "FR",
             postalCode = "",
-            photoNames = emptyList(),
+            imagesUrl = emptyList(),
             address = "",
             rating = 4.8,
             userRatingCount = 320,

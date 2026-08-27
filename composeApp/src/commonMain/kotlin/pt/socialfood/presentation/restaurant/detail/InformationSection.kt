@@ -241,7 +241,7 @@ private fun InformationSectionPreview() {
                 country = "Portugal",
                 countryCode = "PT",
                 postalCode = "1100-001",
-                photoNames = emptyList(),
+                imagesUrl = emptyList(),
                 address = "123 Gourmet Street, Downtown, Lisbon",
                 rating = 4.8,
                 userRatingCount = 342,

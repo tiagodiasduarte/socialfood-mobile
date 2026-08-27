@@ -33,7 +33,7 @@ class RestaurantDetailViewModelTest {
             country = "Portugal",
             countryCode = "PT",
             postalCode = "1000-000",
-            photoNames = emptyList(),
+            imagesUrl = emptyList(),
             address = "Rua Augusta 1",
             rating = 4.5,
             userRatingCount = 100,

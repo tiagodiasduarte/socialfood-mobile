@@ -418,7 +418,7 @@ fun GuideDetailScreenPreview() {
         country = "French",
         countryCode = "",
         postalCode = "",
-        photoNames = emptyList(),
+        imagesUrl = emptyList(),
         address = "",
         rating = 4.8,
         userRatingCount = 320,

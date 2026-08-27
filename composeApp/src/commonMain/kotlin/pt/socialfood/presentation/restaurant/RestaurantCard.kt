@@ -78,7 +78,7 @@ private fun RestaurantCardImage(restaurant: Restaurant, isFavourite: Boolean, on
             .fillMaxWidth()
             .height(190.dp),
     ) {
-        val imageUrl = restaurant.photoNames.firstOrNull()
+        val imageUrl = restaurant.imagesUrl.firstOrNull()
         if (imageUrl != null) {
             SubcomposeAsyncImage(
                 model = "$imageUrl&size=400",
@@ -200,7 +200,7 @@ fun RestaurantCardPreview() {
                 country = "French",
                 countryCode = "French",
                 postalCode = "French",
-                photoNames = emptyList(),
+                imagesUrl = emptyList(),
                 address = "Rua Augusta 123, Lisbon",
                 rating = 4.8,
                 userRatingCount = 320,

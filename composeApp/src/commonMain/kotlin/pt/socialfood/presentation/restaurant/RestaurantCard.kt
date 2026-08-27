@@ -81,7 +81,7 @@ private fun RestaurantCardImage(restaurant: Restaurant, isFavourite: Boolean, on
         val imageUrl = restaurant.imagesUrl.firstOrNull()
         if (imageUrl != null) {
             SubcomposeAsyncImage(
-                model = "$imageUrl&size=400",
+                model = imageUrl,
                 contentDescription = restaurant.name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),

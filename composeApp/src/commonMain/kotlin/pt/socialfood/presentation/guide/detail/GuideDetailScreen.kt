@@ -41,7 +41,6 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.components.BackContent
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.TopActionButtons
 import pt.socialfood.presentation.components.buttons.OutlinedButton
@@ -130,7 +129,18 @@ private fun GuideDetailContent(
 @Composable
 private fun GuideDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        BackContent(onBackClick = onBackClick)
+        Box(modifier = Modifier.fillMaxWidth().height(56.dp)) {
+            TopActionButtons(
+                showCloseButton = true,
+                onCloseClick = onBackClick,
+                showShareButton = false,
+                onShareClick = {},
+                showEditButton = false,
+                showFavouriteButton = false,
+                isFavourite = false,
+                showMenuButton = false,
+            )
+        }
 
         ErrorContent(
             modifier = Modifier.fillMaxSize(),

@@ -3,7 +3,6 @@ package pt.socialfood.presentation.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -132,38 +131,19 @@ fun TopActionButtons(
 @Preview
 fun TopActionButtonsPreview() {
     AppTheme {
-        Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.medium)) {
-            // Own guide: close, edit and favourite (active)
-            Box(modifier = Modifier.fillMaxWidth().background(ImagePlaceholderColor)) {
-                TopActionButtons(
-                    showCloseButton = true,
-                    onCloseClick = {},
-                    showShareButton = false,
-                    onShareClick = {},
-                    showEditButton = true,
-                    onEditClick = {},
-                    showFavouriteButton = true,
-                    isFavourite = true,
-                    onToggleFavourite = {},
-                    showMenuButton = false,
-                )
-            }
-
-            // Restaurant: close, favourite (inactive) and menu
-            Box(modifier = Modifier.fillMaxWidth().background(ImagePlaceholderColor)) {
-                TopActionButtons(
-                    showCloseButton = true,
-                    onCloseClick = {},
-                    showShareButton = false,
-                    onShareClick = {},
-                    showEditButton = false,
-                    showFavouriteButton = true,
-                    isFavourite = false,
-                    onToggleFavourite = {},
-                    showMenuButton = true,
-                    onMenuClick = {},
-                )
-            }
+        Box(modifier = Modifier.fillMaxWidth().height(80.dp).background(ImagePlaceholderColor)) {
+            TopActionButtons(
+                showCloseButton = true,
+                onCloseClick = {},
+                showShareButton = true,
+                onShareClick = {},
+                showEditButton = true,
+                onEditClick = {},
+                showFavouriteButton = true,
+                isFavourite = true,
+                onToggleFavourite = {},
+                showMenuButton = true,
+            )
         }
     }
 }

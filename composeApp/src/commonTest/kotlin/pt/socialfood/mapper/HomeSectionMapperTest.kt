@@ -24,7 +24,7 @@ class HomeSectionMapperTest {
         id = Random.nextString(),
         name = Random.nextString(),
         description = null,
-        photoNames = listOf(Random.nextString()),
+        imagesUrl = listOf(Random.nextString()),
         city = Random.nextString(),
         country = Random.nextString(),
         countryCode = Random.nextString(2),

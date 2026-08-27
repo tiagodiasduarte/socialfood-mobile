@@ -1,6 +1,5 @@
 package pt.socialfood.mapper
 
-import pt.socialfood.data.api.PlacesApi.Companion.buildImageUrl
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
@@ -19,7 +18,7 @@ class RestaurantMapperTest {
             id = Random.nextString(),
             name = Random.nextString(),
             description = Random.nextNullable { nextString(20) },
-            photoNames = listOf(Random.nextString(), Random.nextString()),
+            imagesUrl = listOf(Random.nextString(), Random.nextString()),
             city = Random.nextString(),
             country = Random.nextString(),
             countryCode = Random.nextString(2),
@@ -49,7 +48,7 @@ class RestaurantMapperTest {
                 country = response.country,
                 countryCode = response.countryCode,
                 postalCode = response.postalCode,
-                photoNames = response.photoNames.map { buildImageUrl(it) },
+                imagesUrl = response.imagesUrl,
                 address = response.address,
                 rating = response.rating,
                 userRatingCount = response.userRatingCount,

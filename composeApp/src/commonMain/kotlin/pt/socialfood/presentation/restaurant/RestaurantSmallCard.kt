@@ -91,7 +91,7 @@ private fun RestaurantCardInfo(restaurant: Restaurant, modifier: Modifier = Modi
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
     ) {
-        val imageUrl = restaurant.photoNames.firstOrNull()
+        val imageUrl = restaurant.imagesUrl.firstOrNull()
         Box(
             modifier = Modifier
                 .size(IMAGE_SIZE.dp)
@@ -186,7 +186,7 @@ private fun RestaurantSmallCardPreview() {
                 country = "Portugal",
                 countryCode = "PT",
                 postalCode = "1000-000",
-                photoNames = emptyList(),
+                imagesUrl = emptyList(),
                 address = "Rua Augusta 123, Lisbon",
                 rating = 4.8,
                 userRatingCount = 320,

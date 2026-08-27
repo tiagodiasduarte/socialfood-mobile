@@ -34,7 +34,7 @@ fun RestaurantItem(restaurant: Restaurant, onRemove: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
-        PlaceThumbnail(imageUrl = restaurant.photoNames.firstOrNull())
+        PlaceThumbnail(imageUrl = restaurant.imagesUrl.firstOrNull())
 
         Column(
             modifier = Modifier.weight(1f),
@@ -71,7 +71,7 @@ private fun RestaurantItemPreview() {
                 country = "Portugal",
                 countryCode = "Portugal",
                 postalCode = "1234",
-                photoNames = emptyList(),
+                imagesUrl = emptyList(),
                 address = "Largo de São Carlos 10, Lisboa",
                 rating = 4.8,
                 userRatingCount = 1200,

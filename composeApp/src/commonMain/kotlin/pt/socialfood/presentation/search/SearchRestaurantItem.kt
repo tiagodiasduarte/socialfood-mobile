@@ -53,7 +53,7 @@ fun SearchRestaurantItem(restaurant: Restaurant, onClick: () -> Unit = {}, modif
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
         ) {
-            val imageUrl = restaurant.photoNames.firstOrNull()
+            val imageUrl = restaurant.imagesUrl.firstOrNull()
             Box(modifier = Modifier.size(ThumbnailSize).clip(RoundedCornerShape(12.dp))) {
                 if (imageUrl != null) {
                     SubcomposeAsyncImage(
@@ -143,7 +143,7 @@ private fun SearchRestaurantItemPreview() {
                 country = "Portugal",
                 countryCode = "PT",
                 postalCode = null,
-                photoNames = emptyList(),
+                imagesUrl = emptyList(),
                 address = "Rua de Cedofeita",
                 rating = 4.7,
                 userRatingCount = 500,

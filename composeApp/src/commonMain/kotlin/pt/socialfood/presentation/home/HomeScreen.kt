@@ -264,7 +264,7 @@ fun HomeScreenPreview() {
         country = "French",
         countryCode = "French",
         postalCode = "French",
-        photoNames = emptyList(),
+        imagesUrl = emptyList(),
         address = "",
         rating = 4.8,
         userRatingCount = 320,

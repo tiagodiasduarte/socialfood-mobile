@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,9 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
@@ -34,10 +30,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,17 +45,14 @@ import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.buttons.ActionButton
+import pt.socialfood.presentation.components.TopActionButtons
 import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.ImagePlaceholderColor
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
 import socialfood.composeapp.generated.resources.restaurant_detail_add_to_wishlist_button
-import socialfood.composeapp.generated.resources.restaurant_detail_favourite_description
-import socialfood.composeapp.generated.resources.restaurant_detail_more_options_description
 import socialfood.composeapp.generated.resources.restaurant_detail_move_to_visited_button
 import socialfood.composeapp.generated.resources.restaurant_detail_opening_hours_title
 import socialfood.composeapp.generated.resources.restaurant_detail_share_button
@@ -248,44 +239,20 @@ private fun TopSection(
 
         Box(modifier = Modifier.fillMaxSize().detailImageScrim())
 
-        ActionButton(
-            modifier = Modifier.padding(SpaceSize.large),
-            onClick = onBackClick,
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                contentDescription = stringResource(Res.string.back_button_description),
-                tint = Color.White,
-                modifier = Modifier.size(24.dp),
-            )
-        }
+        var isMenuExpanded by remember { mutableStateOf(false) }
 
-        Row(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(SpaceSize.large),
-            horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-        ) {
-            ActionButton(onClick = onFavoriteClick) {
-                Icon(
-                    imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                    contentDescription = stringResource(Res.string.restaurant_detail_favourite_description),
-                    tint = if (isFavourite) FavouriteRed else Color.White,
-                    modifier = Modifier.size(24.dp),
-                )
-            }
-
-            var isMenuExpanded by remember { mutableStateOf(false) }
-
-            Box {
-                ActionButton(onClick = { isMenuExpanded = true }) {
-                    Icon(
-                        imageVector = Icons.Filled.MoreVert,
-                        contentDescription = stringResource(Res.string.restaurant_detail_more_options_description),
-                        tint = Color.White,
-                        modifier = Modifier.size(24.dp),
-                    )
-                }
+        TopActionButtons(
+            showCloseButton = true,
+            onCloseClick = onBackClick,
+            showShareButton = false,
+            onShareClick = {},
+            showEditButton = false,
+            showFavouriteButton = true,
+            isFavourite = isFavourite,
+            onToggleFavourite = onFavoriteClick,
+            showMenuButton = true,
+            onMenuClick = { isMenuExpanded = true },
+            menuContent = {
                 DropdownMenu(
                     expanded = isMenuExpanded,
                     onDismissRequest = { isMenuExpanded = false },
@@ -315,8 +282,8 @@ private fun TopSection(
                         )
                     }
                 }
-            }
-        }
+            },
+        )
     }
 }
 

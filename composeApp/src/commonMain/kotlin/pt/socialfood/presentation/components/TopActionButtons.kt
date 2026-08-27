@@ -1,10 +1,11 @@
-package pt.socialfood.presentation.guide.detail
+package pt.socialfood.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,7 +20,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
@@ -38,9 +38,9 @@ import socialfood.composeapp.generated.resources.guide_edit_icon
 import socialfood.composeapp.generated.resources.restaurant_detail_more_options_description
 import socialfood.composeapp.generated.resources.share_icon
 
-@Suppress("LongMethod")
+@Suppress("LongMethod", "LongParameterList")
 @Composable
-private fun TopActionButtons(
+fun TopActionButtons(
     showCloseButton: Boolean,
     onCloseClick: () -> Unit,
     showShareButton: Boolean,
@@ -51,12 +51,11 @@ private fun TopActionButtons(
     isFavourite: Boolean,
     onToggleFavourite: () -> Unit = {},
     showMenuButton: Boolean,
+    onMenuClick: () -> Unit = {},
+    menuContent: @Composable () -> Unit = {},
+    modifier: Modifier = Modifier,
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(GuideImageHeight),
-    ) {
+    Box(modifier = modifier.fillMaxSize()) {
         if (showCloseButton) {
             ActionButton(
                 modifier = Modifier.padding(SpaceSize.large),
@@ -111,13 +110,16 @@ private fun TopActionButtons(
             }
 
             if (showMenuButton) {
-                ActionButton(onClick = { }) {
-                    Icon(
-                        imageVector = Icons.Filled.MoreVert,
-                        contentDescription = stringResource(Res.string.restaurant_detail_more_options_description),
-                        tint = Color.White,
-                        modifier = Modifier.size(24.dp),
-                    )
+                Box {
+                    ActionButton(onClick = onMenuClick) {
+                        Icon(
+                            imageVector = Icons.Filled.MoreVert,
+                            contentDescription = stringResource(Res.string.restaurant_detail_more_options_description),
+                            tint = MaterialTheme.colorScheme.surface,
+                            modifier = Modifier.size(24.dp),
+                        )
+                    }
+                    menuContent()
                 }
             }
         }
@@ -130,7 +132,7 @@ fun TopActionButtonsPreview() {
     AppTheme {
         Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.medium)) {
             // Own guide: close, edit and favourite (active)
-            Box(modifier = Modifier.fillMaxWidth().background(ImagePlaceholderColor)) {
+            Box(modifier = Modifier.fillMaxWidth().height(160.dp).background(ImagePlaceholderColor)) {
                 TopActionButtons(
                     showCloseButton = true,
                     onCloseClick = {},
@@ -141,22 +143,23 @@ fun TopActionButtonsPreview() {
                     showFavouriteButton = true,
                     isFavourite = true,
                     onToggleFavourite = {},
-                    showMenuButton = true,
+                    showMenuButton = false,
                 )
             }
 
-            // Someone else's guide: close, share and favourite (inactive)
-            Box(modifier = Modifier.fillMaxWidth().background(ImagePlaceholderColor)) {
+            // Restaurant: close, favourite (inactive) and menu
+            Box(modifier = Modifier.fillMaxWidth().height(160.dp).background(ImagePlaceholderColor)) {
                 TopActionButtons(
                     showCloseButton = true,
                     onCloseClick = {},
-                    showShareButton = true,
+                    showShareButton = false,
                     onShareClick = {},
                     showEditButton = false,
                     showFavouriteButton = true,
                     isFavourite = false,
                     onToggleFavourite = {},
                     showMenuButton = true,
+                    onMenuClick = {},
                 )
             }
         }

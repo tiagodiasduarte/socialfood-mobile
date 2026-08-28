@@ -8,7 +8,6 @@
     <ID>LongMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>LongMethod:EditProfileSkeleton.kt$@Composable internal fun EditProfileSkeleton()</ID>
     <ID>LongMethod:ErrorContent.kt$@Composable fun ErrorContent( modifier: Modifier = Modifier, errorCode: String? = null, backgroundColor: Color = MaterialTheme.colorScheme.background, onRetryClick: () -&gt; Unit = {}, )</ID>
-    <ID>LongMethod:GuideCard.kt$@Composable fun GuideCard( guide: Guide, width: Dp? = null, isFavourite: Boolean = false, onClick: () -&gt; Unit = {}, onFavouriteClick: (() -&gt; Unit)? = null, modifier: Modifier = Modifier, )</ID>
     <ID>LongMethod:GuideDetailsCard.kt$@Composable fun GuideDetailsCard( modifier: Modifier = Modifier, title: String, description: String, titleError: Boolean, descriptionError: Boolean, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, imageUrl: String? = null, isUploadingPhoto: Boolean = false, onPickImage: () -&gt; Unit = {}, pendingImage: Pair&lt;ByteArray, String&gt;? = null, )</ID>
     <ID>LongMethod:GuideDetailsCard.kt$@Composable private fun CoverImagePicker( image: String?, pendingImage: Pair&lt;ByteArray, String&gt;?, isUploadingPhoto: Boolean, onPickImage: () -&gt; Unit, )</ID>
     <ID>LongMethod:GuideRestaurantsCard.kt$@Composable fun GuideRestaurantsCard(restaurants: List&lt;Restaurant&gt;, onAddClick: () -&gt; Unit, onRemoveClick: (String) -&gt; Unit)</ID>

@@ -1,6 +1,5 @@
 package pt.socialfood.presentation.search
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,14 +31,15 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.presentation.components.placeholder.RestaurantCardPlaceholder
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
+import pt.socialfood.ui.theme.IconSize
 import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.ui.theme.Star
 
 private val ThumbnailSize = 75.dp
 
-@Suppress("LongMethod")
 @Composable
 fun SearchRestaurantItem(restaurant: Restaurant, onClick: () -> Unit = {}, modifier: Modifier = Modifier) {
     Card(
@@ -53,80 +53,104 @@ fun SearchRestaurantItem(restaurant: Restaurant, onClick: () -> Unit = {}, modif
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
         ) {
-            val imageUrl = restaurant.imagesUrl.firstOrNull()
-            Box(modifier = Modifier.size(ThumbnailSize).clip(RoundedCornerShape(12.dp))) {
-                if (imageUrl != null) {
-                    SubcomposeAsyncImage(
-                        model = imageUrl,
-                        contentDescription = restaurant.name,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize(),
-                        loading = { Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) },
-                        error = { Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) },
-                    )
-                } else {
-                    Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background))
-                }
-            }
+            SearchRestaurantItemThumbnail(restaurant)
 
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-            ) {
-                Text(
-                    text = restaurant.name,
-                    style = AppTypography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Row(
-                        modifier = Modifier.weight(1f),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
-                    ) {
-                        Icon(
-                            Icons.Outlined.LocationOn,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(14.dp),
-                        )
-
-                        Text(
-                            text = " ${restaurant.city}, ${restaurant.country}",
-                            style = AppTypography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
-                }
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Star,
-                        contentDescription = null,
-                        tint = Star,
-                        modifier = Modifier.size(14.dp),
-                    )
-                    Text(
-                        text = restaurant.rating.toString(),
-                        style = AppTypography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
-                    Spacer(Modifier.width(SpaceSize.small))
-                    Text(
-                        text = "(${restaurant.userRatingCount})",
-                        style = AppTypography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
+            SearchRestaurantItemInfo(restaurant = restaurant, modifier = Modifier.weight(1f))
         }
+    }
+}
+
+@Composable
+private fun SearchRestaurantItemThumbnail(restaurant: Restaurant) {
+    val imageUrl = restaurant.imagesUrl.firstOrNull()
+    Box(modifier = Modifier.size(ThumbnailSize).clip(RoundedCornerShape(12.dp))) {
+        if (imageUrl != null) {
+            SubcomposeAsyncImage(
+                model = imageUrl,
+                contentDescription = restaurant.name,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize(),
+                loading = { RestaurantCardPlaceholder(IconSize.small) },
+                error = { RestaurantCardPlaceholder(IconSize.small) },
+            )
+        } else {
+            RestaurantCardPlaceholder(IconSize.small)
+        }
+    }
+}
+
+@Composable
+private fun SearchRestaurantItemInfo(restaurant: Restaurant, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+    ) {
+        Text(
+            text = restaurant.name,
+            style = AppTypography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurface,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
+
+        RestaurantLocationRow(restaurant)
+
+        RestaurantRatingRow(restaurant)
+    }
+}
+
+@Composable
+private fun RestaurantLocationRow(restaurant: Restaurant) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.weight(1f),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
+        ) {
+            Icon(
+                Icons.Outlined.LocationOn,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(14.dp),
+            )
+
+            Text(
+                text = " ${restaurant.city}, ${restaurant.country}",
+                style = AppTypography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+    }
+}
+
+@Composable
+private fun RestaurantRatingRow(restaurant: Restaurant) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Star,
+            contentDescription = null,
+            tint = Star,
+            modifier = Modifier.size(14.dp),
+        )
+
+        Text(
+            text = restaurant.rating.toString(),
+            style = AppTypography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+        )
+
+        Spacer(Modifier.width(SpaceSize.small))
+
+        Text(
+            text = "(${restaurant.userRatingCount})",
+            style = AppTypography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }
 

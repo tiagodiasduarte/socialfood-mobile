@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions")
+
 package pt.socialfood.presentation.guide.detail
 
 import androidx.compose.foundation.Image
@@ -45,6 +47,7 @@ import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.TopActionButtons
 import pt.socialfood.presentation.components.buttons.OutlinedButton
 import pt.socialfood.presentation.components.detailImageScrim
+import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
 import pt.socialfood.presentation.guide.detail.author.AuthorItemCard
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
@@ -144,7 +147,6 @@ private fun GuideDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
     }
 }
 
-@Suppress("LongMethod")
 @Composable
 private fun GuideDetailLoaded(
     guide: Guide,
@@ -175,23 +177,7 @@ private fun GuideDetailLoaded(
 
             GuideInfo(guide)
 
-            Text(
-                modifier = Modifier.padding(horizontal = SpaceSize.large),
-                text = guide.name,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-
-            Spacer(Modifier.height(SpaceSize.large))
-
-            if (guide.description.isNotBlank()) {
-                Text(
-                    modifier = Modifier.padding(horizontal = SpaceSize.large),
-                    text = guide.description,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
+            GuideTitleAndDescription(guide)
 
             Spacer(Modifier.height(SpaceSize.large))
 
@@ -258,15 +244,11 @@ private fun TopImageContent(
                 contentDescription = guide.name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
-                loading = {
-                    Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
-                },
-                error = {
-                    Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
-                },
+                loading = { GuideCardPlaceholder() },
+                error = { Box(Modifier.fillMaxSize().background(ImagePlaceholderColor)) },
             )
         } else {
-            Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
+            GuideCardPlaceholder()
         }
 
         Box(modifier = Modifier.fillMaxSize().detailImageScrim())
@@ -344,6 +326,27 @@ private fun GuideInfo(guide: Guide) {
                 Res.string.guide_detail_restaurants_count_label,
                 guide.numberOfRestaurant,
             ),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+    }
+}
+
+@Composable
+private fun GuideTitleAndDescription(guide: Guide) {
+    Text(
+        modifier = Modifier.padding(horizontal = SpaceSize.large),
+        text = guide.name,
+        style = MaterialTheme.typography.titleLarge,
+        color = MaterialTheme.colorScheme.onBackground,
+    )
+
+    Spacer(Modifier.height(SpaceSize.large))
+
+    if (guide.description.isNotBlank()) {
+        Text(
+            modifier = Modifier.padding(horizontal = SpaceSize.large),
+            text = guide.description,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

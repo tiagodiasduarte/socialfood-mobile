@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions")
+
 package pt.socialfood.presentation.restaurant.detail
 
 import androidx.compose.foundation.background
@@ -37,14 +39,16 @@ import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.TopActionButtons
 import pt.socialfood.presentation.components.detailImageScrim
+import pt.socialfood.presentation.components.placeholder.RestaurantCardPlaceholder
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.ImagePlaceholderColor
+import pt.socialfood.ui.theme.IconSize
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.restaurant_detail_add_to_wishlist_button
@@ -53,7 +57,6 @@ import socialfood.composeapp.generated.resources.restaurant_detail_opening_hours
 import socialfood.composeapp.generated.resources.restaurant_detail_share_button
 
 val ImageHeight = 300.dp
-private const val GALLERY_PHOTO_COUNT = 5
 
 @Composable
 fun RestaurantDetailScreen(
@@ -192,7 +195,6 @@ private fun RestaurantDetailLoaded(
     }
 }
 
-@Suppress("LongMethod")
 @Composable
 private fun TopSection(
     restaurant: Restaurant,
@@ -204,29 +206,12 @@ private fun TopSection(
     onAddToWishlistClick: () -> Unit,
     onMoveToVisitedClick: () -> Unit,
 ) {
-    val imageUrl = restaurant.imagesUrl.firstOrNull()
-
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(ImageHeight),
     ) {
-        if (imageUrl != null) {
-            SubcomposeAsyncImage(
-                model = imageUrl,
-                contentDescription = restaurant.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
-                loading = {
-                    Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
-                },
-                error = {
-                    Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
-                },
-            )
-        } else {
-            Box(Modifier.fillMaxSize().background(ImagePlaceholderColor))
-        }
+        RestaurantImage(restaurant)
 
         Box(modifier = Modifier.fillMaxSize().detailImageScrim())
 
@@ -260,6 +245,7 @@ private fun TopSection(
                                 onMoveToVisitedClick()
                             },
                         )
+
                         VisitStatus.VISITED -> Unit
                         null -> DropdownMenuItem(
                             text = { Text(stringResource(Res.string.restaurant_detail_add_to_wishlist_button)) },
@@ -272,6 +258,23 @@ private fun TopSection(
                 }
             },
         )
+    }
+}
+
+@Composable
+private fun RestaurantImage(restaurant: Restaurant) {
+    val imageUrl = restaurant.imagesUrl.firstOrNull()
+    if (imageUrl != null) {
+        SubcomposeAsyncImage(
+            model = imageUrl,
+            contentDescription = restaurant.name,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize(),
+            loading = { RestaurantCardPlaceholder() },
+            error = { RestaurantCardPlaceholder() },
+        )
+    } else {
+        RestaurantCardPlaceholder()
     }
 }
 
@@ -301,7 +304,7 @@ private fun TitleSection(restaurant: Restaurant) {
 
 @Composable
 private fun PhotoGallerySection(restaurant: Restaurant) {
-    val galleryPhotos = restaurant.imagesUrl.drop(1).take(GALLERY_PHOTO_COUNT)
+    val galleryPhotos = restaurant.imagesUrl.drop(1)
     if (galleryPhotos.isNotEmpty()) {
         PhotoGallery(
             photos = galleryPhotos,
@@ -319,28 +322,14 @@ private fun PhotoGallery(photos: List<String>, restaurantName: String) {
     ) {
         items(photos) { photoUrl ->
             SubcomposeAsyncImage(
-                model = "$photoUrl&size=300",
+                model = photoUrl + "dasds",
                 contentDescription = restaurantName,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(120.dp)
                     .clip(RoundedCornerShape(SpaceSize.medium)),
-                loading = {
-                    Box(
-                        Modifier
-                            .size(120.dp)
-                            .clip(RoundedCornerShape(SpaceSize.medium))
-                            .background(ImagePlaceholderColor),
-                    )
-                },
-                error = {
-                    Box(
-                        Modifier
-                            .size(120.dp)
-                            .clip(RoundedCornerShape(SpaceSize.medium))
-                            .background(ImagePlaceholderColor),
-                    )
-                },
+                loading = { RestaurantCardPlaceholder(IconSize.small) },
+                error = { RestaurantCardPlaceholder(IconSize.small) },
             )
         }
     }
@@ -387,6 +376,30 @@ private fun RestaurantDetailScreenPreview() {
             isFavourite = false,
             visitStatus = null,
             onBackClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun RestaurantDetailScreenLoadingPreview() {
+    AppTheme {
+        RestaurantDetailContent(
+            state = RestaurantDetailUiState.Loading,
+            onBackClick = {},
+            onRetry = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun RestaurantDetailScreenErrorPreview() {
+    AppTheme {
+        RestaurantDetailContent(
+            state = RestaurantDetailUiState.Error(ErrorCode.RESTAURANT_NOT_FOUND),
+            onBackClick = {},
+            onRetry = {},
         )
     }
 }

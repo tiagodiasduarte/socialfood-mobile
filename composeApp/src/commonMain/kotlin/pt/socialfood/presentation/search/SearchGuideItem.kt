@@ -61,7 +61,7 @@ fun SearchGuideItem(guide: Guide, onClick: () -> Unit = {}, modifier: Modifier =
         Column(
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(horizontal = 16.dp, vertical = 14.dp),
+                .padding(SpaceSize.large),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Text(

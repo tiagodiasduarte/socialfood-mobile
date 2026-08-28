@@ -86,12 +86,8 @@ private fun RestaurantCardImage(restaurant: Restaurant, isFavourite: Boolean, on
                 contentDescription = restaurant.name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
-                loading = {
-                    RestaurantCardPlaceholder()
-                },
-                error = {
-                    RestaurantCardPlaceholder()
-                },
+                loading = { RestaurantCardPlaceholder() },
+                error = { RestaurantCardPlaceholder() },
             )
         } else {
             RestaurantCardPlaceholder()

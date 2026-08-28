@@ -322,7 +322,7 @@ private fun PhotoGallery(photos: List<String>, restaurantName: String) {
     ) {
         items(photos) { photoUrl ->
             SubcomposeAsyncImage(
-                model = photoUrl + "dasds",
+                model = photoUrl,
                 contentDescription = restaurantName,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

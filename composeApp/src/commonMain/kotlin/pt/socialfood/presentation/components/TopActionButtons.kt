@@ -1,6 +1,5 @@
 package pt.socialfood.presentation.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -26,7 +25,6 @@ import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.presentation.components.buttons.ActionButton
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
-import pt.socialfood.ui.theme.ImagePlaceholderColor
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
@@ -131,7 +129,7 @@ fun TopActionButtons(
 @Preview
 fun TopActionButtonsPreview() {
     AppTheme {
-        Box(modifier = Modifier.fillMaxWidth().height(80.dp).background(ImagePlaceholderColor)) {
+        Box(modifier = Modifier.fillMaxWidth().height(80.dp)) {
             TopActionButtons(
                 showCloseButton = true,
                 showShareButton = true,

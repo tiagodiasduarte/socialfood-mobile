@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.presentation.components.placeholder.RestaurantCardPlaceholder
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.SpaceSize
@@ -85,27 +86,11 @@ private fun RestaurantCardImage(restaurant: Restaurant, isFavourite: Boolean, on
                 contentDescription = restaurant.name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
-                loading = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surfaceVariant),
-                    )
-                },
-                error = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surfaceVariant),
-                    )
-                },
+                loading = { RestaurantCardPlaceholder() },
+                error = { RestaurantCardPlaceholder() },
             )
         } else {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-            )
+            RestaurantCardPlaceholder()
         }
 
         Box(

@@ -14,8 +14,8 @@ import androidx.compose.ui.unit.Dp
 import org.jetbrains.compose.resources.painterResource
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.IconSize
-import pt.socialfood.ui.theme.RestaurantPlaceholderGradientEnd
-import pt.socialfood.ui.theme.RestaurantPlaceholderGradientStart
+import pt.socialfood.ui.theme.PlaceholderGradientEnd
+import pt.socialfood.ui.theme.PlaceholderGradientStart
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.restaurant_placeholder_icon
 
@@ -26,7 +26,7 @@ fun RestaurantCardPlaceholder(iconSize: Dp = IconSize.medium) {
             .fillMaxSize()
             .background(
                 Brush.linearGradient(
-                    colors = listOf(RestaurantPlaceholderGradientStart, RestaurantPlaceholderGradientEnd),
+                    colors = listOf(PlaceholderGradientStart, PlaceholderGradientEnd),
                 ),
             ),
     ) {

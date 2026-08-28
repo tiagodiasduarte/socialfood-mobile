@@ -61,7 +61,6 @@ fun GuideCard(
             .clickable(onClick = onClick),
     ) {
         GuideCardBackground(guide = guide)
-        GuideCardGradientOverlay()
 
         if (onFavouriteClick != null) {
             GuideCardFavouriteButton(
@@ -92,10 +91,7 @@ private fun GuideCardBackground(guide: Guide, modifier: Modifier = Modifier) {
     } else {
         GuideCardPlaceholder()
     }
-}
 
-@Composable
-private fun GuideCardGradientOverlay(modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize().cardImageScrim())
 }
 

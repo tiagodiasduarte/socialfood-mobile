@@ -51,7 +51,6 @@ import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
 import pt.socialfood.presentation.guide.detail.author.AuthorItemCard
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.ImagePlaceholderColor
 import pt.socialfood.ui.theme.PrivateBadge
 import pt.socialfood.ui.theme.PublicBadge
 import pt.socialfood.ui.theme.PublicBadgeBackground
@@ -245,7 +244,7 @@ private fun TopImageContent(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
                 loading = { GuideCardPlaceholder() },
-                error = { Box(Modifier.fillMaxSize().background(ImagePlaceholderColor)) },
+                error = { GuideCardPlaceholder() },
             )
         } else {
             GuideCardPlaceholder()

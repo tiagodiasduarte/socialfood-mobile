@@ -25,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
@@ -37,6 +36,7 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.presentation.components.UserImage
+import pt.socialfood.presentation.components.cardImageScrim
 import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
@@ -96,21 +96,7 @@ private fun GuideCardBackground(guide: Guide, modifier: Modifier = Modifier) {
 
 @Composable
 private fun GuideCardGradientOverlay(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Transparent,
-                        Color.Black.copy(alpha = 0.3f),
-                        Color.Black.copy(alpha = 0.75f),
-                    ),
-                    startY = 0f,
-                    endY = Float.POSITIVE_INFINITY,
-                ),
-            ),
-    )
+    Box(modifier = modifier.fillMaxSize().cardImageScrim())
 }
 
 @Composable

@@ -37,7 +37,6 @@ fun GuidesHeader(
     selectedTab: Int,
     onSelectedTab: (Int) -> Unit,
     onAddClick: () -> Unit = {},
-    userName: String = "",
     userImageUrl: String? = null,
     onProfileClick: () -> Unit = {},
     modifier: Modifier = Modifier,
@@ -55,7 +54,6 @@ fun GuidesHeader(
                 .padding(SpaceSize.large),
         ) {
             UserImage(
-                name = userName,
                 imageUrl = userImageUrl,
                 imageSize = 32.dp,
                 modifier = Modifier

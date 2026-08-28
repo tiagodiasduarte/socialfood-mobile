@@ -78,7 +78,6 @@ private fun AuthorsContent(
         ) {
             item {
                 AuthorsHeader(
-                    userName = user?.name.orEmpty(),
                     userImageUrl = user?.imageUrl,
                     onProfileClick = onProfileClick,
                 )

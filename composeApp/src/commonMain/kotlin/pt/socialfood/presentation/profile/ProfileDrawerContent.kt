@@ -274,7 +274,7 @@ private fun DrawerHeader(user: User, onEditProfileClick: () -> Unit) {
                     .background(MaterialTheme.colorScheme.surface),
                 contentAlignment = Alignment.Center,
             ) {
-                UserImage(name = user.name, imageUrl = user.imageUrl, imageSize = DrawerAvatarSize)
+                UserImage(imageUrl = user.imageUrl, imageSize = DrawerAvatarSize)
             }
 
             Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.small)) {

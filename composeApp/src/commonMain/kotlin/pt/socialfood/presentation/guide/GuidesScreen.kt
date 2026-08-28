@@ -105,7 +105,6 @@ fun GuidesScreenContent(
                     selectedTab = selectedTab,
                     onSelectedTab = onTabSelected,
                     onAddClick = onAddClick,
-                    userName = user?.name.orEmpty(),
                     userImageUrl = user?.imageUrl,
                     onProfileClick = onProfileClick,
                 )

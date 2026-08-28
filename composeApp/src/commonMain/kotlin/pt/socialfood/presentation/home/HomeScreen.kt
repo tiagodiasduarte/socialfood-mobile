@@ -102,7 +102,6 @@ fun HomeScreenContent(
         ) {
             item {
                 HomeHeader(
-                    userName = user?.name.orEmpty(),
                     userImageUrl = user?.imageUrl,
                     onProfileClick = onProfileClick,
                     onSearchClick = onSearchClick,

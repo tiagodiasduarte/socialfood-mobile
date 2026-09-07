@@ -1,5 +1,6 @@
 package pt.socialfood.data.local.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
@@ -25,11 +26,13 @@ interface FavouriteDao {
     @Query("DELETE FROM $FAVOURITE_GUIDES_TABLE WHERE guideId IN (:guideIds)")
     suspend fun deleteByGuideIds(guideIds: List<String>)
 
-    @Query("SELECT * FROM $FAVOURITE_GUIDES_TABLE ORDER BY favouritedAt DESC LIMIT :limit OFFSET :offset")
-    suspend fun getPaged(limit: Int, offset: Int): List<FavouriteGuideEntity>
+    @Query("DELETE FROM $FAVOURITE_GUIDES_TABLE")
+    suspend fun deleteAll()
 
-    @Query("SELECT COUNT(*) FROM $FAVOURITE_GUIDES_TABLE")
-    suspend fun countAll(): Int
+    @Query(
+        "SELECT * FROM $FAVOURITE_GUIDES_TABLE WHERE syncState != 'PENDING_REMOVE' ORDER BY position ASC",
+    )
+    fun pagingSource(): PagingSource<Int, FavouriteGuideEntity>
 
     @Query("SELECT * FROM $FAVOURITE_GUIDES_TABLE WHERE guideId = :guideId LIMIT 1")
     suspend fun getByGuideId(guideId: String): FavouriteGuideEntity?

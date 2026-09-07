@@ -1,7 +1,7 @@
 package pt.socialfood.mapper
 
-import pt.socialfood.data.api.PlacesApi.Companion.buildImageUrl
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 
 fun RestaurantResponse.toRestaurant(): Restaurant = Restaurant(
@@ -12,11 +12,12 @@ fun RestaurantResponse.toRestaurant(): Restaurant = Restaurant(
     country = this.country,
     countryCode = this.countryCode,
     postalCode = this.postalCode,
-    photoNames = this.photoNames.map { buildImageUrl(it) },
+    imagesUrl = this.imagesUrl,
     address = this.address,
     rating = this.rating,
     userRatingCount = this.userRatingCount,
     websiteUrl = this.websiteUrl,
     phoneNumber = this.phoneNumber,
     regularOpeningHours = this.regularOpeningHours,
+    location = Location(latitude = this.location.latitude, longitude = this.location.longitude),
 )

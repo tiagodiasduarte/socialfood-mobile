@@ -5,11 +5,11 @@ import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
 
 interface FavouritesGuidesApi {
-    suspend fun markFavourite(guideId: String)
+    suspend fun mark(guideId: String)
 
-    suspend fun unmarkFavourite(guideId: String)
+    suspend fun unmark(guideId: String)
 
-    suspend fun findFavouriteGuides(page: Int, limit: Int): PagedResponse<GuideResponse>
+    suspend fun find(page: Int, limit: Int): PagedResponse<GuideResponse>
 
-    suspend fun syncFavouriteGuides(since: String?): FavouriteSyncResponse
+    suspend fun sync(since: String?): FavouriteSyncResponse<GuideResponse>
 }

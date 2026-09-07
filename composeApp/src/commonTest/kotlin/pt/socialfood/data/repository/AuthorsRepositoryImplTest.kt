@@ -26,8 +26,7 @@ class AuthorsRepositoryImplTest {
     // findAuthors
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given valid pagination params when findAuthors is called then returns Success with PagedAuthors and correct hasMore flag`() =
+    fun `given pagination params when findAuthors is called then returns Success with PagedAuthors and hasMore flag`() =
         runTest {
             // Given
             val repo = createRepository()

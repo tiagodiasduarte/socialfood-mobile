@@ -11,11 +11,12 @@ data class Restaurant(
     val country: String,
     val countryCode: String,
     val postalCode: String?,
-    val photoNames: List<String>,
+    val imagesUrl: List<String>,
     val address: String,
     val rating: Double,
     val userRatingCount: Int,
     val websiteUrl: String?,
     val phoneNumber: String,
     val regularOpeningHours: List<String>? = null,
+    val location: Location,
 )

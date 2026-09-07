@@ -114,8 +114,7 @@ class ValidateCodeViewModelTest {
         }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given a fake restart sign up use case when onRestartSignUp is called then use case is invoked and state becomes RestartSignUp`() =
+    fun `given a fake restart sign up use case when onRestartSignUp is called then state becomes RestartSignUp`() =
         runTestWithMainDispatcher {
             // Given
             val fakeRestartSignUp = FakeRestartSignUpUseCase()

@@ -57,11 +57,11 @@ class GuideRemoteMediator(
 
             when (
                 val result = safeApiCall {
-                    guidesApi.findGuides(
-                        page = page,
-                        limit = limit,
-                        userId = scope.takeIf { it != GUIDES_ALL_SCOPE },
-                    )
+                    if (scope == GUIDES_ALL_SCOPE) {
+                        guidesApi.findGuides(page = page, limit = limit)
+                    } else {
+                        guidesApi.findMyGuides(page = page, limit = limit)
+                    }
                 }
             ) {
                 is Result.Failure -> MediatorResult.Error(result.error.toThrowable())

@@ -15,6 +15,7 @@ jobs:
     timeout-minutes: 15
     env:
       GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+      GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
       GITHUB_RUN_NUMBER: ${{ github.run_number }}
       GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
     steps:
@@ -33,6 +34,7 @@ jobs:
     timeout-minutes: 15
     env:
       GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+      GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
       GITHUB_RUN_NUMBER: ${{ github.run_number }}
       GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
     steps:
@@ -58,6 +60,7 @@ jobs:
     timeout-minutes: 30
     env:
       GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+      GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
       GITHUB_RUN_NUMBER: ${{ github.run_number }}
     steps:
       - uses: actions/checkout@v4
@@ -100,6 +103,7 @@ jobs:
     timeout-minutes: 30
     env:
       GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+      GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
       GITHUB_RUN_NUMBER: ${{ github.run_number }}
       GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
     steps:
@@ -118,6 +122,7 @@ jobs:
     timeout-minutes: 15
     env:
       GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+      GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
       GITHUB_RUN_NUMBER: ${{ github.run_number }}
       GRADLE_OPTS: "-Xmx4g -Dkotlin.daemon.jvm.options=-Xmx3g"
     steps:

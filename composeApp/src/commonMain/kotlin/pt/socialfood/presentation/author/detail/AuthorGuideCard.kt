@@ -1,6 +1,5 @@
 package pt.socialfood.presentation.author.detail
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,15 +23,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.ui.theme.ImagePlaceholderColor
+import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.IconSize
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.author_detail_restaurants_count_label
 
-@Suppress("LongMethod")
 @Composable
 fun AuthorGuideCard(
     guideName: String,
@@ -55,23 +56,7 @@ fun AuthorGuideCard(
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Box(
-                modifier = Modifier
-                    .size(72.dp)
-                    .clip(RoundedCornerShape(SpaceSize.medium))
-                    .background(ImagePlaceholderColor),
-            ) {
-                if (imageUrl != null) {
-                    SubcomposeAsyncImage(
-                        model = imageUrl,
-                        contentDescription = guideName,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize(),
-                        loading = {},
-                        error = {},
-                    )
-                }
-            }
+            GuideThumbnail(guideName, imageUrl)
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
@@ -105,5 +90,41 @@ fun AuthorGuideCard(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun GuideThumbnail(guideName: String, imageUrl: String?) {
+    Box(
+        modifier = Modifier
+            .size(72.dp)
+            .clip(RoundedCornerShape(SpaceSize.medium)),
+    ) {
+        if (imageUrl != null) {
+            SubcomposeAsyncImage(
+                model = imageUrl,
+                contentDescription = guideName,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize(),
+                loading = { GuideCardPlaceholder(IconSize.small) },
+                error = { GuideCardPlaceholder(IconSize.small) },
+            )
+        } else {
+            GuideCardPlaceholder(IconSize.small)
+        }
+    }
+}
+
+@Composable
+@Preview
+private fun AuthorGuideCardPreview() {
+    AppTheme {
+        AuthorGuideCard(
+            guideName = "Michelin Star Favorites",
+            guideDescription = "A curated collection of the finest dining experiences",
+            numberOfRestaurant = 8,
+            imageUrl = null,
+            onClick = {},
+        )
     }
 }

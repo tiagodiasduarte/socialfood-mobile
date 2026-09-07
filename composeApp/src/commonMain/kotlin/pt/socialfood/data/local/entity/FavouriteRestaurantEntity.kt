@@ -20,7 +20,10 @@ data class FavouriteRestaurantEntity(
     val websiteUrl: String?,
     val phoneNumber: String,
     val imageUrl: String?,
+    val latitude: Double,
+    val longitude: Double,
     val favouritedAt: Long,
     /** One of [FavouriteSyncState]'s `name`s. Stored as a raw String to avoid a Room TypeConverter. */
     val syncState: String,
+    val position: Int,
 )

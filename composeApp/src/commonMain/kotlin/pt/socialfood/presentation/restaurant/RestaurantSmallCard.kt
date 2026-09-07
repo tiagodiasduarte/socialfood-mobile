@@ -1,6 +1,5 @@
 package pt.socialfood.presentation.restaurant
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,13 +32,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
+import coil3.compose.SubcomposeAsyncImage
+import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.presentation.components.placeholder.RestaurantCardPlaceholder
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.FavouriteRed
+import pt.socialfood.ui.theme.IconSize
 import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.ui.theme.Star
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.user_image_content_description
 
 internal val CardHeight = 125.dp
 private const val IMAGE_SIZE = 95
@@ -90,20 +95,23 @@ private fun RestaurantCardInfo(restaurant: Restaurant, modifier: Modifier = Modi
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
     ) {
-        val imageUrl = restaurant.photoNames.firstOrNull()
+        val imageUrl = restaurant.imagesUrl.firstOrNull()
         Box(
             modifier = Modifier
                 .size(IMAGE_SIZE.dp)
-                .clip(RoundedCornerShape(SpaceSize.medium))
-                .background(MaterialTheme.colorScheme.surfaceVariant),
+                .clip(RoundedCornerShape(SpaceSize.medium)),
         ) {
             if (imageUrl != null) {
-                AsyncImage(
-                    model = "$imageUrl&size=$IMAGE_SIZE",
-                    contentDescription = restaurant.name,
+                SubcomposeAsyncImage(
+                    model = imageUrl,
+                    contentDescription = stringResource(Res.string.user_image_content_description),
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize(),
+                    loading = { RestaurantCardPlaceholder() },
+                    error = { RestaurantCardPlaceholder() },
                 )
+            } else {
+                RestaurantCardPlaceholder(iconSize = IconSize.small)
             }
         }
 
@@ -185,12 +193,13 @@ private fun RestaurantSmallCardPreview() {
                 country = "Portugal",
                 countryCode = "PT",
                 postalCode = "1000-000",
-                photoNames = emptyList(),
+                imagesUrl = emptyList(),
                 address = "Rua Augusta 123, Lisbon",
                 rating = 4.8,
                 userRatingCount = 320,
                 websiteUrl = "",
                 phoneNumber = "+351 910 000 000",
+                location = Location(latitude = 38.7223, longitude = -9.1393),
             ),
             removeButtonContentDescription = "Remove",
         )

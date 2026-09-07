@@ -1,16 +1,16 @@
 package pt.socialfood.fakes
 
+import androidx.paging.PagingData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import pt.socialfood.core.Result
-import pt.socialfood.domain.model.PagedFavouriteRestaurants
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
 
 class FakeFavouriteRestaurantsRepository(
     private val markResult: Result<Unit> = Result.Success(Unit),
     private val unmarkResult: Result<Unit> = Result.Success(Unit),
-    private val pagedResult: Result<PagedFavouriteRestaurants> = Result.Success(
-        PagedFavouriteRestaurants(favourites = emptyList(), page = 1, total = 0, hasMore = false),
-    ),
+    private val pagingFlow: Flow<PagingData<Restaurant>> = emptyFlow(),
     private val isFavouriteResult: Result<Boolean> = Result.Success(false),
     private val syncResult: Result<Unit> = Result.Success(Unit),
 ) : FavouriteRestaurantsRepository {
@@ -34,7 +34,7 @@ class FakeFavouriteRestaurantsRepository(
         return unmarkResult
     }
 
-    override suspend fun getFavouritesPaged(page: Int, limit: Int): Result<PagedFavouriteRestaurants> = pagedResult
+    override fun getFavouritesPagingFlow(): Flow<PagingData<Restaurant>> = pagingFlow
 
     override suspend fun isFavourite(restaurantId: String): Result<Boolean> {
         lastIsFavouriteRestaurantId = restaurantId

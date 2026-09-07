@@ -22,6 +22,9 @@ sealed interface Route : NavKey {
     data class GuideDetail(val guideId: String) : Route
 
     @Serializable
+    data class GuideMap(val guideId: String, val guideName: String, val restaurantsCount: Int) : Route
+
+    @Serializable
     data class AuthorDetail(val authorId: String) : Route
 
     @Serializable

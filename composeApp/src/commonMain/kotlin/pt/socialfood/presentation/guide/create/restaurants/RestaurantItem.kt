@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.restaurant.search.PlaceThumbnail
 import pt.socialfood.ui.theme.AppTheme
@@ -33,7 +34,7 @@ fun RestaurantItem(restaurant: Restaurant, onRemove: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
-        PlaceThumbnail(imageUrl = restaurant.photoNames.firstOrNull())
+        PlaceThumbnail(imageUrl = restaurant.imagesUrl.firstOrNull())
 
         Column(
             modifier = Modifier.weight(1f),
@@ -70,12 +71,13 @@ private fun RestaurantItemPreview() {
                 country = "Portugal",
                 countryCode = "Portugal",
                 postalCode = "1234",
-                photoNames = emptyList(),
+                imagesUrl = emptyList(),
                 address = "Largo de São Carlos 10, Lisboa",
                 rating = 4.8,
                 userRatingCount = 1200,
                 websiteUrl = "",
                 phoneNumber = "",
+                location = Location(latitude = 38.7223, longitude = -9.1393),
             ),
             onRemove = {},
         )

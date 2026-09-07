@@ -121,8 +121,7 @@ class AuthorRemoteMediatorTest {
         }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given cache has no next page key when APPEND load is triggered then returns Success with endOfPaginationReached true without calling the api`() =
+    fun `given no next page key when APPEND runs then returns Success endOfPaginationReached without api call`() =
         runTest {
             // Given
             val authorDao = FakeAuthorDao()
@@ -141,67 +140,60 @@ class AuthorRemoteMediatorTest {
         }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given response page times limit is greater than or equal to total when load is triggered then endOfPaginationReached is true and the remote key reflects it`() =
-        runTest {
-            // Given
-            val api = FakeAuthorsApi(items = listOf(authorResponse("a1")), total = 1)
-            val authorDao = FakeAuthorDao()
-            val authorRemoteKeyDao = FakeAuthorRemoteKeyDao()
-            val mediator = createMediator(api, authorDao, authorRemoteKeyDao)
+    fun `given page times limit reaches total when loaded then pagination ends and remote key reflects it`() = runTest {
+        // Given
+        val api = FakeAuthorsApi(items = listOf(authorResponse("a1")), total = 1)
+        val authorDao = FakeAuthorDao()
+        val authorRemoteKeyDao = FakeAuthorRemoteKeyDao()
+        val mediator = createMediator(api, authorDao, authorRemoteKeyDao)
 
-            // When
-            val result = mediator.load(LoadType.REFRESH, emptyState)
+        // When
+        val result = mediator.load(LoadType.REFRESH, emptyState)
 
-            // Then
-            assertIs<RemoteMediator.MediatorResult.Success>(result)
-            assertTrue(result.endOfPaginationReached)
-            val remoteKey = authorRemoteKeyDao.get()
-            assertEquals(true, remoteKey?.endOfPaginationReached)
-            assertNull(remoteKey?.nextPage)
-        }
+        // Then
+        assertIs<RemoteMediator.MediatorResult.Success>(result)
+        assertTrue(result.endOfPaginationReached)
+        val remoteKey = authorRemoteKeyDao.get()
+        assertEquals(true, remoteKey?.endOfPaginationReached)
+        assertNull(remoteKey?.nextPage)
+    }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given api throws when load is triggered then returns MediatorResult Error without clearing the existing cache`() =
-        runTest {
-            // Given
-            val authorDao = FakeAuthorDao()
-            val authorRemoteKeyDao = FakeAuthorRemoteKeyDao()
-            authorDao.upsertAll(listOf(authorEntity(id = "existing-id")))
-            val api = FakeAuthorsApi(shouldThrow = true)
-            val mediator = createMediator(api, authorDao, authorRemoteKeyDao)
+    fun `given api throws when load is triggered then returns Error without clearing the existing cache`() = runTest {
+        // Given
+        val authorDao = FakeAuthorDao()
+        val authorRemoteKeyDao = FakeAuthorRemoteKeyDao()
+        authorDao.upsertAll(listOf(authorEntity(id = "existing-id")))
+        val api = FakeAuthorsApi(shouldThrow = true)
+        val mediator = createMediator(api, authorDao, authorRemoteKeyDao)
 
-            // When
-            val result = mediator.load(LoadType.REFRESH, emptyState)
+        // When
+        val result = mediator.load(LoadType.REFRESH, emptyState)
 
-            // Then
-            assertIs<RemoteMediator.MediatorResult.Error>(result)
-            assertEquals(listOf("existing-id"), authorDao.getAll().map { it.id })
-        }
+        // Then
+        assertIs<RemoteMediator.MediatorResult.Error>(result)
+        assertEquals(listOf("existing-id"), authorDao.getAll().map { it.id })
+    }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given PREPEND load is triggered then returns Success with endOfPaginationReached true immediately without calling the api`() =
-        runTest {
-            // Given
-            val api = FakeAuthorsApi()
-            val authorDao = FakeAuthorDao()
-            val authorRemoteKeyDao = FakeAuthorRemoteKeyDao()
-            val mediator = createMediator(api, authorDao, authorRemoteKeyDao)
+    fun `given PREPEND load then returns Success endOfPaginationReached true without calling api`() = runTest {
+        // Given
+        val api = FakeAuthorsApi()
+        val authorDao = FakeAuthorDao()
+        val authorRemoteKeyDao = FakeAuthorRemoteKeyDao()
+        val mediator = createMediator(api, authorDao, authorRemoteKeyDao)
 
-            // When
-            val result = mediator.load(LoadType.PREPEND, emptyState)
+        // When
+        val result = mediator.load(LoadType.PREPEND, emptyState)
 
-            // Then
-            assertIs<RemoteMediator.MediatorResult.Success>(result)
-            assertTrue(result.endOfPaginationReached)
-            assertEquals(0, api.findAuthorsCallCount)
-        }
+        // Then
+        assertIs<RemoteMediator.MediatorResult.Success>(result)
+        assertTrue(result.endOfPaginationReached)
+        assertEquals(0, api.findAuthorsCallCount)
+    }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given cache is populated after a REFRESH load when read through a TestPager then the PagingSource surfaces the cached rows`() =
+    fun `given cache populated after REFRESH when read via TestPager then PagingSource surfaces cached rows`() =
         runTest {
             // Given
             val api = FakeAuthorsApi(items = listOf(authorResponse("a1"), authorResponse("a2")), total = 2)

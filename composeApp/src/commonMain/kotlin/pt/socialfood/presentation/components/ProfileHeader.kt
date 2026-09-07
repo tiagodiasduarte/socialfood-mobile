@@ -78,7 +78,6 @@ fun ProfileHeader(
                     contentAlignment = Alignment.Center,
                 ) {
                     UserImage(
-                        name = name,
                         imageUrl = imageUrl,
                         imageSize = ProfileAvatarSize,
                     )

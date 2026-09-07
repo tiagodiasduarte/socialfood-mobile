@@ -20,6 +20,8 @@ data class RestaurantVisitStatusEntity(
     val websiteUrl: String?,
     val phoneNumber: String,
     val imageUrl: String?,
+    val latitude: Double,
+    val longitude: Double,
     val status: String,
     val recordedAt: Long,
     val syncState: String,

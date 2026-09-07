@@ -47,7 +47,7 @@ fun SearchAuthorItem(author: Author, onClick: () -> Unit = {}, modifier: Modifie
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
         ) {
-            UserImage(name = author.name, imageUrl = author.imageUrl, imageSize = AvatarSize)
+            UserImage(imageUrl = author.imageUrl, imageSize = AvatarSize)
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(

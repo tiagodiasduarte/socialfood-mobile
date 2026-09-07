@@ -3,7 +3,6 @@ package pt.socialfood.mapper
 import pt.socialfood.data.local.entity.FavouriteGuideEntity
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.FavouriteGuide
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.random.nextEnum
@@ -29,6 +28,7 @@ class FavouriteGuideMapperTest {
         imageUrl = Random.nextNullable { nextUrl() },
         favouritedAt = Random.nextLong(),
         syncState = Random.nextEnum<FavouriteSyncState>().name,
+        position = Random.nextInt(),
     )
 
     @Test
@@ -60,26 +60,15 @@ class FavouriteGuideMapperTest {
     }
 
     @Test
-    fun `given a FavouriteGuideEntity when mapped to FavouriteGuide then wraps the guide and favouritedAt`() {
-        // Given
-        val entity = randomFavouriteGuideEntity()
-
-        // When
-        val result = entity.toFavouriteGuide()
-
-        // Then
-        assertEquals(FavouriteGuide(guide = entity.toGuide(), favouritedAt = entity.favouritedAt), result)
-    }
-
-    @Test
     fun `given a Guide when mapped to entity then returns the equivalent FavouriteGuideEntity`() {
         // Given
         val guide = Random.nextGuide()
         val favouritedAt = Random.nextLong()
         val syncState = Random.nextEnum<FavouriteSyncState>()
+        val position = Random.nextInt()
 
         // When
-        val result = guide.toFavouriteGuideEntity(favouritedAt, syncState)
+        val result = guide.toFavouriteGuideEntity(favouritedAt, syncState, position)
 
         // Then
         assertEquals(
@@ -96,6 +85,7 @@ class FavouriteGuideMapperTest {
                 imageUrl = guide.imageUrl,
                 favouritedAt = favouritedAt,
                 syncState = syncState.name,
+                position = position,
             ),
             result,
         )

@@ -31,7 +31,7 @@ class GuideMapperTest {
         id = Random.nextString(),
         name = Random.nextString(),
         description = Random.nextNullable { nextString(20) },
-        photoNames = listOf(Random.nextString()),
+        imagesUrl = listOf(Random.nextString()),
         city = Random.nextString(),
         country = Random.nextString(),
         countryCode = Random.nextString(2),

@@ -2,7 +2,7 @@ package pt.socialfood.mapper
 
 import pt.socialfood.data.local.entity.FavouriteRestaurantEntity
 import pt.socialfood.data.local.entity.FavouriteSyncState
-import pt.socialfood.domain.model.FavouriteRestaurant
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 
 fun FavouriteRestaurantEntity.toRestaurant(): Restaurant = Restaurant(
@@ -13,22 +13,19 @@ fun FavouriteRestaurantEntity.toRestaurant(): Restaurant = Restaurant(
     country = this.country,
     countryCode = this.countryCode,
     postalCode = this.postalCode,
-    photoNames = listOfNotNull(this.imageUrl),
+    imagesUrl = listOfNotNull(this.imageUrl),
     address = this.address,
     rating = this.rating,
     userRatingCount = this.userRatingCount,
     websiteUrl = this.websiteUrl,
     phoneNumber = this.phoneNumber,
-)
-
-fun FavouriteRestaurantEntity.toFavouriteRestaurant(): FavouriteRestaurant = FavouriteRestaurant(
-    restaurant = this.toRestaurant(),
-    favouritedAt = this.favouritedAt,
+    location = Location(latitude = this.latitude, longitude = this.longitude),
 )
 
 fun Restaurant.toFavouriteRestaurantEntity(
     favouritedAt: Long,
     syncState: FavouriteSyncState,
+    position: Int,
 ): FavouriteRestaurantEntity = FavouriteRestaurantEntity(
     restaurantId = this.id,
     name = this.name,
@@ -42,7 +39,10 @@ fun Restaurant.toFavouriteRestaurantEntity(
     userRatingCount = this.userRatingCount,
     websiteUrl = this.websiteUrl,
     phoneNumber = this.phoneNumber,
-    imageUrl = this.photoNames.firstOrNull(),
+    imageUrl = this.imagesUrl.firstOrNull(),
+    latitude = this.location.latitude,
+    longitude = this.location.longitude,
     favouritedAt = favouritedAt,
     syncState = syncState.name,
+    position = position,
 )

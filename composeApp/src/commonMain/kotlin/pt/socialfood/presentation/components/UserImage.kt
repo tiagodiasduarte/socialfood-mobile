@@ -1,35 +1,29 @@
 package pt.socialfood.presentation.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import coil3.compose.SubcomposeAsyncImage
-import pt.socialfood.ui.theme.AppTypography
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.ui.theme.ProfileGradientEnd
 import pt.socialfood.ui.theme.ProfileGradientStart
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.user_avatar_placeholder
+import socialfood.composeapp.generated.resources.user_image_content_description
 
 @Composable
-fun UserImage(name: String, imageUrl: String?, imageSize: Dp, modifier: Modifier = Modifier) {
-    val initials = name
-        .trim()
-        .split(" ")
-        .filter { it.isNotEmpty() }
-        .take(2)
-        .joinToString("") { it.first().uppercase() }
-        .ifEmpty { "?" }
-
+fun UserImage(imageUrl: String?, imageSize: Dp, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .size(imageSize)
@@ -44,30 +38,27 @@ fun UserImage(name: String, imageUrl: String?, imageSize: Dp, modifier: Modifier
         if (imageUrl != null) {
             SubcomposeAsyncImage(
                 model = imageUrl,
-                contentDescription = name,
+                contentDescription = stringResource(Res.string.user_image_content_description),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.size(imageSize),
                 loading = {
-                    Text(
-                        text = initials,
-                        color = Color.White,
-                        style = MaterialTheme.typography.titleLarge,
-                    )
+                    Placeholder()
                 },
                 error = {
-                    Text(
-                        text = initials,
-                        color = Color.White,
-                        style = MaterialTheme.typography.titleLarge,
-                    )
+                    Placeholder()
                 },
             )
         } else {
-            Text(
-                text = initials,
-                color = Color.White,
-                style = AppTypography.titleLarge.copy(fontWeight = FontWeight.Bold),
-            )
+            Placeholder()
         }
     }
+}
+
+@Composable
+private fun Placeholder() {
+    Image(
+        painter = painterResource(Res.drawable.user_avatar_placeholder),
+        contentDescription = null,
+        modifier = Modifier.fillMaxSize(),
+    )
 }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.presentation.components.buttons.IconTextButton
+import pt.socialfood.presentation.components.buttons.FilledButton
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
@@ -95,7 +96,8 @@ fun ErrorContent(
 
         Spacer(Modifier.height(SpaceSize.xlarge))
 
-        IconTextButton(
+        FilledButton(
+            modifier = Modifier.fillMaxWidth(),
             text = stringResource(Res.string.error_content_retry_button),
             icon = Icons.Outlined.Refresh,
             onClick = onRetryClick,

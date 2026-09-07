@@ -29,12 +29,7 @@ import socialfood.composeapp.generated.resources.home_subtitle_label
 import socialfood.composeapp.generated.resources.home_title_label
 
 @Composable
-fun HomeHeader(
-    userName: String = "",
-    userImageUrl: String? = null,
-    onProfileClick: () -> Unit = {},
-    onSearchClick: () -> Unit = {},
-) {
+fun HomeHeader(userImageUrl: String? = null, onProfileClick: () -> Unit = {}, onSearchClick: () -> Unit = {}) {
     Column(
         modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.background),
     ) {
@@ -45,7 +40,6 @@ fun HomeHeader(
                 .background(MaterialTheme.colorScheme.surface),
         ) {
             UserImage(
-                name = userName,
                 imageUrl = userImageUrl,
                 imageSize = 36.dp,
                 modifier = Modifier

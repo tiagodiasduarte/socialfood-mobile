@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.guide.create.restaurants.RestaurantItem
 import pt.socialfood.ui.theme.AppTheme
@@ -150,12 +151,13 @@ private fun GuideRestaurantsCardWithItemsPreview() {
                     country = "French",
                     countryCode = "French",
                     postalCode = "French",
-                    photoNames = emptyList(),
+                    imagesUrl = emptyList(),
                     address = "Largo de São Carlos 10, Lisboa",
                     rating = 4.8,
                     userRatingCount = 1200,
                     websiteUrl = "",
                     phoneNumber = "",
+                    location = Location(latitude = 38.7106, longitude = -9.1425),
                 ),
                 Restaurant(
                     id = "2",
@@ -165,12 +167,13 @@ private fun GuideRestaurantsCardWithItemsPreview() {
                     country = "French",
                     countryCode = "French",
                     postalCode = "French",
-                    photoNames = emptyList(),
+                    imagesUrl = emptyList(),
                     address = "Av. 24 de Julho 49, Lisboa",
                     rating = 4.5,
                     userRatingCount = 8000,
                     websiteUrl = "",
                     phoneNumber = "",
+                    location = Location(latitude = 38.7089, longitude = -9.1469),
                 ),
             ),
             onAddClick = {},

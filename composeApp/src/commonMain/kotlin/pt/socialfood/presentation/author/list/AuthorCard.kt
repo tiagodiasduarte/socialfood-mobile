@@ -40,7 +40,6 @@ fun AuthorCard(author: Author, onAuthorClick: () -> Unit = {}, modifier: Modifie
         ) {
             UserImage(
                 imageUrl = author.imageUrl,
-                name = author.name,
                 imageSize = 56.dp,
             )
 

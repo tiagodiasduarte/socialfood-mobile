@@ -45,7 +45,7 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.TopTabs
-import pt.socialfood.presentation.components.buttons.IconTextButton
+import pt.socialfood.presentation.components.buttons.FilledButton
 import pt.socialfood.presentation.guide.GuideValidationErrorDialog
 import pt.socialfood.presentation.guide.edit.card.GuideDetailsCard
 import pt.socialfood.presentation.guide.edit.card.GuideRestaurantsCard
@@ -311,7 +311,8 @@ private fun GuideLoaded(
                 )
             }
             item {
-                IconTextButton(
+                FilledButton(
+                    modifier = Modifier.fillMaxWidth(),
                     text = stringResource(Res.string.edit_guide_delete_button),
                     icon = Icons.Outlined.Delete,
                     onClick = onDeleteGuide,

@@ -40,6 +40,8 @@ import pt.socialfood.data.network.KtorHttpClient
 import pt.socialfood.data.network.S3HttpClient
 import pt.socialfood.data.network.SessionManager
 import pt.socialfood.data.paging.asAuthorCacheTransactionRunner
+import pt.socialfood.data.paging.asFavouriteGuideCacheTransactionRunner
+import pt.socialfood.data.paging.asFavouriteRestaurantCacheTransactionRunner
 import pt.socialfood.data.paging.asGuideCacheTransactionRunner
 import pt.socialfood.data.paging.asHomeCacheTransactionRunner
 import pt.socialfood.data.paging.asRestaurantVisitStatusCacheTransactionRunner
@@ -85,8 +87,8 @@ import pt.socialfood.domain.usecase.favourite.SyncFavouriteRestaurantsUseCase
 import pt.socialfood.domain.usecase.favourite.SyncFavouriteRestaurantsUseCaseImpl
 import pt.socialfood.domain.usecase.favourite.SyncFavouritesUseCase
 import pt.socialfood.domain.usecase.favourite.SyncFavouritesUseCaseImpl
-import pt.socialfood.domain.usecase.favourite.guide.GetFavouriteGuidesUseCase
-import pt.socialfood.domain.usecase.favourite.guide.GetFavouriteGuidesUseCaseImpl
+import pt.socialfood.domain.usecase.favourite.guide.GetFavouriteGuidesPagingUseCase
+import pt.socialfood.domain.usecase.favourite.guide.GetFavouriteGuidesPagingUseCaseImpl
 import pt.socialfood.domain.usecase.favourite.guide.IsGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.IsGuideFavouriteUseCaseImpl
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
@@ -95,8 +97,8 @@ import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseC
 import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCaseImpl
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCaseImpl
-import pt.socialfood.domain.usecase.favourite.restaurant.GetFavouriteRestaurantsUseCase
-import pt.socialfood.domain.usecase.favourite.restaurant.GetFavouriteRestaurantsUseCaseImpl
+import pt.socialfood.domain.usecase.favourite.restaurant.GetFavouriteRestaurantsPagingUseCase
+import pt.socialfood.domain.usecase.favourite.restaurant.GetFavouriteRestaurantsPagingUseCaseImpl
 import pt.socialfood.domain.usecase.favourite.restaurant.IsRestaurantFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.restaurant.IsRestaurantFavouriteUseCaseImpl
 import pt.socialfood.domain.usecase.favourite.restaurant.MarkRestaurantFavouriteUseCase
@@ -169,8 +171,6 @@ import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCase
 import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCaseImpl
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusPagingUseCase
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusPagingUseCaseImpl
-import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusUseCase
-import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusUseCaseImpl
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetVisitStatusUseCase
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetVisitStatusUseCaseImpl
 import pt.socialfood.domain.usecase.restaurantvisitstatus.MarkRestaurantVisitStatusUseCase
@@ -209,10 +209,12 @@ import pt.socialfood.presentation.author.detail.AuthorDetailViewModel
 import pt.socialfood.presentation.author.list.AuthorsViewModel
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesViewModel
 import pt.socialfood.presentation.favourite.restaurant.FavouriteRestaurantsViewModel
+import pt.socialfood.presentation.guide.all.AllGuidesViewModel
 import pt.socialfood.presentation.guide.create.CreateGuideViewModel
 import pt.socialfood.presentation.guide.detail.GuideDetailViewModel
 import pt.socialfood.presentation.guide.edit.EditGuideViewModel
-import pt.socialfood.presentation.guide.list.GuidesViewModel
+import pt.socialfood.presentation.guide.map.GuideMapViewModel
+import pt.socialfood.presentation.guide.my.MyGuidesViewModel
 import pt.socialfood.presentation.home.HomeViewModel
 import pt.socialfood.presentation.profile.ProfileViewModel
 import pt.socialfood.presentation.profile.edit.EditProfileViewModel
@@ -267,10 +269,22 @@ val repositoryModule =
         }
         single<ConfigsRepository> { ConfigsRepositoryImpl(get()) }
         single<FavouriteRestaurantsRepository> {
-            FavouriteRestaurantsRepositoryImpl(get(), get<AppDatabase>().favouriteRestaurantDao(), get())
+            FavouriteRestaurantsRepositoryImpl(
+                favouriteRestaurantsApi = get(),
+                favouriteRestaurantDao = get<AppDatabase>().favouriteRestaurantDao(),
+                favouriteRestaurantRemoteKeyDao = get<AppDatabase>().favouriteRestaurantRemoteKeyDao(),
+                transactionRunner = get<AppDatabase>().asFavouriteRestaurantCacheTransactionRunner(),
+                settingsRepository = get(),
+            )
         }
         single<FavouritesGuidesRepository> {
-            FavouritesGuidesRepositoryImpl(get(), get<AppDatabase>().favouriteDao(), get())
+            FavouritesGuidesRepositoryImpl(
+                favouritesApi = get(),
+                favouriteDao = get<AppDatabase>().favouriteDao(),
+                favouriteGuideRemoteKeyDao = get<AppDatabase>().favouriteGuideRemoteKeyDao(),
+                transactionRunner = get<AppDatabase>().asFavouriteGuideCacheTransactionRunner(),
+                settingsRepository = get(),
+            )
         }
         single<GuidesRepository> {
             GuidesRepositoryImpl(
@@ -322,8 +336,8 @@ val useCaseModule =
         factory<GetAuthorsPagingUseCase> { GetAuthorsPagingUseCaseImpl(get()) }
         factory<GetAuthorsUseCase> { GetAuthorsUseCaseImpl(get()) }
         factory<GetConfigsUseCase> { GetConfigsUseCaseImpl(get()) }
-        factory<GetFavouriteGuidesUseCase> { GetFavouriteGuidesUseCaseImpl(get()) }
-        factory<GetFavouriteRestaurantsUseCase> { GetFavouriteRestaurantsUseCaseImpl(get()) }
+        factory<GetFavouriteGuidesPagingUseCase> { GetFavouriteGuidesPagingUseCaseImpl(get()) }
+        factory<GetFavouriteRestaurantsPagingUseCase> { GetFavouriteRestaurantsPagingUseCaseImpl(get()) }
         factory<GetGuideByIdUseCase> { GetGuideByIdUseCaseImpl(get()) }
         factory<GetGuideSuggestionsUseCase> { GetGuideSuggestionsUseCaseImpl(get()) }
         factory<GetGuidesPagingUseCase> { GetGuidesPagingUseCaseImpl(get()) }
@@ -339,7 +353,6 @@ val useCaseModule =
         factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
         factory<GetUsersUseCase> { GetUsersUseCaseImpl(get()) }
         factory<GetRestaurantVisitStatusPagingUseCase> { GetRestaurantVisitStatusPagingUseCaseImpl(get()) }
-        factory<GetRestaurantVisitStatusUseCase> { GetRestaurantVisitStatusUseCaseImpl(get()) }
         factory<GetVisitStatusUseCase> { GetVisitStatusUseCaseImpl(get()) }
         factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
         factory<IsRestaurantFavouriteUseCase> { IsRestaurantFavouriteUseCaseImpl(get()) }
@@ -377,6 +390,7 @@ val useCaseModule =
 
 val viewModelModule =
     module {
+        factory { AllGuidesViewModel(get(), get(), get(), get(), get()) }
         factory { (authorId: String) -> AuthorDetailViewModel(get(), authorId) }
         factory { AuthorsViewModel(get(), get()) }
         factory { CreateGuideViewModel(get(), get(), get()) }
@@ -385,8 +399,9 @@ val viewModelModule =
         factory { FavouriteGuidesViewModel(get(), get()) }
         factory { FavouriteRestaurantsViewModel(get(), get()) }
         factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
-        factory { GuidesViewModel(get(), get(), get(), get(), get()) }
+        factory { (guideId: String) -> GuideMapViewModel(get(), guideId) }
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+        factory { MyGuidesViewModel(get(), get(), get(), get(), get()) }
         factory { ProfileViewModel(get(), get(), get()) }
         factory { (restaurantId: String) ->
             RestaurantDetailViewModel(get(), get(), get(), get(), get(), get(), restaurantId)

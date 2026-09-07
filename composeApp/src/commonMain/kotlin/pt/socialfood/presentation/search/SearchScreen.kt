@@ -27,6 +27,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.Search
 import pt.socialfood.presentation.components.ErrorContent
@@ -219,12 +220,13 @@ private fun SearchScreenPreview() {
                             country = "Portugal",
                             countryCode = "PT",
                             postalCode = null,
-                            photoNames = emptyList(),
+                            imagesUrl = emptyList(),
                             address = "Rua de Cedofeita",
                             rating = 4.7,
                             userRatingCount = 500,
                             websiteUrl = null,
                             phoneNumber = "+351000000000",
+                            location = Location(latitude = 41.1579, longitude = -8.6291),
                         ),
                     ),
                     Search.GuideResult(

@@ -10,24 +10,25 @@ import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
 
+private const val FAVOURITE_GUIDES_PATH = "me/favourites/guides"
+
 class FavouritesGuidesApiImpl(private val client: HttpClient) : FavouritesGuidesApi {
 
-    override suspend fun markFavourite(guideId: String) {
-        client.post("guides/$guideId/favourite")
+    override suspend fun mark(guideId: String) {
+        client.post("$FAVOURITE_GUIDES_PATH/$guideId")
     }
 
-    override suspend fun unmarkFavourite(guideId: String) {
-        client.delete("guides/$guideId/favourite")
+    override suspend fun unmark(guideId: String) {
+        client.delete("$FAVOURITE_GUIDES_PATH/$guideId")
     }
 
-    override suspend fun findFavouriteGuides(page: Int, limit: Int): PagedResponse<GuideResponse> =
-        client.get("me/favourites/guides") {
-            parameter("page", page)
-            parameter("limit", limit)
-        }.body()
+    override suspend fun find(page: Int, limit: Int): PagedResponse<GuideResponse> = client.get(FAVOURITE_GUIDES_PATH) {
+        parameter("page", page)
+        parameter("limit", limit)
+    }.body()
 
-    override suspend fun syncFavouriteGuides(since: String?): FavouriteSyncResponse =
-        client.get("me/favourites/guides/sync") {
+    override suspend fun sync(since: String?): FavouriteSyncResponse<GuideResponse> =
+        client.get("$FAVOURITE_GUIDES_PATH/sync") {
             if (!since.isNullOrBlank()) parameter("since", since)
         }.body()
 }

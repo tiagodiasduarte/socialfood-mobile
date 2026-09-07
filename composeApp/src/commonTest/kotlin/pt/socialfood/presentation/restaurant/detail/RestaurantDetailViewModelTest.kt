@@ -5,6 +5,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeGetRestaurantByIdUseCase
@@ -32,12 +33,13 @@ class RestaurantDetailViewModelTest {
             country = "Portugal",
             countryCode = "PT",
             postalCode = "1000-000",
-            photoNames = emptyList(),
+            imagesUrl = emptyList(),
             address = "Rua Augusta 1",
             rating = 4.5,
             userRatingCount = 100,
             websiteUrl = null,
             phoneNumber = "+351910000000",
+            location = Location(latitude = 38.7223, longitude = -9.1393),
         )
 
     private fun createViewModel(
@@ -86,8 +88,7 @@ class RestaurantDetailViewModelTest {
     }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given restaurant is not a favourite when toggleFavourite is called then flips isFavourite optimistically and calls mark`() =
+    fun `given restaurant is not a favourite when toggleFavourite is called then flips isFavourite and calls mark`() =
         runTestWithMainDispatcher {
             // Given
             val mark = FakeMarkRestaurantFavouriteUseCase()

@@ -103,8 +103,7 @@ class RestaurantsRepositoryImplTest {
     // findRestaurants
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given valid pagination params when findRestaurants is called then returns Success with PagedRestaurants and hasMore true`() =
+    fun `given restaurants pagination when findRestaurants is called then returns Success with hasMore true`() =
         runTest {
             // Given
             val repo = createRepository()
@@ -221,8 +220,7 @@ class RestaurantsRepositoryImplTest {
     // awaitEnrichedRestaurantByPlaceId
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given the restaurant is already enriched when awaitEnrichedRestaurantByPlaceId is called then returns Success without polling`() =
+    fun `given already enriched restaurant when awaitEnrichedRestaurantByPlaceId is called then returns Success`() =
         runTest {
             // Given
             val api = FakeRestaurantApi(findByPlaceIdFailuresBeforeSuccess = 0)
@@ -238,24 +236,21 @@ class RestaurantsRepositoryImplTest {
         }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given the restaurant is still enriching when awaitEnrichedRestaurantByPlaceId polls then it keeps polling until ready`() =
-        runTest {
-            // Given
-            val api = FakeRestaurantApi(findByPlaceIdFailuresBeforeSuccess = 2)
-            val repo = RestaurantsRepositoryImpl(api)
+    fun `given restaurant still enriching when awaitEnrichedRestaurantByPlaceId polls then keeps polling`() = runTest {
+        // Given
+        val api = FakeRestaurantApi(findByPlaceIdFailuresBeforeSuccess = 2)
+        val repo = RestaurantsRepositoryImpl(api)
 
-            // When
-            val result = repo.awaitEnrichedRestaurantByPlaceId(placeId = "place-id")
+        // When
+        val result = repo.awaitEnrichedRestaurantByPlaceId(placeId = "place-id")
 
-            // Then
-            assertIs<Result.Success<Restaurant>>(result)
-            assertEquals(3, api.findByPlaceIdInvokeCount)
-        }
+        // Then
+        assertIs<Result.Success<Restaurant>>(result)
+        assertEquals(3, api.findByPlaceIdInvokeCount)
+    }
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given the restaurant never finishes enriching when awaitEnrichedRestaurantByPlaceId polls up to the cap then returns Error TIMEOUT`() =
+    fun `given enrichment never finishes when awaitEnrichedRestaurantByPlaceId polls past cap then returns TIMEOUT`() =
         runTest {
             // Given
             val api =

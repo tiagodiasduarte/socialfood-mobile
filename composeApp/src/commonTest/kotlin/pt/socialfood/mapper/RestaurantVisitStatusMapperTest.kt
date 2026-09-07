@@ -2,6 +2,7 @@ package pt.socialfood.mapper
 
 import pt.socialfood.data.local.entity.RestaurantVisitStatusEntity
 import pt.socialfood.data.local.entity.SyncState
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
@@ -29,6 +30,8 @@ class RestaurantVisitStatusMapperTest {
         websiteUrl = Random.nextNullable { nextUrl() },
         phoneNumber = Random.nextString(9),
         imageUrl = Random.nextNullable { nextUrl() },
+        latitude = Random.nextDouble(-90.0, 90.0),
+        longitude = Random.nextDouble(-180.0, 180.0),
         status = Random.nextEnum<VisitStatus>().name,
         recordedAt = Random.nextLong(),
         syncState = Random.nextEnum<SyncState>().name,
@@ -53,12 +56,13 @@ class RestaurantVisitStatusMapperTest {
                 country = entity.country,
                 countryCode = entity.countryCode,
                 postalCode = entity.postalCode,
-                photoNames = listOfNotNull(entity.imageUrl),
+                imagesUrl = listOfNotNull(entity.imageUrl),
                 address = entity.address,
                 rating = entity.rating,
                 userRatingCount = entity.userRatingCount,
                 websiteUrl = entity.websiteUrl,
                 phoneNumber = entity.phoneNumber,
+                location = Location(latitude = entity.latitude, longitude = entity.longitude),
             ),
             result,
         )
@@ -110,7 +114,9 @@ class RestaurantVisitStatusMapperTest {
                 userRatingCount = restaurant.userRatingCount,
                 websiteUrl = restaurant.websiteUrl,
                 phoneNumber = restaurant.phoneNumber,
-                imageUrl = restaurant.photoNames.firstOrNull(),
+                imageUrl = restaurant.imagesUrl.firstOrNull(),
+                latitude = restaurant.location.latitude,
+                longitude = restaurant.location.longitude,
                 status = status.name,
                 recordedAt = recordedAt,
                 syncState = syncState.name,

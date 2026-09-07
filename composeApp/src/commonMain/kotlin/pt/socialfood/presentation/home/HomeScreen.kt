@@ -29,12 +29,13 @@ import pt.socialfood.domain.model.HomeItemType
 import pt.socialfood.domain.model.HomeSection
 import pt.socialfood.domain.model.HomeSectionItem
 import pt.socialfood.domain.model.HomeSectionType
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
-import pt.socialfood.presentation.guide.list.GuideCard
+import pt.socialfood.presentation.guide.GuideCard
 import pt.socialfood.presentation.restaurant.RestaurantCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
@@ -101,7 +102,6 @@ fun HomeScreenContent(
         ) {
             item {
                 HomeHeader(
-                    userName = user?.name.orEmpty(),
                     userImageUrl = user?.imageUrl,
                     onProfileClick = onProfileClick,
                     onSearchClick = onSearchClick,
@@ -263,12 +263,13 @@ fun HomeScreenPreview() {
         country = "French",
         countryCode = "French",
         postalCode = "French",
-        photoNames = emptyList(),
+        imagesUrl = emptyList(),
         address = "",
         rating = 4.8,
         userRatingCount = 320,
         websiteUrl = "",
         phoneNumber = "",
+        location = Location(latitude = 38.7223, longitude = -9.1393),
     )
     val sections = listOf(
         HomeSection(

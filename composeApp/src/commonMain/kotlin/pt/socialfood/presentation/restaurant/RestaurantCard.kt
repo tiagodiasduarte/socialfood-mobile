@@ -36,7 +36,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.presentation.components.placeholder.RestaurantCardPlaceholder
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.SpaceSize
@@ -77,34 +79,18 @@ private fun RestaurantCardImage(restaurant: Restaurant, isFavourite: Boolean, on
             .fillMaxWidth()
             .height(190.dp),
     ) {
-        val imageUrl = restaurant.photoNames.firstOrNull()
+        val imageUrl = restaurant.imagesUrl.firstOrNull()
         if (imageUrl != null) {
             SubcomposeAsyncImage(
-                model = "$imageUrl&size=400",
+                model = imageUrl,
                 contentDescription = restaurant.name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
-                loading = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surfaceVariant),
-                    )
-                },
-                error = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surfaceVariant),
-                    )
-                },
+                loading = { RestaurantCardPlaceholder() },
+                error = { RestaurantCardPlaceholder() },
             )
         } else {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-            )
+            RestaurantCardPlaceholder()
         }
 
         Box(
@@ -199,12 +185,13 @@ fun RestaurantCardPreview() {
                 country = "French",
                 countryCode = "French",
                 postalCode = "French",
-                photoNames = emptyList(),
+                imagesUrl = emptyList(),
                 address = "Rua Augusta 123, Lisbon",
                 rating = 4.8,
                 userRatingCount = 320,
                 websiteUrl = "",
                 phoneNumber = "+351 910 000 000",
+                location = Location(latitude = 38.7223, longitude = -9.1393),
             ),
         )
     }

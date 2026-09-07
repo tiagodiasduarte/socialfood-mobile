@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
@@ -240,12 +241,13 @@ private fun InformationSectionPreview() {
                 country = "Portugal",
                 countryCode = "PT",
                 postalCode = "1100-001",
-                photoNames = emptyList(),
+                imagesUrl = emptyList(),
                 address = "123 Gourmet Street, Downtown, Lisbon",
                 rating = 4.8,
                 userRatingCount = 342,
                 websiteUrl = "www.lejardin.com",
                 phoneNumber = "+351 910 000 000",
+                location = Location(latitude = 38.7223, longitude = -9.1393),
             ),
             onNavigateClick = {},
             onWebsiteClick = {},

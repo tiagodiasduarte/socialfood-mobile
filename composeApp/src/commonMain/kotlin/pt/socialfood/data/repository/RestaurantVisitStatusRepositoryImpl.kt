@@ -18,10 +18,10 @@ import pt.socialfood.data.local.dao.RestaurantVisitStatusDao
 import pt.socialfood.data.local.dao.RestaurantVisitStatusRemoteKeyDao
 import pt.socialfood.data.local.entity.SyncState
 import pt.socialfood.data.network.extensions.toDataError
+import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.data.paging.RestaurantVisitStatusCacheTransactionRunner
 import pt.socialfood.data.paging.RestaurantVisitStatusRemoteMediator
 import pt.socialfood.domain.error.safeApiCall
-import pt.socialfood.domain.model.PagedRestaurantVisitStatus
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
@@ -105,23 +105,6 @@ class RestaurantVisitStatusRepositoryImpl(
         Result.Failure(e.toDataError())
     }
 
-    override suspend fun getPaged(status: VisitStatus, page: Int, limit: Int): Result<PagedRestaurantVisitStatus> =
-        try {
-            val offset = (page - 1) * limit
-            val entities = restaurantVisitStatusDao.getPaged(status = status.name, limit = limit, offset = offset)
-            val total = restaurantVisitStatusDao.countAll(status.name)
-            Result.Success(
-                PagedRestaurantVisitStatus(
-                    visits = entities.map { it.toRestaurantVisitStatus() },
-                    page = page,
-                    total = total,
-                    hasMore = page * limit < total,
-                ),
-            )
-        } catch (e: SQLiteException) {
-            Result.Failure(e.toDataError())
-        }
-
     override fun getPagingFlow(status: VisitStatus): Flow<PagingData<RestaurantVisitStatus>> = Pager(
         config = PagingConfig(pageSize = PAGE_SIZE),
         remoteMediator = RestaurantVisitStatusRemoteMediator(
@@ -153,10 +136,23 @@ class RestaurantVisitStatusRepositoryImpl(
                 is Result.Success -> result.data
             }
 
+            applyChanges(changes)
+
             settingsRepository.saveLastRestaurantVisitStatusSyncedAt(changes.syncedAt)
             Result.Success(Unit)
         } catch (e: SQLiteException) {
             Result.Failure(e.toDataError())
+        }
+    }
+
+    private suspend fun applyChanges(changes: RestaurantVisitStatusSyncResponse) {
+        if (changes.removedIds.isNotEmpty()) {
+            restaurantVisitStatusDao.deleteByRestaurantIds(changes.removedIds)
+        }
+
+        changes.updated.forEach { entry ->
+            val existing = restaurantVisitStatusDao.getByRestaurantId(entry.id) ?: return@forEach
+            restaurantVisitStatusDao.upsert(existing.copy(status = entry.status, syncState = SyncState.SYNCED.name))
         }
     }
 

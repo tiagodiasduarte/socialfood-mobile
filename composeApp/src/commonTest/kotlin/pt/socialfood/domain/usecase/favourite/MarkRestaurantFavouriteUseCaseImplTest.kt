@@ -3,6 +3,7 @@ package pt.socialfood.domain.usecase.favourite
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.usecase.favourite.restaurant.MarkRestaurantFavouriteUseCaseImpl
 import pt.socialfood.fakes.FakeFavouriteRestaurantsRepository
@@ -20,12 +21,13 @@ class MarkRestaurantFavouriteUseCaseImplTest {
         country = "Portugal",
         countryCode = "PT",
         postalCode = "1000-000",
-        photoNames = emptyList(),
+        imagesUrl = emptyList(),
         address = "Rua Augusta 1",
         rating = 4.5,
         userRatingCount = 100,
         websiteUrl = null,
         phoneNumber = "+351910000000",
+        location = Location(latitude = 38.7223, longitude = -9.1393),
     )
 
     @Test

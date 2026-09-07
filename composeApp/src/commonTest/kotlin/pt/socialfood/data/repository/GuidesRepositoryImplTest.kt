@@ -114,8 +114,7 @@ class GuidesRepositoryImplTest {
     // findGuidesPaged
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given valid pagination params when findGuidesPaged is called then returns Success with PagedGuides and correct hasMore flag`() =
+    fun `given pagination params when findGuidesPaged is called then returns Success with hasMore flag correct`() =
         runTest {
             // Given
             val repo = createRepository()
@@ -216,6 +215,74 @@ class GuidesRepositoryImplTest {
         // Then
         assertIs<Result.Failure>(result)
         assertIs<DataError.Network>(result.error)
+    }
+
+    @Test
+    fun `given a cached guide when findById is called again then returns cache without hitting api`() = runTest {
+        // Given
+        val api = FakeGuidesApi()
+        val repo = GuidesRepositoryImpl(
+            guideApi = api,
+            guideDao = FakeGuideDao(),
+            guideRemoteKeyDao = FakeGuideRemoteKeyDao(),
+            transactionRunner = GuideCacheTransactionRunner { it() },
+        )
+        repo.findById(id = "guide-id")
+
+        // When
+        val result = repo.findById(id = "guide-id")
+
+        // Then
+        assertIs<Result.Success<Guide>>(result)
+        assertEquals(1, api.findByIdCallCount)
+    }
+
+    @Test
+    fun `given a cached guide when update is called then findById returns fresh data without hitting api`() = runTest {
+        // Given
+        val api = FakeGuidesApi()
+        val repo = GuidesRepositoryImpl(
+            guideApi = api,
+            guideDao = FakeGuideDao(),
+            guideRemoteKeyDao = FakeGuideRemoteKeyDao(),
+            transactionRunner = GuideCacheTransactionRunner { it() },
+        )
+        repo.findById(id = "guide-id")
+
+        // When
+        repo.update(
+            id = "guide-id",
+            name = "Updated Name",
+            userId = "user-id",
+            description = "Updated Description",
+            restaurantIds = emptyList(),
+            visibility = GuideVisibility.PUBLIC,
+        )
+        val result = repo.findById(id = "guide-id")
+
+        // Then
+        assertIs<Result.Success<Guide>>(result)
+        assertEquals(1, api.findByIdCallCount)
+    }
+
+    @Test
+    fun `given a cached guide when delete is called then findById hits api again`() = runTest {
+        // Given
+        val api = FakeGuidesApi()
+        val repo = GuidesRepositoryImpl(
+            guideApi = api,
+            guideDao = FakeGuideDao(),
+            guideRemoteKeyDao = FakeGuideRemoteKeyDao(),
+            transactionRunner = GuideCacheTransactionRunner { it() },
+        )
+        repo.findById(id = "guide-id")
+
+        // When
+        repo.delete(id = "guide-id")
+        repo.findById(id = "guide-id")
+
+        // Then
+        assertEquals(2, api.findByIdCallCount)
     }
 
     // getPhotoPresignedUrl
@@ -355,8 +422,7 @@ class GuidesRepositoryImplTest {
     // getGuidesPagingFlow
 
     @Test
-    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
-    fun `given getGuidesPagingFlow is called then the returned Pager is configured with a RemoteMediator scoped to userId or ALL`() =
+    fun `given getGuidesPagingFlow is called then Pager is configured with a RemoteMediator scoped to userId or ALL`() =
         runTest {
             // Given
             val repo = createRepository()

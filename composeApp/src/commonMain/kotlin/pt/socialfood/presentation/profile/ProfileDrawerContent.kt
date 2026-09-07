@@ -274,7 +274,7 @@ private fun DrawerHeader(user: User, onEditProfileClick: () -> Unit) {
                     .background(MaterialTheme.colorScheme.surface),
                 contentAlignment = Alignment.Center,
             ) {
-                UserImage(name = user.name, imageUrl = user.imageUrl, imageSize = DrawerAvatarSize)
+                UserImage(imageUrl = user.imageUrl, imageSize = DrawerAvatarSize)
             }
 
             Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.small)) {
@@ -299,17 +299,17 @@ private fun DrawerHeader(user: User, onEditProfileClick: () -> Unit) {
 
 @Composable
 private fun DrawerStatsRow() {
-    Row(horizontalArrangement = Arrangement.spacedBy(SpaceSize.large)) {
+    Row(horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium)) {
         DrawerStatItem(
-            value = "13",
+            value = "-",
             label = stringResource(Res.string.profile_stat_guides_label),
         )
         DrawerStatItem(
-            value = "5555",
+            value = "-",
             label = stringResource(Res.string.profile_stat_followers_label),
         )
         DrawerStatItem(
-            value = "8463",
+            value = "-",
             label = stringResource(Res.string.profile_stat_following_label),
         )
     }

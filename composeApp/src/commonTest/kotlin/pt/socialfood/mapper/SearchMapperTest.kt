@@ -35,11 +35,11 @@ class SearchMapperTest {
         imageUrl = Random.nextNullable { nextUrl() },
     )
 
-    private fun randomRestaurantResponse(photoNames: List<String> = listOf(Random.nextString())) = RestaurantResponse(
+    private fun randomRestaurantResponse(imagesUrl: List<String> = listOf(Random.nextString())) = RestaurantResponse(
         id = Random.nextString(),
         name = Random.nextString(),
         description = Random.nextNullable { nextString(20) },
-        photoNames = photoNames,
+        imagesUrl = imagesUrl,
         city = Random.nextString(),
         country = Random.nextString(),
         countryCode = Random.nextString(2),
@@ -83,9 +83,9 @@ class SearchMapperTest {
     }
 
     @Test
-    fun `given a restaurant with no photos when mapped then the RestaurantResult has an empty photoNames list`() {
+    fun `given a restaurant with no photos when mapped then the RestaurantResult has an empty imagesUrl list`() {
         // Given
-        val restaurantResponse = randomRestaurantResponse(photoNames = emptyList())
+        val restaurantResponse = randomRestaurantResponse(imagesUrl = emptyList())
         val response = SearchResponse(
             authors = PagedResponse(items = emptyList(), page = 1, limit = 20, total = 0),
             guides = PagedResponse(items = emptyList(), page = 1, limit = 20, total = 0),
@@ -97,7 +97,7 @@ class SearchMapperTest {
 
         // Then
         val restaurantResult = assertIs<Search.RestaurantResult>(result.single())
-        assertEquals(emptyList(), restaurantResult.restaurant.photoNames)
+        assertEquals(emptyList(), restaurantResult.restaurant.imagesUrl)
     }
 
     @Test

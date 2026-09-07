@@ -33,6 +33,12 @@ class FakeFavouritesGuidesApi(private val shouldThrow: Boolean = false) : Favour
     var lastUnmarkedGuideId: String? = null
         private set
 
+    var findFavouriteGuidesCallCount: Int = 0
+        private set
+
+    var lastFindFavouriteGuidesPage: Int? = null
+        private set
+
     var fakeFavouriteGuides = PagedResponse(
         items = listOf(fakeGuideResponse),
         page = 1,
@@ -41,27 +47,29 @@ class FakeFavouritesGuidesApi(private val shouldThrow: Boolean = false) : Favour
     )
 
     var fakeSyncResponse = FavouriteSyncResponse(
-        addedIds = listOf(fakeGuideResponse.id),
+        added = listOf(fakeGuideResponse),
         removedIds = emptyList(),
         syncedAt = "2026-08-01T10:30:00Z",
     )
 
-    override suspend fun markFavourite(guideId: String) {
+    override suspend fun mark(guideId: String) {
         if (shouldThrow) throw IOException("test error")
         lastMarkedGuideId = guideId
     }
 
-    override suspend fun unmarkFavourite(guideId: String) {
+    override suspend fun unmark(guideId: String) {
         if (shouldThrow) throw IOException("test error")
         lastUnmarkedGuideId = guideId
     }
 
-    override suspend fun findFavouriteGuides(page: Int, limit: Int): PagedResponse<GuideResponse> {
+    override suspend fun find(page: Int, limit: Int): PagedResponse<GuideResponse> {
         if (shouldThrow) throw IOException("test error")
+        findFavouriteGuidesCallCount++
+        lastFindFavouriteGuidesPage = page
         return fakeFavouriteGuides
     }
 
-    override suspend fun syncFavouriteGuides(since: String?): FavouriteSyncResponse {
+    override suspend fun sync(since: String?): FavouriteSyncResponse<GuideResponse> {
         if (shouldThrow) throw IOException("test error")
         return fakeSyncResponse
     }

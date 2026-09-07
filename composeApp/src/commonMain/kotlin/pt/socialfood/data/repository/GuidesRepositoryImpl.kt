@@ -32,6 +32,8 @@ class GuidesRepositoryImpl(
     private val transactionRunner: GuideCacheTransactionRunner,
 ) : GuidesRepository {
 
+    private var lastGuide: Guide? = null
+
     override suspend fun create(name: String, description: String, userId: String): Result<Guide> = safeApiCall {
         guideApi.create(
             name = name,
@@ -43,6 +45,8 @@ class GuidesRepositoryImpl(
     override suspend fun delete(id: String): Result<Boolean> = safeApiCall {
         guideApi.delete(id)
         true
+    }.also { result ->
+        if (result is Result.Success && lastGuide?.id == id) lastGuide = null
     }
 
     override suspend fun findGuides(): Result<List<Guide>> = safeApiCall { guideApi.findAll().map { it.toGuide() } }
@@ -75,9 +79,17 @@ class GuidesRepositoryImpl(
             restaurantIds = restaurantIds,
             visibility = visibility.name,
         ).toGuide()
+    }.also { result ->
+        if (result is Result.Success) lastGuide = result.data
     }
 
-    override suspend fun findById(id: String): Result<Guide> = safeApiCall { guideApi.findById(id).toGuide() }
+    override suspend fun findById(id: String): Result<Guide> {
+        lastGuide?.takeIf { it.id == id }?.let { return Result.Success(it) }
+
+        return safeApiCall { guideApi.findById(id).toGuide() }.also { result ->
+            if (result is Result.Success) lastGuide = result.data
+        }
+    }
 
     override suspend fun getPhotoPresignedUrl(
         guideId: String,
@@ -104,6 +116,8 @@ class GuidesRepositoryImpl(
                 guideId = guideId,
                 placeId = placeId,
             ).toGuide()
+        }.also { result ->
+            if (result is Result.Success) lastGuide = result.data
         }
 
     override suspend fun addPhoto(guideId: String, imageUrl: String): Result<Boolean> = safeApiCall {
@@ -112,11 +126,15 @@ class GuidesRepositoryImpl(
             imageUrl = imageUrl,
         )
         true
+    }.also { result ->
+        if (result is Result.Success && lastGuide?.id == guideId) lastGuide = null
     }
 
     override suspend fun deletePhoto(guideId: String): Result<Boolean> = safeApiCall {
         guideApi.deletePhoto(guideId = guideId)
         true
+    }.also { result ->
+        if (result is Result.Success && lastGuide?.id == guideId) lastGuide = null
     }
 
     @OptIn(ExperimentalPagingApi::class)

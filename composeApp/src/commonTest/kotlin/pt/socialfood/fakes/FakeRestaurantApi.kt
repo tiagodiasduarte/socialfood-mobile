@@ -20,7 +20,7 @@ class FakeRestaurantApi(
         id = "restaurant-id",
         name = "Restaurant Name",
         description = "Restaurant Description",
-        photoNames = listOf("photo-name-1"),
+        imagesUrl = listOf("photo-name-1"),
         city = "Lisbon",
         country = "Portugal",
         countryCode = "PT",

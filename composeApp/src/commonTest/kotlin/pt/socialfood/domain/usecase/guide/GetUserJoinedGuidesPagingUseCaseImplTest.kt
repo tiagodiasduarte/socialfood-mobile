@@ -11,7 +11,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertSame
 
-class GetJoinedGuidesPagingUseCaseImplTest {
+class GetUserJoinedGuidesPagingUseCaseImplTest {
     @Test
     fun `given a userId when invoked then forwards it and returns the repository's joined guides paging flow`() =
         runTest {
@@ -19,7 +19,7 @@ class GetJoinedGuidesPagingUseCaseImplTest {
             val userId = Random.nextString()
             val pagingFlow = flowOf(PagingData.empty<Guide>())
             val repository = FakeGuidesRepository(joinedGuidesPagingFlow = pagingFlow)
-            val useCase = GetJoinedGuidesPagingUseCaseImpl(repository)
+            val useCase = GetUserJoinedGuidesPagingUseCaseImpl(repository)
 
             // When
             val flow = useCase(userId)

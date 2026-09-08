@@ -117,7 +117,7 @@ class GuideRemoteMediatorTest {
         }
 
     @Test
-    fun `given a joined scope when REFRESH is triggered then fetches page 1 from findJoinedGuides`() = runTest {
+    fun `given a joined scope when REFRESH is triggered then fetches page 1 from findUserJoinedGuides`() = runTest {
         // Given
         val api = FakeGuidesApi(items = listOf(guideResponse("g1")), total = 1)
         val guideDao = FakeGuideDao()
@@ -129,7 +129,7 @@ class GuideRemoteMediatorTest {
 
         // Then
         assertIs<RemoteMediator.MediatorResult.Success>(result)
-        assertEquals(1, api.findJoinedGuidesCallCount)
+        assertEquals(1, api.findUserJoinedGuidesCallCount)
         assertEquals(0, api.findGuidesCallCount)
         assertEquals(0, api.findUserGuidesCallCount)
     }

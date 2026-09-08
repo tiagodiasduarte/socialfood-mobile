@@ -115,10 +115,10 @@ import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCase
 import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCaseImpl
 import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
 import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCaseImpl
-import pt.socialfood.domain.usecase.guide.GetJoinedGuidesPagingUseCase
-import pt.socialfood.domain.usecase.guide.GetJoinedGuidesPagingUseCaseImpl
 import pt.socialfood.domain.usecase.guide.GetUserGuidesPagingUseCase
 import pt.socialfood.domain.usecase.guide.GetUserGuidesPagingUseCaseImpl
+import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCase
+import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCaseImpl
 import pt.socialfood.domain.usecase.guide.UpdateGuideUseCase
 import pt.socialfood.domain.usecase.guide.UpdateGuideUseCaseImpl
 import pt.socialfood.domain.usecase.home.AddHomeSectionItemUseCase
@@ -343,7 +343,6 @@ val useCaseModule =
         factory<GetGuidesPagingUseCase> { GetGuidesPagingUseCaseImpl(get()) }
         factory<GetHomeSectionByIdUseCase> { GetHomeSectionByIdUseCaseImpl(get()) }
         factory<GetHomeSectionsUseCase> { GetHomeSectionsUseCaseImpl(get()) }
-        factory<GetJoinedGuidesPagingUseCase> { GetJoinedGuidesPagingUseCaseImpl(get()) }
         factory<GetPresignedUrlUseCase> { GetPresignedUrlUseCaseImpl(get()) }
         factory<GetRestaurantByIdUseCase> { GetRestaurantByIdUseCaseImpl(get()) }
         factory<GetRestaurantByPlaceIdUseCase> { GetRestaurantByPlaceIdUseCaseImpl(get()) }
@@ -351,6 +350,7 @@ val useCaseModule =
         factory<GetRestaurantsUseCase> { GetRestaurantsUseCaseImpl(get()) }
         factory<GetUserByIdUseCase> { GetUserByIdUseCaseImpl(get()) }
         factory<GetUserGuidesPagingUseCase> { GetUserGuidesPagingUseCaseImpl(get()) }
+        factory<GetUserJoinedGuidesPagingUseCase> { GetUserJoinedGuidesPagingUseCaseImpl(get()) }
         factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
         factory<GetUsersUseCase> { GetUsersUseCaseImpl(get()) }
         factory<GetRestaurantVisitStatusPagingUseCase> { GetRestaurantVisitStatusPagingUseCaseImpl(get()) }

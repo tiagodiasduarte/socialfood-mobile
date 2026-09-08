@@ -29,7 +29,7 @@ interface GuidesApi {
         userId: String? = null,
     ): PagedResponse<GuideResponse>
 
-    suspend fun findJoinedGuides(page: Int, limit: Int): PagedResponse<GuideResponse>
+    suspend fun findUserJoinedGuides(page: Int, limit: Int): PagedResponse<GuideResponse>
 
     suspend fun findUserGuides(page: Int, limit: Int): PagedResponse<GuideResponse>
 

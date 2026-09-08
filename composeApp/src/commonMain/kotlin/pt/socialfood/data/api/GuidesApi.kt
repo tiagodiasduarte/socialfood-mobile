@@ -8,11 +8,19 @@ import pt.socialfood.data.network.model.photo.PresignedUrlResponse
 
 @Suppress("TooManyFunctions")
 interface GuidesApi {
+    suspend fun addPhoto(guideId: String, imageUrl: String): GuideDetailResponse
+
+    suspend fun addRestaurantGuide(guideId: String, placeId: String?): GuideDetailResponse
+
     suspend fun create(name: String, description: String, userId: String): GuideDetailResponse
 
     suspend fun delete(id: String)
 
+    suspend fun deletePhoto(guideId: String): GuideDetailResponse
+
     suspend fun findAll(): List<GuideResponse>
+
+    suspend fun findById(id: String): GuideDetailResponse
 
     suspend fun findGuides(
         page: Int,
@@ -21,11 +29,11 @@ interface GuidesApi {
         userId: String? = null,
     ): PagedResponse<GuideResponse>
 
-    suspend fun findMyGuides(page: Int, limit: Int): PagedResponse<GuideResponse>
-
     suspend fun findJoinedGuides(page: Int, limit: Int): PagedResponse<GuideResponse>
 
-    suspend fun findById(id: String): GuideDetailResponse
+    suspend fun findUserGuides(page: Int, limit: Int): PagedResponse<GuideResponse>
+
+    suspend fun getGuidePhotoPresignedUrl(guideId: String, request: PresignedUrlRequest): PresignedUrlResponse
 
     suspend fun update(
         id: String,
@@ -35,12 +43,4 @@ interface GuidesApi {
         restaurantIds: List<String>,
         visibility: String,
     ): GuideDetailResponse
-
-    suspend fun addRestaurantGuide(guideId: String, placeId: String?): GuideDetailResponse
-
-    suspend fun getGuidePhotoPresignedUrl(guideId: String, request: PresignedUrlRequest): PresignedUrlResponse
-
-    suspend fun addPhoto(guideId: String, imageUrl: String): GuideDetailResponse
-
-    suspend fun deletePhoto(guideId: String): GuideDetailResponse
 }

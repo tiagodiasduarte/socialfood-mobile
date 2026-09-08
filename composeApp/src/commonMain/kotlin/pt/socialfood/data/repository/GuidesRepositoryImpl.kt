@@ -98,7 +98,7 @@ class GuidesRepositoryImpl(
         val fetchPage: suspend (Int, Int) -> PagedResponse<GuideResponse> = if (userId == null) {
             { page, limit -> guideApi.findGuides(page = page, limit = limit) }
         } else {
-            { page, limit -> guideApi.findMyGuides(page = page, limit = limit) }
+            { page, limit -> guideApi.findUserGuides(page = page, limit = limit) }
         }
         return guidePagingFlow(scope = userId ?: GUIDES_ALL_SCOPE, fetchPage = fetchPage)
     }

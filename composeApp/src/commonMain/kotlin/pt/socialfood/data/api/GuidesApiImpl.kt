@@ -54,7 +54,7 @@ class GuidesApiImpl(private val client: HttpClient) : GuidesApi {
             if (userId != null) parameter("userId", userId)
         }.body()
 
-    override suspend fun findMyGuides(page: Int, limit: Int): PagedResponse<GuideResponse> = client
+    override suspend fun findUserGuides(page: Int, limit: Int): PagedResponse<GuideResponse> = client
         .get("me/guides") {
             parameter("page", page)
             parameter("limit", limit)

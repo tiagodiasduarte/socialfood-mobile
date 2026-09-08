@@ -52,7 +52,7 @@ class FakeGuidesApi(
         private set
     var findByIdCallCount: Int = 0
         private set
-    var findMyGuidesCallCount: Int = 0
+    var findUserGuidesCallCount: Int = 0
         private set
     var lastFindMyGuidesPage: Int? = null
         private set
@@ -93,9 +93,9 @@ class FakeGuidesApi(
         )
     }
 
-    override suspend fun findMyGuides(page: Int, limit: Int): PagedResponse<GuideResponse> {
+    override suspend fun findUserGuides(page: Int, limit: Int): PagedResponse<GuideResponse> {
         if (shouldThrow) throw IOException("test error")
-        findMyGuidesCallCount++
+        findUserGuidesCallCount++
         lastFindMyGuidesPage = page
         return PagedResponse(
             items = items,

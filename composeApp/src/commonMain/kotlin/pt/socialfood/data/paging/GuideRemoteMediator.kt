@@ -74,7 +74,7 @@ class GuideRemoteMediator(
                     when (listScope) {
                         GuideListScope.ALL -> guidesApi.findGuides(page = page, limit = limit)
                         GuideListScope.USER -> guidesApi.findUserGuides(page = page, limit = limit)
-                        GuideListScope.JOINED -> guidesApi.findJoinedGuides(page = page, limit = limit)
+                        GuideListScope.JOINED -> guidesApi.findUserJoinedGuides(page = page, limit = limit)
                     }
                 }
             ) {

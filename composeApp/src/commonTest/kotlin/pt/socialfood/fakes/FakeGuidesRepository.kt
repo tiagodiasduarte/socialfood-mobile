@@ -22,6 +22,7 @@ class FakeGuidesRepository(
     private val getPhotoPresignedUrlResult: Result<PresignedUrlData> =
         Result.Success(PresignedUrlData(uploadUrl = "https://upload", publicUrl = "https://public")),
     private val addPhotoResult: Result<Boolean> = Result.Success(true),
+    private val findGuideBySharedCodeResult: Result<Guide> = Result.Success(Random.nextGuide()),
 ) : GuidesRepository {
     var deleteInvokeCount: Int = 0
         private set
@@ -75,6 +76,11 @@ class FakeGuidesRepository(
     var lastAddPhotoImageUrl: String? = null
         private set
 
+    var findGuideBySharedCodeInvokeCount: Int = 0
+        private set
+    var lastFindGuideBySharedCodeCode: String? = null
+        private set
+
     override suspend fun delete(id: String): Result<Boolean> {
         deleteInvokeCount++
         lastDeleteId = id
@@ -105,6 +111,12 @@ class FakeGuidesRepository(
         lastUpdateRestaurantIds = restaurantIds
         lastUpdateVisibility = visibility
         return updateResult
+    }
+
+    override suspend fun findGuideBySharedCode(code: String): Result<Guide> {
+        findGuideBySharedCodeInvokeCount++
+        lastFindGuideBySharedCodeCode = code
+        return findGuideBySharedCodeResult
     }
 
     override fun findGuidesPagingFlow(): Flow<PagingData<Guide>> = guidesPagingFlow

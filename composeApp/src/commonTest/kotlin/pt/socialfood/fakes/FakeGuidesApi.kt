@@ -56,9 +56,13 @@ class FakeGuidesApi(
         private set
     var lastFindMyGuidesPage: Int? = null
         private set
-    var findJoinedGuidesCallCount: Int = 0
+    var findUserJoinedGuidesCallCount: Int = 0
         private set
     var lastFindJoinedGuidesPage: Int? = null
+        private set
+    var findGuideBySharedCodeCallCount: Int = 0
+        private set
+    var lastFindGuideBySharedCodeCode: String? = null
         private set
 
     override suspend fun create(name: String, description: String, userId: String): GuideDetailResponse {
@@ -105,9 +109,9 @@ class FakeGuidesApi(
         )
     }
 
-    override suspend fun findJoinedGuides(page: Int, limit: Int): PagedResponse<GuideResponse> {
+    override suspend fun findUserJoinedGuides(page: Int, limit: Int): PagedResponse<GuideResponse> {
         if (shouldThrow) throw IOException("test error")
-        findJoinedGuidesCallCount++
+        findUserJoinedGuidesCallCount++
         lastFindJoinedGuidesPage = page
         return PagedResponse(
             items = items,
@@ -120,6 +124,13 @@ class FakeGuidesApi(
     override suspend fun findById(id: String): GuideDetailResponse {
         if (shouldThrow) throw IOException("test error")
         findByIdCallCount++
+        return defaultFakeGuideDetail
+    }
+
+    override suspend fun findGuideBySharedCode(code: String): GuideDetailResponse {
+        if (shouldThrow) throw IOException("test error")
+        findGuideBySharedCodeCallCount++
+        lastFindGuideBySharedCodeCode = code
         return defaultFakeGuideDetail
     }
 

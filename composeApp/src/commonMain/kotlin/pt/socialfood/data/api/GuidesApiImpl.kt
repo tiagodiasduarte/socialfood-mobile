@@ -60,13 +60,16 @@ class GuidesApiImpl(private val client: HttpClient) : GuidesApi {
             parameter("limit", limit)
         }.body()
 
-    override suspend fun findJoinedGuides(page: Int, limit: Int): PagedResponse<GuideResponse> = client
+    override suspend fun findUserJoinedGuides(page: Int, limit: Int): PagedResponse<GuideResponse> = client
         .get("me/guides/joined") {
             parameter("page", page)
             parameter("limit", limit)
         }.body()
 
     override suspend fun findById(id: String): GuideDetailResponse = client.get("guides/$id").body()
+
+    override suspend fun findGuideBySharedCode(code: String): GuideDetailResponse =
+        client.get("guides/share/$code").body()
 
     override suspend fun update(
         id: String,

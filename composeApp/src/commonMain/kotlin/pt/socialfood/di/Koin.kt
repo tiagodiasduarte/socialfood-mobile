@@ -111,6 +111,8 @@ import pt.socialfood.domain.usecase.guide.CreateGuideUseCase
 import pt.socialfood.domain.usecase.guide.CreateGuideUseCaseImpl
 import pt.socialfood.domain.usecase.guide.DeleteGuideUseCase
 import pt.socialfood.domain.usecase.guide.DeleteGuideUseCaseImpl
+import pt.socialfood.domain.usecase.guide.FindGuideBySharedCodeUseCase
+import pt.socialfood.domain.usecase.guide.FindGuideBySharedCodeUseCaseImpl
 import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCase
 import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCaseImpl
 import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
@@ -330,6 +332,7 @@ val useCaseModule =
         factory<DeleteHomeSectionUseCase> { DeleteHomeSectionUseCaseImpl(get()) }
         factory<DeleteRestaurantUseCase> { DeleteRestaurantUseCaseImpl(get()) }
         factory<FindAuthorsUseCase> { FindAuthorsUseCaseImpl(get()) }
+        factory<FindGuideBySharedCodeUseCase> { FindGuideBySharedCodeUseCaseImpl(get()) }
         factory<FindRestaurantsUseCase> { FindRestaurantsUseCaseImpl(get()) }
         factory<FindUsersUseCase> { FindUsersUseCaseImpl(get()) }
         factory<GetAuthorByIdUseCase> { GetAuthorByIdUseCaseImpl(get()) }
@@ -409,7 +412,7 @@ val viewModelModule =
         }
         factory { RestaurantVisitedViewModel(get(), get()) }
         factory { RestaurantWishlistViewModel(get(), get(), get()) }
-        factory { SharedGuidesViewModel(get(), get(), get(), get(), get()) }
+        factory { SharedGuidesViewModel(get(), get(), get(), get(), get(), get()) }
         factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
         factory { SearchViewModel(get(), get(), get()) }
         factory { SignInViewModel(get(), get()) }

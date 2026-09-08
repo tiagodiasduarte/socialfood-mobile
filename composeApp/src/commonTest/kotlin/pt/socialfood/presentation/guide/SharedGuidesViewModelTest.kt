@@ -4,16 +4,22 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
+import pt.socialfood.core.Result
+import pt.socialfood.domain.error.DataError
+import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
+import pt.socialfood.domain.usecase.guide.FindGuideBySharedCodeUseCase
 import pt.socialfood.domain.usecase.guide.GetJoinedGuidesPagingUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.fakes.FakeFindGuideBySharedCodeUseCase
 import pt.socialfood.fakes.FakeGetJoinedGuidesPagingUseCase
 import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeObserveFavouriteGuideIdsUseCase
 import pt.socialfood.fakes.FakeObserveUserUseCase
 import pt.socialfood.fakes.FakeUnmarkGuideFavouriteUseCase
+import pt.socialfood.presentation.guide.shared.JoinGuideUiState
 import pt.socialfood.presentation.guide.shared.SharedGuidesViewModel
 import pt.socialfood.random.nextGuide
 import pt.socialfood.random.nextString
@@ -22,17 +28,20 @@ import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SharedGuidesViewModelTest {
     private fun createViewModel(
         getJoinedGuidesPaging: GetJoinedGuidesPagingUseCase = FakeGetJoinedGuidesPagingUseCase(),
+        findGuideBySharedCode: FindGuideBySharedCodeUseCase = FakeFindGuideBySharedCodeUseCase(),
         observeUser: ObserveUserUseCase = FakeObserveUserUseCase(Random.nextUser()),
         observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase = FakeObserveFavouriteGuideIdsUseCase(),
         markGuideFavourite: MarkGuideFavouriteUseCase = FakeMarkGuideFavouriteUseCase(),
         unmarkGuideFavourite: UnmarkGuideFavouriteUseCase = FakeUnmarkGuideFavouriteUseCase(),
     ) = SharedGuidesViewModel(
         getJoinedGuidesPaging,
+        findGuideBySharedCode,
         markGuideFavourite,
         unmarkGuideFavourite,
         observeUser,
@@ -173,5 +182,60 @@ class SharedGuidesViewModelTest {
             // Then
             assertEquals(guideId, unmarkGuideFavourite.lastGuideId)
             assertEquals(0, markGuideFavourite.invokeCount)
+        }
+
+    @Test
+    fun `given findGuideBySharedCode succeeds when onJoinGuide is called then emits GuideJoined and resets to Idle`() =
+        runTestWithMainDispatcher {
+            // Given
+            val guide = Random.nextGuide()
+            val findGuideBySharedCode = FakeFindGuideBySharedCodeUseCase(result = Result.Success(guide))
+            val vm = createViewModel(findGuideBySharedCode = findGuideBySharedCode)
+            val code = Random.nextString()
+
+            // When
+            val job = launch { vm.events.collect {} }
+            vm.onJoinGuide(code)
+            advanceUntilIdle()
+
+            // Then
+            assertEquals(code, findGuideBySharedCode.lastCode)
+            assertEquals(JoinGuideUiState.Idle, vm.joinGuideState.value)
+            job.cancel()
+        }
+
+    @Test
+    fun `given findGuideBySharedCode fails when onJoinGuide is called then joinGuideState becomes Error`() =
+        runTestWithMainDispatcher {
+            // Given
+            val error = DataError.Known(statusCode = 404, errorCode = ErrorCode.GUIDE_NOT_FOUND, message = "invalid")
+            val findGuideBySharedCode = FakeFindGuideBySharedCodeUseCase(result = Result.Failure(error))
+            val vm = createViewModel(findGuideBySharedCode = findGuideBySharedCode)
+
+            // When
+            vm.onJoinGuide(Random.nextString())
+            advanceUntilIdle()
+
+            // Then
+            val state = vm.joinGuideState.value
+            assertIs<JoinGuideUiState.Error>(state)
+            assertEquals(ErrorCode.GUIDE_NOT_FOUND, state.errorCode)
+        }
+
+    @Test
+    fun `given an Error state when onDismissJoinGuideError is called then joinGuideState resets to Idle`() =
+        runTestWithMainDispatcher {
+            // Given
+            val error = DataError.Known(statusCode = 404, errorCode = ErrorCode.GUIDE_NOT_FOUND, message = "invalid")
+            val findGuideBySharedCode = FakeFindGuideBySharedCodeUseCase(result = Result.Failure(error))
+            val vm = createViewModel(findGuideBySharedCode = findGuideBySharedCode)
+            vm.onJoinGuide(Random.nextString())
+            advanceUntilIdle()
+
+            // When
+            vm.onDismissJoinGuideError()
+
+            // Then
+            assertEquals(JoinGuideUiState.Idle, vm.joinGuideState.value)
         }
 }

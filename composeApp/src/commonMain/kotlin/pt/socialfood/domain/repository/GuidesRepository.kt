@@ -21,9 +21,11 @@ interface GuidesRepository {
 
     suspend fun findById(id: String): Result<Guide>
 
-    fun findUserGuidesJoinedPagingFlow(userId: String): Flow<PagingData<Guide>>
+    fun findGuidesPagingFlow(): Flow<PagingData<Guide>>
 
-    fun findUserGuidesPagingFlow(userId: String? = null): Flow<PagingData<Guide>>
+    fun findUserGuidesPagingFlow(userId: String): Flow<PagingData<Guide>>
+
+    fun findUserJoinedGuidesPagingFlow(userId: String): Flow<PagingData<Guide>>
 
     suspend fun getPhotoPresignedUrl(guideId: String, fileName: String, mimeType: String): Result<PresignedUrlData>
 

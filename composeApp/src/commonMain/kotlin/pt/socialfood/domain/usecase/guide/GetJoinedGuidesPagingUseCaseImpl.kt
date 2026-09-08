@@ -7,5 +7,5 @@ import pt.socialfood.domain.repository.GuidesRepository
 
 class GetJoinedGuidesPagingUseCaseImpl(private val repository: GuidesRepository) : GetJoinedGuidesPagingUseCase {
     override operator fun invoke(userId: String): Flow<PagingData<Guide>> =
-        repository.findUserGuidesJoinedPagingFlow(userId)
+        repository.findUserJoinedGuidesPagingFlow(userId)
 }

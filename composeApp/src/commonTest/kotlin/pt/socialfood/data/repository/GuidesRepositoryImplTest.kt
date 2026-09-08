@@ -354,6 +354,21 @@ class GuidesRepositoryImplTest {
         assertIs<DataError.Network>(result.error)
     }
 
+    // findGuidesPagingFlow
+
+    @Test
+    fun `given findGuidesPagingFlow is called then Pager is configured with a RemoteMediator scoped to all`() =
+        runTest {
+            // Given
+            val repo = createRepository()
+
+            // When
+            val flow = repo.findGuidesPagingFlow()
+
+            // Then
+            assertNotNull(flow)
+        }
+
     // findUserGuidesPagingFlow
 
     @Test
@@ -364,23 +379,21 @@ class GuidesRepositoryImplTest {
 
             // When
             val scopedFlow = repo.findUserGuidesPagingFlow(userId = "user-1")
-            val defaultScopeFlow = repo.findUserGuidesPagingFlow(userId = null)
 
             // Then
             assertNotNull(scopedFlow)
-            assertNotNull(defaultScopeFlow)
         }
 
-    // findUserGuidesJoinedPagingFlow
+    // findUserJoinedGuidesPagingFlow
 
     @Test
-    fun `given findUserGuidesJoinedPagingFlow is called then Pager is configured with a scoped RemoteMediator`() =
+    fun `given findUserJoinedGuidesPagingFlow is called then Pager is configured with a scoped RemoteMediator`() =
         runTest {
             // Given
             val repo = createRepository()
 
             // When
-            val joinedFlow = repo.findUserGuidesJoinedPagingFlow(userId = "user-1")
+            val joinedFlow = repo.findUserJoinedGuidesPagingFlow(userId = "user-1")
 
             // Then
             assertNotNull(joinedFlow)

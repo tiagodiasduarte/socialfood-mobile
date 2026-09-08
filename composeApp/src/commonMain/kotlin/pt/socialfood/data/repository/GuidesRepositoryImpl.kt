@@ -25,7 +25,7 @@ import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.mapper.toGuide
 
 private const val GUIDES_PAGE_SIZE = 20
-private const val GUIDES_JOINED_SCOPE_SUFFIX = ":JOINED"
+private const val GUIDES_JOINED_SCOPE_SUFFIX = ":JOINED_SHARED"
 
 @Suppress("TooManyFunctions")
 class GuidesRepositoryImpl(
@@ -88,20 +88,22 @@ class GuidesRepositoryImpl(
     }
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun findUserGuidesJoinedPagingFlow(userId: String): Flow<PagingData<Guide>> = guidePagingFlow(
-        scope = "$userId$GUIDES_JOINED_SCOPE_SUFFIX",
-        fetchPage = { page, limit -> guideApi.findJoinedGuides(page = page, limit = limit) },
+    override fun findGuidesPagingFlow(): Flow<PagingData<Guide>> = guidePagingFlow(
+        scope = GUIDES_ALL_SCOPE,
+        fetchPage = { page, limit -> guideApi.findGuides(page = page, limit = limit) },
     )
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun findUserGuidesPagingFlow(userId: String?): Flow<PagingData<Guide>> {
-        val fetchPage: suspend (Int, Int) -> PagedResponse<GuideResponse> = if (userId == null) {
-            { page, limit -> guideApi.findGuides(page = page, limit = limit) }
-        } else {
-            { page, limit -> guideApi.findUserGuides(page = page, limit = limit) }
-        }
-        return guidePagingFlow(scope = userId ?: GUIDES_ALL_SCOPE, fetchPage = fetchPage)
-    }
+    override fun findUserGuidesPagingFlow(userId: String): Flow<PagingData<Guide>> = guidePagingFlow(
+        scope = userId,
+        fetchPage = { page, limit -> guideApi.findUserGuides(page = page, limit = limit) },
+    )
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun findUserJoinedGuidesPagingFlow(userId: String): Flow<PagingData<Guide>> = guidePagingFlow(
+        scope = "$userId$GUIDES_JOINED_SCOPE_SUFFIX",
+        fetchPage = { page, limit -> guideApi.findJoinedGuides(page = page, limit = limit) },
+    )
 
     override suspend fun getPhotoPresignedUrl(
         guideId: String,

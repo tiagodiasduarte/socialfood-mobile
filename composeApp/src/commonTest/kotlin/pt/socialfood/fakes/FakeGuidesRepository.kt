@@ -107,12 +107,14 @@ class FakeGuidesRepository(
         return updateResult
     }
 
-    override fun findUserGuidesPagingFlow(userId: String?): Flow<PagingData<Guide>> {
+    override fun findGuidesPagingFlow(): Flow<PagingData<Guide>> = guidesPagingFlow
+
+    override fun findUserGuidesPagingFlow(userId: String): Flow<PagingData<Guide>> {
         lastPagingUserId = userId
         return guidesPagingFlow
     }
 
-    override fun findUserGuidesJoinedPagingFlow(userId: String): Flow<PagingData<Guide>> {
+    override fun findUserJoinedGuidesPagingFlow(userId: String): Flow<PagingData<Guide>> {
         lastJoinedPagingUserId = userId
         return joinedGuidesPagingFlow
     }

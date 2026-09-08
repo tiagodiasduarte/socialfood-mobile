@@ -435,4 +435,18 @@ class GuidesRepositoryImplTest {
             assertNotNull(scopedFlow)
             assertNotNull(defaultScopeFlow)
         }
+
+    // getJoinedGuidesPagingFlow
+
+    @Test
+    fun `given getJoinedGuidesPagingFlow is called then Pager is configured with a scoped RemoteMediator`() = runTest {
+        // Given
+        val repo = createRepository()
+
+        // When
+        val joinedFlow = repo.getJoinedGuidesPagingFlow(userId = "user-1")
+
+        // Then
+        assertNotNull(joinedFlow)
+    }
 }

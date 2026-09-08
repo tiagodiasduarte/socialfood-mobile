@@ -22,6 +22,7 @@ class FakeGuidesRepository(
     private val findByIdResult: Result<Guide> = Result.Success(Random.nextGuide()),
     private val addRestaurantGuideResult: Result<Guide> = Result.Success(Random.nextGuide()),
     private val guidesPagingFlow: Flow<PagingData<Guide>> = emptyFlow(),
+    private val joinedGuidesPagingFlow: Flow<PagingData<Guide>> = emptyFlow(),
     private val getPhotoPresignedUrlResult: Result<PresignedUrlData> =
         Result.Success(PresignedUrlData(uploadUrl = "https://upload", publicUrl = "https://public")),
     private val addPhotoResult: Result<Boolean> = Result.Success(true),
@@ -81,6 +82,9 @@ class FakeGuidesRepository(
     var lastPagingUserId: String? = null
         private set
 
+    var lastJoinedPagingUserId: String? = null
+        private set
+
     var addPhotoInvokeCount: Int = 0
         private set
     var lastAddPhotoImageUrl: String? = null
@@ -132,6 +136,11 @@ class FakeGuidesRepository(
     override fun getGuidesPagingFlow(userId: String?): Flow<PagingData<Guide>> {
         lastPagingUserId = userId
         return guidesPagingFlow
+    }
+
+    override fun getJoinedGuidesPagingFlow(userId: String): Flow<PagingData<Guide>> {
+        lastJoinedPagingUserId = userId
+        return joinedGuidesPagingFlow
     }
 
     override suspend fun findById(id: String): Result<Guide> {

@@ -11,6 +11,8 @@ import pt.socialfood.core.Result
 import pt.socialfood.data.api.GuidesApi
 import pt.socialfood.data.local.dao.GuideDao
 import pt.socialfood.data.local.dao.GuideRemoteKeyDao
+import pt.socialfood.data.network.model.PagedResponse
+import pt.socialfood.data.network.model.guide.GuideResponse
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.paging.GUIDES_ALL_SCOPE
 import pt.socialfood.data.paging.GuideCacheTransactionRunner
@@ -24,6 +26,7 @@ import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.mapper.toGuide
 
 private const val GUIDES_PAGE_SIZE = 20
+private const val GUIDES_JOINED_SCOPE_SUFFIX = ":JOINED"
 
 class GuidesRepositoryImpl(
     private val guideApi: GuidesApi,
@@ -139,17 +142,33 @@ class GuidesRepositoryImpl(
 
     @OptIn(ExperimentalPagingApi::class)
     override fun getGuidesPagingFlow(userId: String?): Flow<PagingData<Guide>> {
-        val scope = userId ?: GUIDES_ALL_SCOPE
-        return Pager(
-            config = PagingConfig(pageSize = GUIDES_PAGE_SIZE),
-            remoteMediator = GuideRemoteMediator(
-                scope = scope,
-                guidesApi = guideApi,
-                guideDao = guideDao,
-                guideRemoteKeyDao = guideRemoteKeyDao,
-                transactionRunner = transactionRunner,
-            ),
-            pagingSourceFactory = { guideDao.pagingSource(scope) },
-        ).flow.map { pagingData -> pagingData.map { it.toGuide() } }
+        val fetchPage: suspend (Int, Int) -> PagedResponse<GuideResponse> = if (userId == null) {
+            { page, limit -> guideApi.findGuides(page = page, limit = limit) }
+        } else {
+            { page, limit -> guideApi.findMyGuides(page = page, limit = limit) }
+        }
+        return guidePagingFlow(scope = userId ?: GUIDES_ALL_SCOPE, fetchPage = fetchPage)
     }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getJoinedGuidesPagingFlow(userId: String): Flow<PagingData<Guide>> = guidePagingFlow(
+        scope = "$userId$GUIDES_JOINED_SCOPE_SUFFIX",
+        fetchPage = { page, limit -> guideApi.findJoinedGuides(page = page, limit = limit) },
+    )
+
+    @OptIn(ExperimentalPagingApi::class)
+    private fun guidePagingFlow(
+        scope: String,
+        fetchPage: suspend (page: Int, limit: Int) -> PagedResponse<GuideResponse>,
+    ): Flow<PagingData<Guide>> = Pager(
+        config = PagingConfig(pageSize = GUIDES_PAGE_SIZE),
+        remoteMediator = GuideRemoteMediator(
+            scope = scope,
+            fetchPage = fetchPage,
+            guideDao = guideDao,
+            guideRemoteKeyDao = guideRemoteKeyDao,
+            transactionRunner = transactionRunner,
+        ),
+        pagingSourceFactory = { guideDao.pagingSource(scope) },
+    ).flow.map { pagingData -> pagingData.map { it.toGuide() } }
 }

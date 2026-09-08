@@ -67,7 +67,13 @@ class GuideRemoteMediatorTest {
         scope: String = SCOPE,
     ) = GuideRemoteMediator(
         scope = scope,
-        guidesApi = api,
+        fetchPage = { page, limit ->
+            if (scope == GUIDES_ALL_SCOPE) {
+                api.findGuides(page = page, limit = limit)
+            } else {
+                api.findMyGuides(page = page, limit = limit)
+            }
+        },
         guideDao = guideDao,
         guideRemoteKeyDao = guideRemoteKeyDao,
         transactionRunner = GuideCacheTransactionRunner { it() },

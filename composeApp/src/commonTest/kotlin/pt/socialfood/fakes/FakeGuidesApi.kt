@@ -56,6 +56,10 @@ class FakeGuidesApi(
         private set
     var lastFindMyGuidesPage: Int? = null
         private set
+    var findJoinedGuidesCallCount: Int = 0
+        private set
+    var lastFindJoinedGuidesPage: Int? = null
+        private set
 
     override suspend fun create(name: String, description: String, userId: String): GuideDetailResponse {
         if (shouldThrow) throw IOException("test error")
@@ -93,6 +97,18 @@ class FakeGuidesApi(
         if (shouldThrow) throw IOException("test error")
         findMyGuidesCallCount++
         lastFindMyGuidesPage = page
+        return PagedResponse(
+            items = items,
+            page = page,
+            limit = limit,
+            total = total,
+        )
+    }
+
+    override suspend fun findJoinedGuides(page: Int, limit: Int): PagedResponse<GuideResponse> {
+        if (shouldThrow) throw IOException("test error")
+        findJoinedGuidesCallCount++
+        lastFindJoinedGuidesPage = page
         return PagedResponse(
             items = items,
             page = page,

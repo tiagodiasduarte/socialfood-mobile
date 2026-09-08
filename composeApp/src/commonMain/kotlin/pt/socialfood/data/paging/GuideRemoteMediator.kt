@@ -8,7 +8,6 @@ import androidx.room.immediateTransaction
 import androidx.room.useWriterConnection
 import androidx.sqlite.SQLiteException
 import pt.socialfood.core.Result
-import pt.socialfood.data.api.GuidesApi
 import pt.socialfood.data.local.AppDatabase
 import pt.socialfood.data.local.dao.GuideDao
 import pt.socialfood.data.local.dao.GuideRemoteKeyDao
@@ -34,7 +33,7 @@ fun AppDatabase.asGuideCacheTransactionRunner(): GuideCacheTransactionRunner = G
 @OptIn(ExperimentalPagingApi::class)
 class GuideRemoteMediator(
     private val scope: String,
-    private val guidesApi: GuidesApi,
+    private val fetchPage: suspend (page: Int, limit: Int) -> PagedResponse<GuideResponse>,
     private val guideDao: GuideDao,
     private val guideRemoteKeyDao: GuideRemoteKeyDao,
     private val transactionRunner: GuideCacheTransactionRunner,
@@ -55,15 +54,7 @@ class GuideRemoteMediator(
 
             val limit = state.config.pageSize
 
-            when (
-                val result = safeApiCall {
-                    if (scope == GUIDES_ALL_SCOPE) {
-                        guidesApi.findGuides(page = page, limit = limit)
-                    } else {
-                        guidesApi.findMyGuides(page = page, limit = limit)
-                    }
-                }
-            ) {
+            when (val result = safeApiCall { fetchPage(page, limit) }) {
                 is Result.Failure -> MediatorResult.Error(result.error.toThrowable())
                 is Result.Success<PagedResponse<GuideResponse>> ->
                     applyResponse(result.data, loadType, page, limit)

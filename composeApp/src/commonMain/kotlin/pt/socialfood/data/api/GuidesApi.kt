@@ -23,6 +23,8 @@ interface GuidesApi {
 
     suspend fun findMyGuides(page: Int, limit: Int): PagedResponse<GuideResponse>
 
+    suspend fun findJoinedGuides(page: Int, limit: Int): PagedResponse<GuideResponse>
+
     suspend fun findById(id: String): GuideDetailResponse
 
     suspend fun update(

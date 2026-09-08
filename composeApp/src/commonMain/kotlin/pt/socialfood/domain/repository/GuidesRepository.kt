@@ -40,6 +40,12 @@ interface GuidesRepository {
      */
     fun getGuidesPagingFlow(userId: String? = null): Flow<PagingData<Guide>>
 
+    /**
+     * Room-backed, refresh-on-fetch paging stream for guides [userId] has joined via a share code.
+     * Cached under a distinct scope from [getGuidesPagingFlow]'s "mine" list — see `GuideRemoteMediator`.
+     */
+    fun getJoinedGuidesPagingFlow(userId: String): Flow<PagingData<Guide>>
+
     suspend fun findById(id: String): Result<Guide>
 
     suspend fun addRestaurantGuide(guideId: String, userId: String, placeId: String?): Result<Guide>

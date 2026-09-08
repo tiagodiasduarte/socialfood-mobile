@@ -103,6 +103,7 @@
     <string name="guides_title">Guides</string>
     <string name="guides_tab_all">All Guides</string>
     <string name="guides_tab_my">My Guides</string>
+    <string name="guides_tab_shared">Shared Guides</string>
     <string name="guides_add_button_description">Add guide</string>
 
     <string name="authors_title">Authors</string>

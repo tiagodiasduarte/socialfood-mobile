@@ -21,7 +21,20 @@ import pt.socialfood.domain.error.toThrowable
 import pt.socialfood.mapper.toGuide
 import pt.socialfood.mapper.toGuideEntity
 
-const val GUIDES_ALL_SCOPE = "ALL"
+private const val GUIDES_ALL_SCOPE = "ALL"
+private const val GUIDES_JOINED_SCOPE_SUFFIX = ":JOINED_SHARED"
+
+enum class GuideListScope {
+    ALL,
+    USER,
+    JOINED,
+}
+
+fun GuideListScope.toScope(userId: String? = null): String = when (this) {
+    GuideListScope.ALL -> GUIDES_ALL_SCOPE
+    GuideListScope.USER -> requireNotNull(userId) { "userId is required for the USER guide list scope" }
+    GuideListScope.JOINED -> "$userId$GUIDES_JOINED_SCOPE_SUFFIX"
+}
 
 fun interface GuideCacheTransactionRunner {
     suspend fun run(block: suspend () -> Unit)
@@ -33,6 +46,7 @@ fun AppDatabase.asGuideCacheTransactionRunner(): GuideCacheTransactionRunner = G
 
 @OptIn(ExperimentalPagingApi::class)
 class GuideRemoteMediator(
+    private val listScope: GuideListScope,
     private val scope: String,
     private val guidesApi: GuidesApi,
     private val guideDao: GuideDao,
@@ -57,10 +71,10 @@ class GuideRemoteMediator(
 
             when (
                 val result = safeApiCall {
-                    if (scope == GUIDES_ALL_SCOPE) {
-                        guidesApi.findGuides(page = page, limit = limit)
-                    } else {
-                        guidesApi.findMyGuides(page = page, limit = limit)
+                    when (listScope) {
+                        GuideListScope.ALL -> guidesApi.findGuides(page = page, limit = limit)
+                        GuideListScope.USER -> guidesApi.findUserGuides(page = page, limit = limit)
+                        GuideListScope.JOINED -> guidesApi.findUserJoinedGuides(page = page, limit = limit)
                     }
                 }
             ) {

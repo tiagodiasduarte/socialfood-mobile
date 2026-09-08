@@ -30,6 +30,7 @@ import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.guides_add_button_description
 import socialfood.composeapp.generated.resources.guides_tab_all
 import socialfood.composeapp.generated.resources.guides_tab_my
+import socialfood.composeapp.generated.resources.guides_tab_shared
 import socialfood.composeapp.generated.resources.guides_title
 
 @Composable
@@ -41,7 +42,11 @@ fun GuidesHeader(
     onProfileClick: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
-    val tabs = listOf(stringResource(Res.string.guides_tab_all), stringResource(Res.string.guides_tab_my))
+    val tabs = listOf(
+        stringResource(Res.string.guides_tab_all),
+        stringResource(Res.string.guides_tab_my),
+        stringResource(Res.string.guides_tab_shared),
+    )
 
     Column(
         modifier = modifier

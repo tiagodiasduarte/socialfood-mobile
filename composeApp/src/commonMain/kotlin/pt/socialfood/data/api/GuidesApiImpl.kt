@@ -22,6 +22,7 @@ import pt.socialfood.data.network.model.photo.PresignedUrlResponse
 
 @Suppress("TooManyFunctions")
 class GuidesApiImpl(private val client: HttpClient) : GuidesApi {
+
     override suspend fun create(name: String, description: String, userId: String): GuideDetailResponse = client
         .post("guides") {
             contentType(ContentType.Application.Json)
@@ -53,8 +54,14 @@ class GuidesApiImpl(private val client: HttpClient) : GuidesApi {
             if (userId != null) parameter("userId", userId)
         }.body()
 
-    override suspend fun findMyGuides(page: Int, limit: Int): PagedResponse<GuideResponse> = client
+    override suspend fun findUserGuides(page: Int, limit: Int): PagedResponse<GuideResponse> = client
         .get("me/guides") {
+            parameter("page", page)
+            parameter("limit", limit)
+        }.body()
+
+    override suspend fun findUserJoinedGuides(page: Int, limit: Int): PagedResponse<GuideResponse> = client
+        .get("me/guides/joined") {
             parameter("page", page)
             parameter("limit", limit)
         }.body()

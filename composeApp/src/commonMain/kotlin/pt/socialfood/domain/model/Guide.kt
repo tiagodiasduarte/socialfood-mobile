@@ -9,6 +9,7 @@ data class Guide(
     val numberOfRestaurant: Int,
     val restaurants: List<Restaurant> = emptyList(),
     val imageUrl: String? = null,
+    val sharedCode: String? = null,
 )
 
-enum class GuideVisibility { PUBLIC, PRIVATE }
+enum class GuideVisibility { PUBLIC, PRIVATE, SHARED }

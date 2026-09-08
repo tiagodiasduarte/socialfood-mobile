@@ -58,6 +58,7 @@ class GuideRemoteMediatorTest {
         numberOfRestaurant = 0,
         imageUrl = null,
         position = position,
+        sharedCode = null,
     )
 
     private fun createMediator(

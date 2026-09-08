@@ -22,7 +22,6 @@ import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class AllGuidesViewModelTest {
@@ -41,7 +40,7 @@ class AllGuidesViewModelTest {
     )
 
     @Test
-    fun `given the viewmodel is created when guides is collected then getGuidesPaging is invoked with userId null`() =
+    fun `given the viewmodel is created when guides is collected then getGuidesPaging is invoked`() =
         runTestWithMainDispatcher {
             // Given
             val getGuidesPaging = FakeGetGuidesPagingUseCase()
@@ -53,7 +52,6 @@ class AllGuidesViewModelTest {
 
             // Then
             assertEquals(1, getGuidesPaging.invokeCount)
-            assertNull(getGuidesPaging.lastUserId)
             job.cancel()
         }
 

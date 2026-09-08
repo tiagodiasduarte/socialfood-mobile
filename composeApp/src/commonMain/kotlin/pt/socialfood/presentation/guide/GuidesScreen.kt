@@ -36,11 +36,13 @@ import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.presentation.guide.all.AllGuidesScreen
 import pt.socialfood.presentation.guide.my.MyGuidesScreen
+import pt.socialfood.presentation.guide.shared.SharedGuidesScreen
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
 const val ALL_GUIDES_TAB = 0
 const val MY_GUIDES_TAB = 1
+const val SHARED_GUIDES_TAB = 2
 
 @Composable
 fun GuidesScreen(
@@ -52,6 +54,14 @@ fun GuidesScreen(
 
     when (selectedTab) {
         MY_GUIDES_TAB -> MyGuidesScreen(
+            selectedTab = selectedTab,
+            onTabSelected = { selectedTab = it },
+            onGuideClick = onGuideClick,
+            onAddClick = onAddClick,
+            onProfileClick = onProfileClick,
+        )
+
+        SHARED_GUIDES_TAB -> SharedGuidesScreen(
             selectedTab = selectedTab,
             onTabSelected = { selectedTab = it },
             onGuideClick = onGuideClick,

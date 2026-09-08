@@ -6,7 +6,6 @@ import pt.socialfood.data.paging.GuideCacheTransactionRunner
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.domain.model.PagedGuides
 import pt.socialfood.domain.model.PresignedUrlData
 import pt.socialfood.fakes.FakeGuideDao
 import pt.socialfood.fakes.FakeGuideRemoteKeyDao
@@ -15,7 +14,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 
 class GuidesRepositoryImplTest {
     private fun createRepository(shouldThrow: Boolean = false): GuidesRepositoryImpl = GuidesRepositoryImpl(
@@ -76,69 +74,6 @@ class GuidesRepositoryImplTest {
 
         // When
         val result = repo.delete(id = "guide-id")
-
-        // Then
-        assertIs<Result.Failure>(result)
-        assertIs<DataError.Network>(result.error)
-    }
-
-    // findGuides
-
-    @Test
-    fun `given guides exist when findGuides is called then returns Success with list`() = runTest {
-        // Given
-        val repo = createRepository()
-
-        // When
-        val result = repo.findGuides()
-
-        // Then
-        assertIs<Result.Success<List<Guide>>>(result)
-        assertTrue(result.data.isNotEmpty())
-        assertEquals("guide-id", result.data.first().id)
-    }
-
-    @Test
-    fun `given api throws when findGuides is called then returns Error Unknown`() = runTest {
-        // Given
-        val repo = createRepository(shouldThrow = true)
-
-        // When
-        val result = repo.findGuides()
-
-        // Then
-        assertIs<Result.Failure>(result)
-        assertIs<DataError.Network>(result.error)
-    }
-
-    // findGuidesPaged
-
-    @Test
-    fun `given pagination params when findGuidesPaged is called then returns Success with hasMore flag correct`() =
-        runTest {
-            // Given
-            val repo = createRepository()
-            val page = 1
-            val limit = 10
-            // FakeGuidesApi returns total = 25, so page * limit = 10 < 25 → hasMore = true
-
-            // When
-            val result = repo.findGuidesPaged(page = page, limit = limit, query = null)
-
-            // Then
-            assertIs<Result.Success<PagedGuides>>(result)
-            assertEquals(page, result.data.page)
-            assertEquals(25, result.data.total)
-            assertTrue(result.data.hasMore)
-        }
-
-    @Test
-    fun `given api throws when findGuidesPaged is called then returns Error Unknown`() = runTest {
-        // Given
-        val repo = createRepository(shouldThrow = true)
-
-        // When
-        val result = repo.findGuidesPaged(page = 1, limit = 10, query = null)
 
         // Then
         assertIs<Result.Failure>(result)
@@ -419,20 +354,48 @@ class GuidesRepositoryImplTest {
         assertIs<DataError.Network>(result.error)
     }
 
-    // getGuidesPagingFlow
+    // findGuidesPagingFlow
 
     @Test
-    fun `given getGuidesPagingFlow is called then Pager is configured with a RemoteMediator scoped to userId or ALL`() =
+    fun `given findGuidesPagingFlow is called then Pager is configured with a RemoteMediator scoped to all`() =
         runTest {
             // Given
             val repo = createRepository()
 
             // When
-            val scopedFlow = repo.getGuidesPagingFlow(userId = "user-1")
-            val defaultScopeFlow = repo.getGuidesPagingFlow(userId = null)
+            val flow = repo.findGuidesPagingFlow()
+
+            // Then
+            assertNotNull(flow)
+        }
+
+    // findUserGuidesPagingFlow
+
+    @Test
+    fun `given findUserGuidesPagingFlow is called then Pager is configured with a RemoteMediator scoped to userId`() =
+        runTest {
+            // Given
+            val repo = createRepository()
+
+            // When
+            val scopedFlow = repo.findUserGuidesPagingFlow(userId = "user-1")
 
             // Then
             assertNotNull(scopedFlow)
-            assertNotNull(defaultScopeFlow)
+        }
+
+    // findUserJoinedGuidesPagingFlow
+
+    @Test
+    fun `given findUserJoinedGuidesPagingFlow is called then Pager is configured with a scoped RemoteMediator`() =
+        runTest {
+            // Given
+            val repo = createRepository()
+
+            // When
+            val joinedFlow = repo.findUserJoinedGuidesPagingFlow(userId = "user-1")
+
+            // Then
+            assertNotNull(joinedFlow)
         }
 }

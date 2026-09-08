@@ -5,21 +5,26 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.fakes.FakeGuidesRepository
+import pt.socialfood.random.nextString
+import kotlin.random.Random
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertSame
 
-class GetGuidesPagingUseCaseImplTest {
+class GetUserGuidesPagingUseCaseImplTest {
     @Test
-    fun `given the use case is invoked then returns the repository's all guides paging flow`() = runTest {
+    fun `given a userId when invoked then forwards it and returns the repository's paging flow`() = runTest {
         // Given
+        val userId = Random.nextString()
         val pagingFlow = flowOf(PagingData.empty<Guide>())
         val repository = FakeGuidesRepository(guidesPagingFlow = pagingFlow)
-        val useCase = GetGuidesPagingUseCaseImpl(repository)
+        val useCase = GetUserGuidesPagingUseCaseImpl(repository)
 
         // When
-        val flow = useCase()
+        val flow = useCase(userId)
 
         // Then
         assertSame(pagingFlow, flow)
+        assertEquals(userId, repository.lastPagingUserId)
     }
 }

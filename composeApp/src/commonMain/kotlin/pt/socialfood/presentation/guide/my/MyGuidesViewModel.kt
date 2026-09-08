@@ -19,12 +19,12 @@ import pt.socialfood.domain.model.User
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
+import pt.socialfood.domain.usecase.guide.GetUserGuidesPagingUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MyGuidesViewModel(
-    getGuidesPaging: GetGuidesPagingUseCase,
+    getUserGuidesPaging: GetUserGuidesPagingUseCase,
     private val markGuideFavourite: MarkGuideFavouriteUseCase,
     private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
     observeUser: ObserveUserUseCase,
@@ -38,7 +38,7 @@ class MyGuidesViewModel(
         .filterNotNull()
         .map { it.id }
         .distinctUntilChanged()
-        .flatMapLatest { userId -> getGuidesPaging(userId) }
+        .flatMapLatest { userId -> getUserGuidesPaging(userId) }
         .cachedIn(viewModelScope)
 
     val favouriteGuideIds: StateFlow<Set<String>> = observeFavouriteGuideIds()

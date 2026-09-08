@@ -17,7 +17,6 @@ class FakeGuidesRepository(
     private val deleteResult: Result<Boolean> = Result.Success(true),
     private val createResult: Result<Guide> = Result.Success(Random.nextGuide()),
     private val updateResult: Result<Guide> = Result.Success(Random.nextGuide()),
-    private val findGuidesResult: Result<List<Guide>> = Result.Success(emptyList()),
     private val findGuidesPagedResult: Result<PagedGuides> = Result.Success(Random.nextPagedGuides()),
     private val findByIdResult: Result<Guide> = Result.Success(Random.nextGuide()),
     private val addRestaurantGuideResult: Result<Guide> = Result.Success(Random.nextGuide()),
@@ -122,8 +121,6 @@ class FakeGuidesRepository(
         return updateResult
     }
 
-    override suspend fun findGuides(): Result<List<Guide>> = findGuidesResult
-
     override suspend fun findGuidesPaged(page: Int, limit: Int, query: String?, userId: String?): Result<PagedGuides> {
         findGuidesPagedInvokeCount++
         lastFindGuidesPagedPage = page
@@ -133,12 +130,12 @@ class FakeGuidesRepository(
         return findGuidesPagedResult
     }
 
-    override fun getGuidesPagingFlow(userId: String?): Flow<PagingData<Guide>> {
+    override fun findUserGuidesPagingFlow(userId: String?): Flow<PagingData<Guide>> {
         lastPagingUserId = userId
         return guidesPagingFlow
     }
 
-    override fun getJoinedGuidesPagingFlow(userId: String): Flow<PagingData<Guide>> {
+    override fun findUserGuidesJoinedPagingFlow(userId: String): Flow<PagingData<Guide>> {
         lastJoinedPagingUserId = userId
         return joinedGuidesPagingFlow
     }

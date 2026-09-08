@@ -28,6 +28,7 @@ import pt.socialfood.mapper.toGuide
 private const val GUIDES_PAGE_SIZE = 20
 private const val GUIDES_JOINED_SCOPE_SUFFIX = ":JOINED"
 
+@Suppress("TooManyFunctions")
 class GuidesRepositoryImpl(
     private val guideApi: GuidesApi,
     private val guideDao: GuideDao,
@@ -36,6 +37,26 @@ class GuidesRepositoryImpl(
 ) : GuidesRepository {
 
     private var lastGuide: Guide? = null
+
+    override suspend fun addPhoto(guideId: String, imageUrl: String): Result<Boolean> = safeApiCall {
+        guideApi.addPhoto(
+            guideId = guideId,
+            imageUrl = imageUrl,
+        )
+        true
+    }.also { result ->
+        if (result is Result.Success && lastGuide?.id == guideId) lastGuide = null
+    }
+
+    override suspend fun addRestaurantGuide(guideId: String, userId: String, placeId: String?): Result<Guide> =
+        safeApiCall {
+            guideApi.addRestaurantGuide(
+                guideId = guideId,
+                placeId = placeId,
+            ).toGuide()
+        }.also { result ->
+            if (result is Result.Success) lastGuide = result.data
+        }
 
     override suspend fun create(name: String, description: String, userId: String): Result<Guide> = safeApiCall {
         guideApi.create(
@@ -52,7 +73,20 @@ class GuidesRepositoryImpl(
         if (result is Result.Success && lastGuide?.id == id) lastGuide = null
     }
 
-    override suspend fun findGuides(): Result<List<Guide>> = safeApiCall { guideApi.findAll().map { it.toGuide() } }
+    override suspend fun deletePhoto(guideId: String): Result<Boolean> = safeApiCall {
+        guideApi.deletePhoto(guideId = guideId)
+        true
+    }.also { result ->
+        if (result is Result.Success && lastGuide?.id == guideId) lastGuide = null
+    }
+
+    override suspend fun findById(id: String): Result<Guide> {
+        lastGuide?.takeIf { it.id == id }?.let { return Result.Success(it) }
+
+        return safeApiCall { guideApi.findById(id).toGuide() }.also { result ->
+            if (result is Result.Success) lastGuide = result.data
+        }
+    }
 
     override suspend fun findGuidesPaged(page: Int, limit: Int, query: String?, userId: String?): Result<PagedGuides> =
         safeApiCall {
@@ -66,32 +100,20 @@ class GuidesRepositoryImpl(
             )
         }
 
-    override suspend fun update(
-        id: String,
-        name: String,
-        userId: String,
-        description: String,
-        restaurantIds: List<String>,
-        visibility: GuideVisibility,
-    ): Result<Guide> = safeApiCall {
-        guideApi.update(
-            id = id,
-            name = name,
-            userId = userId,
-            description = description,
-            restaurantIds = restaurantIds,
-            visibility = visibility.name,
-        ).toGuide()
-    }.also { result ->
-        if (result is Result.Success) lastGuide = result.data
-    }
+    @OptIn(ExperimentalPagingApi::class)
+    override fun findUserGuidesJoinedPagingFlow(userId: String): Flow<PagingData<Guide>> = guidePagingFlow(
+        scope = "$userId$GUIDES_JOINED_SCOPE_SUFFIX",
+        fetchPage = { page, limit -> guideApi.findJoinedGuides(page = page, limit = limit) },
+    )
 
-    override suspend fun findById(id: String): Result<Guide> {
-        lastGuide?.takeIf { it.id == id }?.let { return Result.Success(it) }
-
-        return safeApiCall { guideApi.findById(id).toGuide() }.also { result ->
-            if (result is Result.Success) lastGuide = result.data
+    @OptIn(ExperimentalPagingApi::class)
+    override fun findUserGuidesPagingFlow(userId: String?): Flow<PagingData<Guide>> {
+        val fetchPage: suspend (Int, Int) -> PagedResponse<GuideResponse> = if (userId == null) {
+            { page, limit -> guideApi.findGuides(page = page, limit = limit) }
+        } else {
+            { page, limit -> guideApi.findMyGuides(page = page, limit = limit) }
         }
+        return guidePagingFlow(scope = userId ?: GUIDES_ALL_SCOPE, fetchPage = fetchPage)
     }
 
     override suspend fun getPhotoPresignedUrl(
@@ -113,48 +135,25 @@ class GuidesRepositoryImpl(
         )
     }
 
-    override suspend fun addRestaurantGuide(guideId: String, userId: String, placeId: String?): Result<Guide> =
-        safeApiCall {
-            guideApi.addRestaurantGuide(
-                guideId = guideId,
-                placeId = placeId,
-            ).toGuide()
-        }.also { result ->
-            if (result is Result.Success) lastGuide = result.data
-        }
-
-    override suspend fun addPhoto(guideId: String, imageUrl: String): Result<Boolean> = safeApiCall {
-        guideApi.addPhoto(
-            guideId = guideId,
-            imageUrl = imageUrl,
-        )
-        true
+    override suspend fun update(
+        id: String,
+        name: String,
+        userId: String,
+        description: String,
+        restaurantIds: List<String>,
+        visibility: GuideVisibility,
+    ): Result<Guide> = safeApiCall {
+        guideApi.update(
+            id = id,
+            name = name,
+            userId = userId,
+            description = description,
+            restaurantIds = restaurantIds,
+            visibility = visibility.name,
+        ).toGuide()
     }.also { result ->
-        if (result is Result.Success && lastGuide?.id == guideId) lastGuide = null
+        if (result is Result.Success) lastGuide = result.data
     }
-
-    override suspend fun deletePhoto(guideId: String): Result<Boolean> = safeApiCall {
-        guideApi.deletePhoto(guideId = guideId)
-        true
-    }.also { result ->
-        if (result is Result.Success && lastGuide?.id == guideId) lastGuide = null
-    }
-
-    @OptIn(ExperimentalPagingApi::class)
-    override fun getGuidesPagingFlow(userId: String?): Flow<PagingData<Guide>> {
-        val fetchPage: suspend (Int, Int) -> PagedResponse<GuideResponse> = if (userId == null) {
-            { page, limit -> guideApi.findGuides(page = page, limit = limit) }
-        } else {
-            { page, limit -> guideApi.findMyGuides(page = page, limit = limit) }
-        }
-        return guidePagingFlow(scope = userId ?: GUIDES_ALL_SCOPE, fetchPage = fetchPage)
-    }
-
-    @OptIn(ExperimentalPagingApi::class)
-    override fun getJoinedGuidesPagingFlow(userId: String): Flow<PagingData<Guide>> = guidePagingFlow(
-        scope = "$userId$GUIDES_JOINED_SCOPE_SUFFIX",
-        fetchPage = { page, limit -> guideApi.findJoinedGuides(page = page, limit = limit) },
-    )
 
     @OptIn(ExperimentalPagingApi::class)
     private fun guidePagingFlow(

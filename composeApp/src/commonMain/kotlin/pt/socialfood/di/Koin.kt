@@ -117,8 +117,6 @@ import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCase
 import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCaseImpl
 import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
 import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCaseImpl
-import pt.socialfood.domain.usecase.guide.GetGuidesUseCase
-import pt.socialfood.domain.usecase.guide.GetGuidesUseCaseImpl
 import pt.socialfood.domain.usecase.guide.GetJoinedGuidesPagingUseCase
 import pt.socialfood.domain.usecase.guide.GetJoinedGuidesPagingUseCaseImpl
 import pt.socialfood.domain.usecase.guide.UpdateGuideUseCase
@@ -344,7 +342,6 @@ val useCaseModule =
         factory<GetGuideByIdUseCase> { GetGuideByIdUseCaseImpl(get()) }
         factory<GetGuideSuggestionsUseCase> { GetGuideSuggestionsUseCaseImpl(get()) }
         factory<GetGuidesPagingUseCase> { GetGuidesPagingUseCaseImpl(get()) }
-        factory<GetGuidesUseCase> { GetGuidesUseCaseImpl(get()) }
         factory<GetHomeSectionByIdUseCase> { GetHomeSectionByIdUseCaseImpl(get()) }
         factory<GetHomeSectionsUseCase> { GetHomeSectionsUseCaseImpl(get()) }
         factory<GetJoinedGuidesPagingUseCase> { GetJoinedGuidesPagingUseCaseImpl(get()) }

@@ -5,7 +5,8 @@ import kotlinx.coroutines.flow.Flow
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.repository.GuidesRepository
 
-class GetJoinedGuidesPagingUseCaseImpl(private val repository: GuidesRepository) : GetJoinedGuidesPagingUseCase {
+class GetUserJoinedGuidesPagingUseCaseImpl(private val repository: GuidesRepository) :
+    GetUserJoinedGuidesPagingUseCase {
     override operator fun invoke(userId: String): Flow<PagingData<Guide>> =
         repository.findUserJoinedGuidesPagingFlow(userId)
 }

@@ -17,6 +17,7 @@ fun GuideResponse.toGuide() = Guide(
     author = this.author.toAuthor(),
     numberOfRestaurant = this.numberOfRestaurants,
     imageUrl = this.imageUrl,
+    shareCode = this.shareCode,
 )
 
 fun AuthorDetailResponse.GuideResponse.toAuthorDetailGuide() = AuthorDetail.Guide(
@@ -36,6 +37,7 @@ fun GuideDetailResponse.toGuide() = Guide(
     numberOfRestaurant = this.restaurants.size,
     restaurants = this.restaurants.map { it.toRestaurant() },
     imageUrl = this.imageUrl,
+    shareCode = this.shareCode,
 )
 
 fun Guide.toGuideEntity(scope: String, position: Int) = GuideEntity(
@@ -51,6 +53,7 @@ fun Guide.toGuideEntity(scope: String, position: Int) = GuideEntity(
     numberOfRestaurant = this.numberOfRestaurant,
     imageUrl = this.imageUrl,
     position = position,
+    shareCode = this.shareCode,
 )
 
 fun GuideEntity.toGuide() = Guide(
@@ -66,4 +69,5 @@ fun GuideEntity.toGuide() = Guide(
     ),
     numberOfRestaurant = this.numberOfRestaurant,
     imageUrl = this.imageUrl,
+    shareCode = this.shareCode,
 )

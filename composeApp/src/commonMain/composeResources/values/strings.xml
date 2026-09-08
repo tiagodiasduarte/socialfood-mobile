@@ -87,9 +87,11 @@
     <string name="guide_map_close_button_description">Close</string>
     <string name="guide_detail_public_label">Public</string>
     <string name="guide_detail_private_label">Private</string>
+    <string name="guide_detail_shared_label">Shared</string>
     <string name="guide_detail_restaurants_count_label">%1$d restaurants</string>
     <string name="guide_detail_public_icon_description">Public icon</string>
     <string name="guide_detail_private_icon_description">Private icon</string>
+    <string name="guide_detail_shared_icon_description">Shared icon</string>
     <string name="guide_detail_separator">·</string>
 
     <string name="favourites_guides_title">Favourite Guides</string>

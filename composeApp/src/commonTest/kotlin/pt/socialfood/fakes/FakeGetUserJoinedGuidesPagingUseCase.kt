@@ -4,11 +4,11 @@ import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.usecase.guide.GetJoinedGuidesPagingUseCase
+import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCase
 
-class FakeGetJoinedGuidesPagingUseCase(
+class FakeGetUserJoinedGuidesPagingUseCase(
     private val result: (userId: String) -> Flow<PagingData<Guide>> = { flowOf(PagingData.empty()) },
-) : GetJoinedGuidesPagingUseCase {
+) : GetUserJoinedGuidesPagingUseCase {
     var invokeCount: Int = 0
         private set
     var lastUserId: String? = null

@@ -60,6 +60,7 @@ class GuideMapperTest {
             author = authorResponse,
             numberOfRestaurants = Random.nextInt(0, 50),
             imageUrl = Random.nextNullable { nextUrl() },
+            shareCode = Random.nextNullable { nextString() },
         )
 
         // When
@@ -75,6 +76,7 @@ class GuideMapperTest {
                 author = authorResponse.toAuthor(),
                 numberOfRestaurant = response.numberOfRestaurants,
                 imageUrl = response.imageUrl,
+                shareCode = response.shareCode,
             ),
             result,
         )
@@ -120,6 +122,7 @@ class GuideMapperTest {
             author = authorResponse,
             restaurants = listOf(restaurantResponse),
             imageUrl = Random.nextNullable { nextUrl() },
+            shareCode = Random.nextNullable { nextString() },
         )
 
         // When
@@ -136,6 +139,7 @@ class GuideMapperTest {
                 numberOfRestaurant = 1,
                 restaurants = listOf(restaurantResponse.toRestaurant()),
                 imageUrl = response.imageUrl,
+                shareCode = response.shareCode,
             ),
             result,
         )
@@ -166,6 +170,7 @@ class GuideMapperTest {
                 numberOfRestaurant = guide.numberOfRestaurant,
                 imageUrl = guide.imageUrl,
                 position = position,
+                shareCode = guide.shareCode,
             ),
             result,
         )
@@ -187,6 +192,7 @@ class GuideMapperTest {
             numberOfRestaurant = Random.nextInt(0, 50),
             imageUrl = Random.nextNullable { nextUrl() },
             position = Random.nextInt(0, 100),
+            shareCode = Random.nextNullable { nextString() },
         )
 
         // When
@@ -207,6 +213,7 @@ class GuideMapperTest {
                 ),
                 numberOfRestaurant = entity.numberOfRestaurant,
                 imageUrl = entity.imageUrl,
+                shareCode = entity.shareCode,
             ),
             result,
         )

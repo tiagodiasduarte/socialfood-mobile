@@ -11,10 +11,10 @@ import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.guide.FindGuideBySharedCodeUseCase
-import pt.socialfood.domain.usecase.guide.GetJoinedGuidesPagingUseCase
+import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.fakes.FakeFindGuideBySharedCodeUseCase
-import pt.socialfood.fakes.FakeGetJoinedGuidesPagingUseCase
+import pt.socialfood.fakes.FakeGetUserJoinedGuidesPagingUseCase
 import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeObserveFavouriteGuideIdsUseCase
 import pt.socialfood.fakes.FakeObserveUserUseCase
@@ -33,14 +33,14 @@ import kotlin.test.assertIs
 @OptIn(ExperimentalCoroutinesApi::class)
 class SharedGuidesViewModelTest {
     private fun createViewModel(
-        getJoinedGuidesPaging: GetJoinedGuidesPagingUseCase = FakeGetJoinedGuidesPagingUseCase(),
+        getUserJoinedGuidesPaging: GetUserJoinedGuidesPagingUseCase = FakeGetUserJoinedGuidesPagingUseCase(),
         findGuideBySharedCode: FindGuideBySharedCodeUseCase = FakeFindGuideBySharedCodeUseCase(),
         observeUser: ObserveUserUseCase = FakeObserveUserUseCase(Random.nextUser()),
         observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase = FakeObserveFavouriteGuideIdsUseCase(),
         markGuideFavourite: MarkGuideFavouriteUseCase = FakeMarkGuideFavouriteUseCase(),
         unmarkGuideFavourite: UnmarkGuideFavouriteUseCase = FakeUnmarkGuideFavouriteUseCase(),
     ) = SharedGuidesViewModel(
-        getJoinedGuidesPaging,
+        getUserJoinedGuidesPaging,
         findGuideBySharedCode,
         markGuideFavourite,
         unmarkGuideFavourite,
@@ -49,21 +49,21 @@ class SharedGuidesViewModelTest {
     )
 
     @Test
-    fun `given the current user is available when guides is collected then getJoinedGuidesPaging is invoked`() =
+    fun `given the current user is available when guides is collected then getUserJoinedGuidesPaging is invoked`() =
         runTestWithMainDispatcher {
             // Given
             val user = Random.nextUser()
             val observeUser = FakeObserveUserUseCase(user)
-            val getJoinedGuidesPaging = FakeGetJoinedGuidesPagingUseCase()
-            val vm = createViewModel(getJoinedGuidesPaging = getJoinedGuidesPaging, observeUser = observeUser)
+            val getUserJoinedGuidesPaging = FakeGetUserJoinedGuidesPagingUseCase()
+            val vm = createViewModel(getUserJoinedGuidesPaging = getUserJoinedGuidesPaging, observeUser = observeUser)
 
             // When
             val job = launch { vm.guides.collect {} }
             advanceUntilIdle()
 
             // Then
-            assertEquals(1, getJoinedGuidesPaging.invokeCount)
-            assertEquals(user.id, getJoinedGuidesPaging.lastUserId)
+            assertEquals(1, getUserJoinedGuidesPaging.invokeCount)
+            assertEquals(user.id, getUserJoinedGuidesPaging.lastUserId)
             job.cancel()
         }
 
@@ -73,8 +73,8 @@ class SharedGuidesViewModelTest {
             // Given
             val user = Random.nextUser()
             val observeUser = FakeObserveUserUseCase(initial = null)
-            val getJoinedGuidesPaging = FakeGetJoinedGuidesPagingUseCase()
-            val vm = createViewModel(getJoinedGuidesPaging = getJoinedGuidesPaging, observeUser = observeUser)
+            val getUserJoinedGuidesPaging = FakeGetUserJoinedGuidesPagingUseCase()
+            val vm = createViewModel(getUserJoinedGuidesPaging = getUserJoinedGuidesPaging, observeUser = observeUser)
             val job = launch { vm.guides.collect {} }
             advanceUntilIdle()
 
@@ -83,8 +83,8 @@ class SharedGuidesViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(1, getJoinedGuidesPaging.invokeCount)
-            assertEquals(user.id, getJoinedGuidesPaging.lastUserId)
+            assertEquals(1, getUserJoinedGuidesPaging.invokeCount)
+            assertEquals(user.id, getUserJoinedGuidesPaging.lastUserId)
             job.cancel()
         }
 
@@ -93,8 +93,8 @@ class SharedGuidesViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val observeUser = FakeObserveUserUseCase(Random.nextUser())
-            val getJoinedGuidesPaging = FakeGetJoinedGuidesPagingUseCase()
-            val vm = createViewModel(getJoinedGuidesPaging = getJoinedGuidesPaging, observeUser = observeUser)
+            val getUserJoinedGuidesPaging = FakeGetUserJoinedGuidesPagingUseCase()
+            val vm = createViewModel(getUserJoinedGuidesPaging = getUserJoinedGuidesPaging, observeUser = observeUser)
             val job = launch { vm.guides.collect {} }
             advanceUntilIdle()
 
@@ -104,7 +104,7 @@ class SharedGuidesViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(otherUser.id, getJoinedGuidesPaging.lastUserId)
+            assertEquals(otherUser.id, getUserJoinedGuidesPaging.lastUserId)
             job.cancel()
         }
 

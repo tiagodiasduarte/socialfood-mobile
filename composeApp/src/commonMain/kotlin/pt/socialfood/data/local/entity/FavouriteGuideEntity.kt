@@ -21,4 +21,5 @@ data class FavouriteGuideEntity(
     /** One of [FavouriteSyncState]'s `name`s. Stored as a raw String to avoid a Room TypeConverter. */
     val syncState: String,
     val position: Int,
+    val shareCode: String?,
 )

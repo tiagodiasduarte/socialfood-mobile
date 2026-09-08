@@ -11,12 +11,11 @@ import pt.socialfood.core.Result
 import pt.socialfood.data.api.GuidesApi
 import pt.socialfood.data.local.dao.GuideDao
 import pt.socialfood.data.local.dao.GuideRemoteKeyDao
-import pt.socialfood.data.network.model.PagedResponse
-import pt.socialfood.data.network.model.guide.GuideResponse
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
-import pt.socialfood.data.paging.GUIDES_ALL_SCOPE
 import pt.socialfood.data.paging.GuideCacheTransactionRunner
+import pt.socialfood.data.paging.GuideListScope
 import pt.socialfood.data.paging.GuideRemoteMediator
+import pt.socialfood.data.paging.toScope
 import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -25,7 +24,6 @@ import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.mapper.toGuide
 
 private const val GUIDES_PAGE_SIZE = 20
-private const val GUIDES_JOINED_SCOPE_SUFFIX = ":JOINED_SHARED"
 
 @Suppress("TooManyFunctions")
 class GuidesRepositoryImpl(
@@ -88,22 +86,15 @@ class GuidesRepositoryImpl(
     }
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun findGuidesPagingFlow(): Flow<PagingData<Guide>> = guidePagingFlow(
-        scope = GUIDES_ALL_SCOPE,
-        fetchPage = { page, limit -> guideApi.findGuides(page = page, limit = limit) },
-    )
+    override fun findGuidesPagingFlow(): Flow<PagingData<Guide>> = guidePagingFlow(listScope = GuideListScope.ALL)
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun findUserGuidesPagingFlow(userId: String): Flow<PagingData<Guide>> = guidePagingFlow(
-        scope = userId,
-        fetchPage = { page, limit -> guideApi.findUserGuides(page = page, limit = limit) },
-    )
+    override fun findUserGuidesPagingFlow(userId: String): Flow<PagingData<Guide>> =
+        guidePagingFlow(listScope = GuideListScope.USER, userId = userId)
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun findUserJoinedGuidesPagingFlow(userId: String): Flow<PagingData<Guide>> = guidePagingFlow(
-        scope = "$userId$GUIDES_JOINED_SCOPE_SUFFIX",
-        fetchPage = { page, limit -> guideApi.findJoinedGuides(page = page, limit = limit) },
-    )
+    override fun findUserJoinedGuidesPagingFlow(userId: String): Flow<PagingData<Guide>> =
+        guidePagingFlow(listScope = GuideListScope.JOINED, userId = userId)
 
     override suspend fun getPhotoPresignedUrl(
         guideId: String,
@@ -145,18 +136,19 @@ class GuidesRepositoryImpl(
     }
 
     @OptIn(ExperimentalPagingApi::class)
-    private fun guidePagingFlow(
-        scope: String,
-        fetchPage: suspend (page: Int, limit: Int) -> PagedResponse<GuideResponse>,
-    ): Flow<PagingData<Guide>> = Pager(
-        config = PagingConfig(pageSize = GUIDES_PAGE_SIZE),
-        remoteMediator = GuideRemoteMediator(
-            scope = scope,
-            fetchPage = fetchPage,
-            guideDao = guideDao,
-            guideRemoteKeyDao = guideRemoteKeyDao,
-            transactionRunner = transactionRunner,
-        ),
-        pagingSourceFactory = { guideDao.pagingSource(scope) },
-    ).flow.map { pagingData -> pagingData.map { it.toGuide() } }
+    private fun guidePagingFlow(listScope: GuideListScope, userId: String? = null): Flow<PagingData<Guide>> {
+        val scope = listScope.toScope(userId)
+        return Pager(
+            config = PagingConfig(pageSize = GUIDES_PAGE_SIZE),
+            remoteMediator = GuideRemoteMediator(
+                listScope = listScope,
+                scope = scope,
+                guidesApi = guideApi,
+                guideDao = guideDao,
+                guideRemoteKeyDao = guideRemoteKeyDao,
+                transactionRunner = transactionRunner,
+            ),
+            pagingSourceFactory = { guideDao.pagingSource(scope) },
+        ).flow.map { pagingData -> pagingData.map { it.toGuide() } }
+    }
 }

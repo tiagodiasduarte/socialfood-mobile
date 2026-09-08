@@ -8,6 +8,7 @@ import androidx.room.immediateTransaction
 import androidx.room.useWriterConnection
 import androidx.sqlite.SQLiteException
 import pt.socialfood.core.Result
+import pt.socialfood.data.api.GuidesApi
 import pt.socialfood.data.local.AppDatabase
 import pt.socialfood.data.local.dao.GuideDao
 import pt.socialfood.data.local.dao.GuideRemoteKeyDao
@@ -20,7 +21,20 @@ import pt.socialfood.domain.error.toThrowable
 import pt.socialfood.mapper.toGuide
 import pt.socialfood.mapper.toGuideEntity
 
-const val GUIDES_ALL_SCOPE = "ALL"
+private const val GUIDES_ALL_SCOPE = "ALL"
+private const val GUIDES_JOINED_SCOPE_SUFFIX = ":JOINED_SHARED"
+
+enum class GuideListScope {
+    ALL,
+    USER,
+    JOINED,
+}
+
+fun GuideListScope.toScope(userId: String? = null): String = when (this) {
+    GuideListScope.ALL -> GUIDES_ALL_SCOPE
+    GuideListScope.USER -> requireNotNull(userId) { "userId is required for the USER guide list scope" }
+    GuideListScope.JOINED -> "$userId$GUIDES_JOINED_SCOPE_SUFFIX"
+}
 
 fun interface GuideCacheTransactionRunner {
     suspend fun run(block: suspend () -> Unit)
@@ -32,8 +46,9 @@ fun AppDatabase.asGuideCacheTransactionRunner(): GuideCacheTransactionRunner = G
 
 @OptIn(ExperimentalPagingApi::class)
 class GuideRemoteMediator(
+    private val listScope: GuideListScope,
     private val scope: String,
-    private val fetchPage: suspend (page: Int, limit: Int) -> PagedResponse<GuideResponse>,
+    private val guidesApi: GuidesApi,
     private val guideDao: GuideDao,
     private val guideRemoteKeyDao: GuideRemoteKeyDao,
     private val transactionRunner: GuideCacheTransactionRunner,
@@ -54,7 +69,15 @@ class GuideRemoteMediator(
 
             val limit = state.config.pageSize
 
-            when (val result = safeApiCall { fetchPage(page, limit) }) {
+            when (
+                val result = safeApiCall {
+                    when (listScope) {
+                        GuideListScope.ALL -> guidesApi.findGuides(page = page, limit = limit)
+                        GuideListScope.USER -> guidesApi.findUserGuides(page = page, limit = limit)
+                        GuideListScope.JOINED -> guidesApi.findJoinedGuides(page = page, limit = limit)
+                    }
+                }
+            ) {
                 is Result.Failure -> MediatorResult.Error(result.error.toThrowable())
                 is Result.Success<PagedResponse<GuideResponse>> ->
                     applyResponse(result.data, loadType, page, limit)

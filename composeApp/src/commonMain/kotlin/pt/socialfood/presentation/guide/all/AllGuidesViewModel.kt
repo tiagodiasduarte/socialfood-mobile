@@ -28,7 +28,7 @@ class AllGuidesViewModel(
     val user: StateFlow<User?> = observeUser()
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
-    val guides: Flow<PagingData<Guide>> = getGuidesPaging(userId = null).cachedIn(viewModelScope)
+    val guides: Flow<PagingData<Guide>> = getGuidesPaging().cachedIn(viewModelScope)
 
     val favouriteGuideIds: StateFlow<Set<String>> = observeFavouriteGuideIds()
         .stateIn(

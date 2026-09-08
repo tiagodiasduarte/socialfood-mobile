@@ -7,9 +7,9 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
+import pt.socialfood.domain.usecase.guide.GetUserGuidesPagingUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
-import pt.socialfood.fakes.FakeGetGuidesPagingUseCase
+import pt.socialfood.fakes.FakeGetUserGuidesPagingUseCase
 import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeObserveFavouriteGuideIdsUseCase
 import pt.socialfood.fakes.FakeObserveUserUseCase
@@ -26,13 +26,13 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalCoroutinesApi::class)
 class MyGuidesViewModelTest {
     private fun createViewModel(
-        getGuidesPaging: GetGuidesPagingUseCase = FakeGetGuidesPagingUseCase(),
+        getUserGuidesPaging: GetUserGuidesPagingUseCase = FakeGetUserGuidesPagingUseCase(),
         observeUser: ObserveUserUseCase = FakeObserveUserUseCase(Random.nextUser()),
         observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase = FakeObserveFavouriteGuideIdsUseCase(),
         markGuideFavourite: MarkGuideFavouriteUseCase = FakeMarkGuideFavouriteUseCase(),
         unmarkGuideFavourite: UnmarkGuideFavouriteUseCase = FakeUnmarkGuideFavouriteUseCase(),
     ) = MyGuidesViewModel(
-        getGuidesPaging,
+        getUserGuidesPaging,
         markGuideFavourite,
         unmarkGuideFavourite,
         observeUser,
@@ -40,21 +40,21 @@ class MyGuidesViewModelTest {
     )
 
     @Test
-    fun `given the current user is available when guides is collected then getGuidesPaging is invoked with user id`() =
+    fun `given the current user is available when guides is collected then getUserGuidesPaging is invoked`() =
         runTestWithMainDispatcher {
             // Given
             val user = Random.nextUser()
             val observeUser = FakeObserveUserUseCase(user)
-            val getGuidesPaging = FakeGetGuidesPagingUseCase()
-            val vm = createViewModel(getGuidesPaging = getGuidesPaging, observeUser = observeUser)
+            val getUserGuidesPaging = FakeGetUserGuidesPagingUseCase()
+            val vm = createViewModel(getUserGuidesPaging = getUserGuidesPaging, observeUser = observeUser)
 
             // When
             val job = launch { vm.guides.collect {} }
             advanceUntilIdle()
 
             // Then
-            assertEquals(1, getGuidesPaging.invokeCount)
-            assertEquals(user.id, getGuidesPaging.lastUserId)
+            assertEquals(1, getUserGuidesPaging.invokeCount)
+            assertEquals(user.id, getUserGuidesPaging.lastUserId)
             job.cancel()
         }
 
@@ -64,8 +64,8 @@ class MyGuidesViewModelTest {
             // Given
             val user = Random.nextUser()
             val observeUser = FakeObserveUserUseCase(initial = null)
-            val getGuidesPaging = FakeGetGuidesPagingUseCase()
-            val vm = createViewModel(getGuidesPaging = getGuidesPaging, observeUser = observeUser)
+            val getUserGuidesPaging = FakeGetUserGuidesPagingUseCase()
+            val vm = createViewModel(getUserGuidesPaging = getUserGuidesPaging, observeUser = observeUser)
             val job = launch { vm.guides.collect {} }
             advanceUntilIdle()
 
@@ -74,8 +74,8 @@ class MyGuidesViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(1, getGuidesPaging.invokeCount)
-            assertEquals(user.id, getGuidesPaging.lastUserId)
+            assertEquals(1, getUserGuidesPaging.invokeCount)
+            assertEquals(user.id, getUserGuidesPaging.lastUserId)
             job.cancel()
         }
 
@@ -84,8 +84,8 @@ class MyGuidesViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val observeUser = FakeObserveUserUseCase(Random.nextUser())
-            val getGuidesPaging = FakeGetGuidesPagingUseCase()
-            val vm = createViewModel(getGuidesPaging = getGuidesPaging, observeUser = observeUser)
+            val getUserGuidesPaging = FakeGetUserGuidesPagingUseCase()
+            val vm = createViewModel(getUserGuidesPaging = getUserGuidesPaging, observeUser = observeUser)
             val job = launch { vm.guides.collect {} }
             advanceUntilIdle()
 
@@ -95,7 +95,7 @@ class MyGuidesViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(otherUser.id, getGuidesPaging.lastUserId)
+            assertEquals(otherUser.id, getUserGuidesPaging.lastUserId)
             job.cancel()
         }
 

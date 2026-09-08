@@ -4,6 +4,6 @@ import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import pt.socialfood.domain.model.Guide
 
-interface GetGuidesPagingUseCase {
-    operator fun invoke(): Flow<PagingData<Guide>>
+interface GetUserGuidesPagingUseCase {
+    operator fun invoke(userId: String): Flow<PagingData<Guide>>
 }

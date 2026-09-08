@@ -64,6 +64,8 @@ import socialfood.composeapp.generated.resources.guide_detail_public_label
 import socialfood.composeapp.generated.resources.guide_detail_restaurants_count_label
 import socialfood.composeapp.generated.resources.guide_detail_restaurants_section_title
 import socialfood.composeapp.generated.resources.guide_detail_separator
+import socialfood.composeapp.generated.resources.guide_detail_shared_icon_description
+import socialfood.composeapp.generated.resources.guide_detail_shared_label
 import socialfood.composeapp.generated.resources.guides_private_icon
 import socialfood.composeapp.generated.resources.guides_public_icon
 
@@ -283,35 +285,7 @@ private fun GuideInfo(guide: Guide) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
         ) {
-            when (guide.visibility) {
-                GuideVisibility.PUBLIC -> {
-                    Image(
-                        painter = painterResource(Res.drawable.guides_public_icon),
-                        contentDescription = stringResource(Res.string.guide_detail_public_icon_description),
-                        modifier = Modifier.size(20.dp),
-                        colorFilter = ColorFilter.tint(PublicBadge),
-                    )
-                    Text(
-                        text = stringResource(Res.string.guide_detail_public_label),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = PublicBadge,
-                    )
-                }
-
-                GuideVisibility.PRIVATE -> {
-                    Image(
-                        painter = painterResource(Res.drawable.guides_private_icon),
-                        contentDescription = stringResource(Res.string.guide_detail_private_icon_description),
-                        modifier = Modifier.size(20.dp),
-                        colorFilter = ColorFilter.tint(PrivateBadge),
-                    )
-                    Text(
-                        text = stringResource(Res.string.guide_detail_private_label),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = PrivateBadge,
-                    )
-                }
-            }
+            VisibilityBadgeContent(guide.visibility)
         }
 
         Text(
@@ -328,6 +302,53 @@ private fun GuideInfo(guide: Guide) {
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
+    }
+}
+
+@Composable
+private fun VisibilityBadgeContent(visibility: GuideVisibility) {
+    when (visibility) {
+        GuideVisibility.PUBLIC -> {
+            Image(
+                painter = painterResource(Res.drawable.guides_public_icon),
+                contentDescription = stringResource(Res.string.guide_detail_public_icon_description),
+                modifier = Modifier.size(20.dp),
+                colorFilter = ColorFilter.tint(PublicBadge),
+            )
+            Text(
+                text = stringResource(Res.string.guide_detail_public_label),
+                style = MaterialTheme.typography.bodyMedium,
+                color = PublicBadge,
+            )
+        }
+
+        GuideVisibility.PRIVATE -> {
+            Image(
+                painter = painterResource(Res.drawable.guides_private_icon),
+                contentDescription = stringResource(Res.string.guide_detail_private_icon_description),
+                modifier = Modifier.size(20.dp),
+                colorFilter = ColorFilter.tint(PrivateBadge),
+            )
+            Text(
+                text = stringResource(Res.string.guide_detail_private_label),
+                style = MaterialTheme.typography.bodyMedium,
+                color = PrivateBadge,
+            )
+        }
+
+        GuideVisibility.SHARED -> {
+            Image(
+                painter = painterResource(Res.drawable.guides_private_icon),
+                contentDescription = stringResource(Res.string.guide_detail_shared_icon_description),
+                modifier = Modifier.size(20.dp),
+                colorFilter = ColorFilter.tint(PrivateBadge),
+            )
+            Text(
+                text = stringResource(Res.string.guide_detail_shared_label),
+                style = MaterialTheme.typography.bodyMedium,
+                color = PrivateBadge,
+            )
+        }
     }
 }
 

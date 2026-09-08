@@ -20,4 +20,5 @@ data class GuideEntity(
     val numberOfRestaurant: Int,
     val imageUrl: String?,
     val position: Int,
+    val shareCode: String?,
 )

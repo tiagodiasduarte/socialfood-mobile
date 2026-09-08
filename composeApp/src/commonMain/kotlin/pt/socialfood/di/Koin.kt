@@ -111,8 +111,6 @@ import pt.socialfood.domain.usecase.guide.CreateGuideUseCase
 import pt.socialfood.domain.usecase.guide.CreateGuideUseCaseImpl
 import pt.socialfood.domain.usecase.guide.DeleteGuideUseCase
 import pt.socialfood.domain.usecase.guide.DeleteGuideUseCaseImpl
-import pt.socialfood.domain.usecase.guide.FindGuidesUseCase
-import pt.socialfood.domain.usecase.guide.FindGuidesUseCaseImpl
 import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCase
 import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCaseImpl
 import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
@@ -330,7 +328,6 @@ val useCaseModule =
         factory<DeleteHomeSectionUseCase> { DeleteHomeSectionUseCaseImpl(get()) }
         factory<DeleteRestaurantUseCase> { DeleteRestaurantUseCaseImpl(get()) }
         factory<FindAuthorsUseCase> { FindAuthorsUseCaseImpl(get()) }
-        factory<FindGuidesUseCase> { FindGuidesUseCaseImpl(get()) }
         factory<FindRestaurantsUseCase> { FindRestaurantsUseCaseImpl(get()) }
         factory<FindUsersUseCase> { FindUsersUseCaseImpl(get()) }
         factory<GetAuthorByIdUseCase> { GetAuthorByIdUseCaseImpl(get()) }

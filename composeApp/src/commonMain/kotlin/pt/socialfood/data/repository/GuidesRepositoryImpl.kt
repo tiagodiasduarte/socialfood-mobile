@@ -20,7 +20,6 @@ import pt.socialfood.data.paging.GuideRemoteMediator
 import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.domain.model.PagedGuides
 import pt.socialfood.domain.model.PresignedUrlData
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.mapper.toGuide
@@ -87,18 +86,6 @@ class GuidesRepositoryImpl(
             if (result is Result.Success) lastGuide = result.data
         }
     }
-
-    override suspend fun findGuidesPaged(page: Int, limit: Int, query: String?, userId: String?): Result<PagedGuides> =
-        safeApiCall {
-            val response = guideApi.findGuides(page = page, limit = limit, query = query, userId = userId)
-            val hasMore = response.page * response.limit < response.total
-            PagedGuides(
-                guides = response.items.map { it.toGuide() },
-                page = response.page,
-                total = response.total,
-                hasMore = hasMore,
-            )
-        }
 
     @OptIn(ExperimentalPagingApi::class)
     override fun findUserGuidesJoinedPagingFlow(userId: String): Flow<PagingData<Guide>> = guidePagingFlow(

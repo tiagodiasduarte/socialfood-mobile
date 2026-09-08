@@ -6,18 +6,15 @@ import kotlinx.coroutines.flow.emptyFlow
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.domain.model.PagedGuides
 import pt.socialfood.domain.model.PresignedUrlData
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.random.nextGuide
-import pt.socialfood.random.nextPagedGuides
 import kotlin.random.Random
 
 class FakeGuidesRepository(
     private val deleteResult: Result<Boolean> = Result.Success(true),
     private val createResult: Result<Guide> = Result.Success(Random.nextGuide()),
     private val updateResult: Result<Guide> = Result.Success(Random.nextGuide()),
-    private val findGuidesPagedResult: Result<PagedGuides> = Result.Success(Random.nextPagedGuides()),
     private val findByIdResult: Result<Guide> = Result.Success(Random.nextGuide()),
     private val addRestaurantGuideResult: Result<Guide> = Result.Success(Random.nextGuide()),
     private val guidesPagingFlow: Flow<PagingData<Guide>> = emptyFlow(),
@@ -53,17 +50,6 @@ class FakeGuidesRepository(
     var lastUpdateRestaurantIds: List<String>? = null
         private set
     var lastUpdateVisibility: GuideVisibility? = null
-        private set
-
-    var findGuidesPagedInvokeCount: Int = 0
-        private set
-    var lastFindGuidesPagedPage: Int? = null
-        private set
-    var lastFindGuidesPagedLimit: Int? = null
-        private set
-    var lastFindGuidesPagedQuery: String? = null
-        private set
-    var lastFindGuidesPagedUserId: String? = null
         private set
 
     var lastFindByIdId: String? = null
@@ -119,15 +105,6 @@ class FakeGuidesRepository(
         lastUpdateRestaurantIds = restaurantIds
         lastUpdateVisibility = visibility
         return updateResult
-    }
-
-    override suspend fun findGuidesPaged(page: Int, limit: Int, query: String?, userId: String?): Result<PagedGuides> {
-        findGuidesPagedInvokeCount++
-        lastFindGuidesPagedPage = page
-        lastFindGuidesPagedLimit = limit
-        lastFindGuidesPagedQuery = query
-        lastFindGuidesPagedUserId = userId
-        return findGuidesPagedResult
     }
 
     override fun findUserGuidesPagingFlow(userId: String?): Flow<PagingData<Guide>> {

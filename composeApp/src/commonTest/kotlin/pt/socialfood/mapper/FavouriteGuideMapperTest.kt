@@ -29,7 +29,7 @@ class FavouriteGuideMapperTest {
         favouritedAt = Random.nextLong(),
         syncState = Random.nextEnum<FavouriteSyncState>().name,
         position = Random.nextInt(),
-        sharedCode = Random.nextNullable { nextString() },
+        shareCode = Random.nextNullable { nextString() },
     )
 
     @Test
@@ -55,7 +55,7 @@ class FavouriteGuideMapperTest {
                 ),
                 numberOfRestaurant = entity.numberOfRestaurant,
                 imageUrl = entity.imageUrl,
-                sharedCode = entity.sharedCode,
+                shareCode = entity.shareCode,
             ),
             result,
         )
@@ -88,7 +88,7 @@ class FavouriteGuideMapperTest {
                 favouritedAt = favouritedAt,
                 syncState = syncState.name,
                 position = position,
-                sharedCode = guide.sharedCode,
+                shareCode = guide.shareCode,
             ),
             result,
         )

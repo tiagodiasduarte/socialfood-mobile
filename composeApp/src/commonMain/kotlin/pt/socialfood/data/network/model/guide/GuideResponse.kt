@@ -13,5 +13,5 @@ data class GuideResponse(
     val author: AuthorResponse,
     val numberOfRestaurants: Int,
     val imageUrl: String? = null,
-    val sharedCode: String? = null,
+    val shareCode: String? = null,
 )

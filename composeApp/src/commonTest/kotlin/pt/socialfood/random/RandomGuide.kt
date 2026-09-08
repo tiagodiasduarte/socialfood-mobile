@@ -15,7 +15,7 @@ fun Random.nextGuide(
     numberOfRestaurant: Int = nextInt(0, 50),
     restaurants: List<Restaurant> = emptyList(),
     imageUrl: String? = nextNullable { nextUrl() },
-    sharedCode: String? = nextNullable { nextString() },
+    shareCode: String? = nextNullable { nextString() },
 ) = Guide(
     id = id,
     name = name,
@@ -25,5 +25,5 @@ fun Random.nextGuide(
     numberOfRestaurant = numberOfRestaurant,
     restaurants = restaurants,
     imageUrl = imageUrl,
-    sharedCode = sharedCode,
+    shareCode = shareCode,
 )

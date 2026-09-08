@@ -14,5 +14,5 @@ data class GuideDetailResponse(
     val author: AuthorResponse,
     val restaurants: List<RestaurantResponse> = emptyList(),
     val imageUrl: String? = null,
-    val sharedCode: String? = null,
+    val shareCode: String? = null,
 )

@@ -19,7 +19,7 @@ fun FavouriteGuideEntity.toGuide(): Guide = Guide(
     ),
     numberOfRestaurant = this.numberOfRestaurant,
     imageUrl = this.imageUrl,
-    sharedCode = this.sharedCode,
+    shareCode = this.shareCode,
 )
 
 fun Guide.toFavouriteGuideEntity(
@@ -40,5 +40,5 @@ fun Guide.toFavouriteGuideEntity(
     favouritedAt = favouritedAt,
     syncState = syncState.name,
     position = position,
-    sharedCode = this.sharedCode,
+    shareCode = this.shareCode,
 )

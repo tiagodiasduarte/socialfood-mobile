@@ -167,14 +167,12 @@ class FakeGuidesApi(
         )
     }
 
-    override suspend fun addPhoto(guideId: String, imageUrl: String): GuideDetailResponse {
+    override suspend fun addPhoto(guideId: String, imageUrl: String) {
         if (shouldThrow) throw IOException("test error")
-        return defaultFakeGuideDetail
     }
 
-    override suspend fun deletePhoto(guideId: String): GuideDetailResponse {
+    override suspend fun deletePhoto(guideId: String) {
         if (shouldThrow) throw IOException("test error")
-        return defaultFakeGuideDetail
     }
 
     override suspend fun joinGuide(guideId: String): GuideDetailResponse {

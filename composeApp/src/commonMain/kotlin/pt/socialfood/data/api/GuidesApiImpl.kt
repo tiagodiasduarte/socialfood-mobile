@@ -112,16 +112,18 @@ class GuidesApiImpl(private val client: HttpClient) : GuidesApi {
             setBody(request)
         }.body()
 
-    override suspend fun addPhoto(guideId: String, imageUrl: String): GuideDetailResponse = client
-        .post("guides/$guideId/photo") {
+    override suspend fun addPhoto(guideId: String, imageUrl: String) {
+        client.post("guides/$guideId/photo") {
             contentType(ContentType.Application.Json)
             setBody(UpdateGuidePhotoRequest(imageUrl = imageUrl))
-        }.body()
+        }
+    }
 
-    override suspend fun deletePhoto(guideId: String): GuideDetailResponse = client
-        .delete("guides/$guideId/photo") {
+    override suspend fun deletePhoto(guideId: String) {
+        client.delete("guides/$guideId/photo") {
             contentType(ContentType.Application.Json)
-        }.body()
+        }
+    }
 
     override suspend fun joinGuide(guideId: String): GuideDetailResponse = client
         .post("guides/$guideId/join") {

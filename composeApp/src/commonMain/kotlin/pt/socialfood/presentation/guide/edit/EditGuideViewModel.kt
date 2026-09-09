@@ -2,10 +2,12 @@ package pt.socialfood.presentation.guide.edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
@@ -16,9 +18,11 @@ import pt.socialfood.domain.usecase.guide.DeleteGuideUseCase
 import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCase
 import pt.socialfood.domain.usecase.guide.UpdateGuideUseCase
 import pt.socialfood.domain.usecase.photo.UploadPhotoUseCase
+import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.edit_guide_details_description_error
+import socialfood.composeapp.generated.resources.edit_guide_details_public_author_warning
 import socialfood.composeapp.generated.resources.edit_guide_details_public_image_warning
 import socialfood.composeapp.generated.resources.edit_guide_details_public_restaurants_warning
 import socialfood.composeapp.generated.resources.edit_guide_details_title_error
@@ -31,6 +35,7 @@ class EditGuideViewModel(
     private val uploadPhoto: UploadPhotoUseCase,
     private val guidesRepository: GuidesRepository,
     private val deleteGuide: DeleteGuideUseCase,
+    private val observeUser: ObserveUserUseCase,
     private val guideId: String,
 ) : ViewModel() {
     private val _state = MutableStateFlow<EditGuideUiState>(EditGuideUiState.Loading)
@@ -65,7 +70,12 @@ class EditGuideViewModel(
         viewModelScope.launch {
             _state.value = EditGuideUiState.Loading
 
-            when (val result = getGuideById(id)) {
+            val guideDeferred = async { getGuideById(id) }
+            val userDeferred = async { observeUser().first() }
+            val result = guideDeferred.await()
+            val currentUser = userDeferred.await()
+
+            when (result) {
                 is Result.Success ->
                     _state.value =
                         EditGuideUiState.Loaded(
@@ -75,6 +85,7 @@ class EditGuideViewModel(
                             visibility = result.data.visibility,
                             restaurants = result.data.restaurants,
                             imageUrl = result.data.imageUrl,
+                            isAuthor = currentUser?.isAuthor ?: false,
                         )
                 is Result.Failure -> _state.value = EditGuideUiState.Error(result.error.toErrorCode())
             }
@@ -115,6 +126,7 @@ class EditGuideViewModel(
                     if (loaded.imageUrl == null && loaded.pendingImage == null) {
                         add(Res.string.edit_guide_details_public_image_warning)
                     }
+                    if (!loaded.isAuthor) add(Res.string.edit_guide_details_public_author_warning)
                 }
             }
         if (errors.isNotEmpty()) {

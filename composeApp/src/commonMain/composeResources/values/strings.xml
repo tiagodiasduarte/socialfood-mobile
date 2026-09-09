@@ -157,9 +157,14 @@
     <string name="edit_guide_details_description_error">Description is required</string>
     <string name="edit_guide_details_public_restaurants_warning">Public guides need at least 3 restaurants</string>
     <string name="edit_guide_details_public_image_warning">Public guides need a cover image</string>
+    <string name="edit_guide_details_public_author_warning">Only authors can publish public guides</string>
     <string name="edit_guide_details_cover_image_click_label">Click to upload cover image</string>
     <string name="edit_guide_details_cover_image_hint">JPG, PNG up to 10MB</string>
     <string name="edit_guide_delete_button">Delete Guide</string>
+    <string name="edit_guide_delete_confirmation_title">Delete Guide</string>
+    <string name="edit_guide_delete_confirmation_message">Are you sure you want to delete this guide? This action cannot be undone.</string>
+    <string name="edit_guide_delete_confirmation_confirm">Delete</string>
+    <string name="edit_guide_delete_confirmation_cancel">Cancel</string>
     <string name="edit_guide_validation_error_dialog_title">Cannot save guide</string>
     <string name="edit_guide_validation_error_dialog_ok">OK</string>
 
@@ -170,7 +175,13 @@
 
     <string name="edit_guide_visibility_label">Visibility</string>
     <string name="edit_guide_visibility_public">Public</string>
+    <string name="edit_guide_visibility_public_description">Anyone can find and view this guide</string>
     <string name="edit_guide_visibility_private">Private</string>
+    <string name="edit_guide_visibility_private_description">Only you can view this guide</string>
+    <string name="edit_guide_visibility_shared">Shared</string>
+    <string name="edit_guide_visibility_shared_description">Only people with the invite code can view this guide</string>
+    <string name="edit_guide_share_code_section_label">Invite code</string>
+    <string name="edit_guide_share_code_copy_action">Copy invite code</string>
 
     <string name="search_restaurants_title">Add Restaurants</string>
     <string name="search_restaurants_search_placeholder">Search restaurants...</string>

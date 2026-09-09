@@ -2,7 +2,12 @@ import ComposeApp
 import UIKit
 
 class AlertDialogDelegateImpl: GuideValidationErrorDialogDelegate, DeleteGuideConfirmationDelegate {
-    func showError(title: String, message: String, okLabel: String, onDismiss: @escaping () -> Void) {
+    func showError(
+        title: String,
+        message: String,
+        okLabel: String,
+        onDismiss: @escaping () -> Void
+    ) {
         guard let rootVC = rootViewController() else {
             onDismiss()
             return

@@ -43,21 +43,22 @@ fun OutlinedButton(
             .clickable(onClick = onClick)
             .padding(horizontal = SpaceSize.medium, vertical = SpaceSize.small),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
+        horizontalArrangement = Arrangement.spacedBy(SpaceSize.small, Alignment.CenterHorizontally),
     ) {
-        if (icon != null) {
+        icon?.let {
             Icon(
-                imageVector = icon,
+                imageVector = it,
                 contentDescription = null,
                 tint = color,
                 modifier = Modifier.size(IconSize),
             )
         }
-        if (text != null) {
+        text?.let {
             Text(
-                text = text,
-                style = MaterialTheme.typography.bodyMedium,
+                text = it,
+                style = MaterialTheme.typography.labelLarge,
                 color = color,
+                modifier = Modifier.padding(vertical = SpaceSize.small),
             )
         }
     }

@@ -8,7 +8,7 @@ import pt.socialfood.data.network.model.photo.PresignedUrlResponse
 
 @Suppress("TooManyFunctions")
 interface GuidesApi {
-    suspend fun addPhoto(guideId: String, imageUrl: String): GuideDetailResponse
+    suspend fun addPhoto(guideId: String, imageUrl: String)
 
     suspend fun addRestaurantGuide(guideId: String, placeId: String?): GuideDetailResponse
 
@@ -16,7 +16,7 @@ interface GuidesApi {
 
     suspend fun delete(id: String)
 
-    suspend fun deletePhoto(guideId: String): GuideDetailResponse
+    suspend fun deletePhoto(guideId: String)
 
     suspend fun findAll(): List<GuideResponse>
 

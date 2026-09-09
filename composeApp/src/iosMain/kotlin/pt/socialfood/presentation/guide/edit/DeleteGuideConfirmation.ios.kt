@@ -10,7 +10,7 @@ import socialfood.composeapp.generated.resources.edit_guide_delete_confirmation_
 import socialfood.composeapp.generated.resources.edit_guide_delete_confirmation_title
 
 // Swift side must implement this interface and assign it to DeleteGuideConfirmationBridge.shared.delegate.
-// See DeleteGuideConfirmationDelegateImpl.swift for the UIAlertController-based implementation.
+// See AlertDialogDelegateImpl.swift for the UIAlertController-based implementation.
 
 interface DeleteGuideConfirmationDelegate {
     fun showConfirmation(

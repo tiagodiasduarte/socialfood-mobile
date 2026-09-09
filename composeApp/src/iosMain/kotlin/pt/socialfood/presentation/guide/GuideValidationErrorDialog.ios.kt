@@ -9,7 +9,7 @@ import socialfood.composeapp.generated.resources.edit_guide_validation_error_dia
 import socialfood.composeapp.generated.resources.edit_guide_validation_error_dialog_title
 
 // Swift side must implement this interface and assign it to GuideValidationErrorDialogBridge.shared.delegate.
-// See DeleteGuideConfirmationDelegateImpl.swift for the UIAlertController-based implementation pattern.
+// See AlertDialogDelegateImpl.swift for the UIAlertController-based implementation pattern.
 interface GuideValidationErrorDialogDelegate {
     fun showError(title: String, message: String, okLabel: String, onDismiss: () -> Unit)
 }

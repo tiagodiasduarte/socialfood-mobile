@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -41,11 +40,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.domain.model.Author
+import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.TopTabs
-import pt.socialfood.presentation.components.buttons.FilledButton
 import pt.socialfood.presentation.guide.GuideValidationErrorDialog
 import pt.socialfood.presentation.guide.edit.card.GuideDetailsCard
 import pt.socialfood.presentation.guide.edit.card.GuideRestaurantsCard
@@ -54,7 +55,6 @@ import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.edit_guide_delete_button
 import socialfood.composeapp.generated.resources.edit_guide_save_button
 import socialfood.composeapp.generated.resources.edit_guide_tab_details
 import socialfood.composeapp.generated.resources.edit_guide_tab_restaurants
@@ -131,6 +131,7 @@ private fun EditGuideContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surface)
             .pointerInput(Unit) {
                 detectTapGestures(onTap = { focusManager.clearFocus() })
             },
@@ -142,31 +143,33 @@ private fun EditGuideContent(
             onSaveGuide = onSaveGuide,
         )
 
-        when (state) {
-            is EditGuideUiState.Error -> {
-                ErrorContent(modifier = Modifier.fillMaxSize(), onRetryClick = onRetry)
-            }
+        Box(modifier = Modifier.weight(1f)) {
+            when (state) {
+                is EditGuideUiState.Error -> {
+                    ErrorContent(modifier = Modifier.fillMaxSize(), onRetryClick = onRetry)
+                }
 
-            is EditGuideUiState.Loaded -> {
-                GuideLoaded(
-                    state = state,
-                    initialTab = initialTab,
-                    onTitleChange = onTitleChange,
-                    onDescriptionChange = onDescriptionChange,
-                    onVisibilityChange = onVisibilityChange,
-                    onAddRestaurantsClick = onAddRestaurantsClick,
-                    onRestaurantRemoved = onRestaurantRemoved,
-                    onPhotoSelected = onPhotoSelected,
-                    onDeleteGuide = onDeleteGuide,
-                )
-            }
+                is EditGuideUiState.Loaded -> {
+                    GuideLoaded(
+                        state = state,
+                        initialTab = initialTab,
+                        onTitleChange = onTitleChange,
+                        onDescriptionChange = onDescriptionChange,
+                        onVisibilityChange = onVisibilityChange,
+                        onAddRestaurantsClick = onAddRestaurantsClick,
+                        onRestaurantRemoved = onRestaurantRemoved,
+                        onPhotoSelected = onPhotoSelected,
+                        onDeleteGuide = onDeleteGuide,
+                    )
+                }
 
-            EditGuideUiState.Loading -> {
-                Box(
-                    Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                EditGuideUiState.Loading -> {
+                    Box(
+                        Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                    }
                 }
             }
         }
@@ -178,7 +181,6 @@ private fun TopBar(isLoading: Boolean, onBackClick: () -> Unit, onSaveGuide: () 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background)
             .padding(horizontal = SpaceSize.medium, vertical = SpaceSize.medium),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -238,7 +240,7 @@ private fun GuideLoaded(
     onAddRestaurantsClick: () -> Unit,
     onRestaurantRemoved: (String) -> Unit,
     onPhotoSelected: (ByteArray, String) -> Unit,
-    onDeleteGuide: () -> Unit = {},
+    onDeleteGuide: () -> Unit,
 ) {
     val pickImage = rememberImagePickerLauncher(onResult = onPhotoSelected)
     var selectedTab by rememberSaveable { mutableIntStateOf(initialTab) }
@@ -248,74 +250,36 @@ private fun GuideLoaded(
         stringResource(Res.string.edit_guide_tab_status),
     )
 
-    TopTabs(
-        selectedTab = selectedTab,
-        onTabSelected = { selectedTab = it },
-        tabs = tabs,
-    )
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopTabs(
+            selectedTab = selectedTab,
+            onTabSelected = { selectedTab = it },
+            tabs = tabs,
+        )
 
-    when (selectedTab) {
-        TAB_DETAILS -> LazyColumn(
+        Box(
             modifier = Modifier
-                .fillMaxSize()
+                .weight(1f)
                 .background(MaterialTheme.colorScheme.background),
-            contentPadding = PaddingValues(SpaceSize.large),
-            verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
-            item {
-                GuideDetailsCard(
-                    modifier = Modifier.fillMaxSize(),
-                    title = state.title,
-                    description = state.description,
-                    titleError = state.titleError,
-                    descriptionError = state.descriptionError,
+            when (selectedTab) {
+                TAB_DETAILS -> GuideDetailsTab(
+                    state = state,
                     onTitleChange = onTitleChange,
                     onDescriptionChange = onDescriptionChange,
-                    imageUrl = state.imageUrl,
-                    isUploadingPhoto = state.isUploadingPhoto,
                     onPickImage = pickImage,
-                    pendingImage = state.pendingImage,
                 )
-            }
-        }
 
-        TAB_RESTAURANTS -> LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
-            contentPadding = PaddingValues(SpaceSize.large),
-            verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
-        ) {
-            item {
-                GuideRestaurantsCard(
+                TAB_RESTAURANTS -> GuideRestaurantsTab(
                     restaurants = state.restaurants,
-                    onAddClick = onAddRestaurantsClick,
-                    onRemoveClick = onRestaurantRemoved,
+                    onAddRestaurantsClick = onAddRestaurantsClick,
+                    onRestaurantRemoved = onRestaurantRemoved,
                 )
-            }
-        }
 
-        TAB_STATUS -> LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
-            contentPadding = PaddingValues(SpaceSize.large),
-            verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
-        ) {
-            item {
-                GuideStatusCard(
-                    visibility = state.visibility,
-                    restaurantCount = state.restaurants.size,
-                    hasImage = state.imageUrl != null || state.pendingImage != null,
+                TAB_STATUS -> GuideStatusTab(
+                    state = state,
                     onVisibilityChange = onVisibilityChange,
-                )
-            }
-            item {
-                FilledButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(Res.string.edit_guide_delete_button),
-                    icon = Icons.Outlined.Delete,
-                    onClick = onDeleteGuide,
+                    onDeleteGuide = onDeleteGuide,
                 )
             }
         }
@@ -323,8 +287,80 @@ private fun GuideLoaded(
 }
 
 @Composable
+private fun GuideDetailsTab(
+    state: EditGuideUiState.Loaded,
+    onTitleChange: (String) -> Unit,
+    onDescriptionChange: (String) -> Unit,
+    onPickImage: () -> Unit,
+) {
+    LazyColumn(
+        contentPadding = PaddingValues(SpaceSize.large),
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
+    ) {
+        item {
+            GuideDetailsCard(
+                title = state.title,
+                description = state.description,
+                titleError = state.titleError,
+                descriptionError = state.descriptionError,
+                onTitleChange = onTitleChange,
+                onDescriptionChange = onDescriptionChange,
+                imageUrl = state.imageUrl,
+                isUploadingPhoto = state.isUploadingPhoto,
+                onPickImage = onPickImage,
+                pendingImage = state.pendingImage,
+            )
+        }
+    }
+}
+
+@Composable
+private fun GuideRestaurantsTab(
+    restaurants: List<Restaurant>,
+    onAddRestaurantsClick: () -> Unit,
+    onRestaurantRemoved: (String) -> Unit,
+) {
+    LazyColumn(
+        contentPadding = PaddingValues(SpaceSize.large),
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
+    ) {
+        item {
+            GuideRestaurantsCard(
+                restaurants = restaurants,
+                onAddClick = onAddRestaurantsClick,
+                onRemoveClick = onRestaurantRemoved,
+            )
+        }
+    }
+}
+
+@Composable
+private fun GuideStatusTab(
+    state: EditGuideUiState.Loaded,
+    onVisibilityChange: (GuideVisibility) -> Unit,
+    onDeleteGuide: () -> Unit,
+) {
+    LazyColumn(
+        contentPadding = PaddingValues(SpaceSize.large),
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
+    ) {
+        item {
+            GuideStatusCard(
+                visibility = state.visibility,
+                restaurantCount = state.restaurants.size,
+                hasImage = state.imageUrl != null || state.pendingImage != null,
+                isAuthor = state.isAuthor,
+                onVisibilityChange = onVisibilityChange,
+                onDeleteGuide = onDeleteGuide,
+                shareCode = state.guide.shareCode,
+            )
+        }
+    }
+}
+
+@Composable
 @Preview
-fun EditGuideScreenPreview() {
+fun EditGuideScreenLoadingPreview() {
     AppTheme {
         EditGuideContent(
             state = EditGuideUiState.Loading,
@@ -335,6 +371,59 @@ fun EditGuideScreenPreview() {
             onDescriptionChange = {},
             onRetry = {},
             onSaveGuide = {},
+        )
+    }
+}
+
+@Composable
+@Preview
+fun EditGuideScreenLoadedPreview() {
+    val author = Author(id = "u1", name = "Sarah Mitchell", username = "sarahmitchell")
+    val restaurant = Restaurant(
+        id = "r1",
+        name = "Le Jardin",
+        description = "",
+        city = "Downtown",
+        country = "French",
+        countryCode = "",
+        postalCode = "",
+        imagesUrl = emptyList(),
+        address = "",
+        rating = 4.8,
+        userRatingCount = 320,
+        websiteUrl = "",
+        phoneNumber = "",
+        location = Location(latitude = 48.8566, longitude = 2.3522),
+    )
+
+    val guide = Guide(
+        id = "g1",
+        name = "Michelin Star Favorites",
+        description = "A carefully curated collection of the finest dining experiences in the city.",
+        numberOfRestaurant = 1,
+        visibility = GuideVisibility.PUBLIC,
+        author = author,
+        restaurants = listOf(restaurant),
+    )
+
+    AppTheme {
+        EditGuideContent(
+            state = EditGuideUiState.Loaded(
+                guide = guide,
+                title = guide.name,
+                description = guide.description,
+                visibility = guide.visibility,
+                restaurants = guide.restaurants,
+            ),
+            onBackClick = {},
+            onAddRestaurantsClick = {},
+            onRestaurantRemoved = {},
+            onTitleChange = {},
+            onDescriptionChange = {},
+            onVisibilityChange = {},
+            onRetry = {},
+            onSaveGuide = {},
+            onDeleteGuide = {},
         )
     }
 }

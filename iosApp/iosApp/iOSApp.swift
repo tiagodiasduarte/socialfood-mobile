@@ -14,6 +14,9 @@ struct iOSApp: App {
         GoogleSignInBridge.shared.delegate = GoogleSignInDelegateImpl()
         ImagePickerBridge.shared.delegate = ImagePickerDelegateImpl()
         JoinSharedGuideCodeBridge.shared.delegate = JoinSharedGuideCodeDelegateImpl()
+        let alertDialogDelegate = AlertDialogDelegateImpl()
+        DeleteGuideConfirmationBridge.shared.delegate = alertDialogDelegate
+        GuideValidationErrorDialogBridge.shared.delegate = alertDialogDelegate
         KoinKt.doInitKoin()
     }
 

@@ -14,14 +14,18 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.fakes.FakeDeleteGuideUseCase
 import pt.socialfood.fakes.FakeGetGuideByIdUseCase
 import pt.socialfood.fakes.FakeGuidesRepository
+import pt.socialfood.fakes.FakeObserveUserUseCase
 import pt.socialfood.fakes.FakeUpdateGuideUseCase
 import pt.socialfood.fakes.FakeUploadPhotoUseCase
+import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.edit_guide_details_description_error
+import socialfood.composeapp.generated.resources.edit_guide_details_public_author_warning
 import socialfood.composeapp.generated.resources.edit_guide_details_public_image_warning
 import socialfood.composeapp.generated.resources.edit_guide_details_public_restaurants_warning
 import socialfood.composeapp.generated.resources.edit_guide_details_title_error
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -65,12 +69,14 @@ class EditGuideViewModelTest {
         uploadPhoto: FakeUploadPhotoUseCase = FakeUploadPhotoUseCase(Result.Success(Unit)),
         guidesRepository: FakeGuidesRepository = FakeGuidesRepository(),
         deleteGuide: FakeDeleteGuideUseCase = FakeDeleteGuideUseCase(Result.Success(true)),
+        observeUser: FakeObserveUserUseCase = FakeObserveUserUseCase(),
     ) = EditGuideViewModel(
         getGuideById = getGuideById,
         updateGuide = updateGuide,
         uploadPhoto = uploadPhoto,
         guidesRepository = guidesRepository,
         deleteGuide = deleteGuide,
+        observeUser = observeUser,
         guideId = "guide-1",
     )
 
@@ -185,7 +191,67 @@ class EditGuideViewModelTest {
             val state = assertIs<EditGuideUiState.Loaded>(vm.state.value)
             assertTrue(Res.string.edit_guide_details_public_restaurants_warning in state.validationErrors)
             assertTrue(Res.string.edit_guide_details_public_image_warning in state.validationErrors)
+            assertTrue(Res.string.edit_guide_details_public_author_warning in state.validationErrors)
             assertEquals(0, updateGuide.invokeCount)
+        }
+
+    @Test
+    fun `given a non-author when onSave is called for a public guide then validationErrors includes author warning`() =
+        runTestWithMainDispatcher {
+            // Given
+            val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
+            val restaurants = List(3) { restaurant("r$it") }
+            val vm = createViewModel(
+                getGuideById = FakeGetGuideByIdUseCase(
+                    Result.Success(
+                        guide(visibility = GuideVisibility.PUBLIC, restaurants = restaurants)
+                            .copy(imageUrl = "https://example.com/image.jpg"),
+                    ),
+                ),
+                updateGuide = updateGuide,
+                observeUser = FakeObserveUserUseCase(Random.nextUser(isAuthor = false)),
+            )
+
+            advanceUntilIdle()
+            advanceUntilIdle()
+
+            // When
+            vm.onSave()
+
+            // Then
+            val state = assertIs<EditGuideUiState.Loaded>(vm.state.value)
+            assertEquals(listOf(Res.string.edit_guide_details_public_author_warning), state.validationErrors)
+            assertEquals(0, updateGuide.invokeCount)
+        }
+
+    @Test
+    fun `given an author user when onSave is called for a valid public guide then guide is saved`() =
+        runTestWithMainDispatcher {
+            // Given
+            val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
+            val restaurants = List(3) { restaurant("r$it") }
+            val vm = createViewModel(
+                getGuideById = FakeGetGuideByIdUseCase(
+                    Result.Success(
+                        guide(visibility = GuideVisibility.PUBLIC, restaurants = restaurants)
+                            .copy(imageUrl = "https://example.com/image.jpg"),
+                    ),
+                ),
+                updateGuide = updateGuide,
+                observeUser = FakeObserveUserUseCase(Random.nextUser(isAuthor = true)),
+            )
+
+            advanceUntilIdle()
+            advanceUntilIdle()
+
+            vm.events.test {
+                // When
+                vm.onSave()
+
+                // Then
+                assertEquals(EditGuideViewModel.UiEvent.NavigateBack, awaitItem())
+            }
+            assertEquals(1, updateGuide.invokeCount)
         }
 
     @Test

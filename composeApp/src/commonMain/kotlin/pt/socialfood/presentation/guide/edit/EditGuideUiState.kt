@@ -21,6 +21,7 @@ sealed interface EditGuideUiState {
         val isUploadingPhoto: Boolean = false,
         val isSaving: Boolean = false,
         val isDeleting: Boolean = false,
+        val isAuthor: Boolean = false,
         val validationErrors: List<StringResource> = emptyList(),
     ) : EditGuideUiState
     data class Error(val errorCode: ErrorCode) : EditGuideUiState

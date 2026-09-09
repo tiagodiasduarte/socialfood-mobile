@@ -27,7 +27,7 @@ import pt.socialfood.domain.usecase.guide.GetGuideBySharedCodeUseCase
 import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
-import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideUiState
+import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideDialogUiState
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SharedGuidesViewModel(
@@ -56,8 +56,8 @@ class SharedGuidesViewModel(
             initialValue = emptySet(),
         )
 
-    private val _joinGuideState = MutableStateFlow<JoinSharedGuideUiState>(JoinSharedGuideUiState.Idle)
-    val joinGuideState: StateFlow<JoinSharedGuideUiState> = _joinGuideState
+    private val _joinGuideState = MutableStateFlow<JoinSharedGuideDialogUiState>(JoinSharedGuideDialogUiState.Idle)
+    val joinGuideState: StateFlow<JoinSharedGuideDialogUiState> = _joinGuideState
 
     private val _events = MutableSharedFlow<UiEvent>()
     val events = _events.asSharedFlow()
@@ -74,21 +74,22 @@ class SharedGuidesViewModel(
 
     fun onJoinGuide(code: String) {
         viewModelScope.launch {
-            _joinGuideState.value = JoinSharedGuideUiState.Loading
+            _joinGuideState.value = JoinSharedGuideDialogUiState.Loading
 
             when (val result = getGuideBySharedCode(code)) {
                 is Result.Success -> {
-                    _joinGuideState.value = JoinSharedGuideUiState.Idle
+                    _joinGuideState.value = JoinSharedGuideDialogUiState.Idle
                     _events.emit(UiEvent.GuideJoined(result.data.id))
                 }
 
-                is Result.Failure -> _joinGuideState.value = JoinSharedGuideUiState.Error(result.error.toErrorCode())
+                is Result.Failure ->
+                    _joinGuideState.value = JoinSharedGuideDialogUiState.Error(result.error.toErrorCode())
             }
         }
     }
 
     fun onDismissJoinGuideError() {
-        _joinGuideState.value = JoinSharedGuideUiState.Idle
+        _joinGuideState.value = JoinSharedGuideDialogUiState.Idle
     }
 
     sealed interface UiEvent {

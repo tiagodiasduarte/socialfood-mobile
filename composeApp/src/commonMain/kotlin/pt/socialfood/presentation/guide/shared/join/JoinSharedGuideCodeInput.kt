@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 @Composable
 expect fun JoinSharedGuideCodeInput(
     show: Boolean,
-    state: JoinSharedGuideUiState,
+    state: JoinSharedGuideDialogUiState,
     onConfirm: (code: String) -> Unit,
     onDismiss: () -> Unit,
 )

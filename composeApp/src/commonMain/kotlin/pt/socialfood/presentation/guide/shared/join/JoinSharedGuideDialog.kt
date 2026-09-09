@@ -37,9 +37,13 @@ private const val JOIN_GUIDE_CODE_LENGTH = 8
 private const val JOIN_GUIDE_CODE_ALLOWED_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
 
 @Composable
-fun JoinSharedGuideDialog(state: JoinSharedGuideUiState, onConfirm: (code: String) -> Unit, onDismiss: () -> Unit) {
+fun JoinSharedGuideDialog(
+    state: JoinSharedGuideDialogUiState,
+    onConfirm: (code: String) -> Unit,
+    onDismiss: () -> Unit,
+) {
     var code by remember { mutableStateOf("") }
-    val isLoading = state is JoinSharedGuideUiState.Loading
+    val isLoading = state is JoinSharedGuideDialogUiState.Loading
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -76,7 +80,7 @@ fun JoinSharedGuideDialog(state: JoinSharedGuideUiState, onConfirm: (code: Strin
 private fun JoinSharedGuideCodeField(
     code: String,
     onCodeChange: (String) -> Unit,
-    state: JoinSharedGuideUiState,
+    state: JoinSharedGuideDialogUiState,
     isLoading: Boolean,
 ) {
     Column {
@@ -90,7 +94,7 @@ private fun JoinSharedGuideCodeField(
             placeholder = { Text(stringResource(Res.string.join_guide_dialog_code_placeholder)) },
             singleLine = true,
             enabled = !isLoading,
-            isError = state is JoinSharedGuideUiState.Error,
+            isError = state is JoinSharedGuideDialogUiState.Error,
             keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Characters),
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
@@ -106,7 +110,7 @@ private fun JoinSharedGuideCodeField(
             modifier = Modifier.padding(top = SpaceSize.small),
         )
 
-        if (state is JoinSharedGuideUiState.Error) {
+        if (state is JoinSharedGuideDialogUiState.Error) {
             Spacer(Modifier.height(SpaceSize.medium))
 
             Text(

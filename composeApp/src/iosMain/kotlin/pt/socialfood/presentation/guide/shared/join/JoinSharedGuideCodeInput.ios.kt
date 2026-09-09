@@ -27,12 +27,13 @@ object JoinSharedGuideCodeBridge {
 @Composable
 actual fun JoinSharedGuideCodeInput(
     show: Boolean,
-    state: JoinSharedGuideUiState,
+    state: JoinSharedGuideDialogUiState,
     onConfirm: (code: String) -> Unit,
     onDismiss: () -> Unit,
 ) {
     var lastCode by remember { mutableStateOf<String?>(null) }
-    val errorMessage = (state as? JoinSharedGuideUiState.Error)?.let { stringResource(it.errorCode.stringResource()) }
+    val errorMessage = (state as? JoinSharedGuideDialogUiState.Error)
+        ?.let { stringResource(it.errorCode.stringResource()) }
 
     fun present(errorMessage: String?) {
         val delegate = JoinSharedGuideCodeBridge.delegate

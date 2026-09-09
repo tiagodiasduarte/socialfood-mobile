@@ -9,31 +9,8 @@ import socialfood.composeapp.generated.resources.edit_guide_delete_confirmation_
 import socialfood.composeapp.generated.resources.edit_guide_delete_confirmation_message
 import socialfood.composeapp.generated.resources.edit_guide_delete_confirmation_title
 
-// Swift side must implement this interface and assign it to DeleteGuideConfirmationBridge.delegate.
-// Example Swift implementation using UIAlertController:
-//
-//   class DeleteGuideConfirmationDelegateImpl: NSObject, DeleteGuideConfirmationDelegate {
-//
-//     var rootViewController: UIViewController
-//     init(rootViewController: UIViewController) { self.rootViewController = rootViewController }
-//
-//     func showConfirmation(
-//       title: String,
-//       message: String,
-//       confirmLabel: String,
-//       cancelLabel: String,
-//       onConfirm: @escaping () -> Void
-//     ) {
-//       let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-//       alert.addAction(UIAlertAction(title: cancelLabel, style: .cancel))
-//       alert.addAction(UIAlertAction(title: confirmLabel, style: .destructive) { _ in onConfirm() })
-//       rootViewController.present(alert, animated: true)
-//     }
-//   }
-//
-//   // In your iOS app entry point:
-//   DeleteGuideConfirmationBridge.shared.delegate =
-//       DeleteGuideConfirmationDelegateImpl(rootViewController: window.rootViewController!)
+// Swift side must implement this interface and assign it to DeleteGuideConfirmationBridge.shared.delegate.
+// See DeleteGuideConfirmationDelegateImpl.swift for the UIAlertController-based implementation.
 
 interface DeleteGuideConfirmationDelegate {
     fun showConfirmation(

@@ -22,6 +22,8 @@ interface GuidesApi {
 
     suspend fun findById(id: String): GuideDetailResponse
 
+    suspend fun findGuideBySharedCode(code: String): GuideDetailResponse
+
     suspend fun findGuides(
         page: Int,
         limit: Int,

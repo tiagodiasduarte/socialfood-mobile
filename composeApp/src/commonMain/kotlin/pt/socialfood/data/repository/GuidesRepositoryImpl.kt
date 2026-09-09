@@ -85,6 +85,12 @@ class GuidesRepositoryImpl(
         }
     }
 
+    override suspend fun findGuideBySharedCode(code: String): Result<Guide> = safeApiCall {
+        guideApi.findGuideBySharedCode(code).toGuide()
+    }.also { result ->
+        if (result is Result.Success) lastGuide = result.data
+    }
+
     @OptIn(ExperimentalPagingApi::class)
     override fun findGuidesPagingFlow(): Flow<PagingData<Guide>> = guidePagingFlow(listScope = GuideListScope.ALL)
 

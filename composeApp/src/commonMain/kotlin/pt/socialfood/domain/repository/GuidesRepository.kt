@@ -21,6 +21,8 @@ interface GuidesRepository {
 
     suspend fun findById(id: String): Result<Guide>
 
+    suspend fun findGuideBySharedCode(code: String): Result<Guide>
+
     fun findGuidesPagingFlow(): Flow<PagingData<Guide>>
 
     fun findUserGuidesPagingFlow(userId: String): Flow<PagingData<Guide>>

@@ -49,6 +49,7 @@ fun GuidesScreen(
     onGuideClick: (guideId: String) -> Unit = {},
     onAddClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
+    onGuideJoined: (guideId: String) -> Unit = {},
 ) {
     var selectedTab by rememberSaveable { mutableStateOf(ALL_GUIDES_TAB) }
 
@@ -67,6 +68,7 @@ fun GuidesScreen(
             onGuideClick = onGuideClick,
             onAddClick = onAddClick,
             onProfileClick = onProfileClick,
+            onGuideJoined = onGuideJoined,
         )
 
         else -> AllGuidesScreen(

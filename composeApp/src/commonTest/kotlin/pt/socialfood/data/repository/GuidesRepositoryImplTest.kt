@@ -354,6 +354,34 @@ class GuidesRepositoryImplTest {
         assertIs<DataError.Network>(result.error)
     }
 
+    // findGuideBySharedCode
+
+    @Test
+    fun `given a valid code when findGuideBySharedCode is called then returns Success with Guide`() = runTest {
+        // Given
+        val repo = createRepository()
+
+        // When
+        val result = repo.findGuideBySharedCode(code = "ABC123")
+
+        // Then
+        assertIs<Result.Success<Guide>>(result)
+        assertEquals("guide-id", result.data.id)
+    }
+
+    @Test
+    fun `given api throws when findGuideBySharedCode is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
+
+        // When
+        val result = repo.findGuideBySharedCode(code = "ABC123")
+
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
+
     // findGuidesPagingFlow
 
     @Test

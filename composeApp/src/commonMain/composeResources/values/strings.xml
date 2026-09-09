@@ -106,6 +106,14 @@
     <string name="guides_tab_shared">Shared Guides</string>
     <string name="guides_add_button_description">Add guide</string>
 
+    <string name="shared_guides_join_button">Join with code</string>
+    <string name="join_guide_dialog_title">Join a guide</string>
+    <string name="join_guide_dialog_code_label">Invite code</string>
+    <string name="join_guide_dialog_code_placeholder">Enter the invite code</string>
+    <string name="join_guide_dialog_code_length_message">Invite code must have 8 characters</string>
+    <string name="join_guide_dialog_confirm_button">Join</string>
+    <string name="join_guide_dialog_cancel_button">Cancel</string>
+
     <string name="authors_title">Authors</string>
     <string name="authors_error_label">Failed to load authors</string>
     <string name="authors_follow_button">Follow</string>

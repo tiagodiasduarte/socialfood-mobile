@@ -68,6 +68,9 @@ class GuidesApiImpl(private val client: HttpClient) : GuidesApi {
 
     override suspend fun findById(id: String): GuideDetailResponse = client.get("guides/$id").body()
 
+    override suspend fun findGuideBySharedCode(code: String): GuideDetailResponse =
+        client.get("guides/share/$code").body()
+
     override suspend fun update(
         id: String,
         name: String,

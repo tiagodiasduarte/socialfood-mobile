@@ -4,6 +4,6 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.repository.GuidesRepository
 
-class FindGuideBySharedCodeUseCaseImpl(private val repository: GuidesRepository) : FindGuideBySharedCodeUseCase {
+class GetGuideBySharedCodeUseCaseImpl(private val repository: GuidesRepository) : GetGuideBySharedCodeUseCase {
     override suspend operator fun invoke(code: String): Result<Guide> = repository.findGuideBySharedCode(code)
 }

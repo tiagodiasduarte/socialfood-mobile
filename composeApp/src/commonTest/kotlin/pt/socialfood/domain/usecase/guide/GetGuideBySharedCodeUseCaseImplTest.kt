@@ -10,7 +10,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertSame
 
-class FindGuideBySharedCodeUseCaseImplTest {
+class GetGuideBySharedCodeUseCaseImplTest {
     @Test
     fun `given a code when invoked then forwards it and returns the repository's result`() = runTest {
         // Given
@@ -18,7 +18,7 @@ class FindGuideBySharedCodeUseCaseImplTest {
         val guide = Random.nextGuide()
         val result = Result.Success(guide)
         val repository = FakeGuidesRepository(findGuideBySharedCodeResult = result)
-        val useCase = FindGuideBySharedCodeUseCaseImpl(repository)
+        val useCase = GetGuideBySharedCodeUseCaseImpl(repository)
 
         // When
         val actual = useCase(code)

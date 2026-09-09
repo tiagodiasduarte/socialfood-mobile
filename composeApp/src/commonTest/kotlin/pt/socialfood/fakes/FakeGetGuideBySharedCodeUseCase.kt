@@ -2,12 +2,12 @@ package pt.socialfood.fakes
 
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.usecase.guide.FindGuideBySharedCodeUseCase
+import pt.socialfood.domain.usecase.guide.GetGuideBySharedCodeUseCase
 import pt.socialfood.random.nextGuide
 import kotlin.random.Random
 
-class FakeFindGuideBySharedCodeUseCase(private val result: Result<Guide> = Result.Success(Random.nextGuide())) :
-    FindGuideBySharedCodeUseCase {
+class FakeGetGuideBySharedCodeUseCase(private val result: Result<Guide> = Result.Success(Random.nextGuide())) :
+    GetGuideBySharedCodeUseCase {
     var invokeCount: Int = 0
         private set
     var lastCode: String? = null

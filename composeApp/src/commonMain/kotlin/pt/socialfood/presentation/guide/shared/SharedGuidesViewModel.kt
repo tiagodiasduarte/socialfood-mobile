@@ -23,7 +23,7 @@ import pt.socialfood.domain.model.User
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.guide.FindGuideBySharedCodeUseCase
+import pt.socialfood.domain.usecase.guide.GetGuideBySharedCodeUseCase
 import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
@@ -31,7 +31,7 @@ import pt.socialfood.presentation.error.toErrorCode
 @OptIn(ExperimentalCoroutinesApi::class)
 class SharedGuidesViewModel(
     getUserJoinedGuidesPaging: GetUserJoinedGuidesPagingUseCase,
-    private val findGuideBySharedCode: FindGuideBySharedCodeUseCase,
+    private val getGuideBySharedCode: GetGuideBySharedCodeUseCase,
     private val markGuideFavourite: MarkGuideFavouriteUseCase,
     private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
     observeUser: ObserveUserUseCase,
@@ -75,7 +75,7 @@ class SharedGuidesViewModel(
         viewModelScope.launch {
             _joinGuideState.value = JoinGuideUiState.Loading
 
-            when (val result = findGuideBySharedCode(code)) {
+            when (val result = getGuideBySharedCode(code)) {
                 is Result.Success -> {
                     _joinGuideState.value = JoinGuideUiState.Idle
                     _events.emit(UiEvent.GuideJoined(result.data.id))

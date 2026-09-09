@@ -10,10 +10,10 @@ import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.guide.FindGuideBySharedCodeUseCase
+import pt.socialfood.domain.usecase.guide.GetGuideBySharedCodeUseCase
 import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
-import pt.socialfood.fakes.FakeFindGuideBySharedCodeUseCase
+import pt.socialfood.fakes.FakeGetGuideBySharedCodeUseCase
 import pt.socialfood.fakes.FakeGetUserJoinedGuidesPagingUseCase
 import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeObserveFavouriteGuideIdsUseCase
@@ -34,14 +34,14 @@ import kotlin.test.assertIs
 class SharedGuidesViewModelTest {
     private fun createViewModel(
         getUserJoinedGuidesPaging: GetUserJoinedGuidesPagingUseCase = FakeGetUserJoinedGuidesPagingUseCase(),
-        findGuideBySharedCode: FindGuideBySharedCodeUseCase = FakeFindGuideBySharedCodeUseCase(),
+        getGuideBySharedCode: GetGuideBySharedCodeUseCase = FakeGetGuideBySharedCodeUseCase(),
         observeUser: ObserveUserUseCase = FakeObserveUserUseCase(Random.nextUser()),
         observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase = FakeObserveFavouriteGuideIdsUseCase(),
         markGuideFavourite: MarkGuideFavouriteUseCase = FakeMarkGuideFavouriteUseCase(),
         unmarkGuideFavourite: UnmarkGuideFavouriteUseCase = FakeUnmarkGuideFavouriteUseCase(),
     ) = SharedGuidesViewModel(
         getUserJoinedGuidesPaging,
-        findGuideBySharedCode,
+        getGuideBySharedCode,
         markGuideFavourite,
         unmarkGuideFavourite,
         observeUser,
@@ -185,12 +185,12 @@ class SharedGuidesViewModelTest {
         }
 
     @Test
-    fun `given findGuideBySharedCode succeeds when onJoinGuide is called then emits GuideJoined and resets to Idle`() =
+    fun `given getGuideBySharedCode succeeds when onJoinGuide is called then emits GuideJoined and resets to Idle`() =
         runTestWithMainDispatcher {
             // Given
             val guide = Random.nextGuide()
-            val findGuideBySharedCode = FakeFindGuideBySharedCodeUseCase(result = Result.Success(guide))
-            val vm = createViewModel(findGuideBySharedCode = findGuideBySharedCode)
+            val getGuideBySharedCode = FakeGetGuideBySharedCodeUseCase(result = Result.Success(guide))
+            val vm = createViewModel(getGuideBySharedCode = getGuideBySharedCode)
             val code = Random.nextString()
 
             // When
@@ -199,18 +199,18 @@ class SharedGuidesViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(code, findGuideBySharedCode.lastCode)
+            assertEquals(code, getGuideBySharedCode.lastCode)
             assertEquals(JoinGuideUiState.Idle, vm.joinGuideState.value)
             job.cancel()
         }
 
     @Test
-    fun `given findGuideBySharedCode fails when onJoinGuide is called then joinGuideState becomes Error`() =
+    fun `given getGuideBySharedCode fails when onJoinGuide is called then joinGuideState becomes Error`() =
         runTestWithMainDispatcher {
             // Given
             val error = DataError.Known(statusCode = 404, errorCode = ErrorCode.GUIDE_NOT_FOUND, message = "invalid")
-            val findGuideBySharedCode = FakeFindGuideBySharedCodeUseCase(result = Result.Failure(error))
-            val vm = createViewModel(findGuideBySharedCode = findGuideBySharedCode)
+            val getGuideBySharedCode = FakeGetGuideBySharedCodeUseCase(result = Result.Failure(error))
+            val vm = createViewModel(getGuideBySharedCode = getGuideBySharedCode)
 
             // When
             vm.onJoinGuide(Random.nextString())
@@ -227,8 +227,8 @@ class SharedGuidesViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val error = DataError.Known(statusCode = 404, errorCode = ErrorCode.GUIDE_NOT_FOUND, message = "invalid")
-            val findGuideBySharedCode = FakeFindGuideBySharedCodeUseCase(result = Result.Failure(error))
-            val vm = createViewModel(findGuideBySharedCode = findGuideBySharedCode)
+            val getGuideBySharedCode = FakeGetGuideBySharedCodeUseCase(result = Result.Failure(error))
+            val vm = createViewModel(getGuideBySharedCode = getGuideBySharedCode)
             vm.onJoinGuide(Random.nextString())
             advanceUntilIdle()
 

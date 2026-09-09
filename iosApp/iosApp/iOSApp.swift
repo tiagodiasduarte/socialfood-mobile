@@ -13,6 +13,7 @@ struct iOSApp: App {
         FirebaseApp.configure()
         GoogleSignInBridge.shared.delegate = GoogleSignInDelegateImpl()
         ImagePickerBridge.shared.delegate = ImagePickerDelegateImpl()
+        JoinGuideCodeBridge.shared.delegate = JoinGuideCodeDelegateImpl()
         KoinKt.doInitKoin()
     }
 

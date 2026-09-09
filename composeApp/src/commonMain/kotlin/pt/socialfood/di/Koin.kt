@@ -111,10 +111,10 @@ import pt.socialfood.domain.usecase.guide.CreateGuideUseCase
 import pt.socialfood.domain.usecase.guide.CreateGuideUseCaseImpl
 import pt.socialfood.domain.usecase.guide.DeleteGuideUseCase
 import pt.socialfood.domain.usecase.guide.DeleteGuideUseCaseImpl
-import pt.socialfood.domain.usecase.guide.FindGuideBySharedCodeUseCase
-import pt.socialfood.domain.usecase.guide.FindGuideBySharedCodeUseCaseImpl
 import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCase
 import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCaseImpl
+import pt.socialfood.domain.usecase.guide.GetGuideBySharedCodeUseCase
+import pt.socialfood.domain.usecase.guide.GetGuideBySharedCodeUseCaseImpl
 import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
 import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCaseImpl
 import pt.socialfood.domain.usecase.guide.GetUserGuidesPagingUseCase
@@ -332,7 +332,6 @@ val useCaseModule =
         factory<DeleteHomeSectionUseCase> { DeleteHomeSectionUseCaseImpl(get()) }
         factory<DeleteRestaurantUseCase> { DeleteRestaurantUseCaseImpl(get()) }
         factory<FindAuthorsUseCase> { FindAuthorsUseCaseImpl(get()) }
-        factory<FindGuideBySharedCodeUseCase> { FindGuideBySharedCodeUseCaseImpl(get()) }
         factory<FindRestaurantsUseCase> { FindRestaurantsUseCaseImpl(get()) }
         factory<FindUsersUseCase> { FindUsersUseCaseImpl(get()) }
         factory<GetAuthorByIdUseCase> { GetAuthorByIdUseCaseImpl(get()) }
@@ -342,6 +341,7 @@ val useCaseModule =
         factory<GetFavouriteGuidesPagingUseCase> { GetFavouriteGuidesPagingUseCaseImpl(get()) }
         factory<GetFavouriteRestaurantsPagingUseCase> { GetFavouriteRestaurantsPagingUseCaseImpl(get()) }
         factory<GetGuideByIdUseCase> { GetGuideByIdUseCaseImpl(get()) }
+        factory<GetGuideBySharedCodeUseCase> { GetGuideBySharedCodeUseCaseImpl(get()) }
         factory<GetGuideSuggestionsUseCase> { GetGuideSuggestionsUseCaseImpl(get()) }
         factory<GetGuidesPagingUseCase> { GetGuidesPagingUseCaseImpl(get()) }
         factory<GetHomeSectionByIdUseCase> { GetHomeSectionByIdUseCaseImpl(get()) }

@@ -81,14 +81,13 @@ fun SharedGuidesScreen(
         }
     }
 
-    if (showJoinDialog) {
-        JoinGuideDialog(
-            state = joinGuideState,
-            onConfirm = { code -> viewModel.onJoinGuide(code) },
-            onDismiss = {
-                showJoinDialog = false
-                viewModel.onDismissJoinGuideError()
-            },
-        )
-    }
+    JoinGuideCodeInput(
+        show = showJoinDialog,
+        state = joinGuideState,
+        onConfirm = { code -> viewModel.onJoinGuide(code) },
+        onDismiss = {
+            showJoinDialog = false
+            viewModel.onDismissJoinGuideError()
+        },
+    )
 }

@@ -37,6 +37,9 @@ sealed interface Route : NavKey {
     data class AddRestaurants(val guideId: String) : Route
 
     @Serializable
+    data class JoinSharedGuide(val guideId: String) : Route
+
+    @Serializable
     data class RestaurantDetail(val restaurantId: String) : Route
 
     @Serializable

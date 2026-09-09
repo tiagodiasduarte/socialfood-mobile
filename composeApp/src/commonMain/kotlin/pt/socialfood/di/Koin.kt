@@ -121,6 +121,8 @@ import pt.socialfood.domain.usecase.guide.GetUserGuidesPagingUseCase
 import pt.socialfood.domain.usecase.guide.GetUserGuidesPagingUseCaseImpl
 import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCase
 import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCaseImpl
+import pt.socialfood.domain.usecase.guide.JoinGuideUseCase
+import pt.socialfood.domain.usecase.guide.JoinGuideUseCaseImpl
 import pt.socialfood.domain.usecase.guide.UpdateGuideUseCase
 import pt.socialfood.domain.usecase.guide.UpdateGuideUseCaseImpl
 import pt.socialfood.domain.usecase.home.AddHomeSectionItemUseCase
@@ -218,6 +220,7 @@ import pt.socialfood.presentation.guide.edit.EditGuideViewModel
 import pt.socialfood.presentation.guide.map.GuideMapViewModel
 import pt.socialfood.presentation.guide.my.MyGuidesViewModel
 import pt.socialfood.presentation.guide.shared.SharedGuidesViewModel
+import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideViewModel
 import pt.socialfood.presentation.home.HomeViewModel
 import pt.socialfood.presentation.profile.ProfileViewModel
 import pt.socialfood.presentation.profile.edit.EditProfileViewModel
@@ -360,6 +363,7 @@ val useCaseModule =
         factory<GetVisitStatusUseCase> { GetVisitStatusUseCaseImpl(get()) }
         factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
         factory<IsRestaurantFavouriteUseCase> { IsRestaurantFavouriteUseCaseImpl(get()) }
+        factory<JoinGuideUseCase> { JoinGuideUseCaseImpl(get()) }
         factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
         factory<LoginWithGoogleUseCase> { LoginWithGoogleUseCaseImpl(get(), get()) }
         factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
@@ -405,6 +409,7 @@ val viewModelModule =
         factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
         factory { (guideId: String) -> GuideMapViewModel(get(), guideId) }
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+        factory { (guideId: String) -> JoinSharedGuideViewModel(get(), get(), guideId) }
         factory { MyGuidesViewModel(get(), get(), get(), get(), get()) }
         factory { ProfileViewModel(get(), get(), get()) }
         factory { (restaurantId: String) ->

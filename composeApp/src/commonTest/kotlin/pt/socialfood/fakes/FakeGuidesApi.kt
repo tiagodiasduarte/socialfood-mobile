@@ -64,6 +64,10 @@ class FakeGuidesApi(
         private set
     var lastFindGuideBySharedCodeCode: String? = null
         private set
+    var joinGuideCallCount: Int = 0
+        private set
+    var lastJoinGuideId: String? = null
+        private set
 
     override suspend fun create(name: String, description: String, userId: String): GuideDetailResponse {
         if (shouldThrow) throw IOException("test error")
@@ -170,6 +174,13 @@ class FakeGuidesApi(
 
     override suspend fun deletePhoto(guideId: String): GuideDetailResponse {
         if (shouldThrow) throw IOException("test error")
+        return defaultFakeGuideDetail
+    }
+
+    override suspend fun joinGuide(guideId: String): GuideDetailResponse {
+        if (shouldThrow) throw IOException("test error")
+        joinGuideCallCount++
+        lastJoinGuideId = guideId
         return defaultFakeGuideDetail
     }
 }

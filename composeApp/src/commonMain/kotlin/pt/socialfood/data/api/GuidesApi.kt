@@ -37,6 +37,8 @@ interface GuidesApi {
 
     suspend fun getGuidePhotoPresignedUrl(guideId: String, request: PresignedUrlRequest): PresignedUrlResponse
 
+    suspend fun joinGuide(guideId: String): GuideDetailResponse
+
     suspend fun update(
         id: String,
         name: String,

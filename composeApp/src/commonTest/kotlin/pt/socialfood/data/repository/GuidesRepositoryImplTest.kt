@@ -382,6 +382,34 @@ class GuidesRepositoryImplTest {
         assertIs<DataError.Network>(result.error)
     }
 
+    // joinGuide
+
+    @Test
+    fun `given a valid guideId when joinGuide is called then returns Success with Guide`() = runTest {
+        // Given
+        val repo = createRepository()
+
+        // When
+        val result = repo.joinGuide(guideId = "guide-id")
+
+        // Then
+        assertIs<Result.Success<Guide>>(result)
+        assertEquals("guide-id", result.data.id)
+    }
+
+    @Test
+    fun `given api throws when joinGuide is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
+
+        // When
+        val result = repo.joinGuide(guideId = "guide-id")
+
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
+
     // findGuidesPagingFlow
 
     @Test

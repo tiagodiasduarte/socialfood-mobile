@@ -33,6 +33,7 @@ import pt.socialfood.presentation.guide.create.CreateGuideScreen
 import pt.socialfood.presentation.guide.detail.GuideDetailScreen
 import pt.socialfood.presentation.guide.edit.EditGuideScreen
 import pt.socialfood.presentation.guide.map.GuideMapScreen
+import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideScreen
 import pt.socialfood.presentation.home.HomeScreen
 import pt.socialfood.presentation.profile.ProfileDrawerContent
 import pt.socialfood.presentation.profile.edit.EditProfileScreen
@@ -223,6 +224,17 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                                 onAddClick = { navigator.navigate(Route.CreateGuide) },
                                 onProfileClick = { scope.launch { drawerState.open() } },
+                                onGuideJoined = { guideId -> navigator.navigate(Route.JoinSharedGuide(guideId)) },
+                            )
+                        }
+                        entry<Route.JoinSharedGuide> { route ->
+                            JoinSharedGuideScreen(
+                                guideId = route.guideId,
+                                onCloseClick = navigator::goBack,
+                                onJoined = { guideId ->
+                                    navigator.goBack()
+                                    navigator.navigate(Route.GuideDetail(guideId))
+                                },
                             )
                         }
                         entry<Route.FavouriteGuides> {

@@ -121,6 +121,12 @@ class GuidesRepositoryImpl(
         )
     }
 
+    override suspend fun joinGuide(guideId: String): Result<Guide> = safeApiCall {
+        guideApi.joinGuide(guideId).toGuide()
+    }.also { result ->
+        if (result is Result.Success) lastGuide = result.data
+    }
+
     override suspend fun update(
         id: String,
         name: String,

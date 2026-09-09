@@ -114,6 +114,10 @@
     <string name="join_guide_dialog_confirm_button">Join</string>
     <string name="join_guide_dialog_cancel_button">Cancel</string>
 
+    <string name="join_shared_guide_screen_close_button_description">Close</string>
+    <string name="join_shared_guide_screen_restaurants_count_label">%1$d restaurants</string>
+    <string name="join_shared_guide_screen_join_button">Join guide</string>
+
     <string name="authors_title">Authors</string>
     <string name="authors_error_label">Failed to load authors</string>
     <string name="authors_follow_button">Follow</string>

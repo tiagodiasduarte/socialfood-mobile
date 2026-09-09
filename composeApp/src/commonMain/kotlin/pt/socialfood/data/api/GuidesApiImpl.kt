@@ -122,4 +122,9 @@ class GuidesApiImpl(private val client: HttpClient) : GuidesApi {
         .delete("guides/$guideId/photo") {
             contentType(ContentType.Application.Json)
         }.body()
+
+    override suspend fun joinGuide(guideId: String): GuideDetailResponse = client
+        .post("guides/$guideId/join") {
+            contentType(ContentType.Application.Json)
+        }.body()
 }

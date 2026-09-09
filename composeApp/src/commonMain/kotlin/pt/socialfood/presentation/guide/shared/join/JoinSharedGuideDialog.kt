@@ -15,11 +15,15 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
@@ -83,6 +87,14 @@ private fun JoinSharedGuideCodeField(
     state: JoinSharedGuideDialogUiState,
     isLoading: Boolean,
 ) {
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+        keyboardController?.show()
+    }
+
     Column {
         OutlinedTextField(
             value = code,
@@ -100,7 +112,9 @@ private fun JoinSharedGuideCodeField(
                 unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
                 focusedBorderColor = MaterialTheme.colorScheme.primary,
             ),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(focusRequester),
         )
 
         Text(

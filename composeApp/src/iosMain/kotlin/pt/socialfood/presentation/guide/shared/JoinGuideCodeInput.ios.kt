@@ -2,14 +2,22 @@ package pt.socialfood.presentation.guide.shared
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.presentation.error.stringResource
 
 // Swift side must implement this interface and assign it to JoinGuideCodeBridge.shared.delegate.
 // See JoinGuideCodeDelegateImpl.swift for the UIAlertController-based implementation.
 interface JoinGuideCodeDelegate {
-    fun presentCodeInput(onConfirm: (code: String) -> Unit, onCancel: () -> Unit)
-    fun presentError(message: String)
+    fun presentCodeInput(
+        prefillCode: String?,
+        errorMessage: String?,
+        onConfirm: (code: String) -> Unit,
+        onCancel: () -> Unit,
+    )
 }
 
 object JoinGuideCodeBridge {
@@ -23,20 +31,34 @@ actual fun JoinGuideCodeInput(
     onConfirm: (code: String) -> Unit,
     onDismiss: () -> Unit,
 ) {
+    var lastCode by remember { mutableStateOf<String?>(null) }
     val errorMessage = (state as? JoinGuideUiState.Error)?.let { stringResource(it.errorCode.stringResource()) }
+
+    fun present(errorMessage: String?) {
+        val delegate = JoinGuideCodeBridge.delegate
+        if (delegate != null) {
+            delegate.presentCodeInput(
+                prefillCode = lastCode,
+                errorMessage = errorMessage,
+                onConfirm = { code ->
+                    lastCode = code
+                    onConfirm(code)
+                },
+                onCancel = onDismiss,
+            )
+        } else {
+            onDismiss()
+        }
+    }
 
     LaunchedEffect(show) {
         if (show) {
-            val delegate = JoinGuideCodeBridge.delegate
-            if (delegate != null) {
-                delegate.presentCodeInput(onConfirm = onConfirm, onCancel = onDismiss)
-            } else {
-                onDismiss()
-            }
+            lastCode = null
+            present(errorMessage = null)
         }
     }
 
     LaunchedEffect(errorMessage) {
-        errorMessage?.let { JoinGuideCodeBridge.delegate?.presentError(it) }
+        if (errorMessage != null) present(errorMessage = errorMessage)
     }
 }

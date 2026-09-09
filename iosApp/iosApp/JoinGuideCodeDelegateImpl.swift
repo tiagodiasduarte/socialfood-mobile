@@ -3,9 +3,15 @@ import UIKit
 
 private let joinGuideCodeLength = 8
 private let joinGuideCodeAllowedCharacters = CharacterSet(charactersIn: "ABCDEFGHJKLMNPQRSTUVWXYZ23456789")
+private let joinGuideCodeDefaultMessage = "Enter the 8-character invite code"
 
 class JoinGuideCodeDelegateImpl: NSObject, JoinGuideCodeDelegate, UITextFieldDelegate {
-    func presentCodeInput(onConfirm: @escaping (String) -> Void, onCancel: @escaping () -> Void) {
+    func presentCodeInput(
+        prefillCode: String?,
+        errorMessage: String?,
+        onConfirm: @escaping (String) -> Void,
+        onCancel: @escaping () -> Void
+    ) {
         guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let rootVC = scene.windows.first?.rootViewController else {
             onCancel()
@@ -14,11 +20,12 @@ class JoinGuideCodeDelegateImpl: NSObject, JoinGuideCodeDelegate, UITextFieldDel
 
         let alert = UIAlertController(
             title: "Join a guide",
-            message: "Enter the 8-character invite code",
+            message: errorMessage ?? joinGuideCodeDefaultMessage,
             preferredStyle: .alert
         )
         alert.addTextField { textField in
             textField.placeholder = "Invite code"
+            textField.text = prefillCode
             textField.autocapitalizationType = .allCharacters
             textField.autocorrectionType = .no
             textField.delegate = self
@@ -28,16 +35,6 @@ class JoinGuideCodeDelegateImpl: NSObject, JoinGuideCodeDelegate, UITextFieldDel
             let code = alert?.textFields?.first?.text ?? ""
             onConfirm(code)
         })
-        rootVC.present(alert, animated: true)
-    }
-
-    func presentError(message: String) {
-        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let rootVC = scene.windows.first?.rootViewController else {
-            return
-        }
-        let alert = UIAlertController(title: "Couldn't join guide", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
         rootVC.present(alert, animated: true)
     }
 

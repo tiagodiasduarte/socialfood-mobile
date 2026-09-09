@@ -27,6 +27,7 @@ import pt.socialfood.domain.usecase.guide.GetGuideBySharedCodeUseCase
 import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
+import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideUiState
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SharedGuidesViewModel(
@@ -55,8 +56,8 @@ class SharedGuidesViewModel(
             initialValue = emptySet(),
         )
 
-    private val _joinGuideState = MutableStateFlow<JoinGuideUiState>(JoinGuideUiState.Idle)
-    val joinGuideState: StateFlow<JoinGuideUiState> = _joinGuideState
+    private val _joinGuideState = MutableStateFlow<JoinSharedGuideUiState>(JoinSharedGuideUiState.Idle)
+    val joinGuideState: StateFlow<JoinSharedGuideUiState> = _joinGuideState
 
     private val _events = MutableSharedFlow<UiEvent>()
     val events = _events.asSharedFlow()
@@ -73,21 +74,21 @@ class SharedGuidesViewModel(
 
     fun onJoinGuide(code: String) {
         viewModelScope.launch {
-            _joinGuideState.value = JoinGuideUiState.Loading
+            _joinGuideState.value = JoinSharedGuideUiState.Loading
 
             when (val result = getGuideBySharedCode(code)) {
                 is Result.Success -> {
-                    _joinGuideState.value = JoinGuideUiState.Idle
+                    _joinGuideState.value = JoinSharedGuideUiState.Idle
                     _events.emit(UiEvent.GuideJoined(result.data.id))
                 }
 
-                is Result.Failure -> _joinGuideState.value = JoinGuideUiState.Error(result.error.toErrorCode())
+                is Result.Failure -> _joinGuideState.value = JoinSharedGuideUiState.Error(result.error.toErrorCode())
             }
         }
     }
 
     fun onDismissJoinGuideError() {
-        _joinGuideState.value = JoinGuideUiState.Idle
+        _joinGuideState.value = JoinSharedGuideUiState.Idle
     }
 
     sealed interface UiEvent {

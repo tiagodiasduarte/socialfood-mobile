@@ -5,7 +5,7 @@ private let joinGuideCodeLength = 8
 private let joinGuideCodeAllowedCharacters = CharacterSet(charactersIn: "ABCDEFGHJKLMNPQRSTUVWXYZ23456789")
 private let joinGuideCodeDefaultMessage = "Enter the 8-character invite code"
 
-class JoinGuideCodeDelegateImpl: NSObject, JoinGuideCodeDelegate, UITextFieldDelegate {
+class JoinSharedGuideCodeDelegateImpl: NSObject, JoinSharedGuideCodeDelegate, UITextFieldDelegate {
     func presentCodeInput(
         prefillCode: String?,
         errorMessage: String?,

@@ -19,8 +19,8 @@ import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeObserveFavouriteGuideIdsUseCase
 import pt.socialfood.fakes.FakeObserveUserUseCase
 import pt.socialfood.fakes.FakeUnmarkGuideFavouriteUseCase
-import pt.socialfood.presentation.guide.shared.JoinGuideUiState
 import pt.socialfood.presentation.guide.shared.SharedGuidesViewModel
+import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideUiState
 import pt.socialfood.random.nextGuide
 import pt.socialfood.random.nextString
 import pt.socialfood.random.nextUser
@@ -200,7 +200,7 @@ class SharedGuidesViewModelTest {
 
             // Then
             assertEquals(code, getGuideBySharedCode.lastCode)
-            assertEquals(JoinGuideUiState.Idle, vm.joinGuideState.value)
+            assertEquals(JoinSharedGuideUiState.Idle, vm.joinGuideState.value)
             job.cancel()
         }
 
@@ -218,7 +218,7 @@ class SharedGuidesViewModelTest {
 
             // Then
             val state = vm.joinGuideState.value
-            assertIs<JoinGuideUiState.Error>(state)
+            assertIs<JoinSharedGuideUiState.Error>(state)
             assertEquals(ErrorCode.GUIDE_NOT_FOUND, state.errorCode)
         }
 
@@ -236,6 +236,6 @@ class SharedGuidesViewModelTest {
             vm.onDismissJoinGuideError()
 
             // Then
-            assertEquals(JoinGuideUiState.Idle, vm.joinGuideState.value)
+            assertEquals(JoinSharedGuideUiState.Idle, vm.joinGuideState.value)
         }
 }

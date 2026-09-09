@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.guide.shared
+package pt.socialfood.presentation.guide.shared.join
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -37,15 +37,15 @@ private const val JOIN_GUIDE_CODE_LENGTH = 8
 private const val JOIN_GUIDE_CODE_ALLOWED_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
 
 @Composable
-fun JoinGuideDialog(state: JoinGuideUiState, onConfirm: (code: String) -> Unit, onDismiss: () -> Unit) {
+fun JoinSharedGuideDialog(state: JoinSharedGuideUiState, onConfirm: (code: String) -> Unit, onDismiss: () -> Unit) {
     var code by remember { mutableStateOf("") }
-    val isLoading = state is JoinGuideUiState.Loading
+    val isLoading = state is JoinSharedGuideUiState.Loading
 
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(Res.string.join_guide_dialog_title)) },
         text = {
-            JoinGuideCodeField(
+            JoinSharedGuideCodeField(
                 code = code,
                 onCodeChange = { code = it },
                 state = state,
@@ -73,10 +73,10 @@ fun JoinGuideDialog(state: JoinGuideUiState, onConfirm: (code: String) -> Unit, 
 }
 
 @Composable
-private fun JoinGuideCodeField(
+private fun JoinSharedGuideCodeField(
     code: String,
     onCodeChange: (String) -> Unit,
-    state: JoinGuideUiState,
+    state: JoinSharedGuideUiState,
     isLoading: Boolean,
 ) {
     Column {
@@ -90,7 +90,7 @@ private fun JoinGuideCodeField(
             placeholder = { Text(stringResource(Res.string.join_guide_dialog_code_placeholder)) },
             singleLine = true,
             enabled = !isLoading,
-            isError = state is JoinGuideUiState.Error,
+            isError = state is JoinSharedGuideUiState.Error,
             keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Characters),
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
@@ -106,7 +106,7 @@ private fun JoinGuideCodeField(
             modifier = Modifier.padding(top = SpaceSize.small),
         )
 
-        if (state is JoinGuideUiState.Error) {
+        if (state is JoinSharedGuideUiState.Error) {
             Spacer(Modifier.height(SpaceSize.medium))
 
             Text(

@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.guide.shared
+package pt.socialfood.presentation.guide.shared.join
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -9,9 +9,9 @@ import androidx.compose.runtime.setValue
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.presentation.error.stringResource
 
-// Swift side must implement this interface and assign it to JoinGuideCodeBridge.shared.delegate.
-// See JoinGuideCodeDelegateImpl.swift for the UIAlertController-based implementation.
-interface JoinGuideCodeDelegate {
+// Swift side must implement this interface and assign it to JoinSharedGuideCodeBridge.shared.delegate.
+// See JoinSharedGuideCodeDelegateImpl.swift for the UIAlertController-based implementation.
+interface JoinSharedGuideCodeDelegate {
     fun presentCodeInput(
         prefillCode: String?,
         errorMessage: String?,
@@ -20,22 +20,22 @@ interface JoinGuideCodeDelegate {
     )
 }
 
-object JoinGuideCodeBridge {
-    var delegate: JoinGuideCodeDelegate? = null
+object JoinSharedGuideCodeBridge {
+    var delegate: JoinSharedGuideCodeDelegate? = null
 }
 
 @Composable
-actual fun JoinGuideCodeInput(
+actual fun JoinSharedGuideCodeInput(
     show: Boolean,
-    state: JoinGuideUiState,
+    state: JoinSharedGuideUiState,
     onConfirm: (code: String) -> Unit,
     onDismiss: () -> Unit,
 ) {
     var lastCode by remember { mutableStateOf<String?>(null) }
-    val errorMessage = (state as? JoinGuideUiState.Error)?.let { stringResource(it.errorCode.stringResource()) }
+    val errorMessage = (state as? JoinSharedGuideUiState.Error)?.let { stringResource(it.errorCode.stringResource()) }
 
     fun present(errorMessage: String?) {
-        val delegate = JoinGuideCodeBridge.delegate
+        val delegate = JoinSharedGuideCodeBridge.delegate
         if (delegate != null) {
             delegate.presentCodeInput(
                 prefillCode = lastCode,

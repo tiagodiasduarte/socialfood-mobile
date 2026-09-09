@@ -22,6 +22,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.presentation.guide.GuidesScreenContent
 import pt.socialfood.presentation.guide.SHARED_GUIDES_TAB
+import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideCodeInput
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.shared_guides_join_button
@@ -81,7 +82,7 @@ fun SharedGuidesScreen(
         }
     }
 
-    JoinGuideCodeInput(
+    JoinSharedGuideCodeInput(
         show = showJoinDialog,
         state = joinGuideState,
         onConfirm = { code -> viewModel.onJoinGuide(code) },

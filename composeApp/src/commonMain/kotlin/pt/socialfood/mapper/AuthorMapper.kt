@@ -9,6 +9,7 @@ fun AuthorResponse.toAuthor(): Author = Author(
     name = this.name,
     username = this.username,
     imageUrl = this.imageUrl,
+    isPublic = this.isPublic,
 )
 
 fun Author.toAuthorEntity(position: Int): AuthorEntity = AuthorEntity(
@@ -16,6 +17,7 @@ fun Author.toAuthorEntity(position: Int): AuthorEntity = AuthorEntity(
     name = this.name,
     username = this.username,
     imageUrl = this.imageUrl,
+    isPublic = this.isPublic,
     position = position,
 )
 
@@ -24,4 +26,5 @@ fun AuthorEntity.toAuthor(): Author = Author(
     name = this.name,
     username = this.username,
     imageUrl = this.imageUrl,
+    isPublic = this.isPublic,
 )

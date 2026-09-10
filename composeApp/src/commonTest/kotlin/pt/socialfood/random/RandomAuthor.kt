@@ -8,4 +8,5 @@ fun Random.nextAuthor(
     name: String = nextString(),
     username: String = nextString(),
     imageUrl: String? = nextNullable { nextUrl() },
-) = Author(id = id, name = name, username = username, imageUrl = imageUrl)
+    isPublic: Boolean = nextBoolean(),
+) = Author(id = id, name = name, username = username, imageUrl = imageUrl, isPublic = isPublic)

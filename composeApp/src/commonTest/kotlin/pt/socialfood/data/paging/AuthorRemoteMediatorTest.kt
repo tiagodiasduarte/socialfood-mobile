@@ -43,6 +43,7 @@ class AuthorRemoteMediatorTest {
         name = "Author $id",
         username = "author$id",
         imageUrl = null,
+        isPublic = true,
         position = position,
     )
 

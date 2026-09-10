@@ -8,6 +8,7 @@ import pt.socialfood.data.local.entity.RESTAURANT_VISIT_STATUS_TABLE
 import pt.socialfood.data.local.entity.RestaurantVisitStatusEntity
 
 @Dao
+@Suppress("TooManyFunctions")
 interface RestaurantVisitStatusDao {
 
     @Upsert
@@ -30,6 +31,9 @@ interface RestaurantVisitStatusDao {
 
     @Query("DELETE FROM $RESTAURANT_VISIT_STATUS_TABLE WHERE status = :status")
     suspend fun deleteByStatus(status: String)
+
+    @Query("DELETE FROM $RESTAURANT_VISIT_STATUS_TABLE")
+    suspend fun deleteAll()
 
     @Query("SELECT * FROM $RESTAURANT_VISIT_STATUS_TABLE WHERE restaurantId = :restaurantId LIMIT 1")
     suspend fun getByRestaurantId(restaurantId: String): RestaurantVisitStatusEntity?

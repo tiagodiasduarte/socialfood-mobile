@@ -52,6 +52,7 @@ import pt.socialfood.data.repository.FavouriteRestaurantsRepositoryImpl
 import pt.socialfood.data.repository.FavouritesGuidesRepositoryImpl
 import pt.socialfood.data.repository.GuidesRepositoryImpl
 import pt.socialfood.data.repository.HomeRepositoryImpl
+import pt.socialfood.data.repository.LocalCacheRepositoryImpl
 import pt.socialfood.data.repository.PhotosRepositoryImpl
 import pt.socialfood.data.repository.PlacesRepositoryImpl
 import pt.socialfood.data.repository.RestaurantVisitStatusRepositoryImpl
@@ -65,6 +66,7 @@ import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
 import pt.socialfood.domain.repository.FavouritesGuidesRepository
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.repository.HomeRepository
+import pt.socialfood.domain.repository.LocalCacheRepository
 import pt.socialfood.domain.repository.PhotosRepository
 import pt.socialfood.domain.repository.PlacesRepository
 import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
@@ -308,6 +310,7 @@ val repositoryModule =
                 transactionRunner = get<AppDatabase>().asHomeCacheTransactionRunner(),
             )
         }
+        single<LocalCacheRepository> { LocalCacheRepositoryImpl(get()) }
         single<PhotosRepository> { PhotosRepositoryImpl(get()) }
         single<PlacesRepository> { PlacesRepositoryImpl(get()) }
         single<RestaurantsRepository> { RestaurantsRepositoryImpl(get()) }
@@ -368,7 +371,7 @@ val useCaseModule =
         factory<LeaveGuideUseCase> { LeaveGuideUseCaseImpl(get()) }
         factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
         factory<LoginWithGoogleUseCase> { LoginWithGoogleUseCaseImpl(get(), get()) }
-        factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
+        factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get()) }
         factory<MarkGuideFavouriteUseCase> { MarkGuideFavouriteUseCaseImpl(get()) }
         factory<MarkRestaurantFavouriteUseCase> { MarkRestaurantFavouriteUseCaseImpl(get()) }
         factory<MarkRestaurantVisitStatusUseCase> { MarkRestaurantVisitStatusUseCaseImpl(get()) }

@@ -16,6 +16,9 @@ interface GuideDao {
     @Query("DELETE FROM $GUIDES_TABLE WHERE scope = :scope")
     suspend fun deleteByScope(scope: String)
 
+    @Query("DELETE FROM $GUIDES_TABLE")
+    suspend fun deleteAll()
+
     @Query("SELECT * FROM $GUIDES_TABLE WHERE scope = :scope ORDER BY position ASC")
     fun pagingSource(scope: String): PagingSource<Int, GuideEntity>
 }

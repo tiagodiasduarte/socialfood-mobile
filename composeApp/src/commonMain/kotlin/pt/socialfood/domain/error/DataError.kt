@@ -44,6 +44,11 @@ enum class ErrorCode {
     // Home sections
     ITEM_TYPE_MISMATCH,
 
+    // Guide sharing
+    INVALID_SHARE_CODE,
+    ALREADY_JOINED_GUIDE,
+    CANNOT_JOIN_OWN_GUIDE,
+
     // Generic
     FORBIDDEN,
     INVALID_REQUEST,

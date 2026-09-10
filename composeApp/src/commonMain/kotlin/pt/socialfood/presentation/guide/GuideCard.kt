@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,9 +34,9 @@ import coil3.compose.SubcomposeAsyncImage
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.presentation.components.cardImageScrim
 import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
+import pt.socialfood.presentation.guide.shared.GuideBottomInfo
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.FavouriteRed
@@ -145,43 +144,7 @@ private fun GuideCardContent(guide: Guide, modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(2.dp))
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
-        ) {
-            Text(
-                text = "${guide.numberOfRestaurant} restaurants",
-                style = AppTypography.labelMedium,
-                color = Color.White.copy(alpha = 0.9f),
-            )
-
-            guide.author.let {
-                Text(
-                    text = "•",
-                    style = AppTypography.labelMedium,
-                    color = Color.White.copy(alpha = 0.7f),
-                )
-                AuthorChip(author = it)
-            }
-        }
-    }
-}
-
-@Composable
-private fun AuthorChip(author: Author) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-    ) {
-        UserImage(imageUrl = author.imageUrl, imageSize = 20.dp)
-
-        Text(
-            text = author.name,
-            style = AppTypography.labelMedium,
-            color = Color.White.copy(alpha = 0.9f),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
+        GuideBottomInfo(guide)
     }
 }
 

@@ -3,14 +3,17 @@ package pt.socialfood.presentation.guide.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.usecase.favourite.guide.IsGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCase
+import pt.socialfood.domain.usecase.guide.LeaveGuideUseCase
 import pt.socialfood.domain.usecase.user.GetUserMeUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
@@ -20,11 +23,15 @@ class GuideDetailViewModel(
     private val isGuideFavourite: IsGuideFavouriteUseCase,
     private val markGuideFavourite: MarkGuideFavouriteUseCase,
     private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
+    private val leaveGuide: LeaveGuideUseCase,
     private val guideId: String,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<GuideDetailUiState>(GuideDetailUiState.Loading)
     val state: StateFlow<GuideDetailUiState> = _state
+
+    private val _events = MutableSharedFlow<UiEvent>()
+    val events = _events.asSharedFlow()
 
     init {
         load()
@@ -66,5 +73,26 @@ class GuideDetailViewModel(
                 _state.value = stateNow.copy(isFavourite = !newIsFavourite)
             }
         }
+    }
+
+    fun onLeaveGuide() {
+        val current = _state.value as? GuideDetailUiState.Loaded ?: return
+        if (current.isLeaving) return
+
+        _state.value = current.copy(isLeaving = true)
+
+        viewModelScope.launch {
+            when (leaveGuide(guideId)) {
+                is Result.Success -> _events.emit(UiEvent.GuideLeft)
+                is Result.Failure -> {
+                    val stateNow = _state.value as? GuideDetailUiState.Loaded ?: return@launch
+                    _state.value = stateNow.copy(isLeaving = false)
+                }
+            }
+        }
+    }
+
+    sealed interface UiEvent {
+        data object GuideLeft : UiEvent
     }
 }

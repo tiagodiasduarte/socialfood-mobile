@@ -6,8 +6,10 @@ import pt.socialfood.domain.error.ErrorCode
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.error_code_already_favourited
 import socialfood.composeapp.generated.resources.error_code_already_following
+import socialfood.composeapp.generated.resources.error_code_already_joined_guide
 import socialfood.composeapp.generated.resources.error_code_author_not_found
 import socialfood.composeapp.generated.resources.error_code_cannot_follow_self
+import socialfood.composeapp.generated.resources.error_code_cannot_join_own_guide
 import socialfood.composeapp.generated.resources.error_code_code_expired
 import socialfood.composeapp.generated.resources.error_code_email_already_verified
 import socialfood.composeapp.generated.resources.error_code_email_not_verified
@@ -19,6 +21,7 @@ import socialfood.composeapp.generated.resources.error_code_invalid_code
 import socialfood.composeapp.generated.resources.error_code_invalid_credentials
 import socialfood.composeapp.generated.resources.error_code_invalid_google_token
 import socialfood.composeapp.generated.resources.error_code_invalid_request
+import socialfood.composeapp.generated.resources.error_code_invalid_share_code
 import socialfood.composeapp.generated.resources.error_code_invalid_social_link
 import socialfood.composeapp.generated.resources.error_code_item_type_mismatch
 import socialfood.composeapp.generated.resources.error_code_no_pending_verification
@@ -54,6 +57,9 @@ private val errorCodeStringResources: Map<ErrorCode, StringResource> = mapOf(
     ErrorCode.ALREADY_FAVOURITED to Res.string.error_code_already_favourited,
     ErrorCode.NOT_FAVOURITED to Res.string.error_code_not_favourited,
     ErrorCode.ITEM_TYPE_MISMATCH to Res.string.error_code_item_type_mismatch,
+    ErrorCode.INVALID_SHARE_CODE to Res.string.error_code_invalid_share_code,
+    ErrorCode.ALREADY_JOINED_GUIDE to Res.string.error_code_already_joined_guide,
+    ErrorCode.CANNOT_JOIN_OWN_GUIDE to Res.string.error_code_cannot_join_own_guide,
     ErrorCode.FORBIDDEN to Res.string.error_code_forbidden,
     ErrorCode.INVALID_REQUEST to Res.string.error_code_invalid_request,
     ErrorCode.INTERNAL_ERROR to Res.string.error_code_internal_error,

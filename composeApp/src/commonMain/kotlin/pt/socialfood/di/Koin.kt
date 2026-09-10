@@ -408,7 +408,7 @@ val viewModelModule =
         factory { EditProfileViewModel(get(), get(), get(), get(), get(), get()) }
         factory { FavouriteGuidesViewModel(get(), get()) }
         factory { FavouriteRestaurantsViewModel(get(), get()) }
-        factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
+        factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), get(), guideId) }
         factory { (guideId: String) -> GuideMapViewModel(get(), guideId) }
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
         factory { MyGuidesViewModel(get(), get(), get(), get(), get()) }
@@ -418,7 +418,7 @@ val viewModelModule =
         }
         factory { RestaurantVisitedViewModel(get(), get()) }
         factory { RestaurantWishlistViewModel(get(), get(), get()) }
-        factory { SharedGuidesViewModel(get(), get(), get(), get(), get(), get()) }
+        factory { SharedGuidesViewModel(get(), get(), get(), get(), get(), get(), get()) }
         factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
         factory { SearchViewModel(get(), get(), get()) }
         factory { SignInViewModel(get(), get()) }

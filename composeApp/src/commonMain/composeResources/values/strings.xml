@@ -93,6 +93,11 @@
     <string name="guide_detail_private_icon_description">Private icon</string>
     <string name="guide_detail_shared_icon_description">Shared icon</string>
     <string name="guide_detail_separator">·</string>
+    <string name="guide_detail_leave_guide_button">Leave Guide</string>
+    <string name="guide_detail_leave_guide_confirmation_title">Leave Guide</string>
+    <string name="guide_detail_leave_guide_confirmation_message">Are you sure you want to leave this guide? You’ll need a new invite to join again.</string>
+    <string name="guide_detail_leave_guide_confirmation_confirm">Leave</string>
+    <string name="guide_detail_leave_guide_confirmation_cancel">Cancel</string>
 
     <string name="favourites_guides_title">Favourite Guides</string>
     <string name="favourites_restaurants_title">Favourite Restaurants</string>
@@ -113,6 +118,10 @@
     <string name="join_guide_dialog_code_length_message">Invite code must have 8 characters</string>
     <string name="join_guide_dialog_confirm_button">Join</string>
     <string name="join_guide_dialog_cancel_button">Cancel</string>
+
+    <string name="join_shared_guide_screen_close_button_description">Close</string>
+    <string name="join_shared_guide_screen_restaurants_count_label">%1$d restaurants</string>
+    <string name="join_shared_guide_screen_join_button">Join guide</string>
 
     <string name="authors_title">Authors</string>
     <string name="authors_error_label">Failed to load authors</string>
@@ -284,6 +293,9 @@
     <string name="error_code_already_favourited">This is already in your favourites.</string>
     <string name="error_code_not_favourited">This isn’t in your favourites.</string>
     <string name="error_code_item_type_mismatch">This item can’t be added to this section.</string>
+    <string name="error_code_invalid_share_code">That share code isn’t valid.</string>
+    <string name="error_code_already_joined_guide">You’ve already joined this guide.</string>
+    <string name="error_code_cannot_join_own_guide">You can’t join your own guide.</string>
     <string name="error_code_forbidden">You don’t have permission to do that.</string>
     <string name="error_code_invalid_request">Something about that request wasn’t valid.</string>
     <string name="error_code_internal_error">Something went wrong on our end. Please try again.</string>

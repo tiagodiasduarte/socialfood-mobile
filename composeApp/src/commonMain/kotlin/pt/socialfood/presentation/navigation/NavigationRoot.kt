@@ -35,6 +35,7 @@ import pt.socialfood.presentation.guide.detail.GuideDetailScreen
 import pt.socialfood.presentation.guide.edit.EditGuideScreen
 import pt.socialfood.presentation.guide.map.GuideMapScreen
 import pt.socialfood.presentation.home.HomeScreen
+import pt.socialfood.presentation.profile.ProfileScreen
 import pt.socialfood.presentation.profile.edit.EditProfileScreen
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailScreen
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsScreen
@@ -68,9 +69,9 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
             DrawerContent(
-                onProfileClick = { authorId ->
+                onProfileClick = {
                     scope.launch { drawerState.close() }
-                    navigator.navigate(Route.AuthorDetail(authorId))
+                    navigator.navigate(Route.Profile)
                 },
                 onEditProfileClick = {
                     scope.launch { drawerState.close() }
@@ -268,6 +269,12 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 },
                                 onProfileClick = { scope.launch { drawerState.open() } },
                                 onSearchClick = { navigator.navigate(Route.Search) },
+                            )
+                        }
+                        entry<Route.Profile> {
+                            ProfileScreen(
+                                onBackClick = navigator::goBack,
+                                onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                             )
                         }
                         entry<Route.EditProfile> {

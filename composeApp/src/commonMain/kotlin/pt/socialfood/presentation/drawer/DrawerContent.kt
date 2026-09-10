@@ -89,7 +89,7 @@ private val DrawerAvatarRingSize = 48.dp
 @Composable
 fun DrawerContent(
     viewModel: DrawerViewModel = koinViewModel(),
-    onProfileClick: (authorId: String) -> Unit = {},
+    onProfileClick: () -> Unit = {},
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
@@ -120,7 +120,7 @@ fun DrawerContent(
 private fun DrawerSheet(
     state: DrawerUiState,
     onLogoutClick: () -> Unit,
-    onProfileClick: (authorId: String) -> Unit = {},
+    onProfileClick: () -> Unit = {},
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
@@ -158,7 +158,7 @@ private fun DrawerSheet(
 private fun DrawerUserContent(
     user: User,
     onLogoutClick: () -> Unit,
-    onProfileClick: (authorId: String) -> Unit = {},
+    onProfileClick: () -> Unit = {},
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
@@ -176,7 +176,7 @@ private fun DrawerUserContent(
                 icon = Res.drawable.profile_icon,
                 label = stringResource(Res.string.profile_profile_button),
                 contentDescription = stringResource(Res.string.profile_profile_button_description),
-                onClick = { onProfileClick(user.id) },
+                onClick = onProfileClick,
             )
             DrawerMenuRow(
                 icon = Res.drawable.guides_icon,

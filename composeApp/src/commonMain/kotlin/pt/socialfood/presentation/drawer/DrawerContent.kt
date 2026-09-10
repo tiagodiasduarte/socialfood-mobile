@@ -172,12 +172,14 @@ private fun DrawerUserContent(
         Column(
             modifier = Modifier.padding(vertical = SpaceSize.medium),
         ) {
-            DrawerMenuRow(
-                icon = Res.drawable.profile_icon,
-                label = stringResource(Res.string.profile_profile_button),
-                contentDescription = stringResource(Res.string.profile_profile_button_description),
-                onClick = { onProfileClick(user.id) },
-            )
+            if (user.isAuthor) {
+                DrawerMenuRow(
+                    icon = Res.drawable.profile_icon,
+                    label = stringResource(Res.string.profile_profile_button),
+                    contentDescription = stringResource(Res.string.profile_profile_button_description),
+                    onClick = { onProfileClick(user.id) },
+                )
+            }
             DrawerMenuRow(
                 icon = Res.drawable.guides_icon,
                 label = stringResource(Res.string.profile_favorite_guides_button),
@@ -358,6 +360,24 @@ private fun DrawerContentPreview() {
         email = "john.doe@email.com",
         name = "John Doe",
         username = "johndoe",
+    )
+    AppTheme {
+        DrawerSheet(
+            state = DrawerUiState.Loaded(user),
+            onLogoutClick = {},
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun DrawerContentAuthorPreview() {
+    val user = User(
+        id = "u1",
+        email = "john.doe@email.com",
+        name = "John Doe",
+        username = "johndoe",
+        isAuthor = true,
     )
     AppTheme {
         DrawerSheet(

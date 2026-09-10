@@ -17,4 +17,6 @@ class AuthorsApiImpl(private val client: HttpClient) : AuthorsApi {
         }.body()
 
     override suspend fun findAuthorById(id: String): AuthorDetailResponse = client.get("authors/$id").body()
+
+    override suspend fun findUserAuthorProfile(): AuthorDetailResponse = client.get("me/author").body()
 }

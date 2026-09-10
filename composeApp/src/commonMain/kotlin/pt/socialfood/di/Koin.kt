@@ -81,6 +81,8 @@ import pt.socialfood.domain.usecase.author.GetAuthorsPagingUseCase
 import pt.socialfood.domain.usecase.author.GetAuthorsPagingUseCaseImpl
 import pt.socialfood.domain.usecase.author.GetAuthorsUseCase
 import pt.socialfood.domain.usecase.author.GetAuthorsUseCaseImpl
+import pt.socialfood.domain.usecase.author.GetUserAuthorProfileUseCase
+import pt.socialfood.domain.usecase.author.GetUserAuthorProfileUseCaseImpl
 import pt.socialfood.domain.usecase.configs.GetConfigsUseCase
 import pt.socialfood.domain.usecase.configs.GetConfigsUseCaseImpl
 import pt.socialfood.domain.usecase.favourite.SyncFavouriteRestaurantsUseCase
@@ -356,6 +358,7 @@ val useCaseModule =
         factory<GetRestaurantByPlaceIdUseCase> { GetRestaurantByPlaceIdUseCaseImpl(get()) }
         factory<GetRestaurantSuggestionsUseCase> { GetRestaurantSuggestionsUseCaseImpl(get()) }
         factory<GetRestaurantsUseCase> { GetRestaurantsUseCaseImpl(get()) }
+        factory<GetUserAuthorProfileUseCase> { GetUserAuthorProfileUseCaseImpl(get()) }
         factory<GetUserByIdUseCase> { GetUserByIdUseCaseImpl(get()) }
         factory<GetUserGuidesPagingUseCase> { GetUserGuidesPagingUseCaseImpl(get()) }
         factory<GetUserJoinedGuidesPagingUseCase> { GetUserJoinedGuidesPagingUseCaseImpl(get()) }
@@ -414,7 +417,7 @@ val viewModelModule =
         factory { (guideId: String) -> GuideMapViewModel(get(), guideId) }
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
         factory { MyGuidesViewModel(get(), get(), get(), get(), get()) }
-        factory { ProfileViewModel(get(), get()) }
+        factory { ProfileViewModel(get()) }
         factory { (restaurantId: String) ->
             RestaurantDetailViewModel(get(), get(), get(), get(), get(), get(), restaurantId)
         }

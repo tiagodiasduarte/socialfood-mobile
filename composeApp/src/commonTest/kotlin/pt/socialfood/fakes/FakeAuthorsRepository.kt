@@ -15,6 +15,7 @@ import kotlin.random.Random
 class FakeAuthorsRepository(
     private val findAuthorsResult: Result<PagedAuthors> = Result.Success(Random.nextPagedAuthors()),
     private val findAuthorByIdResult: Result<AuthorDetail> = Result.Success(Random.nextAuthorDetail()),
+    private val findUserAuthorProfileResult: Result<AuthorDetail> = Result.Success(Random.nextAuthorDetail()),
     private val authorsPagingFlow: Flow<PagingData<Author>> = emptyFlow(),
 ) : AuthorsRepository {
     var findAuthorsInvokeCount: Int = 0
@@ -27,6 +28,9 @@ class FakeAuthorsRepository(
         private set
 
     var lastFindAuthorByIdId: String? = null
+        private set
+
+    var findUserAuthorProfileInvokeCount: Int = 0
         private set
 
     var getAuthorsPagingFlowInvokeCount: Int = 0
@@ -43,6 +47,11 @@ class FakeAuthorsRepository(
     override suspend fun findAuthorById(id: String): Result<AuthorDetail> {
         lastFindAuthorByIdId = id
         return findAuthorByIdResult
+    }
+
+    override suspend fun findUserAuthorProfile(): Result<AuthorDetail> {
+        findUserAuthorProfileInvokeCount++
+        return findUserAuthorProfileResult
     }
 
     override fun getAuthorsPagingFlow(): Flow<PagingData<Author>> {

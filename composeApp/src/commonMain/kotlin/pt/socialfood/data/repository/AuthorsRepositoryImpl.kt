@@ -42,6 +42,9 @@ class AuthorsRepositoryImpl(
     override suspend fun findAuthorById(id: String): Result<AuthorDetail> =
         safeApiCall { authorsApi.findAuthorById(id).toAuthorDetail() }
 
+    override suspend fun findUserAuthorProfile(): Result<AuthorDetail> =
+        safeApiCall { authorsApi.findUserAuthorProfile().toAuthorDetail() }
+
     @OptIn(ExperimentalPagingApi::class)
     override fun getAuthorsPagingFlow(): Flow<PagingData<Author>> = Pager(
         config = PagingConfig(pageSize = AUTHORS_PAGE_SIZE),

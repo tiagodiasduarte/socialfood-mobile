@@ -47,4 +47,9 @@ class FakeAuthorsApi(
         if (shouldThrow) throw IOException("test error")
         return fakeAuthorDetailResponse
     }
+
+    override suspend fun findUserAuthorProfile(): AuthorDetailResponse {
+        if (shouldThrow) throw IOException("test error")
+        return fakeAuthorDetailResponse
+    }
 }

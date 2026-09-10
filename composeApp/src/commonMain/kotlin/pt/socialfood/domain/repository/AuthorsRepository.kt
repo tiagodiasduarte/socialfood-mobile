@@ -10,6 +10,7 @@ import pt.socialfood.domain.model.PagedAuthors
 interface AuthorsRepository {
     suspend fun findAuthors(page: Int, limit: Int, query: String? = null): Result<PagedAuthors>
     suspend fun findAuthorById(id: String): Result<AuthorDetail>
+    suspend fun findUserAuthorProfile(): Result<AuthorDetail>
 
     fun getAuthorsPagingFlow(): Flow<PagingData<Author>>
 }

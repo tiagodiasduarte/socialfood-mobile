@@ -91,6 +91,36 @@ class AuthorsRepositoryImplTest {
         assertIs<DataError.Network>(result.error)
     }
 
+    // findUserAuthorProfile
+
+    @Test
+    fun `given the current user when findUserAuthorProfile is called then returns Success with AuthorDetail`() =
+        runTest {
+            // Given
+            val repo = createRepository()
+
+            // When
+            val result = repo.findUserAuthorProfile()
+
+            // Then
+            assertIs<Result.Success<AuthorDetail>>(result)
+            assertEquals("author-id", result.data.id)
+            assertEquals("Author Name", result.data.name)
+        }
+
+    @Test
+    fun `given api throws when findUserAuthorProfile is called then returns Error Unknown`() = runTest {
+        // Given
+        val repo = createRepository(shouldThrow = true)
+
+        // When
+        val result = repo.findUserAuthorProfile()
+
+        // Then
+        assertIs<Result.Failure>(result)
+        assertIs<DataError.Network>(result.error)
+    }
+
     // getAuthorsPagingFlow
 
     @Test

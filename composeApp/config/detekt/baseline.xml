@@ -4,14 +4,11 @@
   <CurrentIssues>
     <ID>CyclomaticComplexMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>FunctionNaming:MainViewController.kt$fun MainViewController()</ID>
-    <ID>LongMethod:EditGuideScreen.kt$@Composable private fun GuideLoaded( state: EditGuideUiState.Loaded, initialTab: Int = TAB_DETAILS, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, onVisibilityChange: (GuideVisibility) -&gt; Unit, onAddRestaurantsClick: () -&gt; Unit, onRestaurantRemoved: (String) -&gt; Unit, onPhotoSelected: (ByteArray, String) -&gt; Unit, onDeleteGuide: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>LongMethod:EditProfileSkeleton.kt$@Composable internal fun EditProfileSkeleton()</ID>
     <ID>LongMethod:ErrorContent.kt$@Composable fun ErrorContent( modifier: Modifier = Modifier, errorCode: String? = null, backgroundColor: Color = MaterialTheme.colorScheme.background, onRetryClick: () -&gt; Unit = {}, )</ID>
     <ID>LongMethod:GuideDetailsCard.kt$@Composable fun GuideDetailsCard( modifier: Modifier = Modifier, title: String, description: String, titleError: Boolean, descriptionError: Boolean, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, imageUrl: String? = null, isUploadingPhoto: Boolean = false, onPickImage: () -&gt; Unit = {}, pendingImage: Pair&lt;ByteArray, String&gt;? = null, )</ID>
     <ID>LongMethod:GuideDetailsCard.kt$@Composable private fun CoverImagePicker( image: String?, pendingImage: Pair&lt;ByteArray, String&gt;?, isUploadingPhoto: Boolean, onPickImage: () -&gt; Unit, )</ID>
-    <ID>LongMethod:GuideRestaurantsCard.kt$@Composable fun GuideRestaurantsCard(restaurants: List&lt;Restaurant&gt;, onAddClick: () -&gt; Unit, onRemoveClick: (String) -&gt; Unit)</ID>
-    <ID>LongMethod:GuideStatusCard.kt$@Composable fun GuideStatusCard( visibility: GuideVisibility, restaurantCount: Int, hasImage: Boolean, onVisibilityChange: (GuideVisibility) -&gt; Unit, modifier: Modifier = Modifier, )</ID>
     <ID>LongMethod:ProfilePictureCard.kt$@Composable fun ProfilePictureCard(state: EditProfileUiState.Loaded, onPhotoSelected: (ByteArray, String) -&gt; Unit)</ID>
     <ID>LongMethod:ValidateCodeScreen.kt$@Composable private fun ValidateCodeFormView( state: ValidateCodeUiState, onValidateClick: (String) -&gt; Unit, onResendClick: () -&gt; Unit, onRestartClick: () -&gt; Unit, )</ID>
     <ID>MagicNumber:EditGuideViewModel.kt$EditGuideViewModel$3</ID>
@@ -23,7 +20,5 @@
     <ID>MagicNumber:SearchBar.kt$25</ID>
     <ID>ReturnCount:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>TooManyFunctions:EditGuideViewModel.kt$EditGuideViewModel : ViewModel</ID>
-    <ID>TooManyFunctions:GuidesRepository.kt$GuidesRepository</ID>
-    <ID>TooManyFunctions:GuidesRepositoryImpl.kt$GuidesRepositoryImpl : GuidesRepository</ID>
   </CurrentIssues>
 </SmellBaseline>

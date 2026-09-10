@@ -11,10 +11,13 @@ class FakeJoinGuideUseCase(private val result: Result<Guide> = Result.Success(Ra
         private set
     var lastGuideId: String? = null
         private set
+    var lastCode: String? = null
+        private set
 
-    override suspend operator fun invoke(guideId: String): Result<Guide> {
+    override suspend operator fun invoke(guideId: String, code: String): Result<Guide> {
         invokeCount++
         lastGuideId = guideId
+        lastCode = code
         return result
     }
 }

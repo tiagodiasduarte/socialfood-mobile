@@ -220,7 +220,6 @@ import pt.socialfood.presentation.guide.edit.EditGuideViewModel
 import pt.socialfood.presentation.guide.map.GuideMapViewModel
 import pt.socialfood.presentation.guide.my.MyGuidesViewModel
 import pt.socialfood.presentation.guide.shared.SharedGuidesViewModel
-import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideViewModel
 import pt.socialfood.presentation.home.HomeViewModel
 import pt.socialfood.presentation.profile.ProfileViewModel
 import pt.socialfood.presentation.profile.edit.EditProfileViewModel
@@ -409,7 +408,6 @@ val viewModelModule =
         factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
         factory { (guideId: String) -> GuideMapViewModel(get(), guideId) }
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
-        factory { (guideId: String) -> JoinSharedGuideViewModel(get(), get(), guideId) }
         factory { MyGuidesViewModel(get(), get(), get(), get(), get()) }
         factory { ProfileViewModel(get(), get(), get()) }
         factory { (restaurantId: String) ->
@@ -417,7 +415,7 @@ val viewModelModule =
         }
         factory { RestaurantVisitedViewModel(get(), get()) }
         factory { RestaurantWishlistViewModel(get(), get(), get()) }
-        factory { SharedGuidesViewModel(get(), get(), get(), get(), get(), get()) }
+        factory { SharedGuidesViewModel(get(), get(), get(), get(), get(), get(), get()) }
         factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
         factory { SearchViewModel(get(), get(), get()) }
         factory { SignInViewModel(get(), get()) }

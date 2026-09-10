@@ -390,7 +390,7 @@ class GuidesRepositoryImplTest {
         val repo = createRepository()
 
         // When
-        val result = repo.joinGuide(guideId = "guide-id")
+        val result = repo.joinGuide(guideId = "guide-id", code = "guide-code")
 
         // Then
         assertIs<Result.Success<Guide>>(result)
@@ -403,7 +403,7 @@ class GuidesRepositoryImplTest {
         val repo = createRepository(shouldThrow = true)
 
         // When
-        val result = repo.joinGuide(guideId = "guide-id")
+        val result = repo.joinGuide(guideId = "guide-id", code = "guide-code")
 
         // Then
         assertIs<Result.Failure>(result)

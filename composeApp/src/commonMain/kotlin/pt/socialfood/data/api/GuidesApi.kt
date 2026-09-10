@@ -3,6 +3,7 @@ package pt.socialfood.data.api
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.guide.GuideDetailResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
+import pt.socialfood.data.network.model.guide.JoinGuideRequest
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.network.model.photo.PresignedUrlResponse
 
@@ -37,7 +38,7 @@ interface GuidesApi {
 
     suspend fun getGuidePhotoPresignedUrl(guideId: String, request: PresignedUrlRequest): PresignedUrlResponse
 
-    suspend fun joinGuide(guideId: String): GuideDetailResponse
+    suspend fun joinGuide(guideId: String, request: JoinGuideRequest): GuideDetailResponse
 
     suspend fun update(
         id: String,

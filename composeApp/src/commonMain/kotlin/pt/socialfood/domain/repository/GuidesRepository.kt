@@ -31,7 +31,7 @@ interface GuidesRepository {
 
     suspend fun getPhotoPresignedUrl(guideId: String, fileName: String, mimeType: String): Result<PresignedUrlData>
 
-    suspend fun joinGuide(guideId: String): Result<Guide>
+    suspend fun joinGuide(guideId: String, code: String): Result<Guide>
 
     suspend fun update(
         id: String,

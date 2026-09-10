@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,94 +24,121 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.parameter.parametersOf
+import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
 import pt.socialfood.presentation.error.stringResource
+import pt.socialfood.presentation.guide.shared.GuideBottomInfo
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.join_shared_guide_screen_close_button_description
 import socialfood.composeapp.generated.resources.join_shared_guide_screen_join_button
-import socialfood.composeapp.generated.resources.join_shared_guide_screen_restaurants_count_label
 
 @Composable
-fun JoinSharedGuideScreen(
-    guideId: String,
-    viewModel: JoinSharedGuideViewModel = koinViewModel { parametersOf(guideId) },
-    onCloseClick: () -> Unit = {},
-    onJoined: (guideId: String) -> Unit = {},
-) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-
-    LaunchedEffect(Unit) {
-        viewModel.events.collect { event ->
-            when (event) {
-                is JoinSharedGuideViewModel.UiEvent.Joined -> onJoined(event.guideId)
-            }
+fun JoinSharedGuideCardDialog(state: JoinSharedGuideCardUiState, onJoinClick: () -> Unit, onCloseClick: () -> Unit) {
+    Dialog(
+        onDismissRequest = onCloseClick,
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize().padding(SpaceSize.xlarge),
+            contentAlignment = Alignment.Center,
+        ) {
+            JoinSharedGuideCard(
+                state = state,
+                onJoinClick = onJoinClick,
+                onCloseClick = onCloseClick,
+            )
         }
     }
-
-    JoinSharedGuideContent(
-        state = state,
-        onCloseClick = onCloseClick,
-        onJoinClick = viewModel::onJoinClick,
-        onRetryClick = viewModel::load,
-    )
 }
 
 @Composable
-private fun JoinSharedGuideContent(
-    state: JoinSharedGuideScreenUiState,
-    onCloseClick: () -> Unit,
+private fun JoinSharedGuideCard(
+    state: JoinSharedGuideCardUiState,
     onJoinClick: () -> Unit,
-    onRetryClick: () -> Unit,
+    onCloseClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        when (state) {
-            is JoinSharedGuideScreenUiState.Loading -> CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center),
-                color = MaterialTheme.colorScheme.primary,
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(SpaceSize.large),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
+    ) {
+        JoinSharedGuideCardHeader(guide = state.guide, onCloseClick = onCloseClick)
+
+        Column(
+            modifier = Modifier.padding(SpaceSize.large),
+            verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
+        ) {
+            Text(
+                text = state.guide.name,
+                style = AppTypography.headlineMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
             )
 
-            is JoinSharedGuideScreenUiState.Error -> ErrorContent(
-                modifier = Modifier.align(Alignment.Center),
-                backgroundColor = Color.Transparent,
-                onRetryClick = onRetryClick,
-            )
+            Spacer(Modifier.height(SpaceSize.small))
 
-            is JoinSharedGuideScreenUiState.Loaded -> JoinSharedGuideCard(
-                state = state,
-                onJoinClick = onJoinClick,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(SpaceSize.xlarge),
-            )
+            GuideBottomInfo(guide = state.guide, fontColor = MaterialTheme.colorScheme.onBackground)
+
+            Spacer(Modifier.height(SpaceSize.large))
+
+            if (state.guide.description.isNotBlank()) {
+                Text(
+                    text = state.guide.description,
+                    style = AppTypography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 10,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+
+            Spacer(Modifier.height(SpaceSize.medium))
+
+            if (state.joinErrorCode != null) {
+                Text(
+                    text = stringResource(state.joinErrorCode.stringResource()),
+                    style = AppTypography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.fillMaxWidth().padding(top = SpaceSize.small),
+                )
+            }
+
+            Spacer(Modifier.height(SpaceSize.small))
+
+            JoinSharedGuideJoinButton(state = state, onJoinClick = onJoinClick)
         }
+    }
+}
+
+@Composable
+private fun JoinSharedGuideCardHeader(guide: Guide, onCloseClick: () -> Unit) {
+    Box {
+        JoinSharedGuideCardImage(guide = guide)
 
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(SpaceSize.large)
+                .padding(SpaceSize.small)
                 .size(40.dp)
                 .clip(CircleShape)
                 .background(Color.Black.copy(alpha = 0.4f))
@@ -127,57 +155,7 @@ private fun JoinSharedGuideContent(
 }
 
 @Composable
-private fun JoinSharedGuideCard(
-    state: JoinSharedGuideScreenUiState.Loaded,
-    onJoinClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(SpaceSize.large),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
-    ) {
-        JoinSharedGuideCardImage(guide = state.guide)
-
-        Column(
-            modifier = Modifier.padding(SpaceSize.large),
-            verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
-        ) {
-            Text(
-                text = state.guide.name,
-                style = AppTypography.headlineMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-            )
-
-            if (state.guide.description.isNotBlank()) {
-                Text(
-                    text = state.guide.description,
-                    style = AppTypography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
-
-            Text(
-                text = stringResource(
-                    Res.string.join_shared_guide_screen_restaurants_count_label,
-                    state.guide.numberOfRestaurant,
-                ),
-                style = AppTypography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-
-            JoinSharedGuideJoinButton(state = state, onJoinClick = onJoinClick)
-        }
-    }
-}
-
-@Composable
-private fun JoinSharedGuideJoinButton(state: JoinSharedGuideScreenUiState.Loaded, onJoinClick: () -> Unit) {
+private fun JoinSharedGuideJoinButton(state: JoinSharedGuideCardUiState, onJoinClick: () -> Unit) {
     Button(
         onClick = onJoinClick,
         enabled = !state.isJoining,
@@ -197,16 +175,6 @@ private fun JoinSharedGuideJoinButton(state: JoinSharedGuideScreenUiState.Loaded
         } else {
             Text(stringResource(Res.string.join_shared_guide_screen_join_button))
         }
-    }
-
-    if (state.joinErrorCode != null) {
-        Text(
-            text = stringResource(state.joinErrorCode.stringResource()),
-            style = AppTypography.bodySmall,
-            color = MaterialTheme.colorScheme.error,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth().padding(top = SpaceSize.small),
-        )
     }
 }
 
@@ -230,11 +198,14 @@ private fun JoinSharedGuideCardImage(guide: Guide) {
 
 @Composable
 @Preview
-fun JoinSharedGuideScreenPreview() {
+fun JoinSharedGuideCardPreview() {
     AppTheme {
-        Box(modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.6f))) {
-            JoinSharedGuideContent(
-                state = JoinSharedGuideScreenUiState.Loaded(
+        Box(
+            modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.6f)).padding(SpaceSize.xlarge),
+            contentAlignment = Alignment.Center,
+        ) {
+            JoinSharedGuideCard(
+                state = JoinSharedGuideCardUiState(
                     guide = Guide(
                         id = "g1",
                         name = "Best Brunch Spots",
@@ -244,9 +215,35 @@ fun JoinSharedGuideScreenPreview() {
                         numberOfRestaurant = 12,
                     ),
                 ),
-                onCloseClick = {},
                 onJoinClick = {},
-                onRetryClick = {},
+                onCloseClick = {},
+            )
+        }
+    }
+}
+
+@Composable
+@Preview
+fun JoinSharedGuideCardErrorPreview() {
+    AppTheme {
+        Box(
+            modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.6f)).padding(SpaceSize.xlarge),
+            contentAlignment = Alignment.Center,
+        ) {
+            JoinSharedGuideCard(
+                state = JoinSharedGuideCardUiState(
+                    guide = Guide(
+                        id = "g1",
+                        name = "Best Brunch Spots",
+                        description = "A curated list of the coziest brunch places in town",
+                        visibility = GuideVisibility.SHARED,
+                        author = Author(id = "a1", name = "Jane Doe", username = "janedoe"),
+                        numberOfRestaurant = 12,
+                    ),
+                    joinErrorCode = ErrorCode.GUIDE_NOT_FOUND,
+                ),
+                onJoinClick = {},
+                onCloseClick = {},
             )
         }
     }

@@ -4,5 +4,5 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Guide
 
 interface JoinGuideUseCase {
-    suspend operator fun invoke(guideId: String): Result<Guide>
+    suspend operator fun invoke(guideId: String, code: String): Result<Guide>
 }

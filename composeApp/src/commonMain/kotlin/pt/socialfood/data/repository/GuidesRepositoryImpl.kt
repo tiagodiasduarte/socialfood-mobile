@@ -11,6 +11,7 @@ import pt.socialfood.core.Result
 import pt.socialfood.data.api.GuidesApi
 import pt.socialfood.data.local.dao.GuideDao
 import pt.socialfood.data.local.dao.GuideRemoteKeyDao
+import pt.socialfood.data.network.model.guide.JoinGuideRequest
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.paging.GuideCacheTransactionRunner
 import pt.socialfood.data.paging.GuideListScope
@@ -121,8 +122,8 @@ class GuidesRepositoryImpl(
         )
     }
 
-    override suspend fun joinGuide(guideId: String): Result<Guide> = safeApiCall {
-        guideApi.joinGuide(guideId).toGuide()
+    override suspend fun joinGuide(guideId: String, code: String): Result<Guide> = safeApiCall {
+        guideApi.joinGuide(guideId, JoinGuideRequest(code)).toGuide()
     }.also { result ->
         if (result is Result.Success) lastGuide = result.data
     }

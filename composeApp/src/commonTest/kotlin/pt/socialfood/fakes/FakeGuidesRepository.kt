@@ -86,6 +86,8 @@ class FakeGuidesRepository(
         private set
     var lastJoinGuideId: String? = null
         private set
+    var lastJoinGuideCode: String? = null
+        private set
 
     override suspend fun delete(id: String): Result<Boolean> {
         deleteInvokeCount++
@@ -164,9 +166,10 @@ class FakeGuidesRepository(
         mimeType: String,
     ): Result<PresignedUrlData> = getPhotoPresignedUrlResult
 
-    override suspend fun joinGuide(guideId: String): Result<Guide> {
+    override suspend fun joinGuide(guideId: String, code: String): Result<Guide> {
         joinGuideInvokeCount++
         lastJoinGuideId = guideId
+        lastJoinGuideCode = code
         return joinGuideResult
     }
 }

@@ -71,6 +71,10 @@ class FakeGuidesApi(
         private set
     var lastJoinGuideCode: String? = null
         private set
+    var leaveGuideCallCount: Int = 0
+        private set
+    var lastLeaveGuideId: String? = null
+        private set
 
     override suspend fun create(name: String, description: String, userId: String): GuideDetailResponse {
         if (shouldThrow) throw IOException("test error")
@@ -184,5 +188,11 @@ class FakeGuidesApi(
         lastJoinGuideId = guideId
         lastJoinGuideCode = request.code
         return defaultFakeGuideDetail
+    }
+
+    override suspend fun leaveGuide(guideId: String) {
+        if (shouldThrow) throw IOException("test error")
+        leaveGuideCallCount++
+        lastLeaveGuideId = guideId
     }
 }

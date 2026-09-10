@@ -24,6 +24,7 @@ class FakeGuidesRepository(
     private val addPhotoResult: Result<Boolean> = Result.Success(true),
     private val findGuideBySharedCodeResult: Result<Guide> = Result.Success(Random.nextGuide()),
     private val joinGuideResult: Result<Guide> = Result.Success(Random.nextGuide()),
+    private val leaveGuideResult: Result<Boolean> = Result.Success(true),
 ) : GuidesRepository {
     var deleteInvokeCount: Int = 0
         private set
@@ -87,6 +88,11 @@ class FakeGuidesRepository(
     var lastJoinGuideId: String? = null
         private set
     var lastJoinGuideCode: String? = null
+        private set
+
+    var leaveGuideInvokeCount: Int = 0
+        private set
+    var lastLeaveGuideId: String? = null
         private set
 
     override suspend fun delete(id: String): Result<Boolean> {
@@ -171,5 +177,11 @@ class FakeGuidesRepository(
         lastJoinGuideId = guideId
         lastJoinGuideCode = code
         return joinGuideResult
+    }
+
+    override suspend fun leaveGuide(guideId: String): Result<Boolean> {
+        leaveGuideInvokeCount++
+        lastLeaveGuideId = guideId
+        return leaveGuideResult
     }
 }

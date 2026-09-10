@@ -131,4 +131,8 @@ class GuidesApiImpl(private val client: HttpClient) : GuidesApi {
             contentType(ContentType.Application.Json)
             setBody(request)
         }.body()
+
+    override suspend fun leaveGuide(guideId: String) {
+        client.delete("guides/$guideId/join")
+    }
 }

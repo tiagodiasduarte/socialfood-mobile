@@ -128,6 +128,13 @@ class GuidesRepositoryImpl(
         if (result is Result.Success) lastGuide = result.data
     }
 
+    override suspend fun leaveGuide(guideId: String): Result<Boolean> = safeApiCall {
+        guideApi.leaveGuide(guideId)
+        true
+    }.also { result ->
+        if (result is Result.Success && lastGuide?.id == guideId) lastGuide = null
+    }
+
     override suspend fun update(
         id: String,
         name: String,

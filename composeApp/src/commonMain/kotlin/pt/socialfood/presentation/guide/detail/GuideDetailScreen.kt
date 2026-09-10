@@ -19,10 +19,19 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Map
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -56,6 +65,11 @@ import pt.socialfood.ui.theme.PublicBadge
 import pt.socialfood.ui.theme.PublicBadgeBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.guide_detail_leave_guide_button
+import socialfood.composeapp.generated.resources.guide_detail_leave_guide_confirmation_cancel
+import socialfood.composeapp.generated.resources.guide_detail_leave_guide_confirmation_confirm
+import socialfood.composeapp.generated.resources.guide_detail_leave_guide_confirmation_message
+import socialfood.composeapp.generated.resources.guide_detail_leave_guide_confirmation_title
 import socialfood.composeapp.generated.resources.guide_detail_map_button_description
 import socialfood.composeapp.generated.resources.guide_detail_private_icon_description
 import socialfood.composeapp.generated.resources.guide_detail_private_label
@@ -83,6 +97,14 @@ fun GuideDetailScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is GuideDetailViewModel.UiEvent.GuideLeft -> onBackClick()
+            }
+        }
+    }
+
     GuideDetailContent(
         state = state,
         onEditClick = onEditClick,
@@ -92,6 +114,7 @@ fun GuideDetailScreen(
         onViewMapClick = onViewMapClick,
         onRetry = viewModel::load,
         onToggleFavourite = viewModel::toggleFavourite,
+        onLeaveGuide = viewModel::onLeaveGuide,
     )
 }
 
@@ -105,6 +128,7 @@ private fun GuideDetailContent(
     onViewMapClick: (guideId: String, guideName: String, restaurantsCount: Int) -> Unit = { _, _, _ -> },
     onRetry: () -> Unit = {},
     onToggleFavourite: () -> Unit = {},
+    onLeaveGuide: () -> Unit = {},
 ) {
     when (state) {
         GuideDetailUiState.Loading -> GuideDetailSkeleton()
@@ -114,12 +138,14 @@ private fun GuideDetailContent(
                 guide = state.guide,
                 currentUserId = state.currentUserId,
                 isFavourite = state.isFavourite,
+                isLeaving = state.isLeaving,
                 onEditClick = { onEditClick(it) },
                 onBackClick = onBackClick,
                 onRestaurantClick = onRestaurantClick,
                 onAuthorClick = onAuthorClick,
                 onViewMapClick = onViewMapClick,
                 onToggleFavourite = onToggleFavourite,
+                onLeaveGuide = onLeaveGuide,
             )
 
         is GuideDetailUiState.Error ->
@@ -153,12 +179,14 @@ private fun GuideDetailLoaded(
     guide: Guide,
     currentUserId: String?,
     isFavourite: Boolean,
+    isLeaving: Boolean,
     onEditClick: (id: String) -> Unit,
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onAuthorClick: (authorId: String) -> Unit = {},
     onViewMapClick: (guideId: String, guideName: String, restaurantsCount: Int) -> Unit = { _, _, _ -> },
     onToggleFavourite: () -> Unit = {},
+    onLeaveGuide: () -> Unit = {},
 ) {
     LazyColumn(
         modifier = Modifier
@@ -171,9 +199,11 @@ private fun GuideDetailLoaded(
                 guide = guide,
                 currentUserId = currentUserId,
                 isFavourite = isFavourite,
+                isLeaving = isLeaving,
                 onEditClick = { onEditClick(it) },
                 onBackClick = onBackClick,
                 onToggleFavourite = onToggleFavourite,
+                onLeaveGuide = onLeaveGuide,
             )
 
             GuideInfo(guide)
@@ -230,9 +260,11 @@ private fun TopImageContent(
     guide: Guide,
     currentUserId: String?,
     isFavourite: Boolean,
+    isLeaving: Boolean,
     onEditClick: (id: String) -> Unit,
     onBackClick: () -> Unit,
     onToggleFavourite: () -> Unit = {},
+    onLeaveGuide: () -> Unit = {},
 ) {
     Box(
         modifier = Modifier
@@ -255,6 +287,9 @@ private fun TopImageContent(
         Box(modifier = Modifier.fillMaxSize().detailImageScrim())
 
         val isOwnGuide = guide.author.id == currentUserId
+        val canLeaveGuide = guide.visibility == GuideVisibility.SHARED && !isOwnGuide
+        var isMenuExpanded by remember { mutableStateOf(false) }
+        var showLeaveConfirmation by remember { mutableStateOf(false) }
 
         TopActionButtons(
             showCloseButton = true,
@@ -265,8 +300,55 @@ private fun TopImageContent(
             showFavouriteButton = true,
             isFavourite = isFavourite,
             onToggleFavourite = onToggleFavourite,
+            showMenuButton = canLeaveGuide,
+            onMenuClick = { isMenuExpanded = true },
+            menuContent = {
+                DropdownMenu(
+                    expanded = isMenuExpanded,
+                    onDismissRequest = { isMenuExpanded = false },
+                ) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(Res.string.guide_detail_leave_guide_button)) },
+                        onClick = {
+                            isMenuExpanded = false
+                            showLeaveConfirmation = true
+                        },
+                    )
+                }
+            },
         )
+
+        if (showLeaveConfirmation) {
+            LeaveGuideConfirmationDialog(
+                isLeaving = isLeaving,
+                onConfirm = onLeaveGuide,
+                onDismiss = { showLeaveConfirmation = false },
+            )
+        }
     }
+}
+
+@Composable
+private fun LeaveGuideConfirmationDialog(isLeaving: Boolean, onConfirm: () -> Unit, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(Res.string.guide_detail_leave_guide_confirmation_title)) },
+        text = { Text(stringResource(Res.string.guide_detail_leave_guide_confirmation_message)) },
+        confirmButton = {
+            TextButton(onClick = onConfirm, enabled = !isLeaving) {
+                if (isLeaving) {
+                    CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp)
+                } else {
+                    Text(stringResource(Res.string.guide_detail_leave_guide_confirmation_confirm))
+                }
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss, enabled = !isLeaving) {
+                Text(stringResource(Res.string.guide_detail_leave_guide_confirmation_cancel))
+            }
+        },
+    )
 }
 
 @Composable

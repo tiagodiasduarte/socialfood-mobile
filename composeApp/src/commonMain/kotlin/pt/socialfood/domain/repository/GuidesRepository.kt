@@ -33,6 +33,8 @@ interface GuidesRepository {
 
     suspend fun joinGuide(guideId: String, code: String): Result<Guide>
 
+    suspend fun leaveGuide(guideId: String): Result<Boolean>
+
     suspend fun update(
         id: String,
         name: String,

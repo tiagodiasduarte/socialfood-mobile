@@ -98,7 +98,7 @@ private fun JoinSharedGuideCard(
 
             Spacer(Modifier.height(SpaceSize.small))
 
-            GuideBottomInfo(guide = state.guide, fontColor = MaterialTheme.colorScheme.onBackground)
+            GuideBottomInfo(guide = state.guide, fontColor = MaterialTheme.colorScheme.onSurface)
 
             Spacer(Modifier.height(SpaceSize.large))
 

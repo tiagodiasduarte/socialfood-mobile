@@ -40,6 +40,8 @@ interface GuidesApi {
 
     suspend fun joinGuide(guideId: String, request: JoinGuideRequest): GuideDetailResponse
 
+    suspend fun leaveGuide(guideId: String)
+
     suspend fun update(
         id: String,
         name: String,

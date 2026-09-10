@@ -123,6 +123,8 @@ import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCase
 import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCaseImpl
 import pt.socialfood.domain.usecase.guide.JoinGuideUseCase
 import pt.socialfood.domain.usecase.guide.JoinGuideUseCaseImpl
+import pt.socialfood.domain.usecase.guide.LeaveGuideUseCase
+import pt.socialfood.domain.usecase.guide.LeaveGuideUseCaseImpl
 import pt.socialfood.domain.usecase.guide.UpdateGuideUseCase
 import pt.socialfood.domain.usecase.guide.UpdateGuideUseCaseImpl
 import pt.socialfood.domain.usecase.home.AddHomeSectionItemUseCase
@@ -363,6 +365,7 @@ val useCaseModule =
         factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
         factory<IsRestaurantFavouriteUseCase> { IsRestaurantFavouriteUseCaseImpl(get()) }
         factory<JoinGuideUseCase> { JoinGuideUseCaseImpl(get()) }
+        factory<LeaveGuideUseCase> { LeaveGuideUseCaseImpl(get()) }
         factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
         factory<LoginWithGoogleUseCase> { LoginWithGoogleUseCaseImpl(get(), get()) }
         factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
@@ -405,7 +408,7 @@ val viewModelModule =
         factory { EditProfileViewModel(get(), get(), get(), get(), get(), get()) }
         factory { FavouriteGuidesViewModel(get(), get()) }
         factory { FavouriteRestaurantsViewModel(get(), get()) }
-        factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
+        factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), get(), guideId) }
         factory { (guideId: String) -> GuideMapViewModel(get(), guideId) }
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
         factory { MyGuidesViewModel(get(), get(), get(), get(), get()) }

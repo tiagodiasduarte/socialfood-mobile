@@ -93,6 +93,11 @@
     <string name="guide_detail_private_icon_description">Private icon</string>
     <string name="guide_detail_shared_icon_description">Shared icon</string>
     <string name="guide_detail_separator">·</string>
+    <string name="guide_detail_leave_guide_button">Leave Guide</string>
+    <string name="guide_detail_leave_guide_confirmation_title">Leave Guide</string>
+    <string name="guide_detail_leave_guide_confirmation_message">Are you sure you want to leave this guide? You’ll need a new invite to join again.</string>
+    <string name="guide_detail_leave_guide_confirmation_confirm">Leave</string>
+    <string name="guide_detail_leave_guide_confirmation_cancel">Cancel</string>
 
     <string name="favourites_guides_title">Favourite Guides</string>
     <string name="favourites_restaurants_title">Favourite Restaurants</string>

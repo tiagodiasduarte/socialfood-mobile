@@ -25,6 +25,7 @@ class GuideMapperTest {
         name = Random.nextString(),
         username = Random.nextString(),
         imageUrl = Random.nextNullable { nextUrl() },
+        isPublic = Random.nextBoolean(),
     )
 
     private fun randomRestaurantResponse() = RestaurantResponse(
@@ -167,6 +168,7 @@ class GuideMapperTest {
                 authorName = guide.author.name,
                 authorUsername = guide.author.username,
                 authorImageUrl = guide.author.imageUrl,
+                authorIsPublic = guide.author.isPublic,
                 numberOfRestaurant = guide.numberOfRestaurant,
                 imageUrl = guide.imageUrl,
                 position = position,
@@ -189,6 +191,7 @@ class GuideMapperTest {
             authorName = Random.nextString(),
             authorUsername = Random.nextString(),
             authorImageUrl = Random.nextNullable { nextUrl() },
+            authorIsPublic = Random.nextBoolean(),
             numberOfRestaurant = Random.nextInt(0, 50),
             imageUrl = Random.nextNullable { nextUrl() },
             position = Random.nextInt(0, 100),
@@ -210,6 +213,7 @@ class GuideMapperTest {
                     name = entity.authorName,
                     username = entity.authorUsername,
                     imageUrl = entity.authorImageUrl,
+                    isPublic = entity.authorIsPublic,
                 ),
                 numberOfRestaurant = entity.numberOfRestaurant,
                 imageUrl = entity.imageUrl,

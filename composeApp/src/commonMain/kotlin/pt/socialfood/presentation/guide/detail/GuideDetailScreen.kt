@@ -58,6 +58,7 @@ import pt.socialfood.presentation.components.buttons.OutlinedButton
 import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
 import pt.socialfood.presentation.guide.detail.author.AuthorItemCard
+import pt.socialfood.presentation.guide.shared.AuthorChip
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.PrivateBadge
@@ -210,13 +211,7 @@ private fun GuideDetailLoaded(
 
             GuideTitleAndDescription(guide)
 
-            Spacer(Modifier.height(SpaceSize.large))
-
-            AuthorItemCard(
-                modifier = Modifier.padding(horizontal = SpaceSize.large),
-                author = guide.author,
-                onClick = { onAuthorClick(guide.author.id) },
-            )
+            GuideAuthorSection(guide = guide, onAuthorClick = onAuthorClick)
         }
 
         if (guide.restaurants.isNotEmpty()) {
@@ -252,6 +247,19 @@ private fun GuideDetailLoaded(
         }
 
         item { Spacer(Modifier.height(SpaceSize.xxlarge)) }
+    }
+}
+
+@Composable
+private fun GuideAuthorSection(guide: Guide, onAuthorClick: (authorId: String) -> Unit) {
+    if (guide.author.isPublic) {
+        Spacer(Modifier.height(SpaceSize.large))
+
+        AuthorItemCard(
+            modifier = Modifier.padding(horizontal = SpaceSize.large),
+            author = guide.author,
+            onClick = { onAuthorClick(guide.author.id) },
+        )
     }
 }
 
@@ -384,6 +392,19 @@ private fun GuideInfo(guide: Guide) {
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
+
+        if (!guide.author.isPublic) {
+            Text(
+                text = stringResource(Res.string.guide_detail_separator),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+
+            AuthorChip(
+                author = guide.author,
+                fontColor = MaterialTheme.colorScheme.onBackground,
+            )
+        }
     }
 }
 
@@ -462,7 +483,7 @@ private fun GuideVisibility.badgeBackgroundColor(): Color =
 @Composable
 @Preview
 fun GuideDetailScreenPreview() {
-    val author = Author(id = "u1", name = "Sarah Mitchell", username = "sarahmitchell")
+    val author = Author(id = "u1", name = "Sarah Mitchell", username = "sarahmitchell", isPublic = false)
     val restaurant = Restaurant(
         id = "r1",
         name = "Le Jardin",

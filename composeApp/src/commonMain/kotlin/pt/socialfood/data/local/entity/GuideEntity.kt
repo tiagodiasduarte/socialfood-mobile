@@ -17,6 +17,7 @@ data class GuideEntity(
     val authorName: String,
     val authorUsername: String,
     val authorImageUrl: String?,
+    val authorIsPublic: Boolean,
     val numberOfRestaurant: Int,
     val imageUrl: String?,
     val position: Int,

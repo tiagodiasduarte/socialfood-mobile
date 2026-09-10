@@ -17,6 +17,7 @@ struct iOSApp: App {
         let alertDialogDelegate = AlertDialogDelegateImpl()
         DeleteGuideConfirmationBridge.shared.delegate = alertDialogDelegate
         GuideValidationErrorDialogBridge.shared.delegate = alertDialogDelegate
+        LogoutConfirmationBridge.shared.delegate = alertDialogDelegate
         KoinKt.doInitKoin()
     }
 

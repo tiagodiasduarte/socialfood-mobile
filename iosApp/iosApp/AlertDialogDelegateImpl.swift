@@ -1,7 +1,7 @@
 import ComposeApp
 import UIKit
 
-class AlertDialogDelegateImpl: GuideValidationErrorDialogDelegate, DeleteGuideConfirmationDelegate {
+class AlertDialogDelegateImpl: GuideValidationErrorDialogDelegate, DeleteGuideConfirmationDelegate, LogoutConfirmationDelegate {
     func showError(
         title: String,
         message: String,

@@ -28,7 +28,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import pt.socialfood.domain.model.Place
+import pt.socialfood.presentation.components.placeholder.RestaurantCardPlaceholder
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.IconSize
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
@@ -89,9 +91,11 @@ internal fun PlaceThumbnail(imageUrl: String?) {
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
-                loading = { Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) },
-                error = { Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) },
+                loading = { RestaurantCardPlaceholder(IconSize.small) },
+                error = { RestaurantCardPlaceholder(IconSize.small) },
             )
+        } else {
+            RestaurantCardPlaceholder(IconSize.small)
         }
     }
 }

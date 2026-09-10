@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.profile
+package pt.socialfood.presentation.drawer
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,19 +12,19 @@ import pt.socialfood.domain.usecase.user.GetUserMeUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
-class ProfileViewModel(
+class DrawerViewModel(
     private val getUserMe: GetUserMeUseCase,
     private val logout: LogoutUseCase,
     private val observeUser: ObserveUserUseCase,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<ProfileUiState>(ProfileUiState.Loading)
-    val state: StateFlow<ProfileUiState> = _state
+    private val _state = MutableStateFlow<DrawerUiState>(DrawerUiState.Loading)
+    val state: StateFlow<DrawerUiState> = _state
 
     init {
         viewModelScope.launch {
             observeUser().filterNotNull().collect { user ->
-                _state.value = ProfileUiState.Loaded(user)
+                _state.value = DrawerUiState.Loaded(user)
             }
         }
         load()
@@ -33,17 +33,17 @@ class ProfileViewModel(
     private fun load() {
         viewModelScope.launch {
             _state.value = when (val result = getUserMe()) {
-                is Result.Success -> ProfileUiState.Loaded(result.data)
-                is Result.Failure -> ProfileUiState.Error(result.error.toErrorCode())
+                is Result.Success -> DrawerUiState.Loaded(result.data)
+                is Result.Failure -> DrawerUiState.Error(result.error.toErrorCode())
             }
         }
     }
 
     fun logout() {
         viewModelScope.launch {
-            _state.value = ProfileUiState.Loading
+            _state.value = DrawerUiState.Loading
             logout.invoke()
-            _state.value = ProfileUiState.LoggedOut
+            _state.value = DrawerUiState.LoggedOut
         }
     }
 }

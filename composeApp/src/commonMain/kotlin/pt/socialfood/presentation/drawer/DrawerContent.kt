@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.profile
+package pt.socialfood.presentation.drawer
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -87,8 +87,8 @@ private val DrawerAvatarSize = 44.dp
 private val DrawerAvatarRingSize = 48.dp
 
 @Composable
-fun ProfileDrawerContent(
-    viewModel: ProfileViewModel = koinViewModel(),
+fun DrawerContent(
+    viewModel: DrawerViewModel = koinViewModel(),
     onProfileClick: (authorId: String) -> Unit = {},
     onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
@@ -99,7 +99,7 @@ fun ProfileDrawerContent(
     val state by viewModel.state.collectAsStateWithLifecycle()
     var showThemeSheet by remember { mutableStateOf(false) }
 
-    ProfileDrawerSheet(
+    DrawerSheet(
         state = state,
         onLogoutClick = { viewModel.logout() },
         onProfileClick = onProfileClick,
@@ -117,8 +117,8 @@ fun ProfileDrawerContent(
 }
 
 @Composable
-private fun ProfileDrawerSheet(
-    state: ProfileUiState,
+private fun DrawerSheet(
+    state: DrawerUiState,
     onLogoutClick: () -> Unit,
     onProfileClick: (authorId: String) -> Unit = {},
     onEditProfileClick: () -> Unit = {},
@@ -130,7 +130,7 @@ private fun ProfileDrawerSheet(
 ) {
     ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.surface, windowInsets = WindowInsets(0.dp)) {
         when (state) {
-            is ProfileUiState.Loaded -> DrawerUserContent(
+            is DrawerUiState.Loaded -> DrawerUserContent(
                 user = state.user,
                 onLogoutClick = onLogoutClick,
                 onProfileClick = onProfileClick,
@@ -142,14 +142,14 @@ private fun ProfileDrawerSheet(
                 onThemeClick = onThemeClick,
             )
 
-            ProfileUiState.Loading -> Box(
+            DrawerUiState.Loading -> Box(
                 modifier = Modifier.fillMaxSize().padding(SpaceSize.xxlarge),
                 contentAlignment = Alignment.Center,
             ) {
                 CircularProgressIndicator()
             }
 
-            is ProfileUiState.Error, ProfileUiState.LoggedOut -> Box(modifier = Modifier.fillMaxSize())
+            is DrawerUiState.Error, DrawerUiState.LoggedOut -> Box(modifier = Modifier.fillMaxSize())
         }
     }
 }
@@ -352,7 +352,7 @@ private fun DrawerMenuRow(
 
 @Composable
 @Preview
-private fun ProfileDrawerContentPreview() {
+private fun DrawerContentPreview() {
     val user = User(
         id = "u1",
         email = "john.doe@email.com",
@@ -360,8 +360,8 @@ private fun ProfileDrawerContentPreview() {
         username = "johndoe",
     )
     AppTheme {
-        ProfileDrawerSheet(
-            state = ProfileUiState.Loaded(user),
+        DrawerSheet(
+            state = DrawerUiState.Loaded(user),
             onLogoutClick = {},
         )
     }

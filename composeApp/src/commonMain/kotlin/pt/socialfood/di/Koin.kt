@@ -213,6 +213,7 @@ import pt.socialfood.domain.usecase.user.UpdateUserUseCase
 import pt.socialfood.domain.usecase.user.UpdateUserUseCaseImpl
 import pt.socialfood.presentation.author.detail.AuthorDetailViewModel
 import pt.socialfood.presentation.author.list.AuthorsViewModel
+import pt.socialfood.presentation.drawer.DrawerViewModel
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesViewModel
 import pt.socialfood.presentation.favourite.restaurant.FavouriteRestaurantsViewModel
 import pt.socialfood.presentation.guide.all.AllGuidesViewModel
@@ -223,7 +224,6 @@ import pt.socialfood.presentation.guide.map.GuideMapViewModel
 import pt.socialfood.presentation.guide.my.MyGuidesViewModel
 import pt.socialfood.presentation.guide.shared.SharedGuidesViewModel
 import pt.socialfood.presentation.home.HomeViewModel
-import pt.socialfood.presentation.profile.ProfileViewModel
 import pt.socialfood.presentation.profile.edit.EditProfileViewModel
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
@@ -404,6 +404,7 @@ val viewModelModule =
         factory { (authorId: String) -> AuthorDetailViewModel(get(), authorId) }
         factory { AuthorsViewModel(get(), get()) }
         factory { CreateGuideViewModel(get(), get(), get()) }
+        factory { DrawerViewModel(get(), get(), get()) }
         factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), get(), get(), guideId) }
         factory { EditProfileViewModel(get(), get(), get(), get(), get(), get()) }
         factory { FavouriteGuidesViewModel(get(), get()) }
@@ -412,7 +413,6 @@ val viewModelModule =
         factory { (guideId: String) -> GuideMapViewModel(get(), guideId) }
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
         factory { MyGuidesViewModel(get(), get(), get(), get(), get()) }
-        factory { ProfileViewModel(get(), get(), get()) }
         factory { (restaurantId: String) ->
             RestaurantDetailViewModel(get(), get(), get(), get(), get(), get(), restaurantId)
         }

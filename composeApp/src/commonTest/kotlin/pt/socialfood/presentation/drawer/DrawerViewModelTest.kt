@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.profile
+package pt.socialfood.presentation.drawer
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,13 +16,13 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ProfileViewModelTest {
+class DrawerViewModelTest {
 
     @Test
     fun `given getUserMe succeeds when created then state is Loaded with user`() = runTestWithMainDispatcher {
         // Given
         val user = Random.nextUser()
-        val vm = ProfileViewModel(
+        val vm = DrawerViewModel(
             getUserMe = FakeGetUserMeUseCase(Result.Success(user)),
             logout = FakeLogoutUseCase(),
             observeUser = FakeObserveUserUseCase(),
@@ -30,15 +30,15 @@ class ProfileViewModelTest {
 
         // When / Then
         vm.state.test {
-            assertEquals(ProfileUiState.Loading, awaitItem())
-            assertEquals(ProfileUiState.Loaded(user), awaitItem())
+            assertEquals(DrawerUiState.Loading, awaitItem())
+            assertEquals(DrawerUiState.Loaded(user), awaitItem())
         }
     }
 
     @Test
     fun `given getUserMe fails when created then state is Error`() = runTestWithMainDispatcher {
         // Given
-        val vm = ProfileViewModel(
+        val vm = DrawerViewModel(
             getUserMe = FakeGetUserMeUseCase(Result.Failure(DataError.Network(Exception("test error")))),
             logout = FakeLogoutUseCase(),
             observeUser = FakeObserveUserUseCase(),
@@ -46,8 +46,8 @@ class ProfileViewModelTest {
 
         // When / Then
         vm.state.test {
-            assertEquals(ProfileUiState.Loading, awaitItem())
-            assertEquals(ProfileUiState.Error(ErrorCode.NETWORK), awaitItem())
+            assertEquals(DrawerUiState.Loading, awaitItem())
+            assertEquals(DrawerUiState.Error(ErrorCode.NETWORK), awaitItem())
         }
     }
 
@@ -58,7 +58,7 @@ class ProfileViewModelTest {
             val user = Random.nextUser()
             val observeUser = FakeObserveUserUseCase()
 
-            val vm = ProfileViewModel(
+            val vm = DrawerViewModel(
                 getUserMe = FakeGetUserMeUseCase(Result.Success(user)),
                 logout = FakeLogoutUseCase(),
                 observeUser = observeUser,
@@ -67,12 +67,12 @@ class ProfileViewModelTest {
 
             // When / Then
             vm.state.test {
-                assertEquals(ProfileUiState.Loading, awaitItem())
-                assertEquals(ProfileUiState.Loaded(user), awaitItem())
+                assertEquals(DrawerUiState.Loading, awaitItem())
+                assertEquals(DrawerUiState.Loaded(user), awaitItem())
 
                 observeUser.emit(updatedUser)
 
-                assertEquals(ProfileUiState.Loaded(updatedUser), awaitItem())
+                assertEquals(DrawerUiState.Loaded(updatedUser), awaitItem())
             }
         }
 
@@ -82,22 +82,22 @@ class ProfileViewModelTest {
             // Given
             val user = Random.nextUser()
             val logout = FakeLogoutUseCase()
-            val vm = ProfileViewModel(
+            val vm = DrawerViewModel(
                 getUserMe = FakeGetUserMeUseCase(Result.Success(user)),
                 logout = logout,
                 observeUser = FakeObserveUserUseCase(),
             )
 
             vm.state.test {
-                assertEquals(ProfileUiState.Loading, awaitItem())
-                assertEquals(ProfileUiState.Loaded(user), awaitItem())
+                assertEquals(DrawerUiState.Loading, awaitItem())
+                assertEquals(DrawerUiState.Loaded(user), awaitItem())
 
                 // When
                 vm.logout()
 
                 // Then
-                assertEquals(ProfileUiState.Loading, awaitItem())
-                assertEquals(ProfileUiState.LoggedOut, awaitItem())
+                assertEquals(DrawerUiState.Loading, awaitItem())
+                assertEquals(DrawerUiState.LoggedOut, awaitItem())
             }
 
             advanceUntilIdle()

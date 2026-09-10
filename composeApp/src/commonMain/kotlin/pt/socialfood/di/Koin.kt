@@ -121,6 +121,10 @@ import pt.socialfood.domain.usecase.guide.GetUserGuidesPagingUseCase
 import pt.socialfood.domain.usecase.guide.GetUserGuidesPagingUseCaseImpl
 import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCase
 import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCaseImpl
+import pt.socialfood.domain.usecase.guide.JoinGuideUseCase
+import pt.socialfood.domain.usecase.guide.JoinGuideUseCaseImpl
+import pt.socialfood.domain.usecase.guide.LeaveGuideUseCase
+import pt.socialfood.domain.usecase.guide.LeaveGuideUseCaseImpl
 import pt.socialfood.domain.usecase.guide.UpdateGuideUseCase
 import pt.socialfood.domain.usecase.guide.UpdateGuideUseCaseImpl
 import pt.socialfood.domain.usecase.home.AddHomeSectionItemUseCase
@@ -360,6 +364,8 @@ val useCaseModule =
         factory<GetVisitStatusUseCase> { GetVisitStatusUseCaseImpl(get()) }
         factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
         factory<IsRestaurantFavouriteUseCase> { IsRestaurantFavouriteUseCaseImpl(get()) }
+        factory<JoinGuideUseCase> { JoinGuideUseCaseImpl(get()) }
+        factory<LeaveGuideUseCase> { LeaveGuideUseCaseImpl(get()) }
         factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
         factory<LoginWithGoogleUseCase> { LoginWithGoogleUseCaseImpl(get(), get()) }
         factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }

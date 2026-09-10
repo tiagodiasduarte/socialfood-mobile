@@ -15,6 +15,7 @@ import pt.socialfood.data.network.model.guide.AddRestaurantGuideRequest
 import pt.socialfood.data.network.model.guide.CreateGuideRequest
 import pt.socialfood.data.network.model.guide.GuideDetailResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
+import pt.socialfood.data.network.model.guide.JoinGuideRequest
 import pt.socialfood.data.network.model.guide.UpdateGuidePhotoRequest
 import pt.socialfood.data.network.model.guide.UpdateGuideRequest
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
@@ -123,5 +124,15 @@ class GuidesApiImpl(private val client: HttpClient) : GuidesApi {
         client.delete("guides/$guideId/photo") {
             contentType(ContentType.Application.Json)
         }
+    }
+
+    override suspend fun joinGuide(guideId: String, request: JoinGuideRequest): GuideDetailResponse = client
+        .post("guides/$guideId/join") {
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }.body()
+
+    override suspend fun leaveGuide(guideId: String) {
+        client.delete("guides/$guideId/join")
     }
 }

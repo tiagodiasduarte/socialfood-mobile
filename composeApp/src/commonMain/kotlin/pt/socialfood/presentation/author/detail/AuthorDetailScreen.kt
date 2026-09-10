@@ -88,19 +88,19 @@ private fun AuthorDetailLoaded(
             )
         }
 
-        if (author.guides.isNotEmpty()) {
-            item {
-                Text(
-                    text = stringResource(Res.string.author_detail_guides_section_title),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(
-                        horizontal = SpaceSize.large,
-                        vertical = SpaceSize.large,
-                    ),
-                )
-            }
+        item {
+            Text(
+                text = stringResource(Res.string.author_detail_guides_section_title),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.padding(
+                    horizontal = SpaceSize.large,
+                    vertical = SpaceSize.large,
+                ),
+            )
+        }
 
+        if (author.guides.isNotEmpty()) {
             itemsIndexed(author.guides, key = { _, g -> g.id }) { _, guide ->
                 AuthorGuideCard(
                     guideName = guide.name,
@@ -111,6 +111,10 @@ private fun AuthorDetailLoaded(
                     modifier = Modifier.padding(horizontal = SpaceSize.large),
                 )
                 Spacer(Modifier.height(SpaceSize.large))
+            }
+        } else {
+            item {
+                AuthorEmptyGuideCard(Modifier.padding(horizontal = SpaceSize.large))
             }
         }
     }

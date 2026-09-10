@@ -6,6 +6,7 @@ import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.author.AuthorResponse
 import pt.socialfood.data.network.model.guide.GuideDetailResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
+import pt.socialfood.data.network.model.guide.JoinGuideRequest
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.network.model.photo.PresignedUrlResponse
 import pt.socialfood.domain.model.GuideVisibility
@@ -63,6 +64,16 @@ class FakeGuidesApi(
     var findGuideBySharedCodeCallCount: Int = 0
         private set
     var lastFindGuideBySharedCodeCode: String? = null
+        private set
+    var joinGuideCallCount: Int = 0
+        private set
+    var lastJoinGuideId: String? = null
+        private set
+    var lastJoinGuideCode: String? = null
+        private set
+    var leaveGuideCallCount: Int = 0
+        private set
+    var lastLeaveGuideId: String? = null
         private set
 
     override suspend fun create(name: String, description: String, userId: String): GuideDetailResponse {
@@ -169,5 +180,19 @@ class FakeGuidesApi(
 
     override suspend fun deletePhoto(guideId: String) {
         if (shouldThrow) throw IOException("test error")
+    }
+
+    override suspend fun joinGuide(guideId: String, request: JoinGuideRequest): GuideDetailResponse {
+        if (shouldThrow) throw IOException("test error")
+        joinGuideCallCount++
+        lastJoinGuideId = guideId
+        lastJoinGuideCode = request.code
+        return defaultFakeGuideDetail
+    }
+
+    override suspend fun leaveGuide(guideId: String) {
+        if (shouldThrow) throw IOException("test error")
+        leaveGuideCallCount++
+        lastLeaveGuideId = guideId
     }
 }

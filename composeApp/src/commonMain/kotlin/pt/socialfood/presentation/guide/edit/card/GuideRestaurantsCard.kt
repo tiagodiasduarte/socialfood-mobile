@@ -52,76 +52,92 @@ fun GuideRestaurantsCard(restaurants: List<Restaurant>, onAddClick: () -> Unit, 
                 .fillMaxWidth()
                 .padding(SpaceSize.large),
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = stringResource(Res.string.edit_guide_restaurants_title_label),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
-
-                Button(
-                    onClick = onAddClick,
-                    shape = RoundedCornerShape(SpaceSize.small),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary,
-                    ),
-                    contentPadding = PaddingValues(
-                        horizontal = SpaceSize.large,
-                        vertical = SpaceSize.medium,
-                    ),
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = null,
-                        modifier = Modifier.size(SpaceSize.large),
-                    )
-                    Spacer(Modifier.width(SpaceSize.small))
-                    Text(
-                        text = stringResource(Res.string.edit_guide_restaurants_add_button),
-                        style = MaterialTheme.typography.labelLarge,
-                    )
-                }
-            }
+            GuideRestaurantsHeader(onAddClick = onAddClick)
 
             if (restaurants.isNotEmpty()) {
                 Spacer(Modifier.height(SpaceSize.medium))
-
-                restaurants.forEachIndexed { index, restaurant ->
-                    if (index > 0) {
-                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                    }
-                    RestaurantItem(
-                        restaurant = restaurant,
-                        onRemove = { onRemoveClick(restaurant.id) },
-                    )
-                }
+                GuideRestaurantsList(restaurants = restaurants, onRemoveClick = onRemoveClick)
             } else {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = SpaceSize.large),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
-                ) {
-                    Text(
-                        text = stringResource(Res.string.edit_guide_restaurants_empty_label),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    Text(
-                        text = stringResource(Res.string.edit_guide_restaurants_empty_hint),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.outline,
-                    )
-                }
+                GuideRestaurantsEmptyState()
             }
         }
+    }
+}
+
+@Composable
+private fun GuideRestaurantsHeader(onAddClick: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = stringResource(Res.string.edit_guide_restaurants_title_label),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface,
+        )
+
+        Button(
+            onClick = onAddClick,
+            shape = RoundedCornerShape(SpaceSize.small),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+            ),
+            contentPadding = PaddingValues(
+                horizontal = SpaceSize.large,
+                vertical = SpaceSize.medium,
+            ),
+        ) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = null,
+                modifier = Modifier.size(SpaceSize.large),
+            )
+            Spacer(Modifier.width(SpaceSize.small))
+            Text(
+                text = stringResource(Res.string.edit_guide_restaurants_add_button),
+                style = MaterialTheme.typography.labelLarge,
+            )
+        }
+    }
+}
+
+@Composable
+private fun GuideRestaurantsList(restaurants: List<Restaurant>, onRemoveClick: (String) -> Unit) {
+    Column {
+        restaurants.forEachIndexed { index, restaurant ->
+            if (index > 0) {
+                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+            }
+            RestaurantItem(
+                restaurant = restaurant,
+                onRemove = { onRemoveClick(restaurant.id) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun GuideRestaurantsEmptyState() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = SpaceSize.large),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
+    ) {
+        Text(
+            text = stringResource(Res.string.edit_guide_restaurants_empty_label),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Text(
+            text = stringResource(Res.string.edit_guide_restaurants_empty_hint),
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.outline,
+        )
     }
 }
 

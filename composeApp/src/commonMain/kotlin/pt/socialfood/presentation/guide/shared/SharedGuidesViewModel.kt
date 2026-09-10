@@ -25,14 +25,17 @@ import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseC
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.guide.GetGuideBySharedCodeUseCase
 import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCase
+import pt.socialfood.domain.usecase.guide.JoinGuideUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
+import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideCardUiState
 import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideDialogUiState
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SharedGuidesViewModel(
     getUserJoinedGuidesPaging: GetUserJoinedGuidesPagingUseCase,
     private val getGuideBySharedCode: GetGuideBySharedCodeUseCase,
+    private val joinGuide: JoinGuideUseCase,
     private val markGuideFavourite: MarkGuideFavouriteUseCase,
     private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
     observeUser: ObserveUserUseCase,
@@ -59,8 +62,13 @@ class SharedGuidesViewModel(
     private val _joinGuideState = MutableStateFlow<JoinSharedGuideDialogUiState>(JoinSharedGuideDialogUiState.Idle)
     val joinGuideState: StateFlow<JoinSharedGuideDialogUiState> = _joinGuideState
 
+    private val _guideToJoin = MutableStateFlow<JoinSharedGuideCardUiState?>(null)
+    val guideToJoin: StateFlow<JoinSharedGuideCardUiState?> = _guideToJoin
+
     private val _events = MutableSharedFlow<UiEvent>()
     val events = _events.asSharedFlow()
+
+    private var joinCode: String? = null
 
     fun onToggleGuideFavourite(guide: Guide) {
         viewModelScope.launch {
@@ -79,7 +87,8 @@ class SharedGuidesViewModel(
             when (val result = getGuideBySharedCode(code)) {
                 is Result.Success -> {
                     _joinGuideState.value = JoinSharedGuideDialogUiState.Idle
-                    _events.emit(UiEvent.GuideJoined(result.data.id))
+                    joinCode = code
+                    _guideToJoin.value = JoinSharedGuideCardUiState(guide = result.data)
                 }
 
                 is Result.Failure ->
@@ -90,6 +99,33 @@ class SharedGuidesViewModel(
 
     fun onDismissJoinGuideError() {
         _joinGuideState.value = JoinSharedGuideDialogUiState.Idle
+    }
+
+    fun onJoinGuideConfirm() {
+        val guideToJoin = _guideToJoin.value ?: return
+        val code = joinCode ?: return
+
+        viewModelScope.launch {
+            _guideToJoin.value = guideToJoin.copy(isJoining = true, joinErrorCode = null)
+
+            when (val result = joinGuide(guideToJoin.guide.id, code)) {
+                is Result.Success -> {
+                    joinCode = null
+                    _guideToJoin.value = null
+                    _events.emit(UiEvent.GuideJoined(result.data.id))
+                }
+
+                is Result.Failure -> {
+                    val current = _guideToJoin.value ?: return@launch
+                    _guideToJoin.value = current.copy(isJoining = false, joinErrorCode = result.error.toErrorCode())
+                }
+            }
+        }
+    }
+
+    fun onDismissJoinGuideCard() {
+        joinCode = null
+        _guideToJoin.value = null
     }
 
     sealed interface UiEvent {

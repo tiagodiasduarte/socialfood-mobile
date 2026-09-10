@@ -23,6 +23,8 @@ class FakeGuidesRepository(
         Result.Success(PresignedUrlData(uploadUrl = "https://upload", publicUrl = "https://public")),
     private val addPhotoResult: Result<Boolean> = Result.Success(true),
     private val findGuideBySharedCodeResult: Result<Guide> = Result.Success(Random.nextGuide()),
+    private val joinGuideResult: Result<Guide> = Result.Success(Random.nextGuide()),
+    private val leaveGuideResult: Result<Boolean> = Result.Success(true),
 ) : GuidesRepository {
     var deleteInvokeCount: Int = 0
         private set
@@ -79,6 +81,18 @@ class FakeGuidesRepository(
     var findGuideBySharedCodeInvokeCount: Int = 0
         private set
     var lastFindGuideBySharedCodeCode: String? = null
+        private set
+
+    var joinGuideInvokeCount: Int = 0
+        private set
+    var lastJoinGuideId: String? = null
+        private set
+    var lastJoinGuideCode: String? = null
+        private set
+
+    var leaveGuideInvokeCount: Int = 0
+        private set
+    var lastLeaveGuideId: String? = null
         private set
 
     override suspend fun delete(id: String): Result<Boolean> {
@@ -157,4 +171,17 @@ class FakeGuidesRepository(
         fileName: String,
         mimeType: String,
     ): Result<PresignedUrlData> = getPhotoPresignedUrlResult
+
+    override suspend fun joinGuide(guideId: String, code: String): Result<Guide> {
+        joinGuideInvokeCount++
+        lastJoinGuideId = guideId
+        lastJoinGuideCode = code
+        return joinGuideResult
+    }
+
+    override suspend fun leaveGuide(guideId: String): Result<Boolean> {
+        leaveGuideInvokeCount++
+        lastLeaveGuideId = guideId
+        return leaveGuideResult
+    }
 }

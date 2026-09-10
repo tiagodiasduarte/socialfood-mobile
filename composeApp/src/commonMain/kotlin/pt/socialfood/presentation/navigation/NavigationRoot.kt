@@ -223,6 +223,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                                 onAddClick = { navigator.navigate(Route.CreateGuide) },
                                 onProfileClick = { scope.launch { drawerState.open() } },
+                                onGuideJoined = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                             )
                         }
                         entry<Route.FavouriteGuides> {

@@ -140,6 +140,7 @@
     <string name="author_detail_stat_separator">|</string>
     <string name="author_detail_guides_section_title">Guides</string>
     <string name="author_detail_restaurants_count_label">%1$d restaurants</string>
+    <string name="author_detail_no_public_guides_label">No public guides created yet</string>
 
     <string name="create_guide_create_title">Create Guide</string>
     <string name="create_guide_save_button">Save</string>

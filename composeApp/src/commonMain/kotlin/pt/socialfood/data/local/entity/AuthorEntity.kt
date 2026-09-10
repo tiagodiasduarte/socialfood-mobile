@@ -11,5 +11,6 @@ data class AuthorEntity(
     val name: String,
     val username: String,
     val imageUrl: String?,
+    val isPublic: Boolean,
     val position: Int,
 )

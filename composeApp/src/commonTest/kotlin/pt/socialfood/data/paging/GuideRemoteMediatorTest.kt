@@ -55,6 +55,7 @@ class GuideRemoteMediatorTest {
         authorName = "Author",
         authorUsername = "author",
         authorImageUrl = null,
+        authorIsPublic = true,
         numberOfRestaurant = 0,
         imageUrl = null,
         position = position,

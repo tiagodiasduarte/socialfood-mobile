@@ -20,6 +20,7 @@ class AuthorMapperTest {
             name = Random.nextString(),
             username = Random.nextString(),
             imageUrl = Random.nextNullable { nextUrl() },
+            isPublic = Random.nextBoolean(),
         )
 
         // When
@@ -27,7 +28,13 @@ class AuthorMapperTest {
 
         // Then
         assertEquals(
-            Author(id = response.id, name = response.name, username = response.username, imageUrl = response.imageUrl),
+            Author(
+                id = response.id,
+                name = response.name,
+                username = response.username,
+                imageUrl = response.imageUrl,
+                isPublic = response.isPublic,
+            ),
             result,
         )
     }
@@ -48,6 +55,7 @@ class AuthorMapperTest {
                 name = author.name,
                 username = author.username,
                 imageUrl = author.imageUrl,
+                isPublic = author.isPublic,
                 position = position,
             ),
             result,
@@ -62,6 +70,7 @@ class AuthorMapperTest {
             name = Random.nextString(),
             username = Random.nextString(),
             imageUrl = Random.nextNullable { nextUrl() },
+            isPublic = Random.nextBoolean(),
             position = Random.nextInt(0, 100),
         )
 
@@ -70,7 +79,13 @@ class AuthorMapperTest {
 
         // Then
         assertEquals(
-            Author(id = entity.id, name = entity.name, username = entity.username, imageUrl = entity.imageUrl),
+            Author(
+                id = entity.id,
+                name = entity.name,
+                username = entity.username,
+                imageUrl = entity.imageUrl,
+                isPublic = entity.isPublic,
+            ),
             result,
         )
     }

@@ -18,12 +18,14 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -67,6 +69,10 @@ import socialfood.composeapp.generated.resources.profile_favorites_restaurants_b
 import socialfood.composeapp.generated.resources.profile_icon
 import socialfood.composeapp.generated.resources.profile_logout_button
 import socialfood.composeapp.generated.resources.profile_logout_button_description
+import socialfood.composeapp.generated.resources.profile_logout_confirmation_cancel
+import socialfood.composeapp.generated.resources.profile_logout_confirmation_confirm
+import socialfood.composeapp.generated.resources.profile_logout_confirmation_message
+import socialfood.composeapp.generated.resources.profile_logout_confirmation_title
 import socialfood.composeapp.generated.resources.profile_profile_button
 import socialfood.composeapp.generated.resources.profile_profile_button_description
 import socialfood.composeapp.generated.resources.profile_stat_followers_label
@@ -98,10 +104,11 @@ fun DrawerContent(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     var showThemeSheet by remember { mutableStateOf(false) }
+    var showLogoutConfirmation by remember { mutableStateOf(false) }
 
     DrawerSheet(
         state = state,
-        onLogoutClick = { viewModel.logout() },
+        onLogoutClick = { showLogoutConfirmation = true },
         onProfileClick = onProfileClick,
         onEditProfileClick = onEditProfileClick,
         onFavouriteGuidesClick = onFavouriteGuidesClick,
@@ -114,6 +121,35 @@ fun DrawerContent(
     if (showThemeSheet) {
         ThemeBottomSheet(onDismiss = { showThemeSheet = false })
     }
+
+    if (showLogoutConfirmation) {
+        LogoutConfirmationDialog(
+            onConfirm = {
+                showLogoutConfirmation = false
+                viewModel.logout()
+            },
+            onDismiss = { showLogoutConfirmation = false },
+        )
+    }
+}
+
+@Composable
+private fun LogoutConfirmationDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(Res.string.profile_logout_confirmation_title)) },
+        text = { Text(stringResource(Res.string.profile_logout_confirmation_message)) },
+        confirmButton = {
+            TextButton(onClick = onConfirm) {
+                Text(stringResource(Res.string.profile_logout_confirmation_confirm))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(Res.string.profile_logout_confirmation_cancel))
+            }
+        },
+    )
 }
 
 @Composable

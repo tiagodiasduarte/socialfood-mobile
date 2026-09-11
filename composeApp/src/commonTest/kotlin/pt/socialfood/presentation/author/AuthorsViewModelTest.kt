@@ -17,19 +17,20 @@ import kotlin.test.assertEquals
 class AuthorsViewModelTest {
 
     @Test
-    fun `given authors is collected then getAuthorsPaging is invoked`() = runTestWithMainDispatcher {
-        // Given
-        val getAuthorsPaging = FakeGetAuthorsPagingUseCase()
-        val vm = AuthorsViewModel(getAuthorsPaging, FakeObserveUserUseCase())
+    fun `given the current user is available when authors is collected then getAuthorsPaging is invoked`() =
+        runTestWithMainDispatcher {
+            // Given
+            val getAuthorsPaging = FakeGetAuthorsPagingUseCase()
+            val vm = AuthorsViewModel(getAuthorsPaging, FakeObserveUserUseCase(Random.nextUser()))
 
-        // When
-        val job = launch { vm.authors.collect {} }
-        advanceUntilIdle()
+            // When
+            val job = launch { vm.authors.collect {} }
+            advanceUntilIdle()
 
-        // Then
-        assertEquals(1, getAuthorsPaging.invokeCount)
-        job.cancel()
-    }
+            // Then
+            assertEquals(1, getAuthorsPaging.invokeCount)
+            job.cancel()
+        }
 
     @Test
     fun `given the current user is observed then user reflects the emitted value`() = runTestWithMainDispatcher {

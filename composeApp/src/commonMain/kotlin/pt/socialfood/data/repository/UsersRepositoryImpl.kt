@@ -27,8 +27,6 @@ class UsersRepositoryImpl(private val userApi: UserApi) : UsersRepository {
         _currentUser.value = user
     }
 
-    override suspend fun getUsers(): Result<List<User>> = safeApiCall { userApi.getUsers().map { it.toUser() } }
-
     override suspend fun findUsers(page: Int, limit: Int, query: String?): Result<PagedUsers> = safeApiCall {
         val response = userApi.findUsers(page = page, limit = limit, query = query)
         val hasMore = response.page * response.limit < response.total

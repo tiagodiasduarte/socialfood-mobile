@@ -27,8 +27,9 @@ import pt.socialfood.ui.theme.SpaceSize
 @Composable
 fun NoResultsContent(title: String, subtitle: String, modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.background(MaterialTheme.colorScheme.background)
-            .padding(SpaceSize.xlarge),
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.background)
+            .padding(horizontal = SpaceSize.xlarge),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -64,8 +65,6 @@ fun NoResultsContent(title: String, subtitle: String, modifier: Modifier = Modif
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
         )
-
-        Spacer(Modifier.height(SpaceSize.xlarge))
     }
 }
 

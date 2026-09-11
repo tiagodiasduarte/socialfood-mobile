@@ -33,6 +33,7 @@ val DarkLightColorTheme = darkColorScheme(
 val FavouriteRed = Color(0xFFEF4444)
 val PlaceholderGradientEnd = Color(0xFFE5E7EB)
 val PlaceholderGradientStart = Color(0xFFF3F4F6)
+val PlaceholderStroke = Color(0xFFD1D5DC)
 val PrivateBadge = Color(0xFF364153)
 val ProfileGradientEnd = Color(0xFFB82010)
 val ProfileGradientStart = Color(0xFFF05A1A)

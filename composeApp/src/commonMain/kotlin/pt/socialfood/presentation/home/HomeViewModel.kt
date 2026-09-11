@@ -8,6 +8,9 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
@@ -52,7 +55,15 @@ class HomeViewModel(
             .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     init {
-        load()
+        // Re-fetches whenever the current user changes, so a logout+login as a different
+        // account doesn't keep showing the previous account's data.
+        viewModelScope.launch {
+            observeUser()
+                .filterNotNull()
+                .map { it.id }
+                .distinctUntilChanged()
+                .collect { load() }
+        }
     }
 
     fun load() {

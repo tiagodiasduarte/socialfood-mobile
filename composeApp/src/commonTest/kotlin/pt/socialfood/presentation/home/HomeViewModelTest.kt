@@ -59,7 +59,7 @@ class HomeViewModelTest {
         isGuideFavourite: IsGuideFavouriteUseCase = FakeIsGuideFavouriteUseCase(),
         markGuideFavourite: MarkGuideFavouriteUseCase = FakeMarkGuideFavouriteUseCase(),
         unmarkGuideFavourite: UnmarkGuideFavouriteUseCase = FakeUnmarkGuideFavouriteUseCase(),
-        observeUser: ObserveUserUseCase = FakeObserveUserUseCase(),
+        observeUser: ObserveUserUseCase = FakeObserveUserUseCase(Random.nextUser()),
         observeHomeSections: ObserveHomeSectionsUseCase = FakeObserveHomeSectionsUseCase(),
     ) = HomeViewModel(
         getHomeSections,

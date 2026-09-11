@@ -119,6 +119,28 @@ class SignInViewModelTest {
     }
 
     @Test
+    fun `given sign in succeeds but current user fetch fails then state is Error`() = runTestWithMainDispatcher {
+        // Given
+        val sessionManager = SessionManager(FakeSettingsRepository())
+        val fakeRepo = FakeAuthRepository(Result.Success(AuthTokens("token", "refresh-token")))
+        val loginUseCase = LoginUseCaseImpl(sessionManager, fakeRepo)
+        val loginWithGoogleUseCase = LoginWithGoogleUseCaseImpl(sessionManager, fakeRepo)
+        val getUserMeUseCase = FakeGetUserMeUseCase(Result.Failure(DataError.Network(Exception("test error"))))
+        val vm = SignInViewModel(loginUseCase, loginWithGoogleUseCase, getUserMeUseCase)
+
+        vm.state.test {
+            assertEquals(SignInUiState.Idle, awaitItem())
+
+            // When
+            vm.onSignIn("user@test.com", "password")
+
+            // Then
+            assertEquals(SignInUiState.Loading, awaitItem())
+            assertEquals(SignInUiState.Error(ErrorCode.NETWORK), awaitItem())
+        }
+    }
+
+    @Test
     fun `given a failing sign in when sign in is called then state is Unknown error`() = runTestWithMainDispatcher {
         // Given
         val vm = createViewModel(Result.Failure(DataError.Network(Exception("test error"))))

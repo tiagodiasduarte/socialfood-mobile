@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
@@ -40,6 +41,9 @@ import pt.socialfood.presentation.restaurant.RestaurantCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.home_no_results_subtitle
+import socialfood.composeapp.generated.resources.home_no_results_title
 
 private val cardWidth = 300.dp
 
@@ -137,7 +141,10 @@ fun HomeScreenContent(
 
                 else -> {
                     item {
-                        NoResultsContent()
+                        NoResultsContent(
+                            title = stringResource(Res.string.home_no_results_title),
+                            subtitle = stringResource(Res.string.home_no_results_subtitle),
+                        )
                     }
                 }
             }

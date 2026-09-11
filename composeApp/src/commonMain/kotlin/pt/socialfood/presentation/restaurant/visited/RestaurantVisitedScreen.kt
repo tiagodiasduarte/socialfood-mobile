@@ -44,6 +44,8 @@ import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
 import socialfood.composeapp.generated.resources.visited_card_remove_button_description
+import socialfood.composeapp.generated.resources.visited_no_results_subtitle
+import socialfood.composeapp.generated.resources.visited_no_results_title
 import socialfood.composeapp.generated.resources.visited_restaurants_title
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -93,7 +95,11 @@ private fun VisitedRestaurantsContent(
 
             restaurants.loadState.refresh is LoadState.NotLoading &&
                 restaurants.loadState.append.endOfPaginationReached &&
-                restaurants.itemCount == 0 -> NoResultsContent(modifier = Modifier.fillMaxSize())
+                restaurants.itemCount == 0 -> NoResultsContent(
+                title = stringResource(Res.string.visited_no_results_title),
+                subtitle = stringResource(Res.string.visited_no_results_subtitle),
+                modifier = Modifier.fillMaxSize(),
+            )
 
             else -> PullToRefreshContent(
                 isRefreshing = isRefreshing,

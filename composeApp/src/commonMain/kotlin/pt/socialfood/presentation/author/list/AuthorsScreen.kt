@@ -25,6 +25,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import kotlinx.coroutines.flow.flowOf
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.User
@@ -33,6 +34,9 @@ import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.authors_no_results_subtitle
+import socialfood.composeapp.generated.resources.authors_no_results_title
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -94,7 +98,11 @@ private fun AuthorsContent(
 
                 is LoadState.NotLoading if authors.loadState.append.endOfPaginationReached &&
                     authors.itemCount == 0 -> item {
-                    NoResultsContent(modifier = Modifier.padding(top = 100.dp))
+                    NoResultsContent(
+                        title = stringResource(Res.string.authors_no_results_title),
+                        subtitle = stringResource(Res.string.authors_no_results_subtitle),
+                        modifier = Modifier.padding(top = 100.dp),
+                    )
                 }
 
                 else -> {

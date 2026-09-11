@@ -36,6 +36,8 @@ import pt.socialfood.presentation.components.SearchBar
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.search_no_results_subtitle
+import socialfood.composeapp.generated.resources.search_no_results_title
 import socialfood.composeapp.generated.resources.search_search_placeholder
 import socialfood.composeapp.generated.resources.search_section_authors_title
 import socialfood.composeapp.generated.resources.search_section_guides_title
@@ -133,7 +135,11 @@ fun SearchScreenContent(
                 )
 
                 is SearchUiState.Loaded -> if (state.results.isEmpty()) {
-                    NoResultsContent(modifier = Modifier.fillMaxSize())
+                    NoResultsContent(
+                        title = stringResource(Res.string.search_no_results_title),
+                        subtitle = stringResource(Res.string.search_no_results_subtitle),
+                        modifier = Modifier.fillMaxSize(),
+                    )
                 } else {
                     SearchResultsList(results = state.results, onResultClick = onResultClick)
                 }

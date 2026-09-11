@@ -46,9 +46,8 @@ class HomeViewModel(
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing
 
-    val user: StateFlow<User?> =
-        observeUser()
-            .stateIn(viewModelScope, SharingStarted.Eagerly, null)
+    val user: StateFlow<User?> = observeUser()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     val sections: StateFlow<List<HomeSection>> =
         observeHomeSections()
@@ -60,8 +59,7 @@ class HomeViewModel(
 
     private fun observeUserChanges() {
         viewModelScope.launch {
-            user
-                .filterNotNull()
+            user.filterNotNull()
                 .map { it.id }
                 .distinctUntilChanged()
                 .collect { load() }

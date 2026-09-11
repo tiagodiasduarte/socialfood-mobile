@@ -203,8 +203,6 @@ import pt.socialfood.domain.usecase.user.GetUserByIdUseCase
 import pt.socialfood.domain.usecase.user.GetUserByIdUseCaseImpl
 import pt.socialfood.domain.usecase.user.GetUserMeUseCase
 import pt.socialfood.domain.usecase.user.GetUserMeUseCaseImpl
-import pt.socialfood.domain.usecase.user.GetUsersUseCase
-import pt.socialfood.domain.usecase.user.GetUsersUseCaseImpl
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCaseImpl
 import pt.socialfood.domain.usecase.user.UpdateUserPhotoUseCase
@@ -359,7 +357,6 @@ val useCaseModule =
         factory<GetUserGuidesPagingUseCase> { GetUserGuidesPagingUseCaseImpl(get()) }
         factory<GetUserJoinedGuidesPagingUseCase> { GetUserJoinedGuidesPagingUseCaseImpl(get()) }
         factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
-        factory<GetUsersUseCase> { GetUsersUseCaseImpl(get()) }
         factory<GetRestaurantVisitStatusPagingUseCase> { GetRestaurantVisitStatusPagingUseCaseImpl(get()) }
         factory<GetVisitStatusUseCase> { GetVisitStatusUseCaseImpl(get()) }
         factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }

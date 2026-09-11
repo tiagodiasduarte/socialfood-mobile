@@ -17,7 +17,8 @@ import pt.socialfood.data.network.model.user.UpdateUserRequest
 import pt.socialfood.data.network.model.user.UserResponse
 
 class UserApiImpl(private val client: HttpClient) : UserApi {
-    override suspend fun getUsers(): List<UserResponse> = client.get("users/all").body()
+
+    override suspend fun findById(id: String): UserResponse = client.get("users/$id").body()
 
     override suspend fun findUsers(page: Int, limit: Int, query: String?): PagedResponse<UserResponse> =
         client.get("users/all") {
@@ -27,8 +28,6 @@ class UserApiImpl(private val client: HttpClient) : UserApi {
         }.body()
 
     override suspend fun getUserMe(): UserResponse = client.get("users/me").body()
-
-    override suspend fun findById(id: String): UserResponse = client.get("users/$id").body()
 
     override suspend fun update(request: UpdateUserRequest, id: String): UserResponse = client.put("users/$id") {
         contentType(ContentType.Application.Json)

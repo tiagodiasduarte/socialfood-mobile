@@ -13,8 +13,6 @@ interface UsersRepository {
 
     suspend fun saveUser(user: User)
 
-    suspend fun getUsers(): Result<List<User>>
-
     suspend fun findUsers(page: Int, limit: Int, query: String? = null): Result<PagedUsers>
 
     suspend fun getUserMe(): Result<User>

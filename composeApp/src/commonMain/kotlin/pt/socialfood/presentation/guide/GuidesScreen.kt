@@ -27,6 +27,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import kotlinx.coroutines.flow.flowOf
+import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -39,6 +40,13 @@ import pt.socialfood.presentation.guide.my.MyGuidesScreen
 import pt.socialfood.presentation.guide.shared.SharedGuidesScreen
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.guides_no_results_all_subtitle
+import socialfood.composeapp.generated.resources.guides_no_results_all_title
+import socialfood.composeapp.generated.resources.guides_no_results_my_subtitle
+import socialfood.composeapp.generated.resources.guides_no_results_my_title
+import socialfood.composeapp.generated.resources.guides_no_results_shared_subtitle
+import socialfood.composeapp.generated.resources.guides_no_results_shared_title
 
 const val ALL_GUIDES_TAB = 0
 const val MY_GUIDES_TAB = 1
@@ -133,7 +141,21 @@ fun GuidesScreenContent(
 
                 is LoadState.NotLoading if guides.loadState.append.endOfPaginationReached &&
                     guides.itemCount == 0 -> item {
-                    NoResultsContent()
+                    val (titleRes, subtitleRes) = when (selectedTab) {
+                        MY_GUIDES_TAB ->
+                            Res.string.guides_no_results_my_title to
+                                Res.string.guides_no_results_my_subtitle
+                        SHARED_GUIDES_TAB ->
+                            Res.string.guides_no_results_shared_title to
+                                Res.string.guides_no_results_shared_subtitle
+                        else ->
+                            Res.string.guides_no_results_all_title to
+                                Res.string.guides_no_results_all_subtitle
+                    }
+                    NoResultsContent(
+                        title = stringResource(titleRes),
+                        subtitle = stringResource(subtitleRes),
+                    )
                 }
 
                 else -> {

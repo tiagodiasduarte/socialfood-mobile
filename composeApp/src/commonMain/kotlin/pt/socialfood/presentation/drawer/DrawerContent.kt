@@ -98,10 +98,11 @@ fun DrawerContent(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     var showThemeSheet by remember { mutableStateOf(false) }
+    val launchLogoutConfirmation = rememberLogoutConfirmationLauncher(onConfirm = { viewModel.logout() })
 
     DrawerSheet(
         state = state,
-        onLogoutClick = { viewModel.logout() },
+        onLogoutClick = launchLogoutConfirmation,
         onProfileClick = onProfileClick,
         onEditProfileClick = onEditProfileClick,
         onFavouriteGuidesClick = onFavouriteGuidesClick,

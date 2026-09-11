@@ -155,6 +155,7 @@ fun GuidesScreenContent(
                     NoResultsContent(
                         title = stringResource(titleRes),
                         subtitle = stringResource(subtitleRes),
+                        modifier = Modifier.fillParentMaxSize(),
                     )
                 }
 

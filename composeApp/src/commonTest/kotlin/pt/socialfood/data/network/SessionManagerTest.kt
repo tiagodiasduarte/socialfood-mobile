@@ -1,5 +1,6 @@
 package pt.socialfood.data.network
 
+import app.cash.turbine.test
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.fakes.FakeSettingsRepository
 import kotlin.test.Test
@@ -66,5 +67,36 @@ class SessionManagerTest {
         assertNull(sessionManager.refreshToken)
         assertNull(settingsRepository.getToken())
         assertNull(settingsRepository.getRefreshToken())
+    }
+
+    @Test
+    fun `given tokens when saveTokens is called then tokensChangedEvent is emitted`() = runTest {
+        // Given
+        val settingsRepository = FakeSettingsRepository()
+        val sessionManager = SessionManager(settingsRepository)
+
+        sessionManager.tokensChangedEvent.test {
+            // When
+            sessionManager.saveTokens("jwt-token", "refresh-token")
+
+            // Then
+            awaitItem()
+        }
+    }
+
+    @Test
+    fun `given saved tokens when clear is called then tokensChangedEvent is emitted`() = runTest {
+        // Given
+        val settingsRepository = FakeSettingsRepository()
+        val sessionManager = SessionManager(settingsRepository)
+        sessionManager.saveTokens("jwt-token", "refresh-token")
+
+        sessionManager.tokensChangedEvent.test {
+            // When
+            sessionManager.clear()
+
+            // Then
+            awaitItem()
+        }
     }
 }

@@ -9,13 +9,17 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.usecase.login.LoginUseCase
 import pt.socialfood.domain.usecase.login.LoginWithGoogleUseCase
+import pt.socialfood.domain.usecase.user.GetUserMeUseCase
 import pt.socialfood.presentation.error.toErrorCode
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.sign_in_invalid_email
 import socialfood.composeapp.generated.resources.sign_in_invalid_password
 
-class SignInViewModel(private val login: LoginUseCase, private val loginWithGoogle: LoginWithGoogleUseCase) :
-    ViewModel() {
+class SignInViewModel(
+    private val login: LoginUseCase,
+    private val loginWithGoogle: LoginWithGoogleUseCase,
+    private val getUserMe: GetUserMeUseCase,
+) : ViewModel() {
 
     private val _state = MutableStateFlow<SignInUiState>(SignInUiState.Idle)
     val state: StateFlow<SignInUiState> = _state
@@ -35,7 +39,7 @@ class SignInViewModel(private val login: LoginUseCase, private val loginWithGoog
             _state.value = SignInUiState.Loading
 
             when (val result = login(email, password)) {
-                is Result.Success -> _state.value = SignInUiState.Success
+                is Result.Success -> onLoginSucceeded()
                 is Result.Failure -> _state.value = SignInUiState.Error(result.error.toErrorCode())
             }
         }
@@ -45,9 +49,16 @@ class SignInViewModel(private val login: LoginUseCase, private val loginWithGoog
         viewModelScope.launch {
             _state.value = SignInUiState.Loading
             when (val result = loginWithGoogle(idToken)) {
-                is Result.Success -> _state.value = SignInUiState.Success
+                is Result.Success -> onLoginSucceeded()
                 is Result.Failure -> _state.value = SignInUiState.Error(result.error.toErrorCode())
             }
+        }
+    }
+
+    private suspend fun onLoginSucceeded() {
+        _state.value = when (val result = getUserMe()) {
+            is Result.Success -> SignInUiState.Success
+            is Result.Failure -> SignInUiState.Error(result.error.toErrorCode())
         }
     }
 

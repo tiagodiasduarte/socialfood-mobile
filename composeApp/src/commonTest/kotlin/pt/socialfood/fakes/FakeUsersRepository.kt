@@ -14,7 +14,6 @@ import kotlin.random.Random
 
 class FakeUsersRepository(
     currentUser: User? = null,
-    private val getUsersResult: Result<List<User>> = Result.Success(emptyList()),
     private val findUsersResult: Result<PagedUsers> = Result.Success(Random.nextPagedUsers()),
     private val getUserMeResult: Result<User> = Result.Success(Random.nextUser()),
     private val findByIdResult: Result<User> = Result.Success(Random.nextUser()),
@@ -89,8 +88,6 @@ class FakeUsersRepository(
         lastSavedUser = user
         _currentUser.value = user
     }
-
-    override suspend fun getUsers(): Result<List<User>> = getUsersResult
 
     override suspend fun findUsers(page: Int, limit: Int, query: String?): Result<PagedUsers> {
         lastFindUsersPage = page

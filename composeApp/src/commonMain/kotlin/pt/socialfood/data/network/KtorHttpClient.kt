@@ -65,6 +65,11 @@ class KtorHttpClient(
             bearer {
                 sendWithoutRequest { true }
 
+                // SessionManager is already the source of truth for the current tokens, so don't
+                // let Ktor cache what loadTokens() returns — otherwise a logout+login as a
+                // different user keeps sending the previous user's token until the process restarts.
+                cacheTokens = false
+
                 loadTokens {
                     val access = sessionManager.accessToken
                     val refresh = sessionManager.refreshToken

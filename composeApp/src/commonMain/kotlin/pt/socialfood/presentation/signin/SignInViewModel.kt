@@ -39,10 +39,7 @@ class SignInViewModel(
             _state.value = SignInUiState.Loading
 
             when (val result = login(email, password)) {
-                is Result.Success -> {
-                    getUserMe()
-                    _state.value = SignInUiState.Success
-                }
+                is Result.Success -> onLoginSucceeded()
                 is Result.Failure -> _state.value = SignInUiState.Error(result.error.toErrorCode())
             }
         }
@@ -52,12 +49,16 @@ class SignInViewModel(
         viewModelScope.launch {
             _state.value = SignInUiState.Loading
             when (val result = loginWithGoogle(idToken)) {
-                is Result.Success -> {
-                    getUserMe()
-                    _state.value = SignInUiState.Success
-                }
+                is Result.Success -> onLoginSucceeded()
                 is Result.Failure -> _state.value = SignInUiState.Error(result.error.toErrorCode())
             }
+        }
+    }
+
+    private suspend fun onLoginSucceeded() {
+        _state.value = when (val result = getUserMe()) {
+            is Result.Success -> SignInUiState.Success
+            is Result.Failure -> SignInUiState.Error(result.error.toErrorCode())
         }
     }
 

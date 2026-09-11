@@ -37,7 +37,7 @@ class HomeViewModel(
     private val isGuideFavourite: IsGuideFavouriteUseCase,
     private val markGuideFavourite: MarkGuideFavouriteUseCase,
     private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
-    observeUser: ObserveUserUseCase,
+    private val observeUser: ObserveUserUseCase,
     observeHomeSections: ObserveHomeSectionsUseCase,
 ) : ViewModel() {
     private val _state = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -55,10 +55,12 @@ class HomeViewModel(
             .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     init {
-        // Re-fetches whenever the current user changes, so a logout+login as a different
-        // account doesn't keep showing the previous account's data.
+        observeUserChanges()
+    }
+
+    private fun observeUserChanges() {
         viewModelScope.launch {
-            observeUser()
+            user
                 .filterNotNull()
                 .map { it.id }
                 .distinctUntilChanged()

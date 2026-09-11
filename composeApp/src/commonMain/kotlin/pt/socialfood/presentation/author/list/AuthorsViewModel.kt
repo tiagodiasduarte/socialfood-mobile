@@ -21,15 +21,13 @@ import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 @OptIn(ExperimentalCoroutinesApi::class)
 class AuthorsViewModel(getAuthorsPaging: GetAuthorsPagingUseCase, observeUser: ObserveUserUseCase) : ViewModel() {
 
-    // Re-creates the Pager whenever the current user changes, so a logout+login as a different
-    // account doesn't keep showing the previous account's cached-then-cleared data.
-    val authors: Flow<PagingData<Author>> = observeUser()
+    val user: StateFlow<User?> = observeUser()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, null)
+
+    val authors: Flow<PagingData<Author>> = user
         .filterNotNull()
         .map { it.id }
         .distinctUntilChanged()
         .flatMapLatest { getAuthorsPaging() }
         .cachedIn(viewModelScope)
-
-    val user: StateFlow<User?> = observeUser()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 }

@@ -29,8 +29,6 @@ class RestaurantWishlistViewModel(
     observeUser: ObserveUserUseCase,
 ) : ViewModel() {
 
-    // Re-creates the Pager whenever the current user changes, so a logout+login as a different
-    // account doesn't keep showing the previous account's cached-then-cleared data.
     val restaurants: Flow<PagingData<Restaurant>> = observeUser()
         .filterNotNull()
         .map { it.id }

@@ -11,11 +11,14 @@ import pt.socialfood.domain.model.AuthTokens
 import pt.socialfood.domain.usecase.login.LoginUseCaseImpl
 import pt.socialfood.domain.usecase.login.LoginWithGoogleUseCaseImpl
 import pt.socialfood.fakes.FakeAuthRepository
+import pt.socialfood.fakes.FakeGetUserMeUseCase
 import pt.socialfood.fakes.FakeSettingsRepository
+import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.sign_in_invalid_email
 import socialfood.composeapp.generated.resources.sign_in_invalid_password
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -26,7 +29,8 @@ class SignInViewModelTest {
         val fakeRepo = FakeAuthRepository(loginResult)
         val loginUseCase = LoginUseCaseImpl(sessionManager, fakeRepo)
         val loginWithGoogleUseCase = LoginWithGoogleUseCaseImpl(sessionManager, fakeRepo)
-        return SignInViewModel(loginUseCase, loginWithGoogleUseCase)
+        val getUserMeUseCase = FakeGetUserMeUseCase(Result.Success(Random.nextUser()))
+        return SignInViewModel(loginUseCase, loginWithGoogleUseCase, getUserMeUseCase)
     }
 
     @Test
@@ -88,6 +92,29 @@ class SignInViewModelTest {
             // Then
             assertEquals(SignInUiState.Loading, awaitItem())
             assertEquals(SignInUiState.Success, awaitItem())
+        }
+    }
+
+    @Test
+    fun `given valid credentials when sign in is called then current user is refreshed`() = runTestWithMainDispatcher {
+        // Given
+        val sessionManager = SessionManager(FakeSettingsRepository())
+        val fakeRepo = FakeAuthRepository(Result.Success(AuthTokens("token", "refresh-token")))
+        val loginUseCase = LoginUseCaseImpl(sessionManager, fakeRepo)
+        val loginWithGoogleUseCase = LoginWithGoogleUseCaseImpl(sessionManager, fakeRepo)
+        val getUserMeUseCase = FakeGetUserMeUseCase(Result.Success(Random.nextUser()))
+        val vm = SignInViewModel(loginUseCase, loginWithGoogleUseCase, getUserMeUseCase)
+
+        vm.state.test {
+            assertEquals(SignInUiState.Idle, awaitItem())
+
+            // When
+            vm.onSignIn("user@test.com", "password")
+
+            // Then
+            assertEquals(SignInUiState.Loading, awaitItem())
+            assertEquals(SignInUiState.Success, awaitItem())
+            assertEquals(1, getUserMeUseCase.invokeCount)
         }
     }
 

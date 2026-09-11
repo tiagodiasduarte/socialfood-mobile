@@ -421,7 +421,7 @@ val viewModelModule =
         factory { SharedGuidesViewModel(get(), get(), get(), get(), get(), get(), get()) }
         factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
         factory { SearchViewModel(get(), get(), get()) }
-        factory { SignInViewModel(get(), get()) }
+        factory { SignInViewModel(get(), get(), get()) }
         factory { SignUpViewModel(get()) }
         factory { StartupViewModel(get(), get(), get()) }
         factory { SyncViewModel(get(), get(), get(), get()) }

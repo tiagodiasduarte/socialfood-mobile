@@ -264,6 +264,8 @@
     <string name="no_results_subtitle">We couldn’t find any matches for your search.</string>
     <string name="no_results_description">Try adjusting your filters or search terms to find what you’re looking for.</string>
     <string name="no_results_retry_button">Try Again</string>
+    <string name="search_no_results_title">No Results Found</string>
+    <string name="search_no_results_subtitle">We couldn’t find any matches for your search. Try adjusting your filters or search terms.</string>
 
     <string name="error_content_title">Server Error</string>
     <string name="error_content_subtitle">Oops! Something went wrong on our end.</string>

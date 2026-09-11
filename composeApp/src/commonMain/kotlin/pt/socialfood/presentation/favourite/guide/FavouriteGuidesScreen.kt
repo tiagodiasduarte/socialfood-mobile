@@ -43,6 +43,8 @@ import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
+import socialfood.composeapp.generated.resources.favourites_guides_no_results_subtitle
+import socialfood.composeapp.generated.resources.favourites_guides_no_results_title
 import socialfood.composeapp.generated.resources.favourites_guides_title
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -92,7 +94,11 @@ private fun FavouriteGuidesContent(
 
             guides.loadState.refresh is LoadState.NotLoading &&
                 guides.loadState.append.endOfPaginationReached &&
-                guides.itemCount == 0 -> NoResultsContent(modifier = Modifier.fillMaxSize())
+                guides.itemCount == 0 -> NoResultsContent(
+                title = stringResource(Res.string.favourites_guides_no_results_title),
+                subtitle = stringResource(Res.string.favourites_guides_no_results_subtitle),
+                modifier = Modifier.fillMaxSize(),
+            )
 
             else -> PullToRefreshContent(
                 isRefreshing = isRefreshing,

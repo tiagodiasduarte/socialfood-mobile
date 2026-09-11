@@ -47,6 +47,8 @@
     <string name="home_list_see_all_label">See All</string>
     <string name="home_list_view_all_label">View All</string>
     <string name="home_search_bar_placeholder">Search authors, guides and restaurants…</string>
+    <string name="home_no_results_title">Nothing to Show Yet</string>
+    <string name="home_no_results_subtitle">We\'re putting together personalized recommendations for you. Check back soon!</string>
 
     <string name="profile_stat_guides_label">Guides</string>
     <string name="profile_stat_followers_label">Followers</string>
@@ -104,16 +106,30 @@
     <string name="guide_detail_leave_guide_confirmation_cancel">Cancel</string>
 
     <string name="favourites_guides_title">Favourite Guides</string>
+    <string name="favourites_guides_no_results_title">No Favourite Guides</string>
+    <string name="favourites_guides_no_results_subtitle">Guides you favourite will show up here.</string>
     <string name="favourites_restaurants_title">Favourite Restaurants</string>
+    <string name="favourites_restaurants_no_results_title">No Favourite Restaurants</string>
+    <string name="favourites_restaurants_no_results_subtitle">Restaurants you favourite will show up here.</string>
     <string name="wish_restaurants_title">Restaurant Wishlist</string>
     <string name="wish_add_button_description">Add restaurant to wish list</string>
+    <string name="wish_no_results_title">Your Wishlist is Empty</string>
+    <string name="wish_no_results_subtitle">Restaurants you\'d like to try will show up here.</string>
     <string name="visited_restaurants_title">Visited Restaurants</string>
+    <string name="visited_no_results_title">No Visited Restaurants</string>
+    <string name="visited_no_results_subtitle">Restaurants you mark as visited will show up here.</string>
 
     <string name="guides_title">Guides</string>
     <string name="guides_tab_all">All Guides</string>
     <string name="guides_tab_my">My Guides</string>
     <string name="guides_tab_shared">Shared Guides</string>
     <string name="guides_add_button_description">Add guide</string>
+    <string name="guides_no_results_all_title">No Guides Yet</string>
+    <string name="guides_no_results_all_subtitle">No public guides have been created yet. Check back soon!</string>
+    <string name="guides_no_results_my_title">No Guides Yet</string>
+    <string name="guides_no_results_my_subtitle">You haven\'t created any guides yet. Tap + to create one.</string>
+    <string name="guides_no_results_shared_title">No Shared Guides</string>
+    <string name="guides_no_results_shared_subtitle">You haven\'t joined any shared guides yet. Use an invite code to join one.</string>
 
     <string name="shared_guides_join_button">Join with code</string>
     <string name="join_guide_dialog_title">Join a guide</string>
@@ -129,6 +145,8 @@
 
     <string name="authors_title">Authors</string>
     <string name="authors_error_label">Failed to load authors</string>
+    <string name="authors_no_results_title">No Authors Found</string>
+    <string name="authors_no_results_subtitle">There are no authors to show right now.</string>
     <string name="authors_follow_button">Follow</string>
     <string name="authors_following_button">Following</string>
     <string name="authors_stat_guides_label">guides</string>
@@ -242,10 +260,8 @@
     <string name="search_suggestion_favorite_restaurants">Top favorite restaurants</string>
     <string name="search_suggestion_most_followed">Most followed</string>
 
-    <string name="no_results_title">No Results Found</string>
-    <string name="no_results_subtitle">We couldn’t find any matches for your search.</string>
-    <string name="no_results_description">Try adjusting your filters or search terms to find what you’re looking for.</string>
-    <string name="no_results_retry_button">Try Again</string>
+    <string name="search_no_results_title">No Results Found</string>
+    <string name="search_no_results_subtitle">We couldn’t find any matches for your search. Try adjusting your filters or search terms.</string>
 
     <string name="error_content_title">Server Error</string>
     <string name="error_content_subtitle">Oops! Something went wrong on our end.</string>

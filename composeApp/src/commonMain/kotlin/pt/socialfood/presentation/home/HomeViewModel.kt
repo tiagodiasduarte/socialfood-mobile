@@ -37,7 +37,7 @@ class HomeViewModel(
     private val isGuideFavourite: IsGuideFavouriteUseCase,
     private val markGuideFavourite: MarkGuideFavouriteUseCase,
     private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
-    private val observeUser: ObserveUserUseCase,
+    observeUser: ObserveUserUseCase,
     observeHomeSections: ObserveHomeSectionsUseCase,
 ) : ViewModel() {
     private val _state = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -84,10 +84,9 @@ class HomeViewModel(
     private suspend fun fetchSections() {
         when (val result = getHomeSections()) {
             is Result.Success -> {
-                val active =
-                    result.data
-                        .filter { it.isActive }
-                        .sortedBy { it.position }
+                val active = result.data
+                    .filter { it.isActive }
+                    .sortedBy { it.position }
                 val items = active.flatMap { it.items }
 
                 val (favouriteRestaurantIds, favouriteGuideIds) =
@@ -98,27 +97,24 @@ class HomeViewModel(
                         val restaurantsDeferred = restaurantIds.map { id -> async { id to isRestaurantFavourite(id) } }
                         val guidesDeferred = guideIds.map { id -> async { id to isGuideFavourite(id) } }
 
-                        val favouriteRestaurants =
-                            restaurantsDeferred
-                                .awaitAll()
-                                .filter { (_, result) -> (result as? Result.Success)?.data == true }
-                                .map { it.first }
-                                .toSet()
-                        val favouriteGuides =
-                            guidesDeferred
-                                .awaitAll()
-                                .filter { (_, result) -> (result as? Result.Success)?.data == true }
-                                .map { it.first }
-                                .toSet()
+                        val favouriteRestaurants = restaurantsDeferred
+                            .awaitAll()
+                            .filter { (_, result) -> (result as? Result.Success)?.data == true }
+                            .map { it.first }
+                            .toSet()
+                        val favouriteGuides = guidesDeferred
+                            .awaitAll()
+                            .filter { (_, result) -> (result as? Result.Success)?.data == true }
+                            .map { it.first }
+                            .toSet()
 
                         favouriteRestaurants to favouriteGuides
                     }
 
-                _state.value =
-                    HomeUiState.Loaded(
-                        favouriteRestaurantIds = favouriteRestaurantIds,
-                        favouriteGuideIds = favouriteGuideIds,
-                    )
+                _state.value = HomeUiState.Loaded(
+                    favouriteRestaurantIds = favouriteRestaurantIds,
+                    favouriteGuideIds = favouriteGuideIds,
+                )
             }
 
             is Result.Failure -> _state.value = HomeUiState.Error(result.error.toErrorCode())
@@ -128,29 +124,26 @@ class HomeViewModel(
     fun onToggleRestaurantFavourite(restaurant: Restaurant) {
         val current = _state.value as? HomeUiState.Loaded ?: return
         val isFavourite = restaurant.id in current.favouriteRestaurantIds
-        val newIds =
-            if (isFavourite) {
-                current.favouriteRestaurantIds - restaurant.id
-            } else {
-                current.favouriteRestaurantIds + restaurant.id
-            }
+        val newIds = if (isFavourite) {
+            current.favouriteRestaurantIds - restaurant.id
+        } else {
+            current.favouriteRestaurantIds + restaurant.id
+        }
         _state.value = current.copy(favouriteRestaurantIds = newIds)
 
         viewModelScope.launch {
-            val result =
-                if (isFavourite) {
-                    unmarkRestaurantFavourite(restaurant.id)
-                } else {
-                    markRestaurantFavourite(restaurant)
-                }
+            val result = if (isFavourite) {
+                unmarkRestaurantFavourite(restaurant.id)
+            } else {
+                markRestaurantFavourite(restaurant)
+            }
             if (result is Result.Failure) {
                 val stateNow = _state.value as? HomeUiState.Loaded ?: return@launch
-                val revertedIds =
-                    if (isFavourite) {
-                        stateNow.favouriteRestaurantIds + restaurant.id
-                    } else {
-                        stateNow.favouriteRestaurantIds - restaurant.id
-                    }
+                val revertedIds = if (isFavourite) {
+                    stateNow.favouriteRestaurantIds + restaurant.id
+                } else {
+                    stateNow.favouriteRestaurantIds - restaurant.id
+                }
                 _state.value = stateNow.copy(favouriteRestaurantIds = revertedIds)
             }
         }
@@ -163,20 +156,18 @@ class HomeViewModel(
         _state.value = current.copy(favouriteGuideIds = newIds)
 
         viewModelScope.launch {
-            val result =
-                if (isFavourite) {
-                    unmarkGuideFavourite(guide.id)
-                } else {
-                    markGuideFavourite(guide)
-                }
+            val result = if (isFavourite) {
+                unmarkGuideFavourite(guide.id)
+            } else {
+                markGuideFavourite(guide)
+            }
             if (result is Result.Failure) {
                 val stateNow = _state.value as? HomeUiState.Loaded ?: return@launch
-                val revertedIds =
-                    if (isFavourite) {
-                        stateNow.favouriteGuideIds + guide.id
-                    } else {
-                        stateNow.favouriteGuideIds - guide.id
-                    }
+                val revertedIds = if (isFavourite) {
+                    stateNow.favouriteGuideIds + guide.id
+                } else {
+                    stateNow.favouriteGuideIds - guide.id
+                }
                 _state.value = stateNow.copy(favouriteGuideIds = revertedIds)
             }
         }

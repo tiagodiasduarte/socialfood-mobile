@@ -8,13 +8,12 @@ import pt.socialfood.data.network.model.user.UpdateUserRequest
 import pt.socialfood.data.network.model.user.UserResponse
 
 interface UserApi {
-    suspend fun getUsers(): List<UserResponse>
+
+    suspend fun findById(id: String): UserResponse
 
     suspend fun findUsers(page: Int, limit: Int, query: String? = null): PagedResponse<UserResponse>
 
     suspend fun getUserMe(): UserResponse
-
-    suspend fun findById(id: String): UserResponse
 
     suspend fun update(request: UpdateUserRequest, id: String): UserResponse
 

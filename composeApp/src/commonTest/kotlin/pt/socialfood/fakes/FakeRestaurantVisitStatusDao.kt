@@ -49,6 +49,11 @@ class FakeRestaurantVisitStatusDao(
         entities.values.filter { it.status == status }.forEach { entities.remove(it.restaurantId) }
     }
 
+    override suspend fun deleteAll() {
+        if (shouldThrowOnWrite) throw SQLiteException("test error")
+        entities.clear()
+    }
+
     override suspend fun getByRestaurantId(restaurantId: String): RestaurantVisitStatusEntity? = entities[restaurantId]
 
     override suspend fun getPending(): List<RestaurantVisitStatusEntity> =

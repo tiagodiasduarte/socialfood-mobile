@@ -3,6 +3,7 @@ package pt.socialfood.presentation.guide
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,6 +28,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import kotlinx.coroutines.flow.flowOf
+import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -39,6 +41,13 @@ import pt.socialfood.presentation.guide.my.MyGuidesScreen
 import pt.socialfood.presentation.guide.shared.SharedGuidesScreen
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.guides_no_results_all_subtitle
+import socialfood.composeapp.generated.resources.guides_no_results_all_title
+import socialfood.composeapp.generated.resources.guides_no_results_my_subtitle
+import socialfood.composeapp.generated.resources.guides_no_results_my_title
+import socialfood.composeapp.generated.resources.guides_no_results_shared_subtitle
+import socialfood.composeapp.generated.resources.guides_no_results_shared_title
 
 const val ALL_GUIDES_TAB = 0
 const val MY_GUIDES_TAB = 1
@@ -99,68 +108,90 @@ fun GuidesScreenContent(
 
     val isRefreshing = guides.loadState.refresh is LoadState.Loading && guides.itemCount > 0
 
-    PullToRefreshContent(
-        isRefreshing = isRefreshing,
-        onRefresh = { guides.refresh() },
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        LazyColumn(
-            state = listState,
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(bottom = SpaceSize.xxlarge),
+        GuidesHeader(
+            selectedTab = selectedTab,
+            onSelectedTab = onTabSelected,
+            onAddClick = onAddClick,
+            userImageUrl = user?.imageUrl,
+            onProfileClick = onProfileClick,
+        )
+
+        PullToRefreshContent(
+            isRefreshing = isRefreshing,
+            onRefresh = { guides.refresh() },
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
         ) {
-            item {
-                GuidesHeader(
-                    selectedTab = selectedTab,
-                    onSelectedTab = onTabSelected,
-                    onAddClick = onAddClick,
-                    userImageUrl = user?.imageUrl,
-                    onProfileClick = onProfileClick,
-                )
-            }
-
-            when (guides.loadState.refresh) {
-                is LoadState.Loading if guides.itemCount == 0 -> item {
-                    GuidesSkeleton()
-                }
-
-                is LoadState.Error if guides.itemCount == 0 -> item {
-                    ErrorContent(onRetryClick = { guides.retry() })
-                }
-
-                is LoadState.NotLoading if guides.loadState.append.endOfPaginationReached &&
-                    guides.itemCount == 0 -> item {
-                    NoResultsContent()
-                }
-
-                else -> {
-                    items(
-                        count = guides.itemCount,
-                        key = guides.itemKey { it.id },
-                    ) { index ->
-                        guides[index]?.let { guide ->
-                            GuideCard(
-                                modifier = Modifier.padding(horizontal = SpaceSize.large),
-                                guide = guide,
-                                isFavourite = guide.id in favouriteGuideIds,
-                                onClick = { onGuideClick(guide.id) },
-                                onFavouriteClick = { onFavouriteClick(guide) },
-                            )
-                        }
+            LazyColumn(
+                state = listState,
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(bottom = SpaceSize.xxlarge),
+            ) {
+                when (guides.loadState.refresh) {
+                    is LoadState.Loading if guides.itemCount == 0 -> item {
+                        GuidesSkeleton(modifier = Modifier.fillParentMaxSize())
                     }
 
-                    if (guides.loadState.append is LoadState.Loading) {
-                        item {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(SpaceSize.large),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                CircularProgressIndicator()
+                    is LoadState.Error if guides.itemCount == 0 -> item {
+                        ErrorContent(
+                            onRetryClick = { guides.retry() },
+                            modifier = Modifier.fillParentMaxSize(),
+                        )
+                    }
+
+                    is LoadState.NotLoading if guides.loadState.append.endOfPaginationReached &&
+                        guides.itemCount == 0 -> item {
+                        val (titleRes, subtitleRes) = when (selectedTab) {
+                            MY_GUIDES_TAB ->
+                                Res.string.guides_no_results_my_title to
+                                    Res.string.guides_no_results_my_subtitle
+                            SHARED_GUIDES_TAB ->
+                                Res.string.guides_no_results_shared_title to
+                                    Res.string.guides_no_results_shared_subtitle
+                            else ->
+                                Res.string.guides_no_results_all_title to
+                                    Res.string.guides_no_results_all_subtitle
+                        }
+                        NoResultsContent(
+                            title = stringResource(titleRes),
+                            subtitle = stringResource(subtitleRes),
+                            modifier = Modifier.fillParentMaxSize(),
+                        )
+                    }
+
+                    else -> {
+                        items(
+                            count = guides.itemCount,
+                            key = guides.itemKey { it.id },
+                        ) { index ->
+                            guides[index]?.let { guide ->
+                                GuideCard(
+                                    modifier = Modifier.padding(horizontal = SpaceSize.large),
+                                    guide = guide,
+                                    isFavourite = guide.id in favouriteGuideIds,
+                                    onClick = { onGuideClick(guide.id) },
+                                    onFavouriteClick = { onFavouriteClick(guide) },
+                                )
+                            }
+                        }
+
+                        if (guides.loadState.append is LoadState.Loading) {
+                            item {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(SpaceSize.large),
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    CircularProgressIndicator()
+                                }
                             }
                         }
                     }

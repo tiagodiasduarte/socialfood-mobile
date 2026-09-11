@@ -9,6 +9,7 @@ import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.clearAuthTokens
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -24,6 +25,10 @@ import io.ktor.http.contentType
 import io.ktor.http.encodedPath
 import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import kotlinx.io.IOException
 import kotlinx.serialization.json.Json
 import pt.socialfood.data.network.model.ErrorResponse
@@ -143,6 +148,16 @@ class KtorHttpClient(
         HttpClient(engine, config)
     } else {
         HttpClient(config)
+    }
+
+    init {
+        // Drop the cached bearer token whenever SessionManager's tokens change, otherwise Ktor
+        // keeps reusing the previous user's token after a logout+login as someone else.
+        CoroutineScope(SupervisorJob() + Dispatchers.Default).launch {
+            sessionManager.tokensChangedEvent.collect {
+                client.clearAuthTokens()
+            }
+        }
     }
 
     companion object {

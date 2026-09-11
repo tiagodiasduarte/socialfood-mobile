@@ -17,4 +17,7 @@ interface FavouriteGuideRemoteKeyDao {
 
     @Query("DELETE FROM $FAVOURITE_GUIDES_REMOTE_KEYS_TABLE WHERE scope = :scope")
     suspend fun deleteByScope(scope: String)
+
+    @Query("DELETE FROM $FAVOURITE_GUIDES_REMOTE_KEYS_TABLE")
+    suspend fun deleteAll()
 }

@@ -37,8 +37,9 @@ fun GuideBottomInfo(guide: Guide, fontColor: Color = Color.White.copy(alpha = 0.
 }
 
 @Composable
-private fun AuthorChip(author: Author, fontColor: Color) {
+fun AuthorChip(author: Author, fontColor: Color, modifier: Modifier = Modifier) {
     Row(
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {

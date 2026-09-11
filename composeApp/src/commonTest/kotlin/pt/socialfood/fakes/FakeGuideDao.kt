@@ -25,6 +25,11 @@ class FakeGuideDao(private val shouldThrowOnWrite: Boolean = false) : GuideDao {
         entities.removeAll { it.scope == scope }
     }
 
+    override suspend fun deleteAll() {
+        if (shouldThrowOnWrite) throw SQLiteException("test error")
+        entities.clear()
+    }
+
     override fun pagingSource(scope: String): PagingSource<Int, GuideEntity> =
         FakeGuidePagingSource { entities.filter { it.scope == scope }.sortedBy { it.position } }
 }

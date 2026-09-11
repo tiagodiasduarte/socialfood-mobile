@@ -15,7 +15,7 @@ import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
-private const val SKELETON_ITEM_COUNT = 5
+private const val SKELETON_ITEM_COUNT = 8
 
 @Composable
 fun GuidesSkeleton(modifier: Modifier = Modifier) {

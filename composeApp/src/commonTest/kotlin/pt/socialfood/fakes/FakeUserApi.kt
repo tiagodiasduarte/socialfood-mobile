@@ -20,11 +20,6 @@ class FakeUserApi(private val shouldThrow: Boolean = false) : UserApi {
         role = "USER",
     )
 
-    override suspend fun getUsers(): List<UserResponse> {
-        if (shouldThrow) throw IOException("test error")
-        return listOf(fakeUserResponse)
-    }
-
     override suspend fun findUsers(page: Int, limit: Int, query: String?): PagedResponse<UserResponse> {
         if (shouldThrow) throw IOException("test error")
         return PagedResponse(

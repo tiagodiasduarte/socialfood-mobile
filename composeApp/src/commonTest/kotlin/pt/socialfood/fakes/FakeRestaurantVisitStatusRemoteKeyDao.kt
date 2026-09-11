@@ -20,4 +20,9 @@ class FakeRestaurantVisitStatusRemoteKeyDao(private val shouldThrowOnWrite: Bool
         if (shouldThrowOnWrite) throw SQLiteException("test error")
         keys.remove(scope)
     }
+
+    override suspend fun deleteAll() {
+        if (shouldThrowOnWrite) throw SQLiteException("test error")
+        keys.clear()
+    }
 }

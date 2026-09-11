@@ -52,6 +52,7 @@ import pt.socialfood.data.repository.FavouriteRestaurantsRepositoryImpl
 import pt.socialfood.data.repository.FavouritesGuidesRepositoryImpl
 import pt.socialfood.data.repository.GuidesRepositoryImpl
 import pt.socialfood.data.repository.HomeRepositoryImpl
+import pt.socialfood.data.repository.LocalCacheRepositoryImpl
 import pt.socialfood.data.repository.PhotosRepositoryImpl
 import pt.socialfood.data.repository.PlacesRepositoryImpl
 import pt.socialfood.data.repository.RestaurantVisitStatusRepositoryImpl
@@ -65,6 +66,7 @@ import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
 import pt.socialfood.domain.repository.FavouritesGuidesRepository
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.repository.HomeRepository
+import pt.socialfood.domain.repository.LocalCacheRepository
 import pt.socialfood.domain.repository.PhotosRepository
 import pt.socialfood.domain.repository.PlacesRepository
 import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
@@ -203,8 +205,6 @@ import pt.socialfood.domain.usecase.user.GetUserByIdUseCase
 import pt.socialfood.domain.usecase.user.GetUserByIdUseCaseImpl
 import pt.socialfood.domain.usecase.user.GetUserMeUseCase
 import pt.socialfood.domain.usecase.user.GetUserMeUseCaseImpl
-import pt.socialfood.domain.usecase.user.GetUsersUseCase
-import pt.socialfood.domain.usecase.user.GetUsersUseCaseImpl
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCaseImpl
 import pt.socialfood.domain.usecase.user.UpdateUserPhotoUseCase
@@ -213,6 +213,7 @@ import pt.socialfood.domain.usecase.user.UpdateUserUseCase
 import pt.socialfood.domain.usecase.user.UpdateUserUseCaseImpl
 import pt.socialfood.presentation.author.detail.AuthorDetailViewModel
 import pt.socialfood.presentation.author.list.AuthorsViewModel
+import pt.socialfood.presentation.drawer.DrawerViewModel
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesViewModel
 import pt.socialfood.presentation.favourite.restaurant.FavouriteRestaurantsViewModel
 import pt.socialfood.presentation.guide.all.AllGuidesViewModel
@@ -223,7 +224,6 @@ import pt.socialfood.presentation.guide.map.GuideMapViewModel
 import pt.socialfood.presentation.guide.my.MyGuidesViewModel
 import pt.socialfood.presentation.guide.shared.SharedGuidesViewModel
 import pt.socialfood.presentation.home.HomeViewModel
-import pt.socialfood.presentation.profile.ProfileViewModel
 import pt.socialfood.presentation.profile.edit.EditProfileViewModel
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
@@ -308,6 +308,7 @@ val repositoryModule =
                 transactionRunner = get<AppDatabase>().asHomeCacheTransactionRunner(),
             )
         }
+        single<LocalCacheRepository> { LocalCacheRepositoryImpl(get()) }
         single<PhotosRepository> { PhotosRepositoryImpl(get()) }
         single<PlacesRepository> { PlacesRepositoryImpl(get()) }
         single<RestaurantsRepository> { RestaurantsRepositoryImpl(get()) }
@@ -359,7 +360,6 @@ val useCaseModule =
         factory<GetUserGuidesPagingUseCase> { GetUserGuidesPagingUseCaseImpl(get()) }
         factory<GetUserJoinedGuidesPagingUseCase> { GetUserJoinedGuidesPagingUseCaseImpl(get()) }
         factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
-        factory<GetUsersUseCase> { GetUsersUseCaseImpl(get()) }
         factory<GetRestaurantVisitStatusPagingUseCase> { GetRestaurantVisitStatusPagingUseCaseImpl(get()) }
         factory<GetVisitStatusUseCase> { GetVisitStatusUseCaseImpl(get()) }
         factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
@@ -368,7 +368,7 @@ val useCaseModule =
         factory<LeaveGuideUseCase> { LeaveGuideUseCaseImpl(get()) }
         factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
         factory<LoginWithGoogleUseCase> { LoginWithGoogleUseCaseImpl(get(), get()) }
-        factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
+        factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get(), get()) }
         factory<MarkGuideFavouriteUseCase> { MarkGuideFavouriteUseCaseImpl(get()) }
         factory<MarkRestaurantFavouriteUseCase> { MarkRestaurantFavouriteUseCaseImpl(get()) }
         factory<MarkRestaurantVisitStatusUseCase> { MarkRestaurantVisitStatusUseCaseImpl(get()) }
@@ -404,24 +404,24 @@ val viewModelModule =
         factory { (authorId: String) -> AuthorDetailViewModel(get(), authorId) }
         factory { AuthorsViewModel(get(), get()) }
         factory { CreateGuideViewModel(get(), get(), get()) }
+        factory { DrawerViewModel(get(), get(), get()) }
         factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), get(), get(), guideId) }
         factory { EditProfileViewModel(get(), get(), get(), get(), get(), get()) }
-        factory { FavouriteGuidesViewModel(get(), get()) }
-        factory { FavouriteRestaurantsViewModel(get(), get()) }
+        factory { FavouriteGuidesViewModel(get(), get(), get()) }
+        factory { FavouriteRestaurantsViewModel(get(), get(), get()) }
         factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), get(), guideId) }
         factory { (guideId: String) -> GuideMapViewModel(get(), guideId) }
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
         factory { MyGuidesViewModel(get(), get(), get(), get(), get()) }
-        factory { ProfileViewModel(get(), get(), get()) }
         factory { (restaurantId: String) ->
             RestaurantDetailViewModel(get(), get(), get(), get(), get(), get(), restaurantId)
         }
-        factory { RestaurantVisitedViewModel(get(), get()) }
-        factory { RestaurantWishlistViewModel(get(), get(), get()) }
+        factory { RestaurantVisitedViewModel(get(), get(), get()) }
+        factory { RestaurantWishlistViewModel(get(), get(), get(), get()) }
         factory { SharedGuidesViewModel(get(), get(), get(), get(), get(), get(), get()) }
         factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
         factory { SearchViewModel(get(), get(), get()) }
-        factory { SignInViewModel(get(), get()) }
+        factory { SignInViewModel(get(), get(), get()) }
         factory { SignUpViewModel(get()) }
         factory { StartupViewModel(get(), get(), get()) }
         factory { SyncViewModel(get(), get(), get(), get()) }

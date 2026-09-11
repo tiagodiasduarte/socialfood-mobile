@@ -18,35 +18,6 @@ class UsersRepositoryImplTest {
     private fun createRepository(shouldThrow: Boolean = false): UsersRepositoryImpl =
         UsersRepositoryImpl(FakeUserApi(shouldThrow))
 
-    // getUsers
-
-    @Test
-    fun `given users exist when getUsers is called then returns Success with list of User`() = runTest {
-        // Given
-        val repo = createRepository()
-
-        // When
-        val result = repo.getUsers()
-
-        // Then
-        assertIs<Result.Success<List<User>>>(result)
-        assertTrue(result.data.isNotEmpty())
-        assertEquals("user-id", result.data.first().id)
-    }
-
-    @Test
-    fun `given api throws when getUsers is called then returns Error Unknown`() = runTest {
-        // Given
-        val repo = createRepository(shouldThrow = true)
-
-        // When
-        val result = repo.getUsers()
-
-        // Then
-        assertIs<Result.Failure>(result)
-        assertIs<DataError.Network>(result.error)
-    }
-
     // findUsers
 
     @Test

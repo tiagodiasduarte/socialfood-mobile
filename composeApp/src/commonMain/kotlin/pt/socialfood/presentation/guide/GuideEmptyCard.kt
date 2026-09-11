@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.author.detail
+package pt.socialfood.presentation.guide
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -19,17 +19,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.IconSize
 import pt.socialfood.ui.theme.PlaceholderStroke
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.author_detail_no_public_guides_label
 import socialfood.composeapp.generated.resources.guide_placeholder_icon
 
 @Composable
-fun AuthorEmptyGuideCard(modifier: Modifier = Modifier) {
+fun GuideEmptyCard(modifier: Modifier = Modifier, text: String) {
     Card(
         modifier = modifier.fillMaxWidth().height(130.dp),
         shape = RoundedCornerShape(SpaceSize.large),
@@ -48,7 +46,7 @@ fun AuthorEmptyGuideCard(modifier: Modifier = Modifier) {
                     modifier = Modifier.size(IconSize.small),
                 )
                 Text(
-                    text = stringResource(Res.string.author_detail_no_public_guides_label),
+                    text = text,
                     style = MaterialTheme.typography.labelMedium,
                     color = PlaceholderStroke,
                 )
@@ -61,6 +59,6 @@ fun AuthorEmptyGuideCard(modifier: Modifier = Modifier) {
 @Preview
 private fun AuthorEmptyGuideCardPreview() {
     AppTheme {
-        AuthorEmptyGuideCard()
+        GuideEmptyCard(text = "No guides available")
     }
 }

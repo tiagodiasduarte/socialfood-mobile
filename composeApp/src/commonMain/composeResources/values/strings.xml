@@ -83,6 +83,7 @@
 
     <string name="guide_detail_error_label">Failed to load guide</string>
     <string name="guide_detail_restaurants_section_title">Restaurants</string>
+    <string name="guide_detail_no_restaurants_label">No restaurants added yet</string>
     <string name="guide_detail_back_button_description">Back</string>
     <string name="guide_detail_share_button_description">Share</string>
     <string name="guide_detail_edit_button_description">Edit</string>

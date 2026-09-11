@@ -371,7 +371,7 @@ val useCaseModule =
         factory<LeaveGuideUseCase> { LeaveGuideUseCaseImpl(get()) }
         factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
         factory<LoginWithGoogleUseCase> { LoginWithGoogleUseCaseImpl(get(), get()) }
-        factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get()) }
+        factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get(), get()) }
         factory<MarkGuideFavouriteUseCase> { MarkGuideFavouriteUseCaseImpl(get()) }
         factory<MarkRestaurantFavouriteUseCase> { MarkRestaurantFavouriteUseCaseImpl(get()) }
         factory<MarkRestaurantVisitStatusUseCase> { MarkRestaurantVisitStatusUseCaseImpl(get()) }

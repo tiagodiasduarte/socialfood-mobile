@@ -19,4 +19,9 @@ class FakeGuideRemoteKeyDao(private val shouldThrowOnWrite: Boolean = false) : G
         if (shouldThrowOnWrite) throw SQLiteException("test error")
         keys.remove(scope)
     }
+
+    override suspend fun deleteAll() {
+        if (shouldThrowOnWrite) throw SQLiteException("test error")
+        keys.clear()
+    }
 }

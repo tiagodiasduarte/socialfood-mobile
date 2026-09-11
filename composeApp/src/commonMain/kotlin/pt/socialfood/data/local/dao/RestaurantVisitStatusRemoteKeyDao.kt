@@ -17,4 +17,7 @@ interface RestaurantVisitStatusRemoteKeyDao {
 
     @Query("DELETE FROM $RESTAURANT_VISIT_STATUS_REMOTE_KEYS_TABLE WHERE scope = :scope")
     suspend fun deleteByScope(scope: String)
+
+    @Query("DELETE FROM $RESTAURANT_VISIT_STATUS_REMOTE_KEYS_TABLE")
+    suspend fun deleteAll()
 }

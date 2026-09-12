@@ -40,7 +40,7 @@ import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.guide_map_close_button_description
 import socialfood.composeapp.generated.resources.guide_map_empty_message
-import socialfood.composeapp.generated.resources.guide_map_locations_count_label
+import socialfood.composeapp.generated.resources.guide_map_restaurants_count_label
 
 @Composable
 fun GuideMapScreen(
@@ -130,7 +130,7 @@ private fun GuideMapHeader(guideName: String, restaurantsCount: Int, onCloseClic
                 color = MaterialTheme.colorScheme.onSurface,
             )
             Text(
-                text = stringResource(Res.string.guide_map_locations_count_label, restaurantsCount),
+                text = stringResource(Res.string.guide_map_restaurants_count_label, restaurantsCount),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

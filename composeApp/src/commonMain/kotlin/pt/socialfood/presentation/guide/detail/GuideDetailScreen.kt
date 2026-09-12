@@ -59,11 +59,15 @@ import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
 import pt.socialfood.presentation.guide.detail.author.AuthorItemCard
 import pt.socialfood.presentation.guide.shared.AuthorChip
+import pt.socialfood.presentation.restaurant.RestaurantEmptyCard
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.PrivateBadge
+import pt.socialfood.ui.theme.PrivateBadgeBackground
 import pt.socialfood.ui.theme.PublicBadge
 import pt.socialfood.ui.theme.PublicBadgeBackground
+import pt.socialfood.ui.theme.SharedBadge
+import pt.socialfood.ui.theme.SharedBadgeBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.guide_detail_leave_guide_button
@@ -72,6 +76,7 @@ import socialfood.composeapp.generated.resources.guide_detail_leave_guide_confir
 import socialfood.composeapp.generated.resources.guide_detail_leave_guide_confirmation_message
 import socialfood.composeapp.generated.resources.guide_detail_leave_guide_confirmation_title
 import socialfood.composeapp.generated.resources.guide_detail_map_button_description
+import socialfood.composeapp.generated.resources.guide_detail_no_restaurants_label
 import socialfood.composeapp.generated.resources.guide_detail_private_icon_description
 import socialfood.composeapp.generated.resources.guide_detail_private_label
 import socialfood.composeapp.generated.resources.guide_detail_public_icon_description
@@ -83,6 +88,7 @@ import socialfood.composeapp.generated.resources.guide_detail_shared_icon_descri
 import socialfood.composeapp.generated.resources.guide_detail_shared_label
 import socialfood.composeapp.generated.resources.guides_private_icon
 import socialfood.composeapp.generated.resources.guides_public_icon
+import socialfood.composeapp.generated.resources.share_icon
 
 internal val GuideImageHeight = 320.dp
 
@@ -214,29 +220,11 @@ private fun GuideDetailLoaded(
             GuideAuthorSection(guide = guide, onAuthorClick = onAuthorClick)
         }
 
+        item {
+            RestaurantsSectionHeader(guide = guide, onViewMapClick = onViewMapClick)
+        }
+
         if (guide.restaurants.isNotEmpty()) {
-            item {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(SpaceSize.large),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Text(
-                        text = stringResource(Res.string.guide_detail_restaurants_section_title),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
-
-                    OutlinedButton(
-                        text = stringResource(Res.string.guide_detail_map_button_description),
-                        icon = Icons.Outlined.Map,
-                        onClick = { onViewMapClick(guide.id, guide.name, guide.restaurants.size) },
-                    )
-                }
-            }
-
             itemsIndexed(guide.restaurants, key = { _, r -> r.id }) { _, restaurant ->
                 RestaurantSmallCard(
                     modifier = Modifier.padding(horizontal = SpaceSize.large),
@@ -244,9 +232,44 @@ private fun GuideDetailLoaded(
                     onClick = { onRestaurantClick(restaurant.id) },
                 )
             }
+        } else {
+            item {
+                RestaurantEmptyCard(
+                    modifier = Modifier.padding(horizontal = SpaceSize.large),
+                    text = stringResource(Res.string.guide_detail_no_restaurants_label),
+                )
+            }
         }
 
         item { Spacer(Modifier.height(SpaceSize.xxlarge)) }
+    }
+}
+
+@Composable
+private fun RestaurantsSectionHeader(
+    guide: Guide,
+    onViewMapClick: (guideId: String, guideName: String, restaurantsCount: Int) -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(SpaceSize.large),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Text(
+            text = stringResource(Res.string.guide_detail_restaurants_section_title),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
+
+        if (guide.restaurants.isNotEmpty()) {
+            OutlinedButton(
+                text = stringResource(Res.string.guide_detail_map_button_description),
+                icon = Icons.Outlined.Map,
+                onClick = { onViewMapClick(guide.id, guide.name, guide.restaurants.size) },
+            )
+        }
     }
 }
 
@@ -441,15 +464,15 @@ private fun VisibilityBadgeContent(visibility: GuideVisibility) {
 
         GuideVisibility.SHARED -> {
             Image(
-                painter = painterResource(Res.drawable.guides_private_icon),
+                painter = painterResource(Res.drawable.share_icon),
                 contentDescription = stringResource(Res.string.guide_detail_shared_icon_description),
                 modifier = Modifier.size(20.dp),
-                colorFilter = ColorFilter.tint(PrivateBadge),
+                colorFilter = ColorFilter.tint(SharedBadge),
             )
             Text(
                 text = stringResource(Res.string.guide_detail_shared_label),
                 style = MaterialTheme.typography.bodyMedium,
-                color = PrivateBadge,
+                color = SharedBadge,
             )
         }
     }
@@ -477,8 +500,11 @@ private fun GuideTitleAndDescription(guide: Guide) {
 }
 
 @Composable
-private fun GuideVisibility.badgeBackgroundColor(): Color =
-    if (this == GuideVisibility.PUBLIC) PublicBadgeBackground else MaterialTheme.colorScheme.surface
+private fun GuideVisibility.badgeBackgroundColor(): Color = when (this) {
+    GuideVisibility.PUBLIC -> PublicBadgeBackground
+    GuideVisibility.PRIVATE -> PrivateBadgeBackground
+    GuideVisibility.SHARED -> SharedBadgeBackground
+}
 
 @Composable
 @Preview

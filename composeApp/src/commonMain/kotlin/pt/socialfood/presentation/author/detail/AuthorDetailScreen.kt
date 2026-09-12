@@ -25,10 +25,12 @@ import pt.socialfood.domain.model.AuthorDetail
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.ProfileHeader
 import pt.socialfood.presentation.components.TopActionButtons
+import pt.socialfood.presentation.guide.GuideEmptyCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.author_detail_guides_section_title
+import socialfood.composeapp.generated.resources.author_detail_no_public_guides_label
 
 @Composable
 fun AuthorDetailScreen(
@@ -114,7 +116,10 @@ private fun AuthorDetailLoaded(
             }
         } else {
             item {
-                AuthorEmptyGuideCard(Modifier.padding(horizontal = SpaceSize.large))
+                GuideEmptyCard(
+                    modifier = Modifier.padding(horizontal = SpaceSize.large),
+                    text = stringResource(Res.string.author_detail_no_public_guides_label),
+                )
             }
         }
     }

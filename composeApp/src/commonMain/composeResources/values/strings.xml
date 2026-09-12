@@ -83,6 +83,7 @@
 
     <string name="guide_detail_error_label">Failed to load guide</string>
     <string name="guide_detail_restaurants_section_title">Restaurants</string>
+    <string name="guide_detail_no_restaurants_label">No restaurants added yet</string>
     <string name="guide_detail_back_button_description">Back</string>
     <string name="guide_detail_share_button_description">Share</string>
     <string name="guide_detail_edit_button_description">Edit</string>
@@ -116,6 +117,7 @@
     <string name="wish_no_results_title">Your Wishlist is Empty</string>
     <string name="wish_no_results_subtitle">Restaurants you\'d like to try will show up here.</string>
     <string name="visited_restaurants_title">Visited Restaurants</string>
+    <string name="visited_add_button_description">Add restaurant to visited list</string>
     <string name="visited_no_results_title">No Visited Restaurants</string>
     <string name="visited_no_results_subtitle">Restaurants you mark as visited will show up here.</string>
 

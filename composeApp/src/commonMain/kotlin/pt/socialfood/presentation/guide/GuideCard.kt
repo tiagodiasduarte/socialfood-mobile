@@ -25,12 +25,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -40,7 +43,15 @@ import pt.socialfood.presentation.guide.shared.GuideBottomInfo
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.FavouriteRed
+import pt.socialfood.ui.theme.PrivateBadge
+import pt.socialfood.ui.theme.PublicBadge
+import pt.socialfood.ui.theme.SharedBadge
 import pt.socialfood.ui.theme.SpaceSize
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.guides_private_icon
+import socialfood.composeapp.generated.resources.guides_public_icon
+import socialfood.composeapp.generated.resources.join_shared_guide_screen_close_button_description
+import socialfood.composeapp.generated.resources.share_icon
 
 internal val CardHeight = 180.dp
 
@@ -73,6 +84,13 @@ fun GuideCard(
             guide = guide,
             modifier = Modifier.align(Alignment.BottomStart),
         )
+
+        BadgeVisibility(
+            guide = guide,
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(SpaceSize.large),
+        )
     }
 }
 
@@ -102,7 +120,7 @@ private fun GuideCardFavouriteButton(
 ) {
     Box(
         modifier = modifier
-            .padding(8.dp)
+            .padding(SpaceSize.medium)
             .size(32.dp)
             .clip(CircleShape)
             .background(Color.White.copy(alpha = 0.9f))
@@ -121,14 +139,14 @@ private fun GuideCardFavouriteButton(
 @Composable
 private fun GuideCardContent(guide: Guide, modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.padding(horizontal = 16.dp, vertical = 14.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = modifier.padding(SpaceSize.large),
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
     ) {
         Text(
             text = guide.name,
             style = AppTypography.headlineMedium,
             color = Color.White,
-            maxLines = 2,
+            maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
 
@@ -142,10 +160,42 @@ private fun GuideCardContent(guide: Guide, modifier: Modifier = Modifier) {
             )
         }
 
-        Spacer(Modifier.height(2.dp))
+        Spacer(Modifier.height(SpaceSize.small))
 
         GuideBottomInfo(guide)
     }
+}
+
+@Composable
+private fun BadgeVisibility(guide: Guide, modifier: Modifier) {
+    Box(
+        modifier = modifier
+            .size(28.dp)
+            .clip(CircleShape)
+            .background(guide.visibility.badgeBackgroundColor()),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            modifier = Modifier.size(14.dp),
+            painter = guide.visibility.badgeIcon(),
+            contentDescription = stringResource(Res.string.join_shared_guide_screen_close_button_description),
+            tint = Color.White,
+        )
+    }
+}
+
+@Composable
+private fun GuideVisibility.badgeIcon(): Painter = when (this) {
+    GuideVisibility.PUBLIC -> painterResource(Res.drawable.guides_public_icon)
+    GuideVisibility.PRIVATE -> painterResource(Res.drawable.guides_private_icon)
+    GuideVisibility.SHARED -> painterResource(Res.drawable.share_icon)
+}
+
+@Composable
+private fun GuideVisibility.badgeBackgroundColor(): Color = when (this) {
+    GuideVisibility.PUBLIC -> PublicBadge
+    GuideVisibility.PRIVATE -> PrivateBadge
+    GuideVisibility.SHARED -> SharedBadge
 }
 
 @Composable

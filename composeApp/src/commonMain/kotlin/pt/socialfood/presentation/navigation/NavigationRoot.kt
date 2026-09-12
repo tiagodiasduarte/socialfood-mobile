@@ -258,6 +258,10 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 onRestaurantClick = { restaurantId ->
                                     navigator.navigate(Route.RestaurantDetail(restaurantId))
                                 },
+                                onAddClick = { onRestaurantAdded ->
+                                    onRestaurantAddedRef.value = onRestaurantAdded
+                                    navigator.navigate(Route.AddVisitedRestaurant)
+                                },
                             )
                         }
                         entry<Route.Home> {
@@ -284,6 +288,16 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             )
                         }
                         entry<Route.AddWishRestaurant> {
+                            SearchRestaurantsScreen(
+                                guideId = "",
+                                onBackClick = navigator::goBack,
+                                onRestaurantAdded = { restaurant ->
+                                    onRestaurantAddedRef.value?.invoke(restaurant)
+                                    navigator.goBack()
+                                },
+                            )
+                        }
+                        entry<Route.AddVisitedRestaurant> {
                             SearchRestaurantsScreen(
                                 guideId = "",
                                 onBackClick = navigator::goBack,

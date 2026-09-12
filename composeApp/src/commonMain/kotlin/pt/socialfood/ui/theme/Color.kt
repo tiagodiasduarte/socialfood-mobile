@@ -34,11 +34,17 @@ val FavouriteRed = Color(0xFFEF4444)
 val PlaceholderGradientEnd = Color(0xFFE5E7EB)
 val PlaceholderGradientStart = Color(0xFFF3F4F6)
 val PlaceholderStroke = Color(0xFFD1D5DC)
-val PrivateBadge = Color(0xFF364153)
 val ProfileGradientEnd = Color(0xFFB82010)
 val ProfileGradientStart = Color(0xFFF05A1A)
+
+val PrivateBadge = Color(0xFF364153)
 val PublicBadge = Color(0xFF008236)
+val SharedBadge = Color(0xFF2B7FFF)
+
+val PrivateBadgeBackground = Color(0xFFEAECEF)
 val PublicBadgeBackground = Color(0xFFF0FDF4)
+val SharedBadgeBackground = Color(0xFFEFF6FF)
+
 val SearchBorder = Color(0xFFE5E7EB)
 val Shimmer = Color(0xFFD0D0D0)
 val Star = Color(0xFFFFC107)

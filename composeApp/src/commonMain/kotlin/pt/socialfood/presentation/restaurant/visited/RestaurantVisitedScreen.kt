@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -43,6 +45,7 @@ import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
+import socialfood.composeapp.generated.resources.visited_add_button_description
 import socialfood.composeapp.generated.resources.visited_card_remove_button_description
 import socialfood.composeapp.generated.resources.visited_no_results_subtitle
 import socialfood.composeapp.generated.resources.visited_no_results_title
@@ -53,6 +56,7 @@ import socialfood.composeapp.generated.resources.visited_restaurants_title
 fun RestaurantVisitedScreen(
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onAddClick: (onRestaurantAdded: (Restaurant) -> Unit) -> Unit = {},
     viewModel: RestaurantVisitedViewModel = koinViewModel(),
 ) {
     val restaurants = viewModel.restaurants.collectAsLazyPagingItems()
@@ -61,6 +65,7 @@ fun RestaurantVisitedScreen(
         restaurants = restaurants,
         onBackClick = onBackClick,
         onRestaurantClick = onRestaurantClick,
+        onAddClick = { onAddClick(viewModel::addToVisited) },
         onRemoveClick = viewModel::removeFromVisited,
     )
 }
@@ -72,6 +77,7 @@ private fun VisitedRestaurantsContent(
     restaurants: LazyPagingItems<Restaurant>,
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onAddClick: () -> Unit = {},
     onRemoveClick: (restaurantId: String) -> Unit = {},
 ) {
     val listState = rememberLazyListState()
@@ -82,7 +88,7 @@ private fun VisitedRestaurantsContent(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        TopBar(onBackClick = onBackClick)
+        TopBar(onBackClick = onBackClick, onAddClick = onAddClick)
 
         when {
             restaurants.loadState.refresh is LoadState.Loading && restaurants.itemCount == 0 ->
@@ -145,7 +151,7 @@ private fun VisitedRestaurantsContent(
 }
 
 @Composable
-private fun TopBar(onBackClick: () -> Unit) {
+private fun TopBar(onBackClick: () -> Unit, onAddClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -166,6 +172,16 @@ private fun TopBar(onBackClick: () -> Unit) {
             style = AppTypography.headlineMedium,
             color = MaterialTheme.colorScheme.primary,
         )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        IconButton(onClick = onAddClick) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = stringResource(Res.string.visited_add_button_description),
+                tint = MaterialTheme.colorScheme.primary,
+            )
+        }
     }
 }
 

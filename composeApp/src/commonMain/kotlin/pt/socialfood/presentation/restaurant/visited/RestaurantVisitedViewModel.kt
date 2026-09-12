@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusPagingUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.MarkRestaurantVisitStatusUseCase
 import pt.socialfood.domain.usecase.restaurantvisitstatus.UnmarkRestaurantVisitStatusUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 
@@ -23,6 +24,7 @@ private val STATUS = VisitStatus.VISITED
 @OptIn(ExperimentalCoroutinesApi::class)
 class RestaurantVisitedViewModel(
     private val getRestaurantVisitStatusPaging: GetRestaurantVisitStatusPagingUseCase,
+    private val markRestaurantVisitStatus: MarkRestaurantVisitStatusUseCase,
     private val unmarkRestaurantVisitStatus: UnmarkRestaurantVisitStatusUseCase,
     observeUser: ObserveUserUseCase,
 ) : ViewModel() {
@@ -34,6 +36,10 @@ class RestaurantVisitedViewModel(
         .flatMapLatest { getRestaurantVisitStatusPaging(STATUS) }
         .map { pagingData -> pagingData.map { it.restaurant } }
         .cachedIn(viewModelScope)
+
+    fun addToVisited(restaurant: Restaurant) {
+        viewModelScope.launch { markRestaurantVisitStatus(restaurant, STATUS) }
+    }
 
     fun removeFromVisited(restaurantId: String) {
         viewModelScope.launch { unmarkRestaurantVisitStatus(restaurantId, STATUS) }

@@ -63,8 +63,11 @@ import pt.socialfood.presentation.restaurant.RestaurantEmptyCard
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.PrivateBadge
+import pt.socialfood.ui.theme.PrivateBadgeBackground
 import pt.socialfood.ui.theme.PublicBadge
 import pt.socialfood.ui.theme.PublicBadgeBackground
+import pt.socialfood.ui.theme.SharedBadge
+import pt.socialfood.ui.theme.SharedBadgeBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.guide_detail_leave_guide_button
@@ -85,6 +88,7 @@ import socialfood.composeapp.generated.resources.guide_detail_shared_icon_descri
 import socialfood.composeapp.generated.resources.guide_detail_shared_label
 import socialfood.composeapp.generated.resources.guides_private_icon
 import socialfood.composeapp.generated.resources.guides_public_icon
+import socialfood.composeapp.generated.resources.share_icon
 
 internal val GuideImageHeight = 320.dp
 
@@ -460,15 +464,15 @@ private fun VisibilityBadgeContent(visibility: GuideVisibility) {
 
         GuideVisibility.SHARED -> {
             Image(
-                painter = painterResource(Res.drawable.guides_private_icon),
+                painter = painterResource(Res.drawable.share_icon),
                 contentDescription = stringResource(Res.string.guide_detail_shared_icon_description),
                 modifier = Modifier.size(20.dp),
-                colorFilter = ColorFilter.tint(PrivateBadge),
+                colorFilter = ColorFilter.tint(SharedBadge),
             )
             Text(
                 text = stringResource(Res.string.guide_detail_shared_label),
                 style = MaterialTheme.typography.bodyMedium,
-                color = PrivateBadge,
+                color = SharedBadge,
             )
         }
     }
@@ -496,8 +500,11 @@ private fun GuideTitleAndDescription(guide: Guide) {
 }
 
 @Composable
-private fun GuideVisibility.badgeBackgroundColor(): Color =
-    if (this == GuideVisibility.PUBLIC) PublicBadgeBackground else MaterialTheme.colorScheme.surface
+private fun GuideVisibility.badgeBackgroundColor(): Color = when (this) {
+    GuideVisibility.PUBLIC -> PublicBadgeBackground
+    GuideVisibility.PRIVATE -> PrivateBadgeBackground
+    GuideVisibility.SHARED -> SharedBadgeBackground
+}
 
 @Composable
 @Preview

@@ -112,7 +112,7 @@ private fun AuthorDetailLoaded(
                     onClick = { onGuideClick(guide.id) },
                     modifier = Modifier.padding(horizontal = SpaceSize.large),
                 )
-                Spacer(Modifier.height(SpaceSize.large))
+                Spacer(Modifier.height(SpaceSize.small))
             }
         } else {
             item {

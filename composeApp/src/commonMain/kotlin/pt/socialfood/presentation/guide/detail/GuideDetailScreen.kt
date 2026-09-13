@@ -165,11 +165,21 @@ private fun GuideDetailContent(
 
 @Composable
 private fun GuideDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
-    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        Box(modifier = Modifier.fillMaxWidth().height(56.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .background(MaterialTheme.colorScheme.surface),
+        ) {
             TopActionButtons(
                 showCloseButton = true,
                 onCloseClick = onBackClick,
+                iconTint = MaterialTheme.colorScheme.onSurface,
             )
         }
 

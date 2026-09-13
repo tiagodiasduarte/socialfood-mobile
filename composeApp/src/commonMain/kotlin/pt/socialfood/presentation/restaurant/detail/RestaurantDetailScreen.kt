@@ -44,7 +44,7 @@ import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.TopActionButtons
+import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.presentation.components.placeholder.RestaurantCardPlaceholder
 import pt.socialfood.ui.theme.AppTheme
@@ -108,17 +108,11 @@ private fun RestaurantDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) 
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-        ) {
-            TopActionButtons(
-                showCloseButton = true,
-                onCloseClick = onBackClick,
-                iconTint = MaterialTheme.colorScheme.onSurface,
-            )
-        }
+        TopActionBar(
+            showCloseButton = true,
+            onCloseClick = onBackClick,
+            iconTint = MaterialTheme.colorScheme.onSurface,
+        )
 
         ErrorContent(
             modifier = Modifier.fillMaxSize(),
@@ -226,7 +220,7 @@ private fun TopSection(
 
         var isMenuExpanded by remember { mutableStateOf(false) }
 
-        TopActionButtons(
+        TopActionBar(
             showCloseButton = true,
             onCloseClick = onBackClick,
             showFavouriteButton = true,

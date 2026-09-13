@@ -1,11 +1,9 @@
 package pt.socialfood.presentation.author.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -24,7 +21,7 @@ import org.koin.core.parameter.parametersOf
 import pt.socialfood.domain.model.AuthorDetail
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.ProfileHeader
-import pt.socialfood.presentation.components.TopActionButtons
+import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.guide.GuideEmptyCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
@@ -135,7 +132,7 @@ private fun AuthorHeader(author: AuthorDetail, onBackClick: () -> Unit) {
         instagramUrl = author.instagramUrl,
         youtubeUrl = author.youtubeUrl,
         topAction = {
-            TopActionButtons(
+            TopActionBar(
                 showCloseButton = true,
                 onCloseClick = onBackClick,
             )
@@ -150,18 +147,12 @@ private fun AuthorDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-                .background(MaterialTheme.colorScheme.surface),
-        ) {
-            TopActionButtons(
-                showCloseButton = true,
-                onCloseClick = onBackClick,
-                iconTint = MaterialTheme.colorScheme.onSurface,
-            )
-        }
+        TopActionBar(
+            showCloseButton = true,
+            onCloseClick = onBackClick,
+            modifier = Modifier.background(MaterialTheme.colorScheme.surface),
+            iconTint = MaterialTheme.colorScheme.onSurface,
+        )
 
         ErrorContent(
             modifier = Modifier.fillMaxSize(),

@@ -226,7 +226,7 @@ fun TopActionBar(
             .fillMaxWidth()
             .height(height)
             .background(MaterialTheme.colorScheme.surface)
-            .padding(horizontal = SpaceSize.medium),
+            .padding(horizontal = SpaceSize.large),
     ) {
         UserImage(
             imageUrl = userImageUrl,
@@ -309,6 +309,18 @@ private fun TopActionBarWithProfilePreview() {
         TopActionBar(
             title = "Authors",
             userImageUrl = null,
+            onProfileClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun TopActionBarWithUserImagePreview() {
+    AppTheme {
+        TopActionBar(
+            title = "Authors",
+            userImageUrl = "https://picsum.photos/200",
             onProfileClick = {},
         )
     }

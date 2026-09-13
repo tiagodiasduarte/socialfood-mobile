@@ -28,7 +28,11 @@ private val HeaderHeight = 65.dp
 @Composable
 fun HomeHeader(userImageUrl: String? = null, onProfileClick: () -> Unit = {}, onSearchClick: () -> Unit = {}) {
     Column(
-        modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.background),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                MaterialTheme.colorScheme.background,
+            ),
     ) {
         TopActionBar(
             title = stringResource(Res.string.app_name),

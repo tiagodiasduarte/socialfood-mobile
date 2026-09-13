@@ -53,7 +53,7 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.TopActionButtons
+import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.components.buttons.OutlinedButton
 import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
@@ -165,13 +165,17 @@ private fun GuideDetailContent(
 
 @Composable
 private fun GuideDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
-    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        Box(modifier = Modifier.fillMaxWidth().height(56.dp)) {
-            TopActionButtons(
-                showCloseButton = true,
-                onCloseClick = onBackClick,
-            )
-        }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+    ) {
+        TopActionBar(
+            showCloseButton = true,
+            onCloseClick = onBackClick,
+            modifier = Modifier.background(MaterialTheme.colorScheme.surface),
+            iconTint = MaterialTheme.colorScheme.onSurface,
+        )
 
         ErrorContent(
             modifier = Modifier.fillMaxSize(),
@@ -322,7 +326,7 @@ private fun TopImageContent(
         var isMenuExpanded by remember { mutableStateOf(false) }
         var showLeaveConfirmation by remember { mutableStateOf(false) }
 
-        TopActionButtons(
+        TopActionBar(
             showCloseButton = true,
             onCloseClick = onBackClick,
             showShareButton = !isOwnGuide,

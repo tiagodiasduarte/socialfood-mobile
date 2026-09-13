@@ -304,18 +304,6 @@ private fun TopActionBarLoadingPreview() {
 
 @Preview
 @Composable
-private fun TopActionBarWithProfilePreview() {
-    AppTheme {
-        TopActionBar(
-            title = "Authors",
-            userImageUrl = null,
-            onProfileClick = {},
-        )
-    }
-}
-
-@Preview
-@Composable
 private fun TopActionBarWithUserImagePreview() {
     AppTheme {
         TopActionBar(

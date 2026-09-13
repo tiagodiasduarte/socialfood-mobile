@@ -18,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
@@ -53,6 +54,7 @@ fun TopActionButtons(
     onMenuClick: (() -> Unit)? = null,
     menuContent: @Composable () -> Unit = {},
     modifier: Modifier = Modifier,
+    iconTint: Color = MaterialTheme.colorScheme.surface,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         if (showCloseButton) {
@@ -63,7 +65,7 @@ fun TopActionButtons(
                 Icon(
                     imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
                     contentDescription = stringResource(Res.string.back_button_description),
-                    tint = MaterialTheme.colorScheme.surface,
+                    tint = iconTint,
                     modifier = Modifier.size(IconSize),
                 )
             }
@@ -79,7 +81,7 @@ fun TopActionButtons(
                 ActionButton(onClick = onShareClick ?: {}) {
                     Icon(
                         painter = painterResource(Res.drawable.share_icon),
-                        tint = MaterialTheme.colorScheme.surface,
+                        tint = iconTint,
                         contentDescription = stringResource(Res.string.guide_detail_share_button_description),
                         modifier = Modifier.size(IconSize),
                     )
@@ -90,7 +92,7 @@ fun TopActionButtons(
                 ActionButton(onClick = onToggleFavourite ?: {}) {
                     Icon(
                         imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                        tint = if (isFavourite) FavouriteRed else MaterialTheme.colorScheme.surface,
+                        tint = if (isFavourite) FavouriteRed else iconTint,
                         contentDescription = stringResource(Res.string.guide_detail_favourite_button_description),
                         modifier = Modifier.size(IconSize),
                     )
@@ -102,7 +104,7 @@ fun TopActionButtons(
                     Icon(
                         painter = painterResource(Res.drawable.guide_edit_icon),
                         contentDescription = stringResource(Res.string.guide_detail_edit_button_description),
-                        tint = MaterialTheme.colorScheme.surface,
+                        tint = iconTint,
                         modifier = Modifier.size(IconSize),
                     )
                 }
@@ -114,7 +116,7 @@ fun TopActionButtons(
                         Icon(
                             imageVector = Icons.Filled.MoreVert,
                             contentDescription = stringResource(Res.string.restaurant_detail_more_options_description),
-                            tint = MaterialTheme.colorScheme.surface,
+                            tint = iconTint,
                             modifier = Modifier.size(IconSize),
                         )
                     }

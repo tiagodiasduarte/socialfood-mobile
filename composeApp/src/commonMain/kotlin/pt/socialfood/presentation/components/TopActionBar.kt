@@ -3,7 +3,6 @@ package pt.socialfood.presentation.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -37,10 +37,11 @@ import socialfood.composeapp.generated.resources.restaurant_detail_more_options_
 import socialfood.composeapp.generated.resources.share_icon
 
 private val IconSize = 24.dp
+private val DefaultHeight = 56.dp
 
 @Suppress("LongMethod", "LongParameterList")
 @Composable
-fun TopActionButtons(
+fun TopActionBar(
     showCloseButton: Boolean = false,
     onCloseClick: (() -> Unit)? = null,
     showShareButton: Boolean = false,
@@ -55,8 +56,13 @@ fun TopActionButtons(
     menuContent: @Composable () -> Unit = {},
     modifier: Modifier = Modifier,
     iconTint: Color = MaterialTheme.colorScheme.surface,
+    height: Dp = DefaultHeight,
 ) {
-    Box(modifier = modifier.fillMaxSize()) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(height),
+    ) {
         if (showCloseButton) {
             ActionButton(
                 modifier = Modifier.padding(SpaceSize.large),
@@ -129,17 +135,15 @@ fun TopActionButtons(
 
 @Composable
 @Preview
-fun TopActionButtonsPreview() {
+fun TopActionBarPreview() {
     AppTheme {
-        Box(modifier = Modifier.fillMaxWidth().height(80.dp)) {
-            TopActionButtons(
-                showCloseButton = true,
-                showShareButton = true,
-                showEditButton = true,
-                showFavouriteButton = true,
-                isFavourite = true,
-                showMenuButton = true,
-            )
-        }
+        TopActionBar(
+            showCloseButton = true,
+            showShareButton = true,
+            showEditButton = true,
+            showFavouriteButton = true,
+            isFavourite = true,
+            showMenuButton = true,
+        )
     }
 }

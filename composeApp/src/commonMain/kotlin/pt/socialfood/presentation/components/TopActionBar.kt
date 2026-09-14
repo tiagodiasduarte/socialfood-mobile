@@ -158,6 +158,9 @@ fun TopActionBar(
     isActionLoading: Boolean = false,
     actionButtonText: String = "",
     onActionClick: () -> Unit = {},
+    showAddButton: Boolean = false,
+    onAddClick: () -> Unit = {},
+    addButtonContentDescription: String = stringResource(Res.string.guides_add_button_description),
 ) {
     Row(
         modifier = modifier
@@ -184,8 +187,16 @@ fun TopActionBar(
             textAlign = TextAlign.Center,
         )
 
-        if (showActionButton) {
-            Button(
+        when {
+            showAddButton -> IconButton(onClick = onAddClick) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = addButtonContentDescription,
+                    tint = MaterialTheme.colorScheme.onBackground,
+                )
+            }
+
+            showActionButton -> Button(
                 onClick = onActionClick,
                 enabled = !isActionLoading,
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
@@ -204,8 +215,8 @@ fun TopActionBar(
                     )
                 }
             }
-        } else {
-            Box(modifier = Modifier.size(48.dp))
+
+            else -> Box(modifier = Modifier.size(48.dp))
         }
     }
 }
@@ -298,6 +309,20 @@ private fun TopActionBarLoadingPreview() {
             isActionLoading = true,
             actionButtonText = "Save",
             onActionClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun TopActionBarWithBackAndAddPreview() {
+    AppTheme {
+        TopActionBar(
+            title = "Restaurant Wishlist",
+            onBackClick = {},
+            showActionButton = false,
+            showAddButton = true,
+            onAddClick = {},
         )
     }
 }

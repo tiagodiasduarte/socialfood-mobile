@@ -6,22 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,10 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -46,6 +31,7 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
+import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.components.TopTabs
 import pt.socialfood.presentation.guide.GuideValidationErrorDialog
 import pt.socialfood.presentation.guide.edit.card.GuideDetailsCard
@@ -136,11 +122,16 @@ private fun EditGuideContent(
                 detectTapGestures(onTap = { focusManager.clearFocus() })
             },
     ) {
-        TopBar(
-            isLoading = (state as? EditGuideUiState.Loaded)?.let { it.isSaving || it.isUploadingPhoto || it.isDeleting }
-                ?: (state is EditGuideUiState.Loading),
+        val isSaving = (state as? EditGuideUiState.Loaded)
+            ?.let { it.isSaving || it.isUploadingPhoto || it.isDeleting }
+            ?: (state is EditGuideUiState.Loading)
+
+        TopActionBar(
+            title = stringResource(Res.string.edit_guide_title),
             onBackClick = onBackClick,
-            onSaveGuide = onSaveGuide,
+            isActionLoading = isSaving,
+            actionButtonText = stringResource(Res.string.edit_guide_save_button),
+            onActionClick = onSaveGuide,
         )
 
         Box(modifier = Modifier.weight(1f)) {
@@ -171,60 +162,6 @@ private fun EditGuideContent(
                         CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                     }
                 }
-            }
-        }
-    }
-}
-
-@Composable
-private fun TopBar(isLoading: Boolean, onBackClick: () -> Unit, onSaveGuide: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = SpaceSize.medium, vertical = SpaceSize.medium),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        IconButton(onClick = onBackClick) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground,
-            )
-        }
-
-        Text(
-            modifier = Modifier.weight(1f),
-            text = stringResource(Res.string.edit_guide_title),
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.onBackground,
-        )
-
-        Button(
-            onClick = onSaveGuide,
-            enabled = !isLoading,
-            shape = RoundedCornerShape(SpaceSize.medium),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
-            ),
-            contentPadding = PaddingValues(
-                horizontal = SpaceSize.large,
-                vertical = SpaceSize.medium,
-            ),
-        ) {
-            if (isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(16.dp),
-                    strokeWidth = 2.dp,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                )
-            } else {
-                Text(
-                    text = stringResource(Res.string.edit_guide_save_button),
-                    style = MaterialTheme.typography.labelLarge,
-                )
             }
         }
     }

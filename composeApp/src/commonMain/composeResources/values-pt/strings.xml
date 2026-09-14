@@ -93,7 +93,6 @@
     <string name="guide_map_restaurants_count_label">%1$d restaurantes</string>
     <string name="guide_map_close_button_description">Fechar</string>
     <string name="guide_map_show_list_button">Mostrar %1$d restaurantes</string>
-    <string name="map_restaurant_card_view_details_button">Ver detalhes do restaurante</string>
     <string name="guide_detail_public_label">Público</string>
     <string name="guide_detail_private_label">Privado</string>
     <string name="guide_detail_shared_label">Partilhado</string>

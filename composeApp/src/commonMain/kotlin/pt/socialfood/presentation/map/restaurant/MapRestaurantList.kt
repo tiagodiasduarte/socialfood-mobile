@@ -71,8 +71,7 @@ internal fun MapRestaurantList(
             RestaurantList(
                 restaurants = restaurants,
                 listState = listState,
-                onCardClick = { id -> selectedRestaurantId = id },
-                onViewDetailsClick = onRestaurantClick,
+                onRestaurantClick = onRestaurantClick,
             )
         }
     }
@@ -82,8 +81,7 @@ internal fun MapRestaurantList(
 private fun RestaurantList(
     restaurants: List<Restaurant>,
     listState: LazyListState,
-    onCardClick: (String) -> Unit,
-    onViewDetailsClick: (String) -> Unit,
+    onRestaurantClick: (String) -> Unit,
 ) {
     BoxWithConstraints(
         modifier = Modifier
@@ -102,8 +100,7 @@ private fun RestaurantList(
             items(restaurants, key = { it.id }) { restaurant ->
                 RestaurantMapCard(
                     restaurant = restaurant,
-                    onClick = { onCardClick(restaurant.id) },
-                    onViewDetailsClick = { onViewDetailsClick(restaurant.id) },
+                    onClick = { onRestaurantClick(restaurant.id) },
                 )
             }
         }

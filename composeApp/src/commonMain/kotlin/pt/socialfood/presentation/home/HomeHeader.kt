@@ -36,6 +36,7 @@ fun HomeHeader(userImageUrl: String? = null, onProfileClick: () -> Unit = {}, on
     ) {
         TopActionBar(
             title = stringResource(Res.string.app_name),
+            titleColor = MaterialTheme.colorScheme.primary,
             userImageUrl = userImageUrl,
             onProfileClick = onProfileClick,
             height = HeaderHeight,

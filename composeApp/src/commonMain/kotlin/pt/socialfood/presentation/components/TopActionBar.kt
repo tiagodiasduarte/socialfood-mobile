@@ -28,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -41,6 +40,7 @@ import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
+import socialfood.composeapp.generated.resources.create_guide_save_button
 import socialfood.composeapp.generated.resources.guide_detail_edit_button_description
 import socialfood.composeapp.generated.resources.guide_detail_favourite_button_description
 import socialfood.composeapp.generated.resources.guide_detail_share_button_description
@@ -75,7 +75,7 @@ fun TopActionBar(
         modifier = modifier
             .fillMaxWidth()
             .height(height)
-            .padding(horizontal = SpaceSize.medium),
+            .padding(horizontal = SpaceSize.large),
     ) {
         if (showCloseButton) {
             ActionButton(
@@ -148,116 +148,95 @@ fun TopActionBar(
     }
 }
 
-@Suppress("LongParameterList")
 @Composable
 fun TopActionBar(
     title: String,
-    onBackClick: () -> Unit,
+    titleColor: Color = MaterialTheme.colorScheme.onSurface,
+    userImageUrl: String? = null,
+    onProfileClick: (() -> Unit)? = null,
+    onBackClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
-    showActionButton: Boolean = true,
+    actionButton: ActionButton = ActionButton.None,
     isActionLoading: Boolean = false,
-    actionButtonText: String = "",
     onActionClick: () -> Unit = {},
+    iconTint: Color = MaterialTheme.colorScheme.onSurface,
+    height: Dp = DefaultHeight,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(DefaultHeight)
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(horizontal = SpaceSize.medium),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        IconButton(onClick = onBackClick) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                contentDescription = stringResource(Res.string.back_button_description),
-                tint = MaterialTheme.colorScheme.onBackground,
-            )
-        }
-
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.weight(1f),
-            textAlign = TextAlign.Center,
-        )
-
-        if (showActionButton) {
-            Button(
-                onClick = onActionClick,
-                enabled = !isActionLoading,
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                shape = RoundedCornerShape(SpaceSize.large),
-            ) {
-                if (isActionLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(SpaceSize.large),
-                        strokeWidth = 2.dp,
-                        color = MaterialTheme.colorScheme.onPrimary,
-                    )
-                } else {
-                    Text(
-                        text = actionButtonText,
-                        style = MaterialTheme.typography.labelLarge,
-                    )
-                }
-            }
-        } else {
-            Box(modifier = Modifier.size(48.dp))
-        }
-    }
-}
-
-@Suppress("LongParameterList")
-@Composable
-fun TopActionBar(
-    title: String,
-    userImageUrl: String?,
-    onProfileClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    height: Dp = DefaultHeight,
-    showAddButton: Boolean = false,
-    onAddClick: (() -> Unit)? = null,
-) {
-    Box(
         modifier = modifier
             .fillMaxWidth()
             .height(height)
             .background(MaterialTheme.colorScheme.surface)
             .padding(horizontal = SpaceSize.large),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        UserImage(
-            imageUrl = userImageUrl,
-            imageSize = 32.dp,
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .clickable(onClick = onProfileClick),
-        )
+        if (userImageUrl != null && onProfileClick != null) {
+            UserImage(
+                imageUrl = userImageUrl,
+                imageSize = 32.dp,
+                modifier = Modifier.clickable(onClick = onProfileClick),
+            )
+        } else {
+            if (onBackClick != null) {
+                IconButton(onClick = onBackClick) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
+                        contentDescription = stringResource(Res.string.back_button_description),
+                        tint = iconTint,
+                    )
+                }
+            }
+        }
 
         Text(
             text = title,
             style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.primary,
+            color = titleColor,
+            modifier = Modifier.weight(1f),
             textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.Center),
         )
 
-        if (showAddButton) {
-            Icon(
-                imageVector = Icons.Filled.Add,
-                contentDescription = stringResource(Res.string.guides_add_button_description),
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .size(30.dp)
-                    .clickable { onAddClick?.invoke() },
+        when (actionButton) {
+            ActionButton.Save -> SaveActionButton(isLoading = isActionLoading, onClick = onActionClick)
+            ActionButton.Add -> AddActionButton(iconTint = iconTint, onClick = onActionClick)
+            ActionButton.None -> {}
+        }
+    }
+}
+
+@Composable
+private fun SaveActionButton(isLoading: Boolean, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        enabled = !isLoading,
+        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+        shape = RoundedCornerShape(SpaceSize.large),
+    ) {
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(SpaceSize.large),
+                strokeWidth = 2.dp,
+                color = MaterialTheme.colorScheme.onPrimary,
+            )
+        } else {
+            Text(
+                text = stringResource(Res.string.create_guide_save_button),
+                style = MaterialTheme.typography.labelLarge,
             )
         }
     }
+}
+
+@Composable
+private fun AddActionButton(iconTint: Color, onClick: () -> Unit) {
+    Icon(
+        imageVector = Icons.Filled.Add,
+        contentDescription = stringResource(Res.string.guides_add_button_description),
+        tint = iconTint,
+        modifier = Modifier
+            .size(30.dp)
+            .clickable(onClick = onClick),
+    )
 }
 
 @Composable
@@ -277,12 +256,12 @@ fun TopActionBarPreview() {
 
 @Preview
 @Composable
-private fun TopActionBarWithActionPreview() {
+private fun TopActionBarWithActionAddPreview() {
     AppTheme {
         TopActionBar(
             title = "Edit Profile",
             onBackClick = {},
-            actionButtonText = "Save",
+            actionButton = ActionButton.Add,
             onActionClick = {},
         )
     }
@@ -290,26 +269,13 @@ private fun TopActionBarWithActionPreview() {
 
 @Preview
 @Composable
-private fun TopActionBarLoadingPreview() {
+private fun TopActionBarWithActionSavePreview() {
     AppTheme {
         TopActionBar(
             title = "Edit Profile",
             onBackClick = {},
-            isActionLoading = true,
-            actionButtonText = "Save",
+            actionButton = ActionButton.Save,
             onActionClick = {},
-        )
-    }
-}
-
-@Preview
-@Composable
-private fun TopActionBarWithUserImagePreview() {
-    AppTheme {
-        TopActionBar(
-            title = "Authors",
-            userImageUrl = "https://picsum.photos/200",
-            onProfileClick = {},
         )
     }
 }
@@ -320,10 +286,18 @@ private fun TopActionBarWithProfileAndAddPreview() {
     AppTheme {
         TopActionBar(
             title = "Guides",
-            userImageUrl = null,
+            titleColor = MaterialTheme.colorScheme.primary,
+            userImageUrl = "https://image",
             onProfileClick = {},
-            showAddButton = true,
-            onAddClick = {},
+            actionButton = ActionButton.Add,
+            onActionClick = {},
+            iconTint = MaterialTheme.colorScheme.primary,
         )
     }
+}
+
+enum class ActionButton {
+    Add,
+    Save,
+    None,
 }

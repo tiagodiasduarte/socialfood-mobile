@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.guide.GuideValidationErrorDialog
 import pt.socialfood.presentation.guide.edit.card.GuideDetailsCard
@@ -29,7 +30,6 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.create_guide_create_title
-import socialfood.composeapp.generated.resources.create_guide_save_button
 
 @Composable
 fun CreateGuideScreen(
@@ -91,7 +91,7 @@ private fun CreateGuideContent(
             title = stringResource(Res.string.create_guide_create_title),
             onBackClick = onBackClick,
             isActionLoading = state is CreateGuideUiState.Loading,
-            actionButtonText = stringResource(Res.string.create_guide_save_button),
+            actionButton = ActionButton.Save,
             onActionClick = onCreateGuide,
         )
 

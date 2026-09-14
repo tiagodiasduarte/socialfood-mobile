@@ -5,20 +5,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,11 +32,10 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
+import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.back_button_description
 import socialfood.composeapp.generated.resources.favourites_guides_no_results_subtitle
 import socialfood.composeapp.generated.resources.favourites_guides_no_results_title
 import socialfood.composeapp.generated.resources.favourites_guides_title
@@ -81,7 +74,10 @@ private fun FavouriteGuidesContent(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        TopBar(onBackClick = onBackClick)
+        TopActionBar(
+            title = stringResource(Res.string.favourites_guides_title),
+            onBackClick = onBackClick,
+        )
 
         when {
             guides.loadState.refresh is LoadState.Loading && guides.itemCount == 0 ->
@@ -137,31 +133,6 @@ private fun FavouriteGuidesContent(
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun TopBar(onBackClick: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(SpaceSize.medium),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        IconButton(onClick = onBackClick) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = stringResource(Res.string.back_button_description),
-                tint = MaterialTheme.colorScheme.primary,
-            )
-        }
-
-        Text(
-            text = stringResource(Res.string.favourites_guides_title),
-            style = AppTypography.headlineMedium,
-            color = MaterialTheme.colorScheme.primary,
-        )
     }
 }
 

@@ -35,6 +35,7 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.User
+import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
@@ -128,10 +129,12 @@ fun GuidesScreenContent(
         ) {
             TopActionBar(
                 title = stringResource(Res.string.guides_title),
+                titleColor = MaterialTheme.colorScheme.primary,
+                iconTint = MaterialTheme.colorScheme.primary,
                 userImageUrl = user?.imageUrl,
                 onProfileClick = onProfileClick,
-                showAddButton = true,
-                onAddClick = onAddClick,
+                actionButton = ActionButton.Add,
+                onActionClick = onAddClick,
             )
 
             Spacer(Modifier.height(SpaceSize.medium))

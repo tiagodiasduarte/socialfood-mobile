@@ -85,7 +85,6 @@ private fun SearchRestaurantsContent(
         TopActionBar(
             title = stringResource(Res.string.search_restaurants_title),
             onBackClick = onBackClick,
-            showActionButton = false,
         )
 
         Spacer(Modifier.height(SpaceSize.large))

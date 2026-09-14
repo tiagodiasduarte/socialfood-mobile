@@ -29,6 +29,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
@@ -77,7 +78,7 @@ private fun FavouriteGuidesContent(
         TopActionBar(
             title = stringResource(Res.string.favourites_guides_title),
             onBackClick = onBackClick,
-            showActionButton = false,
+            actionButton = ActionButton.Add,
         )
 
         when {

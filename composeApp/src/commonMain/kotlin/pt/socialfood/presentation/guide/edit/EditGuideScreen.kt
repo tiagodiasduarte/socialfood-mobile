@@ -30,6 +30,7 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.components.TopTabs
@@ -41,7 +42,6 @@ import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.edit_guide_save_button
 import socialfood.composeapp.generated.resources.edit_guide_tab_details
 import socialfood.composeapp.generated.resources.edit_guide_tab_restaurants
 import socialfood.composeapp.generated.resources.edit_guide_tab_status
@@ -130,7 +130,7 @@ private fun EditGuideContent(
             title = stringResource(Res.string.edit_guide_title),
             onBackClick = onBackClick,
             isActionLoading = isSaving,
-            actionButtonText = stringResource(Res.string.edit_guide_save_button),
+            actionButton = ActionButton.Save,
             onActionClick = onSaveGuide,
         )
 

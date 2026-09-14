@@ -85,6 +85,7 @@ private fun AuthorsContent(
             item {
                 TopActionBar(
                     title = stringResource(Res.string.authors_title),
+                    titleColor = MaterialTheme.colorScheme.primary,
                     userImageUrl = user?.imageUrl,
                     onProfileClick = onProfileClick,
                 )

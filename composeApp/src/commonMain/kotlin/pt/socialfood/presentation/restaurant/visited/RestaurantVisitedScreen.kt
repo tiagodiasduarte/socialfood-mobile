@@ -28,6 +28,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
@@ -36,7 +37,6 @@ import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.visited_add_button_description
 import socialfood.composeapp.generated.resources.visited_card_remove_button_description
 import socialfood.composeapp.generated.resources.visited_no_results_subtitle
 import socialfood.composeapp.generated.resources.visited_no_results_title
@@ -82,10 +82,8 @@ private fun VisitedRestaurantsContent(
         TopActionBar(
             title = stringResource(Res.string.visited_restaurants_title),
             onBackClick = onBackClick,
-            showActionButton = false,
-            showAddButton = true,
-            onAddClick = onAddClick,
-            addButtonContentDescription = stringResource(Res.string.visited_add_button_description),
+            actionButton = ActionButton.Add,
+            onActionClick = onAddClick,
         )
 
         when {

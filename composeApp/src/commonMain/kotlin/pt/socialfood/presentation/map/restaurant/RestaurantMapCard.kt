@@ -14,11 +14,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,10 +43,16 @@ import pt.socialfood.ui.theme.IconSize
 import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.ui.theme.Star
 import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.map_restaurant_card_view_details_button
 import socialfood.composeapp.generated.resources.user_image_content_description
 
 @Composable
-fun RestaurantMapCard(restaurant: Restaurant, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+fun RestaurantMapCard(
+    restaurant: Restaurant,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+    onViewDetailsClick: () -> Unit = {},
+) {
     Card(
         modifier = modifier
             .width(250.dp)
@@ -81,6 +89,14 @@ fun RestaurantMapCard(restaurant: Restaurant, modifier: Modifier = Modifier, onC
                 horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
             ) {
                 RestaurantCardInfo(restaurant = restaurant, modifier = Modifier.weight(1f))
+
+                IconButton(onClick = onViewDetailsClick) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = stringResource(Res.string.map_restaurant_card_view_details_button),
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
+                }
             }
         }
     }

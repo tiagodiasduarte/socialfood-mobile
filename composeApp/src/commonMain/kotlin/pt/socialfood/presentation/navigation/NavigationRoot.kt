@@ -216,6 +216,9 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 guideName = route.guideName,
                                 restaurantsCount = route.restaurantsCount,
                                 onBackClick = navigator::goBack,
+                                onRestaurantClick = { restaurantId ->
+                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
+                                },
                             )
                         }
                         entry<Route.Guides> {

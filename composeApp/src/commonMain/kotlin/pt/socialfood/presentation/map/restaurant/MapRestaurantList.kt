@@ -33,7 +33,11 @@ import pt.socialfood.ui.theme.SpaceSize
 private val MapCardWidth = 300.dp
 
 @Composable
-internal fun MapRestaurantList(restaurants: List<Restaurant>, modifier: Modifier = Modifier) {
+internal fun MapRestaurantList(
+    restaurants: List<Restaurant>,
+    modifier: Modifier = Modifier,
+    onRestaurantClick: (String) -> Unit = {},
+) {
     var selectedRestaurantId by remember { mutableStateOf<String?>(null) }
     var isListExpanded by remember { mutableStateOf(true) }
     val listState = rememberLazyListState()
@@ -67,7 +71,8 @@ internal fun MapRestaurantList(restaurants: List<Restaurant>, modifier: Modifier
             RestaurantList(
                 restaurants = restaurants,
                 listState = listState,
-                onRestaurantClick = { id -> selectedRestaurantId = id },
+                onCardClick = { id -> selectedRestaurantId = id },
+                onViewDetailsClick = onRestaurantClick,
             )
         }
     }
@@ -77,7 +82,8 @@ internal fun MapRestaurantList(restaurants: List<Restaurant>, modifier: Modifier
 private fun RestaurantList(
     restaurants: List<Restaurant>,
     listState: LazyListState,
-    onRestaurantClick: (String) -> Unit,
+    onCardClick: (String) -> Unit,
+    onViewDetailsClick: (String) -> Unit,
 ) {
     BoxWithConstraints(
         modifier = Modifier
@@ -96,7 +102,8 @@ private fun RestaurantList(
             items(restaurants, key = { it.id }) { restaurant ->
                 RestaurantMapCard(
                     restaurant = restaurant,
-                    onClick = { onRestaurantClick(restaurant.id) },
+                    onClick = { onCardClick(restaurant.id) },
+                    onViewDetailsClick = { onViewDetailsClick(restaurant.id) },
                 )
             }
         }

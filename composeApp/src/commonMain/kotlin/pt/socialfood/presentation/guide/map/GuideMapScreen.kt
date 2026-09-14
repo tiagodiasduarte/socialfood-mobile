@@ -48,6 +48,7 @@ fun GuideMapScreen(
     guideName: String,
     restaurantsCount: Int,
     onBackClick: () -> Unit,
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
     viewModel: GuideMapViewModel = koinViewModel { parametersOf(guideId) },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -58,6 +59,7 @@ fun GuideMapScreen(
         restaurantsCount = restaurantsCount,
         onBackClick = onBackClick,
         onRetry = viewModel::load,
+        onRestaurantClick = onRestaurantClick,
     )
 }
 
@@ -68,6 +70,7 @@ private fun GuideMapContent(
     restaurantsCount: Int,
     onBackClick: () -> Unit,
     onRetry: () -> Unit = {},
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -99,7 +102,11 @@ private fun GuideMapContent(
                         )
                     }
                 } else {
-                    MapRestaurantList(restaurants = state.guide.restaurants, modifier = Modifier.fillMaxSize())
+                    MapRestaurantList(
+                        restaurants = state.guide.restaurants,
+                        modifier = Modifier.fillMaxSize(),
+                        onRestaurantClick = onRestaurantClick,
+                    )
                 }
 
                 is GuideMapUiState.Error -> ErrorContent(

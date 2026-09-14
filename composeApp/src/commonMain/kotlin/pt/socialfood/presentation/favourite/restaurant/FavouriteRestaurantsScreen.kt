@@ -28,7 +28,6 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
@@ -79,7 +78,6 @@ private fun FavouriteRestaurantsContent(
         TopActionBar(
             title = stringResource(Res.string.favourites_restaurants_title),
             onBackClick = onBackClick,
-            actionButton = ActionButton.Add,
         )
 
         when {

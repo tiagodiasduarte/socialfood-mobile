@@ -1,0 +1,329 @@
+<resources>
+    <string name="app_name">SocialFood</string>
+
+    <string name="back_button_description">Botão de voltar</string>
+    <string name="show_password_content_description">Mostrar palavra-passe</string>
+    <string name="hide_password_content_description">Ocultar palavra-passe</string>
+    <string name="search_bar_clear_button_description">Limpar pesquisa</string>
+    <string name="user_image_content_description">Fotografia de perfil do utilizador</string>
+
+    <string name="sign_in_title_label">Bem-vindo de volta</string>
+    <string name="sign_in_subtitle_label">Inicia sessão para continuares a explorar</string>
+    <string name="sign_in_email_label">Email</string>
+    <string name="sign_in_email_placeholder_label">teu@email.com</string>
+    <string name="sign_in_password_label">Palavra-passe</string>
+    <string name="sign_in_password_placeholder_label">••••••••</string>
+    <string name="sign_in_button">Iniciar sessão</string>
+    <string name="sign_in_continue_with_google_label">  Ou continua com  </string>
+    <string name="sign_in_google_button">Continuar com o Google</string>
+    <string name="sign_in_google_button_description">Ícone do Google</string>
+    <string name="sign_in_no_account_label">Não tens conta?</string>
+    <string name="sign_in_sign_up_button">Criar Conta</string>
+    <string name="sign_in_invalid_email">Introduz o teu email</string>
+    <string name="sign_in_invalid_password">Introduz a tua palavra-passe</string>
+
+    <string name="sign_up_title_label">Criar conta</string>
+    <string name="sign_up_subtitle_label">Junta-te a nós para explorares os melhores restaurantes</string>
+    <string name="sign_up_name_label">Nome</string>
+    <string name="sign_up_name_placeholder_label">O teu nome</string>
+    <string name="sign_up_button">Criar Conta</string>
+    <string name="sign_up_confirm_password_label">Confirmar Palavra-passe</string>
+    <string name="sign_up_confirm_password_placeholder_label">••••••••</string>
+    <string name="sign_up_already_have_account_label">Já tens conta?</string>
+    <string name="sign_up_sign_in_label">Iniciar Sessão</string>
+    <string name="sign_up_fill_all_fields">Preenche todos os campos</string>
+    <string name="sign_up_password_mismatch">As palavras-passe não coincidem</string>
+
+    <string name="validate_code_title_label">Verifica o teu email</string>
+    <string name="validate_code_subtitle_label">Introduz o código de 6 dígitos que enviámos para o teu email</string>
+    <string name="validate_code_button">Verificar</string>
+    <string name="validate_code_resend_label">Não recebeste o código?</string>
+    <string name="validate_code_resend_button">Reenviar código</string>
+    <string name="validate_code_restart_signup_label">Não és tu? Reiniciar registo</string>
+    <string name="validate_code_empty_code">Introduz o código</string>
+
+    <string name="home_title_label">Descobre onde comer</string>
+    <string name="home_subtitle_label">Encontra o teu próximo restaurante favorito</string>
+    <string name="home_list_see_all_label">Ver Tudo</string>
+    <string name="home_list_view_all_label">Ver Tudo</string>
+    <string name="home_search_bar_placeholder">Pesquisar autores, guias e restaurantes…</string>
+    <string name="home_no_results_title">Ainda Não Há Nada Para Mostrar</string>
+    <string name="home_no_results_subtitle">Estamos a preparar recomendações personalizadas para ti. Volta a verificar em breve!</string>
+
+    <string name="profile_stat_guides_label">Guias</string>
+    <string name="profile_stat_followers_label">Seguidores</string>
+    <string name="profile_stat_following_label">A Seguir</string>
+    <string name="profile_profile_button">Perfil</string>
+    <string name="profile_profile_button_description">Botão de perfil</string>
+    <string name="profile_favorite_guides_button">Guias Favoritos</string>
+    <string name="profile_favorite_guides_button_description">Botão de guias favoritos</string>
+    <string name="profile_favorites_restaurants_button">Restaurantes Favoritos</string>
+    <string name="profile_favorites_restaurants_button_description">Botão de restaurantes favoritos</string>
+    <string name="profile_wish_restaurants_button">Lista de Desejos</string>
+    <string name="profile_wish_restaurants_button_description">Botão da lista de desejos</string>
+    <string name="profile_visited_restaurants_button">Restaurantes Visitados</string>
+    <string name="profile_visited_restaurants_button_description">Botão de restaurantes visitados</string>
+    <string name="profile_theme_button">Tema</string>
+    <string name="profile_theme_button_description">Botão de tema</string>
+    <string name="profile_logout_button">Terminar Sessão</string>
+    <string name="profile_logout_button_description">Botão de terminar sessão</string>
+    <string name="profile_logout_confirmation_title">Terminar Sessão</string>
+    <string name="profile_logout_confirmation_message">Tens a certeza de que queres terminar sessão?</string>
+    <string name="profile_logout_confirmation_confirm">Terminar Sessão</string>
+    <string name="profile_logout_confirmation_cancel">Cancelar</string>
+
+    <string name="profile_edit_profile_button">Editar Perfil</string>
+    <string name="profile_edit_profile_button_description">Botão de editar perfil</string>
+    <string name="profile_drawer_close_button_description">Fechar menu</string>
+
+    <string name="theme_sheet_title">Tema</string>
+    <string name="theme_light_label">Claro</string>
+    <string name="theme_dark_label">Escuro</string>
+    <string name="theme_system_label">Predefinição do sistema</string>
+
+    <string name="guide_detail_error_label">Não foi possível carregar o guia</string>
+    <string name="guide_detail_restaurants_section_title">Restaurantes</string>
+    <string name="guide_detail_no_restaurants_label">Ainda não há restaurantes adicionados</string>
+    <string name="guide_detail_back_button_description">Voltar</string>
+    <string name="guide_detail_share_button_description">Partilhar</string>
+    <string name="guide_detail_edit_button_description">Editar</string>
+    <string name="guide_detail_favourite_button_description">Favorito</string>
+    <string name="guide_detail_map_button_description">Mapa</string>
+    <string name="guide_map_empty_message">Este guia não tem restaurantes para mostrar no mapa.</string>
+    <string name="guide_map_locations_count_label">%1$d localizações</string>
+    <string name="guide_map_close_button_description">Fechar</string>
+    <string name="guide_detail_public_label">Público</string>
+    <string name="guide_detail_private_label">Privado</string>
+    <string name="guide_detail_shared_label">Partilhado</string>
+    <string name="guide_detail_restaurants_count_label">%1$d restaurantes</string>
+    <string name="guide_detail_public_icon_description">Ícone de público</string>
+    <string name="guide_detail_private_icon_description">Ícone de privado</string>
+    <string name="guide_detail_shared_icon_description">Ícone de partilhado</string>
+    <string name="guide_detail_separator">·</string>
+    <string name="guide_detail_leave_guide_button">Sair do Guia</string>
+    <string name="guide_detail_leave_guide_confirmation_title">Sair do Guia</string>
+    <string name="guide_detail_leave_guide_confirmation_message">Tens a certeza de que queres sair deste guia? Vais precisar de um novo convite para voltares a juntar-te.</string>
+    <string name="guide_detail_leave_guide_confirmation_confirm">Sair</string>
+    <string name="guide_detail_leave_guide_confirmation_cancel">Cancelar</string>
+
+    <string name="favourites_guides_title">Guias Favoritos</string>
+    <string name="favourites_guides_no_results_title">Sem Guias Favoritos</string>
+    <string name="favourites_guides_no_results_subtitle">Os guias que adicionares aos favoritos aparecem aqui.</string>
+    <string name="favourites_restaurants_title">Restaurantes Favoritos</string>
+    <string name="favourites_restaurants_no_results_title">Sem Restaurantes Favoritos</string>
+    <string name="favourites_restaurants_no_results_subtitle">Os restaurantes que adicionares aos favoritos aparecem aqui.</string>
+    <string name="wish_restaurants_title">Lista de Desejos</string>
+    <string name="wish_add_button_description">Adicionar restaurante à lista de desejos</string>
+    <string name="wish_no_results_title">A Tua Lista de Desejos Está Vazia</string>
+    <string name="wish_no_results_subtitle">Os restaurantes que queres experimentar aparecem aqui.</string>
+    <string name="visited_restaurants_title">Restaurantes Visitados</string>
+    <string name="visited_add_button_description">Adicionar restaurante à lista de visitados</string>
+    <string name="visited_no_results_title">Sem Restaurantes Visitados</string>
+    <string name="visited_no_results_subtitle">Os restaurantes que marcares como visitados aparecem aqui.</string>
+
+    <string name="guides_title">Guias</string>
+    <string name="guides_tab_all">Todos os Guias</string>
+    <string name="guides_tab_my">Os Meus Guias</string>
+    <string name="guides_tab_shared">Guias Partilhados</string>
+    <string name="guides_add_button_description">Adicionar guia</string>
+    <string name="guides_no_results_all_title">Ainda Não Há Guias</string>
+    <string name="guides_no_results_all_subtitle">Ainda não foram criados guias públicos. Volta a verificar em breve!</string>
+    <string name="guides_no_results_my_title">Ainda Não Há Guias</string>
+    <string name="guides_no_results_my_subtitle">Ainda não criaste nenhum guia. Toca em + para criares um.</string>
+    <string name="guides_no_results_shared_title">Sem Guias Partilhados</string>
+    <string name="guides_no_results_shared_subtitle">Ainda não te juntaste a nenhum guia partilhado. Usa um código de convite para entrares num.</string>
+
+    <string name="shared_guides_join_button">Juntar-te com código</string>
+    <string name="join_guide_dialog_title">Juntar-te a um guia</string>
+    <string name="join_guide_dialog_code_label">Código de convite</string>
+    <string name="join_guide_dialog_code_placeholder">Introduz o código de convite</string>
+    <string name="join_guide_dialog_code_length_message">O código de convite deve ter 8 caracteres</string>
+    <string name="join_guide_dialog_confirm_button">Juntar</string>
+    <string name="join_guide_dialog_cancel_button">Cancelar</string>
+
+    <string name="join_shared_guide_screen_close_button_description">Fechar</string>
+    <string name="join_shared_guide_screen_restaurants_count_label">%1$d restaurantes</string>
+    <string name="join_shared_guide_screen_join_button">Juntar-te ao guia</string>
+
+    <string name="authors_title">Autores</string>
+    <string name="authors_error_label">Não foi possível carregar os autores</string>
+    <string name="authors_no_results_title">Nenhum Autor Encontrado</string>
+    <string name="authors_no_results_subtitle">Não há autores para mostrar neste momento.</string>
+    <string name="authors_follow_button">Seguir</string>
+    <string name="authors_following_button">A Seguir</string>
+    <string name="authors_stat_guides_label">guias</string>
+    <string name="authors_stat_followers_label">seguidores</string>
+    <string name="authors_stat_following_label">a seguir</string>
+    <string name="authors_separator">·</string>
+
+    <string name="author_detail_error_label">Não foi possível carregar o autor</string>
+    <string name="author_detail_back_button_description">Voltar</string>
+    <string name="author_detail_stat_guides_label">Guias</string>
+    <string name="author_detail_stat_followers_label">Seguidores</string>
+    <string name="author_detail_stat_following_label">A Seguir</string>
+    <string name="author_detail_stat_separator">|</string>
+    <string name="author_detail_guides_section_title">Guias</string>
+    <string name="author_detail_restaurants_count_label">%1$d restaurantes</string>
+    <string name="author_detail_no_public_guides_label">Ainda não foram criados guias públicos</string>
+
+    <string name="create_guide_create_title">Criar Guia</string>
+    <string name="create_guide_save_button">Guardar</string>
+
+    <string name="edit_guide_title">Editar Guia</string>
+    <string name="edit_guide_save_button">Guardar</string>
+    <string name="edit_guide_tab_details">Detalhes do Guia</string>
+    <string name="edit_guide_tab_status">Estado</string>
+    <string name="edit_guide_tab_restaurants">Restaurantes</string>
+    <string name="edit_guide_publication_rules_label">Regras de Publicação</string>
+    <string name="edit_guide_needs_restaurants_warning">O guia precisa de, pelo menos, 3 restaurantes</string>
+
+    <string name="edit_guide_details_section_details">Detalhes do Guia</string>
+    <string name="edit_guide_details_cover_image_label">Imagem de Capa</string>
+    <string name="edit_guide_details_title_label">Título</string>
+    <string name="edit_guide_details_title_placeholder">Dá ao teu guia um título apelativo</string>
+    <string name="edit_guide_details_description_label">Descrição</string>
+    <string name="edit_guide_details_description_placeholder">Descreve o que torna este guia especial...</string>
+    <string name="edit_guide_details_title_error">O título é obrigatório</string>
+    <string name="edit_guide_details_description_error">A descrição é obrigatória</string>
+    <string name="edit_guide_details_public_restaurants_warning">Os guias públicos precisam de, pelo menos, 3 restaurantes</string>
+    <string name="edit_guide_details_public_image_warning">Os guias públicos precisam de uma imagem de capa</string>
+    <string name="edit_guide_details_public_author_warning">Só os autores podem publicar guias públicos</string>
+    <string name="edit_guide_details_cover_image_click_label">Clica para carregar a imagem de capa</string>
+    <string name="edit_guide_details_cover_image_hint">JPG, PNG até 10 MB</string>
+    <string name="edit_guide_delete_button">Eliminar Guia</string>
+    <string name="edit_guide_delete_confirmation_title">Eliminar Guia</string>
+    <string name="edit_guide_delete_confirmation_message">Tens a certeza de que queres eliminar este guia? Esta ação não pode ser desfeita.</string>
+    <string name="edit_guide_delete_confirmation_confirm">Eliminar</string>
+    <string name="edit_guide_delete_confirmation_cancel">Cancelar</string>
+    <string name="edit_guide_validation_error_dialog_title">Não é possível guardar o guia</string>
+    <string name="edit_guide_validation_error_dialog_ok">OK</string>
+
+    <string name="edit_guide_restaurants_title_label">Restaurantes</string>
+    <string name="edit_guide_restaurants_add_button">Adicionar</string>
+    <string name="edit_guide_restaurants_empty_label">Ainda não há restaurantes adicionados</string>
+    <string name="edit_guide_restaurants_empty_hint">Clica em "Adicionar" para incluíres restaurantes no teu guia</string>
+
+    <string name="edit_guide_visibility_label">Visibilidade</string>
+    <string name="edit_guide_visibility_public">Público</string>
+    <string name="edit_guide_visibility_public_description">Qualquer pessoa pode encontrar e ver este guia</string>
+    <string name="edit_guide_visibility_private">Privado</string>
+    <string name="edit_guide_visibility_private_description">Só tu podes ver este guia</string>
+    <string name="edit_guide_visibility_shared">Partilhado</string>
+    <string name="edit_guide_visibility_shared_description">Só quem tiver o código de convite pode ver este guia</string>
+    <string name="edit_guide_share_code_section_label">Código de convite</string>
+    <string name="edit_guide_share_code_copy_action">Copiar código de convite</string>
+
+    <string name="search_restaurants_title">Adicionar Restaurantes</string>
+    <string name="search_restaurants_search_placeholder">Pesquisar restaurantes...</string>
+    <string name="search_restaurants_error">Não foi possível carregar os restaurantes</string>
+    <string name="search_restaurants_importing_dialog_message">A importar restaurante…</string>
+
+    <string name="edit_profile_title">Editar Perfil</string>
+    <string name="edit_profile_save_button">Guardar</string>
+    <string name="edit_profile_picture_section_title">Fotografia de Perfil</string>
+    <string name="edit_profile_picture_upload_label">Carrega uma nova fotografia de perfil</string>
+    <string name="edit_profile_picture_change_button">Alterar Fotografia</string>
+    <string name="edit_profile_google_info">Estás ligado com uma conta Google. Adiciona uma palavra-passe para editares as tuas informações de contacto.</string>
+    <string name="edit_profile_save_error_title">Não foi possível guardar o perfil</string>
+    <string name="edit_profile_save_error_dismiss">OK</string>
+    <string name="edit_profile_personal_details_title">Dados Pessoais</string>
+    <string name="edit_profile_name_label">Nome</string>
+    <string name="edit_profile_name_placeholder">João Silva</string>
+    <string name="edit_profile_email_label">Email</string>
+    <string name="edit_profile_username_label">Nome de utilizador</string>
+    <string name="edit_profile_clear_field_button_description">Limpar campo</string>
+    <string name="edit_profile_username_placeholder">joaosilva</string>
+    <string name="edit_profile_author_mode_title">Modo de autor</string>
+    <string name="edit_profile_author_mode_description">Ativa para te tornares autor e começares a criar guias públicos.</string>
+    <string name="edit_profile_social_title">Redes Sociais</string>
+    <string name="edit_profile_facebook_label">Facebook</string>
+    <string name="edit_profile_facebook_placeholder">https://facebook.com/oteuperfil</string>
+    <string name="edit_profile_instagram_label">Instagram</string>
+    <string name="edit_profile_instagram_placeholder">https://instagram.com/oteuperfil</string>
+    <string name="edit_profile_youtube_label">YouTube</string>
+    <string name="edit_profile_youtube_placeholder">https://youtube.com/@oteucanal</string>
+
+    <string name="social_facebook_icon_description">Facebook</string>
+    <string name="social_instagram_icon_description">Instagram</string>
+    <string name="social_youtube_icon_description">YouTube</string>
+
+    <string name="bottom_nav_home">Início</string>
+    <string name="bottom_nav_search">Pesquisar</string>
+    <string name="bottom_nav_guides">Guias</string>
+    <string name="bottom_nav_authors">Autores</string>
+    <string name="bottom_nav_profile">Perfil</string>
+
+    <string name="search_search_placeholder">Pesquisar autores, guias e restaurantes…</string>
+    <string name="search_section_restaurants_title">Restaurantes</string>
+    <string name="search_section_guides_title">Guias</string>
+    <string name="search_section_authors_title">Autores</string>
+    <string name="search_suggestions_title">Sugestões</string>
+    <string name="search_suggestion_favorite_guides">Guias mais favoritados</string>
+    <string name="search_suggestion_favorite_restaurants">Restaurantes mais favoritados</string>
+    <string name="search_suggestion_most_followed">Mais seguidos</string>
+
+    <string name="search_no_results_title">Nenhum Resultado Encontrado</string>
+    <string name="search_no_results_subtitle">Não encontrámos resultados para a tua pesquisa. Tenta ajustar os filtros ou os termos de pesquisa.</string>
+
+    <string name="error_content_title">Erro do Servidor</string>
+    <string name="error_content_subtitle">Ups! Algo correu mal do nosso lado.</string>
+    <string name="error_content_description">Estamos com dificuldades em ligar aos nossos servidores. Tenta novamente dentro de instantes.</string>
+    <string name="error_content_retry_button">Tentar Novamente</string>
+    <string name="error_content_go_home_button">Ir para o Início</string>
+    <string name="error_content_error_code_label">Código de erro: %1$s</string>
+
+    <string name="restaurant_detail_day_monday">Segunda-feira</string>
+    <string name="restaurant_detail_day_tuesday">Terça-feira</string>
+    <string name="restaurant_detail_day_wednesday">Quarta-feira</string>
+    <string name="restaurant_detail_day_thursday">Quinta-feira</string>
+    <string name="restaurant_detail_day_friday">Sexta-feira</string>
+    <string name="restaurant_detail_day_saturday">Sábado</string>
+    <string name="restaurant_detail_day_sunday">Domingo</string>
+
+    <string name="restaurant_detail_information_title">Informação</string>
+    <string name="restaurant_detail_opening_hours_title">Horário de Funcionamento</string>
+    <string name="restaurant_detail_call_button">Ligar para Reservar</string>
+    <string name="restaurant_detail_reviews_count">%1$d avaliações</string>
+    <string name="restaurant_detail_navigate_description">Ir para o restaurante</string>
+    <string name="restaurant_detail_favourite_description">Adicionar aos favoritos</string>
+    <string name="restaurant_detail_more_options_description">Mais opções</string>
+    <string name="restaurant_detail_share_button">Partilhar</string>
+    <string name="restaurant_detail_add_to_wishlist_button">Adicionar à lista de desejos</string>
+    <string name="restaurant_detail_move_to_visited_button">Mover para a lista de visitados</string>
+
+    <string name="favorite_card_remove_button_description">Remover dos favoritos</string>
+    <string name="wish_card_remove_button_description">Remover da lista de desejos</string>
+    <string name="visited_card_remove_button_description">Remover dos visitados</string>
+
+    <string name="error_code_user_already_exists">Já existe uma conta com este email.</string>
+    <string name="error_code_invalid_credentials">Email ou palavra-passe incorretos.</string>
+    <string name="error_code_email_not_verified">Verifica o teu email antes de continuares.</string>
+    <string name="error_code_email_already_verified">Este email já está verificado.</string>
+    <string name="error_code_invalid_code">Esse código não é válido.</string>
+    <string name="error_code_code_expired">Este código expirou. Pede um novo.</string>
+    <string name="error_code_no_pending_verification">Não há nenhuma verificação pendente para esta conta.</string>
+    <string name="error_code_resend_too_soon">Aguarda um momento antes de pedires outro código.</string>
+    <string name="error_code_invalid_google_token">Falha ao iniciar sessão com o Google. Tenta novamente.</string>
+    <string name="error_code_user_not_found">Utilizador não encontrado.</string>
+    <string name="error_code_guide_not_found">Guia não encontrado.</string>
+    <string name="error_code_author_not_found">Autor não encontrado.</string>
+    <string name="error_code_restaurant_not_found">Restaurante não encontrado.</string>
+    <string name="error_code_restaurant_not_in_guide">Este restaurante não faz parte do guia.</string>
+    <string name="error_code_home_section_not_found">Secção não encontrada.</string>
+    <string name="error_code_cannot_follow_self">Não podes seguir-te a ti próprio.</string>
+    <string name="error_code_already_following">Já estás a seguir este autor.</string>
+    <string name="error_code_not_following">Não estás a seguir este autor.</string>
+    <string name="error_code_already_favourited">Isto já está nos teus favoritos.</string>
+    <string name="error_code_not_favourited">Isto não está nos teus favoritos.</string>
+    <string name="error_code_item_type_mismatch">Este item não pode ser adicionado a esta secção.</string>
+    <string name="error_code_invalid_share_code">Esse código de partilha não é válido.</string>
+    <string name="error_code_already_joined_guide">Já te juntaste a este guia.</string>
+    <string name="error_code_cannot_join_own_guide">Não podes juntar-te ao teu próprio guia.</string>
+    <string name="error_code_forbidden">Não tens permissão para fazer isso.</string>
+    <string name="error_code_invalid_request">Algo nesse pedido não era válido.</string>
+    <string name="error_code_internal_error">Algo correu mal do nosso lado. Tenta novamente.</string>
+    <string name="error_code_invalid_social_link">Esse link de rede social não parece válido.</string>
+    <string name="error_code_unknown">Algo correu mal. Tenta novamente.</string>
+    <string name="error_network_message">Sem ligação à internet. Verifica a tua ligação e tenta novamente.</string>
+
+</resources>

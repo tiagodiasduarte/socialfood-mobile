@@ -19,7 +19,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.presentation.components.ErrorAlertDialog
 import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.TopBar
+import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.presentation.profile.edit.card.AuthorModeCard
 import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
@@ -48,7 +48,7 @@ fun EditProfileScreen(onBackClick: () -> Unit, viewModel: EditProfileViewModel =
         is EditProfileUiState.Error -> Column(
             modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
         ) {
-            TopBar(
+            TopActionBar(
                 title = stringResource(Res.string.edit_profile_title),
                 onBackClick = onBackClick,
                 showActionButton = false,
@@ -96,7 +96,7 @@ private fun EditProfileContent(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        TopBar(
+        TopActionBar(
             title = stringResource(Res.string.edit_profile_title),
             onBackClick = onBackClick,
             isActionLoading = state.isSaving,

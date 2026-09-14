@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import pt.socialfood.presentation.components.TopBar
+import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.guide.GuideValidationErrorDialog
 import pt.socialfood.presentation.guide.edit.card.GuideDetailsCard
 import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
@@ -87,7 +87,7 @@ private fun CreateGuideContent(
                 detectTapGestures(onTap = { focusManager.clearFocus() })
             },
     ) {
-        TopBar(
+        TopActionBar(
             title = stringResource(Res.string.create_guide_create_title),
             onBackClick = onBackClick,
             isActionLoading = state is CreateGuideUiState.Loading,

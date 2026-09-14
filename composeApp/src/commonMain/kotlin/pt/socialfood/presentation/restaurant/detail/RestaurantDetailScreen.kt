@@ -111,7 +111,6 @@ private fun RestaurantDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) 
         TopActionBar(
             showCloseButton = true,
             onCloseClick = onBackClick,
-            iconTint = MaterialTheme.colorScheme.onSurface,
         )
 
         ErrorContent(

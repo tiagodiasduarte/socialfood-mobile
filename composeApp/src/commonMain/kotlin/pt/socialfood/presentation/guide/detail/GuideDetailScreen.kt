@@ -173,8 +173,6 @@ private fun GuideDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
         TopActionBar(
             showCloseButton = true,
             onCloseClick = onBackClick,
-            modifier = Modifier.background(MaterialTheme.colorScheme.surface),
-            iconTint = MaterialTheme.colorScheme.onSurface,
         )
 
         ErrorContent(

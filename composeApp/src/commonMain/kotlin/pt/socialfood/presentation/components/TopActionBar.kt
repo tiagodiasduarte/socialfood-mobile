@@ -68,7 +68,7 @@ fun TopActionBar(
     onMenuClick: (() -> Unit)? = null,
     menuContent: @Composable () -> Unit = {},
     modifier: Modifier = Modifier,
-    iconTint: Color = MaterialTheme.colorScheme.onSurface,
+    iconTint: Color = MaterialTheme.colorScheme.surface,
     height: Dp = DefaultHeight,
 ) {
     Box(

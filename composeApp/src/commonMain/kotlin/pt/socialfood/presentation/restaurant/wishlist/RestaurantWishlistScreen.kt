@@ -5,22 +5,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,16 +28,15 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
+import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.back_button_description
-import socialfood.composeapp.generated.resources.wish_add_button_description
 import socialfood.composeapp.generated.resources.wish_card_remove_button_description
 import socialfood.composeapp.generated.resources.wish_no_results_subtitle
 import socialfood.composeapp.generated.resources.wish_no_results_title
@@ -88,7 +79,12 @@ private fun RestaurantWishlistContent(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        TopBar(onBackClick = onBackClick, onAddClick = onAddClick)
+        TopActionBar(
+            title = stringResource(Res.string.wish_restaurants_title),
+            onBackClick = onBackClick,
+            actionButton = ActionButton.Add,
+            onActionClick = onAddClick,
+        )
 
         when {
             restaurants.loadState.refresh is LoadState.Loading && restaurants.itemCount == 0 ->
@@ -146,41 +142,6 @@ private fun RestaurantWishlistContent(
                     }
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun TopBar(onBackClick: () -> Unit, onAddClick: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(SpaceSize.medium),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        IconButton(onClick = onBackClick) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = stringResource(Res.string.back_button_description),
-                tint = MaterialTheme.colorScheme.primary,
-            )
-        }
-
-        Text(
-            text = stringResource(Res.string.wish_restaurants_title),
-            style = AppTypography.headlineMedium,
-            color = MaterialTheme.colorScheme.primary,
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        IconButton(onClick = onAddClick) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = stringResource(Res.string.wish_add_button_description),
-                tint = MaterialTheme.colorScheme.primary,
-            )
         }
     }
 }

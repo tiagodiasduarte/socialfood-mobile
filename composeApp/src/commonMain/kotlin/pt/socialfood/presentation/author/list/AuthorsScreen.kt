@@ -32,11 +32,13 @@ import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
+import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.authors_no_results_subtitle
 import socialfood.composeapp.generated.resources.authors_no_results_title
+import socialfood.composeapp.generated.resources.authors_title
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -81,7 +83,9 @@ private fun AuthorsContent(
             contentPadding = PaddingValues(bottom = SpaceSize.xxlarge),
         ) {
             item {
-                AuthorsHeader(
+                TopActionBar(
+                    title = stringResource(Res.string.authors_title),
+                    titleColor = MaterialTheme.colorScheme.primary,
                     userImageUrl = user?.imageUrl,
                     onProfileClick = onProfileClick,
                 )

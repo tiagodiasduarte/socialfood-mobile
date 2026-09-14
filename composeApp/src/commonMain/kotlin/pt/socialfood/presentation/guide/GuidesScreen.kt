@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -33,9 +35,12 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.User
+import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
+import pt.socialfood.presentation.components.TopActionBar
+import pt.socialfood.presentation.components.TopTabs
 import pt.socialfood.presentation.guide.all.AllGuidesScreen
 import pt.socialfood.presentation.guide.my.MyGuidesScreen
 import pt.socialfood.presentation.guide.shared.SharedGuidesScreen
@@ -48,6 +53,10 @@ import socialfood.composeapp.generated.resources.guides_no_results_my_subtitle
 import socialfood.composeapp.generated.resources.guides_no_results_my_title
 import socialfood.composeapp.generated.resources.guides_no_results_shared_subtitle
 import socialfood.composeapp.generated.resources.guides_no_results_shared_title
+import socialfood.composeapp.generated.resources.guides_tab_all
+import socialfood.composeapp.generated.resources.guides_tab_my
+import socialfood.composeapp.generated.resources.guides_tab_shared
+import socialfood.composeapp.generated.resources.guides_title
 
 const val ALL_GUIDES_TAB = 0
 const val MY_GUIDES_TAB = 1
@@ -113,13 +122,35 @@ fun GuidesScreenContent(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        GuidesHeader(
-            selectedTab = selectedTab,
-            onSelectedTab = onTabSelected,
-            onAddClick = onAddClick,
-            userImageUrl = user?.imageUrl,
-            onProfileClick = onProfileClick,
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.surface),
+        ) {
+            TopActionBar(
+                title = stringResource(Res.string.guides_title),
+                titleColor = MaterialTheme.colorScheme.primary,
+                iconTint = MaterialTheme.colorScheme.primary,
+                userImageUrl = user?.imageUrl,
+                onProfileClick = onProfileClick,
+                actionButton = ActionButton.Add,
+                onActionClick = onAddClick,
+            )
+
+            Spacer(Modifier.height(SpaceSize.medium))
+
+            TopTabs(
+                selectedTab = selectedTab,
+                tabs = listOf(
+                    stringResource(Res.string.guides_tab_all),
+                    stringResource(Res.string.guides_tab_my),
+                    stringResource(Res.string.guides_tab_shared),
+                ),
+                onTabSelected = onTabSelected,
+            )
+
+            Spacer(Modifier.height(SpaceSize.large))
+        }
 
         PullToRefreshContent(
             isRefreshing = isRefreshing,

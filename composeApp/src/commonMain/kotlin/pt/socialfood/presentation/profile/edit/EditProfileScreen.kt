@@ -17,9 +17,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorAlertDialog
 import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.TopBar
+import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.presentation.profile.edit.card.AuthorModeCard
 import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
@@ -28,7 +29,6 @@ import pt.socialfood.presentation.profile.edit.card.SocialNetworkCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.edit_profile_save_button
 import socialfood.composeapp.generated.resources.edit_profile_save_error_dismiss
 import socialfood.composeapp.generated.resources.edit_profile_save_error_title
 import socialfood.composeapp.generated.resources.edit_profile_title
@@ -48,10 +48,9 @@ fun EditProfileScreen(onBackClick: () -> Unit, viewModel: EditProfileViewModel =
         is EditProfileUiState.Error -> Column(
             modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
         ) {
-            TopBar(
+            TopActionBar(
                 title = stringResource(Res.string.edit_profile_title),
                 onBackClick = onBackClick,
-                showActionButton = false,
             )
             ErrorContent(modifier = Modifier.fillMaxSize(), onRetryClick = viewModel::retry)
         }
@@ -96,11 +95,11 @@ private fun EditProfileContent(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        TopBar(
+        TopActionBar(
             title = stringResource(Res.string.edit_profile_title),
             onBackClick = onBackClick,
             isActionLoading = state.isSaving,
-            actionButtonText = stringResource(Res.string.edit_profile_save_button),
+            actionButton = ActionButton.Save,
             onActionClick = onSaveClick,
         )
 

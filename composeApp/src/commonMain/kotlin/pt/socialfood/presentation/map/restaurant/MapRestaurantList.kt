@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.guide.map
+package pt.socialfood.presentation.map.restaurant
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
@@ -28,13 +28,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.map.MapRestaurantView
-import pt.socialfood.presentation.restaurant.RestaurantMapCard
 import pt.socialfood.ui.theme.SpaceSize
 
 private val MapCardWidth = 300.dp
 
 @Composable
-internal fun GuideMapRestaurantList(restaurants: List<Restaurant>, modifier: Modifier = Modifier) {
+internal fun MapRestaurantList(restaurants: List<Restaurant>, modifier: Modifier = Modifier) {
     var selectedRestaurantId by remember { mutableStateOf<String?>(null) }
     var isListExpanded by remember { mutableStateOf(true) }
     val listState = rememberLazyListState()
@@ -65,7 +64,7 @@ internal fun GuideMapRestaurantList(restaurants: List<Restaurant>, modifier: Mod
             enter = slideInVertically(initialOffsetY = { it }),
             exit = slideOutVertically(targetOffsetY = { it }),
         ) {
-            RestaurantMapList(
+            RestaurantList(
                 restaurants = restaurants,
                 listState = listState,
                 onRestaurantClick = { id -> selectedRestaurantId = id },
@@ -74,15 +73,8 @@ internal fun GuideMapRestaurantList(restaurants: List<Restaurant>, modifier: Mod
     }
 }
 
-private suspend fun LazyListState.centerItem(index: Int) {
-    val itemInfo = layoutInfo.visibleItemsInfo.firstOrNull { it.index == index } ?: return
-    val viewportCenter = (layoutInfo.viewportStartOffset + layoutInfo.viewportEndOffset) / 2
-    val itemCenter = itemInfo.offset + itemInfo.size / 2
-    animateScrollBy((itemCenter - viewportCenter).toFloat())
-}
-
 @Composable
-private fun RestaurantMapList(
+private fun RestaurantList(
     restaurants: List<Restaurant>,
     listState: LazyListState,
     onRestaurantClick: (String) -> Unit,
@@ -109,4 +101,11 @@ private fun RestaurantMapList(
             }
         }
     }
+}
+
+private suspend fun LazyListState.centerItem(index: Int) {
+    val itemInfo = layoutInfo.visibleItemsInfo.firstOrNull { it.index == index } ?: return
+    val viewportCenter = (layoutInfo.viewportStartOffset + layoutInfo.viewportEndOffset) / 2
+    val itemCenter = itemInfo.offset + itemInfo.size / 2
+    animateScrollBy((itemCenter - viewportCenter).toFloat())
 }

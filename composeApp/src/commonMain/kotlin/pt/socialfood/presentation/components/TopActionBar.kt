@@ -75,7 +75,6 @@ fun TopActionBar(
         modifier = modifier
             .fillMaxWidth()
             .height(height)
-            .background(MaterialTheme.colorScheme.surface)
             .padding(horizontal = SpaceSize.large),
     ) {
         if (showCloseButton) {
@@ -149,7 +148,6 @@ fun TopActionBar(
     }
 }
 
-@Suppress("LongMethod", "LongParameterList")
 @Composable
 fun TopActionBar(
     title: String,
@@ -199,44 +197,46 @@ fun TopActionBar(
         )
 
         when (actionButton) {
-            ActionButton.Save -> {
-                Button(
-                    onClick = onActionClick,
-                    enabled = !isActionLoading,
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                    shape = RoundedCornerShape(SpaceSize.large),
-                ) {
-                    if (isActionLoading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(SpaceSize.large),
-                            strokeWidth = 2.dp,
-                            color = MaterialTheme.colorScheme.onPrimary,
-                        )
-                    } else {
-                        Text(
-                            text = stringResource(Res.string.create_guide_save_button),
-                            style = MaterialTheme.typography.labelLarge,
-                        )
-                    }
-                }
-            }
-
-            ActionButton.Add -> {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = stringResource(Res.string.guides_add_button_description),
-                    tint = iconTint,
-                    modifier = Modifier
-                        .size(30.dp)
-                        .clickable { onActionClick.invoke() },
-                )
-            }
-
-            ActionButton.None -> {
-                Box(modifier = Modifier.size(48.dp))
-            }
+            ActionButton.Save -> SaveActionButton(isLoading = isActionLoading, onClick = onActionClick)
+            ActionButton.Add -> AddActionButton(iconTint = iconTint, onClick = onActionClick)
+            ActionButton.None -> {}
         }
     }
+}
+
+@Composable
+private fun SaveActionButton(isLoading: Boolean, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        enabled = !isLoading,
+        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+        shape = RoundedCornerShape(SpaceSize.large),
+    ) {
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(SpaceSize.large),
+                strokeWidth = 2.dp,
+                color = MaterialTheme.colorScheme.onPrimary,
+            )
+        } else {
+            Text(
+                text = stringResource(Res.string.create_guide_save_button),
+                style = MaterialTheme.typography.labelLarge,
+            )
+        }
+    }
+}
+
+@Composable
+private fun AddActionButton(iconTint: Color, onClick: () -> Unit) {
+    Icon(
+        imageVector = Icons.Filled.Add,
+        contentDescription = stringResource(Res.string.guides_add_button_description),
+        tint = iconTint,
+        modifier = Modifier
+            .size(30.dp)
+            .clickable(onClick = onClick),
+    )
 }
 
 @Composable
@@ -297,7 +297,7 @@ private fun TopActionBarWithProfileAndAddPreview() {
 }
 
 enum class ActionButton {
-    Save,
     Add,
+    Save,
     None,
 }

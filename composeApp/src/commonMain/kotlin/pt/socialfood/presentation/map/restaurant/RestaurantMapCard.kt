@@ -57,7 +57,7 @@ fun RestaurantMapCard(restaurant: Restaurant, modifier: Modifier = Modifier, onC
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(100.dp)
+                    .height(130.dp)
                     .clip(RoundedCornerShape(SpaceSize.medium)),
             ) {
                 if (restaurant.imagesUrl.isNotEmpty()) {
@@ -99,6 +99,7 @@ private fun RestaurantCardInfo(restaurant: Restaurant, modifier: Modifier = Modi
         ) {
             Text(
                 text = restaurant.name,
+                maxLines = 1,
                 style = AppTypography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -160,7 +161,7 @@ private fun RestaurantRatingRow(restaurant: Restaurant) {
 
 @Composable
 @Preview
-private fun RestaurantSmallCardPreview() {
+private fun RestaurantMapCardPreview() {
     AppTheme {
         RestaurantMapCard(
             restaurant = Restaurant(

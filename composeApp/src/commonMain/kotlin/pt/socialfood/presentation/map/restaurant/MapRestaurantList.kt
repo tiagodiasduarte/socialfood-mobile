@@ -34,7 +34,7 @@ import pt.socialfood.ui.theme.SpaceSize
 private val MapCardWidth = 300.dp
 
 @Composable
-internal fun GuideMapWithList(restaurants: List<Restaurant>, modifier: Modifier = Modifier) {
+internal fun GuideMapRestaurantList(restaurants: List<Restaurant>, modifier: Modifier = Modifier) {
     var selectedRestaurantId by remember { mutableStateOf<String?>(null) }
     var isListExpanded by remember { mutableStateOf(true) }
     val listState = rememberLazyListState()

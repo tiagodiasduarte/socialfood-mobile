@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.restaurants_icon
+import socialfood.composeapp.generated.resources.restaurant_icon
 
 private val PinTailWidth = 12.dp
 private val PinTailHeight = 6.dp
@@ -74,7 +74,7 @@ internal fun MapRestaurantIconMarker(selected: Boolean) {
             contentAlignment = Alignment.Center,
         ) {
             Icon(
-                painter = painterResource(Res.drawable.restaurants_icon),
+                painter = painterResource(Res.drawable.restaurant_icon),
                 contentDescription = null,
                 tint = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(18.dp),

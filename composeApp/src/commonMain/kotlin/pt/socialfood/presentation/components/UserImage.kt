@@ -19,8 +19,8 @@ import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.ui.theme.ProfileGradientEnd
 import pt.socialfood.ui.theme.ProfileGradientStart
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.user_avatar_placeholder
 import socialfood.composeapp.generated.resources.user_image_content_description
+import socialfood.composeapp.generated.resources.user_placeholder
 
 @Composable
 fun UserImage(imageUrl: String?, imageSize: Dp, modifier: Modifier = Modifier) {
@@ -57,7 +57,7 @@ fun UserImage(imageUrl: String?, imageSize: Dp, modifier: Modifier = Modifier) {
 @Composable
 private fun Placeholder() {
     Image(
-        painter = painterResource(Res.drawable.user_avatar_placeholder),
+        painter = painterResource(Res.drawable.user_placeholder),
         contentDescription = null,
         modifier = Modifier.fillMaxSize(),
     )

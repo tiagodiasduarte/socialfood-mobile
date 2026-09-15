@@ -136,11 +136,8 @@
 
     <string name="shared_guides_join_button">Join with code</string>
     <string name="join_guide_dialog_title">Join a guide</string>
-    <string name="join_guide_dialog_code_label">Invite code</string>
-    <string name="join_guide_dialog_code_placeholder">Enter the invite code</string>
-    <string name="join_guide_dialog_code_length_message">Invite code must have 8 characters</string>
-    <string name="join_guide_dialog_confirm_button">Join</string>
-    <string name="join_guide_dialog_cancel_button">Cancel</string>
+    <string name="join_guide_dialog_subtitle">Enter the invite code shared with you</string>
+    <string name="join_guide_dialog_code_placeholder">e.g. ABCD1234</string>
 
     <string name="join_shared_guide_screen_close_button_description">Close</string>
     <string name="join_shared_guide_screen_restaurants_count_label">%1$d restaurants</string>

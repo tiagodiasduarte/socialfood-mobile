@@ -136,11 +136,8 @@
 
     <string name="shared_guides_join_button">Juntar-te com código</string>
     <string name="join_guide_dialog_title">Juntar-te a um guia</string>
-    <string name="join_guide_dialog_code_label">Código de convite</string>
-    <string name="join_guide_dialog_code_placeholder">Introduz o código de convite</string>
-    <string name="join_guide_dialog_code_length_message">O código de convite deve ter 8 caracteres</string>
-    <string name="join_guide_dialog_confirm_button">Juntar</string>
-    <string name="join_guide_dialog_cancel_button">Cancelar</string>
+    <string name="join_guide_dialog_subtitle">Introduz o código de convite partilhado contigo</string>
+    <string name="join_guide_dialog_code_placeholder">ex: ABCD1234</string>
 
     <string name="join_shared_guide_screen_close_button_description">Fechar</string>
     <string name="join_shared_guide_screen_restaurants_count_label">%1$d restaurantes</string>

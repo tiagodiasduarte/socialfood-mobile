@@ -90,6 +90,11 @@ internal class RestaurantMarkerAnnotationView(annotation: MKAnnotationProtocol?,
         hidden = true
     }
 
+    private var isSelectedNatively = false
+
+    /** The location preview shows a single, always-prominent pin, so it always uses the "selected" colors. */
+    private var forceSelectedAppearance = false
+
     init {
         canShowCallout = false
         clipsToBounds = true
@@ -97,12 +102,13 @@ internal class RestaurantMarkerAnnotationView(annotation: MKAnnotationProtocol?,
         layer.borderColor = PinTintColor.CGColor
         addSubview(label)
         layer.addSublayer(iconLayer)
-        applyColors(selected = false)
+        applyColors()
     }
 
     fun configure(name: String, showLabel: Boolean) {
         label.hidden = !showLabel
         iconLayer.hidden = showLabel
+        forceSelectedAppearance = !showLabel
 
         if (showLabel) {
             label.text = name
@@ -125,22 +131,25 @@ internal class RestaurantMarkerAnnotationView(annotation: MKAnnotationProtocol?,
             iconLayer.path = buildRestaurantIconPath(iconSize)
             layer.cornerRadius = ICON_PIN_DIAMETER / 2.0
         }
+
+        applyColors()
     }
 
     override fun setSelected(selected: Boolean, animated: Boolean) {
         super.setSelected(selected, animated)
-        applyColors(selected)
+        isSelectedNatively = selected
+        applyColors()
     }
 
-    private fun applyColors(selected: Boolean) {
-        if (selected) {
-            backgroundColor = UIColor.whiteColor
-            label.textColor = PinTintColor
-            iconLayer.strokeColor = PinTintColor.CGColor
-        } else {
+    private fun applyColors() {
+        if (isSelectedNatively || forceSelectedAppearance) {
             backgroundColor = PinTintColor
             label.textColor = UIColor.whiteColor
             iconLayer.strokeColor = UIColor.whiteColor.CGColor
+        } else {
+            backgroundColor = UIColor.whiteColor
+            label.textColor = PinTintColor
+            iconLayer.strokeColor = PinTintColor.CGColor
         }
     }
 }

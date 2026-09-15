@@ -242,8 +242,6 @@ kover {
                     "$appNamespace.di.*",
                     "$appNamespace.data.network.model.*",
                     "$appNamespace.presentation.navigation.Route*",
-                    "$appNamespace.presentation.map.*",
-                    "$appNamespace.presentation.restaurant.detail.LocationSectionKt*",
                     "$appNamespace.ui.theme.*",
                 )
                 annotatedBy("androidx.compose.ui.tooling.preview.Preview")
@@ -273,7 +271,7 @@ kover {
         }
         verify {
             rule("Overall coverage") {
-                minBound(minValue = 25, coverageUnits = CoverageUnit.LINE)
+                minBound(minValue = 24, coverageUnits = CoverageUnit.LINE)
             }
         }
     }

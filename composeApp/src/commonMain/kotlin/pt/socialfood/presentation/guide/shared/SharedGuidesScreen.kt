@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Link
+import androidx.compose.material.icons.filled.ConfirmationNumber
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -158,7 +158,7 @@ private fun BoxScope.JoinGuideFab(onClick: () -> Unit) {
             .padding(SpaceSize.large),
     ) {
         Icon(
-            imageVector = Icons.Default.Link,
+            imageVector = Icons.Default.ConfirmationNumber,
             contentDescription = stringResource(Res.string.shared_guides_join_button),
         )
     }

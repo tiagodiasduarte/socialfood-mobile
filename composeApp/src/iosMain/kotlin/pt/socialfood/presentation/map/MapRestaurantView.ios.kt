@@ -50,6 +50,7 @@ actual fun MapRestaurantView(
     modifier: Modifier,
     showMarkerLabel: Boolean,
     dragGesturesEnabled: Boolean,
+    zoomGesturesEnabled: Boolean,
 ) {
     val mapDelegate = remember { RestaurantAnnotationDelegate() }
     val tapHandler = remember { MapTapHandler() }
@@ -69,6 +70,7 @@ actual fun MapRestaurantView(
         modifier = modifier,
         update = { mapView ->
             mapView.scrollEnabled = dragGesturesEnabled
+            mapView.zoomEnabled = zoomGesturesEnabled
             mapView.removeAnnotations(mapView.annotations)
 
             val annotations = restaurants.map { restaurant ->

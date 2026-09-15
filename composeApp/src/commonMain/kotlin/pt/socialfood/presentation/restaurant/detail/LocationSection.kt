@@ -109,6 +109,7 @@ private fun LocationMapPreview(restaurant: Restaurant, onExpandClick: () -> Unit
             onRestaurantSelected = {},
             showMarkerLabel = false,
             dragGesturesEnabled = false,
+            zoomGesturesEnabled = false,
             onMapClick = onExpandClick,
             modifier = Modifier.fillMaxSize(),
         )

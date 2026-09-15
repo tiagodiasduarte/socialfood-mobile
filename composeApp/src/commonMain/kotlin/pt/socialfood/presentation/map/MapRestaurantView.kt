@@ -13,4 +13,5 @@ expect fun MapRestaurantView(
     modifier: Modifier,
     showMarkerLabel: Boolean = true,
     dragGesturesEnabled: Boolean = true,
+    zoomGesturesEnabled: Boolean = true,
 )

@@ -27,10 +27,15 @@ actual fun MapRestaurantView(
     modifier: Modifier,
     showMarkerLabel: Boolean,
     dragGesturesEnabled: Boolean,
+    zoomGesturesEnabled: Boolean,
 ) {
     val cameraPositionState = rememberCameraPositionState()
-    val uiSettings = remember(dragGesturesEnabled) {
-        MapUiSettings(zoomControlsEnabled = false, scrollGesturesEnabled = dragGesturesEnabled)
+    val uiSettings = remember(dragGesturesEnabled, zoomGesturesEnabled) {
+        MapUiSettings(
+            zoomControlsEnabled = false,
+            scrollGesturesEnabled = dragGesturesEnabled,
+            zoomGesturesEnabled = zoomGesturesEnabled,
+        )
     }
 
     LaunchedEffect(restaurants) {

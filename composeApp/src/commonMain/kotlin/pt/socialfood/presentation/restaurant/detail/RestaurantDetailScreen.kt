@@ -45,6 +45,7 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.TopActionBar
+import pt.socialfood.presentation.components.TopActionIconsBar
 import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.presentation.components.placeholder.RestaurantCardPlaceholder
 import pt.socialfood.ui.theme.AppTheme
@@ -109,8 +110,7 @@ private fun RestaurantDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) 
             .background(MaterialTheme.colorScheme.background),
     ) {
         TopActionBar(
-            showCloseButton = true,
-            onCloseClick = onBackClick,
+            onBackClick = onBackClick,
         )
 
         ErrorContent(
@@ -219,7 +219,7 @@ private fun TopSection(
 
         var isMenuExpanded by remember { mutableStateOf(false) }
 
-        TopActionBar(
+        TopActionIconsBar(
             showCloseButton = true,
             onCloseClick = onBackClick,
             showFavouriteButton = true,

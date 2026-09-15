@@ -54,6 +54,7 @@ import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.TopActionBar
+import pt.socialfood.presentation.components.TopActionIconsBar
 import pt.socialfood.presentation.components.buttons.OutlinedButton
 import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
@@ -170,10 +171,7 @@ private fun GuideDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        TopActionBar(
-            showCloseButton = true,
-            onCloseClick = onBackClick,
-        )
+        TopActionBar(onBackClick = onBackClick)
 
         ErrorContent(
             modifier = Modifier.fillMaxSize(),
@@ -324,7 +322,7 @@ private fun TopImageContent(
         var isMenuExpanded by remember { mutableStateOf(false) }
         var showLeaveConfirmation by remember { mutableStateOf(false) }
 
-        TopActionBar(
+        TopActionIconsBar(
             showCloseButton = true,
             onCloseClick = onBackClick,
             showShareButton = !isOwnGuide,

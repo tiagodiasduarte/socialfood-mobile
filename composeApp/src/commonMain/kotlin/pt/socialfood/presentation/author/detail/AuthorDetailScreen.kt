@@ -132,10 +132,7 @@ private fun AuthorHeader(author: AuthorDetail, onBackClick: () -> Unit) {
         instagramUrl = author.instagramUrl,
         youtubeUrl = author.youtubeUrl,
         topAction = {
-            TopActionBar(
-                showCloseButton = true,
-                onCloseClick = onBackClick,
-            )
+            TopActionBar(onBackClick = onBackClick)
         },
     )
 }
@@ -147,10 +144,7 @@ private fun AuthorDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        TopActionBar(
-            showCloseButton = true,
-            onCloseClick = onBackClick,
-        )
+        TopActionBar(onBackClick = onBackClick)
 
         ErrorContent(
             modifier = Modifier.fillMaxSize(),

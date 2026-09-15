@@ -52,9 +52,73 @@ import socialfood.composeapp.generated.resources.share_icon
 private val IconSize = 24.dp
 private val DefaultHeight = 56.dp
 
-@Suppress("LongMethod", "LongParameterList")
 @Composable
 fun TopActionBar(
+    title: String? = null,
+    titleColor: Color = MaterialTheme.colorScheme.primary,
+    userImageUrl: String? = null,
+    onProfileClick: (() -> Unit)? = null,
+    onBackClick: (() -> Unit)? = null,
+    modifier: Modifier = Modifier,
+    actionButton: ActionButton = ActionButton.None,
+    isActionLoading: Boolean = false,
+    onActionClick: () -> Unit = {},
+    iconTint: Color = MaterialTheme.colorScheme.primary,
+    height: Dp = DefaultHeight,
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(height)
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(horizontal = SpaceSize.large),
+    ) {
+        if (userImageUrl != null && onProfileClick != null) {
+            UserImage(
+                imageUrl = userImageUrl,
+                imageSize = 32.dp,
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .clickable(onClick = onProfileClick),
+            )
+        } else if (onBackClick != null) {
+            IconButton(
+                onClick = onBackClick,
+                modifier = Modifier.align(Alignment.CenterStart),
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
+                    contentDescription = stringResource(Res.string.back_button_description),
+                    tint = iconTint,
+                )
+            }
+        }
+
+        title?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.headlineMedium,
+                color = titleColor,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.Center),
+            )
+        }
+
+        Box(modifier = Modifier.align(Alignment.CenterEnd)) {
+            when (actionButton) {
+                ActionButton.Save -> SaveActionButton(isLoading = isActionLoading, onClick = onActionClick)
+                ActionButton.Add -> AddActionButton(iconTint = iconTint, onClick = onActionClick)
+                ActionButton.None -> {}
+            }
+        }
+    }
+}
+
+@Suppress("LongMethod", "LongParameterList")
+@Composable
+fun TopActionIconsBar(
     showCloseButton: Boolean = false,
     onCloseClick: (() -> Unit)? = null,
     showShareButton: Boolean = false,
@@ -149,62 +213,6 @@ fun TopActionBar(
 }
 
 @Composable
-fun TopActionBar(
-    title: String,
-    titleColor: Color = MaterialTheme.colorScheme.onSurface,
-    userImageUrl: String? = null,
-    onProfileClick: (() -> Unit)? = null,
-    onBackClick: (() -> Unit)? = null,
-    modifier: Modifier = Modifier,
-    actionButton: ActionButton = ActionButton.None,
-    isActionLoading: Boolean = false,
-    onActionClick: () -> Unit = {},
-    iconTint: Color = MaterialTheme.colorScheme.onSurface,
-    height: Dp = DefaultHeight,
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(height)
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(horizontal = SpaceSize.large),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        if (userImageUrl != null && onProfileClick != null) {
-            UserImage(
-                imageUrl = userImageUrl,
-                imageSize = 32.dp,
-                modifier = Modifier.clickable(onClick = onProfileClick),
-            )
-        } else {
-            if (onBackClick != null) {
-                IconButton(onClick = onBackClick) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                        contentDescription = stringResource(Res.string.back_button_description),
-                        tint = iconTint,
-                    )
-                }
-            }
-        }
-
-        Text(
-            text = title,
-            style = MaterialTheme.typography.headlineMedium,
-            color = titleColor,
-            modifier = Modifier.weight(1f),
-            textAlign = TextAlign.Center,
-        )
-
-        when (actionButton) {
-            ActionButton.Save -> SaveActionButton(isLoading = isActionLoading, onClick = onActionClick)
-            ActionButton.Add -> AddActionButton(iconTint = iconTint, onClick = onActionClick)
-            ActionButton.None -> {}
-        }
-    }
-}
-
-@Composable
 private fun SaveActionButton(isLoading: Boolean, onClick: () -> Unit) {
     Button(
         onClick = onClick,
@@ -241,9 +249,9 @@ private fun AddActionButton(iconTint: Color, onClick: () -> Unit) {
 
 @Composable
 @Preview
-fun TopActionBarPreview() {
+fun TopActionIconsBarPreview() {
     AppTheme {
-        TopActionBar(
+        TopActionIconsBar(
             showCloseButton = true,
             showShareButton = true,
             showEditButton = true,

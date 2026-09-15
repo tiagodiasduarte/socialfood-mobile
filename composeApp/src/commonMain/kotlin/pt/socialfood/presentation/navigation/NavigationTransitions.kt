@@ -15,7 +15,6 @@ import androidx.compose.animation.togetherWith
 import androidx.navigation3.ui.NavDisplay
 
 internal const val NAVIGATION_TRANSITION_DURATION_MILLIS = 300
-
 val defaultAnimationMetadata: Map<String, Any> =
     NavDisplay.transitionSpec {
         (
@@ -32,15 +31,32 @@ val defaultAnimationMetadata: Map<String, Any> =
                     animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
                 ) + fadeOut(animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS))
                 )
+    } + NavDisplay.predictivePopTransitionSpec {
+        fadeIn(animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS)) togetherWith
+            (
+                scaleOut(
+                    targetScale = 0.9f,
+                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                ) + fadeOut(animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS))
+                )
     }
 
 val slideUpAnimationMetadata: Map<String, Any> =
     NavDisplay.transitionSpec {
+        // Slide new content up, keeping the old content in place underneath
         slideInVertically(
             initialOffsetY = { fullHeight -> fullHeight },
             animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
-        ) togetherWith ExitTransition.None
+        ) togetherWith ExitTransition.KeepUntilTransitionsFinished
     } + NavDisplay.popTransitionSpec {
+        // Slide old content down, revealing the new content in place underneath
+        EnterTransition.None togetherWith
+            slideOutVertically(
+                targetOffsetY = { fullHeight -> fullHeight },
+                animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+            )
+    } + NavDisplay.predictivePopTransitionSpec {
+        // Slide old content down, revealing the new content in place underneath
         EnterTransition.None togetherWith
             slideOutVertically(
                 targetOffsetY = { fullHeight -> fullHeight },
@@ -59,6 +75,15 @@ val slideHorizontalAnimationMetadata: Map<String, Any> =
                 animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
             )
     } + NavDisplay.popTransitionSpec {
+        slideInHorizontally(
+            initialOffsetX = { fullWidth -> -fullWidth / 4 },
+            animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+        ) togetherWith
+            slideOutHorizontally(
+                targetOffsetX = { fullWidth -> fullWidth },
+                animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+            )
+    } + NavDisplay.predictivePopTransitionSpec {
         slideInHorizontally(
             initialOffsetX = { fullWidth -> -fullWidth / 4 },
             animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),

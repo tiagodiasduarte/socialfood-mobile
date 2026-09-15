@@ -58,7 +58,7 @@ import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.guide_detail_edit_button_description
 import socialfood.composeapp.generated.resources.guide_edit_icon
-import socialfood.composeapp.generated.resources.guides_icon
+import socialfood.composeapp.generated.resources.guide_icon
 import socialfood.composeapp.generated.resources.logout_icon
 import socialfood.composeapp.generated.resources.profile_favorite_guides_button
 import socialfood.composeapp.generated.resources.profile_favorite_guides_button_description
@@ -78,7 +78,7 @@ import socialfood.composeapp.generated.resources.profile_visited_restaurants_but
 import socialfood.composeapp.generated.resources.profile_visited_restaurants_button_description
 import socialfood.composeapp.generated.resources.profile_wish_restaurants_button
 import socialfood.composeapp.generated.resources.profile_wish_restaurants_button_description
-import socialfood.composeapp.generated.resources.restaurants_icon
+import socialfood.composeapp.generated.resources.restaurant_icon
 import socialfood.composeapp.generated.resources.theme_icon
 import socialfood.composeapp.generated.resources.visited_icon
 import socialfood.composeapp.generated.resources.wish_icon
@@ -180,13 +180,13 @@ private fun DrawerUserContent(
                 onClick = { onProfileClick(user.id) },
             )
             DrawerMenuRow(
-                icon = Res.drawable.guides_icon,
+                icon = Res.drawable.guide_icon,
                 label = stringResource(Res.string.profile_favorite_guides_button),
                 contentDescription = stringResource(Res.string.profile_favorite_guides_button_description),
                 onClick = onFavouriteGuidesClick,
             )
             DrawerMenuRow(
-                icon = Res.drawable.restaurants_icon,
+                icon = Res.drawable.restaurant_icon,
                 label = stringResource(Res.string.profile_favorites_restaurants_button),
                 contentDescription = stringResource(Res.string.profile_favorites_restaurants_button_description),
                 onClick = onFavouriteRestaurantsClick,

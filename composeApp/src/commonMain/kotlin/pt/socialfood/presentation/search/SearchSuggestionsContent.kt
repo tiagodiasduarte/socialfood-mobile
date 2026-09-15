@@ -28,8 +28,8 @@ import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.author_icon
-import socialfood.composeapp.generated.resources.guides_icon
-import socialfood.composeapp.generated.resources.restaurants_icon
+import socialfood.composeapp.generated.resources.guide_icon
+import socialfood.composeapp.generated.resources.restaurant_icon
 import socialfood.composeapp.generated.resources.search_suggestion_favorite_guides
 import socialfood.composeapp.generated.resources.search_suggestion_favorite_restaurants
 import socialfood.composeapp.generated.resources.search_suggestion_most_followed
@@ -50,13 +50,13 @@ fun SearchSuggestionsContent(
         )
         Spacer(modifier = Modifier.height(SpaceSize.medium))
         SearchSuggestionItem(
-            icon = painterResource(Res.drawable.guides_icon),
+            icon = painterResource(Res.drawable.guide_icon),
             label = stringResource(Res.string.search_suggestion_favorite_guides),
             onClick = onFavoriteGuidesClick,
         )
         HorizontalDivider()
         SearchSuggestionItem(
-            icon = painterResource(Res.drawable.restaurants_icon),
+            icon = painterResource(Res.drawable.restaurant_icon),
             label = stringResource(Res.string.search_suggestion_favorite_restaurants),
             onClick = onFavoriteRestaurantsClick,
         )

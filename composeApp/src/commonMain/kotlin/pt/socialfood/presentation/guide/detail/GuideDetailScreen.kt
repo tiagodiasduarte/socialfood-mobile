@@ -87,8 +87,8 @@ import socialfood.composeapp.generated.resources.guide_detail_restaurants_sectio
 import socialfood.composeapp.generated.resources.guide_detail_separator
 import socialfood.composeapp.generated.resources.guide_detail_shared_icon_description
 import socialfood.composeapp.generated.resources.guide_detail_shared_label
-import socialfood.composeapp.generated.resources.guides_private_icon
-import socialfood.composeapp.generated.resources.guides_public_icon
+import socialfood.composeapp.generated.resources.guide_private_icon
+import socialfood.composeapp.generated.resources.guide_public_icon
 import socialfood.composeapp.generated.resources.share_icon
 
 internal val GuideImageHeight = 320.dp
@@ -436,7 +436,7 @@ private fun VisibilityBadgeContent(visibility: GuideVisibility) {
     when (visibility) {
         GuideVisibility.PUBLIC -> {
             Image(
-                painter = painterResource(Res.drawable.guides_public_icon),
+                painter = painterResource(Res.drawable.guide_public_icon),
                 contentDescription = stringResource(Res.string.guide_detail_public_icon_description),
                 modifier = Modifier.size(20.dp),
                 colorFilter = ColorFilter.tint(PublicBadge),
@@ -450,7 +450,7 @@ private fun VisibilityBadgeContent(visibility: GuideVisibility) {
 
         GuideVisibility.PRIVATE -> {
             Image(
-                painter = painterResource(Res.drawable.guides_private_icon),
+                painter = painterResource(Res.drawable.guide_private_icon),
                 contentDescription = stringResource(Res.string.guide_detail_private_icon_description),
                 modifier = Modifier.size(20.dp),
                 colorFilter = ColorFilter.tint(PrivateBadge),

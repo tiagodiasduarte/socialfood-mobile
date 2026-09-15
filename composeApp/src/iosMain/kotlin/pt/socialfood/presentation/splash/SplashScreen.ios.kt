@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import pt.socialfood.presentation.startup.StartupViewModel
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.social_food_splash
+import socialfood.composeapp.generated.resources.socialfood_splash
 
 @Composable
 actual fun SplashScreen(
@@ -34,7 +34,7 @@ actual fun SplashScreen(
         contentAlignment = Alignment.Center,
     ) {
         Image(
-            painter = painterResource(Res.drawable.social_food_splash),
+            painter = painterResource(Res.drawable.socialfood_splash),
             contentDescription = null,
             modifier = Modifier.size(160.dp),
         )

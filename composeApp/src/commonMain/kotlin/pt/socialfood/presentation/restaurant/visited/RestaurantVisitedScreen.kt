@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Map
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -33,10 +35,12 @@ import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.presentation.components.TopActionBar
+import pt.socialfood.presentation.components.buttons.OutlinedButton
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.guide_detail_map_button_description
 import socialfood.composeapp.generated.resources.visited_card_remove_button_description
 import socialfood.composeapp.generated.resources.visited_no_results_subtitle
 import socialfood.composeapp.generated.resources.visited_no_results_title
@@ -48,6 +52,7 @@ fun RestaurantVisitedScreen(
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onAddClick: (onRestaurantAdded: (Restaurant) -> Unit) -> Unit = {},
+    onMapClick: () -> Unit = {},
     viewModel: RestaurantVisitedViewModel = koinViewModel(),
 ) {
     val restaurants = viewModel.restaurants.collectAsLazyPagingItems()
@@ -58,6 +63,7 @@ fun RestaurantVisitedScreen(
         onRestaurantClick = onRestaurantClick,
         onAddClick = { onAddClick(viewModel::addToVisited) },
         onRemoveClick = viewModel::removeFromVisited,
+        onMapClick = onMapClick,
     )
 }
 
@@ -70,6 +76,7 @@ private fun VisitedRestaurantsContent(
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onAddClick: () -> Unit = {},
     onRemoveClick: (restaurantId: String) -> Unit = {},
+    onMapClick: () -> Unit = {},
 ) {
     val listState = rememberLazyListState()
     val isRefreshing = restaurants.loadState.refresh is LoadState.Loading && restaurants.itemCount > 0
@@ -117,6 +124,8 @@ private fun VisitedRestaurantsContent(
                     ),
                     verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
                 ) {
+                    item { MapButtonItem(onClick = onMapClick) }
+
                     items(count = restaurants.itemCount, key = restaurants.itemKey { it.id }) { index ->
                         restaurants[index]?.let { restaurant ->
                             RestaurantSmallCard(
@@ -143,6 +152,22 @@ private fun VisitedRestaurantsContent(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun MapButtonItem(onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = SpaceSize.small),
+        contentAlignment = Alignment.CenterEnd,
+    ) {
+        OutlinedButton(
+            icon = Icons.Outlined.Map,
+            text = stringResource(Res.string.guide_detail_map_button_description),
+            onClick = onClick,
+        )
     }
 }
 

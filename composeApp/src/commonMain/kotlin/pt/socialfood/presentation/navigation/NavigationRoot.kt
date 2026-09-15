@@ -1,13 +1,5 @@
 package pt.socialfood.presentation.navigation
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
@@ -47,8 +39,6 @@ import pt.socialfood.presentation.search.SearchScreen
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.visited_restaurants_title
 import socialfood.composeapp.generated.resources.wish_restaurants_title
-
-private const val NAVIGATION_TRANSITION_DURATION_MILLIS = 300
 
 @Suppress("LongMethod")
 @Composable
@@ -117,46 +107,16 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                     .fillMaxSize()
                     .padding(innerPadding),
                 onBack = navigator::goBack,
-                transitionSpec = {
-                    slideInHorizontally(
-                        initialOffsetX = { fullWidth -> fullWidth },
-                        animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
-                    ) togetherWith
-                        slideOutHorizontally(
-                            targetOffsetX = { fullWidth -> -fullWidth / 4 },
-                            animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
-                        )
-                },
-                popTransitionSpec = {
-                    slideInHorizontally(
-                        initialOffsetX = { fullWidth -> -fullWidth / 4 },
-                        animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
-                    ) togetherWith
-                        slideOutHorizontally(
-                            targetOffsetX = { fullWidth -> fullWidth },
-                            animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
-                        )
-                },
-                predictivePopTransitionSpec = {
-                    slideInHorizontally(
-                        initialOffsetX = { fullWidth -> -fullWidth / 4 },
-                        animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
-                    ) togetherWith
-                        slideOutHorizontally(
-                            targetOffsetX = { fullWidth -> fullWidth },
-                            animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
-                        )
-                },
                 entries = navigationState.toEntries(
                     entryProvider {
-                        entry<Route.AuthorDetail> { route ->
+                        entry<Route.AuthorDetail>(metadata = defaultAnimationMetadata) { route ->
                             AuthorDetailScreen(
                                 authorId = route.authorId,
                                 onBackClick = navigator::goBack,
                                 onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                             )
                         }
-                        entry<Route.Authors> {
+                        entry<Route.Authors>(metadata = defaultAnimationMetadata) {
                             AuthorsScreen(
                                 onAuthorClick = { authorId ->
                                     navigator.navigate(
@@ -189,7 +149,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 },
                             )
                         }
-                        entry<Route.GuideDetail> { route ->
+                        entry<Route.GuideDetail>(metadata = defaultAnimationMetadata) { route ->
                             GuideDetailScreen(
                                 guideId = route.guideId,
                                 onBackClick = navigator::goBack,
@@ -203,20 +163,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 },
                             )
                         }
-                        entry<Route.GuideMap>(
-                            metadata = NavDisplay.transitionSpec {
-                                slideInVertically(
-                                    initialOffsetY = { fullHeight -> fullHeight },
-                                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
-                                ) togetherWith ExitTransition.None
-                            } + NavDisplay.popTransitionSpec {
-                                EnterTransition.None togetherWith
-                                    slideOutVertically(
-                                        targetOffsetY = { fullHeight -> fullHeight },
-                                        animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
-                                    )
-                            },
-                        ) { route ->
+                        entry<Route.GuideMap>(metadata = slideUpAnimationMetadata) { route ->
                             GuideMapScreen(
                                 guideId = route.guideId,
                                 guideName = route.guideName,
@@ -227,7 +174,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 },
                             )
                         }
-                        entry<Route.Guides> {
+                        entry<Route.Guides>(metadata = defaultAnimationMetadata) {
                             GuidesScreen(
                                 onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                                 onAddClick = { navigator.navigate(Route.CreateGuide) },
@@ -235,13 +182,13 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 onGuideJoined = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                             )
                         }
-                        entry<Route.FavouriteGuides> {
+                        entry<Route.FavouriteGuides>(metadata = slideHorizontalAnimationMetadata) {
                             FavouriteGuidesScreen(
                                 onBackClick = navigator::goBack,
                                 onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                             )
                         }
-                        entry<Route.FavouriteRestaurants> {
+                        entry<Route.FavouriteRestaurants>(metadata = slideHorizontalAnimationMetadata) {
                             FavouriteRestaurantsScreen(
                                 onBackClick = navigator::goBack,
                                 onRestaurantClick = { restaurantId ->
@@ -249,7 +196,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 },
                             )
                         }
-                        entry<Route.WishRestaurants> {
+                        entry<Route.WishRestaurants>(metadata = slideHorizontalAnimationMetadata) {
                             RestaurantWishlistScreen(
                                 onBackClick = navigator::goBack,
                                 onRestaurantClick = { restaurantId ->
@@ -262,7 +209,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 onMapClick = { navigator.navigate(Route.RestaurantsMap(VisitStatus.WISHLIST)) },
                             )
                         }
-                        entry<Route.VisitedRestaurants> {
+                        entry<Route.VisitedRestaurants>(metadata = slideHorizontalAnimationMetadata) {
                             RestaurantVisitedScreen(
                                 onBackClick = navigator::goBack,
                                 onRestaurantClick = { restaurantId ->
@@ -275,20 +222,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 onMapClick = { navigator.navigate(Route.RestaurantsMap(VisitStatus.VISITED)) },
                             )
                         }
-                        entry<Route.RestaurantsMap>(
-                            metadata = NavDisplay.transitionSpec {
-                                slideInVertically(
-                                    initialOffsetY = { fullHeight -> fullHeight },
-                                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
-                                ) togetherWith ExitTransition.None
-                            } + NavDisplay.popTransitionSpec {
-                                EnterTransition.None togetherWith
-                                    slideOutVertically(
-                                        targetOffsetY = { fullHeight -> fullHeight },
-                                        animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
-                                    )
-                            },
-                        ) { route ->
+                        entry<Route.RestaurantsMap>(metadata = slideUpAnimationMetadata) { route ->
                             MapVisitRestaurantScreen(
                                 status = route.status,
                                 title = when (route.status) {
@@ -301,7 +235,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 },
                             )
                         }
-                        entry<Route.Home> {
+                        entry<Route.Home>(metadata = defaultAnimationMetadata) {
                             HomeScreen(
                                 onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                                 onRestaurantClick = { restaurantId ->
@@ -311,7 +245,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 onSearchClick = { navigator.navigate(Route.Search) },
                             )
                         }
-                        entry<Route.EditProfile> {
+                        entry<Route.EditProfile>(metadata = slideHorizontalAnimationMetadata) {
                             EditProfileScreen(onBackClick = navigator::goBack)
                         }
                         entry<Route.AddRestaurants> { route ->
@@ -344,13 +278,13 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 },
                             )
                         }
-                        entry<Route.RestaurantDetail> { route ->
+                        entry<Route.RestaurantDetail>(metadata = defaultAnimationMetadata) { route ->
                             RestaurantDetailScreen(
                                 restaurantId = route.restaurantId,
                                 onBackClick = navigator::goBack,
                             )
                         }
-                        entry<Route.Search> {
+                        entry<Route.Search>(metadata = defaultAnimationMetadata) {
                             SearchScreen(
                                 onAuthorClick = { authorId -> navigator.navigate(Route.AuthorDetail(authorId)) },
                                 onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },

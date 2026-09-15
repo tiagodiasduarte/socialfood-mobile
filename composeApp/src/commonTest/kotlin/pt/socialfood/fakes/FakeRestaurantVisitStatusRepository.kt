@@ -13,6 +13,7 @@ class FakeRestaurantVisitStatusRepository(
     private val markResult: Result<Unit> = Result.Success(Unit),
     private val unmarkResult: Result<Unit> = Result.Success(Unit),
     private val pagingFlow: Flow<PagingData<RestaurantVisitStatus>> = emptyFlow(),
+    private val allFlow: Flow<List<Restaurant>> = emptyFlow(),
     private val syncResult: Result<Unit> = Result.Success(Unit),
     private val statusResult: Result<VisitStatus?> = Result.Success(null),
 ) : RestaurantVisitStatusRepository {
@@ -43,6 +44,11 @@ class FakeRestaurantVisitStatusRepository(
     override fun getPagingFlow(status: VisitStatus): Flow<PagingData<RestaurantVisitStatus>> {
         lastStatus = status
         return pagingFlow
+    }
+
+    override fun getAllFlow(status: VisitStatus): Flow<List<Restaurant>> {
+        lastStatus = status
+        return allFlow
     }
 
     override suspend fun sync(): Result<Unit> = syncResult

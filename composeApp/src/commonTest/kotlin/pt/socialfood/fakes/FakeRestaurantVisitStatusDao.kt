@@ -3,6 +3,8 @@ package pt.socialfood.fakes
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.sqlite.SQLiteException
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import pt.socialfood.data.local.dao.RestaurantVisitStatusDao
 import pt.socialfood.data.local.entity.RestaurantVisitStatusEntity
 
@@ -43,6 +45,12 @@ class FakeRestaurantVisitStatusDao(
                 .filter { it.status == status && it.syncState != "PENDING_REMOVE" }
                 .sortedBy { it.position }
         }
+
+    override fun getAllFlow(status: String): Flow<List<RestaurantVisitStatusEntity>> = flowOf(
+        entities.values
+            .filter { it.status == status && it.syncState != "PENDING_REMOVE" }
+            .sortedBy { it.position },
+    )
 
     override suspend fun deleteByStatus(status: String) {
         if (shouldThrowOnWrite) throw SQLiteException("test error")

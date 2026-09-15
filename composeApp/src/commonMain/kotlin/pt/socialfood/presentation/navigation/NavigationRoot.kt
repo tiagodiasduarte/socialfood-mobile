@@ -23,7 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.presentation.author.detail.AuthorDetailScreen
 import pt.socialfood.presentation.author.list.AuthorsScreen
 import pt.socialfood.presentation.drawer.DrawerContent
@@ -35,12 +37,16 @@ import pt.socialfood.presentation.guide.detail.GuideDetailScreen
 import pt.socialfood.presentation.guide.edit.EditGuideScreen
 import pt.socialfood.presentation.guide.map.GuideMapScreen
 import pt.socialfood.presentation.home.HomeScreen
+import pt.socialfood.presentation.map.restaurant.MapVisitRestaurantScreen
 import pt.socialfood.presentation.profile.edit.EditProfileScreen
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailScreen
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsScreen
 import pt.socialfood.presentation.restaurant.visited.RestaurantVisitedScreen
 import pt.socialfood.presentation.restaurant.wishlist.RestaurantWishlistScreen
 import pt.socialfood.presentation.search.SearchScreen
+import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.visited_restaurants_title
+import socialfood.composeapp.generated.resources.wish_restaurants_title
 
 private const val NAVIGATION_TRANSITION_DURATION_MILLIS = 300
 
@@ -253,6 +259,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                     onRestaurantAddedRef.value = onRestaurantAdded
                                     navigator.navigate(Route.AddWishRestaurant)
                                 },
+                                onMapClick = { navigator.navigate(Route.RestaurantsMap(VisitStatus.WISHLIST)) },
                             )
                         }
                         entry<Route.VisitedRestaurants> {
@@ -264,6 +271,33 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 onAddClick = { onRestaurantAdded ->
                                     onRestaurantAddedRef.value = onRestaurantAdded
                                     navigator.navigate(Route.AddVisitedRestaurant)
+                                },
+                                onMapClick = { navigator.navigate(Route.RestaurantsMap(VisitStatus.VISITED)) },
+                            )
+                        }
+                        entry<Route.RestaurantsMap>(
+                            metadata = NavDisplay.transitionSpec {
+                                slideInVertically(
+                                    initialOffsetY = { fullHeight -> fullHeight },
+                                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                                ) togetherWith ExitTransition.None
+                            } + NavDisplay.popTransitionSpec {
+                                EnterTransition.None togetherWith
+                                    slideOutVertically(
+                                        targetOffsetY = { fullHeight -> fullHeight },
+                                        animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                                    )
+                            },
+                        ) { route ->
+                            MapVisitRestaurantScreen(
+                                status = route.status,
+                                title = when (route.status) {
+                                    VisitStatus.WISHLIST -> stringResource(Res.string.wish_restaurants_title)
+                                    VisitStatus.VISITED -> stringResource(Res.string.visited_restaurants_title)
+                                },
+                                onBackClick = navigator::goBack,
+                                onRestaurantClick = { restaurantId ->
+                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
                                 },
                             )
                         }

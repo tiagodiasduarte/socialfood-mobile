@@ -27,6 +27,7 @@ import pt.socialfood.domain.model.RestaurantVisitStatus
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 import pt.socialfood.domain.repository.SettingsRepository
+import pt.socialfood.mapper.toRestaurant
 import pt.socialfood.mapper.toRestaurantVisitStatus
 import pt.socialfood.mapper.toRestaurantVisitStatusEntity
 
@@ -116,6 +117,9 @@ class RestaurantVisitStatusRepositoryImpl(
         ),
         pagingSourceFactory = { restaurantVisitStatusDao.pagingSource(status.name) },
     ).flow.map { pagingData -> pagingData.map { it.toRestaurantVisitStatus() } }
+
+    override fun getAllFlow(status: VisitStatus): Flow<List<Restaurant>> =
+        restaurantVisitStatusDao.getAllFlow(status.name).map { entities -> entities.map { it.toRestaurant() } }
 
     @Suppress("ReturnCount")
     override suspend fun sync(): Result<Unit> = syncMutex.withLock {

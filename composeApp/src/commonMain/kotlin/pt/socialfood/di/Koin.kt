@@ -59,6 +59,7 @@ import pt.socialfood.data.repository.RestaurantVisitStatusRepositoryImpl
 import pt.socialfood.data.repository.RestaurantsRepositoryImpl
 import pt.socialfood.data.repository.SearchRepositoryImpl
 import pt.socialfood.data.repository.UsersRepositoryImpl
+import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.AuthRepository
 import pt.socialfood.domain.repository.AuthorsRepository
 import pt.socialfood.domain.repository.ConfigsRepository
@@ -177,6 +178,8 @@ import pt.socialfood.domain.usecase.restaurant.GetRestaurantsUseCase
 import pt.socialfood.domain.usecase.restaurant.GetRestaurantsUseCaseImpl
 import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCase
 import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCaseImpl
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusListUseCase
+import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusListUseCaseImpl
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusPagingUseCase
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusPagingUseCaseImpl
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetVisitStatusUseCase
@@ -224,6 +227,7 @@ import pt.socialfood.presentation.guide.map.GuideMapViewModel
 import pt.socialfood.presentation.guide.my.MyGuidesViewModel
 import pt.socialfood.presentation.guide.shared.SharedGuidesViewModel
 import pt.socialfood.presentation.home.HomeViewModel
+import pt.socialfood.presentation.map.restaurant.MapVisitRestaurantViewModel
 import pt.socialfood.presentation.profile.edit.EditProfileViewModel
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
@@ -360,6 +364,7 @@ val useCaseModule =
         factory<GetUserGuidesPagingUseCase> { GetUserGuidesPagingUseCaseImpl(get()) }
         factory<GetUserJoinedGuidesPagingUseCase> { GetUserJoinedGuidesPagingUseCaseImpl(get()) }
         factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
+        factory<GetRestaurantVisitStatusListUseCase> { GetRestaurantVisitStatusListUseCaseImpl(get()) }
         factory<GetRestaurantVisitStatusPagingUseCase> { GetRestaurantVisitStatusPagingUseCaseImpl(get()) }
         factory<GetVisitStatusUseCase> { GetVisitStatusUseCaseImpl(get()) }
         factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
@@ -412,6 +417,7 @@ val viewModelModule =
         factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), get(), guideId) }
         factory { (guideId: String) -> GuideMapViewModel(get(), guideId) }
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+        factory { (status: VisitStatus) -> MapVisitRestaurantViewModel(get(), status) }
         factory { MyGuidesViewModel(get(), get(), get(), get(), get()) }
         factory { (restaurantId: String) ->
             RestaurantDetailViewModel(get(), get(), get(), get(), get(), get(), restaurantId)

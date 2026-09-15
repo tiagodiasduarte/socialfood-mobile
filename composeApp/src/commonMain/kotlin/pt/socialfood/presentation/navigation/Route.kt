@@ -2,6 +2,7 @@ package pt.socialfood.presentation.navigation
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
+import pt.socialfood.domain.model.VisitStatus
 
 @Serializable
 sealed interface Route : NavKey {
@@ -59,4 +60,7 @@ sealed interface Route : NavKey {
 
     @Serializable
     data object AddVisitedRestaurant : Route
+
+    @Serializable
+    data class RestaurantsMap(val status: VisitStatus) : Route
 }

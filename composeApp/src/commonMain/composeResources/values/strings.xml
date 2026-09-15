@@ -93,6 +93,7 @@
     <string name="guide_map_restaurants_count_label">%1$d restaurants</string>
     <string name="guide_map_close_button_description">Close</string>
     <string name="guide_map_show_list_button">Show %1$d restaurants</string>
+    <string name="restaurants_map_empty_message">There are no restaurants to show on the map.</string>
     <string name="guide_detail_public_label">Public</string>
     <string name="guide_detail_private_label">Private</string>
     <string name="guide_detail_shared_label">Shared</string>

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,6 +35,7 @@ import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.restaurant.RestaurantSmallCard
+import pt.socialfood.presentation.restaurant.visited.MapButtonItem
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
@@ -48,6 +50,7 @@ fun RestaurantWishlistScreen(
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onAddClick: (onRestaurantAdded: (Restaurant) -> Unit) -> Unit = {},
+    onMapClick: () -> Unit = {},
     viewModel: RestaurantWishlistViewModel = koinViewModel(),
 ) {
     val restaurants = viewModel.restaurants.collectAsLazyPagingItems()
@@ -58,10 +61,10 @@ fun RestaurantWishlistScreen(
         onRestaurantClick = onRestaurantClick,
         onAddClick = { onAddClick(viewModel::addToWishlist) },
         onRemoveClick = viewModel::removeFromWishlist,
+        onMapClick = onMapClick,
     )
 }
 
-@Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RestaurantWishlistContent(
@@ -70,6 +73,7 @@ private fun RestaurantWishlistContent(
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onAddClick: () -> Unit = {},
     onRemoveClick: (restaurantId: String) -> Unit = {},
+    onMapClick: () -> Unit = {},
 ) {
     val listState = rememberLazyListState()
     val isRefreshing = restaurants.loadState.refresh is LoadState.Loading && restaurants.itemCount > 0
@@ -103,42 +107,63 @@ private fun RestaurantWishlistContent(
                 modifier = Modifier.fillMaxSize(),
             )
 
-            else -> PullToRefreshContent(
+            else -> WishlistRestaurantsList(
+                restaurants = restaurants,
+                listState = listState,
                 isRefreshing = isRefreshing,
-                onRefresh = { restaurants.refresh() },
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                LazyColumn(
-                    state = listState,
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(
-                        horizontal = SpaceSize.large,
-                        vertical = SpaceSize.large,
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-                ) {
-                    items(count = restaurants.itemCount, key = restaurants.itemKey { it.id }) { index ->
-                        restaurants[index]?.let { restaurant ->
-                            RestaurantSmallCard(
-                                restaurant = restaurant,
-                                removeButtonContentDescription = stringResource(
-                                    Res.string.wish_card_remove_button_description,
-                                ),
-                                onClick = { onRestaurantClick(restaurant.id) },
-                                onRemoveClick = { onRemoveClick(restaurant.id) },
-                            )
-                        }
-                    }
+                onRestaurantClick = onRestaurantClick,
+                onRemoveClick = onRemoveClick,
+                onMapClick = onMapClick,
+            )
+        }
+    }
+}
 
-                    if (restaurants.loadState.append is LoadState.Loading) {
-                        item {
-                            Box(
-                                modifier = Modifier.fillMaxWidth().padding(SpaceSize.large),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                CircularProgressIndicator()
-                            }
-                        }
+@Composable
+private fun WishlistRestaurantsList(
+    restaurants: LazyPagingItems<Restaurant>,
+    listState: LazyListState,
+    isRefreshing: Boolean,
+    onRestaurantClick: (restaurantId: String) -> Unit,
+    onRemoveClick: (restaurantId: String) -> Unit,
+    onMapClick: () -> Unit,
+) {
+    PullToRefreshContent(
+        isRefreshing = isRefreshing,
+        onRefresh = { restaurants.refresh() },
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                horizontal = SpaceSize.large,
+                vertical = SpaceSize.large,
+            ),
+            verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+        ) {
+            item { MapButtonItem(onClick = onMapClick) }
+
+            items(count = restaurants.itemCount, key = restaurants.itemKey { it.id }) { index ->
+                restaurants[index]?.let { restaurant ->
+                    RestaurantSmallCard(
+                        restaurant = restaurant,
+                        removeButtonContentDescription = stringResource(
+                            Res.string.wish_card_remove_button_description,
+                        ),
+                        onClick = { onRestaurantClick(restaurant.id) },
+                        onRemoveClick = { onRemoveClick(restaurant.id) },
+                    )
+                }
+            }
+
+            if (restaurants.loadState.append is LoadState.Loading) {
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxWidth().padding(SpaceSize.large),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        CircularProgressIndicator()
                     }
                 }
             }

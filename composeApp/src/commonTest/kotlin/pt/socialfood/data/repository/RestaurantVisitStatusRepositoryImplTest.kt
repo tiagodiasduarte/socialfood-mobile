@@ -1,5 +1,6 @@
 package pt.socialfood.data.repository
 
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.data.local.entity.SyncState
@@ -11,6 +12,7 @@ import pt.socialfood.fakes.FakeRestaurantVisitStatusApi
 import pt.socialfood.fakes.FakeRestaurantVisitStatusDao
 import pt.socialfood.fakes.FakeRestaurantVisitStatusRemoteKeyDao
 import pt.socialfood.fakes.FakeSettingsRepository
+import pt.socialfood.mapper.toRestaurant
 import pt.socialfood.mapper.toRestaurantVisitStatusEntity
 import pt.socialfood.random.nextEnum
 import pt.socialfood.random.nextRestaurant
@@ -170,6 +172,27 @@ class RestaurantVisitStatusRepositoryImplTest {
         // Then
         assertNotNull(wishlistFlow)
         assertNotNull(visitedFlow)
+    }
+
+    // getAllFlow
+
+    @Test
+    fun `given stored visits for a status when getAllFlow is called then emits their restaurants`() = runTest {
+        // Given
+        val status = Random.nextEnum<VisitStatus>()
+        val entity = fakeRestaurant.toRestaurantVisitStatusEntity(
+            status = status,
+            recordedAt = now(),
+            syncState = SyncState.SYNCED,
+            position = 0,
+        )
+        val (repo, _, _) = createRepository(dao = FakeRestaurantVisitStatusDao(initialEntities = listOf(entity)))
+
+        // When
+        val restaurants = repo.getAllFlow(status).first()
+
+        // Then
+        assertEquals(listOf(entity.toRestaurant()), restaurants)
     }
 
     // sync

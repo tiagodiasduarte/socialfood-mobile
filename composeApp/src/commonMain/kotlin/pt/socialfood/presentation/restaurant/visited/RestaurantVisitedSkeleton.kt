@@ -31,7 +31,7 @@ fun RestaurantVisitedSkeleton(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
 
     Column(
-        modifier = modifier.padding(horizontal = SpaceSize.large),
+        modifier = modifier.padding(SpaceSize.large),
         verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
         repeat(SKELETON_ITEM_COUNT) {

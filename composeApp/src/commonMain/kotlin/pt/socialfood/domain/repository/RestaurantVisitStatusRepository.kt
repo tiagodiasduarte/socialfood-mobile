@@ -22,5 +22,8 @@ interface RestaurantVisitStatusRepository {
      */
     fun getPagingFlow(status: VisitStatus): Flow<PagingData<RestaurantVisitStatus>>
 
+    /** All restaurants for [status], unpaginated — used for the map view. */
+    fun getAllFlow(status: VisitStatus): Flow<List<Restaurant>>
+
     suspend fun sync(): Result<Unit>
 }

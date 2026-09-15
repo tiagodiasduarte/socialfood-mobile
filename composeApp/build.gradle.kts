@@ -242,6 +242,8 @@ kover {
                     "$appNamespace.di.*",
                     "$appNamespace.data.network.model.*",
                     "$appNamespace.presentation.navigation.Route*",
+                    "$appNamespace.presentation.map.*",
+                    "$appNamespace.presentation.restaurant.detail.LocationSectionKt*",
                     "$appNamespace.ui.theme.*",
                 )
                 annotatedBy("androidx.compose.ui.tooling.preview.Preview")

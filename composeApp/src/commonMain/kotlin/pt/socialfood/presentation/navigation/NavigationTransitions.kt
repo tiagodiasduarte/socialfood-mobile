@@ -1,44 +1,62 @@
 package pt.socialfood.presentation.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
-import androidx.navigation3.scene.Scene
 import androidx.navigation3.ui.NavDisplay
-import androidx.navigation3.ui.defaultPopTransitionSpec
-import androidx.navigation3.ui.defaultPredictivePopTransitionSpec
-import androidx.navigation3.ui.defaultTransitionSpec
 
 internal const val NAVIGATION_TRANSITION_DURATION_MILLIS = 300
-
-@Suppress("UNCHECKED_CAST")
-internal val defaultAnimationMetadata: Map<String, Any> = run {
-    val transition = defaultTransitionSpec<Route>()
-    val popTransition = defaultPopTransitionSpec<Route>()
-    val predictivePopTransition = defaultPredictivePopTransitionSpec<Route>()
-
+val defaultAnimationMetadata: Map<String, Any> =
     NavDisplay.transitionSpec {
-        (this as AnimatedContentTransitionScope<Scene<Route>>).transition()
+        (
+            scaleIn(
+                initialScale = 0.9f,
+                animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+            ) + fadeIn(animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS))
+            ) togetherWith fadeOut(animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS))
     } + NavDisplay.popTransitionSpec {
-        (this as AnimatedContentTransitionScope<Scene<Route>>).popTransition()
-    } + NavDisplay.predictivePopTransitionSpec { edge ->
-        (this as AnimatedContentTransitionScope<Scene<Route>>).predictivePopTransition(edge)
+        fadeIn(animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS)) togetherWith
+            (
+                scaleOut(
+                    targetScale = 0.9f,
+                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                ) + fadeOut(animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS))
+                )
+    } + NavDisplay.predictivePopTransitionSpec {
+        fadeIn(animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS)) togetherWith
+            (
+                scaleOut(
+                    targetScale = 0.9f,
+                    animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+                ) + fadeOut(animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS))
+                )
     }
-}
 
-internal val slideUpAnimationMetadata: Map<String, Any> =
+val slideUpAnimationMetadata: Map<String, Any> =
     NavDisplay.transitionSpec {
+        // Slide new content up, keeping the old content in place underneath
         slideInVertically(
             initialOffsetY = { fullHeight -> fullHeight },
             animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
-        ) togetherWith ExitTransition.None
+        ) togetherWith ExitTransition.KeepUntilTransitionsFinished
     } + NavDisplay.popTransitionSpec {
+        // Slide old content down, revealing the new content in place underneath
+        EnterTransition.None togetherWith
+            slideOutVertically(
+                targetOffsetY = { fullHeight -> fullHeight },
+                animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+            )
+    } + NavDisplay.predictivePopTransitionSpec {
+        // Slide old content down, revealing the new content in place underneath
         EnterTransition.None togetherWith
             slideOutVertically(
                 targetOffsetY = { fullHeight -> fullHeight },
@@ -46,7 +64,7 @@ internal val slideUpAnimationMetadata: Map<String, Any> =
             )
     }
 
-internal val slideHorizontalAnimationMetadata: Map<String, Any> =
+val slideHorizontalAnimationMetadata: Map<String, Any> =
     NavDisplay.transitionSpec {
         slideInHorizontally(
             initialOffsetX = { fullWidth -> fullWidth },
@@ -57,6 +75,15 @@ internal val slideHorizontalAnimationMetadata: Map<String, Any> =
                 animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
             )
     } + NavDisplay.popTransitionSpec {
+        slideInHorizontally(
+            initialOffsetX = { fullWidth -> -fullWidth / 4 },
+            animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+        ) togetherWith
+            slideOutHorizontally(
+                targetOffsetX = { fullWidth -> fullWidth },
+                animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),
+            )
+    } + NavDisplay.predictivePopTransitionSpec {
         slideInHorizontally(
             initialOffsetX = { fullWidth -> -fullWidth / 4 },
             animationSpec = tween(NAVIGATION_TRANSITION_DURATION_MILLIS),

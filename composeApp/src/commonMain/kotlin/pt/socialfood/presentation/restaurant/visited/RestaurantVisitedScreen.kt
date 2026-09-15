@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Map
@@ -67,7 +68,6 @@ fun RestaurantVisitedScreen(
     )
 }
 
-@Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun VisitedRestaurantsContent(
@@ -110,44 +110,63 @@ private fun VisitedRestaurantsContent(
                 modifier = Modifier.fillMaxSize(),
             )
 
-            else -> PullToRefreshContent(
+            else -> VisitedRestaurantsList(
+                restaurants = restaurants,
+                listState = listState,
                 isRefreshing = isRefreshing,
-                onRefresh = { restaurants.refresh() },
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                LazyColumn(
-                    state = listState,
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(
-                        horizontal = SpaceSize.large,
-                        vertical = SpaceSize.large,
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
-                ) {
-                    item { MapButtonItem(onClick = onMapClick) }
+                onRestaurantClick = onRestaurantClick,
+                onRemoveClick = onRemoveClick,
+                onMapClick = onMapClick,
+            )
+        }
+    }
+}
 
-                    items(count = restaurants.itemCount, key = restaurants.itemKey { it.id }) { index ->
-                        restaurants[index]?.let { restaurant ->
-                            RestaurantSmallCard(
-                                restaurant = restaurant,
-                                removeButtonContentDescription = stringResource(
-                                    Res.string.visited_card_remove_button_description,
-                                ),
-                                onClick = { onRestaurantClick(restaurant.id) },
-                                onRemoveClick = { onRemoveClick(restaurant.id) },
-                            )
-                        }
-                    }
+@Composable
+private fun VisitedRestaurantsList(
+    restaurants: LazyPagingItems<Restaurant>,
+    listState: LazyListState,
+    isRefreshing: Boolean,
+    onRestaurantClick: (restaurantId: String) -> Unit,
+    onRemoveClick: (restaurantId: String) -> Unit,
+    onMapClick: () -> Unit,
+) {
+    PullToRefreshContent(
+        isRefreshing = isRefreshing,
+        onRefresh = { restaurants.refresh() },
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                horizontal = SpaceSize.large,
+                vertical = SpaceSize.large,
+            ),
+            verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+        ) {
+            item { MapButtonItem(onClick = onMapClick) }
 
-                    if (restaurants.loadState.append is LoadState.Loading) {
-                        item {
-                            Box(
-                                modifier = Modifier.fillMaxWidth().padding(SpaceSize.large),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                CircularProgressIndicator()
-                            }
-                        }
+            items(count = restaurants.itemCount, key = restaurants.itemKey { it.id }) { index ->
+                restaurants[index]?.let { restaurant ->
+                    RestaurantSmallCard(
+                        restaurant = restaurant,
+                        removeButtonContentDescription = stringResource(
+                            Res.string.visited_card_remove_button_description,
+                        ),
+                        onClick = { onRestaurantClick(restaurant.id) },
+                        onRemoveClick = { onRemoveClick(restaurant.id) },
+                    )
+                }
+            }
+
+            if (restaurants.loadState.append is LoadState.Loading) {
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxWidth().padding(SpaceSize.large),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        CircularProgressIndicator()
                     }
                 }
             }

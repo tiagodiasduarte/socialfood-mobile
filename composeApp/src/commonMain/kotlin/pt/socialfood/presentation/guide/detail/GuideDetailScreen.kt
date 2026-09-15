@@ -71,6 +71,7 @@ import pt.socialfood.ui.theme.SharedBadge
 import pt.socialfood.ui.theme.SharedBadgeBackground
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.author_icon
 import socialfood.composeapp.generated.resources.guide_detail_leave_guide_button
 import socialfood.composeapp.generated.resources.guide_detail_leave_guide_confirmation_cancel
 import socialfood.composeapp.generated.resources.guide_detail_leave_guide_confirmation_confirm
@@ -89,7 +90,6 @@ import socialfood.composeapp.generated.resources.guide_detail_shared_icon_descri
 import socialfood.composeapp.generated.resources.guide_detail_shared_label
 import socialfood.composeapp.generated.resources.guide_private_icon
 import socialfood.composeapp.generated.resources.guide_public_icon
-import socialfood.composeapp.generated.resources.share_icon
 
 internal val GuideImageHeight = 320.dp
 
@@ -464,7 +464,7 @@ private fun VisibilityBadgeContent(visibility: GuideVisibility) {
 
         GuideVisibility.SHARED -> {
             Image(
-                painter = painterResource(Res.drawable.share_icon),
+                painter = painterResource(Res.drawable.author_icon),
                 contentDescription = stringResource(Res.string.guide_detail_shared_icon_description),
                 modifier = Modifier.size(20.dp),
                 colorFilter = ColorFilter.tint(SharedBadge),

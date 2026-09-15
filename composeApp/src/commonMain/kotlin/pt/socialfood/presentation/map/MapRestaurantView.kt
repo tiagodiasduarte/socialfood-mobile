@@ -11,4 +11,6 @@ expect fun MapRestaurantView(
     onRestaurantSelected: (String) -> Unit,
     onMapClick: () -> Unit,
     modifier: Modifier,
+    showMarkerLabel: Boolean = true,
+    dragGesturesEnabled: Boolean = true,
 )

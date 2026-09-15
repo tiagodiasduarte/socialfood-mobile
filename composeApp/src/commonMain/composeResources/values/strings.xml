@@ -282,6 +282,9 @@
     <string name="restaurant_detail_day_sunday">Sunday</string>
 
     <string name="restaurant_detail_information_title">Information</string>
+    <string name="restaurant_detail_location_title">Location</string>
+    <string name="restaurant_detail_location_expand_description">Open in Maps</string>
+    <string name="restaurant_detail_location_copy_address_description">Copy address</string>
     <string name="restaurant_detail_opening_hours_title">Opening Hours</string>
     <string name="restaurant_detail_call_button">Call for Reservation</string>
     <string name="restaurant_detail_reviews_count">%1$d reviews</string>

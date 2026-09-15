@@ -153,12 +153,6 @@ private fun RestaurantDetailLoaded(
 
             PhotoGallerySection(restaurant)
 
-            HorizontalDivider(
-                modifier = Modifier.padding(horizontal = SpaceSize.large),
-                color = MaterialTheme.colorScheme.outlineVariant,
-            )
-            Spacer(Modifier.height(SpaceSize.large))
-
             InformationSection(
                 restaurant = restaurant,
                 onNavigateClick = {
@@ -173,14 +167,14 @@ private fun RestaurantDetailLoaded(
                 },
             )
 
-            Spacer(Modifier.height(SpaceSize.xlarge))
-
-            HorizontalDivider(
-                modifier = Modifier.padding(horizontal = SpaceSize.large),
-                color = MaterialTheme.colorScheme.outlineVariant,
+            LocationSection(
+                restaurant = restaurant,
+                onExpandClick = {
+                    if (restaurant.address.isNotBlank()) {
+                        uriHandler.openUri("geo:0,0?q=${restaurant.address}")
+                    }
+                },
             )
-
-            Spacer(Modifier.height(SpaceSize.xlarge))
 
             OpeningHoursSection(restaurant)
 
@@ -340,6 +334,15 @@ private fun PhotoGallery(photos: List<String>, restaurantName: String) {
 @Composable
 private fun OpeningHoursSection(restaurant: Restaurant) {
     restaurant.regularOpeningHours?.let { openingHours ->
+        Spacer(Modifier.height(SpaceSize.xlarge))
+
+        HorizontalDivider(
+            modifier = Modifier.padding(horizontal = SpaceSize.large),
+            color = MaterialTheme.colorScheme.outlineVariant,
+        )
+
+        Spacer(Modifier.height(SpaceSize.xlarge))
+
         Text(
             text = stringResource(Res.string.restaurant_detail_opening_hours_title),
             style = MaterialTheme.typography.bodyLarge,

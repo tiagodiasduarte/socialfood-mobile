@@ -48,10 +48,13 @@ actual fun MapRestaurantView(
     onRestaurantSelected: (String) -> Unit,
     onMapClick: () -> Unit,
     modifier: Modifier,
+    showMarkerLabel: Boolean,
+    dragGesturesEnabled: Boolean,
 ) {
     val mapDelegate = remember { RestaurantAnnotationDelegate() }
     val tapHandler = remember { MapTapHandler() }
     mapDelegate.onRestaurantSelected = onRestaurantSelected
+    mapDelegate.showMarkerLabel = showMarkerLabel
     tapHandler.onMapTapped = onMapClick
 
     UIKitView(
@@ -65,6 +68,7 @@ actual fun MapRestaurantView(
         },
         modifier = modifier,
         update = { mapView ->
+            mapView.scrollEnabled = dragGesturesEnabled
             mapView.removeAnnotations(mapView.annotations)
 
             val annotations = restaurants.map { restaurant ->

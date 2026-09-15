@@ -52,6 +52,13 @@ import socialfood.composeapp.generated.resources.sign_in_google_button_descripti
 @Composable
 internal fun InformationSection(restaurant: Restaurant, onNavigateClick: () -> Unit, onWebsiteClick: () -> Unit) {
     Column {
+        HorizontalDivider(
+            modifier = Modifier.padding(horizontal = SpaceSize.large),
+            color = MaterialTheme.colorScheme.outlineVariant,
+        )
+
+        Spacer(Modifier.height(SpaceSize.large))
+
         Text(
             text = stringResource(Res.string.restaurant_detail_information_title),
             style = MaterialTheme.typography.bodyLarge,

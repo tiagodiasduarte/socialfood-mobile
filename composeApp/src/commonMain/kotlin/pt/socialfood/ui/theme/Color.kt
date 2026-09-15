@@ -45,6 +45,7 @@ val PrivateBadgeBackground = Color(0xFFEAECEF)
 val PublicBadgeBackground = Color(0xFFF0FDF4)
 val SharedBadgeBackground = Color(0xFFEFF6FF)
 
+val IdleContentBackground = Color(0xFFFFF7ED)
 val SearchBorder = Color(0xFFE5E7EB)
 val Shimmer = Color(0xFFD0D0D0)
 val Star = Color(0xFFFFC107)

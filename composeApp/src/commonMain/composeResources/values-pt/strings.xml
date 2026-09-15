@@ -282,6 +282,9 @@
     <string name="restaurant_detail_day_sunday">Domingo</string>
 
     <string name="restaurant_detail_information_title">Informação</string>
+    <string name="restaurant_detail_location_title">Localização</string>
+    <string name="restaurant_detail_location_expand_description">Abrir no Maps</string>
+    <string name="restaurant_detail_location_copy_address_description">Copiar morada</string>
     <string name="restaurant_detail_opening_hours_title">Horário de Funcionamento</string>
     <string name="restaurant_detail_call_button">Ligar para Reservar</string>
     <string name="restaurant_detail_reviews_count">%1$d avaliações</string>

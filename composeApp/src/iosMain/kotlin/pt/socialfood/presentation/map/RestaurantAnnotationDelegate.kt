@@ -16,6 +16,7 @@ internal class RestaurantAnnotationDelegate :
     MKMapViewDelegateProtocol {
 
     var onRestaurantSelected: (String) -> Unit = {}
+    var showMarkerLabel: Boolean = true
 
     override fun mapView(mapView: MKMapView, viewForAnnotation: MKAnnotationProtocol): MKAnnotationView {
         val reusedView = mapView
@@ -24,7 +25,7 @@ internal class RestaurantAnnotationDelegate :
             ?: RestaurantMarkerAnnotationView(annotation = viewForAnnotation, reuseIdentifier = ANNOTATION_REUSE_ID)
 
         annotationView.annotation = viewForAnnotation
-        annotationView.configure(viewForAnnotation.title.orEmpty())
+        annotationView.configure(viewForAnnotation.title.orEmpty(), showMarkerLabel)
 
         return annotationView
     }

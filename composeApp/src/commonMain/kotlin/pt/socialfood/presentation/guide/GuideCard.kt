@@ -48,10 +48,10 @@ import pt.socialfood.ui.theme.PublicBadge
 import pt.socialfood.ui.theme.SharedBadge
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.author_icon
 import socialfood.composeapp.generated.resources.guide_private_icon
 import socialfood.composeapp.generated.resources.guide_public_icon
 import socialfood.composeapp.generated.resources.join_shared_guide_screen_close_button_description
-import socialfood.composeapp.generated.resources.share_icon
 
 internal val CardHeight = 180.dp
 
@@ -188,7 +188,7 @@ private fun BadgeVisibility(guide: Guide, modifier: Modifier) {
 private fun GuideVisibility.badgeIcon(): Painter = when (this) {
     GuideVisibility.PUBLIC -> painterResource(Res.drawable.guide_public_icon)
     GuideVisibility.PRIVATE -> painterResource(Res.drawable.guide_private_icon)
-    GuideVisibility.SHARED -> painterResource(Res.drawable.share_icon)
+    GuideVisibility.SHARED -> painterResource(Res.drawable.author_icon)
 }
 
 @Composable

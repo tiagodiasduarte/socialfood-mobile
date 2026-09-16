@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -153,6 +154,7 @@ private fun EditGuideContent(
                 isLoading = isSaving,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
+                    .padding(horizontal = SpaceSize.large)
                     .height(SaveButtonHeight),
             )
         }

@@ -25,8 +25,14 @@ import socialfood.composeapp.generated.resources.profile_stat_following_label
 import socialfood.composeapp.generated.resources.profile_stat_guides_label
 
 @Composable
-fun StatsRow(guidesCount: Int? = null, followersCount: Int? = null, followingCount: Int? = null) {
+fun StatsRow(
+    guidesCount: Int? = null,
+    followersCount: Int? = null,
+    followingCount: Int? = null,
+    modifier: Modifier = Modifier,
+) {
     Row(
+        modifier = modifier,
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
     ) {

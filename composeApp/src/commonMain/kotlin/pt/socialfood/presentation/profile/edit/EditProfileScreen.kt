@@ -2,8 +2,11 @@ package pt.socialfood.presentation.profile.edit
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -11,8 +14,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -32,6 +37,8 @@ import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.edit_profile_save_error_dismiss
 import socialfood.composeapp.generated.resources.edit_profile_save_error_title
 import socialfood.composeapp.generated.resources.edit_profile_title
+
+private val SaveButtonHeight = 56.dp
 
 @Composable
 fun EditProfileScreen(onBackClick: () -> Unit, viewModel: EditProfileViewModel = koinViewModel()) {
@@ -100,39 +107,45 @@ private fun EditProfileContent(
             onBackClick = onBackClick,
         )
 
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .verticalScroll(rememberScrollState())
-                .padding(SpaceSize.large),
-            verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
-        ) {
-            ProfilePictureCard(state = state, onPhotoSelected = onPhotoSelected)
+        Box(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = SpaceSize.large, vertical = SpaceSize.large),
+                verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
+            ) {
+                ProfilePictureCard(state = state, onPhotoSelected = onPhotoSelected)
 
-            PersonalDetailsCard(
-                state = state,
-                onNameChange = onNameChange,
-                onUsernameChange = onUsernameChange,
-            )
+                PersonalDetailsCard(
+                    state = state,
+                    onNameChange = onNameChange,
+                    onUsernameChange = onUsernameChange,
+                )
 
-            AuthorModeCard(
-                state = state,
-                onAuthorModeChange = onAuthorModeChange,
-            )
+                AuthorModeCard(
+                    state = state,
+                    onAuthorModeChange = onAuthorModeChange,
+                )
 
-            SocialNetworkCard(
-                state = state,
-                onFacebookUrlChange = onFacebookUrlChange,
-                onInstagramUrlChange = onInstagramUrlChange,
-                onYoutubeUrlChange = onYoutubeUrlChange,
+                SocialNetworkCard(
+                    state = state,
+                    onFacebookUrlChange = onFacebookUrlChange,
+                    onInstagramUrlChange = onInstagramUrlChange,
+                    onYoutubeUrlChange = onYoutubeUrlChange,
+                )
+
+                Spacer(Modifier.height(SaveButtonHeight))
+            }
+
+            SaveButton(
+                onClick = onSaveClick,
+                isLoading = state.isSaving,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .height(SaveButtonHeight),
             )
         }
-
-        SaveButton(
-            onClick = onSaveClick,
-            isLoading = state.isSaving,
-            modifier = Modifier.padding(SpaceSize.large),
-        )
     }
 }
 

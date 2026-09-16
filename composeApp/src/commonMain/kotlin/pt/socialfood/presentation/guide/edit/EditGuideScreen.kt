@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -30,10 +31,10 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.components.TopTabs
+import pt.socialfood.presentation.components.buttons.SaveButton
 import pt.socialfood.presentation.guide.GuideValidationErrorDialog
 import pt.socialfood.presentation.guide.edit.card.GuideDetailsCard
 import pt.socialfood.presentation.guide.edit.card.GuideRestaurantsCard
@@ -129,9 +130,6 @@ private fun EditGuideContent(
         TopActionBar(
             title = stringResource(Res.string.edit_guide_title),
             onBackClick = onBackClick,
-            isActionLoading = isSaving,
-            actionButton = ActionButton.Save,
-            onActionClick = onSaveGuide,
         )
 
         Box(modifier = Modifier.weight(1f)) {
@@ -164,6 +162,12 @@ private fun EditGuideContent(
                 }
             }
         }
+
+        SaveButton(
+            onClick = onSaveGuide,
+            isLoading = isSaving,
+            modifier = Modifier.padding(SpaceSize.large),
+        )
     }
 }
 

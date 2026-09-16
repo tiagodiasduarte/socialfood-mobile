@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -114,6 +113,7 @@ private fun AuthorDetailLoaded(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
         item {
             AuthorHeader(
@@ -172,7 +172,6 @@ private fun LazyListScope.guidesSection(
             onClick = { onGuideClick(guide.id) },
             modifier = Modifier.padding(horizontal = SpaceSize.large),
         )
-        Spacer(Modifier.height(SpaceSize.small))
     }
 
     if (hiddenGuidesCount > 0) {

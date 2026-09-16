@@ -16,8 +16,13 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
+import pt.socialfood.domain.model.RecentSearch
+import pt.socialfood.domain.model.RecentSearchType
 import pt.socialfood.domain.model.Search
+import pt.socialfood.domain.usecase.GetRecentSearchesUseCase
+import pt.socialfood.domain.usecase.SaveRecentSearchUseCase
 import pt.socialfood.domain.usecase.search.GetGuideSuggestionsUseCase
 import pt.socialfood.domain.usecase.search.GetRestaurantSuggestionsUseCase
 import pt.socialfood.domain.usecase.search.SearchUseCase
@@ -33,6 +38,8 @@ class SearchViewModel(
     private val search: SearchUseCase,
     private val getRestaurantSuggestions: GetRestaurantSuggestionsUseCase,
     private val getGuideSuggestions: GetGuideSuggestionsUseCase,
+    private val getRecentSearches: GetRecentSearchesUseCase,
+    private val saveRecentSearch: SaveRecentSearchUseCase,
 ) : ViewModel() {
 
     private val _query = MutableStateFlow("")
@@ -47,6 +54,9 @@ class SearchViewModel(
     private val _state = MutableStateFlow<SearchUiState>(SearchUiState.Loaded(emptyList()))
     val state: StateFlow<SearchUiState> = _state.asStateFlow()
 
+    private val _recentSearches = MutableStateFlow<List<RecentSearch>>(emptyList())
+    val recentSearches: StateFlow<List<RecentSearch>> = _recentSearches.asStateFlow()
+
     private var suggestionsJob: Job? = null
     private var lastSuggestionsAction: (() -> Unit)? = null
 
@@ -59,6 +69,10 @@ class SearchViewModel(
             }
             .onEach { _state.value = it }
             .launchIn(viewModelScope)
+
+        viewModelScope.launch {
+            _recentSearches.value = getRecentSearches()
+        }
     }
 
     fun onSearchQueryChange(query: String) {
@@ -69,12 +83,20 @@ class SearchViewModel(
 
     fun onFavoriteRestaurantsClick() {
         lastSuggestionsAction = ::onFavoriteRestaurantsClick
-        requestSuggestions(SuggestionSource.RESTAURANTS) { performRestaurantSuggestions() }
+        requestSuggestions(SuggestionSource.RESTAURANTS) {
+            performSuggestions(fetch = { getRestaurantSuggestions() }) { suggestions ->
+                suggestions.restaurants.map { Search.RestaurantResult(it) }
+            }
+        }
     }
 
     fun onFavoriteGuidesClick() {
         lastSuggestionsAction = ::onFavoriteGuidesClick
-        requestSuggestions(SuggestionSource.GUIDES) { performGuideSuggestions() }
+        requestSuggestions(SuggestionSource.GUIDES) {
+            performSuggestions(fetch = { getGuideSuggestions() }) { suggestions ->
+                suggestions.guides.map { Search.GuideResult(it) }
+            }
+        }
     }
 
     fun retrySuggestions() {
@@ -88,6 +110,18 @@ class SearchViewModel(
         _activeSuggestionSource.value = null
         _suggestionResultsRequested.value = false
         _state.value = SearchUiState.Loaded(emptyList())
+    }
+
+    fun onResultClick(result: Search) {
+        viewModelScope.launch {
+            _recentSearches.value = saveRecentSearch(result.toRecentSearch())
+        }
+    }
+
+    fun onRecentSearchClick(recentSearch: RecentSearch) {
+        viewModelScope.launch {
+            _recentSearches.value = saveRecentSearch(recentSearch)
+        }
     }
 
     private fun requestSuggestions(source: SuggestionSource, perform: () -> Flow<SearchUiState>) {
@@ -105,23 +139,21 @@ class SearchViewModel(
         }
     }
 
-    private fun performRestaurantSuggestions(): Flow<SearchUiState> = flow {
+    private fun <T> performSuggestions(
+        fetch: suspend () -> Result<T>,
+        toResults: (T) -> List<Search>,
+    ): Flow<SearchUiState> = flow {
         emit(SearchUiState.Loading)
-        when (val result = getRestaurantSuggestions()) {
-            is Result.Success -> emit(
-                SearchUiState.Loaded(result.data.restaurants.map { Search.RestaurantResult(it) }),
-            )
+        when (val result = fetch()) {
+            is Result.Success -> emit(SearchUiState.Loaded(toResults(result.data)))
             is Result.Failure -> emit(SearchUiState.Error(result.error.toErrorCode()))
         }
     }
+}
 
-    private fun performGuideSuggestions(): Flow<SearchUiState> = flow {
-        emit(SearchUiState.Loading)
-        when (val result = getGuideSuggestions()) {
-            is Result.Success -> emit(
-                SearchUiState.Loaded(result.data.guides.map { Search.GuideResult(it) }),
-            )
-            is Result.Failure -> emit(SearchUiState.Error(result.error.toErrorCode()))
-        }
-    }
+private fun Search.toRecentSearch(): RecentSearch = when (this) {
+    is Search.RestaurantResult ->
+        RecentSearch(id = restaurant.id, type = RecentSearchType.RESTAURANT, title = restaurant.name)
+    is Search.GuideResult -> RecentSearch(id = guide.id, type = RecentSearchType.GUIDE, title = guide.name)
+    is Search.AuthorResult -> RecentSearch(id = author.id, type = RecentSearchType.AUTHOR, title = author.name)
 }

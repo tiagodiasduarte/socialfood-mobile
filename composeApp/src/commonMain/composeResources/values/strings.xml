@@ -262,6 +262,7 @@
     <string name="search_section_restaurants_title">Restaurants</string>
     <string name="search_section_guides_title">Guides</string>
     <string name="search_section_authors_title">Authors</string>
+    <string name="search_recent_searches_title">Recent searches</string>
     <string name="search_suggestions_title">Suggestions</string>
     <string name="search_suggestion_favorite_guides">Top favorite guides</string>
     <string name="search_suggestion_favorite_restaurants">Top favorite restaurants</string>

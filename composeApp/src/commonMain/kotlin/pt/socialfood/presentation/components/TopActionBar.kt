@@ -10,16 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -40,7 +36,6 @@ import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.back_button_description
-import socialfood.composeapp.generated.resources.create_guide_save_button
 import socialfood.composeapp.generated.resources.guide_detail_edit_button_description
 import socialfood.composeapp.generated.resources.guide_detail_favourite_button_description
 import socialfood.composeapp.generated.resources.guide_detail_share_button_description
@@ -61,7 +56,6 @@ fun TopActionBar(
     onBackClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     actionButton: ActionButton = ActionButton.None,
-    isActionLoading: Boolean = false,
     onActionClick: () -> Unit = {},
     iconTint: Color = MaterialTheme.colorScheme.primary,
     height: Dp = DefaultHeight,
@@ -108,7 +102,6 @@ fun TopActionBar(
 
         Box(modifier = Modifier.align(Alignment.CenterEnd)) {
             when (actionButton) {
-                ActionButton.Save -> SaveActionButton(isLoading = isActionLoading, onClick = onActionClick)
                 ActionButton.Add -> AddActionButton(iconTint = iconTint, onClick = onActionClick)
                 ActionButton.None -> {}
             }
@@ -213,29 +206,6 @@ fun TopActionIconsBar(
 }
 
 @Composable
-private fun SaveActionButton(isLoading: Boolean, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        enabled = !isLoading,
-        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-        shape = RoundedCornerShape(SpaceSize.large),
-    ) {
-        if (isLoading) {
-            CircularProgressIndicator(
-                modifier = Modifier.size(SpaceSize.large),
-                strokeWidth = 2.dp,
-                color = MaterialTheme.colorScheme.onPrimary,
-            )
-        } else {
-            Text(
-                text = stringResource(Res.string.create_guide_save_button),
-                style = MaterialTheme.typography.labelLarge,
-            )
-        }
-    }
-}
-
-@Composable
 private fun AddActionButton(iconTint: Color, onClick: () -> Unit) {
     Icon(
         imageVector = Icons.Filled.Add,
@@ -277,19 +247,6 @@ private fun TopActionBarWithActionAddPreview() {
 
 @Preview
 @Composable
-private fun TopActionBarWithActionSavePreview() {
-    AppTheme {
-        TopActionBar(
-            title = "Edit Profile",
-            onBackClick = {},
-            actionButton = ActionButton.Save,
-            onActionClick = {},
-        )
-    }
-}
-
-@Preview
-@Composable
 private fun TopActionBarWithProfileAndAddPreview() {
     AppTheme {
         TopActionBar(
@@ -306,6 +263,5 @@ private fun TopActionBarWithProfileAndAddPreview() {
 
 enum class ActionButton {
     Add,
-    Save,
     None,
 }

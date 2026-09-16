@@ -164,6 +164,7 @@
     <string name="author_detail_guides_section_title">Guias</string>
     <string name="author_detail_restaurants_count_label">%1$d restaurantes</string>
     <string name="author_detail_no_public_guides_label">Ainda não foram criados guias públicos</string>
+    <string name="author_detail_show_more_guides_button">Mostrar mais %1$d guias</string>
 
     <string name="create_guide_create_title">Criar Guia</string>
     <string name="create_guide_save_button">Guardar</string>

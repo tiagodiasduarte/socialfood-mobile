@@ -70,7 +70,7 @@ fun TopActionBar(
         if (userImageUrl != null && onProfileClick != null) {
             UserImage(
                 imageUrl = userImageUrl,
-                imageSize = 32.dp,
+                imageSize = 36.dp,
                 modifier = Modifier.align(Alignment.CenterStart),
                 onClick = onProfileClick,
             )

@@ -1,6 +1,5 @@
 package pt.socialfood.presentation.guide.detail.author
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,7 +29,8 @@ private val CardHeight = 80.dp
 @Composable
 fun AuthorItemCard(author: Author, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier.fillMaxWidth().height(CardHeight).clickable(onClick = onClick),
+        onClick = onClick,
+        modifier = modifier.fillMaxWidth().height(CardHeight),
         shape = RoundedCornerShape(SpaceSize.large),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),

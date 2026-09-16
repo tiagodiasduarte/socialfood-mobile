@@ -1,7 +1,6 @@
 package pt.socialfood.presentation.author.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -192,7 +191,8 @@ private fun LazyListScope.guidesSection(
 @Composable
 private fun ShowMoreGuidesCard(hiddenGuidesCount: Int, onClick: () -> Unit, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier.clickable(onClick = onClick),
+        onClick = onClick,
+        modifier = modifier,
         shape = RoundedCornerShape(SpaceSize.large),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),

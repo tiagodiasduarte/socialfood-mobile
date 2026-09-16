@@ -133,7 +133,7 @@ private fun StatsRowSkeleton(alpha: Float, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun BoxScope.ProfileHeaderTopActionSkeleton(alpha: Float, modifier: Modifier = Modifier) {
+fun ProfileHeaderTopActionSkeleton(alpha: Float, modifier: Modifier = Modifier) {
     ShimmerBox(
         modifier = modifier
             .padding(SpaceSize.large)

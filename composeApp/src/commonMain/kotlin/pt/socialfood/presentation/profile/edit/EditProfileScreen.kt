@@ -17,10 +17,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorAlertDialog
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.TopActionBar
+import pt.socialfood.presentation.components.buttons.SaveButton
 import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.presentation.profile.edit.card.AuthorModeCard
 import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
@@ -98,14 +98,11 @@ private fun EditProfileContent(
         TopActionBar(
             title = stringResource(Res.string.edit_profile_title),
             onBackClick = onBackClick,
-            isActionLoading = state.isSaving,
-            actionButton = ActionButton.Save,
-            onActionClick = onSaveClick,
         )
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .weight(1f)
                 .verticalScroll(rememberScrollState())
                 .padding(SpaceSize.large),
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
@@ -130,6 +127,12 @@ private fun EditProfileContent(
                 onYoutubeUrlChange = onYoutubeUrlChange,
             )
         }
+
+        SaveButton(
+            onClick = onSaveClick,
+            isLoading = state.isSaving,
+            modifier = Modifier.padding(SpaceSize.large),
+        )
     }
 }
 

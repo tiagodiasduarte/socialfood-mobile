@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -31,6 +32,8 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.create_guide_create_title
+
+private val SaveButtonHeight = 56.dp
 
 @Composable
 fun CreateGuideScreen(
@@ -100,13 +103,15 @@ private fun CreateGuideContent(
                 onDescriptionChange = onDescriptionChange,
                 pickImage = pickImage,
             )
-        }
 
-        SaveButton(
-            onClick = onCreateGuide,
-            isLoading = state is CreateGuideUiState.Loading,
-            modifier = Modifier.padding(SpaceSize.large),
-        )
+            SaveButton(
+                onClick = onCreateGuide,
+                isLoading = state is CreateGuideUiState.Loading,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .height(SaveButtonHeight),
+            )
+        }
     }
 }
 
@@ -122,7 +127,12 @@ private fun CreateGuideBody(
         is CreateGuideUiState.Idle -> {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(SpaceSize.large),
+                contentPadding = PaddingValues(
+                    start = SpaceSize.large,
+                    end = SpaceSize.large,
+                    top = SpaceSize.large,
+                    bottom = SpaceSize.large + SaveButtonHeight,
+                ),
                 verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
             ) {
                 item {

@@ -54,8 +54,8 @@ fun RestaurantCard(
     onFavouriteClick: () -> Unit = {},
 ) {
     Card(
-        modifier = (if (width != null) modifier.width(width) else modifier.fillMaxWidth())
-            .clickable(onClick = onClick),
+        onClick = onClick,
+        modifier = if (width != null) modifier.width(width) else modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),

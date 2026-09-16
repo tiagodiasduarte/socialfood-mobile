@@ -9,7 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
@@ -23,7 +22,7 @@ fun GuidesSkeleton(modifier: Modifier = Modifier) {
 
     Column(
         modifier = modifier.padding(horizontal = SpaceSize.large),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
         repeat(SKELETON_ITEM_COUNT) {
             ShimmerBox(

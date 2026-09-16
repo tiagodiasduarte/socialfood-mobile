@@ -79,7 +79,7 @@ private fun AuthorsContent(
         LazyColumn(
             state = listState,
             modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
-            verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
+            verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
             contentPadding = PaddingValues(bottom = SpaceSize.xxlarge),
         ) {
             item {

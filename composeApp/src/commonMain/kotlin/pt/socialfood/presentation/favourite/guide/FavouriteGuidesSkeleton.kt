@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -30,7 +31,7 @@ fun FavouriteGuidesSkeleton(modifier: Modifier = Modifier) {
     val alpha = rememberShimmerAlpha()
 
     Column(
-        modifier = modifier.padding(horizontal = SpaceSize.large),
+        modifier = modifier.padding(SpaceSize.large),
         verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
         repeat(SKELETON_ITEM_COUNT) {
@@ -65,6 +66,7 @@ fun FavouriteGuidesSkeleton(modifier: Modifier = Modifier) {
                             alpha = alpha,
                         )
                     }
+                    ShimmerBox(modifier = Modifier.size(24.dp), alpha = alpha, shape = CircleShape)
                 }
             }
         }

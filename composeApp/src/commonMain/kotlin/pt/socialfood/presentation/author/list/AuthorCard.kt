@@ -1,6 +1,5 @@
 package pt.socialfood.presentation.author.list
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,11 +30,9 @@ val AuthorCardHeight = 132.dp
 
 @Composable
 fun AuthorCard(author: Author, onAuthorClick: () -> Unit = {}, modifier: Modifier = Modifier) {
-    SectionCard(modifier = modifier.height(AuthorCardHeight)) {
+    SectionCard(modifier = modifier.height(AuthorCardHeight), onClick = onAuthorClick) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable(onClick = onAuthorClick),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
             UserImage(

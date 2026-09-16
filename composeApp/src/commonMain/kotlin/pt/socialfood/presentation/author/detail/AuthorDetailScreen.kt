@@ -55,6 +55,8 @@ fun AuthorDetailScreen(
     authorId: String,
     onBackClick: () -> Unit,
     onGuideClick: (guideId: String) -> Unit = {},
+    isOwnProfile: Boolean = false,
+    onEditProfileClick: () -> Unit = {},
     viewModel: AuthorDetailViewModel = koinViewModel { parametersOf(authorId) },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -64,6 +66,8 @@ fun AuthorDetailScreen(
         onBackClick = onBackClick,
         onGuideClick = onGuideClick,
         onRetry = viewModel::load,
+        isOwnProfile = isOwnProfile,
+        onEditProfileClick = onEditProfileClick,
     )
 }
 
@@ -73,6 +77,8 @@ private fun AuthorDetailContent(
     onBackClick: () -> Unit,
     onGuideClick: (guideId: String) -> Unit = {},
     onRetry: () -> Unit,
+    isOwnProfile: Boolean = false,
+    onEditProfileClick: () -> Unit = {},
 ) {
     when (state) {
         AuthorDetailUiState.Loading -> AuthorDetailSkeleton()
@@ -81,6 +87,8 @@ private fun AuthorDetailContent(
             author = state.author,
             onBackClick = onBackClick,
             onGuideClick = onGuideClick,
+            isOwnProfile = isOwnProfile,
+            onEditProfileClick = onEditProfileClick,
         )
 
         is AuthorDetailUiState.Error -> AuthorDetailError(
@@ -95,6 +103,8 @@ private fun AuthorDetailLoaded(
     author: AuthorDetail,
     onBackClick: () -> Unit,
     onGuideClick: (guideId: String) -> Unit = {},
+    isOwnProfile: Boolean = false,
+    onEditProfileClick: () -> Unit = {},
 ) {
     var isGuidesExpanded by remember { mutableStateOf(false) }
     val visibleGuides = if (isGuidesExpanded) author.guides else author.guides.take(COLLAPSED_GUIDES_COUNT)
@@ -109,6 +119,8 @@ private fun AuthorDetailLoaded(
             AuthorHeader(
                 author = author,
                 onBackClick = onBackClick,
+                isOwnProfile = isOwnProfile,
+                onEditProfileClick = onEditProfileClick,
             )
         }
 
@@ -208,7 +220,12 @@ private fun ShowMoreGuidesCard(hiddenGuidesCount: Int, onClick: () -> Unit, modi
 }
 
 @Composable
-private fun AuthorHeader(author: AuthorDetail, onBackClick: () -> Unit) {
+private fun AuthorHeader(
+    author: AuthorDetail,
+    onBackClick: () -> Unit,
+    isOwnProfile: Boolean = false,
+    onEditProfileClick: () -> Unit = {},
+) {
     ProfileHeader(
         name = author.name,
         username = author.username,
@@ -220,6 +237,8 @@ private fun AuthorHeader(author: AuthorDetail, onBackClick: () -> Unit) {
             TopActionIconsBar(
                 showCloseButton = true,
                 onCloseClick = onBackClick,
+                showEditButton = isOwnProfile,
+                onEditClick = onEditProfileClick,
             )
         },
     )
@@ -310,6 +329,7 @@ private fun AuthorDetailLoadedPreview() {
             state = AuthorDetailUiState.Loaded(author),
             onBackClick = {},
             onRetry = {},
+            isOwnProfile = true,
         )
     }
 }

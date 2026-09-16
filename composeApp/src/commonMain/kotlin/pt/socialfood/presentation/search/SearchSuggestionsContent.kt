@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Lightbulb
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -23,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.domain.model.RecentSearch
+import pt.socialfood.domain.model.RecentSearchType
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
@@ -30,6 +33,7 @@ import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.author_icon
 import socialfood.composeapp.generated.resources.guide_icon
 import socialfood.composeapp.generated.resources.restaurant_icon
+import socialfood.composeapp.generated.resources.search_recent_searches_title
 import socialfood.composeapp.generated.resources.search_suggestion_favorite_guides
 import socialfood.composeapp.generated.resources.search_suggestion_favorite_restaurants
 import socialfood.composeapp.generated.resources.search_suggestion_most_followed
@@ -38,13 +42,33 @@ import socialfood.composeapp.generated.resources.search_suggestions_title
 @Composable
 fun SearchSuggestionsContent(
     modifier: Modifier = Modifier,
+    recentSearches: List<RecentSearch> = emptyList(),
+    onRecentSearchClick: (RecentSearch) -> Unit = {},
     onFavoriteGuidesClick: () -> Unit = {},
     onFavoriteRestaurantsClick: () -> Unit = {},
     onMostFollowedClick: () -> Unit = {},
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
+        if (recentSearches.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(SpaceSize.medium))
+            SearchSectionHeader(
+                modifier = Modifier.padding(horizontal = SpaceSize.large, vertical = SpaceSize.medium),
+                icon = Icons.Outlined.History,
+                title = stringResource(Res.string.search_recent_searches_title),
+            )
+            recentSearches.forEach { recentSearch ->
+                SearchSuggestionItem(
+                    icon = painterResource(recentSearch.type.iconRes()),
+                    label = recentSearch.title,
+                    onClick = { onRecentSearchClick(recentSearch) },
+                )
+                HorizontalDivider()
+            }
+        }
+
         Spacer(modifier = Modifier.height(SpaceSize.medium))
         SearchSectionHeader(
+            modifier = Modifier.padding(horizontal = SpaceSize.large, vertical = SpaceSize.medium),
             icon = Icons.Outlined.Lightbulb,
             title = stringResource(Res.string.search_suggestions_title),
         )
@@ -68,6 +92,12 @@ fun SearchSuggestionsContent(
         )
         HorizontalDivider()
     }
+}
+
+private fun RecentSearchType.iconRes() = when (this) {
+    RecentSearchType.RESTAURANT -> Res.drawable.restaurant_icon
+    RecentSearchType.GUIDE -> Res.drawable.guide_icon
+    RecentSearchType.AUTHOR -> Res.drawable.author_icon
 }
 
 @Composable

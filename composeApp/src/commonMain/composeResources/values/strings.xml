@@ -217,10 +217,11 @@
     <string name="search_restaurants_error">Failed to load restaurants</string>
     <string name="search_restaurants_importing_dialog_message">Importing restaurant…</string>
     <string name="search_restaurants_idle_title">Find a Restaurant</string>
-    <string name="search_restaurants_idle_subtitle">Only %1$s restaurants in Portugal are available.</string>
-    <string name="search_restaurants_idle_subtitle_bold">Portuguese</string>
+    <string name="search_restaurants_idle_subtitle">Only restaurants in %1$s are available.</string>
+    <string name="search_restaurants_idle_subtitle_bold">Portugal</string>
     <string name="search_restaurants_no_results_title">No Restaurants Found</string>
     <string name="search_restaurants_no_results_subtitle">Try a different search term.</string>
+    <string name="search_restaurants_recent_searches_title">Recent searches</string>
 
     <string name="edit_profile_title">Edit Profile</string>
     <string name="edit_profile_save_button">Save</string>

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +15,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -45,6 +48,7 @@ import pt.socialfood.presentation.components.SearchBar
 import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.IdleContentBackground
+import pt.socialfood.ui.theme.IdleContentIcon
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.restaurant_icon
@@ -65,6 +69,7 @@ fun SearchRestaurantsScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val isImportingRestaurant by viewModel.isImportingRestaurant.collectAsStateWithLifecycle()
+    val recentSearchedPlaces by viewModel.recentSearchedPlaces.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
@@ -78,10 +83,11 @@ fun SearchRestaurantsScreen(
         state = state,
         searchQuery = viewModel.searchQuery,
         isImportingRestaurant = isImportingRestaurant,
+        recentSearchedPlaces = recentSearchedPlaces,
         onBackClick = onBackClick,
         onSearchQueryChange = viewModel::onSearchQueryChange,
         onRestaurantClicked = {
-            viewModel.onAddRestaurant(placeId = it)
+            viewModel.onAddRestaurant(place = it)
         },
     )
 }
@@ -91,9 +97,10 @@ private fun SearchRestaurantsContent(
     state: SearchRestaurantsUiState,
     searchQuery: String,
     isImportingRestaurant: Boolean,
+    recentSearchedPlaces: List<Place>,
     onBackClick: () -> Unit,
     onSearchQueryChange: (String) -> Unit,
-    onRestaurantClicked: (String) -> Unit,
+    onRestaurantClicked: (Place) -> Unit,
 ) {
     if (isImportingRestaurant) {
         ImportRestaurantDialog()
@@ -116,6 +123,7 @@ private fun SearchRestaurantsContent(
             is SearchRestaurantsUiState.Loaded -> LoadedContent(
                 state = state,
                 searchQuery = searchQuery,
+                recentSearchedPlaces = recentSearchedPlaces,
                 onRestaurantClicked = onRestaurantClicked,
             )
 
@@ -140,12 +148,18 @@ private fun LoadingContent() {
 private fun LoadedContent(
     state: SearchRestaurantsUiState.Loaded,
     searchQuery: String,
-    onRestaurantClicked: (String) -> Unit,
+    recentSearchedPlaces: List<Place>,
+    onRestaurantClicked: (Place) -> Unit,
 ) {
     when {
+        state.places.isEmpty() && searchQuery.isBlank() && recentSearchedPlaces.isNotEmpty() -> RecentSearchesContent(
+            places = recentSearchedPlaces,
+            onRestaurantClicked = onRestaurantClicked,
+            modifier = Modifier.fillMaxSize(),
+        )
+
         state.places.isEmpty() && searchQuery.isBlank() -> IdleContent(
             title = stringResource(Res.string.search_restaurants_idle_title),
-            subtitle = idleSubtitle(),
             modifier = Modifier.fillMaxSize(),
         )
 
@@ -159,14 +173,14 @@ private fun LoadedContent(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(
                 horizontal = SpaceSize.large,
-                vertical = SpaceSize.medium,
+                vertical = SpaceSize.large,
             ),
             verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
         ) {
             items(state.places, key = { it.id }) { place ->
                 PlaceItem(
                     place = place,
-                    onAddClicked = { onRestaurantClicked(place.id) },
+                    onAddClicked = { onRestaurantClicked(place) },
                 )
             }
         }
@@ -194,6 +208,27 @@ private fun Header(searchQuery: String, onBackClick: () -> Unit, onSearchQueryCh
         )
 
         Spacer(Modifier.height(SpaceSize.medium))
+
+        Row(
+            modifier = Modifier.padding(horizontal = SpaceSize.large),
+            horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Info,
+                contentDescription = null,
+                modifier = Modifier.size(16.dp),
+                tint = IdleContentIcon,
+            )
+            Text(
+                text = idleSubtitle(),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+            )
+        }
+
+        Spacer(Modifier.height(SpaceSize.medium))
     }
 }
 
@@ -201,7 +236,7 @@ private fun Header(searchQuery: String, onBackClick: () -> Unit, onSearchQueryCh
 private fun idleSubtitle(): AnnotatedString {
     val template = stringResource(Res.string.search_restaurants_idle_subtitle)
     val boldWord = stringResource(Res.string.search_restaurants_idle_subtitle_bold)
-    val (prefix, suffix) = template.split("%1\$s", limit = 2).let { it[0] to it.getOrElse(1) { "" } }
+    val (prefix, suffix) = template.split($$"%1$s", limit = 2).let { it[0] to it.getOrElse(1) { "" } }
 
     return buildAnnotatedString {
         append(prefix)
@@ -211,7 +246,7 @@ private fun idleSubtitle(): AnnotatedString {
 }
 
 @Composable
-fun IdleContent(title: String, subtitle: AnnotatedString, modifier: Modifier = Modifier) {
+fun IdleContent(title: String, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .background(MaterialTheme.colorScheme.background)
@@ -242,15 +277,6 @@ fun IdleContent(title: String, subtitle: AnnotatedString, modifier: Modifier = M
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
         )
-
-        Spacer(Modifier.height(SpaceSize.medium))
-
-        Text(
-            text = subtitle,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-        )
     }
 }
 
@@ -262,6 +288,26 @@ fun SearchRestaurantsScreenIdlePreview() {
             state = SearchRestaurantsUiState.Loaded(emptyList()),
             searchQuery = "",
             isImportingRestaurant = false,
+            recentSearchedPlaces = emptyList(),
+            onBackClick = {},
+            onSearchQueryChange = {},
+            onRestaurantClicked = {},
+        )
+    }
+}
+
+@Composable
+@Preview
+fun SearchRestaurantsScreenRecentSearchesPreview() {
+    AppTheme {
+        SearchRestaurantsContent(
+            state = SearchRestaurantsUiState.Loaded(emptyList()),
+            searchQuery = "",
+            isImportingRestaurant = false,
+            recentSearchedPlaces = listOf(
+                Place(id = "1", name = "Le Jardin", address = "Lisbon", imageUrl = null),
+                Place(id = "2", name = "Terra", address = "Coimbra", imageUrl = null),
+            ),
             onBackClick = {},
             onSearchQueryChange = {},
             onRestaurantClicked = {},
@@ -276,12 +322,17 @@ fun SearchRestaurantsScreenPreview() {
         Place(id = "1", name = "Le Jardin", address = "Lisbon", imageUrl = null),
         Place(id = "2", name = "Terra", address = "Coimbra", imageUrl = null),
         Place(id = "3", name = "Amber", address = "Lisbon", imageUrl = null),
+        Place(id = "4", name = "Amber", address = "Lisbon", imageUrl = null),
+        Place(id = "5", name = "Amber", address = "Lisbon", imageUrl = null),
+        Place(id = "6", name = "Amber", address = "Lisbon", imageUrl = null),
+        Place(id = "7", name = "Amber", address = "Lisbon", imageUrl = null),
     )
     AppTheme {
         SearchRestaurantsContent(
             state = SearchRestaurantsUiState.Loaded(places),
             searchQuery = "",
             isImportingRestaurant = false,
+            recentSearchedPlaces = emptyList(),
             onBackClick = {},
             onSearchQueryChange = {},
             onRestaurantClicked = {},

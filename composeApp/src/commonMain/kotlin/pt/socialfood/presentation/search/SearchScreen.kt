@@ -28,6 +28,8 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Location
+import pt.socialfood.domain.model.RecentSearch
+import pt.socialfood.domain.model.RecentSearchType
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.Search
 import pt.socialfood.presentation.components.ErrorContent
@@ -54,22 +56,33 @@ fun SearchScreen(
     val searchQuery by viewModel.query.collectAsStateWithLifecycle()
     val suggestionResultsRequested by viewModel.suggestionResultsRequested.collectAsStateWithLifecycle()
     val activeSuggestionSource by viewModel.activeSuggestionSource.collectAsStateWithLifecycle()
+    val recentSearches by viewModel.recentSearches.collectAsStateWithLifecycle()
 
     SearchScreenContent(
         searchQuery = searchQuery,
         state = state,
         suggestionResultsRequested = suggestionResultsRequested,
         activeSuggestionSource = activeSuggestionSource,
+        recentSearches = recentSearches,
         onQueryChange = viewModel::onSearchQueryChange,
         onFavoriteGuidesClick = viewModel::onFavoriteGuidesClick,
         onFavoriteRestaurantsClick = viewModel::onFavoriteRestaurantsClick,
         onRetrySuggestions = viewModel::retrySuggestions,
         onClearSuggestions = viewModel::onClearSuggestions,
         onResultClick = { result ->
+            viewModel.onResultClick(result)
             when (result) {
                 is Search.AuthorResult -> onAuthorClick(result.author.id)
                 is Search.GuideResult -> onGuideClick(result.guide.id)
                 is Search.RestaurantResult -> onRestaurantClick(result.restaurant.id)
+            }
+        },
+        onRecentSearchClick = { recentSearch ->
+            viewModel.onRecentSearchClick(recentSearch)
+            when (recentSearch.type) {
+                RecentSearchType.AUTHOR -> onAuthorClick(recentSearch.id)
+                RecentSearchType.GUIDE -> onGuideClick(recentSearch.id)
+                RecentSearchType.RESTAURANT -> onRestaurantClick(recentSearch.id)
             }
         },
     )
@@ -82,12 +95,14 @@ fun SearchScreenContent(
     state: SearchUiState,
     suggestionResultsRequested: Boolean = false,
     activeSuggestionSource: SuggestionSource? = null,
+    recentSearches: List<RecentSearch> = emptyList(),
     onQueryChange: (String) -> Unit = {},
     onFavoriteGuidesClick: () -> Unit = {},
     onFavoriteRestaurantsClick: () -> Unit = {},
     onRetrySuggestions: () -> Unit = {},
     onClearSuggestions: () -> Unit = {},
     onResultClick: (Search) -> Unit = {},
+    onRecentSearchClick: (RecentSearch) -> Unit = {},
 ) {
     Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         Column(
@@ -115,6 +130,8 @@ fun SearchScreenContent(
         if (searchQuery.length < MIN_QUERY_LENGTH && !suggestionResultsRequested) {
             SearchSuggestionsContent(
                 modifier = Modifier.fillMaxSize(),
+                recentSearches = recentSearches,
+                onRecentSearchClick = onRecentSearchClick,
                 onFavoriteGuidesClick = onFavoriteGuidesClick,
                 onFavoriteRestaurantsClick = onFavoriteRestaurantsClick,
             )
@@ -162,14 +179,15 @@ private fun SearchResultsList(results: List<Search>, onResultClick: (Search) -> 
         if (restaurants.isNotEmpty()) {
             item {
                 SearchSectionHeader(
+                    modifier = Modifier.padding(horizontal = SpaceSize.large, vertical = SpaceSize.medium),
                     icon = Icons.Outlined.LocationOn,
                     title = stringResource(Res.string.search_section_restaurants_title),
                 )
             }
             items(restaurants, key = { it.id }) { result ->
                 SearchRestaurantItem(
+                    modifier = Modifier.padding(horizontal = SpaceSize.large, vertical = SpaceSize.medium),
                     restaurant = result.restaurant,
-                    modifier = Modifier.padding(horizontal = SpaceSize.large),
                     onClick = { onResultClick(result) },
                 )
             }
@@ -178,14 +196,15 @@ private fun SearchResultsList(results: List<Search>, onResultClick: (Search) -> 
         if (guides.isNotEmpty()) {
             item {
                 SearchSectionHeader(
+                    modifier = Modifier.padding(horizontal = SpaceSize.large, vertical = SpaceSize.medium),
                     icon = Icons.AutoMirrored.Outlined.MenuBook,
                     title = stringResource(Res.string.search_section_guides_title),
                 )
             }
             items(guides, key = { it.id }) { result ->
                 SearchGuideItem(
+                    modifier = Modifier.padding(horizontal = SpaceSize.large, vertical = SpaceSize.medium),
                     guide = result.guide,
-                    modifier = Modifier.padding(horizontal = SpaceSize.large),
                     onClick = { onResultClick(result) },
                 )
             }
@@ -194,6 +213,7 @@ private fun SearchResultsList(results: List<Search>, onResultClick: (Search) -> 
         if (authors.isNotEmpty()) {
             item {
                 SearchSectionHeader(
+                    modifier = Modifier.padding(horizontal = SpaceSize.large, vertical = SpaceSize.medium),
                     icon = Icons.Outlined.Person,
                     title = stringResource(Res.string.search_section_authors_title),
                 )

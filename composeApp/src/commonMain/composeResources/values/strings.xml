@@ -164,6 +164,7 @@
     <string name="author_detail_guides_section_title">Guides</string>
     <string name="author_detail_restaurants_count_label">%1$d restaurants</string>
     <string name="author_detail_no_public_guides_label">No public guides created yet</string>
+    <string name="author_detail_show_more_guides_button">Show %1$d more guides</string>
 
     <string name="create_guide_create_title">Create Guide</string>
     <string name="create_guide_save_button">Save</string>
@@ -216,6 +217,12 @@
     <string name="search_restaurants_search_placeholder">Search restaurants...</string>
     <string name="search_restaurants_error">Failed to load restaurants</string>
     <string name="search_restaurants_importing_dialog_message">Importing restaurant…</string>
+    <string name="search_restaurants_idle_title">Find a Restaurant</string>
+    <string name="search_restaurants_idle_subtitle">Only restaurants in %1$s are available.</string>
+    <string name="search_restaurants_idle_subtitle_bold">Portugal</string>
+    <string name="search_restaurants_no_results_title">No Restaurants Found</string>
+    <string name="search_restaurants_no_results_subtitle">Try a different search term.</string>
+    <string name="search_restaurants_recent_searches_title">Recent searches</string>
 
     <string name="edit_profile_title">Edit Profile</string>
     <string name="edit_profile_save_button">Save</string>
@@ -256,6 +263,7 @@
     <string name="search_section_restaurants_title">Restaurants</string>
     <string name="search_section_guides_title">Guides</string>
     <string name="search_section_authors_title">Authors</string>
+    <string name="search_recent_searches_title">Recent searches</string>
     <string name="search_suggestions_title">Suggestions</string>
     <string name="search_suggestion_favorite_guides">Top favorite guides</string>
     <string name="search_suggestion_favorite_restaurants">Top favorite restaurants</string>

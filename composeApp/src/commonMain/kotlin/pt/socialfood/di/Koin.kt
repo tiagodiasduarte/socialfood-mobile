@@ -74,6 +74,14 @@ import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.domain.repository.SearchRepository
 import pt.socialfood.domain.repository.UsersRepository
+import pt.socialfood.domain.usecase.GetRecentSearchedPlacesUseCase
+import pt.socialfood.domain.usecase.GetRecentSearchedPlacesUseCaseImpl
+import pt.socialfood.domain.usecase.GetRecentSearchesUseCase
+import pt.socialfood.domain.usecase.GetRecentSearchesUseCaseImpl
+import pt.socialfood.domain.usecase.SaveRecentSearchUseCase
+import pt.socialfood.domain.usecase.SaveRecentSearchUseCaseImpl
+import pt.socialfood.domain.usecase.SaveRecentSearchedPlaceUseCase
+import pt.socialfood.domain.usecase.SaveRecentSearchedPlaceUseCaseImpl
 import pt.socialfood.domain.usecase.SearchPlacesUseCase
 import pt.socialfood.domain.usecase.SearchPlacesUseCaseImpl
 import pt.socialfood.domain.usecase.author.FindAuthorsUseCase
@@ -356,6 +364,8 @@ val useCaseModule =
         factory<GetHomeSectionByIdUseCase> { GetHomeSectionByIdUseCaseImpl(get()) }
         factory<GetHomeSectionsUseCase> { GetHomeSectionsUseCaseImpl(get()) }
         factory<GetPresignedUrlUseCase> { GetPresignedUrlUseCaseImpl(get()) }
+        factory<GetRecentSearchedPlacesUseCase> { GetRecentSearchedPlacesUseCaseImpl(get()) }
+        factory<GetRecentSearchesUseCase> { GetRecentSearchesUseCaseImpl(get()) }
         factory<GetRestaurantByIdUseCase> { GetRestaurantByIdUseCaseImpl(get()) }
         factory<GetRestaurantByPlaceIdUseCase> { GetRestaurantByPlaceIdUseCaseImpl(get()) }
         factory<GetRestaurantSuggestionsUseCase> { GetRestaurantSuggestionsUseCaseImpl(get()) }
@@ -385,6 +395,8 @@ val useCaseModule =
         factory<RemoveHomeSectionItemUseCase> { RemoveHomeSectionItemUseCaseImpl(get()) }
         factory<ResendVerificationCodeUseCase> { ResendVerificationCodeUseCaseImpl(get()) }
         factory<RestartSignUpUseCase> { RestartSignUpUseCaseImpl(get()) }
+        factory<SaveRecentSearchUseCase> { SaveRecentSearchUseCaseImpl(get()) }
+        factory<SaveRecentSearchedPlaceUseCase> { SaveRecentSearchedPlaceUseCaseImpl(get()) }
         factory<SearchPlacesUseCase> { SearchPlacesUseCaseImpl(get()) }
         factory<SearchUseCase> { SearchUseCaseImpl(get()) }
         factory<SetThemeModeUseCase> { SetThemeModeUseCaseImpl(get()) }
@@ -425,8 +437,8 @@ val viewModelModule =
         factory { RestaurantVisitedViewModel(get(), get(), get(), get()) }
         factory { RestaurantWishlistViewModel(get(), get(), get(), get()) }
         factory { SharedGuidesViewModel(get(), get(), get(), get(), get(), get(), get()) }
-        factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get()) }
-        factory { SearchViewModel(get(), get(), get()) }
+        factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get(), get(), get()) }
+        factory { SearchViewModel(get(), get(), get(), get(), get()) }
         factory { SignInViewModel(get(), get(), get()) }
         factory { SignUpViewModel(get()) }
         factory { StartupViewModel(get(), get(), get()) }

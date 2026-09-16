@@ -2,6 +2,8 @@ package pt.socialfood.fakes
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import pt.socialfood.domain.model.Place
+import pt.socialfood.domain.model.RecentSearch
 import pt.socialfood.domain.model.ThemeMode
 import pt.socialfood.domain.repository.SettingsRepository
 
@@ -17,6 +19,8 @@ class FakeSettingsRepository : SettingsRepository {
     private var lastFavouriteRestaurantsSyncAttemptAt: Long? = null
     private var lastRestaurantVisitStatusSyncedAt: String? = null
     private var lastRestaurantVisitStatusSyncAttemptAt: Long? = null
+    private var recentSearchedPlaces: List<Place> = emptyList()
+    private var recentSearches: List<RecentSearch> = emptyList()
 
     override suspend fun getToken(): String? = token
 
@@ -88,5 +92,17 @@ class FakeSettingsRepository : SettingsRepository {
 
     override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(timestamp: Long) {
         lastRestaurantVisitStatusSyncAttemptAt = timestamp
+    }
+
+    override suspend fun getRecentSearchedPlaces(): List<Place> = recentSearchedPlaces
+
+    override suspend fun saveRecentSearchedPlaces(places: List<Place>) {
+        recentSearchedPlaces = places
+    }
+
+    override suspend fun getRecentSearches(): List<RecentSearch> = recentSearches
+
+    override suspend fun saveRecentSearches(searches: List<RecentSearch>) {
+        recentSearches = searches
     }
 }

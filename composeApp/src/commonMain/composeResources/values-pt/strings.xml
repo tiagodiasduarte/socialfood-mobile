@@ -164,6 +164,7 @@
     <string name="author_detail_guides_section_title">Guias</string>
     <string name="author_detail_restaurants_count_label">%1$d restaurantes</string>
     <string name="author_detail_no_public_guides_label">Ainda não foram criados guias públicos</string>
+    <string name="author_detail_show_more_guides_button">Mostrar mais %1$d guias</string>
 
     <string name="create_guide_create_title">Criar Guia</string>
     <string name="create_guide_save_button">Guardar</string>
@@ -216,6 +217,12 @@
     <string name="search_restaurants_search_placeholder">Pesquisar restaurantes...</string>
     <string name="search_restaurants_error">Não foi possível carregar os restaurantes</string>
     <string name="search_restaurants_importing_dialog_message">A importar restaurante…</string>
+    <string name="search_restaurants_idle_title">Encontra um Restaurante</string>
+    <string name="search_restaurants_idle_subtitle">Apenas restaurantes em %1$s estão disponíveis.</string>
+    <string name="search_restaurants_idle_subtitle_bold">Portugal</string>
+    <string name="search_restaurants_no_results_title">Nenhum Restaurante Encontrado</string>
+    <string name="search_restaurants_no_results_subtitle">Tenta um termo de pesquisa diferente.</string>
+    <string name="search_restaurants_recent_searches_title">Pesquisas recentes</string>
 
     <string name="edit_profile_title">Editar Perfil</string>
     <string name="edit_profile_save_button">Guardar</string>
@@ -256,6 +263,7 @@
     <string name="search_section_restaurants_title">Restaurantes</string>
     <string name="search_section_guides_title">Guias</string>
     <string name="search_section_authors_title">Autores</string>
+    <string name="search_recent_searches_title">Pesquisas recentes</string>
     <string name="search_suggestions_title">Sugestões</string>
     <string name="search_suggestion_favorite_guides">Guias mais favoritados</string>
     <string name="search_suggestion_favorite_restaurants">Restaurantes mais favoritados</string>

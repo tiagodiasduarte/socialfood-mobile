@@ -26,12 +26,11 @@ import pt.socialfood.ui.theme.ProfileGradientEnd
 import pt.socialfood.ui.theme.ProfileGradientStart
 import pt.socialfood.ui.theme.SpaceSize
 
-val ProfileHeaderHeight = 180.dp
-val ProfileAvatarSize = 96.dp
-val ProfileAvatarRingSize = 108.dp
+val ProfileHeaderHeight = 150.dp
+val ProfileAvatarSize = 72.dp
+val ProfileAvatarRingSize = 81.dp
 val ProfileAvatarOverlap = ProfileAvatarRingSize / 2
 
-@Suppress("LongMethod")
 @Composable
 fun ProfileHeader(
     name: String,
@@ -67,55 +66,72 @@ fun ProfileHeader(
                     ),
                 content = topAction,
             )
-            Box(
-                modifier = Modifier.align(Alignment.BottomCenter),
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(ProfileAvatarRingSize)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.surface),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    UserImage(
-                        imageUrl = imageUrl,
-                        imageSize = ProfileAvatarSize,
-                    )
-                }
-            }
-        }
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(SpaceSize.large),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
-            ) {
-                Text(
-                    text = name,
-                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                Text(
-                    text = "@$username",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
 
             SocialButtons(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(vertical = ProfileAvatarOverlap + SpaceSize.medium, horizontal = SpaceSize.large),
                 facebookUrl = facebookUrl,
                 instagramUrl = instagramUrl,
                 youtubeUrl = youtubeUrl,
             )
 
-            StatsRow()
+            UserImage(
+                imageUrl = imageUrl,
+                modifier = Modifier.padding(horizontal = SpaceSize.large).align(Alignment.BottomStart),
+            )
         }
+
+        ProfileDetails(name = name, username = username)
+    }
+}
+
+@Composable
+private fun UserImage(imageUrl: String?, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier,
+    ) {
+        Box(
+            modifier = Modifier
+                .size(ProfileAvatarRingSize)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.surface),
+            contentAlignment = Alignment.Center,
+        ) {
+            UserImage(
+                imageUrl = imageUrl,
+                imageSize = ProfileAvatarSize,
+            )
+        }
+    }
+}
+
+@Composable
+private fun ProfileDetails(name: String, username: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = SpaceSize.large),
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = SpaceSize.large),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
+        ) {
+            Text(
+                text = name,
+                style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+            Text(
+                text = "@$username",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+
+        StatsRow(modifier = Modifier.padding(horizontal = SpaceSize.large))
     }
 }
 

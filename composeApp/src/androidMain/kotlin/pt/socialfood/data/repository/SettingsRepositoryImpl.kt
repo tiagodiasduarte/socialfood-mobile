@@ -8,7 +8,12 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import pt.socialfood.data.security.TokenCipher
+import pt.socialfood.domain.model.Place
+import pt.socialfood.domain.model.RecentSearch
 import pt.socialfood.domain.model.ThemeMode
 import pt.socialfood.domain.repository.SettingsRepository
 
@@ -27,6 +32,9 @@ private val LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT =
 private val LAST_RESTAURANT_VISIT_STATUS_SYNCED_AT = stringPreferencesKey("last_restaurant_visit_status_synced_at")
 private val LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT =
     longPreferencesKey("last_restaurant_visit_status_sync_attempt_at")
+
+private val RECENT_SEARCHED_PLACES = stringPreferencesKey("recent_searched_places")
+private val RECENT_SEARCHES = stringPreferencesKey("recent_searches")
 
 @Suppress("TooManyFunctions")
 class SettingsRepositoryImpl(private val context: Context) : SettingsRepository {
@@ -116,5 +124,23 @@ class SettingsRepositoryImpl(private val context: Context) : SettingsRepository 
 
     override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(timestamp: Long) {
         context.dataStore.edit { it[LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT] = timestamp }
+    }
+
+    override suspend fun getRecentSearchedPlaces(): List<Place> {
+        val stored = context.dataStore.data.first()[RECENT_SEARCHED_PLACES] ?: return emptyList()
+        return Json.decodeFromString(stored)
+    }
+
+    override suspend fun saveRecentSearchedPlaces(places: List<Place>) {
+        context.dataStore.edit { it[RECENT_SEARCHED_PLACES] = Json.encodeToString(places) }
+    }
+
+    override suspend fun getRecentSearches(): List<RecentSearch> {
+        val stored = context.dataStore.data.first()[RECENT_SEARCHES] ?: return emptyList()
+        return Json.decodeFromString(stored)
+    }
+
+    override suspend fun saveRecentSearches(searches: List<RecentSearch>) {
+        context.dataStore.edit { it[RECENT_SEARCHES] = Json.encodeToString(searches) }
     }
 }

@@ -162,14 +162,15 @@ private fun SearchResultsList(results: List<Search>, onResultClick: (Search) -> 
         if (restaurants.isNotEmpty()) {
             item {
                 SearchSectionHeader(
+                    modifier = Modifier.padding(horizontal = SpaceSize.large, vertical = SpaceSize.medium),
                     icon = Icons.Outlined.LocationOn,
                     title = stringResource(Res.string.search_section_restaurants_title),
                 )
             }
             items(restaurants, key = { it.id }) { result ->
                 SearchRestaurantItem(
+                    modifier = Modifier.padding(horizontal = SpaceSize.large, vertical = SpaceSize.medium),
                     restaurant = result.restaurant,
-                    modifier = Modifier.padding(horizontal = SpaceSize.large),
                     onClick = { onResultClick(result) },
                 )
             }
@@ -178,14 +179,15 @@ private fun SearchResultsList(results: List<Search>, onResultClick: (Search) -> 
         if (guides.isNotEmpty()) {
             item {
                 SearchSectionHeader(
+                    modifier = Modifier.padding(horizontal = SpaceSize.large, vertical = SpaceSize.medium),
                     icon = Icons.AutoMirrored.Outlined.MenuBook,
                     title = stringResource(Res.string.search_section_guides_title),
                 )
             }
             items(guides, key = { it.id }) { result ->
                 SearchGuideItem(
+                    modifier = Modifier.padding(horizontal = SpaceSize.large, vertical = SpaceSize.medium),
                     guide = result.guide,
-                    modifier = Modifier.padding(horizontal = SpaceSize.large),
                     onClick = { onResultClick(result) },
                 )
             }
@@ -194,6 +196,7 @@ private fun SearchResultsList(results: List<Search>, onResultClick: (Search) -> 
         if (authors.isNotEmpty()) {
             item {
                 SearchSectionHeader(
+                    modifier = Modifier.padding(horizontal = SpaceSize.large, vertical = SpaceSize.medium),
                     icon = Icons.Outlined.Person,
                     title = stringResource(Res.string.search_section_authors_title),
                 )

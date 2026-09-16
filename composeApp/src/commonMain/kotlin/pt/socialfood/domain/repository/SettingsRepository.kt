@@ -1,6 +1,7 @@
 package pt.socialfood.domain.repository
 
 import kotlinx.coroutines.flow.Flow
+import pt.socialfood.domain.model.Place
 import pt.socialfood.domain.model.ThemeMode
 
 @Suppress("TooManyFunctions")
@@ -37,4 +38,7 @@ interface SettingsRepository {
 
     suspend fun getLastRestaurantVisitStatusSyncAttemptAt(): Long?
     suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(timestamp: Long)
+
+    suspend fun getRecentSearchedPlaces(): List<Place>
+    suspend fun saveRecentSearchedPlaces(places: List<Place>)
 }

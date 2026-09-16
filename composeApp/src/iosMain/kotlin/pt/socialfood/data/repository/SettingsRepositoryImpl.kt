@@ -2,8 +2,12 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import platform.Foundation.NSUserDefaults
 import pt.socialfood.data.security.KeychainTokenStore
+import pt.socialfood.domain.model.Place
 import pt.socialfood.domain.model.ThemeMode
 import pt.socialfood.domain.repository.SettingsRepository
 
@@ -15,6 +19,7 @@ private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNCED_AT = "last_favourite_res
 private const val KEY_LAST_FAVOURITE_RESTAURANTS_SYNC_ATTEMPT_AT = "last_favourite_restaurants_sync_attempt_at"
 private const val KEY_LAST_RESTAURANT_VISIT_STATUS_SYNCED_AT = "last_restaurant_visit_status_synced_at"
 private const val KEY_LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT = "last_restaurant_visit_status_sync_attempt_at"
+private const val KEY_RECENT_SEARCHED_PLACES = "recent_searched_places"
 
 @Suppress("TooManyFunctions")
 class SettingsRepositoryImpl : SettingsRepository {
@@ -108,5 +113,14 @@ class SettingsRepositoryImpl : SettingsRepository {
 
     override suspend fun saveLastRestaurantVisitStatusSyncAttemptAt(timestamp: Long) {
         defaults.setInteger(timestamp, KEY_LAST_RESTAURANT_VISIT_STATUS_SYNC_ATTEMPT_AT)
+    }
+
+    override suspend fun getRecentSearchedPlaces(): List<Place> {
+        val stored = defaults.stringForKey(KEY_RECENT_SEARCHED_PLACES) ?: return emptyList()
+        return Json.decodeFromString(stored)
+    }
+
+    override suspend fun saveRecentSearchedPlaces(places: List<Place>) {
+        defaults.setObject(Json.encodeToString(places), KEY_RECENT_SEARCHED_PLACES)
     }
 }

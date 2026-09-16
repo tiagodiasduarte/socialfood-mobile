@@ -8,6 +8,8 @@ import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.fakes.FakeAddRestaurantByPlaceIdUseCase
 import pt.socialfood.fakes.FakeAwaitEnrichedRestaurantByPlaceIdUseCase
+import pt.socialfood.fakes.FakeGetRecentSearchedPlacesUseCase
+import pt.socialfood.fakes.FakeSaveRecentSearchedPlaceUseCase
 import pt.socialfood.fakes.FakeSearchPlacesUseCase
 import pt.socialfood.random.nextPlace
 import pt.socialfood.random.nextRestaurant
@@ -23,15 +25,23 @@ class SearchRestaurantsViewModelTest {
     fun `given addByPlaceId and enrichment succeed when onAddRestaurant is called then RestaurantAdded is emitted`() =
         runTestWithMainDispatcher {
             // Given
+            val place = Random.nextPlace()
             val expectedRestaurant = Random.nextRestaurant()
             val fakeAdd = FakeAddRestaurantByPlaceIdUseCase()
             val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(expectedRestaurant))
-            val vm = SearchRestaurantsViewModel(FakeSearchPlacesUseCase(), fakeAwait, fakeAdd)
+            val fakeSaveRecent = FakeSaveRecentSearchedPlaceUseCase()
+            val vm = SearchRestaurantsViewModel(
+                FakeSearchPlacesUseCase(),
+                fakeAwait,
+                fakeAdd,
+                FakeGetRecentSearchedPlacesUseCase(),
+                fakeSaveRecent,
+            )
             assertFalse(vm.isImportingRestaurant.value)
 
             // When / Then
             vm.events.test {
-                vm.onAddRestaurant("place-1")
+                vm.onAddRestaurant(place)
 
                 val event = awaitItem() as SearchRestaurantsViewModel.UiEvent.RestaurantAdded
                 assertEquals(expectedRestaurant, event.restaurant)
@@ -39,6 +49,8 @@ class SearchRestaurantsViewModelTest {
 
             assertEquals(1, fakeAdd.invokeCount)
             assertEquals(1, fakeAwait.invokeCount)
+            assertEquals(1, fakeSaveRecent.invokeCount)
+            assertEquals(place, fakeSaveRecent.lastPlace)
             assertFalse(vm.isImportingRestaurant.value)
         }
 
@@ -50,10 +62,16 @@ class SearchRestaurantsViewModelTest {
                 Result.Failure(DataError.Network(Exception("test error"))),
             )
             val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant()))
-            val vm = SearchRestaurantsViewModel(FakeSearchPlacesUseCase(), fakeAwait, fakeAdd)
+            val vm = SearchRestaurantsViewModel(
+                FakeSearchPlacesUseCase(),
+                fakeAwait,
+                fakeAdd,
+                FakeGetRecentSearchedPlacesUseCase(),
+                FakeSaveRecentSearchedPlaceUseCase(),
+            )
 
             // When
-            vm.onAddRestaurant("place-1")
+            vm.onAddRestaurant(Random.nextPlace())
             advanceUntilIdle()
 
             // Then
@@ -69,10 +87,16 @@ class SearchRestaurantsViewModelTest {
             val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(
                 Result.Failure(DataError.Network(Exception("test error"))),
             )
-            val vm = SearchRestaurantsViewModel(FakeSearchPlacesUseCase(), fakeAwait, fakeAdd)
+            val vm = SearchRestaurantsViewModel(
+                FakeSearchPlacesUseCase(),
+                fakeAwait,
+                fakeAdd,
+                FakeGetRecentSearchedPlacesUseCase(),
+                FakeSaveRecentSearchedPlaceUseCase(),
+            )
 
             // When
-            vm.onAddRestaurant("place-1")
+            vm.onAddRestaurant(Random.nextPlace())
             advanceUntilIdle()
 
             // Then
@@ -87,11 +111,17 @@ class SearchRestaurantsViewModelTest {
             // Given
             val fakeAdd = FakeAddRestaurantByPlaceIdUseCase()
             val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant()))
-            val vm = SearchRestaurantsViewModel(FakeSearchPlacesUseCase(), fakeAwait, fakeAdd)
+            val vm = SearchRestaurantsViewModel(
+                FakeSearchPlacesUseCase(),
+                fakeAwait,
+                fakeAdd,
+                FakeGetRecentSearchedPlacesUseCase(),
+                FakeSaveRecentSearchedPlaceUseCase(),
+            )
 
             // When
-            vm.onAddRestaurant("place-1")
-            vm.onAddRestaurant("place-2")
+            vm.onAddRestaurant(Random.nextPlace())
+            vm.onAddRestaurant(Random.nextPlace())
             advanceUntilIdle()
 
             // Then
@@ -106,6 +136,8 @@ class SearchRestaurantsViewModelTest {
                 FakeSearchPlacesUseCase(),
                 FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant())),
                 FakeAddRestaurantByPlaceIdUseCase(),
+                FakeGetRecentSearchedPlacesUseCase(),
+                FakeSaveRecentSearchedPlaceUseCase(),
             )
 
             // When
@@ -125,6 +157,8 @@ class SearchRestaurantsViewModelTest {
                 searchPlaces,
                 FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant())),
                 FakeAddRestaurantByPlaceIdUseCase(),
+                FakeGetRecentSearchedPlacesUseCase(),
+                FakeSaveRecentSearchedPlaceUseCase(),
             )
 
             // When
@@ -146,6 +180,8 @@ class SearchRestaurantsViewModelTest {
                 searchPlaces,
                 FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant())),
                 FakeAddRestaurantByPlaceIdUseCase(),
+                FakeGetRecentSearchedPlacesUseCase(),
+                FakeSaveRecentSearchedPlaceUseCase(),
             )
 
             // When / Then
@@ -169,6 +205,8 @@ class SearchRestaurantsViewModelTest {
                 searchPlaces,
                 FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant())),
                 FakeAddRestaurantByPlaceIdUseCase(),
+                FakeGetRecentSearchedPlacesUseCase(),
+                FakeSaveRecentSearchedPlaceUseCase(),
             )
 
             // When / Then

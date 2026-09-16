@@ -2,6 +2,7 @@ package pt.socialfood.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -23,7 +24,7 @@ import socialfood.composeapp.generated.resources.user_image_content_description
 import socialfood.composeapp.generated.resources.user_placeholder
 
 @Composable
-fun UserImage(imageUrl: String?, imageSize: Dp, modifier: Modifier = Modifier) {
+fun UserImage(imageUrl: String?, imageSize: Dp, modifier: Modifier = Modifier, onClick: (() -> Unit)? = null) {
     Box(
         modifier = modifier
             .size(imageSize)
@@ -32,7 +33,8 @@ fun UserImage(imageUrl: String?, imageSize: Dp, modifier: Modifier = Modifier) {
                 Brush.verticalGradient(
                     colors = listOf(ProfileGradientStart, ProfileGradientEnd),
                 ),
-            ),
+            )
+            .let { if (onClick != null) it.clickable(onClick = onClick) else it },
         contentAlignment = Alignment.Center,
     ) {
         if (imageUrl != null) {

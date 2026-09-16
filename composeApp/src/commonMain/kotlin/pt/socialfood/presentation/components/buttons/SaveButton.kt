@@ -30,7 +30,7 @@ fun SaveButton(
         onClick = onClick,
         modifier = modifier.fillMaxWidth(),
         enabled = enabled && !isLoading,
-        shape = RoundedCornerShape(SpaceSize.medium),
+        shape = RoundedCornerShape(SpaceSize.large),
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
     ) {
         if (isLoading) {

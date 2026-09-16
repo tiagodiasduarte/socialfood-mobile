@@ -14,7 +14,10 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
+import pt.socialfood.domain.model.Place
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.domain.usecase.GetRecentSearchedPlacesUseCase
+import pt.socialfood.domain.usecase.SaveRecentSearchedPlaceUseCase
 import pt.socialfood.domain.usecase.SearchPlacesUseCase
 import pt.socialfood.domain.usecase.restaurant.AddRestaurantByPlaceIdUseCase
 import pt.socialfood.domain.usecase.restaurant.AwaitEnrichedRestaurantByPlaceIdUseCase
@@ -25,6 +28,8 @@ class SearchRestaurantsViewModel(
     private val searchPlaces: SearchPlacesUseCase,
     private val awaitEnrichedRestaurantByPlaceId: AwaitEnrichedRestaurantByPlaceIdUseCase,
     private val addRestaurantByPlaceId: AddRestaurantByPlaceIdUseCase,
+    private val getRecentSearchedPlaces: GetRecentSearchedPlacesUseCase,
+    private val saveRecentSearchedPlace: SaveRecentSearchedPlaceUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<SearchRestaurantsUiState>(SearchRestaurantsUiState.Loaded(emptyList()))
@@ -36,11 +41,20 @@ class SearchRestaurantsViewModel(
     private val _isImportingRestaurant = MutableStateFlow(false)
     val isImportingRestaurant: StateFlow<Boolean> = _isImportingRestaurant.asStateFlow()
 
+    private val _recentSearchedPlaces = MutableStateFlow<List<Place>>(emptyList())
+    val recentSearchedPlaces: StateFlow<List<Place>> = _recentSearchedPlaces.asStateFlow()
+
     var searchQuery by mutableStateOf("")
         private set
 
     private var searchJob: Job? = null
     private var addRestaurantJob: Job? = null
+
+    init {
+        viewModelScope.launch {
+            _recentSearchedPlaces.value = getRecentSearchedPlaces()
+        }
+    }
 
     fun onSearchQueryChange(query: String) {
         searchQuery = query
@@ -62,15 +76,18 @@ class SearchRestaurantsViewModel(
         }
     }
 
-    fun onAddRestaurant(placeId: String) {
+    fun onAddRestaurant(place: Place) {
         if (_isImportingRestaurant.value) return
         _isImportingRestaurant.value = true
 
         addRestaurantJob = viewModelScope.launch {
-            when (addRestaurantByPlaceId(placeId)) {
+            when (addRestaurantByPlaceId(place.id)) {
                 is Result.Success -> {
-                    when (val result = awaitEnrichedRestaurantByPlaceId(placeId)) {
-                        is Result.Success -> _events.emit(UiEvent.RestaurantAdded(result.data))
+                    when (val result = awaitEnrichedRestaurantByPlaceId(place.id)) {
+                        is Result.Success -> {
+                            _recentSearchedPlaces.value = saveRecentSearchedPlace(place)
+                            _events.emit(UiEvent.RestaurantAdded(result.data))
+                        }
                         is Result.Failure -> Unit
                     }
                 }

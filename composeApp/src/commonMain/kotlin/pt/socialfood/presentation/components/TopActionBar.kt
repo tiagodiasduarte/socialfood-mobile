@@ -76,10 +76,9 @@ fun TopActionBar(
         if (userImageUrl != null && onProfileClick != null) {
             UserImage(
                 imageUrl = userImageUrl,
-                imageSize = 32.dp,
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .clickable(onClick = onProfileClick),
+                imageSize = 36.dp,
+                modifier = Modifier.align(Alignment.CenterStart),
+                onClick = onProfileClick,
             )
         } else if (onBackClick != null) {
             IconButton(

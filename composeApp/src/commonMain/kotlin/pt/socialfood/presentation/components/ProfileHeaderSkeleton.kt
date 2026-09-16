@@ -54,51 +54,60 @@ fun ProfileHeaderSkeleton(
                     ),
                 content = topAction,
             )
-
-            Box(
-                modifier = Modifier.align(Alignment.BottomCenter),
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(ProfileAvatarRingSize)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.surface),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    ShimmerBox(
-                        modifier = Modifier.size(ProfileAvatarSize),
-                        alpha = alpha,
-                        shape = CircleShape,
-                    )
-                }
-            }
+            SocialButtonsSkeleton(
+                alpha = alpha,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(vertical = ProfileAvatarOverlap + SpaceSize.medium, horizontal = SpaceSize.large),
+            )
+            ProfileAvatarSkeleton(alpha = alpha, modifier = Modifier.align(Alignment.BottomStart))
         }
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(SpaceSize.large),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .padding(vertical = SpaceSize.large),
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(horizontal = SpaceSize.large),
+                horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
             ) {
                 ShimmerBox(modifier = Modifier.width(160.dp).height(22.dp), alpha = alpha)
                 ShimmerBox(modifier = Modifier.width(100.dp).height(16.dp), alpha = alpha)
             }
 
-            SocialButtonsSkeleton(alpha = alpha)
-
-            StatsRowSkeleton(alpha = alpha)
+            StatsRowSkeleton(alpha = alpha, modifier = Modifier.padding(horizontal = SpaceSize.large))
         }
     }
 }
 
 @Composable
-private fun StatsRowSkeleton(alpha: Float) {
+private fun ProfileAvatarSkeleton(alpha: Float, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier.padding(horizontal = SpaceSize.large),
+    ) {
+        Box(
+            modifier = Modifier
+                .size(ProfileAvatarRingSize)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.surface),
+            contentAlignment = Alignment.Center,
+        ) {
+            ShimmerBox(
+                modifier = Modifier.size(ProfileAvatarSize),
+                alpha = alpha,
+                shape = CircleShape,
+            )
+        }
+    }
+}
+
+@Composable
+private fun StatsRowSkeleton(alpha: Float, modifier: Modifier = Modifier) {
     Row(
+        modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
         verticalAlignment = Alignment.CenterVertically,
     ) {

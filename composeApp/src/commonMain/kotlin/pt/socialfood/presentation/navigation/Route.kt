@@ -29,6 +29,9 @@ sealed interface Route : NavKey {
     data class AuthorDetail(val authorId: String) : Route
 
     @Serializable
+    data class Profile(val authorId: String) : Route
+
+    @Serializable
     data object CreateGuide : Route
 
     @Serializable

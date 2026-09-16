@@ -66,7 +66,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             DrawerContent(
                 onProfileClick = { authorId ->
                     scope.launch { drawerState.close() }
-                    navigator.navigate(Route.AuthorDetail(authorId))
+                    navigator.navigate(Route.Profile(authorId))
                 },
                 onEditProfileClick = {
                     scope.launch { drawerState.close() }
@@ -109,6 +109,36 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                 onBack = navigator::goBack,
                 entries = navigationState.toEntries(
                     entryProvider {
+                        entry<Route.AddRestaurants> { route ->
+                            SearchRestaurantsScreen(
+                                guideId = route.guideId,
+                                onBackClick = navigator::goBack,
+                                onRestaurantAdded = { restaurant ->
+                                    onRestaurantAddedRef.value?.invoke(restaurant)
+                                    navigator.goBack()
+                                },
+                            )
+                        }
+                        entry<Route.AddVisitedRestaurant> {
+                            SearchRestaurantsScreen(
+                                guideId = "",
+                                onBackClick = navigator::goBack,
+                                onRestaurantAdded = { restaurant ->
+                                    onRestaurantAddedRef.value?.invoke(restaurant)
+                                    navigator.goBack()
+                                },
+                            )
+                        }
+                        entry<Route.AddWishRestaurant> {
+                            SearchRestaurantsScreen(
+                                guideId = "",
+                                onBackClick = navigator::goBack,
+                                onRestaurantAdded = { restaurant ->
+                                    onRestaurantAddedRef.value?.invoke(restaurant)
+                                    navigator.goBack()
+                                },
+                            )
+                        }
                         entry<Route.AuthorDetail>(metadata = defaultAnimationMetadata) { route ->
                             AuthorDetailScreen(
                                 authorId = route.authorId,
@@ -149,6 +179,23 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 },
                             )
                         }
+                        entry<Route.EditProfile>(metadata = slideHorizontalAnimationMetadata) {
+                            EditProfileScreen(onBackClick = navigator::goBack)
+                        }
+                        entry<Route.FavouriteGuides>(metadata = slideHorizontalAnimationMetadata) {
+                            FavouriteGuidesScreen(
+                                onBackClick = navigator::goBack,
+                                onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+                            )
+                        }
+                        entry<Route.FavouriteRestaurants>(metadata = slideHorizontalAnimationMetadata) {
+                            FavouriteRestaurantsScreen(
+                                onBackClick = navigator::goBack,
+                                onRestaurantClick = { restaurantId ->
+                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
+                                },
+                            )
+                        }
                         entry<Route.GuideDetail>(metadata = defaultAnimationMetadata) { route ->
                             GuideDetailScreen(
                                 guideId = route.guideId,
@@ -182,44 +229,29 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 onGuideJoined = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
                             )
                         }
-                        entry<Route.FavouriteGuides>(metadata = slideHorizontalAnimationMetadata) {
-                            FavouriteGuidesScreen(
+                        entry<Route.Home>(metadata = defaultAnimationMetadata) {
+                            HomeScreen(
+                                onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+                                onRestaurantClick = { restaurantId ->
+                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
+                                },
+                                onProfileClick = { scope.launch { drawerState.open() } },
+                                onSearchClick = { navigator.navigate(Route.Search) },
+                            )
+                        }
+                        entry<Route.Profile>(metadata = slideHorizontalAnimationMetadata) { route ->
+                            AuthorDetailScreen(
+                                authorId = route.authorId,
+                                isOwnProfile = true,
                                 onBackClick = navigator::goBack,
                                 onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
+                                onEditProfileClick = { navigator.navigate(Route.EditProfile) },
                             )
                         }
-                        entry<Route.FavouriteRestaurants>(metadata = slideHorizontalAnimationMetadata) {
-                            FavouriteRestaurantsScreen(
+                        entry<Route.RestaurantDetail>(metadata = defaultAnimationMetadata) { route ->
+                            RestaurantDetailScreen(
+                                restaurantId = route.restaurantId,
                                 onBackClick = navigator::goBack,
-                                onRestaurantClick = { restaurantId ->
-                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
-                                },
-                            )
-                        }
-                        entry<Route.WishRestaurants>(metadata = slideHorizontalAnimationMetadata) {
-                            RestaurantWishlistScreen(
-                                onBackClick = navigator::goBack,
-                                onRestaurantClick = { restaurantId ->
-                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
-                                },
-                                onAddClick = { onRestaurantAdded ->
-                                    onRestaurantAddedRef.value = onRestaurantAdded
-                                    navigator.navigate(Route.AddWishRestaurant)
-                                },
-                                onMapClick = { navigator.navigate(Route.RestaurantsMap(VisitStatus.WISHLIST)) },
-                            )
-                        }
-                        entry<Route.VisitedRestaurants>(metadata = slideHorizontalAnimationMetadata) {
-                            RestaurantVisitedScreen(
-                                onBackClick = navigator::goBack,
-                                onRestaurantClick = { restaurantId ->
-                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
-                                },
-                                onAddClick = { onRestaurantAdded ->
-                                    onRestaurantAddedRef.value = onRestaurantAdded
-                                    navigator.navigate(Route.AddVisitedRestaurant)
-                                },
-                                onMapClick = { navigator.navigate(Route.RestaurantsMap(VisitStatus.VISITED)) },
                             )
                         }
                         entry<Route.RestaurantsMap>(metadata = slideUpAnimationMetadata) { route ->
@@ -235,55 +267,6 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 },
                             )
                         }
-                        entry<Route.Home>(metadata = defaultAnimationMetadata) {
-                            HomeScreen(
-                                onGuideClick = { guideId -> navigator.navigate(Route.GuideDetail(guideId)) },
-                                onRestaurantClick = { restaurantId ->
-                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
-                                },
-                                onProfileClick = { scope.launch { drawerState.open() } },
-                                onSearchClick = { navigator.navigate(Route.Search) },
-                            )
-                        }
-                        entry<Route.EditProfile>(metadata = slideHorizontalAnimationMetadata) {
-                            EditProfileScreen(onBackClick = navigator::goBack)
-                        }
-                        entry<Route.AddRestaurants> { route ->
-                            SearchRestaurantsScreen(
-                                guideId = route.guideId,
-                                onBackClick = navigator::goBack,
-                                onRestaurantAdded = { restaurant ->
-                                    onRestaurantAddedRef.value?.invoke(restaurant)
-                                    navigator.goBack()
-                                },
-                            )
-                        }
-                        entry<Route.AddWishRestaurant> {
-                            SearchRestaurantsScreen(
-                                guideId = "",
-                                onBackClick = navigator::goBack,
-                                onRestaurantAdded = { restaurant ->
-                                    onRestaurantAddedRef.value?.invoke(restaurant)
-                                    navigator.goBack()
-                                },
-                            )
-                        }
-                        entry<Route.AddVisitedRestaurant> {
-                            SearchRestaurantsScreen(
-                                guideId = "",
-                                onBackClick = navigator::goBack,
-                                onRestaurantAdded = { restaurant ->
-                                    onRestaurantAddedRef.value?.invoke(restaurant)
-                                    navigator.goBack()
-                                },
-                            )
-                        }
-                        entry<Route.RestaurantDetail>(metadata = defaultAnimationMetadata) { route ->
-                            RestaurantDetailScreen(
-                                restaurantId = route.restaurantId,
-                                onBackClick = navigator::goBack,
-                            )
-                        }
                         entry<Route.Search>(metadata = defaultAnimationMetadata) {
                             SearchScreen(
                                 onAuthorClick = { authorId -> navigator.navigate(Route.AuthorDetail(authorId)) },
@@ -291,6 +274,32 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                                 onRestaurantClick = { restaurantId ->
                                     navigator.navigate(Route.RestaurantDetail(restaurantId))
                                 },
+                            )
+                        }
+                        entry<Route.VisitedRestaurants>(metadata = slideHorizontalAnimationMetadata) {
+                            RestaurantVisitedScreen(
+                                onBackClick = navigator::goBack,
+                                onRestaurantClick = { restaurantId ->
+                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
+                                },
+                                onAddClick = { onRestaurantAdded ->
+                                    onRestaurantAddedRef.value = onRestaurantAdded
+                                    navigator.navigate(Route.AddVisitedRestaurant)
+                                },
+                                onMapClick = { navigator.navigate(Route.RestaurantsMap(VisitStatus.VISITED)) },
+                            )
+                        }
+                        entry<Route.WishRestaurants>(metadata = slideHorizontalAnimationMetadata) {
+                            RestaurantWishlistScreen(
+                                onBackClick = navigator::goBack,
+                                onRestaurantClick = { restaurantId ->
+                                    navigator.navigate(Route.RestaurantDetail(restaurantId))
+                                },
+                                onAddClick = { onRestaurantAdded ->
+                                    onRestaurantAddedRef.value = onRestaurantAdded
+                                    navigator.navigate(Route.AddWishRestaurant)
+                                },
+                                onMapClick = { navigator.navigate(Route.RestaurantsMap(VisitStatus.WISHLIST)) },
                             )
                         }
                     },

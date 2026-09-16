@@ -143,7 +143,7 @@ private fun EditProfileContent(
                 isLoading = state.isSaving,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(horizontal = SpaceSize.large)
+                    .padding(horizontal = SpaceSize.large, vertical = SpaceSize.medium)
                     .height(SaveButtonHeight),
             )
         }

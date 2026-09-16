@@ -1,17 +1,25 @@
 package pt.socialfood.presentation.author.detail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,8 +27,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -30,7 +40,6 @@ import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.ProfileHeader
 import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.components.TopActionIconsBar
-import pt.socialfood.presentation.components.buttons.OutlinedButton
 import pt.socialfood.presentation.guide.GuideEmptyCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
@@ -156,13 +165,43 @@ private fun LazyListScope.guidesSection(
 
     if (hiddenGuidesCount > 0) {
         item {
-            OutlinedButton(
-                text = stringResource(Res.string.author_detail_show_more_guides_button, hiddenGuidesCount),
-                icon = Icons.Filled.KeyboardArrowDown,
+            ShowMoreGuidesCard(
+                hiddenGuidesCount = hiddenGuidesCount,
                 onClick = onShowMoreClick,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(50.dp)
                     .padding(horizontal = SpaceSize.large),
+            )
+        }
+    }
+}
+
+@Composable
+private fun ShowMoreGuidesCard(hiddenGuidesCount: Int, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier.clickable(onClick = onClick),
+        shape = RoundedCornerShape(SpaceSize.large),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = SpaceSize.medium),
+            horizontalArrangement = Arrangement.spacedBy(SpaceSize.small, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = Icons.Filled.KeyboardArrowDown,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(20.dp),
+            )
+            Text(
+                text = stringResource(Res.string.author_detail_show_more_guides_button, hiddenGuidesCount),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }

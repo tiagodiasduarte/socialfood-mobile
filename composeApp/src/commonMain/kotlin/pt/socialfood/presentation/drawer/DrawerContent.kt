@@ -47,7 +47,6 @@ import pt.socialfood.core.appBuildDate
 import pt.socialfood.core.appVersion
 import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.UserImage
-import pt.socialfood.presentation.components.buttons.ActionButton
 import pt.socialfood.presentation.theme.ThemeBottomSheet
 import pt.socialfood.presentation.theme.isThemeModeSelectionSupported
 import pt.socialfood.ui.theme.AppTheme
@@ -56,8 +55,6 @@ import pt.socialfood.ui.theme.ProfileGradientEnd
 import pt.socialfood.ui.theme.ProfileGradientStart
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.guide_detail_edit_button_description
-import socialfood.composeapp.generated.resources.guide_edit_icon
 import socialfood.composeapp.generated.resources.guide_icon
 import socialfood.composeapp.generated.resources.logout_icon
 import socialfood.composeapp.generated.resources.profile_favorite_guides_button
@@ -90,7 +87,6 @@ private val DrawerAvatarRingSize = 48.dp
 fun DrawerContent(
     viewModel: DrawerViewModel = koinViewModel(),
     onProfileClick: (authorId: String) -> Unit = {},
-    onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
     onWishRestaurantsClick: () -> Unit = {},
@@ -104,7 +100,6 @@ fun DrawerContent(
         state = state,
         onLogoutClick = launchLogoutConfirmation,
         onProfileClick = onProfileClick,
-        onEditProfileClick = onEditProfileClick,
         onFavouriteGuidesClick = onFavouriteGuidesClick,
         onFavouriteRestaurantsClick = onFavouriteRestaurantsClick,
         onWishRestaurantsClick = onWishRestaurantsClick,
@@ -122,7 +117,6 @@ private fun DrawerSheet(
     state: DrawerUiState,
     onLogoutClick: () -> Unit,
     onProfileClick: (authorId: String) -> Unit = {},
-    onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
     onWishRestaurantsClick: () -> Unit = {},
@@ -135,7 +129,6 @@ private fun DrawerSheet(
                 user = state.user,
                 onLogoutClick = onLogoutClick,
                 onProfileClick = onProfileClick,
-                onEditProfileClick = onEditProfileClick,
                 onFavouriteGuidesClick = onFavouriteGuidesClick,
                 onFavouriteRestaurantsClick = onFavouriteRestaurantsClick,
                 onWishRestaurantsClick = onWishRestaurantsClick,
@@ -160,7 +153,6 @@ private fun DrawerUserContent(
     user: User,
     onLogoutClick: () -> Unit,
     onProfileClick: (authorId: String) -> Unit = {},
-    onEditProfileClick: () -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
     onFavouriteRestaurantsClick: () -> Unit = {},
     onWishRestaurantsClick: () -> Unit = {},
@@ -168,7 +160,7 @@ private fun DrawerUserContent(
     onThemeClick: () -> Unit = {},
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        DrawerHeader(user = user, onEditProfileClick = onEditProfileClick)
+        DrawerHeader(user = user)
 
         Column(
             modifier = Modifier.padding(vertical = SpaceSize.medium),
@@ -245,7 +237,7 @@ private fun DrawerBottomMenu(onThemeClick: () -> Unit, onLogoutClick: () -> Unit
 }
 
 @Composable
-private fun DrawerHeader(user: User, onEditProfileClick: () -> Unit) {
+private fun DrawerHeader(user: User) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -255,18 +247,6 @@ private fun DrawerHeader(user: User, onEditProfileClick: () -> Unit) {
             .windowInsetsPadding(WindowInsets.statusBars)
             .padding(SpaceSize.large),
     ) {
-        ActionButton(
-            modifier = Modifier.align(Alignment.TopEnd),
-            onClick = onEditProfileClick,
-        ) {
-            Icon(
-                painter = painterResource(Res.drawable.guide_edit_icon),
-                contentDescription = stringResource(Res.string.guide_detail_edit_button_description),
-                tint = Color.White,
-                modifier = Modifier.size(20.dp),
-            )
-        }
-
         Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.medium)) {
             Box(
                 modifier = Modifier

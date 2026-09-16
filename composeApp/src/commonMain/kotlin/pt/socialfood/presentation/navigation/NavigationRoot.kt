@@ -68,10 +68,6 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                     scope.launch { drawerState.close() }
                     navigator.navigate(Route.Profile(authorId))
                 },
-                onEditProfileClick = {
-                    scope.launch { drawerState.close() }
-                    navigator.navigate(Route.EditProfile)
-                },
                 onFavouriteGuidesClick = {
                     scope.launch { drawerState.close() }
                     navigator.navigate(Route.FavouriteGuides)

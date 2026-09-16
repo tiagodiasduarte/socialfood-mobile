@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -51,6 +52,7 @@ import socialfood.composeapp.generated.resources.edit_guide_title
 private const val TAB_DETAILS = 0
 private const val TAB_RESTAURANTS = 1
 private const val TAB_STATUS = 2
+private val SaveButtonHeight = 56.dp
 
 @Composable
 fun EditGuideScreen(
@@ -133,41 +135,70 @@ private fun EditGuideContent(
         )
 
         Box(modifier = Modifier.weight(1f)) {
-            when (state) {
-                is EditGuideUiState.Error -> {
-                    ErrorContent(modifier = Modifier.fillMaxSize(), onRetryClick = onRetry)
-                }
+            EditGuideBody(
+                state = state,
+                initialTab = initialTab,
+                onTitleChange = onTitleChange,
+                onDescriptionChange = onDescriptionChange,
+                onVisibilityChange = onVisibilityChange,
+                onAddRestaurantsClick = onAddRestaurantsClick,
+                onRestaurantRemoved = onRestaurantRemoved,
+                onPhotoSelected = onPhotoSelected,
+                onDeleteGuide = onDeleteGuide,
+                onRetry = onRetry,
+            )
 
-                is EditGuideUiState.Loaded -> {
-                    GuideLoaded(
-                        state = state,
-                        initialTab = initialTab,
-                        onTitleChange = onTitleChange,
-                        onDescriptionChange = onDescriptionChange,
-                        onVisibilityChange = onVisibilityChange,
-                        onAddRestaurantsClick = onAddRestaurantsClick,
-                        onRestaurantRemoved = onRestaurantRemoved,
-                        onPhotoSelected = onPhotoSelected,
-                        onDeleteGuide = onDeleteGuide,
-                    )
-                }
+            SaveButton(
+                onClick = onSaveGuide,
+                isLoading = isSaving,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .height(SaveButtonHeight),
+            )
+        }
+    }
+}
 
-                EditGuideUiState.Loading -> {
-                    Box(
-                        Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
-                    }
-                }
-            }
+@Composable
+private fun EditGuideBody(
+    state: EditGuideUiState,
+    initialTab: Int,
+    onTitleChange: (String) -> Unit,
+    onDescriptionChange: (String) -> Unit,
+    onVisibilityChange: (GuideVisibility) -> Unit,
+    onAddRestaurantsClick: () -> Unit,
+    onRestaurantRemoved: (String) -> Unit,
+    onPhotoSelected: (ByteArray, String) -> Unit,
+    onDeleteGuide: () -> Unit,
+    onRetry: () -> Unit,
+) {
+    when (state) {
+        is EditGuideUiState.Error -> {
+            ErrorContent(modifier = Modifier.fillMaxSize(), onRetryClick = onRetry)
         }
 
-        SaveButton(
-            onClick = onSaveGuide,
-            isLoading = isSaving,
-            modifier = Modifier.padding(SpaceSize.large),
-        )
+        is EditGuideUiState.Loaded -> {
+            GuideLoaded(
+                state = state,
+                initialTab = initialTab,
+                onTitleChange = onTitleChange,
+                onDescriptionChange = onDescriptionChange,
+                onVisibilityChange = onVisibilityChange,
+                onAddRestaurantsClick = onAddRestaurantsClick,
+                onRestaurantRemoved = onRestaurantRemoved,
+                onPhotoSelected = onPhotoSelected,
+                onDeleteGuide = onDeleteGuide,
+            )
+        }
+
+        EditGuideUiState.Loading -> {
+            Box(
+                Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+            }
+        }
     }
 }
 
@@ -235,7 +266,12 @@ private fun GuideDetailsTab(
     onPickImage: () -> Unit,
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(SpaceSize.large),
+        contentPadding = PaddingValues(
+            start = SpaceSize.large,
+            end = SpaceSize.large,
+            top = SpaceSize.large,
+            bottom = SpaceSize.large + SaveButtonHeight,
+        ),
         verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
     ) {
         item {
@@ -262,7 +298,12 @@ private fun GuideRestaurantsTab(
     onRestaurantRemoved: (String) -> Unit,
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(SpaceSize.large),
+        contentPadding = PaddingValues(
+            start = SpaceSize.large,
+            end = SpaceSize.large,
+            top = SpaceSize.large,
+            bottom = SpaceSize.large + SaveButtonHeight,
+        ),
         verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
     ) {
         item {
@@ -282,7 +323,12 @@ private fun GuideStatusTab(
     onDeleteGuide: () -> Unit,
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(SpaceSize.large),
+        contentPadding = PaddingValues(
+            start = SpaceSize.large,
+            end = SpaceSize.large,
+            top = SpaceSize.large,
+            bottom = SpaceSize.large + SaveButtonHeight,
+        ),
         verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
     ) {
         item {

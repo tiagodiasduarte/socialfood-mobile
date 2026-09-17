@@ -1,10 +1,10 @@
 package pt.socialfood.presentation.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.buttons.social.SocialButtons
 import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.ProfileGradientEnd
 import pt.socialfood.ui.theme.ProfileGradientStart
 import pt.socialfood.ui.theme.SpaceSize
@@ -111,27 +112,26 @@ private fun ProfileDetails(name: String, username: String) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = SpaceSize.large),
-        verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
+            .padding(SpaceSize.large),
     ) {
-        Column(
-            modifier = Modifier.padding(horizontal = SpaceSize.large),
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
-        ) {
-            Text(
-                text = name,
-                style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-            Text(
-                text = "@$username",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
+        Text(
+            text = name,
+            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+            color = MaterialTheme.colorScheme.onBackground,
+        )
 
-        StatsRow(modifier = Modifier.padding(horizontal = SpaceSize.large))
+        Text(
+            text = "@$username",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+
+        Spacer(Modifier.height(SpaceSize.large))
+
+        StatsRow(
+            textStyle = AppTypography.bodyMedium,
+            textColor = MaterialTheme.colorScheme.onSurface,
+        )
     }
 }
 

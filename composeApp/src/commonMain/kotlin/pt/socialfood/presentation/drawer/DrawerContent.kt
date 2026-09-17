@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
@@ -46,6 +45,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.core.appBuildDate
 import pt.socialfood.core.appVersion
 import pt.socialfood.domain.model.User
+import pt.socialfood.presentation.components.StatsRow
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.presentation.theme.ThemeBottomSheet
 import pt.socialfood.presentation.theme.isThemeModeSelectionSupported
@@ -66,9 +66,6 @@ import socialfood.composeapp.generated.resources.profile_logout_button
 import socialfood.composeapp.generated.resources.profile_logout_button_description
 import socialfood.composeapp.generated.resources.profile_profile_button
 import socialfood.composeapp.generated.resources.profile_profile_button_description
-import socialfood.composeapp.generated.resources.profile_stat_followers_label
-import socialfood.composeapp.generated.resources.profile_stat_following_label
-import socialfood.composeapp.generated.resources.profile_stat_guides_label
 import socialfood.composeapp.generated.resources.profile_theme_button
 import socialfood.composeapp.generated.resources.profile_theme_button_description
 import socialfood.composeapp.generated.resources.profile_visited_restaurants_button
@@ -273,35 +270,8 @@ private fun DrawerHeader(user: User) {
 
             Spacer(Modifier.height(SpaceSize.small))
 
-            DrawerStatsRow()
+            StatsRow()
         }
-    }
-}
-
-@Composable
-private fun DrawerStatsRow() {
-    Row(horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium)) {
-        DrawerStatItem(
-            value = "-",
-            label = stringResource(Res.string.profile_stat_guides_label),
-        )
-        DrawerStatItem(
-            value = "-",
-            label = stringResource(Res.string.profile_stat_followers_label),
-        )
-        DrawerStatItem(
-            value = "-",
-            label = stringResource(Res.string.profile_stat_following_label),
-        )
-    }
-}
-
-@Composable
-private fun DrawerStatItem(value: String, label: String, modifier: Modifier = Modifier) {
-    Row(modifier = modifier) {
-        Text(text = value, style = AppTypography.bodySmall.copy(fontWeight = FontWeight.Bold), color = Color.White)
-        Spacer(Modifier.width(SpaceSize.small))
-        Text(text = label, style = AppTypography.bodySmall, color = Color.White.copy(alpha = 0.85f))
     }
 }
 

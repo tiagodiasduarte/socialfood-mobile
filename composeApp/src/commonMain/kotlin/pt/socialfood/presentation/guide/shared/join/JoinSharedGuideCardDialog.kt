@@ -42,7 +42,7 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
 import pt.socialfood.presentation.error.stringResource
-import pt.socialfood.presentation.guide.shared.GuideBottomInfo
+import pt.socialfood.presentation.guide.GuideAndAuthorInfo
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
@@ -98,7 +98,10 @@ private fun JoinSharedGuideCard(
 
             Spacer(Modifier.height(SpaceSize.small))
 
-            GuideBottomInfo(guide = state.guide, fontColor = MaterialTheme.colorScheme.onSurface)
+            GuideAndAuthorInfo(
+                guide = state.guide,
+                fontColor = MaterialTheme.colorScheme.onSurface,
+            )
 
             Spacer(Modifier.height(SpaceSize.large))
 

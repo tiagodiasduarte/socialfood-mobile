@@ -304,6 +304,9 @@
     <string name="favorite_card_remove_button_description">Remover dos favoritos</string>
     <string name="restaurant_card_remove_button">Remover</string>
     <string name="restaurant_card_visited_button">Visitado</string>
+    <string name="favorite_card_remove_button">Remover</string>
+    <string name="wish_card_remove_button_description">Remover da lista de desejos</string>
+    <string name="visited_card_remove_button_description">Remover dos visitados</string>
 
     <string name="error_code_user_already_exists">Já existe uma conta com este email.</string>
     <string name="error_code_invalid_credentials">Email ou palavra-passe incorretos.</string>

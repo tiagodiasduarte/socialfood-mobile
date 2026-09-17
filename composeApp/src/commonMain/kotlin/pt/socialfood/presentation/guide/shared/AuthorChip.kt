@@ -10,31 +10,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.Guide
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.ui.theme.AppTypography
-
-@Composable
-fun GuideBottomInfo(guide: Guide, fontColor: Color = Color.White.copy(alpha = 0.9f), modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-    ) {
-        Text(
-            text = "${guide.numberOfRestaurant} restaurants",
-            style = AppTypography.labelMedium,
-            color = fontColor,
-        )
-
-        Text(
-            text = "•",
-            style = AppTypography.labelMedium,
-            color = fontColor,
-        )
-        AuthorChip(author = guide.author, fontColor = fontColor)
-    }
-}
 
 @Composable
 fun AuthorChip(author: Author, fontColor: Color, modifier: Modifier = Modifier) {

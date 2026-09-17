@@ -1,11 +1,9 @@
 package pt.socialfood.presentation.author.detail
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,14 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
+import pt.socialfood.presentation.components.GuideImage
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.IconSize
 import pt.socialfood.ui.theme.SpaceSize
@@ -95,24 +91,14 @@ fun AuthorGuideCard(
 
 @Composable
 private fun GuideThumbnail(guideName: String, imageUrl: String?) {
-    Box(
+    GuideImage(
+        imageUrl = imageUrl,
+        contentDescription = guideName,
         modifier = Modifier
             .size(72.dp)
             .clip(RoundedCornerShape(SpaceSize.medium)),
-    ) {
-        if (imageUrl != null) {
-            SubcomposeAsyncImage(
-                model = imageUrl,
-                contentDescription = guideName,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
-                loading = { GuideCardPlaceholder(IconSize.small) },
-                error = { GuideCardPlaceholder(IconSize.small) },
-            )
-        } else {
-            GuideCardPlaceholder(IconSize.small)
-        }
-    }
+        iconSize = IconSize.small,
+    )
 }
 
 @Composable

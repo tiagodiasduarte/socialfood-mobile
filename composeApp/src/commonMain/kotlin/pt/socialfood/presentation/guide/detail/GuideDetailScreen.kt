@@ -37,11 +37,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -53,11 +51,11 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
+import pt.socialfood.presentation.components.GuideImage
 import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.components.TopActionIconsBar
 import pt.socialfood.presentation.components.buttons.OutlinedButton
 import pt.socialfood.presentation.components.detailImageScrim
-import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
 import pt.socialfood.presentation.guide.detail.author.AuthorItemCard
 import pt.socialfood.presentation.guide.shared.AuthorChip
 import pt.socialfood.presentation.restaurant.RestaurantEmptyCard
@@ -302,18 +300,11 @@ private fun TopImageContent(
             .fillMaxWidth()
             .height(GuideImageHeight),
     ) {
-        if (guide.imageUrl != null) {
-            SubcomposeAsyncImage(
-                model = guide.imageUrl,
-                contentDescription = guide.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
-                loading = { GuideCardPlaceholder() },
-                error = { GuideCardPlaceholder() },
-            )
-        } else {
-            GuideCardPlaceholder()
-        }
+        GuideImage(
+            imageUrl = guide.imageUrl,
+            contentDescription = guide.name,
+            modifier = Modifier.fillMaxSize(),
+        )
 
         Box(modifier = Modifier.fillMaxSize().detailImageScrim())
 

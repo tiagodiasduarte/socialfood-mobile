@@ -2,11 +2,9 @@ package pt.socialfood.presentation.search
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -24,14 +22,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.SubcomposeAsyncImage
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.components.placeholder.RestaurantCardPlaceholder
+import pt.socialfood.presentation.components.RestaurantImage
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.IconSize
@@ -62,21 +58,12 @@ fun SearchRestaurantItem(restaurant: Restaurant, onClick: () -> Unit = {}, modif
 
 @Composable
 private fun SearchRestaurantItemThumbnail(restaurant: Restaurant) {
-    val imageUrl = restaurant.imagesUrl.firstOrNull()
-    Box(modifier = Modifier.size(ThumbnailSize).clip(RoundedCornerShape(12.dp))) {
-        if (imageUrl != null) {
-            SubcomposeAsyncImage(
-                model = imageUrl,
-                contentDescription = restaurant.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
-                loading = { RestaurantCardPlaceholder(IconSize.small) },
-                error = { RestaurantCardPlaceholder(IconSize.small) },
-            )
-        } else {
-            RestaurantCardPlaceholder(IconSize.small)
-        }
-    }
+    RestaurantImage(
+        imageUrl = restaurant.imagesUrl.firstOrNull(),
+        contentDescription = restaurant.name,
+        modifier = Modifier.size(ThumbnailSize).clip(RoundedCornerShape(12.dp)),
+        iconSize = IconSize.small,
+    )
 }
 
 @Composable

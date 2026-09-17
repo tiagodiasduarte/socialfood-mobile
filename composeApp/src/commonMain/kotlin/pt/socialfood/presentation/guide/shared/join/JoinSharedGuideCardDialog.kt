@@ -28,19 +28,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
+import pt.socialfood.presentation.components.GuideImage
 import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.presentation.guide.GuideAndAuthorInfo
 import pt.socialfood.ui.theme.AppTheme
@@ -183,20 +181,11 @@ private fun JoinSharedGuideJoinButton(state: JoinSharedGuideCardUiState, onJoinC
 
 @Composable
 private fun JoinSharedGuideCardImage(guide: Guide) {
-    Box(modifier = Modifier.fillMaxWidth().height(200.dp)) {
-        if (guide.imageUrl != null) {
-            SubcomposeAsyncImage(
-                model = guide.imageUrl,
-                contentDescription = guide.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
-                loading = { GuideCardPlaceholder() },
-                error = { GuideCardPlaceholder() },
-            )
-        } else {
-            GuideCardPlaceholder()
-        }
-    }
+    GuideImage(
+        imageUrl = guide.imageUrl,
+        contentDescription = guide.name,
+        modifier = Modifier.fillMaxWidth().height(200.dp),
+    )
 }
 
 @Composable

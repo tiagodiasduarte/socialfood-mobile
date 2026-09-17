@@ -30,12 +30,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -44,10 +42,10 @@ import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.presentation.components.ErrorContent
+import pt.socialfood.presentation.components.RestaurantImage
 import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.components.TopActionIconsBar
 import pt.socialfood.presentation.components.detailImageScrim
-import pt.socialfood.presentation.components.placeholder.RestaurantCardPlaceholder
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.IconSize
 import pt.socialfood.ui.theme.SpaceSize
@@ -207,7 +205,11 @@ private fun TopSection(
             .fillMaxWidth()
             .height(ImageHeight),
     ) {
-        RestaurantImage(restaurant)
+        RestaurantImage(
+            imageUrl = restaurant.imagesUrl.firstOrNull(),
+            contentDescription = restaurant.name,
+            modifier = Modifier.fillMaxSize(),
+        )
 
         Box(modifier = Modifier.fillMaxSize().detailImageScrim())
 
@@ -258,23 +260,6 @@ private fun TopSection(
 }
 
 @Composable
-private fun RestaurantImage(restaurant: Restaurant) {
-    val imageUrl = restaurant.imagesUrl.firstOrNull()
-    if (imageUrl != null) {
-        SubcomposeAsyncImage(
-            model = imageUrl,
-            contentDescription = restaurant.name,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize(),
-            loading = { RestaurantCardPlaceholder() },
-            error = { RestaurantCardPlaceholder() },
-        )
-    } else {
-        RestaurantCardPlaceholder()
-    }
-}
-
-@Composable
 private fun TitleSection(restaurant: Restaurant) {
     Column(
         modifier = Modifier
@@ -317,15 +302,13 @@ private fun PhotoGallery(photos: List<String>, restaurantName: String) {
         contentPadding = PaddingValues(horizontal = SpaceSize.large),
     ) {
         items(photos) { photoUrl ->
-            SubcomposeAsyncImage(
-                model = photoUrl,
+            RestaurantImage(
+                imageUrl = photoUrl,
                 contentDescription = restaurantName,
-                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(120.dp)
                     .clip(RoundedCornerShape(SpaceSize.medium)),
-                loading = { RestaurantCardPlaceholder(IconSize.small) },
-                error = { RestaurantCardPlaceholder(IconSize.small) },
+                iconSize = IconSize.small,
             )
         }
     }

@@ -1,11 +1,9 @@
 package pt.socialfood.presentation.restaurant
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,17 +20,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.presentation.components.RestaurantImage
 import pt.socialfood.presentation.components.buttons.OutlinedButton
-import pt.socialfood.presentation.components.placeholder.RestaurantCardPlaceholder
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.IconSize
@@ -72,25 +68,14 @@ fun RestaurantVisitStatusCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
             ) {
-                val imageUrl = restaurant.imagesUrl.firstOrNull()
-                Box(
+                RestaurantImage(
+                    imageUrl = restaurant.imagesUrl.firstOrNull(),
+                    contentDescription = stringResource(Res.string.user_image_content_description),
                     modifier = Modifier
                         .size(IMAGE_SIZE)
                         .clip(RoundedCornerShape(SpaceSize.medium)),
-                ) {
-                    if (imageUrl != null) {
-                        SubcomposeAsyncImage(
-                            model = imageUrl,
-                            contentDescription = stringResource(Res.string.user_image_content_description),
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.fillMaxSize(),
-                            loading = { RestaurantCardPlaceholder() },
-                            error = { RestaurantCardPlaceholder() },
-                        )
-                    } else {
-                        RestaurantCardPlaceholder(iconSize = IconSize.small)
-                    }
-                }
+                    iconSize = IconSize.small,
+                )
                 RestaurantCardInfo(
                     modifier = Modifier.weight(1f),
                     restaurant = restaurant,

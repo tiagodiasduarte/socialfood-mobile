@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.map.restaurant
+package pt.socialfood.presentation.map.guide
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
@@ -27,13 +27,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.map.MapRestaurantView
+import pt.socialfood.presentation.map.restaurant.MapRestaurantCard
 import pt.socialfood.ui.theme.SpaceSize
 
 private val MapCardWidth = 300.dp
 
 @Composable
-internal fun MapRestaurantList(
+internal fun MapGuideRestaurants(
     restaurants: List<Restaurant>,
     modifier: Modifier = Modifier,
     onRestaurantClick: (String) -> Unit = {},
@@ -51,7 +51,7 @@ internal fun MapRestaurantList(
     }
 
     Box(modifier = modifier) {
-        MapRestaurantView(
+        MapGuideRestaurantView(
             restaurants = restaurants,
             selectedRestaurantId = selectedRestaurantId,
             onRestaurantSelected = { id ->
@@ -98,7 +98,7 @@ private fun RestaurantList(
             contentPadding = PaddingValues(horizontal = horizontalPadding),
         ) {
             items(restaurants, key = { it.id }) { restaurant ->
-                RestaurantMapCard(
+                MapRestaurantCard(
                     restaurant = restaurant,
                     onClick = { onRestaurantClick(restaurant.id) },
                 )

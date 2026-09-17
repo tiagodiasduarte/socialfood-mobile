@@ -1,11 +1,11 @@
-package pt.socialfood.presentation.map
+package pt.socialfood.presentation.map.guide
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import pt.socialfood.domain.model.Restaurant
 
 @Composable
-expect fun MapRestaurantView(
+expect fun MapGuideRestaurantView(
     restaurants: List<Restaurant>,
     selectedRestaurantId: String?,
     onRestaurantSelected: (String) -> Unit,

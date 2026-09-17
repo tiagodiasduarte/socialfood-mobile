@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.map.restaurant
+package pt.socialfood.presentation.map.restaurant.visitstatus
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +29,7 @@ import org.koin.core.parameter.parametersOf
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
+import pt.socialfood.presentation.map.guide.MapGuideRestaurants
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
@@ -37,16 +38,16 @@ import socialfood.composeapp.generated.resources.guide_map_restaurants_count_lab
 import socialfood.composeapp.generated.resources.restaurants_map_empty_message
 
 @Composable
-fun MapVisitRestaurantScreen(
+fun MapRestaurantVisitStatusScreen(
     status: VisitStatus,
     title: String,
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
-    viewModel: MapVisitRestaurantViewModel = koinViewModel { parametersOf(status) },
+    viewModel: MapRestaurantVisitStatusViewModel = koinViewModel { parametersOf(status) },
 ) {
     val restaurants by viewModel.restaurants.collectAsStateWithLifecycle()
 
-    MapVisitRestaurantContent(
+    MapRestaurantVisitStatusContent(
         title = title,
         restaurants = restaurants,
         onBackClick = onBackClick,
@@ -55,7 +56,7 @@ fun MapVisitRestaurantScreen(
 }
 
 @Composable
-private fun MapVisitRestaurantContent(
+private fun MapRestaurantVisitStatusContent(
     title: String,
     restaurants: List<Restaurant>,
     onBackClick: () -> Unit,
@@ -66,7 +67,7 @@ private fun MapVisitRestaurantContent(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        MapVisitRestaurantHeader(
+        MapRestaurantVisitStatusHeader(
             title = title,
             restaurantsCount = restaurants.size,
             onCloseClick = onBackClick,
@@ -86,7 +87,7 @@ private fun MapVisitRestaurantContent(
                     )
                 }
             } else {
-                MapRestaurantList(
+                MapGuideRestaurants(
                     restaurants = restaurants,
                     modifier = Modifier.fillMaxSize(),
                     onRestaurantClick = onRestaurantClick,
@@ -97,7 +98,7 @@ private fun MapVisitRestaurantContent(
 }
 
 @Composable
-private fun MapVisitRestaurantHeader(title: String, restaurantsCount: Int, onCloseClick: () -> Unit) {
+private fun MapRestaurantVisitStatusHeader(title: String, restaurantsCount: Int, onCloseClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -133,7 +134,7 @@ private fun MapVisitRestaurantHeader(title: String, restaurantsCount: Int, onClo
 
 @Composable
 @Preview
-private fun MapVisitRestaurantScreenPreview() {
+private fun MapRestaurantVisitStatusScreenPreview() {
     val restaurants = listOf(
         "Le Jardin" to Location(latitude = 48.8566, longitude = 2.3522),
         "Terra" to Location(latitude = 48.8606, longitude = 2.3376),
@@ -157,7 +158,7 @@ private fun MapVisitRestaurantScreenPreview() {
     }
 
     AppTheme {
-        MapVisitRestaurantContent(
+        MapRestaurantVisitStatusContent(
             title = "Visited Restaurants",
             restaurants = restaurants,
             onBackClick = {},
@@ -167,9 +168,9 @@ private fun MapVisitRestaurantScreenPreview() {
 
 @Composable
 @Preview
-private fun MapVisitRestaurantScreenEmptyPreview() {
+private fun MapRestaurantVisitStatusScreenEmptyPreview() {
     AppTheme {
-        MapVisitRestaurantContent(
+        MapRestaurantVisitStatusContent(
             title = "Visited Restaurants",
             restaurants = emptyList(),
             onBackClick = {},

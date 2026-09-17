@@ -39,7 +39,7 @@ import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.user_image_content_description
 
 @Composable
-fun RestaurantMapCard(restaurant: Restaurant, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+fun MapRestaurantCard(restaurant: Restaurant, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     Card(
         modifier = modifier
             .width(250.dp)
@@ -145,9 +145,9 @@ private fun RestaurantRatingRow(restaurant: Restaurant) {
 
 @Composable
 @Preview
-private fun RestaurantMapCardPreview() {
+private fun MapRestaurantCardPreview() {
     AppTheme {
-        RestaurantMapCard(
+        MapRestaurantCard(
             restaurant = Restaurant(
                 id = "r1",
                 name = "Le Jardin",

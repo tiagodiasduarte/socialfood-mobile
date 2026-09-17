@@ -31,7 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.map.MapRestaurantView
+import pt.socialfood.presentation.map.guide.MapGuideRestaurantView
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.restaurant_detail_location_copy_address_description
@@ -103,7 +103,7 @@ private fun LocationMapPreview(restaurant: Restaurant, onExpandClick: () -> Unit
             .height(180.dp)
             .clip(RoundedCornerShape(12.dp)),
     ) {
-        MapRestaurantView(
+        MapGuideRestaurantView(
             restaurants = listOf(restaurant),
             selectedRestaurantId = restaurant.id,
             onRestaurantSelected = {},

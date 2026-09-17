@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.map
+package pt.socialfood.presentation.map.guide
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,7 +19,7 @@ private const val SINGLE_PIN_ZOOM = 15f
 private const val BOUNDS_PADDING_PX = 100
 
 @Composable
-actual fun MapRestaurantView(
+actual fun MapGuideRestaurantView(
     restaurants: List<Restaurant>,
     selectedRestaurantId: String?,
     onRestaurantSelected: (String) -> Unit,

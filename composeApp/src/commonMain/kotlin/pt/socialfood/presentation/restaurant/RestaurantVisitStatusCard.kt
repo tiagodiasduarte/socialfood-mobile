@@ -37,7 +37,6 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.IconSize
 import pt.socialfood.ui.theme.SpaceSize
-import pt.socialfood.ui.theme.StatusGuide
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.restaurant_visit_status_card_move_to_visited_button
 import socialfood.composeapp.generated.resources.restaurant_visit_status_card_remove_button
@@ -91,12 +90,7 @@ fun RestaurantVisitStatusCard(
                     }
                 }
                 RestaurantCardInfo(
-                    modifier = Modifier.weight(1f).align(Alignment.Top).padding(vertical = SpaceSize.small),
-                    restaurant = restaurant,
-                )
-
-                RestaurantRating(
-                    modifier = Modifier.align(Alignment.Top).padding(top = SpaceSize.small),
+                    modifier = Modifier.weight(1f),
                     restaurant = restaurant,
                 )
             }
@@ -127,11 +121,7 @@ private fun RestaurantCardInfo(restaurant: Restaurant, modifier: Modifier = Modi
 
         RestaurantLocation(restaurant)
 
-        Text(
-            text = "Saved at Aug 2025",
-            style = AppTypography.bodySmall,
-            color = StatusGuide,
-        )
+        RestaurantRating(restaurant)
     }
 }
 

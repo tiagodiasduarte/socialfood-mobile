@@ -34,12 +34,11 @@ import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.presentation.components.TopActionBar
-import pt.socialfood.presentation.restaurant.RestaurantSmallCard
+import pt.socialfood.presentation.restaurant.RestaurantVisitStatusCard
 import pt.socialfood.presentation.restaurant.visited.MapButtonItem
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.wish_card_remove_button_description
 import socialfood.composeapp.generated.resources.wish_no_results_subtitle
 import socialfood.composeapp.generated.resources.wish_no_results_title
 import socialfood.composeapp.generated.resources.wish_restaurants_title
@@ -61,6 +60,7 @@ fun RestaurantWishlistScreen(
         onRestaurantClick = onRestaurantClick,
         onAddClick = { onAddClick(viewModel::addToWishlist) },
         onRemoveClick = viewModel::removeFromWishlist,
+        onMoveToVisitedClick = viewModel::moveToVisited,
         onMapClick = onMapClick,
     )
 }
@@ -73,6 +73,7 @@ private fun RestaurantWishlistContent(
     onRestaurantClick: (restaurantId: String) -> Unit = {},
     onAddClick: () -> Unit = {},
     onRemoveClick: (restaurantId: String) -> Unit = {},
+    onMoveToVisitedClick: (Restaurant) -> Unit = {},
     onMapClick: () -> Unit = {},
 ) {
     val listState = rememberLazyListState()
@@ -113,6 +114,7 @@ private fun RestaurantWishlistContent(
                 isRefreshing = isRefreshing,
                 onRestaurantClick = onRestaurantClick,
                 onRemoveClick = onRemoveClick,
+                onMoveToVisitedClick = onMoveToVisitedClick,
                 onMapClick = onMapClick,
             )
         }
@@ -126,6 +128,7 @@ private fun WishlistRestaurantsList(
     isRefreshing: Boolean,
     onRestaurantClick: (restaurantId: String) -> Unit,
     onRemoveClick: (restaurantId: String) -> Unit,
+    onMoveToVisitedClick: (Restaurant) -> Unit,
     onMapClick: () -> Unit,
 ) {
     PullToRefreshContent(
@@ -146,13 +149,11 @@ private fun WishlistRestaurantsList(
 
             items(count = restaurants.itemCount, key = restaurants.itemKey { it.id }) { index ->
                 restaurants[index]?.let { restaurant ->
-                    RestaurantSmallCard(
+                    RestaurantVisitStatusCard(
                         restaurant = restaurant,
-                        removeButtonContentDescription = stringResource(
-                            Res.string.wish_card_remove_button_description,
-                        ),
                         onClick = { onRestaurantClick(restaurant.id) },
                         onRemoveClick = { onRemoveClick(restaurant.id) },
+                        onMoveToVisitedClick = { onMoveToVisitedClick(restaurant) },
                     )
                 }
             }

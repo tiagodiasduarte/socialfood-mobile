@@ -302,8 +302,8 @@
     <string name="restaurant_detail_move_to_visited_button">Move to visited list</string>
 
     <string name="favorite_card_remove_button_description">Remove from favorites</string>
-    <string name="restaurant_visit_status_card_remove_button">Remove</string>
-    <string name="restaurant_visit_status_card_move_to_visited_button">Visited</string>
+    <string name="restaurant_card_remove_button">Remove</string>
+    <string name="restaurant_card_visited_button">Visited</string>
 
     <string name="error_code_user_already_exists">An account with this email already exists.</string>
     <string name="error_code_invalid_credentials">Incorrect email or password.</string>

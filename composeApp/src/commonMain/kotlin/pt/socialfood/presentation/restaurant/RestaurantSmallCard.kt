@@ -38,8 +38,8 @@ import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.IconSize
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.restaurant_visit_status_card_move_to_visited_button
-import socialfood.composeapp.generated.resources.restaurant_visit_status_card_remove_button
+import socialfood.composeapp.generated.resources.restaurant_card_remove_button
+import socialfood.composeapp.generated.resources.restaurant_card_visited_button
 import socialfood.composeapp.generated.resources.user_image_content_description
 
 internal val CardHeight = 175.dp
@@ -140,14 +140,14 @@ private fun BottomButtons(
         if (onMoveToVisitedClick != null) {
             OutlinedButton(
                 modifier = Modifier.weight(1f),
-                text = stringResource(Res.string.restaurant_visit_status_card_move_to_visited_button),
+                text = stringResource(Res.string.restaurant_card_visited_button),
                 icon = Icons.Outlined.CheckCircle,
                 onClick = onMoveToVisitedClick,
             )
         }
         OutlinedButton(
             modifier = Modifier.weight(1f),
-            text = stringResource(Res.string.restaurant_visit_status_card_remove_button),
+            text = stringResource(Res.string.restaurant_card_remove_button),
             icon = Icons.Outlined.Delete,
             onClick = onRemoveClick,
         )

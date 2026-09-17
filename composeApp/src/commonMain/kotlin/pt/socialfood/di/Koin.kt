@@ -235,6 +235,7 @@ import pt.socialfood.presentation.guide.map.GuideMapViewModel
 import pt.socialfood.presentation.guide.my.MyGuidesViewModel
 import pt.socialfood.presentation.guide.shared.SharedGuidesViewModel
 import pt.socialfood.presentation.home.HomeViewModel
+import pt.socialfood.presentation.map.restaurant.MapRestaurantViewModel
 import pt.socialfood.presentation.map.restaurant.MapVisitRestaurantViewModel
 import pt.socialfood.presentation.profile.edit.EditProfileViewModel
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
@@ -429,6 +430,7 @@ val viewModelModule =
         factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), get(), guideId) }
         factory { (guideId: String) -> GuideMapViewModel(get(), guideId) }
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+        factory { (restaurantId: String) -> MapRestaurantViewModel(get(), restaurantId) }
         factory { (status: VisitStatus) -> MapVisitRestaurantViewModel(get(), status) }
         factory { MyGuidesViewModel(get(), get(), get(), get(), get()) }
         factory { (restaurantId: String) ->

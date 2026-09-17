@@ -61,6 +61,7 @@ val ImageHeight = 300.dp
 fun RestaurantDetailScreen(
     restaurantId: String,
     onBackClick: () -> Unit,
+    onViewMapClick: (restaurantId: String) -> Unit = {},
     viewModel: RestaurantDetailViewModel = koinViewModel { parametersOf(restaurantId) },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -71,6 +72,7 @@ fun RestaurantDetailScreen(
         onToggleFavourite = viewModel::toggleFavourite,
         onAddToWishlist = viewModel::addToWishlist,
         onMoveToVisited = viewModel::moveToVisited,
+        onViewMapClick = onViewMapClick,
     )
 }
 
@@ -82,6 +84,7 @@ private fun RestaurantDetailContent(
     onToggleFavourite: () -> Unit = {},
     onAddToWishlist: () -> Unit = {},
     onMoveToVisited: () -> Unit = {},
+    onViewMapClick: (restaurantId: String) -> Unit = {},
 ) {
     when (state) {
         RestaurantDetailUiState.Loading -> RestaurantDetailSkeleton()
@@ -94,6 +97,7 @@ private fun RestaurantDetailContent(
             onToggleFavourite = onToggleFavourite,
             onAddToWishlist = onAddToWishlist,
             onMoveToVisited = onMoveToVisited,
+            onViewMapClick = onViewMapClick,
         )
 
         is RestaurantDetailUiState.Error -> RestaurantDetailError(onBackClick = onBackClick, onRetry = onRetry)
@@ -127,6 +131,7 @@ private fun RestaurantDetailLoaded(
     onToggleFavourite: () -> Unit = {},
     onAddToWishlist: () -> Unit = {},
     onMoveToVisited: () -> Unit = {},
+    onViewMapClick: (restaurantId: String) -> Unit = {},
 ) {
     val uriHandler = LocalUriHandler.current
 
@@ -167,11 +172,7 @@ private fun RestaurantDetailLoaded(
 
             LocationSection(
                 restaurant = restaurant,
-                onExpandClick = {
-                    if (restaurant.address.isNotBlank()) {
-                        uriHandler.openUri("geo:0,0?q=${restaurant.address}")
-                    }
-                },
+                onExpandClick = { onViewMapClick(restaurant.id) },
             )
 
             OpeningHoursSection(restaurant)

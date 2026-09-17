@@ -29,6 +29,7 @@ import pt.socialfood.presentation.guide.detail.GuideDetailScreen
 import pt.socialfood.presentation.guide.edit.EditGuideScreen
 import pt.socialfood.presentation.guide.map.GuideMapScreen
 import pt.socialfood.presentation.home.HomeScreen
+import pt.socialfood.presentation.map.restaurant.MapRestaurantScreen
 import pt.socialfood.presentation.map.restaurant.MapVisitRestaurantScreen
 import pt.socialfood.presentation.profile.edit.EditProfileScreen
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailScreen
@@ -246,6 +247,15 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                         }
                         entry<Route.RestaurantDetail>(metadata = defaultAnimationMetadata) { route ->
                             RestaurantDetailScreen(
+                                restaurantId = route.restaurantId,
+                                onBackClick = navigator::goBack,
+                                onViewMapClick = { restaurantId ->
+                                    navigator.navigate(Route.RestaurantMap(restaurantId))
+                                },
+                            )
+                        }
+                        entry<Route.RestaurantMap>(metadata = slideUpAnimationMetadata) { route ->
+                            MapRestaurantScreen(
                                 restaurantId = route.restaurantId,
                                 onBackClick = navigator::goBack,
                             )

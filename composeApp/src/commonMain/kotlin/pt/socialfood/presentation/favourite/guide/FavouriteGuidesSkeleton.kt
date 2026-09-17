@@ -1,8 +1,10 @@
 package pt.socialfood.presentation.favourite.guide
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,6 +24,8 @@ import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
+private val ButtonHeight = 40.dp
+
 private const val SKELETON_ITEM_COUNT = 8
 private const val PRIMARY_LINE_WIDTH_FRACTION = 0.7f
 private const val SECONDARY_LINE_WIDTH_FRACTION = 0.5f
@@ -35,16 +39,27 @@ fun FavouriteGuidesSkeleton(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
         repeat(SKELETON_ITEM_COUNT) {
-            Card(
-                modifier = Modifier.fillMaxWidth().height(CardHeight),
-                shape = RoundedCornerShape(SpaceSize.large),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
-            ) {
+            FavouriteGuideCardSkeleton(alpha = alpha)
+        }
+    }
+}
+
+@Composable
+private fun FavouriteGuideCardSkeleton(alpha: Float, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier.fillMaxWidth().height(CardHeight),
+        shape = RoundedCornerShape(SpaceSize.large),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = SpaceSize.large, vertical = SpaceSize.large),
+        ) {
+            Box {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = SpaceSize.large, vertical = SpaceSize.large),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
                 ) {
@@ -66,9 +81,21 @@ fun FavouriteGuidesSkeleton(modifier: Modifier = Modifier) {
                             alpha = alpha,
                         )
                     }
-                    ShimmerBox(modifier = Modifier.size(24.dp), alpha = alpha, shape = CircleShape)
                 }
+                ShimmerBox(
+                    modifier = Modifier.align(Alignment.TopEnd).size(28.dp),
+                    alpha = alpha,
+                    shape = CircleShape,
+                )
             }
+
+            Spacer(Modifier.height(SpaceSize.large))
+
+            ShimmerBox(
+                modifier = Modifier.fillMaxWidth().height(ButtonHeight),
+                alpha = alpha,
+                shape = RoundedCornerShape(SpaceSize.medium),
+            )
         }
     }
 }

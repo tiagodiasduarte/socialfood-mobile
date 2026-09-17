@@ -17,6 +17,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -39,7 +41,6 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.presentation.components.cardImageScrim
 import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
-import pt.socialfood.presentation.guide.shared.GuideBottomInfo
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.FavouriteRed
@@ -64,33 +65,37 @@ fun GuideCard(
     onFavouriteClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
-    Box(
+    Card(
         modifier = (if (width != null) modifier.width(width) else modifier.fillMaxWidth())
-            .height(CardHeight)
-            .clip(RoundedCornerShape(SpaceSize.large))
-            .clickable(onClick = onClick),
+            .height(CardHeight),
+        shape = RoundedCornerShape(SpaceSize.large),
+        onClick = onClick,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
     ) {
-        GuideCardBackground(guide = guide)
+        Box {
+            GuideCardBackground(guide = guide)
 
-        if (onFavouriteClick != null) {
-            GuideCardFavouriteButton(
-                isFavourite = isFavourite,
-                onFavouriteClick = onFavouriteClick,
-                modifier = Modifier.align(Alignment.TopEnd),
+            if (onFavouriteClick != null) {
+                GuideCardFavouriteButton(
+                    isFavourite = isFavourite,
+                    onFavouriteClick = onFavouriteClick,
+                    modifier = Modifier.align(Alignment.TopEnd),
+                )
+            }
+
+            GuideCardContent(
+                guide = guide,
+                modifier = Modifier.align(Alignment.BottomStart),
+            )
+
+            BadgeVisibility(
+                guide = guide,
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(SpaceSize.large),
             )
         }
-
-        GuideCardContent(
-            guide = guide,
-            modifier = Modifier.align(Alignment.BottomStart),
-        )
-
-        BadgeVisibility(
-            guide = guide,
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(SpaceSize.large),
-        )
     }
 }
 
@@ -162,7 +167,7 @@ private fun GuideCardContent(guide: Guide, modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(SpaceSize.small))
 
-        GuideBottomInfo(guide)
+        GuideAndAuthorInfo(guide)
     }
 }
 

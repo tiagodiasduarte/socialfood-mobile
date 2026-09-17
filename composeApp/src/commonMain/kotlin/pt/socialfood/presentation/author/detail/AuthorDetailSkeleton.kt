@@ -38,6 +38,7 @@ fun AuthorDetailSkeleton(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
         item {
             ProfileHeaderSkeleton(alpha = alpha) {
@@ -62,7 +63,6 @@ fun AuthorDetailSkeleton(modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(horizontal = SpaceSize.large),
                 alpha = alpha,
             )
-            Spacer(Modifier.height(SpaceSize.large))
         }
     }
 }

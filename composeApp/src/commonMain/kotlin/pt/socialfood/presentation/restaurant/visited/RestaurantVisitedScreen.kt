@@ -37,7 +37,7 @@ import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.components.buttons.OutlinedButton
-import pt.socialfood.presentation.restaurant.RestaurantSmallCard
+import pt.socialfood.presentation.restaurant.RestaurantVisitStatusCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
@@ -147,7 +147,7 @@ private fun VisitedRestaurantsList(
 
             items(count = restaurants.itemCount, key = restaurants.itemKey { it.id }) { index ->
                 restaurants[index]?.let { restaurant ->
-                    RestaurantSmallCard(
+                    RestaurantVisitStatusCard(
                         restaurant = restaurant,
                         onClick = { onRestaurantClick(restaurant.id) },
                         onRemoveClick = { onRemoveClick(restaurant.id) },

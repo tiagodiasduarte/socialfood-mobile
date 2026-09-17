@@ -30,19 +30,28 @@ fun RestaurantItem(restaurant: Restaurant, onRemove: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surface)
-            .padding(vertical = SpaceSize.medium),
+            .padding(vertical = SpaceSize.large, horizontal = SpaceSize.medium),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
-        PlaceThumbnail(imageUrl = restaurant.imagesUrl.firstOrNull())
+        PlaceThumbnail(restaurant.imagesUrl.firstOrNull())
 
         Column(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = SpaceSize.medium),
             verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
         ) {
             Text(
                 text = restaurant.name,
-                style = MaterialTheme.typography.bodyLarge,
+                maxLines = 2,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+
+            Text(
+                text = restaurant.address,
+                maxLines = 2,
+                style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface,
             )
         }

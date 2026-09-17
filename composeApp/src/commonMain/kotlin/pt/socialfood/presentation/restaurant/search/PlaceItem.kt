@@ -81,7 +81,7 @@ fun PlaceItem(place: Place, onAddClicked: (String) -> Unit) {
 internal fun PlaceThumbnail(imageUrl: String?) {
     Box(
         modifier = Modifier
-            .size(64.dp)
+            .size(80.dp)
             .clip(RoundedCornerShape(10.dp))
             .background(MaterialTheme.colorScheme.background),
     ) {

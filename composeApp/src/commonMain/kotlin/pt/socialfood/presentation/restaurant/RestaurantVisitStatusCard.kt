@@ -4,11 +4,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -26,20 +31,31 @@ import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.presentation.components.buttons.OutlinedButton
 import pt.socialfood.presentation.components.placeholder.RestaurantCardPlaceholder
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.IconSize
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
+import socialfood.composeapp.generated.resources.restaurant_card_remove_button
+import socialfood.composeapp.generated.resources.restaurant_card_visited_button
 import socialfood.composeapp.generated.resources.user_image_content_description
 
+val VisitStatusCardHeight = 175.dp
 private val IMAGE_SIZE = 85.dp
 
 @Composable
-fun RestaurantSmallCard(restaurant: Restaurant, modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
+fun RestaurantVisitStatusCard(
+    restaurant: Restaurant,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+    onRemoveClick: (() -> Unit)? = null,
+    onMoveToVisitedClick: (() -> Unit)? = null,
+) {
     Card(
         modifier = modifier
+            .height(VisitStatusCardHeight)
             .fillMaxWidth(),
         shape = RoundedCornerShape(SpaceSize.large),
         onClick = onClick,
@@ -80,6 +96,14 @@ fun RestaurantSmallCard(restaurant: Restaurant, modifier: Modifier = Modifier, o
                     restaurant = restaurant,
                 )
             }
+
+            Spacer(Modifier.height(SpaceSize.large))
+
+            BottomButtons(
+                modifier = Modifier.fillMaxWidth(),
+                onRemoveClick = onRemoveClick,
+                onMoveToVisitedClick = onMoveToVisitedClick,
+            )
         }
     }
 }
@@ -105,10 +129,51 @@ private fun RestaurantCardInfo(restaurant: Restaurant, modifier: Modifier = Modi
 }
 
 @Composable
+private fun BottomButtons(
+    modifier: Modifier = Modifier,
+    onRemoveClick: (() -> Unit)? = null,
+    onMoveToVisitedClick: (() -> Unit)? = null,
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+    ) {
+        onMoveToVisitedClick?.let {
+            OutlinedButton(
+                modifier = Modifier.weight(1f),
+                text = stringResource(Res.string.restaurant_card_visited_button),
+                icon = Icons.Outlined.CheckCircle,
+                onClick = it,
+            )
+        }
+
+        onRemoveClick?.let {
+            OutlinedButton(
+                modifier = Modifier.weight(1f),
+                text = stringResource(Res.string.restaurant_card_remove_button),
+                icon = Icons.Outlined.Delete,
+                onClick = it,
+            )
+        }
+    }
+}
+
+@Composable
 @Preview
-private fun RestaurantSmallCardPreview() {
+private fun RestaurantSmallCardWishlistPreview() {
     AppTheme {
-        RestaurantSmallCard(
+        RestaurantVisitStatusCard(
+            restaurant = previewRestaurant,
+            onMoveToVisitedClick = {},
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun RestaurantVisitStatusCardPreview() {
+    AppTheme {
+        RestaurantVisitStatusCard(
             restaurant = previewRestaurant,
         )
     }

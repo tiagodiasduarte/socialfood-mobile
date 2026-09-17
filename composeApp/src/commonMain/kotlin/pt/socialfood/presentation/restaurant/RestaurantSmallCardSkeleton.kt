@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -26,9 +25,9 @@ private const val PRIMARY_LINE_WIDTH_FRACTION = 0.7f
 private const val SECONDARY_LINE_WIDTH_FRACTION = 0.5f
 
 @Composable
-fun RestaurantSmallCardSkeleton(alpha: Float, modifier: Modifier = Modifier, showRemoveButton: Boolean = false) {
+fun RestaurantSmallCardSkeleton(alpha: Float, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier.height(CardHeight).fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(SpaceSize.large),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
@@ -58,9 +57,6 @@ fun RestaurantSmallCardSkeleton(alpha: Float, modifier: Modifier = Modifier, sho
                     alpha = alpha,
                 )
             }
-            if (showRemoveButton) {
-                ShimmerBox(modifier = Modifier.size(24.dp), alpha = alpha, shape = CircleShape)
-            }
         }
     }
 }
@@ -70,13 +66,5 @@ fun RestaurantSmallCardSkeleton(alpha: Float, modifier: Modifier = Modifier, sho
 private fun RestaurantSmallCardSkeletonPreview() {
     AppTheme {
         RestaurantSmallCardSkeleton(alpha = rememberShimmerAlpha())
-    }
-}
-
-@Preview
-@Composable
-private fun RestaurantSmallCardSkeletonWithRemoveButtonPreview() {
-    AppTheme {
-        RestaurantSmallCardSkeleton(alpha = rememberShimmerAlpha(), showRemoveButton = true)
     }
 }

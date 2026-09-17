@@ -1,24 +1,19 @@
 package pt.socialfood.presentation.restaurant
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -28,8 +23,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,9 +31,9 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.presentation.components.FavouriteButton
 import pt.socialfood.presentation.components.placeholder.RestaurantCardPlaceholder
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.FavouriteRed
 import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.ui.theme.Star
 
@@ -60,20 +53,26 @@ fun RestaurantCard(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
     ) {
-        Column {
-            RestaurantCardImage(
-                restaurant = restaurant,
+        Box {
+            Column(modifier = Modifier.fillMaxWidth()) {
+                RestaurantCardImage(restaurant)
+
+                RestaurantCardInfo(restaurant)
+            }
+
+            FavouriteButton(
                 isFavourite = isFavourite,
                 onFavouriteClick = onFavouriteClick,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(SpaceSize.large),
             )
-
-            RestaurantCardInfo(restaurant = restaurant)
         }
     }
 }
 
 @Composable
-private fun RestaurantCardImage(restaurant: Restaurant, isFavourite: Boolean, onFavouriteClick: () -> Unit) {
+private fun RestaurantCardImage(restaurant: Restaurant) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -85,38 +84,24 @@ private fun RestaurantCardImage(restaurant: Restaurant, isFavourite: Boolean, on
                 model = imageUrl,
                 contentDescription = restaurant.name,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(190.dp),
                 loading = { RestaurantCardPlaceholder() },
                 error = { RestaurantCardPlaceholder() },
             )
         } else {
             RestaurantCardPlaceholder()
         }
-
-        Box(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(8.dp)
-                .size(32.dp)
-                .clip(CircleShape)
-                .background(Color.White.copy(alpha = 0.9f))
-                .clickable(onClick = onFavouriteClick),
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(
-                imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                contentDescription = "Favourite",
-                tint = if (isFavourite) FavouriteRed else MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.size(16.dp),
-            )
-        }
     }
 }
 
 @Composable
-private fun RestaurantCardInfo(restaurant: Restaurant) {
+private fun RestaurantCardInfo(restaurant: Restaurant, modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier.padding(SpaceSize.large),
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(SpaceSize.large),
         verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
     ) {
         Text(

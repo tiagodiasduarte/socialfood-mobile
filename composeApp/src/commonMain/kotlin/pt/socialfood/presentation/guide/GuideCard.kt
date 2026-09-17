@@ -1,7 +1,6 @@
 package pt.socialfood.presentation.guide
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,9 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -27,31 +23,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.SubcomposeAsyncImage
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.presentation.components.FavouriteButton
 import pt.socialfood.presentation.components.cardImageScrim
 import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
+import pt.socialfood.presentation.guide.extensions.badgeBackgroundColor
+import pt.socialfood.presentation.guide.extensions.badgeIcon
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.FavouriteRed
-import pt.socialfood.ui.theme.PrivateBadge
-import pt.socialfood.ui.theme.PublicBadge
-import pt.socialfood.ui.theme.SharedBadge
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.author_icon
-import socialfood.composeapp.generated.resources.guide_private_icon
-import socialfood.composeapp.generated.resources.guide_public_icon
 import socialfood.composeapp.generated.resources.join_shared_guide_screen_close_button_description
 
 internal val CardHeight = 180.dp
@@ -76,25 +66,29 @@ fun GuideCard(
         Box {
             GuideCardBackground(guide = guide)
 
-            if (onFavouriteClick != null) {
-                GuideCardFavouriteButton(
-                    isFavourite = isFavourite,
-                    onFavouriteClick = onFavouriteClick,
-                    modifier = Modifier.align(Alignment.TopEnd),
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(SpaceSize.large),
+            ) {
+                if (onFavouriteClick != null) {
+                    FavouriteButton(
+                        isFavourite = isFavourite,
+                        onFavouriteClick = onFavouriteClick,
+                        modifier = Modifier.align(Alignment.TopEnd),
+                    )
+                }
+
+                GuideCardContent(
+                    guide = guide,
+                    modifier = Modifier.align(Alignment.BottomStart),
+                )
+
+                BadgeVisibility(
+                    guide = guide,
+                    modifier = Modifier.align(Alignment.TopStart),
                 )
             }
-
-            GuideCardContent(
-                guide = guide,
-                modifier = Modifier.align(Alignment.BottomStart),
-            )
-
-            BadgeVisibility(
-                guide = guide,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .padding(SpaceSize.large),
-            )
         }
     }
 }
@@ -118,33 +112,9 @@ private fun GuideCardBackground(guide: Guide, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun GuideCardFavouriteButton(
-    isFavourite: Boolean,
-    onFavouriteClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Box(
-        modifier = modifier
-            .padding(SpaceSize.medium)
-            .size(32.dp)
-            .clip(CircleShape)
-            .background(Color.White.copy(alpha = 0.9f))
-            .clickable(onClick = onFavouriteClick),
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(
-            imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-            contentDescription = "Favourite",
-            tint = if (isFavourite) FavouriteRed else MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.size(16.dp),
-        )
-    }
-}
-
-@Composable
 private fun GuideCardContent(guide: Guide, modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.padding(SpaceSize.large),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
     ) {
         Text(
@@ -187,20 +157,6 @@ private fun BadgeVisibility(guide: Guide, modifier: Modifier) {
             tint = Color.White,
         )
     }
-}
-
-@Composable
-private fun GuideVisibility.badgeIcon(): Painter = when (this) {
-    GuideVisibility.PUBLIC -> painterResource(Res.drawable.guide_public_icon)
-    GuideVisibility.PRIVATE -> painterResource(Res.drawable.guide_private_icon)
-    GuideVisibility.SHARED -> painterResource(Res.drawable.author_icon)
-}
-
-@Composable
-private fun GuideVisibility.badgeBackgroundColor(): Color = when (this) {
-    GuideVisibility.PUBLIC -> PublicBadge
-    GuideVisibility.PRIVATE -> PrivateBadge
-    GuideVisibility.SHARED -> SharedBadge
 }
 
 @Composable

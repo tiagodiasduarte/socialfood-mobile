@@ -42,7 +42,6 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.guide_detail_map_button_description
-import socialfood.composeapp.generated.resources.visited_card_remove_button_description
 import socialfood.composeapp.generated.resources.visited_no_results_subtitle
 import socialfood.composeapp.generated.resources.visited_no_results_title
 import socialfood.composeapp.generated.resources.visited_restaurants_title
@@ -93,17 +92,16 @@ private fun VisitedRestaurantsContent(
             onActionClick = onAddClick,
         )
 
-        when {
-            restaurants.loadState.refresh is LoadState.Loading && restaurants.itemCount == 0 ->
+        when (restaurants.loadState.refresh) {
+            is LoadState.Loading if restaurants.itemCount == 0 ->
                 RestaurantVisitedSkeleton(modifier = Modifier.fillMaxSize())
 
-            restaurants.loadState.refresh is LoadState.Error && restaurants.itemCount == 0 -> ErrorContent(
+            is LoadState.Error if restaurants.itemCount == 0 -> ErrorContent(
                 modifier = Modifier.fillMaxSize(),
                 onRetryClick = { restaurants.retry() },
             )
 
-            restaurants.loadState.refresh is LoadState.NotLoading &&
-                restaurants.loadState.append.endOfPaginationReached &&
+            is LoadState.NotLoading if restaurants.loadState.append.endOfPaginationReached &&
                 restaurants.itemCount == 0 -> NoResultsContent(
                 title = stringResource(Res.string.visited_no_results_title),
                 subtitle = stringResource(Res.string.visited_no_results_subtitle),
@@ -151,9 +149,6 @@ private fun VisitedRestaurantsList(
                 restaurants[index]?.let { restaurant ->
                     RestaurantSmallCard(
                         restaurant = restaurant,
-                        removeButtonContentDescription = stringResource(
-                            Res.string.visited_card_remove_button_description,
-                        ),
                         onClick = { onRestaurantClick(restaurant.id) },
                         onRemoveClick = { onRemoveClick(restaurant.id) },
                     )

@@ -44,4 +44,8 @@ class RestaurantWishlistViewModel(
     fun removeFromWishlist(restaurantId: String) {
         viewModelScope.launch { unmarkRestaurantVisitStatus(restaurantId, STATUS) }
     }
+
+    fun moveToVisited(restaurant: Restaurant) {
+        viewModelScope.launch { markRestaurantVisitStatus(restaurant, VisitStatus.VISITED) }
+    }
 }

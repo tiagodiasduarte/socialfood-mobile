@@ -302,6 +302,8 @@
     <string name="restaurant_detail_move_to_visited_button">Move to visited list</string>
 
     <string name="favorite_card_remove_button_description">Remove from favorites</string>
+    <string name="restaurant_card_remove_button">Remove</string>
+    <string name="restaurant_card_visited_button">Visited</string>
     <string name="favorite_card_remove_button">Remove</string>
     <string name="wish_card_remove_button_description">Remove from wish list</string>
     <string name="visited_card_remove_button_description">Remove from visited</string>

@@ -58,6 +58,7 @@ fun OutlinedButton(
                 text = it,
                 style = MaterialTheme.typography.labelLarge,
                 color = color,
+                maxLines = 1,
                 modifier = Modifier.padding(vertical = SpaceSize.small),
             )
         }

@@ -2,11 +2,9 @@ package pt.socialfood.presentation.map.restaurant
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,19 +23,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.components.placeholder.RestaurantCardPlaceholder
+import pt.socialfood.presentation.components.RestaurantImage
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.IconSize
 import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.ui.theme.Star
 import socialfood.composeapp.generated.resources.Res
@@ -54,25 +49,14 @@ fun RestaurantMapCard(restaurant: Restaurant, modifier: Modifier = Modifier, onC
         elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
     ) {
         Column {
-            Box(
+            RestaurantImage(
+                imageUrl = restaurant.imagesUrl.firstOrNull(),
+                contentDescription = stringResource(Res.string.user_image_content_description),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(130.dp)
                     .clip(RoundedCornerShape(SpaceSize.medium)),
-            ) {
-                if (restaurant.imagesUrl.isNotEmpty()) {
-                    SubcomposeAsyncImage(
-                        model = restaurant.imagesUrl[0],
-                        contentDescription = stringResource(Res.string.user_image_content_description),
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize(),
-                        loading = { RestaurantCardPlaceholder() },
-                        error = { RestaurantCardPlaceholder() },
-                    )
-                } else {
-                    RestaurantCardPlaceholder(iconSize = IconSize.small)
-                }
-            }
+            )
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

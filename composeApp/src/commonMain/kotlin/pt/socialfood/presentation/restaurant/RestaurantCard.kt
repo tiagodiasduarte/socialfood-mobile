@@ -23,16 +23,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil3.compose.SubcomposeAsyncImage
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.FavouriteButton
-import pt.socialfood.presentation.components.placeholder.RestaurantCardPlaceholder
+import pt.socialfood.presentation.components.RestaurantImage
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.ui.theme.Star
@@ -55,7 +53,13 @@ fun RestaurantCard(
     ) {
         Box {
             Column(modifier = Modifier.fillMaxWidth()) {
-                RestaurantCardImage(restaurant)
+                RestaurantImage(
+                    imageUrl = restaurant.imagesUrl.firstOrNull(),
+                    contentDescription = restaurant.name,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(190.dp),
+                )
 
                 RestaurantCardInfo(restaurant)
             }
@@ -67,31 +71,6 @@ fun RestaurantCard(
                     .align(Alignment.TopEnd)
                     .padding(SpaceSize.large),
             )
-        }
-    }
-}
-
-@Composable
-private fun RestaurantCardImage(restaurant: Restaurant) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(190.dp),
-    ) {
-        val imageUrl = restaurant.imagesUrl.firstOrNull()
-        if (imageUrl != null) {
-            SubcomposeAsyncImage(
-                model = imageUrl,
-                contentDescription = restaurant.name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(190.dp),
-                loading = { RestaurantCardPlaceholder() },
-                error = { RestaurantCardPlaceholder() },
-            )
-        } else {
-            RestaurantCardPlaceholder()
         }
     }
 }

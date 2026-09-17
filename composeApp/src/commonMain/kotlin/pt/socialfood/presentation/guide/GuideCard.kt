@@ -23,19 +23,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil3.compose.SubcomposeAsyncImage
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.presentation.components.FavouriteButton
+import pt.socialfood.presentation.components.GuideImage
 import pt.socialfood.presentation.components.cardImageScrim
-import pt.socialfood.presentation.components.placeholder.GuideCardPlaceholder
 import pt.socialfood.presentation.guide.extensions.badgeBackgroundColor
 import pt.socialfood.presentation.guide.extensions.badgeIcon
 import pt.socialfood.ui.theme.AppTheme
@@ -95,18 +93,11 @@ fun GuideCard(
 
 @Composable
 private fun GuideCardBackground(guide: Guide, modifier: Modifier = Modifier) {
-    if (guide.imageUrl != null) {
-        SubcomposeAsyncImage(
-            model = guide.imageUrl,
-            contentDescription = guide.name,
-            contentScale = ContentScale.Crop,
-            modifier = modifier.fillMaxSize(),
-            loading = { GuideCardPlaceholder() },
-            error = { GuideCardPlaceholder() },
-        )
-    } else {
-        GuideCardPlaceholder()
-    }
+    GuideImage(
+        imageUrl = guide.imageUrl,
+        contentDescription = guide.name,
+        modifier = modifier.fillMaxSize(),
+    )
 
     Box(modifier = modifier.fillMaxSize().cardImageScrim())
 }

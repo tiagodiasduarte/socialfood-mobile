@@ -44,6 +44,9 @@ sealed interface Route : NavKey {
     data class RestaurantDetail(val restaurantId: String) : Route
 
     @Serializable
+    data class RestaurantMap(val restaurantId: String) : Route
+
+    @Serializable
     data object EditProfile : Route
 
     @Serializable

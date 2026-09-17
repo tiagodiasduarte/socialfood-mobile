@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.map
+package pt.socialfood.presentation.map.guide
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -42,7 +42,7 @@ private class MapTapHandler : NSObject() {
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
-actual fun MapRestaurantView(
+actual fun MapGuideRestaurantView(
     restaurants: List<Restaurant>,
     selectedRestaurantId: String?,
     onRestaurantSelected: (String) -> Unit,

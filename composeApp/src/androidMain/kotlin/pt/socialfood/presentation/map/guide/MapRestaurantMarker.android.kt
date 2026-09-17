@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.map
+package pt.socialfood.presentation.map.guide
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

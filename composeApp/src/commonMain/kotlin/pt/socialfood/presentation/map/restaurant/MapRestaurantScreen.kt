@@ -20,7 +20,7 @@ import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.TopActionBar
-import pt.socialfood.presentation.map.MapRestaurantView
+import pt.socialfood.presentation.map.guide.MapGuideRestaurantView
 import pt.socialfood.ui.theme.AppTheme
 
 @Composable
@@ -56,7 +56,7 @@ private fun MapRestaurantContent(state: MapRestaurantUiState, onBackClick: () ->
                     CircularProgressIndicator()
                 }
 
-                is MapRestaurantUiState.Loaded -> MapRestaurantView(
+                is MapRestaurantUiState.Loaded -> MapGuideRestaurantView(
                     restaurants = listOf(state.restaurant),
                     selectedRestaurantId = state.restaurant.id,
                     onRestaurantSelected = {},

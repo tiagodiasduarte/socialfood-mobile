@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.map.restaurant
+package pt.socialfood.presentation.map.restaurant.visitstatus
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +9,7 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusListUseCase
 
-class MapVisitRestaurantViewModel(
+class MapRestaurantVisitStatusViewModel(
     getRestaurantVisitStatusList: GetRestaurantVisitStatusListUseCase,
     status: VisitStatus,
 ) : ViewModel() {

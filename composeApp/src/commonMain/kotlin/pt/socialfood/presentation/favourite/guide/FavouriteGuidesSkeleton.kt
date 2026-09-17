@@ -24,8 +24,9 @@ import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
-private const val SKELETON_ITEM_COUNT = 8
 private val ButtonHeight = 40.dp
+
+private const val SKELETON_ITEM_COUNT = 8
 private const val PRIMARY_LINE_WIDTH_FRACTION = 0.7f
 private const val SECONDARY_LINE_WIDTH_FRACTION = 0.5f
 

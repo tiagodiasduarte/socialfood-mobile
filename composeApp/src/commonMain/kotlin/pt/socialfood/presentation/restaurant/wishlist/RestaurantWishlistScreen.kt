@@ -34,7 +34,7 @@ import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.presentation.components.TopActionBar
-import pt.socialfood.presentation.restaurant.RestaurantVisitStatusCard
+import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.presentation.restaurant.visited.MapButtonItem
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
@@ -149,7 +149,7 @@ private fun WishlistRestaurantsList(
 
             items(count = restaurants.itemCount, key = restaurants.itemKey { it.id }) { index ->
                 restaurants[index]?.let { restaurant ->
-                    RestaurantVisitStatusCard(
+                    RestaurantSmallCard(
                         restaurant = restaurant,
                         onClick = { onRestaurantClick(restaurant.id) },
                         onRemoveClick = { onRemoveClick(restaurant.id) },

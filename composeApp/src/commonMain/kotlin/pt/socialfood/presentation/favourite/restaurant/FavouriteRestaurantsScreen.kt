@@ -36,7 +36,6 @@ import pt.socialfood.presentation.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.favorite_card_remove_button_description
 import socialfood.composeapp.generated.resources.favourites_restaurants_no_results_subtitle
 import socialfood.composeapp.generated.resources.favourites_restaurants_no_results_title
 import socialfood.composeapp.generated.resources.favourites_restaurants_title
@@ -115,9 +114,6 @@ private fun FavouriteRestaurantsContent(
                         restaurants[index]?.let { restaurant ->
                             RestaurantSmallCard(
                                 restaurant = restaurant,
-                                removeButtonContentDescription = stringResource(
-                                    Res.string.favorite_card_remove_button_description,
-                                ),
                                 onClick = { onRestaurantClick(restaurant.id) },
                                 onRemoveClick = { onRemoveClick(restaurant.id) },
                             )

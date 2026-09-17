@@ -49,7 +49,7 @@ fun RestaurantSmallCard(restaurant: Restaurant, modifier: Modifier = Modifier, o
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = SpaceSize.large, vertical = SpaceSize.large),
+                .padding(SpaceSize.large),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),

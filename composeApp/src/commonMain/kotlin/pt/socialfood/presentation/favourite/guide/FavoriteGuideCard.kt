@@ -35,10 +35,10 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.presentation.components.buttons.OutlinedButton
-import pt.socialfood.presentation.guide.GuideAndAuthorInfo
 import pt.socialfood.presentation.guide.extensions.badgeBackgroundColor
 import pt.socialfood.presentation.guide.extensions.badgeContentDescription
 import pt.socialfood.presentation.guide.extensions.badgeIcon
+import pt.socialfood.presentation.guide.shared.AuthorChip
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
@@ -84,50 +84,54 @@ fun FavoriteGuideCard(
 
 @Composable
 private fun FavoriteGuideCardInfoRow(guide: Guide) {
-    Box {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
+    ) {
+        Box(
+            modifier = Modifier
+                .size(95.dp)
+                .clip(RoundedCornerShape(SpaceSize.medium))
+                .background(MaterialTheme.colorScheme.surfaceVariant),
         ) {
-            Box(
-                modifier = Modifier
-                    .size(95.dp)
-                    .clip(RoundedCornerShape(SpaceSize.medium))
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-            ) {
-                guide.imageUrl?.let {
-                    AsyncImage(
-                        model = it,
-                        contentDescription = guide.name,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize(),
-                    )
-                }
-            }
-
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
-            ) {
-                Text(
-                    modifier = Modifier.padding(end = SpaceSize.large),
-                    text = guide.name,
-                    maxLines = 2,
-                    style = AppTypography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-
-                GuideAndAuthorInfo(
-                    guide = guide,
-                    fontColor = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.fillMaxWidth(),
+            guide.imageUrl?.let {
+                AsyncImage(
+                    model = it,
+                    contentDescription = guide.name,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
                 )
             }
         }
+
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+        ) {
+            Text(
+                modifier = Modifier.padding(top = SpaceSize.small),
+                text = guide.name,
+                maxLines = 2,
+                minLines = 2,
+                style = AppTypography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+
+            Text(
+                text = "${guide.numberOfRestaurant} restaurants",
+                style = AppTypography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+
+            AuthorChip(
+                author = guide.author,
+                fontColor = MaterialTheme.colorScheme.onSurface,
+            )
+        }
+
         VisibilityBadge(
             visibility = guide.visibility,
-            modifier = Modifier.align(Alignment.TopEnd),
+            modifier = Modifier.align(Alignment.Top),
         )
     }
 }

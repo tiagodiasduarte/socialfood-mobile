@@ -128,10 +128,7 @@ private fun AuthorDetailLoaded(
                 text = stringResource(Res.string.author_detail_guides_section_title),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.padding(
-                    horizontal = SpaceSize.large,
-                    vertical = SpaceSize.large,
-                ),
+                modifier = Modifier.padding(horizontal = SpaceSize.large),
             )
         }
 

@@ -67,7 +67,7 @@ fun TopActionBar(
             .background(MaterialTheme.colorScheme.surface)
             .padding(horizontal = SpaceSize.large),
     ) {
-        if (userImageUrl != null && onProfileClick != null) {
+        if (onProfileClick != null) {
             UserImage(
                 imageUrl = userImageUrl,
                 imageSize = 32.dp,

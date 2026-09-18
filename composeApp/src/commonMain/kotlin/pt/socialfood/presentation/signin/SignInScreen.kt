@@ -191,7 +191,7 @@ private fun SignInHeader() {
         Spacer(modifier = Modifier.width(SpaceSize.large))
 
         Text(
-            text = stringResource(Res.string.app_name),
+            text = "teste",
             style = MaterialTheme.typography.titleLarge,
             color = colorScheme.onBackground,
         )

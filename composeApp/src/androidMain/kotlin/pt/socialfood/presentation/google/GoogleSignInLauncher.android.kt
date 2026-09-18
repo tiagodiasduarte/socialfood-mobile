@@ -29,7 +29,7 @@ actual fun rememberGoogleSignInLauncher(onIdToken: (String) -> Unit, onError: (S
                         GetGoogleIdOption
                             .Builder()
                             .setFilterByAuthorizedAccounts(false)
-                            .setServerClientId(BuildConfig.GOOGLE_CLIENT_ID)
+                            .setServerClientId("329389818281-ai1mei1svu79dh3qg03o8kiqbdniqkjo.apps.googleusercontent.com")
                             .build()
 
                     val request =

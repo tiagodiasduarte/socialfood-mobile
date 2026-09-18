@@ -325,7 +325,7 @@ private fun SignInFormFields(
     )
 
     val errorMessage = when (state) {
-        is SignInUiState.Error -> stringResource(state.errorCode.stringResource())
+        is SignInUiState.Error -> state.debugMessage ?: stringResource(state.errorCode.stringResource())
         is SignInUiState.ValidationError -> stringResource(state.message)
         else -> null
     }

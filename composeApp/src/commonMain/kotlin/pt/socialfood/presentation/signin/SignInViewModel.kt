@@ -62,9 +62,8 @@ class SignInViewModel(
         }
     }
 
-    @Suppress("UnusedParameter")
     fun onGoogleSignInError(message: String) {
-        _state.value = SignInUiState.Error(ErrorCode.UNKNOWN)
+        _state.value = SignInUiState.Error(ErrorCode.UNKNOWN, debugMessage = message)
     }
 
     fun resetState() {

@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.map
+package pt.socialfood.presentation.map.guide
 
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.MapKit.MKAnnotationProtocol

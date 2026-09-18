@@ -30,7 +30,7 @@ import pt.socialfood.presentation.guide.edit.EditGuideScreen
 import pt.socialfood.presentation.guide.map.GuideMapScreen
 import pt.socialfood.presentation.home.HomeScreen
 import pt.socialfood.presentation.map.restaurant.MapRestaurantScreen
-import pt.socialfood.presentation.map.restaurant.MapVisitRestaurantScreen
+import pt.socialfood.presentation.map.restaurant.visitstatus.MapRestaurantVisitStatusScreen
 import pt.socialfood.presentation.profile.edit.EditProfileScreen
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailScreen
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsScreen
@@ -261,7 +261,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                             )
                         }
                         entry<Route.RestaurantsMap>(metadata = slideUpAnimationMetadata) { route ->
-                            MapVisitRestaurantScreen(
+                            MapRestaurantVisitStatusScreen(
                                 status = route.status,
                                 title = when (route.status) {
                                     VisitStatus.WISHLIST -> stringResource(Res.string.wish_restaurants_title)

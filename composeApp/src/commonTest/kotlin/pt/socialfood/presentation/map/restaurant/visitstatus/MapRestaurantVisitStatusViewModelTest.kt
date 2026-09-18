@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.map.restaurant
+package pt.socialfood.presentation.map.restaurant.visitstatus
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -13,7 +13,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class MapVisitRestaurantViewModelTest {
+class MapRestaurantVisitStatusViewModelTest {
     @Test
     fun `given the use case emits restaurants when created then restaurants reflects them`() =
         runTestWithMainDispatcher {
@@ -23,7 +23,10 @@ class MapVisitRestaurantViewModelTest {
             val useCase = FakeGetRestaurantVisitStatusListUseCase { flowOf(restaurants) }
 
             // When
-            val vm = MapVisitRestaurantViewModel(getRestaurantVisitStatusList = useCase, status = status)
+            val vm = MapRestaurantVisitStatusViewModel(
+                getRestaurantVisitStatusList = useCase,
+                status = status,
+            )
 
             // Then
             vm.restaurants.test {

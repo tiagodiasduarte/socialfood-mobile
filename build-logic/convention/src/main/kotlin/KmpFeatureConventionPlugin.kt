@@ -22,6 +22,7 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
                 implementation(project(":core:navigation"))
                 implementation(project(":core:ui"))
                 implementation(libs.library("androidx-lifecycle-runtimeCompose"))
+                implementation(libs.library("androidx-paging-compose"))
                 implementation(libs.library("androidx-lifecycle-viewmodelCompose"))
                 implementation(libs.library("jetbrains-lifecycle-viewmodelNavigation3"))
                 implementation(libs.library("jetbrains-navigation3-ui"))

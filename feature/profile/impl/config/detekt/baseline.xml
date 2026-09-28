@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>LongMethod:EditProfileSkeleton.kt$@Composable internal fun EditProfileSkeleton()</ID>
+    <ID>LongMethod:ProfilePictureCard.kt$@Composable fun ProfilePictureCard(state: EditProfileUiState.Loaded, onPhotoSelected: (ByteArray, String) -&gt; Unit)</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -18,9 +18,18 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.savedstate.compose.serialization.serializers.MutableStateSerializer
 import androidx.savedstate.serialization.SavedStateConfiguration
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.PolymorphicSerializer
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
+import pt.socialfood.presentation.author.navigation.AuthorRoute
+import pt.socialfood.presentation.favourite.navigation.FavouriteRoute
+import pt.socialfood.presentation.guide.navigation.GuideRoute
+import pt.socialfood.presentation.home.navigation.HomeRoute
+import pt.socialfood.presentation.map.navigation.MapRoute
+import pt.socialfood.presentation.profile.navigation.ProfileRoute
+import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute
+import pt.socialfood.presentation.search.navigation.SearchRoute
 
 class NavigationState(
     val startRoute: NavKey,
@@ -64,13 +73,23 @@ fun rememberNavigationState(startRoute: NavKey, topLevelRoutes: Set<NavKey>): Na
     }
 }
 
+/**
+ * Every route type must be registered here, or restoring the back stack (e.g. after process death)
+ * fails to find its serializer. Registering each feature's sealed route interface pulls in all of
+ * its subclasses, so new routes inside an existing feature are picked up automatically.
+ */
+@OptIn(ExperimentalSerializationApi::class)
 val serializersConfig = SavedStateConfiguration {
     serializersModule = SerializersModule {
         polymorphic(NavKey::class) {
-            subclass(Route.Authors::class, Route.Authors.serializer())
-            subclass(Route.Home::class, Route.Home.serializer())
-            subclass(Route.Guides::class, Route.Guides.serializer())
-            subclass(Route.Search::class, Route.Search.serializer())
+            subclassesOfSealed<AuthorRoute>()
+            subclassesOfSealed<FavouriteRoute>()
+            subclassesOfSealed<GuideRoute>()
+            subclassesOfSealed<HomeRoute>()
+            subclassesOfSealed<MapRoute>()
+            subclassesOfSealed<ProfileRoute>()
+            subclassesOfSealed<RestaurantRoute>()
+            subclassesOfSealed<SearchRoute>()
         }
     }
 }

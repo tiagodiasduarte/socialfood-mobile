@@ -37,6 +37,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.restaurant_detail_add_to_wishlist_button
+import pt.socialfood.core.designsystem.generated.resources.restaurant_detail_move_to_visited_button
+import pt.socialfood.core.designsystem.generated.resources.restaurant_detail_opening_hours_title
+import pt.socialfood.core.designsystem.generated.resources.restaurant_detail_share_button
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
@@ -49,11 +54,6 @@ import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.IconSize
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.restaurant_detail_add_to_wishlist_button
-import socialfood.composeapp.generated.resources.restaurant_detail_move_to_visited_button
-import socialfood.composeapp.generated.resources.restaurant_detail_opening_hours_title
-import socialfood.composeapp.generated.resources.restaurant_detail_share_button
 
 val ImageHeight = 300.dp
 

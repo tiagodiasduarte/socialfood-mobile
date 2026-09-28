@@ -44,6 +44,28 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.core.AppConfig
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.guide_icon
+import pt.socialfood.core.designsystem.generated.resources.logout_icon
+import pt.socialfood.core.designsystem.generated.resources.profile_favorite_guides_button
+import pt.socialfood.core.designsystem.generated.resources.profile_favorite_guides_button_description
+import pt.socialfood.core.designsystem.generated.resources.profile_favorites_restaurants_button
+import pt.socialfood.core.designsystem.generated.resources.profile_favorites_restaurants_button_description
+import pt.socialfood.core.designsystem.generated.resources.profile_icon
+import pt.socialfood.core.designsystem.generated.resources.profile_logout_button
+import pt.socialfood.core.designsystem.generated.resources.profile_logout_button_description
+import pt.socialfood.core.designsystem.generated.resources.profile_profile_button
+import pt.socialfood.core.designsystem.generated.resources.profile_profile_button_description
+import pt.socialfood.core.designsystem.generated.resources.profile_theme_button
+import pt.socialfood.core.designsystem.generated.resources.profile_theme_button_description
+import pt.socialfood.core.designsystem.generated.resources.profile_visited_restaurants_button
+import pt.socialfood.core.designsystem.generated.resources.profile_visited_restaurants_button_description
+import pt.socialfood.core.designsystem.generated.resources.profile_wish_restaurants_button
+import pt.socialfood.core.designsystem.generated.resources.profile_wish_restaurants_button_description
+import pt.socialfood.core.designsystem.generated.resources.restaurant_icon
+import pt.socialfood.core.designsystem.generated.resources.theme_icon
+import pt.socialfood.core.designsystem.generated.resources.visited_icon
+import pt.socialfood.core.designsystem.generated.resources.wish_icon
 import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.StatsRow
 import pt.socialfood.presentation.components.UserImage
@@ -54,28 +76,6 @@ import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.ProfileGradientEnd
 import pt.socialfood.ui.theme.ProfileGradientStart
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.guide_icon
-import socialfood.composeapp.generated.resources.logout_icon
-import socialfood.composeapp.generated.resources.profile_favorite_guides_button
-import socialfood.composeapp.generated.resources.profile_favorite_guides_button_description
-import socialfood.composeapp.generated.resources.profile_favorites_restaurants_button
-import socialfood.composeapp.generated.resources.profile_favorites_restaurants_button_description
-import socialfood.composeapp.generated.resources.profile_icon
-import socialfood.composeapp.generated.resources.profile_logout_button
-import socialfood.composeapp.generated.resources.profile_logout_button_description
-import socialfood.composeapp.generated.resources.profile_profile_button
-import socialfood.composeapp.generated.resources.profile_profile_button_description
-import socialfood.composeapp.generated.resources.profile_theme_button
-import socialfood.composeapp.generated.resources.profile_theme_button_description
-import socialfood.composeapp.generated.resources.profile_visited_restaurants_button
-import socialfood.composeapp.generated.resources.profile_visited_restaurants_button_description
-import socialfood.composeapp.generated.resources.profile_wish_restaurants_button
-import socialfood.composeapp.generated.resources.profile_wish_restaurants_button_description
-import socialfood.composeapp.generated.resources.restaurant_icon
-import socialfood.composeapp.generated.resources.theme_icon
-import socialfood.composeapp.generated.resources.visited_icon
-import socialfood.composeapp.generated.resources.wish_icon
 
 private val DrawerAvatarSize = 44.dp
 private val DrawerAvatarRingSize = 48.dp

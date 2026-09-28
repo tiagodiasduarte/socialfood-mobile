@@ -45,21 +45,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_cover_image_click_label
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_cover_image_hint
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_cover_image_label
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_description_error
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_description_label
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_description_placeholder
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_section_details
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_title_error
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_title_label
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_title_placeholder
 import pt.socialfood.presentation.components.card.SectionCard
 import pt.socialfood.presentation.imagepicker.toImageBitmap
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.edit_guide_details_cover_image_click_label
-import socialfood.composeapp.generated.resources.edit_guide_details_cover_image_hint
-import socialfood.composeapp.generated.resources.edit_guide_details_cover_image_label
-import socialfood.composeapp.generated.resources.edit_guide_details_description_error
-import socialfood.composeapp.generated.resources.edit_guide_details_description_label
-import socialfood.composeapp.generated.resources.edit_guide_details_description_placeholder
-import socialfood.composeapp.generated.resources.edit_guide_details_section_details
-import socialfood.composeapp.generated.resources.edit_guide_details_title_error
-import socialfood.composeapp.generated.resources.edit_guide_details_title_label
-import socialfood.composeapp.generated.resources.edit_guide_details_title_placeholder
 
 @Composable
 fun GuideDetailsCard(

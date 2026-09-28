@@ -9,11 +9,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import org.jetbrains.compose.resources.stringResource
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.profile_logout_confirmation_cancel
-import socialfood.composeapp.generated.resources.profile_logout_confirmation_confirm
-import socialfood.composeapp.generated.resources.profile_logout_confirmation_message
-import socialfood.composeapp.generated.resources.profile_logout_confirmation_title
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.profile_logout_confirmation_cancel
+import pt.socialfood.core.designsystem.generated.resources.profile_logout_confirmation_confirm
+import pt.socialfood.core.designsystem.generated.resources.profile_logout_confirmation_message
+import pt.socialfood.core.designsystem.generated.resources.profile_logout_confirmation_title
 
 @Composable
 actual fun rememberLogoutConfirmationLauncher(onConfirm: () -> Unit): () -> Unit {

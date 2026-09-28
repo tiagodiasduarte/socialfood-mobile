@@ -8,18 +8,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_facebook_label
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_facebook_placeholder
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_instagram_label
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_instagram_placeholder
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_social_title
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_youtube_label
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_youtube_placeholder
 import pt.socialfood.presentation.components.card.SectionCard
 import pt.socialfood.presentation.profile.edit.EditProfileUiState
 import pt.socialfood.presentation.profile.edit.ProfileTextField
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.edit_profile_facebook_label
-import socialfood.composeapp.generated.resources.edit_profile_facebook_placeholder
-import socialfood.composeapp.generated.resources.edit_profile_instagram_label
-import socialfood.composeapp.generated.resources.edit_profile_instagram_placeholder
-import socialfood.composeapp.generated.resources.edit_profile_social_title
-import socialfood.composeapp.generated.resources.edit_profile_youtube_label
-import socialfood.composeapp.generated.resources.edit_profile_youtube_placeholder
 
 @Composable
 fun SocialNetworkCard(

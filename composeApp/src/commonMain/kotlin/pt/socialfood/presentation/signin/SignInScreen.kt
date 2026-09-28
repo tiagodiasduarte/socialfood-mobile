@@ -52,28 +52,28 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.app_name
+import pt.socialfood.core.designsystem.generated.resources.google_icon
+import pt.socialfood.core.designsystem.generated.resources.hide_password_content_description
+import pt.socialfood.core.designsystem.generated.resources.show_password_content_description
+import pt.socialfood.core.designsystem.generated.resources.sign_in_button
+import pt.socialfood.core.designsystem.generated.resources.sign_in_continue_with_google_label
+import pt.socialfood.core.designsystem.generated.resources.sign_in_email_label
+import pt.socialfood.core.designsystem.generated.resources.sign_in_email_placeholder_label
+import pt.socialfood.core.designsystem.generated.resources.sign_in_google_button
+import pt.socialfood.core.designsystem.generated.resources.sign_in_google_button_description
+import pt.socialfood.core.designsystem.generated.resources.sign_in_no_account_label
+import pt.socialfood.core.designsystem.generated.resources.sign_in_password_label
+import pt.socialfood.core.designsystem.generated.resources.sign_in_password_placeholder_label
+import pt.socialfood.core.designsystem.generated.resources.sign_in_sign_up_button
+import pt.socialfood.core.designsystem.generated.resources.sign_in_subtitle_label
+import pt.socialfood.core.designsystem.generated.resources.sign_in_title_label
+import pt.socialfood.core.designsystem.generated.resources.socialfood_icon
 import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.presentation.google.rememberGoogleSignInLauncher
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.app_name
-import socialfood.composeapp.generated.resources.google_icon
-import socialfood.composeapp.generated.resources.hide_password_content_description
-import socialfood.composeapp.generated.resources.show_password_content_description
-import socialfood.composeapp.generated.resources.sign_in_button
-import socialfood.composeapp.generated.resources.sign_in_continue_with_google_label
-import socialfood.composeapp.generated.resources.sign_in_email_label
-import socialfood.composeapp.generated.resources.sign_in_email_placeholder_label
-import socialfood.composeapp.generated.resources.sign_in_google_button
-import socialfood.composeapp.generated.resources.sign_in_google_button_description
-import socialfood.composeapp.generated.resources.sign_in_no_account_label
-import socialfood.composeapp.generated.resources.sign_in_password_label
-import socialfood.composeapp.generated.resources.sign_in_password_placeholder_label
-import socialfood.composeapp.generated.resources.sign_in_sign_up_button
-import socialfood.composeapp.generated.resources.sign_in_subtitle_label
-import socialfood.composeapp.generated.resources.sign_in_title_label
-import socialfood.composeapp.generated.resources.socialfood_icon
 
 @Composable
 fun SignInScreen(onSignInSuccess: () -> Unit, onSignUpClick: () -> Unit = {}) {

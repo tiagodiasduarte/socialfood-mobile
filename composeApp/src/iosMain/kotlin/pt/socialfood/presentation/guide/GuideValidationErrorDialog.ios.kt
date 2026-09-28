@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.edit_guide_validation_error_dialog_ok
-import socialfood.composeapp.generated.resources.edit_guide_validation_error_dialog_title
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_validation_error_dialog_ok
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_validation_error_dialog_title
 
 // Swift side must implement this interface and assign it to GuideValidationErrorDialogBridge.shared.delegate.
 // See AlertDialogDelegateImpl.swift for the UIAlertController-based implementation pattern.

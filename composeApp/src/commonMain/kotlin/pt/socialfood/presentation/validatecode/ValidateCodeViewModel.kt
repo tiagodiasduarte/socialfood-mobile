@@ -6,12 +6,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.validate_code_empty_code
 import pt.socialfood.domain.usecase.login.ResendVerificationCodeUseCase
 import pt.socialfood.domain.usecase.login.RestartSignUpUseCase
 import pt.socialfood.domain.usecase.login.ValidateCodeUseCase
 import pt.socialfood.presentation.error.toErrorCode
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.validate_code_empty_code
 
 class ValidateCodeViewModel(
     private val validateCode: ValidateCodeUseCase,

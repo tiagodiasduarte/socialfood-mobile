@@ -4,6 +4,9 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.sign_in_invalid_email
+import pt.socialfood.core.designsystem.generated.resources.sign_in_invalid_password
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.AuthTokens
@@ -15,9 +18,6 @@ import pt.socialfood.fakes.FakeGetUserMeUseCase
 import pt.socialfood.fakes.FakeSettingsRepository
 import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.sign_in_invalid_email
-import socialfood.composeapp.generated.resources.sign_in_invalid_password
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

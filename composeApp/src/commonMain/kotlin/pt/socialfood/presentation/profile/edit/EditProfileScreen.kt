@@ -21,6 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_save_error_dismiss
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_save_error_title
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_title
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.presentation.components.ErrorAlertDialog
 import pt.socialfood.presentation.components.ErrorContent
@@ -33,10 +37,6 @@ import pt.socialfood.presentation.profile.edit.card.ProfilePictureCard
 import pt.socialfood.presentation.profile.edit.card.SocialNetworkCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.edit_profile_save_error_dismiss
-import socialfood.composeapp.generated.resources.edit_profile_save_error_title
-import socialfood.composeapp.generated.resources.edit_profile_title
 
 private val SaveButtonHeight = 56.dp
 

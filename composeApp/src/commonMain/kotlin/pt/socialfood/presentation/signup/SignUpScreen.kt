@@ -49,27 +49,27 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.app_name
+import pt.socialfood.core.designsystem.generated.resources.hide_password_content_description
+import pt.socialfood.core.designsystem.generated.resources.show_password_content_description
+import pt.socialfood.core.designsystem.generated.resources.sign_in_email_label
+import pt.socialfood.core.designsystem.generated.resources.sign_in_email_placeholder_label
+import pt.socialfood.core.designsystem.generated.resources.sign_in_password_label
+import pt.socialfood.core.designsystem.generated.resources.sign_in_password_placeholder_label
+import pt.socialfood.core.designsystem.generated.resources.sign_up_already_have_account_label
+import pt.socialfood.core.designsystem.generated.resources.sign_up_button
+import pt.socialfood.core.designsystem.generated.resources.sign_up_confirm_password_label
+import pt.socialfood.core.designsystem.generated.resources.sign_up_confirm_password_placeholder_label
+import pt.socialfood.core.designsystem.generated.resources.sign_up_name_label
+import pt.socialfood.core.designsystem.generated.resources.sign_up_name_placeholder_label
+import pt.socialfood.core.designsystem.generated.resources.sign_up_sign_in_label
+import pt.socialfood.core.designsystem.generated.resources.sign_up_subtitle_label
+import pt.socialfood.core.designsystem.generated.resources.sign_up_title_label
+import pt.socialfood.core.designsystem.generated.resources.socialfood_icon
 import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.app_name
-import socialfood.composeapp.generated.resources.hide_password_content_description
-import socialfood.composeapp.generated.resources.show_password_content_description
-import socialfood.composeapp.generated.resources.sign_in_email_label
-import socialfood.composeapp.generated.resources.sign_in_email_placeholder_label
-import socialfood.composeapp.generated.resources.sign_in_password_label
-import socialfood.composeapp.generated.resources.sign_in_password_placeholder_label
-import socialfood.composeapp.generated.resources.sign_up_already_have_account_label
-import socialfood.composeapp.generated.resources.sign_up_button
-import socialfood.composeapp.generated.resources.sign_up_confirm_password_label
-import socialfood.composeapp.generated.resources.sign_up_confirm_password_placeholder_label
-import socialfood.composeapp.generated.resources.sign_up_name_label
-import socialfood.composeapp.generated.resources.sign_up_name_placeholder_label
-import socialfood.composeapp.generated.resources.sign_up_sign_in_label
-import socialfood.composeapp.generated.resources.sign_up_subtitle_label
-import socialfood.composeapp.generated.resources.sign_up_title_label
-import socialfood.composeapp.generated.resources.socialfood_icon
 
 @Composable
 fun SignUpScreen(onSignUpSuccess: (email: String) -> Unit, onSignInClick: () -> Unit = {}) {

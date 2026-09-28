@@ -21,8 +21,8 @@ internal fun Project.configureQuality() {
 
     extensions.configure<KtlintExtension> {
         ignoreFailures.set(false)
-        val ktlintBaseline = file("ktlint-baseline.xml")
-        if (ktlintBaseline.exists()) baseline.set(ktlintBaseline)
+        // A missing baseline file means "no baselined violations"; `ktlintGenerateBaseline` writes it.
+        baseline.set(file("ktlint-baseline.xml"))
         filter {
             exclude("**/build/**")
             exclude("**/generated/**")

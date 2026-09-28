@@ -40,6 +40,15 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.restaurant_icon
+import pt.socialfood.core.designsystem.generated.resources.search_restaurants_idle_subtitle
+import pt.socialfood.core.designsystem.generated.resources.search_restaurants_idle_subtitle_bold
+import pt.socialfood.core.designsystem.generated.resources.search_restaurants_idle_title
+import pt.socialfood.core.designsystem.generated.resources.search_restaurants_no_results_subtitle
+import pt.socialfood.core.designsystem.generated.resources.search_restaurants_no_results_title
+import pt.socialfood.core.designsystem.generated.resources.search_restaurants_search_placeholder
+import pt.socialfood.core.designsystem.generated.resources.search_restaurants_title
 import pt.socialfood.domain.model.Place
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
@@ -50,15 +59,6 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.IdleContentBackground
 import pt.socialfood.ui.theme.IdleContentIcon
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.restaurant_icon
-import socialfood.composeapp.generated.resources.search_restaurants_idle_subtitle
-import socialfood.composeapp.generated.resources.search_restaurants_idle_subtitle_bold
-import socialfood.composeapp.generated.resources.search_restaurants_idle_title
-import socialfood.composeapp.generated.resources.search_restaurants_no_results_subtitle
-import socialfood.composeapp.generated.resources.search_restaurants_no_results_title
-import socialfood.composeapp.generated.resources.search_restaurants_search_placeholder
-import socialfood.composeapp.generated.resources.search_restaurants_title
 
 @Composable
 fun SearchRestaurantsScreen(

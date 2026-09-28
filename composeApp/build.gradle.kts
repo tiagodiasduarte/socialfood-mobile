@@ -61,6 +61,9 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            // Swift implements delegates declared in these modules (e.g. ImagePickerBridge), so
+            // their API must be exported to keep the unprefixed Objective-C/Swift names.
+            export(projects.core.ui)
         }
     }
 
@@ -80,9 +83,13 @@ kotlin {
             implementation(projects.core.data)
             implementation(projects.core.database)
             implementation(projects.core.datastore)
+            implementation(projects.core.designsystem)
             implementation(projects.core.domain)
+            implementation(projects.core.maps)
             implementation(projects.core.model)
+            implementation(projects.core.navigation)
             implementation(projects.core.network)
+            api(projects.core.ui)
             implementation(libs.compose.components.resources)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
@@ -184,9 +191,13 @@ dependencies {
     kover(projects.core.data)
     kover(projects.core.database)
     kover(projects.core.datastore)
+    kover(projects.core.designsystem)
     kover(projects.core.domain)
+    kover(projects.core.maps)
     kover(projects.core.model)
+    kover(projects.core.navigation)
     kover(projects.core.network)
+    kover(projects.core.ui)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
@@ -238,7 +249,7 @@ kover {
                 classes(
                     "*ComposableSingletons*",
                     $$"*$Lambda$*",
-                    "socialfood.composeapp.generated.resources.*",
+                    "*.generated.resources.*",
                     "*_Impl",
                     "$appNamespace.BuildConfig",
                     "$appNamespace.core.*",

@@ -26,6 +26,10 @@ import androidx.paging.compose.itemKey
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.favourites_restaurants_no_results_subtitle
+import pt.socialfood.core.designsystem.generated.resources.favourites_restaurants_no_results_title
+import pt.socialfood.core.designsystem.generated.resources.favourites_restaurants_title
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
@@ -35,10 +39,6 @@ import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.ui.restaurant.RestaurantVisitStatusCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.favourites_restaurants_no_results_subtitle
-import socialfood.composeapp.generated.resources.favourites_restaurants_no_results_title
-import socialfood.composeapp.generated.resources.favourites_restaurants_title
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

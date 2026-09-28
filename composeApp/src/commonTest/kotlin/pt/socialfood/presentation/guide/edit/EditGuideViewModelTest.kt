@@ -4,6 +4,12 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_description_error
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_public_author_warning
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_public_image_warning
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_public_restaurants_warning
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_title_error
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Author
@@ -19,12 +25,6 @@ import pt.socialfood.fakes.FakeUpdateGuideUseCase
 import pt.socialfood.fakes.FakeUploadPhotoUseCase
 import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.edit_guide_details_description_error
-import socialfood.composeapp.generated.resources.edit_guide_details_public_author_warning
-import socialfood.composeapp.generated.resources.edit_guide_details_public_image_warning
-import socialfood.composeapp.generated.resources.edit_guide_details_public_restaurants_warning
-import socialfood.composeapp.generated.resources.edit_guide_details_title_error
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

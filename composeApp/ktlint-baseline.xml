@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <baseline version="1.0">
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/components/buttons/social/SocialLinkOpener.kt">
-        <error line="1" column="1" source="standard:filename" />
-    </file>
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/Navigator.kt">
-        <error line="8" column="11" source="standard:keyword-spacing" />
-        <error line="20" column="11" source="standard:keyword-spacing" />
-    </file>
     <file name="src/iosMain/kotlin/pt/socialfood/MainViewController.kt">
         <error line="5" column="5" source="standard:function-naming" />
-    </file>
-    <file name="src/iosMain/kotlin/pt/socialfood/presentation/components/buttons/social/SocialButtonsOpener.ios.kt">
-        <error line="28" column="94" source="standard:function-expression-body" />
     </file>
 </baseline>

@@ -27,6 +27,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.shared_guides_join_button
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -39,8 +41,6 @@ import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideCodeInput
 import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideDialogUiState
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.shared_guides_join_button
 
 @Composable
 fun SharedGuidesScreen(

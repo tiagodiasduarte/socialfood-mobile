@@ -9,15 +9,15 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_description_error
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_title_error
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.usecase.guide.CreateGuideUseCase
 import pt.socialfood.domain.usecase.photo.UploadPhotoUseCase
 import pt.socialfood.presentation.error.toErrorCode
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.edit_guide_details_description_error
-import socialfood.composeapp.generated.resources.edit_guide_details_title_error
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 

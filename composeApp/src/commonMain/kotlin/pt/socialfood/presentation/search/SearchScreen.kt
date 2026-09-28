@@ -24,6 +24,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.search_no_results_subtitle
+import pt.socialfood.core.designsystem.generated.resources.search_no_results_title
+import pt.socialfood.core.designsystem.generated.resources.search_search_placeholder
+import pt.socialfood.core.designsystem.generated.resources.search_section_authors_title
+import pt.socialfood.core.designsystem.generated.resources.search_section_guides_title
+import pt.socialfood.core.designsystem.generated.resources.search_section_restaurants_title
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -38,13 +45,6 @@ import pt.socialfood.presentation.components.SearchBar
 import pt.socialfood.presentation.components.SearchSectionHeader
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.search_no_results_subtitle
-import socialfood.composeapp.generated.resources.search_no_results_title
-import socialfood.composeapp.generated.resources.search_search_placeholder
-import socialfood.composeapp.generated.resources.search_section_authors_title
-import socialfood.composeapp.generated.resources.search_section_guides_title
-import socialfood.composeapp.generated.resources.search_section_restaurants_title
 
 @Composable
 fun SearchScreen(

@@ -27,6 +27,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.guide_map_close_button_description
+import pt.socialfood.core.designsystem.generated.resources.guide_map_empty_message
+import pt.socialfood.core.designsystem.generated.resources.guide_map_restaurants_count_label
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
@@ -37,10 +41,6 @@ import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.maps.MapGuideRestaurants
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.guide_map_close_button_description
-import socialfood.composeapp.generated.resources.guide_map_empty_message
-import socialfood.composeapp.generated.resources.guide_map_restaurants_count_label
 
 @Composable
 fun GuideMapScreen(

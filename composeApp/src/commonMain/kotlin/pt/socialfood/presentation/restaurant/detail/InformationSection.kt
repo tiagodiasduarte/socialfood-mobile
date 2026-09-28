@@ -37,17 +37,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.google_icon
+import pt.socialfood.core.designsystem.generated.resources.map_navigation_icon
+import pt.socialfood.core.designsystem.generated.resources.restaurant_detail_information_title
+import pt.socialfood.core.designsystem.generated.resources.restaurant_detail_navigate_description
+import pt.socialfood.core.designsystem.generated.resources.restaurant_detail_reviews_count
+import pt.socialfood.core.designsystem.generated.resources.sign_in_google_button_description
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.google_icon
-import socialfood.composeapp.generated.resources.map_navigation_icon
-import socialfood.composeapp.generated.resources.restaurant_detail_information_title
-import socialfood.composeapp.generated.resources.restaurant_detail_navigate_description
-import socialfood.composeapp.generated.resources.restaurant_detail_reviews_count
-import socialfood.composeapp.generated.resources.sign_in_google_button_description
 
 @Composable
 internal fun InformationSection(restaurant: Restaurant, onNavigateClick: () -> Unit, onWebsiteClick: () -> Unit) {

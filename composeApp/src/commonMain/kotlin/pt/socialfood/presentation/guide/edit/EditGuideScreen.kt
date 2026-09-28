@@ -28,6 +28,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_tab_details
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_tab_restaurants
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_tab_status
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_title
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -44,11 +49,6 @@ import pt.socialfood.presentation.guide.edit.card.GuideStatusCard
 import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.edit_guide_tab_details
-import socialfood.composeapp.generated.resources.edit_guide_tab_restaurants
-import socialfood.composeapp.generated.resources.edit_guide_tab_status
-import socialfood.composeapp.generated.resources.edit_guide_title
 
 private const val TAB_DETAILS = 0
 private const val TAB_RESTAURANTS = 1

@@ -34,6 +34,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.join_shared_guide_screen_close_button_description
+import pt.socialfood.core.designsystem.generated.resources.join_shared_guide_screen_join_button
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
@@ -44,9 +47,6 @@ import pt.socialfood.presentation.ui.guide.GuideAndAuthorInfo
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.join_shared_guide_screen_close_button_description
-import socialfood.composeapp.generated.resources.join_shared_guide_screen_join_button
 
 @Composable
 fun JoinSharedGuideCardDialog(state: JoinSharedGuideCardUiState, onJoinClick: () -> Unit, onCloseClick: () -> Unit) {

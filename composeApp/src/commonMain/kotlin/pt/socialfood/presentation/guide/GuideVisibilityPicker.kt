@@ -28,20 +28,20 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.author_icon
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_visibility_label
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_visibility_private
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_visibility_private_description
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_visibility_public
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_visibility_public_description
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_visibility_shared
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_visibility_shared_description
+import pt.socialfood.core.designsystem.generated.resources.guide_private_icon
+import pt.socialfood.core.designsystem.generated.resources.guide_public_icon
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.author_icon
-import socialfood.composeapp.generated.resources.edit_guide_visibility_label
-import socialfood.composeapp.generated.resources.edit_guide_visibility_private
-import socialfood.composeapp.generated.resources.edit_guide_visibility_private_description
-import socialfood.composeapp.generated.resources.edit_guide_visibility_public
-import socialfood.composeapp.generated.resources.edit_guide_visibility_public_description
-import socialfood.composeapp.generated.resources.edit_guide_visibility_shared
-import socialfood.composeapp.generated.resources.edit_guide_visibility_shared_description
-import socialfood.composeapp.generated.resources.guide_private_icon
-import socialfood.composeapp.generated.resources.guide_public_icon
 
 private data class VisibilityOption(
     val visibility: GuideVisibility,

@@ -9,10 +9,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_validation_error_dialog_ok
+import pt.socialfood.core.designsystem.generated.resources.edit_guide_validation_error_dialog_title
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.edit_guide_validation_error_dialog_ok
-import socialfood.composeapp.generated.resources.edit_guide_validation_error_dialog_title
 
 @Composable
 actual fun GuideValidationErrorDialog(errors: List<StringResource>, onDismiss: () -> Unit) {

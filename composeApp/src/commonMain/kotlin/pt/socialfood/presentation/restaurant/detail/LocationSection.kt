@@ -30,13 +30,13 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.restaurant_detail_location_copy_address_description
+import pt.socialfood.core.designsystem.generated.resources.restaurant_detail_location_expand_description
+import pt.socialfood.core.designsystem.generated.resources.restaurant_detail_location_title
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.maps.MapGuideRestaurantView
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.restaurant_detail_location_copy_address_description
-import socialfood.composeapp.generated.resources.restaurant_detail_location_expand_description
-import socialfood.composeapp.generated.resources.restaurant_detail_location_title
 
 @Composable
 internal fun LocationSection(restaurant: Restaurant, onExpandClick: () -> Unit) {

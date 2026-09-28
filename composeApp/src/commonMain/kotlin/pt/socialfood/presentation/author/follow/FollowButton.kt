@@ -9,10 +9,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.authors_follow_button
+import pt.socialfood.core.designsystem.generated.resources.authors_following_button
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.authors_follow_button
-import socialfood.composeapp.generated.resources.authors_following_button
 
 @Composable
 fun FollowButton(authorId: String, isFollowing: Boolean, onFollowClick: (String) -> Unit) {

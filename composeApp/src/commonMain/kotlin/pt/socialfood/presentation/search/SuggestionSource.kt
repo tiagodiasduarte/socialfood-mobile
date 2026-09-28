@@ -1,9 +1,9 @@
 package pt.socialfood.presentation.search
 
 import org.jetbrains.compose.resources.StringResource
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.search_suggestion_favorite_guides
-import socialfood.composeapp.generated.resources.search_suggestion_favorite_restaurants
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.search_suggestion_favorite_guides
+import pt.socialfood.core.designsystem.generated.resources.search_suggestion_favorite_restaurants
 
 enum class SuggestionSource {
     RESTAURANTS,

@@ -24,21 +24,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.author_icon
+import pt.socialfood.core.designsystem.generated.resources.guide_icon
+import pt.socialfood.core.designsystem.generated.resources.restaurant_icon
+import pt.socialfood.core.designsystem.generated.resources.search_recent_searches_title
+import pt.socialfood.core.designsystem.generated.resources.search_suggestion_favorite_guides
+import pt.socialfood.core.designsystem.generated.resources.search_suggestion_favorite_restaurants
+import pt.socialfood.core.designsystem.generated.resources.search_suggestion_most_followed
+import pt.socialfood.core.designsystem.generated.resources.search_suggestions_title
 import pt.socialfood.domain.model.RecentSearch
 import pt.socialfood.domain.model.RecentSearchType
 import pt.socialfood.presentation.components.SearchSectionHeader
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.author_icon
-import socialfood.composeapp.generated.resources.guide_icon
-import socialfood.composeapp.generated.resources.restaurant_icon
-import socialfood.composeapp.generated.resources.search_recent_searches_title
-import socialfood.composeapp.generated.resources.search_suggestion_favorite_guides
-import socialfood.composeapp.generated.resources.search_suggestion_favorite_restaurants
-import socialfood.composeapp.generated.resources.search_suggestion_most_followed
-import socialfood.composeapp.generated.resources.search_suggestions_title
 
 @Composable
 fun SearchSuggestionsContent(

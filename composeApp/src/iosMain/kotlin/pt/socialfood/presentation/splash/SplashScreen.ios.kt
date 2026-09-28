@@ -11,9 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.socialfood_splash
 import pt.socialfood.presentation.startup.StartupViewModel
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.socialfood_splash
 
 @Composable
 actual fun SplashScreen(

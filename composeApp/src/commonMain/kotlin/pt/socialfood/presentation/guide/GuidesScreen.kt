@@ -30,6 +30,17 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.guides_no_results_all_subtitle
+import pt.socialfood.core.designsystem.generated.resources.guides_no_results_all_title
+import pt.socialfood.core.designsystem.generated.resources.guides_no_results_my_subtitle
+import pt.socialfood.core.designsystem.generated.resources.guides_no_results_my_title
+import pt.socialfood.core.designsystem.generated.resources.guides_no_results_shared_subtitle
+import pt.socialfood.core.designsystem.generated.resources.guides_no_results_shared_title
+import pt.socialfood.core.designsystem.generated.resources.guides_tab_all
+import pt.socialfood.core.designsystem.generated.resources.guides_tab_my
+import pt.socialfood.core.designsystem.generated.resources.guides_tab_shared
+import pt.socialfood.core.designsystem.generated.resources.guides_title
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -46,17 +57,6 @@ import pt.socialfood.presentation.guide.shared.SharedGuidesScreen
 import pt.socialfood.presentation.ui.guide.GuideCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.guides_no_results_all_subtitle
-import socialfood.composeapp.generated.resources.guides_no_results_all_title
-import socialfood.composeapp.generated.resources.guides_no_results_my_subtitle
-import socialfood.composeapp.generated.resources.guides_no_results_my_title
-import socialfood.composeapp.generated.resources.guides_no_results_shared_subtitle
-import socialfood.composeapp.generated.resources.guides_no_results_shared_title
-import socialfood.composeapp.generated.resources.guides_tab_all
-import socialfood.composeapp.generated.resources.guides_tab_my
-import socialfood.composeapp.generated.resources.guides_tab_shared
-import socialfood.composeapp.generated.resources.guides_title
 
 const val ALL_GUIDES_TAB = 0
 const val MY_GUIDES_TAB = 1

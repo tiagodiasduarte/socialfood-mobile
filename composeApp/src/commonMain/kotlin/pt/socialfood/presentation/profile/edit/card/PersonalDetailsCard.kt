@@ -9,18 +9,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_email_label
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_name_label
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_name_placeholder
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_personal_details_title
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_username_label
+import pt.socialfood.core.designsystem.generated.resources.edit_profile_username_placeholder
 import pt.socialfood.presentation.components.card.SectionCard
 import pt.socialfood.presentation.profile.edit.EditProfileUiState
 import pt.socialfood.presentation.profile.edit.ProfileTextField
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.edit_profile_email_label
-import socialfood.composeapp.generated.resources.edit_profile_name_label
-import socialfood.composeapp.generated.resources.edit_profile_name_placeholder
-import socialfood.composeapp.generated.resources.edit_profile_personal_details_title
-import socialfood.composeapp.generated.resources.edit_profile_username_label
-import socialfood.composeapp.generated.resources.edit_profile_username_placeholder
 
 @Composable
 fun PersonalDetailsCard(

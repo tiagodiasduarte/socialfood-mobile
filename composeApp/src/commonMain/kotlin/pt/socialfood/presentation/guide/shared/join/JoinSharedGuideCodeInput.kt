@@ -35,14 +35,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.join_guide_dialog_code_placeholder
+import pt.socialfood.core.designsystem.generated.resources.join_guide_dialog_subtitle
+import pt.socialfood.core.designsystem.generated.resources.join_guide_dialog_title
+import pt.socialfood.core.designsystem.generated.resources.join_shared_guide_screen_close_button_description
+import pt.socialfood.core.designsystem.generated.resources.join_shared_guide_screen_join_button
 import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.join_guide_dialog_code_placeholder
-import socialfood.composeapp.generated.resources.join_guide_dialog_subtitle
-import socialfood.composeapp.generated.resources.join_guide_dialog_title
-import socialfood.composeapp.generated.resources.join_shared_guide_screen_close_button_description
-import socialfood.composeapp.generated.resources.join_shared_guide_screen_join_button
 
 private const val JOIN_GUIDE_CODE_LENGTH = 8
 private const val JOIN_GUIDE_CODE_ALLOWED_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"

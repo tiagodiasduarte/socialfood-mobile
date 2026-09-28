@@ -43,18 +43,18 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.validate_code_button
+import pt.socialfood.core.designsystem.generated.resources.validate_code_resend_button
+import pt.socialfood.core.designsystem.generated.resources.validate_code_resend_label
+import pt.socialfood.core.designsystem.generated.resources.validate_code_restart_signup_label
+import pt.socialfood.core.designsystem.generated.resources.validate_code_subtitle_label
+import pt.socialfood.core.designsystem.generated.resources.validate_code_title_label
 import pt.socialfood.presentation.components.AppImage
 import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.Shimmer
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.validate_code_button
-import socialfood.composeapp.generated.resources.validate_code_resend_button
-import socialfood.composeapp.generated.resources.validate_code_resend_label
-import socialfood.composeapp.generated.resources.validate_code_restart_signup_label
-import socialfood.composeapp.generated.resources.validate_code_subtitle_label
-import socialfood.composeapp.generated.resources.validate_code_title_label
 
 private const val CODE_LENGTH = 6
 

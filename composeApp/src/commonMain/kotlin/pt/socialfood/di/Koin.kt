@@ -248,6 +248,7 @@ import pt.socialfood.presentation.signup.SignUpViewModel
 import pt.socialfood.presentation.startup.StartupViewModel
 import pt.socialfood.presentation.sync.SyncViewModel
 import pt.socialfood.presentation.theme.ThemeViewModel
+import pt.socialfood.presentation.ui.image.ImageCache
 import pt.socialfood.presentation.validatecode.ValidateCodeViewModel
 
 expect val platformModule: Module

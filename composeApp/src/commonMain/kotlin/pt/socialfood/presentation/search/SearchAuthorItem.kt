@@ -20,16 +20,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.authors_separator
+import pt.socialfood.core.designsystem.generated.resources.authors_stat_followers_label
+import pt.socialfood.core.designsystem.generated.resources.authors_stat_following_label
+import pt.socialfood.core.designsystem.generated.resources.authors_stat_guides_label
 import pt.socialfood.domain.model.Author
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
-import socialfood.composeapp.generated.resources.Res
-import socialfood.composeapp.generated.resources.authors_separator
-import socialfood.composeapp.generated.resources.authors_stat_followers_label
-import socialfood.composeapp.generated.resources.authors_stat_following_label
-import socialfood.composeapp.generated.resources.authors_stat_guides_label
 
 private val AvatarSize = 48.dp
 private const val UNAVAILABLE_STAT = "-"

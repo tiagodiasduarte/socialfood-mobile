@@ -7,7 +7,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.core.navigation)
-            api(projects.core.model)
+            api(projects.core.common)
             implementation(libs.kotlinx.serialization.json)
         }
     }

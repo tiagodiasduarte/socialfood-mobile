@@ -37,17 +37,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.core.designsystem.generated.resources.Res
 import pt.socialfood.core.designsystem.generated.resources.google_icon
 import pt.socialfood.core.designsystem.generated.resources.map_navigation_icon
-import pt.socialfood.core.designsystem.generated.resources.restaurant_detail_information_title
-import pt.socialfood.core.designsystem.generated.resources.restaurant_detail_navigate_description
-import pt.socialfood.core.designsystem.generated.resources.restaurant_detail_reviews_count
 import pt.socialfood.core.designsystem.generated.resources.sign_in_google_button_description
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.feature.restaurant.impl.generated.resources.Res
+import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_information_title
+import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_navigate_description
+import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_reviews_count
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable
 internal fun InformationSection(restaurant: Restaurant, onNavigateClick: () -> Unit, onWebsiteClick: () -> Unit) {
@@ -93,7 +94,7 @@ private fun InformationCard(restaurant: Restaurant, onNavigateClick: () -> Unit,
                 InfoRow(
                     icon = Icons.Outlined.LocationOn,
                     text = restaurant.address,
-                    trailingIcon = painterResource(Res.drawable.map_navigation_icon),
+                    trailingIcon = painterResource(DesignSystemRes.drawable.map_navigation_icon),
                     trailingIconTint = MaterialTheme.colorScheme.primary,
                     onTrailingClick = onNavigateClick,
                 )
@@ -137,8 +138,8 @@ private fun GoogleDataCard(restaurant: Restaurant) {
         Column(modifier = Modifier.padding(SpaceSize.large)) {
             Row {
                 Image(
-                    painter = painterResource(Res.drawable.google_icon),
-                    contentDescription = stringResource(Res.string.sign_in_google_button_description),
+                    painter = painterResource(DesignSystemRes.drawable.google_icon),
+                    contentDescription = stringResource(DesignSystemRes.string.sign_in_google_button_description),
                     modifier = Modifier.size(24.dp),
                 )
 

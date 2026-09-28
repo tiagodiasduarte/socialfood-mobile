@@ -26,12 +26,12 @@ import androidx.paging.compose.itemKey
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import pt.socialfood.core.designsystem.generated.resources.Res
-import pt.socialfood.core.designsystem.generated.resources.favourites_restaurants_no_results_subtitle
-import pt.socialfood.core.designsystem.generated.resources.favourites_restaurants_no_results_title
-import pt.socialfood.core.designsystem.generated.resources.favourites_restaurants_title
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.feature.favourite.impl.generated.resources.Res
+import pt.socialfood.feature.favourite.impl.generated.resources.favourites_restaurants_no_results_subtitle
+import pt.socialfood.feature.favourite.impl.generated.resources.favourites_restaurants_no_results_title
+import pt.socialfood.feature.favourite.impl.generated.resources.favourites_restaurants_title
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent

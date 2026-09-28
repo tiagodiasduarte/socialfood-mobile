@@ -19,12 +19,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import pt.socialfood.core.designsystem.generated.resources.Res
-import pt.socialfood.core.designsystem.generated.resources.theme_dark_label
-import pt.socialfood.core.designsystem.generated.resources.theme_light_label
-import pt.socialfood.core.designsystem.generated.resources.theme_sheet_title
-import pt.socialfood.core.designsystem.generated.resources.theme_system_label
 import pt.socialfood.domain.model.ThemeMode
+import pt.socialfood.feature.settings.generated.resources.Res
+import pt.socialfood.feature.settings.generated.resources.theme_dark_label
+import pt.socialfood.feature.settings.generated.resources.theme_light_label
+import pt.socialfood.feature.settings.generated.resources.theme_sheet_title
+import pt.socialfood.feature.settings.generated.resources.theme_system_label
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 

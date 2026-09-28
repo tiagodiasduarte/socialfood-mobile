@@ -4,13 +4,13 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
-import pt.socialfood.core.designsystem.generated.resources.Res
-import pt.socialfood.core.designsystem.generated.resources.validate_code_empty_code
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.fakes.FakeResendVerificationCodeUseCase
 import pt.socialfood.fakes.FakeRestartSignUpUseCase
 import pt.socialfood.fakes.FakeValidateCodeUseCase
+import pt.socialfood.feature.auth.generated.resources.Res
+import pt.socialfood.feature.auth.generated.resources.validate_code_empty_code
 import pt.socialfood.random.nextEmail
 import pt.socialfood.random.nextString
 import pt.socialfood.runner.runTestWithMainDispatcher

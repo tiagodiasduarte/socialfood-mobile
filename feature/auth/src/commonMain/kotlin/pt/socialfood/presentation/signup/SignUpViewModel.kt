@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.core.designsystem.generated.resources.Res
-import pt.socialfood.core.designsystem.generated.resources.sign_up_fill_all_fields
-import pt.socialfood.core.designsystem.generated.resources.sign_up_password_mismatch
 import pt.socialfood.domain.usecase.login.RegisterUseCase
+import pt.socialfood.feature.auth.generated.resources.Res
+import pt.socialfood.feature.auth.generated.resources.sign_up_fill_all_fields
+import pt.socialfood.feature.auth.generated.resources.sign_up_password_mismatch
 import pt.socialfood.presentation.error.toErrorCode
 
 class SignUpViewModel(private val register: RegisterUseCase) : ViewModel() {

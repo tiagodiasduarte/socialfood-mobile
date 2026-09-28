@@ -10,9 +10,9 @@ import androidx.compose.material.icons.outlined.History
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.core.designsystem.generated.resources.Res
-import pt.socialfood.core.designsystem.generated.resources.search_restaurants_recent_searches_title
 import pt.socialfood.domain.model.Place
+import pt.socialfood.feature.restaurant.impl.generated.resources.Res
+import pt.socialfood.feature.restaurant.impl.generated.resources.search_restaurants_recent_searches_title
 import pt.socialfood.presentation.components.SearchSectionHeader
 import pt.socialfood.ui.theme.SpaceSize
 

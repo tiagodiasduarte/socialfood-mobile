@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import pt.socialfood.core.designsystem.generated.resources.Res
-import pt.socialfood.core.designsystem.generated.resources.create_guide_create_title
+import pt.socialfood.feature.guide.impl.generated.resources.Res
+import pt.socialfood.feature.guide.impl.generated.resources.create_guide_create_title
 import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.components.buttons.SaveButton
 import pt.socialfood.presentation.guide.GuideValidationErrorDialog

@@ -27,10 +27,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.core.designsystem.generated.resources.Res
-import pt.socialfood.core.designsystem.generated.resources.edit_profile_picture_change_button
-import pt.socialfood.core.designsystem.generated.resources.edit_profile_picture_section_title
-import pt.socialfood.core.designsystem.generated.resources.edit_profile_picture_upload_label
+import pt.socialfood.feature.profile.impl.generated.resources.Res
+import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_picture_change_button
+import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_picture_section_title
+import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_picture_upload_label
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.presentation.components.card.SectionCard
 import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher

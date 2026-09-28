@@ -40,17 +40,17 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import pt.socialfood.core.designsystem.generated.resources.Res
 import pt.socialfood.core.designsystem.generated.resources.restaurant_icon
-import pt.socialfood.core.designsystem.generated.resources.search_restaurants_idle_subtitle
-import pt.socialfood.core.designsystem.generated.resources.search_restaurants_idle_subtitle_bold
-import pt.socialfood.core.designsystem.generated.resources.search_restaurants_idle_title
-import pt.socialfood.core.designsystem.generated.resources.search_restaurants_no_results_subtitle
-import pt.socialfood.core.designsystem.generated.resources.search_restaurants_no_results_title
-import pt.socialfood.core.designsystem.generated.resources.search_restaurants_search_placeholder
-import pt.socialfood.core.designsystem.generated.resources.search_restaurants_title
 import pt.socialfood.domain.model.Place
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.feature.restaurant.impl.generated.resources.Res
+import pt.socialfood.feature.restaurant.impl.generated.resources.search_restaurants_idle_subtitle
+import pt.socialfood.feature.restaurant.impl.generated.resources.search_restaurants_idle_subtitle_bold
+import pt.socialfood.feature.restaurant.impl.generated.resources.search_restaurants_idle_title
+import pt.socialfood.feature.restaurant.impl.generated.resources.search_restaurants_no_results_subtitle
+import pt.socialfood.feature.restaurant.impl.generated.resources.search_restaurants_no_results_title
+import pt.socialfood.feature.restaurant.impl.generated.resources.search_restaurants_search_placeholder
+import pt.socialfood.feature.restaurant.impl.generated.resources.search_restaurants_title
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.SearchBar
@@ -59,6 +59,7 @@ import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.IdleContentBackground
 import pt.socialfood.ui.theme.IdleContentIcon
 import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable
 fun SearchRestaurantsScreen(
@@ -262,7 +263,7 @@ fun IdleContent(title: String, modifier: Modifier = Modifier) {
             contentAlignment = Alignment.Center,
         ) {
             Icon(
-                painter = painterResource(Res.drawable.restaurant_icon),
+                painter = painterResource(DesignSystemRes.drawable.restaurant_icon),
                 contentDescription = null,
                 modifier = Modifier.size(28.dp),
                 tint = MaterialTheme.colorScheme.primary,

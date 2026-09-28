@@ -53,13 +53,15 @@ core/network                – Ktor/S3/Coil clients, *Api, network models, safe
 core/database               – Room database, DAOs, entities (schemas/ lives here)
 core/datastore              – SettingsRepositoryImpl + token storage (DataStore / NSUserDefaults + Keychain)
 core/data                   – repository implementations, mappers, paging mediators
-core/designsystem           – AppTheme, components, and ALL compose resources (strings, drawables, fonts)
+core/designsystem           – AppTheme, components, drawables, fonts, and strings shared by several modules
 core/ui                     – shared domain-aware UI (guide/restaurant cards), DataErrorMessages, image picker
 core/maps                   – Google Maps / MapKit views
 core/navigation             – Navigator, NavigationState, transition metadata
 core/testing                – fakes, Random generators, runTestWithMainDispatcher (test-only dependency)
 build-logic/                – convention plugins: socialfood.kmp.library / .compose / .feature / .room
 ```
+
+**Compose resources:** each module has its own generated `Res` class (`pt.socialfood.<module path>.generated.resources`). A string used by only one feature lives in that feature's `src/commonMain/composeResources/values{,-pt}/strings.xml`; strings shared by several modules, plus all drawables and fonts, live in `core/designsystem`. A file that needs both imports the feature's class as `Res` and the design system's as `import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes`. Always add a new string to both `values` and `values-pt`.
 
 **Module rules:** a feature `impl` may depend on other features' `api` modules (to navigate) but never on another `impl`. Features use `core:domain` interfaces and never see `core:data`/`core:network`; `:composeApp` binds implementations in Koin. New modules apply a convention plugin instead of configuring KMP/Android/lint by hand. Every module has to be listed in `settings.gradle.kts` and in `:composeApp`'s `kover(...)` dependencies.
 

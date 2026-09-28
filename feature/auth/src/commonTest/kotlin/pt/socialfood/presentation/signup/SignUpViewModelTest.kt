@@ -3,12 +3,12 @@ package pt.socialfood.presentation.signup
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import pt.socialfood.core.Result
-import pt.socialfood.core.designsystem.generated.resources.Res
-import pt.socialfood.core.designsystem.generated.resources.sign_up_fill_all_fields
-import pt.socialfood.core.designsystem.generated.resources.sign_up_password_mismatch
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.fakes.FakeRegisterUseCase
+import pt.socialfood.feature.auth.generated.resources.Res
+import pt.socialfood.feature.auth.generated.resources.sign_up_fill_all_fields
+import pt.socialfood.feature.auth.generated.resources.sign_up_password_mismatch
 import pt.socialfood.random.nextEmail
 import pt.socialfood.random.nextString
 import pt.socialfood.runner.runTestWithMainDispatcher

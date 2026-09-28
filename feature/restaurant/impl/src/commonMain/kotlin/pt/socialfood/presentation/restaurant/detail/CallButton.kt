@@ -24,8 +24,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.core.designsystem.generated.resources.Res
-import pt.socialfood.core.designsystem.generated.resources.restaurant_detail_call_button
+import pt.socialfood.feature.restaurant.impl.generated.resources.Res
+import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_call_button
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable

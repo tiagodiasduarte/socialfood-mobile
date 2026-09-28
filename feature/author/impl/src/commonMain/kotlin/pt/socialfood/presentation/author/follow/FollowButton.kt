@@ -9,9 +9,9 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.core.designsystem.generated.resources.Res
-import pt.socialfood.core.designsystem.generated.resources.authors_follow_button
-import pt.socialfood.core.designsystem.generated.resources.authors_following_button
+import pt.socialfood.feature.author.impl.generated.resources.Res
+import pt.socialfood.feature.author.impl.generated.resources.authors_follow_button
+import pt.socialfood.feature.author.impl.generated.resources.authors_following_button
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable

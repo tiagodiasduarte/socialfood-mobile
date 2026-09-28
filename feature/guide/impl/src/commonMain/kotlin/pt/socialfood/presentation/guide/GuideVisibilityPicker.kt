@@ -28,20 +28,21 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.core.designsystem.generated.resources.Res
 import pt.socialfood.core.designsystem.generated.resources.author_icon
-import pt.socialfood.core.designsystem.generated.resources.edit_guide_visibility_label
-import pt.socialfood.core.designsystem.generated.resources.edit_guide_visibility_private
-import pt.socialfood.core.designsystem.generated.resources.edit_guide_visibility_private_description
-import pt.socialfood.core.designsystem.generated.resources.edit_guide_visibility_public
-import pt.socialfood.core.designsystem.generated.resources.edit_guide_visibility_public_description
-import pt.socialfood.core.designsystem.generated.resources.edit_guide_visibility_shared
-import pt.socialfood.core.designsystem.generated.resources.edit_guide_visibility_shared_description
 import pt.socialfood.core.designsystem.generated.resources.guide_private_icon
 import pt.socialfood.core.designsystem.generated.resources.guide_public_icon
 import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.feature.guide.impl.generated.resources.Res
+import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_visibility_label
+import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_visibility_private
+import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_visibility_private_description
+import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_visibility_public
+import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_visibility_public_description
+import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_visibility_shared
+import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_visibility_shared_description
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 private data class VisibilityOption(
     val visibility: GuideVisibility,
@@ -55,19 +56,19 @@ private val visibilityOptions = listOf(
         GuideVisibility.PUBLIC,
         Res.string.edit_guide_visibility_public,
         Res.string.edit_guide_visibility_public_description,
-        Res.drawable.guide_public_icon,
+        DesignSystemRes.drawable.guide_public_icon,
     ),
     VisibilityOption(
         GuideVisibility.PRIVATE,
         Res.string.edit_guide_visibility_private,
         Res.string.edit_guide_visibility_private_description,
-        Res.drawable.guide_private_icon,
+        DesignSystemRes.drawable.guide_private_icon,
     ),
     VisibilityOption(
         GuideVisibility.SHARED,
         Res.string.edit_guide_visibility_shared,
         Res.string.edit_guide_visibility_shared_description,
-        Res.drawable.author_icon,
+        DesignSystemRes.drawable.author_icon,
     ),
 )
 

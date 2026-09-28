@@ -3,9 +3,6 @@ package pt.socialfood.presentation.guide.create
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import pt.socialfood.core.Result
-import pt.socialfood.core.designsystem.generated.resources.Res
-import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_description_error
-import pt.socialfood.core.designsystem.generated.resources.edit_guide_details_title_error
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Author
@@ -14,6 +11,9 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.fakes.FakeCreateGuideUseCase
 import pt.socialfood.fakes.FakeGuidesRepository
 import pt.socialfood.fakes.FakeUploadPhotoUseCase
+import pt.socialfood.feature.guide.impl.generated.resources.Res
+import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_description_error
+import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_title_error
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals

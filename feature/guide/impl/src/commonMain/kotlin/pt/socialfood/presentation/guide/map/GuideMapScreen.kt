@@ -27,9 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import pt.socialfood.core.designsystem.generated.resources.Res
 import pt.socialfood.core.designsystem.generated.resources.guide_map_close_button_description
-import pt.socialfood.core.designsystem.generated.resources.guide_map_empty_message
 import pt.socialfood.core.designsystem.generated.resources.guide_map_restaurants_count_label
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Author
@@ -37,10 +35,13 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.feature.guide.impl.generated.resources.Res
+import pt.socialfood.feature.guide.impl.generated.resources.guide_map_empty_message
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.maps.MapGuideRestaurants
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable
 fun GuideMapScreen(
@@ -137,7 +138,7 @@ private fun GuideMapHeader(guideName: String, restaurantsCount: Int, onCloseClic
                 color = MaterialTheme.colorScheme.onSurface,
             )
             Text(
-                text = stringResource(Res.string.guide_map_restaurants_count_label, restaurantsCount),
+                text = stringResource(DesignSystemRes.string.guide_map_restaurants_count_label, restaurantsCount),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -146,7 +147,7 @@ private fun GuideMapHeader(guideName: String, restaurantsCount: Int, onCloseClic
         IconButton(onClick = onCloseClick) {
             Icon(
                 imageVector = Icons.Filled.Close,
-                contentDescription = stringResource(Res.string.guide_map_close_button_description),
+                contentDescription = stringResource(DesignSystemRes.string.guide_map_close_button_description),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }

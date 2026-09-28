@@ -52,28 +52,29 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import pt.socialfood.core.designsystem.generated.resources.Res
 import pt.socialfood.core.designsystem.generated.resources.app_name
 import pt.socialfood.core.designsystem.generated.resources.google_icon
-import pt.socialfood.core.designsystem.generated.resources.hide_password_content_description
-import pt.socialfood.core.designsystem.generated.resources.show_password_content_description
-import pt.socialfood.core.designsystem.generated.resources.sign_in_button
-import pt.socialfood.core.designsystem.generated.resources.sign_in_continue_with_google_label
-import pt.socialfood.core.designsystem.generated.resources.sign_in_email_label
-import pt.socialfood.core.designsystem.generated.resources.sign_in_email_placeholder_label
-import pt.socialfood.core.designsystem.generated.resources.sign_in_google_button
 import pt.socialfood.core.designsystem.generated.resources.sign_in_google_button_description
-import pt.socialfood.core.designsystem.generated.resources.sign_in_no_account_label
-import pt.socialfood.core.designsystem.generated.resources.sign_in_password_label
-import pt.socialfood.core.designsystem.generated.resources.sign_in_password_placeholder_label
-import pt.socialfood.core.designsystem.generated.resources.sign_in_sign_up_button
-import pt.socialfood.core.designsystem.generated.resources.sign_in_subtitle_label
-import pt.socialfood.core.designsystem.generated.resources.sign_in_title_label
 import pt.socialfood.core.designsystem.generated.resources.socialfood_icon
+import pt.socialfood.feature.auth.generated.resources.Res
+import pt.socialfood.feature.auth.generated.resources.hide_password_content_description
+import pt.socialfood.feature.auth.generated.resources.show_password_content_description
+import pt.socialfood.feature.auth.generated.resources.sign_in_button
+import pt.socialfood.feature.auth.generated.resources.sign_in_continue_with_google_label
+import pt.socialfood.feature.auth.generated.resources.sign_in_email_label
+import pt.socialfood.feature.auth.generated.resources.sign_in_email_placeholder_label
+import pt.socialfood.feature.auth.generated.resources.sign_in_google_button
+import pt.socialfood.feature.auth.generated.resources.sign_in_no_account_label
+import pt.socialfood.feature.auth.generated.resources.sign_in_password_label
+import pt.socialfood.feature.auth.generated.resources.sign_in_password_placeholder_label
+import pt.socialfood.feature.auth.generated.resources.sign_in_sign_up_button
+import pt.socialfood.feature.auth.generated.resources.sign_in_subtitle_label
+import pt.socialfood.feature.auth.generated.resources.sign_in_title_label
 import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.presentation.google.rememberGoogleSignInLauncher
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable
 fun SignInScreen(onSignInSuccess: () -> Unit, onSignUpClick: () -> Unit = {}) {
@@ -183,7 +184,7 @@ private fun SignInHeader() {
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Image(
-            painter = painterResource(Res.drawable.socialfood_icon),
+            painter = painterResource(DesignSystemRes.drawable.socialfood_icon),
             contentDescription = null,
             modifier = Modifier.size(52.dp),
         )
@@ -191,7 +192,7 @@ private fun SignInHeader() {
         Spacer(modifier = Modifier.width(SpaceSize.large))
 
         Text(
-            text = stringResource(Res.string.app_name),
+            text = stringResource(DesignSystemRes.string.app_name),
             style = MaterialTheme.typography.titleLarge,
             color = colorScheme.onBackground,
         )
@@ -397,8 +398,8 @@ private fun AlternativeSignInSection(onGoogleSignInClick: () -> Unit, onSignUpCl
         colors = ButtonDefaults.outlinedButtonColors(contentColor = colorScheme.onBackground),
     ) {
         Image(
-            painter = painterResource(Res.drawable.google_icon),
-            contentDescription = stringResource(Res.string.sign_in_google_button_description),
+            painter = painterResource(DesignSystemRes.drawable.google_icon),
+            contentDescription = stringResource(DesignSystemRes.string.sign_in_google_button_description),
             modifier = Modifier.size(24.dp),
         )
 

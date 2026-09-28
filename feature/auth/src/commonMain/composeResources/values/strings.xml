@@ -1,0 +1,35 @@
+<resources>
+    <string name="show_password_content_description">Show password</string>
+    <string name="hide_password_content_description">Hide password</string>
+    <string name="sign_in_title_label">Welcome back</string>
+    <string name="sign_in_subtitle_label">Sign in to continue exploring</string>
+    <string name="sign_in_email_label">Email</string>
+    <string name="sign_in_email_placeholder_label">your@email.com</string>
+    <string name="sign_in_password_label">Password</string>
+    <string name="sign_in_password_placeholder_label">••••••••</string>
+    <string name="sign_in_button">Sign in</string>
+    <string name="sign_in_continue_with_google_label">  Or continue with  </string>
+    <string name="sign_in_google_button">Continue with Google</string>
+    <string name="sign_in_no_account_label">Don't have an account?</string>
+    <string name="sign_in_sign_up_button">Sign Up</string>
+    <string name="sign_in_invalid_email">Please enter your email</string>
+    <string name="sign_in_invalid_password">Please enter your password</string>
+    <string name="sign_up_title_label">Create account</string>
+    <string name="sign_up_subtitle_label">Join us to explore the best restaurants</string>
+    <string name="sign_up_name_label">Name</string>
+    <string name="sign_up_name_placeholder_label">Your name</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="sign_up_confirm_password_label">Confirm Password</string>
+    <string name="sign_up_confirm_password_placeholder_label">••••••••</string>
+    <string name="sign_up_already_have_account_label">Already have an account?</string>
+    <string name="sign_up_sign_in_label">Sign In</string>
+    <string name="sign_up_fill_all_fields">Please fill in all fields</string>
+    <string name="sign_up_password_mismatch">Passwords don’t match</string>
+    <string name="validate_code_title_label">Verify your email</string>
+    <string name="validate_code_subtitle_label">Enter the 6-digit code we sent to your email</string>
+    <string name="validate_code_button">Verify</string>
+    <string name="validate_code_resend_label">Didn’t receive the code?</string>
+    <string name="validate_code_resend_button">Resend code</string>
+    <string name="validate_code_restart_signup_label">Not you? Restart sign up</string>
+    <string name="validate_code_empty_code">Please enter the code</string>
+</resources>

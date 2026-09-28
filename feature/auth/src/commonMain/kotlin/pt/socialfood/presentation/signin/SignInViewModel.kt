@@ -6,13 +6,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.core.designsystem.generated.resources.Res
-import pt.socialfood.core.designsystem.generated.resources.sign_in_invalid_email
-import pt.socialfood.core.designsystem.generated.resources.sign_in_invalid_password
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.usecase.login.LoginUseCase
 import pt.socialfood.domain.usecase.login.LoginWithGoogleUseCase
 import pt.socialfood.domain.usecase.user.GetUserMeUseCase
+import pt.socialfood.feature.auth.generated.resources.Res
+import pt.socialfood.feature.auth.generated.resources.sign_in_invalid_email
+import pt.socialfood.feature.auth.generated.resources.sign_in_invalid_password
 import pt.socialfood.presentation.error.toErrorCode
 
 class SignInViewModel(

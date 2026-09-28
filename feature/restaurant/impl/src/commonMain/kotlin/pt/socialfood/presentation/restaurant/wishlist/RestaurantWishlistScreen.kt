@@ -27,12 +27,12 @@ import androidx.paging.compose.itemKey
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import pt.socialfood.core.designsystem.generated.resources.Res
-import pt.socialfood.core.designsystem.generated.resources.wish_no_results_subtitle
-import pt.socialfood.core.designsystem.generated.resources.wish_no_results_title
 import pt.socialfood.core.designsystem.generated.resources.wish_restaurants_title
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.feature.restaurant.impl.generated.resources.Res
+import pt.socialfood.feature.restaurant.impl.generated.resources.wish_no_results_subtitle
+import pt.socialfood.feature.restaurant.impl.generated.resources.wish_no_results_title
 import pt.socialfood.presentation.components.ActionButton
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
@@ -42,6 +42,7 @@ import pt.socialfood.presentation.restaurant.visited.MapButtonItem
 import pt.socialfood.presentation.ui.restaurant.RestaurantVisitStatusCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -85,7 +86,7 @@ private fun RestaurantWishlistContent(
             .background(MaterialTheme.colorScheme.background),
     ) {
         TopActionBar(
-            title = stringResource(Res.string.wish_restaurants_title),
+            title = stringResource(DesignSystemRes.string.wish_restaurants_title),
             onBackClick = onBackClick,
             actionButton = ActionButton.Add,
             onActionClick = onAddClick,

@@ -34,19 +34,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.core.designsystem.generated.resources.Res
 import pt.socialfood.core.designsystem.generated.resources.join_shared_guide_screen_close_button_description
-import pt.socialfood.core.designsystem.generated.resources.join_shared_guide_screen_join_button
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.feature.guide.impl.generated.resources.Res
+import pt.socialfood.feature.guide.impl.generated.resources.join_shared_guide_screen_join_button
 import pt.socialfood.presentation.components.GuideImage
 import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.presentation.ui.guide.GuideAndAuthorInfo
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable
 fun JoinSharedGuideCardDialog(state: JoinSharedGuideCardUiState, onJoinClick: () -> Unit, onCloseClick: () -> Unit) {
@@ -148,7 +149,9 @@ private fun JoinSharedGuideCardHeader(guide: Guide, onCloseClick: () -> Unit) {
         ) {
             Icon(
                 imageVector = Icons.Default.Close,
-                contentDescription = stringResource(Res.string.join_shared_guide_screen_close_button_description),
+                contentDescription = stringResource(
+                    DesignSystemRes.string.join_shared_guide_screen_close_button_description,
+                ),
                 tint = Color.White,
             )
         }

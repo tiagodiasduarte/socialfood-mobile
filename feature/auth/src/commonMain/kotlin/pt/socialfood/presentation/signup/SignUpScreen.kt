@@ -49,27 +49,28 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import pt.socialfood.core.designsystem.generated.resources.Res
 import pt.socialfood.core.designsystem.generated.resources.app_name
-import pt.socialfood.core.designsystem.generated.resources.hide_password_content_description
-import pt.socialfood.core.designsystem.generated.resources.show_password_content_description
-import pt.socialfood.core.designsystem.generated.resources.sign_in_email_label
-import pt.socialfood.core.designsystem.generated.resources.sign_in_email_placeholder_label
-import pt.socialfood.core.designsystem.generated.resources.sign_in_password_label
-import pt.socialfood.core.designsystem.generated.resources.sign_in_password_placeholder_label
-import pt.socialfood.core.designsystem.generated.resources.sign_up_already_have_account_label
-import pt.socialfood.core.designsystem.generated.resources.sign_up_button
-import pt.socialfood.core.designsystem.generated.resources.sign_up_confirm_password_label
-import pt.socialfood.core.designsystem.generated.resources.sign_up_confirm_password_placeholder_label
-import pt.socialfood.core.designsystem.generated.resources.sign_up_name_label
-import pt.socialfood.core.designsystem.generated.resources.sign_up_name_placeholder_label
-import pt.socialfood.core.designsystem.generated.resources.sign_up_sign_in_label
-import pt.socialfood.core.designsystem.generated.resources.sign_up_subtitle_label
-import pt.socialfood.core.designsystem.generated.resources.sign_up_title_label
 import pt.socialfood.core.designsystem.generated.resources.socialfood_icon
+import pt.socialfood.feature.auth.generated.resources.Res
+import pt.socialfood.feature.auth.generated.resources.hide_password_content_description
+import pt.socialfood.feature.auth.generated.resources.show_password_content_description
+import pt.socialfood.feature.auth.generated.resources.sign_in_email_label
+import pt.socialfood.feature.auth.generated.resources.sign_in_email_placeholder_label
+import pt.socialfood.feature.auth.generated.resources.sign_in_password_label
+import pt.socialfood.feature.auth.generated.resources.sign_in_password_placeholder_label
+import pt.socialfood.feature.auth.generated.resources.sign_up_already_have_account_label
+import pt.socialfood.feature.auth.generated.resources.sign_up_button
+import pt.socialfood.feature.auth.generated.resources.sign_up_confirm_password_label
+import pt.socialfood.feature.auth.generated.resources.sign_up_confirm_password_placeholder_label
+import pt.socialfood.feature.auth.generated.resources.sign_up_name_label
+import pt.socialfood.feature.auth.generated.resources.sign_up_name_placeholder_label
+import pt.socialfood.feature.auth.generated.resources.sign_up_sign_in_label
+import pt.socialfood.feature.auth.generated.resources.sign_up_subtitle_label
+import pt.socialfood.feature.auth.generated.resources.sign_up_title_label
 import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable
 fun SignUpScreen(onSignUpSuccess: (email: String) -> Unit, onSignInClick: () -> Unit = {}) {
@@ -138,7 +139,7 @@ private fun SignUpFormView(
         Column(Modifier.align(Alignment.Center)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
-                    painter = painterResource(Res.drawable.socialfood_icon),
+                    painter = painterResource(DesignSystemRes.drawable.socialfood_icon),
                     contentDescription = null,
                     modifier = Modifier.size(52.dp),
                 )
@@ -146,7 +147,7 @@ private fun SignUpFormView(
                 Spacer(modifier = Modifier.width(SpaceSize.large))
 
                 Text(
-                    text = stringResource(Res.string.app_name),
+                    text = stringResource(DesignSystemRes.string.app_name),
                     style = MaterialTheme.typography.titleLarge,
                     color = colorScheme.onBackground,
                 )

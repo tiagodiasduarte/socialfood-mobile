@@ -24,21 +24,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.core.designsystem.generated.resources.Res
 import pt.socialfood.core.designsystem.generated.resources.author_icon
 import pt.socialfood.core.designsystem.generated.resources.guide_icon
 import pt.socialfood.core.designsystem.generated.resources.restaurant_icon
-import pt.socialfood.core.designsystem.generated.resources.search_recent_searches_title
-import pt.socialfood.core.designsystem.generated.resources.search_suggestion_favorite_guides
-import pt.socialfood.core.designsystem.generated.resources.search_suggestion_favorite_restaurants
-import pt.socialfood.core.designsystem.generated.resources.search_suggestion_most_followed
-import pt.socialfood.core.designsystem.generated.resources.search_suggestions_title
 import pt.socialfood.domain.model.RecentSearch
 import pt.socialfood.domain.model.RecentSearchType
+import pt.socialfood.feature.search.impl.generated.resources.Res
+import pt.socialfood.feature.search.impl.generated.resources.search_recent_searches_title
+import pt.socialfood.feature.search.impl.generated.resources.search_suggestion_favorite_guides
+import pt.socialfood.feature.search.impl.generated.resources.search_suggestion_favorite_restaurants
+import pt.socialfood.feature.search.impl.generated.resources.search_suggestion_most_followed
+import pt.socialfood.feature.search.impl.generated.resources.search_suggestions_title
 import pt.socialfood.presentation.components.SearchSectionHeader
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable
 fun SearchSuggestionsContent(
@@ -75,19 +76,19 @@ fun SearchSuggestionsContent(
         )
         Spacer(modifier = Modifier.height(SpaceSize.medium))
         SearchSuggestionItem(
-            icon = painterResource(Res.drawable.guide_icon),
+            icon = painterResource(DesignSystemRes.drawable.guide_icon),
             label = stringResource(Res.string.search_suggestion_favorite_guides),
             onClick = onFavoriteGuidesClick,
         )
         HorizontalDivider()
         SearchSuggestionItem(
-            icon = painterResource(Res.drawable.restaurant_icon),
+            icon = painterResource(DesignSystemRes.drawable.restaurant_icon),
             label = stringResource(Res.string.search_suggestion_favorite_restaurants),
             onClick = onFavoriteRestaurantsClick,
         )
         HorizontalDivider()
         SearchSuggestionItem(
-            icon = painterResource(Res.drawable.author_icon),
+            icon = painterResource(DesignSystemRes.drawable.author_icon),
             label = stringResource(Res.string.search_suggestion_most_followed),
             onClick = onMostFollowedClick,
         )
@@ -96,9 +97,9 @@ fun SearchSuggestionsContent(
 }
 
 private fun RecentSearchType.iconRes() = when (this) {
-    RecentSearchType.RESTAURANT -> Res.drawable.restaurant_icon
-    RecentSearchType.GUIDE -> Res.drawable.guide_icon
-    RecentSearchType.AUTHOR -> Res.drawable.author_icon
+    RecentSearchType.RESTAURANT -> DesignSystemRes.drawable.restaurant_icon
+    RecentSearchType.GUIDE -> DesignSystemRes.drawable.guide_icon
+    RecentSearchType.AUTHOR -> DesignSystemRes.drawable.author_icon
 }
 
 @Composable

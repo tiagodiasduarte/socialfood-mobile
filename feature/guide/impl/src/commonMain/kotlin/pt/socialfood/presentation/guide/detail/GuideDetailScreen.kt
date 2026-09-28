@@ -44,24 +44,11 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import pt.socialfood.core.designsystem.generated.resources.Res
 import pt.socialfood.core.designsystem.generated.resources.author_icon
-import pt.socialfood.core.designsystem.generated.resources.guide_detail_leave_guide_button
-import pt.socialfood.core.designsystem.generated.resources.guide_detail_leave_guide_confirmation_cancel
-import pt.socialfood.core.designsystem.generated.resources.guide_detail_leave_guide_confirmation_confirm
-import pt.socialfood.core.designsystem.generated.resources.guide_detail_leave_guide_confirmation_message
-import pt.socialfood.core.designsystem.generated.resources.guide_detail_leave_guide_confirmation_title
 import pt.socialfood.core.designsystem.generated.resources.guide_detail_map_button_description
-import pt.socialfood.core.designsystem.generated.resources.guide_detail_no_restaurants_label
 import pt.socialfood.core.designsystem.generated.resources.guide_detail_private_icon_description
-import pt.socialfood.core.designsystem.generated.resources.guide_detail_private_label
 import pt.socialfood.core.designsystem.generated.resources.guide_detail_public_icon_description
-import pt.socialfood.core.designsystem.generated.resources.guide_detail_public_label
-import pt.socialfood.core.designsystem.generated.resources.guide_detail_restaurants_count_label
-import pt.socialfood.core.designsystem.generated.resources.guide_detail_restaurants_section_title
-import pt.socialfood.core.designsystem.generated.resources.guide_detail_separator
 import pt.socialfood.core.designsystem.generated.resources.guide_detail_shared_icon_description
-import pt.socialfood.core.designsystem.generated.resources.guide_detail_shared_label
 import pt.socialfood.core.designsystem.generated.resources.guide_private_icon
 import pt.socialfood.core.designsystem.generated.resources.guide_public_icon
 import pt.socialfood.domain.error.ErrorCode
@@ -70,6 +57,19 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.feature.guide.impl.generated.resources.Res
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_leave_guide_button
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_leave_guide_confirmation_cancel
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_leave_guide_confirmation_confirm
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_leave_guide_confirmation_message
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_leave_guide_confirmation_title
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_no_restaurants_label
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_private_label
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_public_label
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_restaurants_count_label
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_restaurants_section_title
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_separator
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_shared_label
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.GuideImage
 import pt.socialfood.presentation.components.TopActionBar
@@ -88,6 +88,7 @@ import pt.socialfood.ui.theme.PublicBadgeBackground
 import pt.socialfood.ui.theme.SharedBadge
 import pt.socialfood.ui.theme.SharedBadgeBackground
 import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 internal val GuideImageHeight = 320.dp
 
@@ -263,7 +264,7 @@ private fun RestaurantsSectionHeader(
 
         if (guide.restaurants.isNotEmpty()) {
             OutlinedButton(
-                text = stringResource(Res.string.guide_detail_map_button_description),
+                text = stringResource(DesignSystemRes.string.guide_detail_map_button_description),
                 icon = Icons.Outlined.Map,
                 onClick = { onViewMapClick(guide.id, guide.name, guide.restaurants.size) },
             )
@@ -427,8 +428,8 @@ private fun VisibilityBadgeContent(visibility: GuideVisibility) {
     when (visibility) {
         GuideVisibility.PUBLIC -> {
             Image(
-                painter = painterResource(Res.drawable.guide_public_icon),
-                contentDescription = stringResource(Res.string.guide_detail_public_icon_description),
+                painter = painterResource(DesignSystemRes.drawable.guide_public_icon),
+                contentDescription = stringResource(DesignSystemRes.string.guide_detail_public_icon_description),
                 modifier = Modifier.size(20.dp),
                 colorFilter = ColorFilter.tint(PublicBadge),
             )
@@ -441,8 +442,8 @@ private fun VisibilityBadgeContent(visibility: GuideVisibility) {
 
         GuideVisibility.PRIVATE -> {
             Image(
-                painter = painterResource(Res.drawable.guide_private_icon),
-                contentDescription = stringResource(Res.string.guide_detail_private_icon_description),
+                painter = painterResource(DesignSystemRes.drawable.guide_private_icon),
+                contentDescription = stringResource(DesignSystemRes.string.guide_detail_private_icon_description),
                 modifier = Modifier.size(20.dp),
                 colorFilter = ColorFilter.tint(PrivateBadge),
             )
@@ -455,8 +456,8 @@ private fun VisibilityBadgeContent(visibility: GuideVisibility) {
 
         GuideVisibility.SHARED -> {
             Image(
-                painter = painterResource(Res.drawable.author_icon),
-                contentDescription = stringResource(Res.string.guide_detail_shared_icon_description),
+                painter = painterResource(DesignSystemRes.drawable.author_icon),
+                contentDescription = stringResource(DesignSystemRes.string.guide_detail_shared_icon_description),
                 modifier = Modifier.size(20.dp),
                 colorFilter = ColorFilter.tint(SharedBadge),
             )

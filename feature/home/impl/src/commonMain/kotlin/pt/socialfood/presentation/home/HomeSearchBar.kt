@@ -19,8 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.core.designsystem.generated.resources.Res
-import pt.socialfood.core.designsystem.generated.resources.home_search_bar_placeholder
+import pt.socialfood.feature.home.impl.generated.resources.Res
+import pt.socialfood.feature.home.impl.generated.resources.home_search_bar_placeholder
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SearchBorder
 import pt.socialfood.ui.theme.SpaceSize

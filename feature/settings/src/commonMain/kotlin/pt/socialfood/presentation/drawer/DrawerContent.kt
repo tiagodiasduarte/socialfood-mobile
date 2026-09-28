@@ -44,29 +44,29 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.core.AppConfig
-import pt.socialfood.core.designsystem.generated.resources.Res
 import pt.socialfood.core.designsystem.generated.resources.guide_icon
 import pt.socialfood.core.designsystem.generated.resources.logout_icon
-import pt.socialfood.core.designsystem.generated.resources.profile_favorite_guides_button
-import pt.socialfood.core.designsystem.generated.resources.profile_favorite_guides_button_description
-import pt.socialfood.core.designsystem.generated.resources.profile_favorites_restaurants_button
-import pt.socialfood.core.designsystem.generated.resources.profile_favorites_restaurants_button_description
 import pt.socialfood.core.designsystem.generated.resources.profile_icon
-import pt.socialfood.core.designsystem.generated.resources.profile_logout_button
-import pt.socialfood.core.designsystem.generated.resources.profile_logout_button_description
-import pt.socialfood.core.designsystem.generated.resources.profile_profile_button
-import pt.socialfood.core.designsystem.generated.resources.profile_profile_button_description
-import pt.socialfood.core.designsystem.generated.resources.profile_theme_button
-import pt.socialfood.core.designsystem.generated.resources.profile_theme_button_description
-import pt.socialfood.core.designsystem.generated.resources.profile_visited_restaurants_button
-import pt.socialfood.core.designsystem.generated.resources.profile_visited_restaurants_button_description
-import pt.socialfood.core.designsystem.generated.resources.profile_wish_restaurants_button
-import pt.socialfood.core.designsystem.generated.resources.profile_wish_restaurants_button_description
 import pt.socialfood.core.designsystem.generated.resources.restaurant_icon
 import pt.socialfood.core.designsystem.generated.resources.theme_icon
 import pt.socialfood.core.designsystem.generated.resources.visited_icon
 import pt.socialfood.core.designsystem.generated.resources.wish_icon
 import pt.socialfood.domain.model.User
+import pt.socialfood.feature.settings.generated.resources.Res
+import pt.socialfood.feature.settings.generated.resources.profile_favorite_guides_button
+import pt.socialfood.feature.settings.generated.resources.profile_favorite_guides_button_description
+import pt.socialfood.feature.settings.generated.resources.profile_favorites_restaurants_button
+import pt.socialfood.feature.settings.generated.resources.profile_favorites_restaurants_button_description
+import pt.socialfood.feature.settings.generated.resources.profile_logout_button
+import pt.socialfood.feature.settings.generated.resources.profile_logout_button_description
+import pt.socialfood.feature.settings.generated.resources.profile_profile_button
+import pt.socialfood.feature.settings.generated.resources.profile_profile_button_description
+import pt.socialfood.feature.settings.generated.resources.profile_theme_button
+import pt.socialfood.feature.settings.generated.resources.profile_theme_button_description
+import pt.socialfood.feature.settings.generated.resources.profile_visited_restaurants_button
+import pt.socialfood.feature.settings.generated.resources.profile_visited_restaurants_button_description
+import pt.socialfood.feature.settings.generated.resources.profile_wish_restaurants_button
+import pt.socialfood.feature.settings.generated.resources.profile_wish_restaurants_button_description
 import pt.socialfood.presentation.components.StatsRow
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.presentation.theme.ThemeBottomSheet
@@ -76,6 +76,7 @@ import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.ProfileGradientEnd
 import pt.socialfood.ui.theme.ProfileGradientStart
 import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 private val DrawerAvatarSize = 44.dp
 private val DrawerAvatarRingSize = 48.dp
@@ -171,31 +172,31 @@ private fun DrawerUserContent(
             modifier = Modifier.padding(vertical = SpaceSize.medium),
         ) {
             DrawerMenuRow(
-                icon = Res.drawable.profile_icon,
+                icon = DesignSystemRes.drawable.profile_icon,
                 label = stringResource(Res.string.profile_profile_button),
                 contentDescription = stringResource(Res.string.profile_profile_button_description),
                 onClick = { onProfileClick(user.id) },
             )
             DrawerMenuRow(
-                icon = Res.drawable.guide_icon,
+                icon = DesignSystemRes.drawable.guide_icon,
                 label = stringResource(Res.string.profile_favorite_guides_button),
                 contentDescription = stringResource(Res.string.profile_favorite_guides_button_description),
                 onClick = onFavouriteGuidesClick,
             )
             DrawerMenuRow(
-                icon = Res.drawable.restaurant_icon,
+                icon = DesignSystemRes.drawable.restaurant_icon,
                 label = stringResource(Res.string.profile_favorites_restaurants_button),
                 contentDescription = stringResource(Res.string.profile_favorites_restaurants_button_description),
                 onClick = onFavouriteRestaurantsClick,
             )
             DrawerMenuRow(
-                icon = Res.drawable.wish_icon,
+                icon = DesignSystemRes.drawable.wish_icon,
                 label = stringResource(Res.string.profile_wish_restaurants_button),
                 contentDescription = stringResource(Res.string.profile_wish_restaurants_button_description),
                 onClick = onWishRestaurantsClick,
             )
             DrawerMenuRow(
-                icon = Res.drawable.visited_icon,
+                icon = DesignSystemRes.drawable.visited_icon,
                 label = stringResource(Res.string.profile_visited_restaurants_button),
                 contentDescription = stringResource(Res.string.profile_visited_restaurants_button_description),
                 onClick = onVisitedRestaurantsClick,
@@ -225,14 +226,14 @@ private fun DrawerBottomMenu(onThemeClick: () -> Unit, onLogoutClick: () -> Unit
     Column(modifier = Modifier.navigationBarsPadding().padding(vertical = SpaceSize.small)) {
         if (isThemeModeSelectionSupported) {
             DrawerMenuRow(
-                icon = Res.drawable.theme_icon,
+                icon = DesignSystemRes.drawable.theme_icon,
                 label = stringResource(Res.string.profile_theme_button),
                 contentDescription = stringResource(Res.string.profile_theme_button_description),
                 onClick = onThemeClick,
             )
         }
         DrawerMenuRow(
-            icon = Res.drawable.logout_icon,
+            icon = DesignSystemRes.drawable.logout_icon,
             label = stringResource(Res.string.profile_logout_button),
             contentDescription = stringResource(Res.string.profile_logout_button_description),
             color = MaterialTheme.colorScheme.primary,

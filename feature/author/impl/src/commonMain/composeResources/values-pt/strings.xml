@@ -1,0 +1,11 @@
+<resources>
+    <string name="authors_title">Autores</string>
+    <string name="authors_no_results_title">Nenhum Autor Encontrado</string>
+    <string name="authors_no_results_subtitle">Não há autores para mostrar neste momento.</string>
+    <string name="authors_follow_button">Seguir</string>
+    <string name="authors_following_button">A Seguir</string>
+    <string name="author_detail_guides_section_title">Guias</string>
+    <string name="author_detail_restaurants_count_label">%1$d restaurantes</string>
+    <string name="author_detail_no_public_guides_label">Ainda não foram criados guias públicos</string>
+    <string name="author_detail_show_more_guides_button">Mostrar mais %1$d guias</string>
+</resources>

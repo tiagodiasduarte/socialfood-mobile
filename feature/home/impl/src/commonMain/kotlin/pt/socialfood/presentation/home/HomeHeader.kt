@@ -14,14 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.core.designsystem.generated.resources.Res
 import pt.socialfood.core.designsystem.generated.resources.app_name
-import pt.socialfood.core.designsystem.generated.resources.home_subtitle_label
-import pt.socialfood.core.designsystem.generated.resources.home_title_label
+import pt.socialfood.feature.home.impl.generated.resources.Res
+import pt.socialfood.feature.home.impl.generated.resources.home_subtitle_label
+import pt.socialfood.feature.home.impl.generated.resources.home_title_label
 import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SearchBorder
 import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 private val HeaderHeight = 65.dp
 
@@ -35,7 +36,7 @@ fun HomeHeader(userImageUrl: String? = null, onProfileClick: () -> Unit = {}, on
             ),
     ) {
         TopActionBar(
-            title = stringResource(Res.string.app_name),
+            title = stringResource(DesignSystemRes.string.app_name),
             titleColor = MaterialTheme.colorScheme.primary,
             userImageUrl = userImageUrl,
             onProfileClick = onProfileClick,

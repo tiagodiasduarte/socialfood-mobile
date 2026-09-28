@@ -23,9 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import pt.socialfood.core.designsystem.generated.resources.Res
-import pt.socialfood.core.designsystem.generated.resources.home_no_results_subtitle
-import pt.socialfood.core.designsystem.generated.resources.home_no_results_title
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -36,6 +33,9 @@ import pt.socialfood.domain.model.HomeSectionType
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.User
+import pt.socialfood.feature.home.impl.generated.resources.Res
+import pt.socialfood.feature.home.impl.generated.resources.home_no_results_subtitle
+import pt.socialfood.feature.home.impl.generated.resources.home_no_results_title
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent

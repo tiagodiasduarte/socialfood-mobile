@@ -1,0 +1,9 @@
+<resources>
+    <string name="favourites_guides_title">Favourite Guides</string>
+    <string name="favourites_guides_no_results_title">No Favourite Guides</string>
+    <string name="favourites_guides_no_results_subtitle">Guides you favourite will show up here.</string>
+    <string name="favourites_restaurants_title">Favourite Restaurants</string>
+    <string name="favourites_restaurants_no_results_title">No Favourite Restaurants</string>
+    <string name="favourites_restaurants_no_results_subtitle">Restaurants you favourite will show up here.</string>
+    <string name="favorite_card_remove_button">Remove</string>
+</resources>

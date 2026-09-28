@@ -1,0 +1,7 @@
+<resources>
+    <string name="home_title_label">Discover dining</string>
+    <string name="home_subtitle_label">Find your next favorite restaurant</string>
+    <string name="home_search_bar_placeholder">Search authors, guides and restaurants…</string>
+    <string name="home_no_results_title">Nothing to Show Yet</string>
+    <string name="home_no_results_subtitle">We\'re putting together personalized recommendations for you. Check back soon!</string>
+</resources>

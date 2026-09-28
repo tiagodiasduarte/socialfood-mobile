@@ -21,6 +21,6 @@ fun `given valid credentials when login is called then returns Success`() = runT
 ```
 
 - Fakes over mocks — hand-rolled `Fake<Dependency>` classes with a `shouldThrow: Boolean` flag.
-- Place fakes in `composeApp/src/commonTest/kotlin/pt/socialfood/fakes/` so they are shared across all test files within the module.
-- Place test files under `commonTest` mirroring the production package path.
+- Place shared fakes in `core/testing/src/commonMain/kotlin/pt/socialfood/fakes/` (random data generators are in `pt.socialfood.random`, same module). Every module built with a convention plugin gets `:core:testing` on its `commonTest` classpath. A fake of something that only one module can see (e.g. `FakeImageCache` for `core:ui`'s `ImageCache`) lives in that module's `commonTest/.../fakes/`.
+- Place test files in the `commonTest` of the module that owns the production code, mirroring its package path.
 - Use `runTest` + `StandardTestDispatcher` for coroutine tests.

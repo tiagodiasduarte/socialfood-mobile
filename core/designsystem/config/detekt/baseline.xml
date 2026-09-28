@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>LongMethod:ErrorContent.kt$@Composable fun ErrorContent( modifier: Modifier = Modifier, errorCode: String? = null, backgroundColor: Color = MaterialTheme.colorScheme.background, onRetryClick: () -&gt; Unit = {}, )</ID>
+    <ID>MagicNumber:SearchBar.kt$25</ID>
+  </CurrentIssues>
+</SmellBaseline>

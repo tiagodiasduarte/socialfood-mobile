@@ -1,0 +1,7 @@
+<resources>
+    <string name="home_title_label">Descobre onde comer</string>
+    <string name="home_subtitle_label">Encontra o teu próximo restaurante favorito</string>
+    <string name="home_search_bar_placeholder">Pesquisar autores, guias e restaurantes…</string>
+    <string name="home_no_results_title">Ainda Não Há Nada Para Mostrar</string>
+    <string name="home_no_results_subtitle">Estamos a preparar recomendações personalizadas para ti. Volta a verificar em breve!</string>
+</resources>

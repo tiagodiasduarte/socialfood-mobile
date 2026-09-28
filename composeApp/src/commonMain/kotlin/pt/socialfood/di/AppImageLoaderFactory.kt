@@ -6,10 +6,7 @@ import coil3.SingletonImageLoader
 import coil3.memory.MemoryCache
 import coil3.network.ktor3.KtorNetworkFetcherFactory
 import io.ktor.client.HttpClient
-
-interface ImageCache {
-    fun clear(url: String)
-}
+import pt.socialfood.presentation.ui.image.ImageCache
 
 class AppImageLoaderFactory(private val httpClient: HttpClient) :
     SingletonImageLoader.Factory,

@@ -38,7 +38,6 @@ import pt.socialfood.data.local.AppDatabase
 import pt.socialfood.data.network.CoilHttpClient
 import pt.socialfood.data.network.KtorHttpClient
 import pt.socialfood.data.network.S3HttpClient
-import pt.socialfood.data.network.SessionManager
 import pt.socialfood.data.paging.asAuthorCacheTransactionRunner
 import pt.socialfood.data.paging.asFavouriteGuideCacheTransactionRunner
 import pt.socialfood.data.paging.asFavouriteRestaurantCacheTransactionRunner
@@ -74,16 +73,7 @@ import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.domain.repository.SearchRepository
 import pt.socialfood.domain.repository.UsersRepository
-import pt.socialfood.domain.usecase.GetRecentSearchedPlacesUseCase
-import pt.socialfood.domain.usecase.GetRecentSearchedPlacesUseCaseImpl
-import pt.socialfood.domain.usecase.GetRecentSearchesUseCase
-import pt.socialfood.domain.usecase.GetRecentSearchesUseCaseImpl
-import pt.socialfood.domain.usecase.SaveRecentSearchUseCase
-import pt.socialfood.domain.usecase.SaveRecentSearchUseCaseImpl
-import pt.socialfood.domain.usecase.SaveRecentSearchedPlaceUseCase
-import pt.socialfood.domain.usecase.SaveRecentSearchedPlaceUseCaseImpl
-import pt.socialfood.domain.usecase.SearchPlacesUseCase
-import pt.socialfood.domain.usecase.SearchPlacesUseCaseImpl
+import pt.socialfood.domain.session.SessionManager
 import pt.socialfood.domain.usecase.author.FindAuthorsUseCase
 import pt.socialfood.domain.usecase.author.FindAuthorsUseCaseImpl
 import pt.socialfood.domain.usecase.author.GetAuthorByIdUseCase
@@ -200,8 +190,18 @@ import pt.socialfood.domain.usecase.restaurantvisitstatus.UnmarkRestaurantVisitS
 import pt.socialfood.domain.usecase.restaurantvisitstatus.UnmarkRestaurantVisitStatusUseCaseImpl
 import pt.socialfood.domain.usecase.search.GetGuideSuggestionsUseCase
 import pt.socialfood.domain.usecase.search.GetGuideSuggestionsUseCaseImpl
+import pt.socialfood.domain.usecase.search.GetRecentSearchedPlacesUseCase
+import pt.socialfood.domain.usecase.search.GetRecentSearchedPlacesUseCaseImpl
+import pt.socialfood.domain.usecase.search.GetRecentSearchesUseCase
+import pt.socialfood.domain.usecase.search.GetRecentSearchesUseCaseImpl
 import pt.socialfood.domain.usecase.search.GetRestaurantSuggestionsUseCase
 import pt.socialfood.domain.usecase.search.GetRestaurantSuggestionsUseCaseImpl
+import pt.socialfood.domain.usecase.search.SaveRecentSearchUseCase
+import pt.socialfood.domain.usecase.search.SaveRecentSearchUseCaseImpl
+import pt.socialfood.domain.usecase.search.SaveRecentSearchedPlaceUseCase
+import pt.socialfood.domain.usecase.search.SaveRecentSearchedPlaceUseCaseImpl
+import pt.socialfood.domain.usecase.search.SearchPlacesUseCase
+import pt.socialfood.domain.usecase.search.SearchPlacesUseCaseImpl
 import pt.socialfood.domain.usecase.search.SearchUseCase
 import pt.socialfood.domain.usecase.search.SearchUseCaseImpl
 import pt.socialfood.domain.usecase.theme.ObserveThemeModeUseCase
@@ -248,6 +248,7 @@ import pt.socialfood.presentation.signup.SignUpViewModel
 import pt.socialfood.presentation.startup.StartupViewModel
 import pt.socialfood.presentation.sync.SyncViewModel
 import pt.socialfood.presentation.theme.ThemeViewModel
+import pt.socialfood.presentation.ui.image.ImageCache
 import pt.socialfood.presentation.validatecode.ValidateCodeViewModel
 
 expect val platformModule: Module

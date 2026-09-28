@@ -2,23 +2,6 @@
 <SmellBaseline>
   <ManuallySuppressedIssues/>
   <CurrentIssues>
-    <ID>CyclomaticComplexMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
     <ID>FunctionNaming:MainViewController.kt$fun MainViewController()</ID>
-    <ID>LongMethod:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
-    <ID>LongMethod:EditProfileSkeleton.kt$@Composable internal fun EditProfileSkeleton()</ID>
-    <ID>LongMethod:ErrorContent.kt$@Composable fun ErrorContent( modifier: Modifier = Modifier, errorCode: String? = null, backgroundColor: Color = MaterialTheme.colorScheme.background, onRetryClick: () -&gt; Unit = {}, )</ID>
-    <ID>LongMethod:GuideDetailsCard.kt$@Composable fun GuideDetailsCard( modifier: Modifier = Modifier, title: String, description: String, titleError: Boolean, descriptionError: Boolean, onTitleChange: (String) -&gt; Unit, onDescriptionChange: (String) -&gt; Unit, imageUrl: String? = null, isUploadingPhoto: Boolean = false, onPickImage: () -&gt; Unit = {}, pendingImage: Pair&lt;ByteArray, String&gt;? = null, )</ID>
-    <ID>LongMethod:GuideDetailsCard.kt$@Composable private fun CoverImagePicker( image: String?, pendingImage: Pair&lt;ByteArray, String&gt;?, isUploadingPhoto: Boolean, onPickImage: () -&gt; Unit, )</ID>
-    <ID>LongMethod:ProfilePictureCard.kt$@Composable fun ProfilePictureCard(state: EditProfileUiState.Loaded, onPhotoSelected: (ByteArray, String) -&gt; Unit)</ID>
-    <ID>LongMethod:ValidateCodeScreen.kt$@Composable private fun ValidateCodeFormView( state: ValidateCodeUiState, onValidateClick: (String) -&gt; Unit, onResendClick: () -&gt; Unit, onRestartClick: () -&gt; Unit, )</ID>
-    <ID>MagicNumber:EditGuideViewModel.kt$EditGuideViewModel$3</ID>
-    <ID>MagicNumber:GuideDetailsCard.kt$12f</ID>
-    <ID>MagicNumber:GuideDetailsCard.kt$16f</ID>
-    <ID>MagicNumber:GuideDetailsCard.kt$6f</ID>
-    <ID>MagicNumber:GuideDetailsCard.kt$9f</ID>
-    <ID>MagicNumber:HomeSearchBar.kt$25</ID>
-    <ID>MagicNumber:SearchBar.kt$25</ID>
-    <ID>ReturnCount:EditGuideViewModel.kt$EditGuideViewModel$@OptIn(ExperimentalTime::class) fun onSave()</ID>
-    <ID>TooManyFunctions:EditGuideViewModel.kt$EditGuideViewModel : ViewModel</ID>
   </CurrentIssues>
 </SmellBaseline>

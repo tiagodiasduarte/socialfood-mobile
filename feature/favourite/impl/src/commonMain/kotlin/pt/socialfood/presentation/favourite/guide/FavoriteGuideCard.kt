@@ -1,0 +1,162 @@
+package pt.socialfood.presentation.favourite.guide
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.domain.model.Author
+import pt.socialfood.domain.model.Guide
+import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.feature.favourite.impl.generated.resources.Res
+import pt.socialfood.feature.favourite.impl.generated.resources.favorite_card_remove_button
+import pt.socialfood.presentation.components.GuideImage
+import pt.socialfood.presentation.components.buttons.OutlinedButton
+import pt.socialfood.presentation.ui.author.AuthorChip
+import pt.socialfood.presentation.ui.guide.badgeBackgroundColor
+import pt.socialfood.presentation.ui.guide.badgeContentDescription
+import pt.socialfood.presentation.ui.guide.badgeIcon
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.AppTypography
+import pt.socialfood.ui.theme.SpaceSize
+
+internal val CardHeight = 183.dp
+
+@Composable
+fun FavoriteGuideCard(
+    guide: Guide,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+    onRemoveClick: () -> Unit = {},
+) {
+    Card(
+        modifier = modifier
+            .height(CardHeight)
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(SpaceSize.large),
+        onClick = onClick,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = SpaceSize.large, vertical = SpaceSize.large),
+        ) {
+            FavoriteGuideCardInfoRow(guide)
+
+            Spacer(Modifier.height(SpaceSize.large))
+
+            OutlinedButton(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(Res.string.favorite_card_remove_button),
+                icon = Icons.Outlined.Delete,
+                onClick = onRemoveClick,
+            )
+        }
+    }
+}
+
+@Composable
+private fun FavoriteGuideCardInfoRow(guide: Guide) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
+    ) {
+        GuideImage(
+            imageUrl = guide.imageUrl,
+            contentDescription = guide.name,
+            modifier = Modifier
+                .size(95.dp)
+                .clip(RoundedCornerShape(SpaceSize.medium)),
+        )
+
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+        ) {
+            Text(
+                modifier = Modifier.padding(top = SpaceSize.small),
+                text = guide.name,
+                maxLines = 2,
+                minLines = 2,
+                style = AppTypography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+
+            Text(
+                text = "${guide.numberOfRestaurant} restaurants",
+                style = AppTypography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+
+            AuthorChip(
+                author = guide.author,
+                fontColor = MaterialTheme.colorScheme.onSurface,
+            )
+        }
+
+        VisibilityBadge(
+            visibility = guide.visibility,
+            modifier = Modifier.align(Alignment.Top),
+        )
+    }
+}
+
+@Composable
+private fun VisibilityBadge(visibility: GuideVisibility, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .size(28.dp)
+            .clip(CircleShape)
+            .background(visibility.badgeBackgroundColor()),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            modifier = Modifier.size(14.dp),
+            painter = visibility.badgeIcon(),
+            contentDescription = stringResource(visibility.badgeContentDescription()),
+            tint = Color.White,
+        )
+    }
+}
+
+@Composable
+@Preview
+fun FavoriteGuideCardPreview() {
+    AppTheme {
+        FavoriteGuideCard(
+            guide = Guide(
+                id = "g1",
+                name = "Michelin Star Favorites",
+                description = "A curated collection of the finest dining experiences",
+                visibility = GuideVisibility.PUBLIC,
+                author = Author(id = "a1", name = "Sarah Mitchell", username = "sarahmitchell"),
+                numberOfRestaurant = 8,
+            ),
+        )
+    }
+}

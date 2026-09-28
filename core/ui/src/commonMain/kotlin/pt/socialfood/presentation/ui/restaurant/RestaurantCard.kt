@@ -1,0 +1,162 @@
+package pt.socialfood.presentation.ui.restaurant
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import pt.socialfood.domain.model.Location
+import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.presentation.components.FavouriteButton
+import pt.socialfood.presentation.components.RestaurantImage
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.ui.theme.Star
+
+@Composable
+fun RestaurantCard(
+    restaurant: Restaurant,
+    modifier: Modifier = Modifier,
+    width: Dp? = null,
+    isFavourite: Boolean = false,
+    onClick: () -> Unit = {},
+    onFavouriteClick: () -> Unit = {},
+) {
+    Card(
+        onClick = onClick,
+        modifier = if (width != null) modifier.width(width) else modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
+    ) {
+        Box {
+            Column(modifier = Modifier.fillMaxWidth()) {
+                RestaurantImage(
+                    imageUrl = restaurant.imagesUrl.firstOrNull(),
+                    contentDescription = restaurant.name,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(190.dp),
+                )
+
+                RestaurantCardInfo(restaurant)
+            }
+
+            FavouriteButton(
+                isFavourite = isFavourite,
+                onFavouriteClick = onFavouriteClick,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(SpaceSize.large),
+            )
+        }
+    }
+}
+
+@Composable
+private fun RestaurantCardInfo(restaurant: Restaurant, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(SpaceSize.large),
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+    ) {
+        Text(
+            text = restaurant.name,
+            style = MaterialTheme.typography.bodyLarge,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.LocationOn,
+                contentDescription = null,
+                modifier = Modifier.size(18.dp),
+            )
+
+            Text(
+                text = restaurant.city,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Filled.Star,
+                contentDescription = null,
+                tint = Star,
+                modifier = Modifier.size(16.dp),
+            )
+
+            Spacer(Modifier.width(SpaceSize.small))
+
+            Text(
+                text = restaurant.rating.toString(),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+
+            Spacer(Modifier.width(SpaceSize.small))
+
+            Text(
+                text = "(${restaurant.userRatingCount})",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+@Composable
+@Preview
+fun RestaurantCardPreview() {
+    AppTheme {
+        RestaurantCard(
+            restaurant = Restaurant(
+                id = "r1",
+                name = "Le Jardin",
+                description = "A charming garden restaurant with French-inspired cuisine",
+                city = "Midtown",
+                country = "French",
+                countryCode = "French",
+                postalCode = "French",
+                imagesUrl = emptyList(),
+                address = "Rua Augusta 123, Lisbon",
+                rating = 4.8,
+                userRatingCount = 320,
+                websiteUrl = "",
+                phoneNumber = "+351 910 000 000",
+                location = Location(latitude = 38.7223, longitude = -9.1393),
+            ),
+        )
+    }
+}

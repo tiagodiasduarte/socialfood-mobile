@@ -1,0 +1,33 @@
+<resources>
+    <string name="wish_no_results_title">A Tua Lista de Desejos Está Vazia</string>
+    <string name="wish_no_results_subtitle">Os restaurantes que queres experimentar aparecem aqui.</string>
+    <string name="visited_no_results_title">Sem Restaurantes Visitados</string>
+    <string name="visited_no_results_subtitle">Os restaurantes que marcares como visitados aparecem aqui.</string>
+    <string name="search_restaurants_title">Adicionar Restaurantes</string>
+    <string name="search_restaurants_search_placeholder">Pesquisar restaurantes...</string>
+    <string name="search_restaurants_importing_dialog_message">A importar restaurante…</string>
+    <string name="search_restaurants_idle_title">Encontra um Restaurante</string>
+    <string name="search_restaurants_idle_subtitle">Apenas restaurantes em %1$s estão disponíveis.</string>
+    <string name="search_restaurants_idle_subtitle_bold">Portugal</string>
+    <string name="search_restaurants_no_results_title">Nenhum Restaurante Encontrado</string>
+    <string name="search_restaurants_no_results_subtitle">Tenta um termo de pesquisa diferente.</string>
+    <string name="search_restaurants_recent_searches_title">Pesquisas recentes</string>
+    <string name="restaurant_detail_day_monday">Segunda-feira</string>
+    <string name="restaurant_detail_day_tuesday">Terça-feira</string>
+    <string name="restaurant_detail_day_wednesday">Quarta-feira</string>
+    <string name="restaurant_detail_day_thursday">Quinta-feira</string>
+    <string name="restaurant_detail_day_friday">Sexta-feira</string>
+    <string name="restaurant_detail_day_saturday">Sábado</string>
+    <string name="restaurant_detail_day_sunday">Domingo</string>
+    <string name="restaurant_detail_information_title">Informação</string>
+    <string name="restaurant_detail_location_title">Localização</string>
+    <string name="restaurant_detail_location_expand_description">Abrir no Maps</string>
+    <string name="restaurant_detail_location_copy_address_description">Copiar morada</string>
+    <string name="restaurant_detail_opening_hours_title">Horário de Funcionamento</string>
+    <string name="restaurant_detail_call_button">Ligar para Reservar</string>
+    <string name="restaurant_detail_reviews_count">%1$d avaliações</string>
+    <string name="restaurant_detail_navigate_description">Ir para o restaurante</string>
+    <string name="restaurant_detail_share_button">Partilhar</string>
+    <string name="restaurant_detail_add_to_wishlist_button">Adicionar à lista de desejos</string>
+    <string name="restaurant_detail_move_to_visited_button">Mover para a lista de visitados</string>
+</resources>

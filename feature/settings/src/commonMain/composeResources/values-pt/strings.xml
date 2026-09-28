@@ -1,0 +1,24 @@
+<resources>
+    <string name="profile_profile_button">Perfil</string>
+    <string name="profile_profile_button_description">Botão de perfil</string>
+    <string name="profile_favorite_guides_button">Guias Favoritos</string>
+    <string name="profile_favorite_guides_button_description">Botão de guias favoritos</string>
+    <string name="profile_favorites_restaurants_button">Restaurantes Favoritos</string>
+    <string name="profile_favorites_restaurants_button_description">Botão de restaurantes favoritos</string>
+    <string name="profile_wish_restaurants_button">Lista de Desejos</string>
+    <string name="profile_wish_restaurants_button_description">Botão da lista de desejos</string>
+    <string name="profile_visited_restaurants_button">Restaurantes Visitados</string>
+    <string name="profile_visited_restaurants_button_description">Botão de restaurantes visitados</string>
+    <string name="profile_theme_button">Tema</string>
+    <string name="profile_theme_button_description">Botão de tema</string>
+    <string name="profile_logout_button">Terminar Sessão</string>
+    <string name="profile_logout_button_description">Botão de terminar sessão</string>
+    <string name="profile_logout_confirmation_title">Terminar Sessão</string>
+    <string name="profile_logout_confirmation_message">Tens a certeza de que queres terminar sessão?</string>
+    <string name="profile_logout_confirmation_confirm">Terminar Sessão</string>
+    <string name="profile_logout_confirmation_cancel">Cancelar</string>
+    <string name="theme_sheet_title">Tema</string>
+    <string name="theme_light_label">Claro</string>
+    <string name="theme_dark_label">Escuro</string>
+    <string name="theme_system_label">Predefinição do sistema</string>
+</resources>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="favourites_guides_title">Guias Favoritos</string>
+    <string name="favourites_guides_no_results_title">Sem Guias Favoritos</string>
+    <string name="favourites_guides_no_results_subtitle">Os guias que adicionares aos favoritos aparecem aqui.</string>
+    <string name="favourites_restaurants_title">Restaurantes Favoritos</string>
+    <string name="favourites_restaurants_no_results_title">Sem Restaurantes Favoritos</string>
+    <string name="favourites_restaurants_no_results_subtitle">Os restaurantes que adicionares aos favoritos aparecem aqui.</string>
+    <string name="favorite_card_remove_button">Remover</string>
+</resources>

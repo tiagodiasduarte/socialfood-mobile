@@ -45,7 +45,7 @@ jobs:
           google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
       - name: Set BUILD_DATE
         run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
-      - run: ./gradlew :composeApp:testDebugUnitTest --stacktrace
+      - run: ./gradlew :composeApp:testDebugUnitTest testAndroidHostTest --stacktrace
       - run: ./gradlew :composeApp:koverHtmlReport --stacktrace
       - run: ./gradlew test -Pkover koverVerify --stacktrace
       - name: Upload Kover HTML report
@@ -114,7 +114,7 @@ jobs:
           google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
       - name: Set BUILD_DATE
         run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
-      - run: ./gradlew :composeApp:iosSimulatorArm64Test --stacktrace
+      - run: ./gradlew iosSimulatorArm64Test --stacktrace
 
   static-analysis:
     name: Static Analysis
@@ -139,13 +139,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ktlint-html-report
-          path: composeApp/build/reports/ktlint/
+          path: "**/build/reports/ktlint/"
       - name: Upload Detekt HTML report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: detekt-html-report
-          path: composeApp/build/reports/detekt/
+          path: "**/build/reports/detekt/"
       - name: Upload Lint HTML report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4

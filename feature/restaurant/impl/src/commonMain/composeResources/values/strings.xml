@@ -1,0 +1,33 @@
+<resources>
+    <string name="wish_no_results_title">Your Wishlist is Empty</string>
+    <string name="wish_no_results_subtitle">Restaurants you\'d like to try will show up here.</string>
+    <string name="visited_no_results_title">No Visited Restaurants</string>
+    <string name="visited_no_results_subtitle">Restaurants you mark as visited will show up here.</string>
+    <string name="search_restaurants_title">Add Restaurants</string>
+    <string name="search_restaurants_search_placeholder">Search restaurants...</string>
+    <string name="search_restaurants_importing_dialog_message">Importing restaurant…</string>
+    <string name="search_restaurants_idle_title">Find a Restaurant</string>
+    <string name="search_restaurants_idle_subtitle">Only restaurants in %1$s are available.</string>
+    <string name="search_restaurants_idle_subtitle_bold">Portugal</string>
+    <string name="search_restaurants_no_results_title">No Restaurants Found</string>
+    <string name="search_restaurants_no_results_subtitle">Try a different search term.</string>
+    <string name="search_restaurants_recent_searches_title">Recent searches</string>
+    <string name="restaurant_detail_day_monday">Monday</string>
+    <string name="restaurant_detail_day_tuesday">Tuesday</string>
+    <string name="restaurant_detail_day_wednesday">Wednesday</string>
+    <string name="restaurant_detail_day_thursday">Thursday</string>
+    <string name="restaurant_detail_day_friday">Friday</string>
+    <string name="restaurant_detail_day_saturday">Saturday</string>
+    <string name="restaurant_detail_day_sunday">Sunday</string>
+    <string name="restaurant_detail_information_title">Information</string>
+    <string name="restaurant_detail_location_title">Location</string>
+    <string name="restaurant_detail_location_expand_description">Open in Maps</string>
+    <string name="restaurant_detail_location_copy_address_description">Copy address</string>
+    <string name="restaurant_detail_opening_hours_title">Opening Hours</string>
+    <string name="restaurant_detail_call_button">Call for Reservation</string>
+    <string name="restaurant_detail_reviews_count">%1$d reviews</string>
+    <string name="restaurant_detail_navigate_description">Navigate to restaurant</string>
+    <string name="restaurant_detail_share_button">Share</string>
+    <string name="restaurant_detail_add_to_wishlist_button">Add to wishlist</string>
+    <string name="restaurant_detail_move_to_visited_button">Move to visited list</string>
+</resources>

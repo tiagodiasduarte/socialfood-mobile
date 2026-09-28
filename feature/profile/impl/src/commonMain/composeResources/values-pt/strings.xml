@@ -1,0 +1,24 @@
+<resources>
+    <string name="edit_profile_title">Editar Perfil</string>
+    <string name="edit_profile_picture_section_title">Fotografia de Perfil</string>
+    <string name="edit_profile_picture_upload_label">Carrega uma nova fotografia de perfil</string>
+    <string name="edit_profile_picture_change_button">Alterar Fotografia</string>
+    <string name="edit_profile_save_error_title">Não foi possível guardar o perfil</string>
+    <string name="edit_profile_save_error_dismiss">OK</string>
+    <string name="edit_profile_personal_details_title">Dados Pessoais</string>
+    <string name="edit_profile_name_label">Nome</string>
+    <string name="edit_profile_name_placeholder">João Silva</string>
+    <string name="edit_profile_email_label">Email</string>
+    <string name="edit_profile_username_label">Nome de utilizador</string>
+    <string name="edit_profile_clear_field_button_description">Limpar campo</string>
+    <string name="edit_profile_username_placeholder">joaosilva</string>
+    <string name="edit_profile_author_mode_title">Modo de autor</string>
+    <string name="edit_profile_author_mode_description">Ativa para te tornares autor e começares a criar guias públicos.</string>
+    <string name="edit_profile_social_title">Redes Sociais</string>
+    <string name="edit_profile_facebook_label">Facebook</string>
+    <string name="edit_profile_facebook_placeholder">https://facebook.com/oteuperfil</string>
+    <string name="edit_profile_instagram_label">Instagram</string>
+    <string name="edit_profile_instagram_placeholder">https://instagram.com/oteuperfil</string>
+    <string name="edit_profile_youtube_label">YouTube</string>
+    <string name="edit_profile_youtube_placeholder">https://youtube.com/@oteucanal</string>
+</resources>

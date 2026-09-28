@@ -1,0 +1,24 @@
+<resources>
+    <string name="profile_profile_button">Profile</string>
+    <string name="profile_profile_button_description">Profile button</string>
+    <string name="profile_favorite_guides_button">Favorite Guides</string>
+    <string name="profile_favorite_guides_button_description">Favorite Guides button</string>
+    <string name="profile_favorites_restaurants_button">Favorite Restaurants</string>
+    <string name="profile_favorites_restaurants_button_description">Favorites Restaurants button</string>
+    <string name="profile_wish_restaurants_button">Restaurant Wishlist</string>
+    <string name="profile_wish_restaurants_button_description">Restaurant Wishlist button</string>
+    <string name="profile_visited_restaurants_button">Visited Restaurants</string>
+    <string name="profile_visited_restaurants_button_description">Visited Restaurants button</string>
+    <string name="profile_theme_button">Theme</string>
+    <string name="profile_theme_button_description">Theme button</string>
+    <string name="profile_logout_button">Log Out</string>
+    <string name="profile_logout_button_description">Log Out button</string>
+    <string name="profile_logout_confirmation_title">Log Out</string>
+    <string name="profile_logout_confirmation_message">Are you sure you want to log out?</string>
+    <string name="profile_logout_confirmation_confirm">Log Out</string>
+    <string name="profile_logout_confirmation_cancel">Cancel</string>
+    <string name="theme_sheet_title">Theme</string>
+    <string name="theme_light_label">Light</string>
+    <string name="theme_dark_label">Dark</string>
+    <string name="theme_system_label">System default</string>
+</resources>

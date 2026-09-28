@@ -37,7 +37,7 @@ CI (`.github/workflows/ci.yml`) runs on PRs targeting `develop` or `main`, as fi
 
 ## Architecture
 
-Clean Architecture split into Gradle modules, modelled on Now in Android. Package names didn't change when code moved into modules (e.g. use cases are still `pt.socialfood.domain.usecase.*`).
+Clean Architecture split into Gradle modules. Package names didn't change when code moved into modules (e.g. use cases are still `pt.socialfood.domain.usecase.*`).
 
 ```
 composeApp/                 – app shell: App.kt, NavigationRoot + bottom bar, route serializers, Koin (di/),

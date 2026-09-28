@@ -1,4 +1,4 @@
-package pt.socialfood.domain.usecase
+package pt.socialfood.domain.usecase.search
 
 import pt.socialfood.domain.model.Place
 import pt.socialfood.domain.repository.SettingsRepository

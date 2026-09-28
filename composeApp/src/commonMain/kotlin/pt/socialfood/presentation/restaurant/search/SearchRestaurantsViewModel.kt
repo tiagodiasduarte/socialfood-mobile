@@ -16,11 +16,11 @@ import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Place
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.usecase.GetRecentSearchedPlacesUseCase
-import pt.socialfood.domain.usecase.SaveRecentSearchedPlaceUseCase
-import pt.socialfood.domain.usecase.SearchPlacesUseCase
 import pt.socialfood.domain.usecase.restaurant.AddRestaurantByPlaceIdUseCase
 import pt.socialfood.domain.usecase.restaurant.AwaitEnrichedRestaurantByPlaceIdUseCase
+import pt.socialfood.domain.usecase.search.GetRecentSearchedPlacesUseCase
+import pt.socialfood.domain.usecase.search.SaveRecentSearchedPlaceUseCase
+import pt.socialfood.domain.usecase.search.SearchPlacesUseCase
 import pt.socialfood.presentation.error.toErrorCode
 import kotlin.time.Duration.Companion.milliseconds
 

@@ -1,7 +1,7 @@
 package pt.socialfood.fakes
 
 import pt.socialfood.domain.model.Place
-import pt.socialfood.domain.usecase.SaveRecentSearchedPlaceUseCase
+import pt.socialfood.domain.usecase.search.SaveRecentSearchedPlaceUseCase
 
 class FakeSaveRecentSearchedPlaceUseCase(private val result: List<Place> = emptyList()) :
     SaveRecentSearchedPlaceUseCase {

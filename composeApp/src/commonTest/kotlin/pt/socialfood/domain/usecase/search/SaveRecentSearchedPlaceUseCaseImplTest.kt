@@ -1,4 +1,4 @@
-package pt.socialfood.domain.usecase
+package pt.socialfood.domain.usecase.search
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.fakes.FakeSettingsRepository

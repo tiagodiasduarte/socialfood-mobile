@@ -21,10 +21,10 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.RecentSearch
 import pt.socialfood.domain.model.RecentSearchType
 import pt.socialfood.domain.model.Search
-import pt.socialfood.domain.usecase.GetRecentSearchesUseCase
-import pt.socialfood.domain.usecase.SaveRecentSearchUseCase
 import pt.socialfood.domain.usecase.search.GetGuideSuggestionsUseCase
+import pt.socialfood.domain.usecase.search.GetRecentSearchesUseCase
 import pt.socialfood.domain.usecase.search.GetRestaurantSuggestionsUseCase
+import pt.socialfood.domain.usecase.search.SaveRecentSearchUseCase
 import pt.socialfood.domain.usecase.search.SearchUseCase
 import pt.socialfood.presentation.error.toErrorCode
 import kotlin.time.Duration.Companion.milliseconds

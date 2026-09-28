@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.rememberShimmerAlpha
 import pt.socialfood.presentation.guide.detail.author.AuthorItemCardSkeleton
-import pt.socialfood.presentation.restaurant.RestaurantSmallCardSkeleton
+import pt.socialfood.presentation.ui.restaurant.RestaurantSmallCardSkeleton
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.Shimmer
 import pt.socialfood.ui.theme.SpaceSize

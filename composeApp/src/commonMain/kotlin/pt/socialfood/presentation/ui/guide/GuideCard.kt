@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.guide
+package pt.socialfood.presentation.ui.guide
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -34,15 +34,15 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.presentation.components.FavouriteButton
 import pt.socialfood.presentation.components.GuideImage
 import pt.socialfood.presentation.components.cardImageScrim
-import pt.socialfood.presentation.guide.extensions.badgeBackgroundColor
-import pt.socialfood.presentation.guide.extensions.badgeIcon
+import pt.socialfood.presentation.ui.guide.badgeBackgroundColor
+import pt.socialfood.presentation.ui.guide.badgeIcon
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.join_shared_guide_screen_close_button_description
 
-internal val CardHeight = 180.dp
+val GuideCardHeight = 180.dp
 
 @Composable
 fun GuideCard(
@@ -55,7 +55,7 @@ fun GuideCard(
 ) {
     Card(
         modifier = (if (width != null) modifier.width(width) else modifier.fillMaxWidth())
-            .height(CardHeight),
+            .height(GuideCardHeight),
         shape = RoundedCornerShape(SpaceSize.large),
         onClick = onClick,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),

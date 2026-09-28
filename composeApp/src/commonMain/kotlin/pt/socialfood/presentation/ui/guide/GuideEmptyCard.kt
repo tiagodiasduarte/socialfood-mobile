@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.guide
+package pt.socialfood.presentation.ui.guide
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

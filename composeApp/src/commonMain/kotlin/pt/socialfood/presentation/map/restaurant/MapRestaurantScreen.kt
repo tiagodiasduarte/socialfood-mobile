@@ -20,7 +20,7 @@ import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.TopActionBar
-import pt.socialfood.presentation.map.guide.MapGuideRestaurantView
+import pt.socialfood.presentation.maps.MapGuideRestaurantView
 import pt.socialfood.ui.theme.AppTheme
 
 @Composable

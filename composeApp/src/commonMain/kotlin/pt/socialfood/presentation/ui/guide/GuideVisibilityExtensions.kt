@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.guide.extensions
+package pt.socialfood.presentation.ui.guide
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color

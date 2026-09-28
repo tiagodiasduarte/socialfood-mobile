@@ -33,10 +33,10 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.presentation.components.GuideImage
 import pt.socialfood.presentation.components.buttons.OutlinedButton
-import pt.socialfood.presentation.guide.extensions.badgeBackgroundColor
-import pt.socialfood.presentation.guide.extensions.badgeContentDescription
-import pt.socialfood.presentation.guide.extensions.badgeIcon
-import pt.socialfood.presentation.guide.shared.AuthorChip
+import pt.socialfood.presentation.ui.author.AuthorChip
+import pt.socialfood.presentation.ui.guide.badgeBackgroundColor
+import pt.socialfood.presentation.ui.guide.badgeContentDescription
+import pt.socialfood.presentation.ui.guide.badgeIcon
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize

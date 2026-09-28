@@ -57,9 +57,9 @@ import pt.socialfood.presentation.components.TopActionIconsBar
 import pt.socialfood.presentation.components.buttons.OutlinedButton
 import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.presentation.guide.detail.author.AuthorItemCard
-import pt.socialfood.presentation.guide.shared.AuthorChip
-import pt.socialfood.presentation.restaurant.RestaurantEmptyCard
-import pt.socialfood.presentation.restaurant.RestaurantSmallCard
+import pt.socialfood.presentation.ui.author.AuthorChip
+import pt.socialfood.presentation.ui.restaurant.RestaurantEmptyCard
+import pt.socialfood.presentation.ui.restaurant.RestaurantSmallCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.PrivateBadge
 import pt.socialfood.ui.theme.PrivateBadgeBackground

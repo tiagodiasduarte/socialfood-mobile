@@ -26,6 +26,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.model.RecentSearch
 import pt.socialfood.domain.model.RecentSearchType
+import pt.socialfood.presentation.components.SearchSectionHeader
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize

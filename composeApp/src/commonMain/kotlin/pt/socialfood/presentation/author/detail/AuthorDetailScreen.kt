@@ -38,7 +38,7 @@ import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.ProfileHeader
 import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.components.TopActionIconsBar
-import pt.socialfood.presentation.guide.GuideEmptyCard
+import pt.socialfood.presentation.ui.guide.GuideEmptyCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res

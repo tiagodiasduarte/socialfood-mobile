@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.search
+package pt.socialfood.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -16,7 +16,7 @@ import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-internal fun SearchSectionHeader(icon: ImageVector, title: String, modifier: Modifier = Modifier) {
+fun SearchSectionHeader(icon: ImageVector, title: String, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,

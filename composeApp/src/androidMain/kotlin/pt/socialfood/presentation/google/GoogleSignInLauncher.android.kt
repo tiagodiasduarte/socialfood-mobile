@@ -12,14 +12,15 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import kotlinx.coroutines.launch
-import pt.socialfood.BuildConfig
+import org.koin.compose.koinInject
 
 @Composable
 actual fun rememberGoogleSignInLauncher(onIdToken: (String) -> Unit, onError: (String) -> Unit): () -> Unit {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val config = koinInject<GoogleSignInConfig>()
 
-    return remember(context) {
+    return remember(context, config) {
         {
             scope.launch {
                 try {
@@ -29,7 +30,7 @@ actual fun rememberGoogleSignInLauncher(onIdToken: (String) -> Unit, onError: (S
                         GetGoogleIdOption
                             .Builder()
                             .setFilterByAuthorizedAccounts(false)
-                            .setServerClientId(BuildConfig.GOOGLE_CLIENT_ID)
+                            .setServerClientId(config.serverClientId)
                             .build()
 
                     val request =

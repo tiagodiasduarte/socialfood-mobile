@@ -36,8 +36,8 @@ import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
-import pt.socialfood.presentation.guide.GuideCard
-import pt.socialfood.presentation.restaurant.RestaurantCard
+import pt.socialfood.presentation.ui.guide.GuideCard
+import pt.socialfood.presentation.ui.restaurant.RestaurantCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize

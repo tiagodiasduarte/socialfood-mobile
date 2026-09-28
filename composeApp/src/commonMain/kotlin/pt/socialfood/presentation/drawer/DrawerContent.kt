@@ -41,9 +41,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
-import pt.socialfood.core.appBuildDate
-import pt.socialfood.core.appVersion
+import pt.socialfood.core.AppConfig
 import pt.socialfood.domain.model.User
 import pt.socialfood.presentation.components.StatsRow
 import pt.socialfood.presentation.components.UserImage
@@ -88,6 +88,7 @@ fun DrawerContent(
     onFavouriteRestaurantsClick: () -> Unit = {},
     onWishRestaurantsClick: () -> Unit = {},
     onVisitedRestaurantsClick: () -> Unit = {},
+    appConfig: AppConfig = koinInject(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     var showThemeSheet by remember { mutableStateOf(false) }
@@ -95,6 +96,7 @@ fun DrawerContent(
 
     DrawerSheet(
         state = state,
+        versionLabel = appConfig.versionLabel(),
         onLogoutClick = launchLogoutConfirmation,
         onProfileClick = onProfileClick,
         onFavouriteGuidesClick = onFavouriteGuidesClick,
@@ -109,9 +111,13 @@ fun DrawerContent(
     }
 }
 
+private fun AppConfig.versionLabel(): String =
+    if (buildDate.isNotBlank()) "v$versionName ($buildDate)" else "v$versionName"
+
 @Composable
 private fun DrawerSheet(
     state: DrawerUiState,
+    versionLabel: String,
     onLogoutClick: () -> Unit,
     onProfileClick: (authorId: String) -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
@@ -124,6 +130,7 @@ private fun DrawerSheet(
         when (state) {
             is DrawerUiState.Loaded -> DrawerUserContent(
                 user = state.user,
+                versionLabel = versionLabel,
                 onLogoutClick = onLogoutClick,
                 onProfileClick = onProfileClick,
                 onFavouriteGuidesClick = onFavouriteGuidesClick,
@@ -148,6 +155,7 @@ private fun DrawerSheet(
 @Composable
 private fun DrawerUserContent(
     user: User,
+    versionLabel: String,
     onLogoutClick: () -> Unit,
     onProfileClick: (authorId: String) -> Unit = {},
     onFavouriteGuidesClick: () -> Unit = {},
@@ -201,7 +209,7 @@ private fun DrawerUserContent(
         DrawerBottomMenu(onThemeClick = onThemeClick, onLogoutClick = onLogoutClick)
 
         Text(
-            text = if (appBuildDate.isNotBlank()) "v$appVersion ($appBuildDate)" else "v$appVersion",
+            text = versionLabel,
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
             modifier = Modifier
@@ -313,6 +321,7 @@ private fun DrawerContentPreview() {
     AppTheme {
         DrawerSheet(
             state = DrawerUiState.Loaded(user),
+            versionLabel = "v1.0.0",
             onLogoutClick = {},
         )
     }

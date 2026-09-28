@@ -34,8 +34,8 @@ import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.PullToRefreshContent
 import pt.socialfood.presentation.components.TopActionBar
-import pt.socialfood.presentation.restaurant.RestaurantVisitStatusCard
 import pt.socialfood.presentation.restaurant.visited.MapButtonItem
+import pt.socialfood.presentation.ui.restaurant.RestaurantVisitStatusCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res

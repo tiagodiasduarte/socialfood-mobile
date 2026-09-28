@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import pt.socialfood.presentation.components.ShimmerBox
 import pt.socialfood.presentation.components.rememberShimmerAlpha
+import pt.socialfood.presentation.ui.guide.GuideCardHeight
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
@@ -28,7 +29,7 @@ fun GuidesSkeleton(modifier: Modifier = Modifier) {
             ShimmerBox(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(CardHeight),
+                    .height(GuideCardHeight),
                 alpha = alpha,
                 shape = RoundedCornerShape(SpaceSize.large),
             )

@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.restaurant
+package pt.socialfood.presentation.ui.restaurant
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

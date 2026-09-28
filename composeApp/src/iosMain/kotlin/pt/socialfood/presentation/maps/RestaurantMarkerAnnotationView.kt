@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.map.guide
+package pt.socialfood.presentation.maps
 
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents

@@ -20,13 +20,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.socialfood.domain.model.Place
-import pt.socialfood.presentation.components.RestaurantImage
 import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.IconSize
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
@@ -71,18 +68,6 @@ fun PlaceItem(place: Place, onAddClicked: (String) -> Unit) {
             }
         }
     }
-}
-
-@Composable
-internal fun PlaceThumbnail(imageUrl: String?) {
-    RestaurantImage(
-        imageUrl = imageUrl,
-        contentDescription = null,
-        modifier = Modifier
-            .size(80.dp)
-            .clip(RoundedCornerShape(10.dp)),
-        iconSize = IconSize.small,
-    )
 }
 
 @Preview

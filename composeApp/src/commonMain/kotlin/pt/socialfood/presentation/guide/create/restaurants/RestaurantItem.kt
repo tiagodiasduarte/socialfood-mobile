@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.restaurant.search.PlaceThumbnail
+import pt.socialfood.presentation.ui.restaurant.PlaceThumbnail
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 

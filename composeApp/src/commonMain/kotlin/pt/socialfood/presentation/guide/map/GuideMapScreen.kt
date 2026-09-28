@@ -34,7 +34,7 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.map.guide.MapGuideRestaurants
+import pt.socialfood.presentation.maps.MapGuideRestaurants
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res

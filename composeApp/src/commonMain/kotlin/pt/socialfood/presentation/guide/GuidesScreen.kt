@@ -43,6 +43,7 @@ import pt.socialfood.presentation.components.TopTabs
 import pt.socialfood.presentation.guide.all.AllGuidesScreen
 import pt.socialfood.presentation.guide.my.MyGuidesScreen
 import pt.socialfood.presentation.guide.shared.SharedGuidesScreen
+import pt.socialfood.presentation.ui.guide.GuideCard
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res

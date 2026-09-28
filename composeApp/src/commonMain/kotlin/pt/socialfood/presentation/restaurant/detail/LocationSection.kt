@@ -31,7 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.map.guide.MapGuideRestaurantView
+import pt.socialfood.presentation.maps.MapGuideRestaurantView
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.restaurant_detail_location_copy_address_description

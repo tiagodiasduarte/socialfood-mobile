@@ -35,6 +35,7 @@ import pt.socialfood.domain.model.Search
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.NoResultsContent
 import pt.socialfood.presentation.components.SearchBar
+import pt.socialfood.presentation.components.SearchSectionHeader
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res

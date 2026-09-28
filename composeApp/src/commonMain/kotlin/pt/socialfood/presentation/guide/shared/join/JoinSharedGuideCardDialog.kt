@@ -40,7 +40,7 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.presentation.components.GuideImage
 import pt.socialfood.presentation.error.stringResource
-import pt.socialfood.presentation.guide.GuideAndAuthorInfo
+import pt.socialfood.presentation.ui.guide.GuideAndAuthorInfo
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize

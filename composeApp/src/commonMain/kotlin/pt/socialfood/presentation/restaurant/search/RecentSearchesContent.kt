@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.domain.model.Place
-import pt.socialfood.presentation.search.SearchSectionHeader
+import pt.socialfood.presentation.components.SearchSectionHeader
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res
 import socialfood.composeapp.generated.resources.search_restaurants_recent_searches_title

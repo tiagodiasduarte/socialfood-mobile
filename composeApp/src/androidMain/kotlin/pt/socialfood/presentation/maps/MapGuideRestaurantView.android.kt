@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.map.guide
+package pt.socialfood.presentation.maps
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

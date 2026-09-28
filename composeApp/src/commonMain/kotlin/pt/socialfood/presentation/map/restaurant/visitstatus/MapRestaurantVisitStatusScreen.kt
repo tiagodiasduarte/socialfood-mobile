@@ -29,7 +29,7 @@ import org.koin.core.parameter.parametersOf
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.presentation.map.guide.MapGuideRestaurants
+import pt.socialfood.presentation.maps.MapGuideRestaurants
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 import socialfood.composeapp.generated.resources.Res

@@ -79,6 +79,7 @@ kotlin {
             implementation(libs.play.services.maps)
         }
         commonMain.dependencies {
+            implementation(projects.core.common)
             implementation(libs.compose.components.resources)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
@@ -177,6 +178,9 @@ extensions.configure<ApplicationExtension> {
 }
 
 dependencies {
+    // Aggregate coverage of every shared module into this project's Kover reports.
+    kover(projects.core.common)
+
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
@@ -208,7 +212,7 @@ ktlint {
 
 detekt {
     buildUponDefaultConfig = true
-    config.setFrom(file("config/detekt/detekt.yml"))
+    config.setFrom(rootProject.file("config/detekt/detekt.yml"))
     baseline = file("config/detekt/baseline.xml")
     source.setFrom(
         "src/commonMain/kotlin",

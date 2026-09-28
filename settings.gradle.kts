@@ -1,6 +1,7 @@
 rootProject.name = "SocialFood"
 
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             mavenContent {
@@ -27,4 +28,7 @@ dependencyResolutionManagement {
     }
 }
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include(":composeApp")
+include(":core:common")

@@ -1,0 +1,123 @@
+<resources>
+    <string name="app_name">SocialFood</string>
+
+    <string name="back_button_description">Botão de voltar</string>
+    <string name="search_bar_clear_button_description">Limpar pesquisa</string>
+    <string name="user_image_content_description">Fotografia de perfil do utilizador</string>
+
+    <string name="sign_in_google_button_description">Ícone do Google</string>
+
+    <string name="home_list_see_all_label">Ver Tudo</string>
+    <string name="home_list_view_all_label">Ver Tudo</string>
+
+    <string name="profile_stat_guides_label">Guias</string>
+    <string name="profile_stat_followers_label">Seguidores</string>
+    <string name="profile_stat_following_label">A Seguir</string>
+
+    <string name="profile_edit_profile_button">Editar Perfil</string>
+    <string name="profile_edit_profile_button_description">Botão de editar perfil</string>
+    <string name="profile_drawer_close_button_description">Fechar menu</string>
+
+    <string name="guide_detail_error_label">Não foi possível carregar o guia</string>
+    <string name="guide_detail_back_button_description">Voltar</string>
+    <string name="guide_detail_share_button_description">Partilhar</string>
+    <string name="guide_detail_edit_button_description">Editar</string>
+    <string name="guide_detail_favourite_button_description">Favorito</string>
+    <string name="guide_detail_map_button_description">Mapa</string>
+    <string name="guide_map_restaurants_count_label">%1$d restaurantes</string>
+    <string name="guide_map_close_button_description">Fechar</string>
+    <string name="guide_map_show_list_button">Mostrar %1$d restaurantes</string>
+    <string name="guide_detail_public_icon_description">Ícone de público</string>
+    <string name="guide_detail_private_icon_description">Ícone de privado</string>
+    <string name="guide_detail_shared_icon_description">Ícone de partilhado</string>
+
+    <string name="wish_restaurants_title">Lista de Desejos</string>
+    <string name="wish_add_button_description">Adicionar restaurante à lista de desejos</string>
+    <string name="visited_restaurants_title">Restaurantes Visitados</string>
+    <string name="visited_add_button_description">Adicionar restaurante à lista de visitados</string>
+
+    <string name="guides_add_button_description">Adicionar guia</string>
+
+    <string name="join_shared_guide_screen_close_button_description">Fechar</string>
+    <string name="join_shared_guide_screen_restaurants_count_label">%1$d restaurantes</string>
+
+    <string name="authors_error_label">Não foi possível carregar os autores</string>
+    <string name="authors_stat_guides_label">guias</string>
+    <string name="authors_stat_followers_label">seguidores</string>
+    <string name="authors_stat_following_label">a seguir</string>
+    <string name="authors_separator">·</string>
+
+    <string name="author_detail_error_label">Não foi possível carregar o autor</string>
+    <string name="author_detail_back_button_description">Voltar</string>
+    <string name="author_detail_stat_guides_label">Guias</string>
+    <string name="author_detail_stat_followers_label">Seguidores</string>
+    <string name="author_detail_stat_following_label">A Seguir</string>
+    <string name="author_detail_stat_separator">|</string>
+
+    <string name="create_guide_save_button">Guardar</string>
+
+    <string name="edit_guide_save_button">Guardar</string>
+
+    <string name="search_restaurants_error">Não foi possível carregar os restaurantes</string>
+
+    <string name="edit_profile_save_button">Guardar</string>
+    <string name="edit_profile_google_info">Estás ligado com uma conta Google. Adiciona uma palavra-passe para editares as tuas informações de contacto.</string>
+
+    <string name="social_facebook_icon_description">Facebook</string>
+    <string name="social_instagram_icon_description">Instagram</string>
+    <string name="social_youtube_icon_description">YouTube</string>
+
+    <string name="bottom_nav_home">Início</string>
+    <string name="bottom_nav_search">Pesquisar</string>
+    <string name="bottom_nav_guides">Guias</string>
+    <string name="bottom_nav_authors">Autores</string>
+    <string name="bottom_nav_profile">Perfil</string>
+
+    <string name="error_content_title">Erro do Servidor</string>
+    <string name="error_content_subtitle">Ups! Algo correu mal do nosso lado.</string>
+    <string name="error_content_description">Estamos com dificuldades em ligar aos nossos servidores. Tenta novamente dentro de instantes.</string>
+    <string name="error_content_retry_button">Tentar Novamente</string>
+    <string name="error_content_go_home_button">Ir para o Início</string>
+    <string name="error_content_error_code_label">Código de erro: %1$s</string>
+
+    <string name="restaurant_detail_favourite_description">Adicionar aos favoritos</string>
+    <string name="restaurant_detail_more_options_description">Mais opções</string>
+
+    <string name="favorite_card_remove_button_description">Remover dos favoritos</string>
+    <string name="restaurant_card_remove_button">Remover</string>
+    <string name="restaurant_card_visited_button">Visitado</string>
+    <string name="wish_card_remove_button_description">Remover da lista de desejos</string>
+    <string name="visited_card_remove_button_description">Remover dos visitados</string>
+
+    <string name="error_code_user_already_exists">Já existe uma conta com este email.</string>
+    <string name="error_code_invalid_credentials">Email ou palavra-passe incorretos.</string>
+    <string name="error_code_email_not_verified">Verifica o teu email antes de continuares.</string>
+    <string name="error_code_email_already_verified">Este email já está verificado.</string>
+    <string name="error_code_invalid_code">Esse código não é válido.</string>
+    <string name="error_code_code_expired">Este código expirou. Pede um novo.</string>
+    <string name="error_code_no_pending_verification">Não há nenhuma verificação pendente para esta conta.</string>
+    <string name="error_code_resend_too_soon">Aguarda um momento antes de pedires outro código.</string>
+    <string name="error_code_invalid_google_token">Falha ao iniciar sessão com o Google. Tenta novamente.</string>
+    <string name="error_code_user_not_found">Utilizador não encontrado.</string>
+    <string name="error_code_guide_not_found">Guia não encontrado.</string>
+    <string name="error_code_author_not_found">Autor não encontrado.</string>
+    <string name="error_code_restaurant_not_found">Restaurante não encontrado.</string>
+    <string name="error_code_restaurant_not_in_guide">Este restaurante não faz parte do guia.</string>
+    <string name="error_code_home_section_not_found">Secção não encontrada.</string>
+    <string name="error_code_cannot_follow_self">Não podes seguir-te a ti próprio.</string>
+    <string name="error_code_already_following">Já estás a seguir este autor.</string>
+    <string name="error_code_not_following">Não estás a seguir este autor.</string>
+    <string name="error_code_already_favourited">Isto já está nos teus favoritos.</string>
+    <string name="error_code_not_favourited">Isto não está nos teus favoritos.</string>
+    <string name="error_code_item_type_mismatch">Este item não pode ser adicionado a esta secção.</string>
+    <string name="error_code_invalid_share_code">Esse código de partilha não é válido.</string>
+    <string name="error_code_already_joined_guide">Já te juntaste a este guia.</string>
+    <string name="error_code_cannot_join_own_guide">Não podes juntar-te ao teu próprio guia.</string>
+    <string name="error_code_forbidden">Não tens permissão para fazer isso.</string>
+    <string name="error_code_invalid_request">Algo nesse pedido não era válido.</string>
+    <string name="error_code_internal_error">Algo correu mal do nosso lado. Tenta novamente.</string>
+    <string name="error_code_invalid_social_link">Esse link de rede social não parece válido.</string>
+    <string name="error_code_unknown">Algo correu mal. Tenta novamente.</string>
+    <string name="error_network_message">Sem ligação à internet. Verifica a tua ligação e tenta novamente.</string>
+
+</resources>

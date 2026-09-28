@@ -1,0 +1,24 @@
+<resources>
+    <string name="edit_profile_title">Edit Profile</string>
+    <string name="edit_profile_picture_section_title">Profile Picture</string>
+    <string name="edit_profile_picture_upload_label">Upload a new profile picture</string>
+    <string name="edit_profile_picture_change_button">Change Photo</string>
+    <string name="edit_profile_save_error_title">Couldn’t save profile</string>
+    <string name="edit_profile_save_error_dismiss">OK</string>
+    <string name="edit_profile_personal_details_title">Personal Details</string>
+    <string name="edit_profile_name_label">Name</string>
+    <string name="edit_profile_name_placeholder">John Doe</string>
+    <string name="edit_profile_email_label">Email</string>
+    <string name="edit_profile_username_label">Username</string>
+    <string name="edit_profile_clear_field_button_description">Clear field</string>
+    <string name="edit_profile_username_placeholder">johndoe</string>
+    <string name="edit_profile_author_mode_title">Author mode</string>
+    <string name="edit_profile_author_mode_description">Enable to become an author and start creating public guides.</string>
+    <string name="edit_profile_social_title">Social Networks</string>
+    <string name="edit_profile_facebook_label">Facebook</string>
+    <string name="edit_profile_facebook_placeholder">https://facebook.com/yourprofile</string>
+    <string name="edit_profile_instagram_label">Instagram</string>
+    <string name="edit_profile_instagram_placeholder">https://instagram.com/yourprofile</string>
+    <string name="edit_profile_youtube_label">YouTube</string>
+    <string name="edit_profile_youtube_placeholder">https://youtube.com/@yourchannel</string>
+</resources>

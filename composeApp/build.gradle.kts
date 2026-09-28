@@ -44,9 +44,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.kover)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.ktlint)
-    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -63,6 +61,12 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            // Swift implements delegates declared in these modules (e.g. ImagePickerBridge), so
+            // their API must be exported to keep the unprefixed Objective-C/Swift names.
+            export(projects.core.ui)
+            export(projects.feature.auth)
+            export(projects.feature.guide.impl)
+            export(projects.feature.settings)
         }
     }
 
@@ -72,13 +76,41 @@ kotlin {
             implementation(libs.androidx.core.splashscreen)
             implementation(libs.androidx.credentials)
             implementation(libs.androidx.credentials.play.services.auth)
-            implementation(libs.androidx.datastore.preferences)
             implementation(libs.google.maps.compose)
             implementation(libs.googleid)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.play.services.maps)
         }
         commonMain.dependencies {
+            implementation(projects.core.common)
+            implementation(projects.core.data)
+            implementation(projects.core.database)
+            implementation(projects.core.datastore)
+            implementation(projects.core.designsystem)
+            implementation(projects.core.domain)
+            implementation(projects.core.maps)
+            implementation(projects.core.model)
+            implementation(projects.core.navigation)
+            implementation(projects.core.network)
+            api(projects.core.ui)
+            api(projects.feature.auth)
+            api(projects.feature.guide.impl)
+            api(projects.feature.settings)
+            implementation(projects.feature.guide.api)
+            implementation(projects.feature.author.api)
+            implementation(projects.feature.author.impl)
+            implementation(projects.feature.favourite.api)
+            implementation(projects.feature.favourite.impl)
+            implementation(projects.feature.home.api)
+            implementation(projects.feature.home.impl)
+            implementation(projects.feature.map.api)
+            implementation(projects.feature.map.impl)
+            implementation(projects.feature.profile.api)
+            implementation(projects.feature.profile.impl)
+            implementation(projects.feature.restaurant.api)
+            implementation(projects.feature.restaurant.impl)
+            implementation(projects.feature.search.api)
+            implementation(projects.feature.search.impl)
             implementation(libs.compose.components.resources)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
@@ -90,9 +122,6 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.paging.common)
             implementation(libs.androidx.paging.compose)
-            implementation(libs.androidx.room.paging)
-            implementation(libs.androidx.room.runtime)
-            implementation(libs.androidx.sqlite.bundled)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
             implementation(libs.jetbrains.lifecycle.viewmodelNavigation3)
@@ -111,6 +140,7 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
         commonTest.dependencies {
+            implementation(projects.core.testing)
             implementation(libs.androidx.paging.testing)
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
@@ -177,19 +207,42 @@ extensions.configure<ApplicationExtension> {
 }
 
 dependencies {
+    // Aggregate coverage of every shared module into this project's Kover reports.
+    kover(projects.core.common)
+    kover(projects.core.data)
+    kover(projects.core.database)
+    kover(projects.core.datastore)
+    kover(projects.core.designsystem)
+    kover(projects.core.domain)
+    kover(projects.core.maps)
+    kover(projects.core.model)
+    kover(projects.core.navigation)
+    kover(projects.core.network)
+    kover(projects.core.ui)
+    kover(projects.feature.author.api)
+    kover(projects.feature.author.impl)
+    kover(projects.feature.favourite.api)
+    kover(projects.feature.favourite.impl)
+    kover(projects.feature.guide.api)
+    kover(projects.feature.guide.impl)
+    kover(projects.feature.home.api)
+    kover(projects.feature.home.impl)
+    kover(projects.feature.map.api)
+    kover(projects.feature.map.impl)
+    kover(projects.feature.profile.api)
+    kover(projects.feature.profile.impl)
+    kover(projects.feature.restaurant.api)
+    kover(projects.feature.restaurant.impl)
+    kover(projects.feature.search.api)
+    kover(projects.feature.search.impl)
+    kover(projects.feature.auth)
+    kover(projects.feature.settings)
+
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
 
     debugImplementation(libs.compose.ui.tooling)
-
-    listOf("kspAndroid", "kspIosArm64", "kspIosSimulatorArm64").forEach {
-        add(it, libs.androidx.room.compiler)
-    }
-}
-
-room {
-    schemaDirectory("$projectDir/schemas")
 }
 
 ktlint {
@@ -208,7 +261,7 @@ ktlint {
 
 detekt {
     buildUponDefaultConfig = true
-    config.setFrom(file("config/detekt/detekt.yml"))
+    config.setFrom(rootProject.file("config/detekt/detekt.yml"))
     baseline = file("config/detekt/baseline.xml")
     source.setFrom(
         "src/commonMain/kotlin",
@@ -235,7 +288,7 @@ kover {
                 classes(
                     "*ComposableSingletons*",
                     $$"*$Lambda$*",
-                    "socialfood.composeapp.generated.resources.*",
+                    "*.generated.resources.*",
                     "*_Impl",
                     "$appNamespace.BuildConfig",
                     "$appNamespace.core.*",

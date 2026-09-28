@@ -1,0 +1,35 @@
+<resources>
+    <string name="show_password_content_description">Mostrar palavra-passe</string>
+    <string name="hide_password_content_description">Ocultar palavra-passe</string>
+    <string name="sign_in_title_label">Bem-vindo de volta</string>
+    <string name="sign_in_subtitle_label">Inicia sessão para continuares a explorar</string>
+    <string name="sign_in_email_label">Email</string>
+    <string name="sign_in_email_placeholder_label">teu@email.com</string>
+    <string name="sign_in_password_label">Palavra-passe</string>
+    <string name="sign_in_password_placeholder_label">••••••••</string>
+    <string name="sign_in_button">Iniciar sessão</string>
+    <string name="sign_in_continue_with_google_label">  Ou continua com  </string>
+    <string name="sign_in_google_button">Continuar com o Google</string>
+    <string name="sign_in_no_account_label">Não tens conta?</string>
+    <string name="sign_in_sign_up_button">Criar Conta</string>
+    <string name="sign_in_invalid_email">Introduz o teu email</string>
+    <string name="sign_in_invalid_password">Introduz a tua palavra-passe</string>
+    <string name="sign_up_title_label">Criar conta</string>
+    <string name="sign_up_subtitle_label">Junta-te a nós para explorares os melhores restaurantes</string>
+    <string name="sign_up_name_label">Nome</string>
+    <string name="sign_up_name_placeholder_label">O teu nome</string>
+    <string name="sign_up_button">Criar Conta</string>
+    <string name="sign_up_confirm_password_label">Confirmar Palavra-passe</string>
+    <string name="sign_up_confirm_password_placeholder_label">••••••••</string>
+    <string name="sign_up_already_have_account_label">Já tens conta?</string>
+    <string name="sign_up_sign_in_label">Iniciar Sessão</string>
+    <string name="sign_up_fill_all_fields">Preenche todos os campos</string>
+    <string name="sign_up_password_mismatch">As palavras-passe não coincidem</string>
+    <string name="validate_code_title_label">Verifica o teu email</string>
+    <string name="validate_code_subtitle_label">Introduz o código de 6 dígitos que enviámos para o teu email</string>
+    <string name="validate_code_button">Verificar</string>
+    <string name="validate_code_resend_label">Não recebeste o código?</string>
+    <string name="validate_code_resend_button">Reenviar código</string>
+    <string name="validate_code_restart_signup_label">Não és tu? Reiniciar registo</string>
+    <string name="validate_code_empty_code">Introduz o código</string>
+</resources>

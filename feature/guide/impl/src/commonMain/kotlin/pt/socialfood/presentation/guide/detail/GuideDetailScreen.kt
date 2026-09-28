@@ -1,0 +1,564 @@
+@file:Suppress("TooManyFunctions")
+
+package pt.socialfood.presentation.guide.detail
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Map
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
+import pt.socialfood.core.designsystem.generated.resources.author_icon
+import pt.socialfood.core.designsystem.generated.resources.guide_detail_map_button_description
+import pt.socialfood.core.designsystem.generated.resources.guide_detail_private_icon_description
+import pt.socialfood.core.designsystem.generated.resources.guide_detail_public_icon_description
+import pt.socialfood.core.designsystem.generated.resources.guide_detail_shared_icon_description
+import pt.socialfood.core.designsystem.generated.resources.guide_private_icon
+import pt.socialfood.core.designsystem.generated.resources.guide_public_icon
+import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.domain.model.Author
+import pt.socialfood.domain.model.Guide
+import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.domain.model.Location
+import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.feature.guide.impl.generated.resources.Res
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_leave_guide_button
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_leave_guide_confirmation_cancel
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_leave_guide_confirmation_confirm
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_leave_guide_confirmation_message
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_leave_guide_confirmation_title
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_no_restaurants_label
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_private_label
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_public_label
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_restaurants_count_label
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_restaurants_section_title
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_separator
+import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_shared_label
+import pt.socialfood.presentation.components.ErrorContent
+import pt.socialfood.presentation.components.GuideImage
+import pt.socialfood.presentation.components.TopActionBar
+import pt.socialfood.presentation.components.TopActionIconsBar
+import pt.socialfood.presentation.components.buttons.OutlinedButton
+import pt.socialfood.presentation.components.detailImageScrim
+import pt.socialfood.presentation.guide.detail.author.AuthorItemCard
+import pt.socialfood.presentation.ui.author.AuthorChip
+import pt.socialfood.presentation.ui.restaurant.RestaurantEmptyCard
+import pt.socialfood.presentation.ui.restaurant.RestaurantSmallCard
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.PrivateBadge
+import pt.socialfood.ui.theme.PrivateBadgeBackground
+import pt.socialfood.ui.theme.PublicBadge
+import pt.socialfood.ui.theme.PublicBadgeBackground
+import pt.socialfood.ui.theme.SharedBadge
+import pt.socialfood.ui.theme.SharedBadgeBackground
+import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
+
+internal val GuideImageHeight = 320.dp
+
+@Composable
+fun GuideDetailScreen(
+    guideId: String,
+    onBackClick: () -> Unit,
+    onEditClick: (guideId: String) -> Unit = {},
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onAuthorClick: (authorId: String) -> Unit = {},
+    onViewMapClick: (guideId: String, guideName: String, restaurantsCount: Int) -> Unit = { _, _, _ -> },
+    viewModel: GuideDetailViewModel = koinViewModel { parametersOf(guideId) },
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is GuideDetailViewModel.UiEvent.GuideLeft -> onBackClick()
+            }
+        }
+    }
+
+    GuideDetailContent(
+        state = state,
+        onEditClick = onEditClick,
+        onBackClick = onBackClick,
+        onRestaurantClick = onRestaurantClick,
+        onAuthorClick = onAuthorClick,
+        onViewMapClick = onViewMapClick,
+        onRetry = viewModel::load,
+        onToggleFavourite = viewModel::toggleFavourite,
+        onLeaveGuide = viewModel::onLeaveGuide,
+    )
+}
+
+@Composable
+private fun GuideDetailContent(
+    state: GuideDetailUiState,
+    onEditClick: (id: String) -> Unit,
+    onBackClick: () -> Unit,
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onAuthorClick: (authorId: String) -> Unit = {},
+    onViewMapClick: (guideId: String, guideName: String, restaurantsCount: Int) -> Unit = { _, _, _ -> },
+    onRetry: () -> Unit = {},
+    onToggleFavourite: () -> Unit = {},
+    onLeaveGuide: () -> Unit = {},
+) {
+    when (state) {
+        GuideDetailUiState.Loading -> GuideDetailSkeleton()
+
+        is GuideDetailUiState.Loaded ->
+            GuideDetailLoaded(
+                guide = state.guide,
+                currentUserId = state.currentUserId,
+                isFavourite = state.isFavourite,
+                isLeaving = state.isLeaving,
+                onEditClick = { onEditClick(it) },
+                onBackClick = onBackClick,
+                onRestaurantClick = onRestaurantClick,
+                onAuthorClick = onAuthorClick,
+                onViewMapClick = onViewMapClick,
+                onToggleFavourite = onToggleFavourite,
+                onLeaveGuide = onLeaveGuide,
+            )
+
+        is GuideDetailUiState.Error ->
+            GuideDetailError(
+                onBackClick = onBackClick,
+                onRetry = onRetry,
+            )
+    }
+}
+
+@Composable
+private fun GuideDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+    ) {
+        TopActionBar(onBackClick = onBackClick)
+
+        ErrorContent(
+            modifier = Modifier.fillMaxSize(),
+            backgroundColor = MaterialTheme.colorScheme.surface,
+            onRetryClick = onRetry,
+        )
+    }
+}
+
+@Composable
+private fun GuideDetailLoaded(
+    guide: Guide,
+    currentUserId: String?,
+    isFavourite: Boolean,
+    isLeaving: Boolean,
+    onEditClick: (id: String) -> Unit,
+    onBackClick: () -> Unit,
+    onRestaurantClick: (restaurantId: String) -> Unit = {},
+    onAuthorClick: (authorId: String) -> Unit = {},
+    onViewMapClick: (guideId: String, guideName: String, restaurantsCount: Int) -> Unit = { _, _, _ -> },
+    onToggleFavourite: () -> Unit = {},
+    onLeaveGuide: () -> Unit = {},
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+    ) {
+        item {
+            TopImageContent(
+                guide = guide,
+                currentUserId = currentUserId,
+                isFavourite = isFavourite,
+                isLeaving = isLeaving,
+                onEditClick = { onEditClick(it) },
+                onBackClick = onBackClick,
+                onToggleFavourite = onToggleFavourite,
+                onLeaveGuide = onLeaveGuide,
+            )
+
+            GuideInfo(guide)
+
+            GuideTitleAndDescription(guide)
+
+            GuideAuthorSection(guide = guide, onAuthorClick = onAuthorClick)
+        }
+
+        item {
+            RestaurantsSectionHeader(guide = guide, onViewMapClick = onViewMapClick)
+        }
+
+        if (guide.restaurants.isNotEmpty()) {
+            itemsIndexed(guide.restaurants, key = { _, r -> r.id }) { _, restaurant ->
+                RestaurantSmallCard(
+                    modifier = Modifier.padding(horizontal = SpaceSize.large),
+                    restaurant = restaurant,
+                    onClick = { onRestaurantClick(restaurant.id) },
+                )
+            }
+        } else {
+            item {
+                RestaurantEmptyCard(
+                    modifier = Modifier.padding(horizontal = SpaceSize.large),
+                    text = stringResource(Res.string.guide_detail_no_restaurants_label),
+                )
+            }
+        }
+
+        item { Spacer(Modifier.height(SpaceSize.xxlarge)) }
+    }
+}
+
+@Composable
+private fun RestaurantsSectionHeader(
+    guide: Guide,
+    onViewMapClick: (guideId: String, guideName: String, restaurantsCount: Int) -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(SpaceSize.large),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Text(
+            text = stringResource(Res.string.guide_detail_restaurants_section_title),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
+
+        if (guide.restaurants.isNotEmpty()) {
+            OutlinedButton(
+                text = stringResource(DesignSystemRes.string.guide_detail_map_button_description),
+                icon = Icons.Outlined.Map,
+                onClick = { onViewMapClick(guide.id, guide.name, guide.restaurants.size) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun GuideAuthorSection(guide: Guide, onAuthorClick: (authorId: String) -> Unit) {
+    if (guide.author.isPublic) {
+        Spacer(Modifier.height(SpaceSize.large))
+
+        AuthorItemCard(
+            modifier = Modifier.padding(horizontal = SpaceSize.large),
+            author = guide.author,
+            onClick = { onAuthorClick(guide.author.id) },
+        )
+    }
+}
+
+@Composable
+private fun TopImageContent(
+    guide: Guide,
+    currentUserId: String?,
+    isFavourite: Boolean,
+    isLeaving: Boolean,
+    onEditClick: (id: String) -> Unit,
+    onBackClick: () -> Unit,
+    onToggleFavourite: () -> Unit = {},
+    onLeaveGuide: () -> Unit = {},
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(GuideImageHeight),
+    ) {
+        GuideImage(
+            imageUrl = guide.imageUrl,
+            contentDescription = guide.name,
+            modifier = Modifier.fillMaxSize(),
+        )
+
+        Box(modifier = Modifier.fillMaxSize().detailImageScrim())
+
+        val isOwnGuide = guide.author.id == currentUserId
+        val canLeaveGuide = guide.visibility == GuideVisibility.SHARED && !isOwnGuide
+        var isMenuExpanded by remember { mutableStateOf(false) }
+        var showLeaveConfirmation by remember { mutableStateOf(false) }
+
+        TopActionIconsBar(
+            showCloseButton = true,
+            onCloseClick = onBackClick,
+            showShareButton = !isOwnGuide,
+            showEditButton = isOwnGuide,
+            onEditClick = { onEditClick(guide.id) },
+            showFavouriteButton = true,
+            isFavourite = isFavourite,
+            onToggleFavourite = onToggleFavourite,
+            showMenuButton = canLeaveGuide,
+            onMenuClick = { isMenuExpanded = true },
+            menuContent = {
+                DropdownMenu(
+                    expanded = isMenuExpanded,
+                    onDismissRequest = { isMenuExpanded = false },
+                ) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(Res.string.guide_detail_leave_guide_button)) },
+                        onClick = {
+                            isMenuExpanded = false
+                            showLeaveConfirmation = true
+                        },
+                    )
+                }
+            },
+        )
+
+        if (showLeaveConfirmation) {
+            LeaveGuideConfirmationDialog(
+                isLeaving = isLeaving,
+                onConfirm = onLeaveGuide,
+                onDismiss = { showLeaveConfirmation = false },
+            )
+        }
+    }
+}
+
+@Composable
+private fun LeaveGuideConfirmationDialog(isLeaving: Boolean, onConfirm: () -> Unit, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(Res.string.guide_detail_leave_guide_confirmation_title)) },
+        text = { Text(stringResource(Res.string.guide_detail_leave_guide_confirmation_message)) },
+        confirmButton = {
+            TextButton(onClick = onConfirm, enabled = !isLeaving) {
+                if (isLeaving) {
+                    CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp)
+                } else {
+                    Text(stringResource(Res.string.guide_detail_leave_guide_confirmation_confirm))
+                }
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss, enabled = !isLeaving) {
+                Text(stringResource(Res.string.guide_detail_leave_guide_confirmation_cancel))
+            }
+        },
+    )
+}
+
+@Composable
+private fun GuideInfo(guide: Guide) {
+    Row(
+        modifier = Modifier.padding(SpaceSize.large),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+    ) {
+        Row(
+            modifier = Modifier
+                .height(24.dp)
+                .clip(RoundedCornerShape(SpaceSize.medium))
+                .background(guide.visibility.badgeBackgroundColor())
+                .padding(horizontal = SpaceSize.medium, vertical = SpaceSize.small),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(SpaceSize.small),
+        ) {
+            VisibilityBadgeContent(guide.visibility)
+        }
+
+        Text(
+            text = stringResource(Res.string.guide_detail_separator),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+
+        Text(
+            text = stringResource(
+                Res.string.guide_detail_restaurants_count_label,
+                guide.numberOfRestaurant,
+            ),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+
+        if (!guide.author.isPublic) {
+            Text(
+                text = stringResource(Res.string.guide_detail_separator),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+
+            AuthorChip(
+                author = guide.author,
+                fontColor = MaterialTheme.colorScheme.onBackground,
+            )
+        }
+    }
+}
+
+@Composable
+private fun VisibilityBadgeContent(visibility: GuideVisibility) {
+    when (visibility) {
+        GuideVisibility.PUBLIC -> {
+            Image(
+                painter = painterResource(DesignSystemRes.drawable.guide_public_icon),
+                contentDescription = stringResource(DesignSystemRes.string.guide_detail_public_icon_description),
+                modifier = Modifier.size(20.dp),
+                colorFilter = ColorFilter.tint(PublicBadge),
+            )
+            Text(
+                text = stringResource(Res.string.guide_detail_public_label),
+                style = MaterialTheme.typography.bodyMedium,
+                color = PublicBadge,
+            )
+        }
+
+        GuideVisibility.PRIVATE -> {
+            Image(
+                painter = painterResource(DesignSystemRes.drawable.guide_private_icon),
+                contentDescription = stringResource(DesignSystemRes.string.guide_detail_private_icon_description),
+                modifier = Modifier.size(20.dp),
+                colorFilter = ColorFilter.tint(PrivateBadge),
+            )
+            Text(
+                text = stringResource(Res.string.guide_detail_private_label),
+                style = MaterialTheme.typography.bodyMedium,
+                color = PrivateBadge,
+            )
+        }
+
+        GuideVisibility.SHARED -> {
+            Image(
+                painter = painterResource(DesignSystemRes.drawable.author_icon),
+                contentDescription = stringResource(DesignSystemRes.string.guide_detail_shared_icon_description),
+                modifier = Modifier.size(20.dp),
+                colorFilter = ColorFilter.tint(SharedBadge),
+            )
+            Text(
+                text = stringResource(Res.string.guide_detail_shared_label),
+                style = MaterialTheme.typography.bodyMedium,
+                color = SharedBadge,
+            )
+        }
+    }
+}
+
+@Composable
+private fun GuideTitleAndDescription(guide: Guide) {
+    Text(
+        modifier = Modifier.padding(horizontal = SpaceSize.large),
+        text = guide.name,
+        style = MaterialTheme.typography.titleLarge,
+        color = MaterialTheme.colorScheme.onBackground,
+    )
+
+    Spacer(Modifier.height(SpaceSize.large))
+
+    if (guide.description.isNotBlank()) {
+        Text(
+            modifier = Modifier.padding(horizontal = SpaceSize.large),
+            text = guide.description,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+    }
+}
+
+@Composable
+private fun GuideVisibility.badgeBackgroundColor(): Color = when (this) {
+    GuideVisibility.PUBLIC -> PublicBadgeBackground
+    GuideVisibility.PRIVATE -> PrivateBadgeBackground
+    GuideVisibility.SHARED -> SharedBadgeBackground
+}
+
+@Composable
+@Preview
+fun GuideDetailScreenPreview() {
+    val author = Author(id = "u1", name = "Sarah Mitchell", username = "sarahmitchell", isPublic = false)
+    val restaurant = Restaurant(
+        id = "r1",
+        name = "Le Jardin",
+        description = "",
+        city = "Downtown",
+        country = "French",
+        countryCode = "",
+        postalCode = "",
+        imagesUrl = emptyList(),
+        address = "",
+        rating = 4.8,
+        userRatingCount = 320,
+        websiteUrl = "",
+        phoneNumber = "",
+        location = Location(latitude = 48.8566, longitude = 2.3522),
+    )
+
+    val guide = Guide(
+        id = "g1",
+        name = "Michelin Star Favorites",
+        description = "A carefully curated collection of the finest dining experiences in the city. " +
+            "Each restaurant has been personally visited and reviewed to ensure exceptional quality, " +
+            "impeccable service, and unforgettable culinary moments.",
+        numberOfRestaurant = 8,
+        visibility = GuideVisibility.PUBLIC,
+        author = author,
+        restaurants = listOf(restaurant),
+    )
+    AppTheme {
+        GuideDetailContent(
+            state = GuideDetailUiState.Loaded(guide, currentUserId = null),
+            onEditClick = {},
+            onBackClick = {},
+        )
+    }
+}
+
+@Composable
+@Preview
+fun GuideDetailScreenLoadingPreview() {
+    AppTheme {
+        GuideDetailContent(
+            state = GuideDetailUiState.Loading,
+            onEditClick = {},
+            onBackClick = {},
+        )
+    }
+}
+
+@Composable
+@Preview
+fun GuideDetailScreenErrorPreview() {
+    AppTheme {
+        GuideDetailContent(
+            state = GuideDetailUiState.Error(ErrorCode.GUIDE_NOT_FOUND),
+            onEditClick = {},
+            onBackClick = {},
+        )
+    }
+}

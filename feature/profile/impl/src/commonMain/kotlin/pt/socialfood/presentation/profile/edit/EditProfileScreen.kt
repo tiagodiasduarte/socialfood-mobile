@@ -1,0 +1,189 @@
+package pt.socialfood.presentation.profile.edit
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.feature.profile.impl.generated.resources.Res
+import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_save_error_dismiss
+import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_save_error_title
+import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_title
+import pt.socialfood.presentation.components.ErrorAlertDialog
+import pt.socialfood.presentation.components.ErrorContent
+import pt.socialfood.presentation.components.TopActionBar
+import pt.socialfood.presentation.components.buttons.SaveButton
+import pt.socialfood.presentation.error.stringResource
+import pt.socialfood.presentation.profile.edit.card.AuthorModeCard
+import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
+import pt.socialfood.presentation.profile.edit.card.ProfilePictureCard
+import pt.socialfood.presentation.profile.edit.card.SocialNetworkCard
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.SpaceSize
+
+private val SaveButtonHeight = 56.dp
+
+@Composable
+fun EditProfileScreen(onBackClick: () -> Unit, viewModel: EditProfileViewModel = koinViewModel()) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    if (state is EditProfileUiState.Loaded) {
+        LaunchedEffect((state as EditProfileUiState.Loaded).saveSuccess) {
+            if ((state as EditProfileUiState.Loaded).saveSuccess) onBackClick()
+        }
+    }
+
+    when (val s = state) {
+        is EditProfileUiState.Loading -> EditProfileSkeleton()
+        is EditProfileUiState.Error -> Column(
+            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
+        ) {
+            TopActionBar(
+                title = stringResource(Res.string.edit_profile_title),
+                onBackClick = onBackClick,
+            )
+            ErrorContent(modifier = Modifier.fillMaxSize(), onRetryClick = viewModel::retry)
+        }
+
+        is EditProfileUiState.Loaded -> EditProfileContent(
+            state = s,
+            onBackClick = onBackClick,
+            onSaveClick = viewModel::save,
+            onPhotoSelected = viewModel::onPhotoSelected,
+            onNameChange = viewModel::onNameChange,
+            onUsernameChange = viewModel::onUsernameChange,
+            onFacebookUrlChange = viewModel::onFacebookUrlChange,
+            onInstagramUrlChange = viewModel::onInstagramUrlChange,
+            onYoutubeUrlChange = viewModel::onYoutubeUrlChange,
+            onAuthorModeChange = viewModel::onAuthorModeChange,
+            onDismissSaveError = viewModel::dismissSaveError,
+        )
+    }
+}
+
+@Composable
+private fun EditProfileContent(
+    state: EditProfileUiState.Loaded,
+    onBackClick: () -> Unit,
+    onSaveClick: () -> Unit,
+    onPhotoSelected: (ByteArray, String) -> Unit,
+    onNameChange: (String) -> Unit,
+    onUsernameChange: (String) -> Unit,
+    onFacebookUrlChange: (String) -> Unit,
+    onInstagramUrlChange: (String) -> Unit,
+    onYoutubeUrlChange: (String) -> Unit,
+    onAuthorModeChange: (Boolean) -> Unit,
+    onDismissSaveError: () -> Unit,
+) {
+    val saveError = state.saveError
+    if (saveError != null) {
+        SaveErrorDialog(errorCode = saveError, onDismiss = onDismissSaveError)
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+    ) {
+        TopActionBar(
+            title = stringResource(Res.string.edit_profile_title),
+            onBackClick = onBackClick,
+        )
+
+        Box(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = SpaceSize.large, vertical = SpaceSize.large),
+                verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
+            ) {
+                ProfilePictureCard(state = state, onPhotoSelected = onPhotoSelected)
+
+                PersonalDetailsCard(
+                    state = state,
+                    onNameChange = onNameChange,
+                    onUsernameChange = onUsernameChange,
+                )
+
+                AuthorModeCard(
+                    state = state,
+                    onAuthorModeChange = onAuthorModeChange,
+                )
+
+                SocialNetworkCard(
+                    state = state,
+                    onFacebookUrlChange = onFacebookUrlChange,
+                    onInstagramUrlChange = onInstagramUrlChange,
+                    onYoutubeUrlChange = onYoutubeUrlChange,
+                )
+
+                Spacer(Modifier.height(SaveButtonHeight))
+            }
+
+            SaveButton(
+                onClick = onSaveClick,
+                isLoading = state.isSaving,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(horizontal = SpaceSize.large, vertical = SpaceSize.medium)
+                    .height(SaveButtonHeight),
+            )
+        }
+    }
+}
+
+@Composable
+private fun SaveErrorDialog(errorCode: ErrorCode, onDismiss: () -> Unit) {
+    ErrorAlertDialog(
+        title = stringResource(Res.string.edit_profile_save_error_title),
+        message = stringResource(errorCode.stringResource()),
+        confirmButtonText = stringResource(Res.string.edit_profile_save_error_dismiss),
+        onDismiss = onDismiss,
+    )
+}
+
+@Preview
+@Composable
+private fun EditProfileScreenPreview() {
+    AppTheme {
+        EditProfileContent(
+            state = EditProfileUiState.Loaded(
+                name = "John Doe",
+                email = "john.doe@email.com",
+                username = "johndoe",
+                facebookUrl = "",
+                instagramUrl = "",
+                youtubeUrl = "",
+                isGoogleConnected = true,
+            ),
+            onBackClick = {},
+            onSaveClick = {},
+            onPhotoSelected = { _, _ -> },
+            onNameChange = {},
+            onUsernameChange = {},
+            onFacebookUrlChange = {},
+            onInstagramUrlChange = {},
+            onYoutubeUrlChange = {},
+            onAuthorModeChange = {},
+            onDismissSaveError = {},
+        )
+    }
+}

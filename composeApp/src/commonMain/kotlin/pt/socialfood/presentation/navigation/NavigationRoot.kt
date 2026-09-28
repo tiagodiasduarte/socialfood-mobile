@@ -37,6 +37,7 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
         rememberNavigationState(
             startRoute = HomeRoute.Home,
             topLevelRoutes = TOP_LEVEL_DESTINATIONS.keys,
+            serializersConfig = serializersConfig,
         )
     val navigator = remember { Navigator(navigationState) }
 

@@ -1,0 +1,339 @@
+package pt.socialfood.presentation.author.detail
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
+import pt.socialfood.domain.model.AuthorDetail
+import pt.socialfood.feature.author.impl.generated.resources.Res
+import pt.socialfood.feature.author.impl.generated.resources.author_detail_guides_section_title
+import pt.socialfood.feature.author.impl.generated.resources.author_detail_no_public_guides_label
+import pt.socialfood.feature.author.impl.generated.resources.author_detail_show_more_guides_button
+import pt.socialfood.presentation.components.ErrorContent
+import pt.socialfood.presentation.components.ProfileHeader
+import pt.socialfood.presentation.components.TopActionBar
+import pt.socialfood.presentation.components.TopActionIconsBar
+import pt.socialfood.presentation.ui.guide.GuideEmptyCard
+import pt.socialfood.ui.theme.AppTheme
+import pt.socialfood.ui.theme.SpaceSize
+
+private const val COLLAPSED_GUIDES_COUNT = 3
+
+@Composable
+fun AuthorDetailScreen(
+    authorId: String,
+    onBackClick: () -> Unit,
+    onGuideClick: (guideId: String) -> Unit = {},
+    isOwnProfile: Boolean = false,
+    onEditProfileClick: () -> Unit = {},
+    viewModel: AuthorDetailViewModel = koinViewModel { parametersOf(authorId) },
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    AuthorDetailContent(
+        state = state,
+        onBackClick = onBackClick,
+        onGuideClick = onGuideClick,
+        onRetry = viewModel::load,
+        isOwnProfile = isOwnProfile,
+        onEditProfileClick = onEditProfileClick,
+    )
+}
+
+@Composable
+private fun AuthorDetailContent(
+    state: AuthorDetailUiState,
+    onBackClick: () -> Unit,
+    onGuideClick: (guideId: String) -> Unit = {},
+    onRetry: () -> Unit,
+    isOwnProfile: Boolean = false,
+    onEditProfileClick: () -> Unit = {},
+) {
+    when (state) {
+        AuthorDetailUiState.Loading -> AuthorDetailSkeleton()
+
+        is AuthorDetailUiState.Loaded -> AuthorDetailLoaded(
+            author = state.author,
+            onBackClick = onBackClick,
+            onGuideClick = onGuideClick,
+            isOwnProfile = isOwnProfile,
+            onEditProfileClick = onEditProfileClick,
+        )
+
+        is AuthorDetailUiState.Error -> AuthorDetailError(
+            onBackClick = onBackClick,
+            onRetry = onRetry,
+        )
+    }
+}
+
+@Composable
+private fun AuthorDetailLoaded(
+    author: AuthorDetail,
+    onBackClick: () -> Unit,
+    onGuideClick: (guideId: String) -> Unit = {},
+    isOwnProfile: Boolean = false,
+    onEditProfileClick: () -> Unit = {},
+) {
+    var isGuidesExpanded by remember { mutableStateOf(false) }
+    val visibleGuides = if (isGuidesExpanded) author.guides else author.guides.take(COLLAPSED_GUIDES_COUNT)
+    val hiddenGuidesCount = author.guides.size - visibleGuides.size
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.medium),
+    ) {
+        item {
+            AuthorHeader(
+                author = author,
+                onBackClick = onBackClick,
+                isOwnProfile = isOwnProfile,
+                onEditProfileClick = onEditProfileClick,
+            )
+        }
+
+        item {
+            Text(
+                text = stringResource(Res.string.author_detail_guides_section_title),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.padding(horizontal = SpaceSize.large),
+            )
+        }
+
+        guidesSection(
+            allGuides = author.guides,
+            visibleGuides = visibleGuides,
+            hiddenGuidesCount = hiddenGuidesCount,
+            onGuideClick = onGuideClick,
+            onShowMoreClick = { isGuidesExpanded = true },
+        )
+    }
+}
+
+private fun LazyListScope.guidesSection(
+    allGuides: List<AuthorDetail.Guide>,
+    visibleGuides: List<AuthorDetail.Guide>,
+    hiddenGuidesCount: Int,
+    onGuideClick: (guideId: String) -> Unit,
+    onShowMoreClick: () -> Unit,
+) {
+    if (allGuides.isEmpty()) {
+        item {
+            GuideEmptyCard(
+                modifier = Modifier.padding(horizontal = SpaceSize.large),
+                text = stringResource(Res.string.author_detail_no_public_guides_label),
+            )
+        }
+        return
+    }
+
+    itemsIndexed(visibleGuides, key = { _, g -> g.id }) { _, guide ->
+        AuthorGuideCard(
+            guideName = guide.name,
+            guideDescription = guide.description,
+            numberOfRestaurant = guide.numberOfRestaurant,
+            imageUrl = guide.imageUrl,
+            onClick = { onGuideClick(guide.id) },
+            modifier = Modifier.padding(horizontal = SpaceSize.large),
+        )
+    }
+
+    if (hiddenGuidesCount > 0) {
+        item {
+            ShowMoreGuidesCard(
+                hiddenGuidesCount = hiddenGuidesCount,
+                onClick = onShowMoreClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .padding(horizontal = SpaceSize.large),
+            )
+        }
+    }
+}
+
+@Composable
+private fun ShowMoreGuidesCard(hiddenGuidesCount: Int, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Card(
+        onClick = onClick,
+        modifier = modifier,
+        shape = RoundedCornerShape(SpaceSize.large),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = SpaceSize.small),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = SpaceSize.medium),
+            horizontalArrangement = Arrangement.spacedBy(SpaceSize.small, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = Icons.Filled.KeyboardArrowDown,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(20.dp),
+            )
+            Text(
+                text = stringResource(Res.string.author_detail_show_more_guides_button, hiddenGuidesCount),
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+@Composable
+private fun AuthorHeader(
+    author: AuthorDetail,
+    onBackClick: () -> Unit,
+    isOwnProfile: Boolean = false,
+    onEditProfileClick: () -> Unit = {},
+) {
+    ProfileHeader(
+        name = author.name,
+        username = author.username,
+        imageUrl = author.imageUrl,
+        facebookUrl = author.facebookUrl,
+        instagramUrl = author.instagramUrl,
+        youtubeUrl = author.youtubeUrl,
+        topAction = {
+            TopActionIconsBar(
+                showCloseButton = true,
+                onCloseClick = onBackClick,
+                showEditButton = isOwnProfile,
+                onEditClick = onEditProfileClick,
+            )
+        },
+    )
+}
+
+@Composable
+private fun AuthorDetailError(onBackClick: () -> Unit, onRetry: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+    ) {
+        TopActionBar(onBackClick = onBackClick)
+
+        ErrorContent(
+            modifier = Modifier.fillMaxSize(),
+            onRetryClick = onRetry,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun AuthorDetailLoadingPreview() {
+    AppTheme {
+        AuthorDetailContent(
+            state = AuthorDetailUiState.Loading,
+            onBackClick = {},
+            onRetry = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun AuthorDetailLoadedPreview() {
+    val guides = listOf(
+        AuthorDetail.Guide(
+            id = "g1",
+            name = "Michelin Star Favorites",
+            description = "A curated collection of the finest dining experiences",
+            imageUrl = "",
+            numberOfRestaurant = 8,
+        ),
+        AuthorDetail.Guide(
+            id = "g2",
+            name = "Hidden Gems Lisbon",
+            description = "Off the beaten path restaurants in Lisbon",
+            imageUrl = "",
+            numberOfRestaurant = 5,
+        ),
+        AuthorDetail.Guide(
+            id = "g3",
+            name = "Porto Classics",
+            description = "Traditional restaurants in the heart of Porto",
+            imageUrl = "",
+            numberOfRestaurant = 6,
+        ),
+        AuthorDetail.Guide(
+            id = "g4",
+            name = "Coastal Bites",
+            description = "Seafood spots along the coastline",
+            imageUrl = "",
+            numberOfRestaurant = 4,
+        ),
+        AuthorDetail.Guide(
+            id = "g5",
+            name = "Late Night Eats",
+            description = "Where to go after midnight",
+            imageUrl = "",
+            numberOfRestaurant = 3,
+        ),
+    )
+    val author = AuthorDetail(
+        id = "a1",
+        name = "Sarah Mitchell",
+        username = "sarahmitchell",
+        guidesCount = 12,
+        followersCount = 2400,
+        followingCount = 180,
+        facebookUrl = "https://facebook.com/sarahmitchell",
+        instagramUrl = "https://instagram.com/sarahmitchell",
+        youtubeUrl = "https://youtube.com/@sarahmitchell",
+        guides = guides,
+    )
+    AppTheme {
+        AuthorDetailContent(
+            state = AuthorDetailUiState.Loaded(author),
+            onBackClick = {},
+            onRetry = {},
+            isOwnProfile = true,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun AuthorDetailErrorPreview() {
+    AppTheme {
+        AuthorDetailError(onBackClick = {}, onRetry = {})
+    }
+}

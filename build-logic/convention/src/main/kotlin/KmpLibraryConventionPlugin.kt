@@ -5,6 +5,7 @@ import kotlinx.kover.gradle.plugin.dsl.KoverProjectExtension
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import pt.socialfood.buildlogic.configureModuleGraphCheck
 import pt.socialfood.buildlogic.configureQuality
 import pt.socialfood.buildlogic.libs
 import pt.socialfood.buildlogic.library
@@ -23,6 +24,7 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
             apply("org.jetbrains.kotlinx.kover")
         }
         configureQuality()
+        configureModuleGraphCheck()
 
         // Same variant name as :composeApp's business-logic variant so the aggregated report merges them.
         extensions.configure<KoverProjectExtension> {

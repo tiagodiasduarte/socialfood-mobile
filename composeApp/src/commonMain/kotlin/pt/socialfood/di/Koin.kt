@@ -38,7 +38,6 @@ import pt.socialfood.data.local.AppDatabase
 import pt.socialfood.data.network.CoilHttpClient
 import pt.socialfood.data.network.KtorHttpClient
 import pt.socialfood.data.network.S3HttpClient
-import pt.socialfood.data.network.SessionManager
 import pt.socialfood.data.paging.asAuthorCacheTransactionRunner
 import pt.socialfood.data.paging.asFavouriteGuideCacheTransactionRunner
 import pt.socialfood.data.paging.asFavouriteRestaurantCacheTransactionRunner
@@ -74,6 +73,7 @@ import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.domain.repository.SearchRepository
 import pt.socialfood.domain.repository.UsersRepository
+import pt.socialfood.domain.session.SessionManager
 import pt.socialfood.domain.usecase.author.FindAuthorsUseCase
 import pt.socialfood.domain.usecase.author.FindAuthorsUseCaseImpl
 import pt.socialfood.domain.usecase.author.GetAuthorByIdUseCase

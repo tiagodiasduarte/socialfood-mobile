@@ -164,8 +164,9 @@ private fun RestaurantDetailLoaded(
                     }
                 },
                 onWebsiteClick = {
-                    if (!restaurant.websiteUrl.isNullOrBlank()) {
-                        uriHandler.openUri(restaurant.websiteUrl)
+                    val websiteUrl = restaurant.websiteUrl
+                    if (!websiteUrl.isNullOrBlank()) {
+                        uriHandler.openUri(websiteUrl)
                     }
                 },
             )

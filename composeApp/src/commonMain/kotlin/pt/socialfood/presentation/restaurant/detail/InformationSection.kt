@@ -112,10 +112,11 @@ private fun InformationCard(restaurant: Restaurant, onNavigateClick: () -> Unit,
                     color = MaterialTheme.colorScheme.outlineVariant,
                 )
             }
-            if (!restaurant.websiteUrl.isNullOrBlank()) {
+            val websiteUrl = restaurant.websiteUrl
+            if (!websiteUrl.isNullOrBlank()) {
                 InfoRow(
                     icon = Icons.Outlined.Language,
-                    text = restaurant.websiteUrl,
+                    text = websiteUrl,
                     textColor = MaterialTheme.colorScheme.primary,
                     textDecoration = TextDecoration.Underline,
                     onClick = onWebsiteClick,

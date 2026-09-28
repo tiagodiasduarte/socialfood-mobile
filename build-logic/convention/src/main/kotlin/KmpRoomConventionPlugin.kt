@@ -2,7 +2,6 @@ import androidx.room.gradle.RoomExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import pt.socialfood.buildlogic.libs
 import pt.socialfood.buildlogic.library
@@ -26,10 +25,10 @@ class KmpRoomConventionPlugin : Plugin<Project> {
             }
         }
 
-        dependencies {
-            listOf("kspAndroid", "kspIosArm64", "kspIosSimulatorArm64").forEach {
-                add(it, libs.library("androidx-room-compiler"))
-            }
+        // KSP creates its per-target configurations lazily, so attach the compiler as they appear.
+        val kspConfigurations = setOf("kspAndroid", "kspIosArm64", "kspIosSimulatorArm64")
+        configurations.matching { it.name in kspConfigurations }.configureEach {
+            dependencies.addLater(libs.library("androidx-room-compiler"))
         }
     }
 }

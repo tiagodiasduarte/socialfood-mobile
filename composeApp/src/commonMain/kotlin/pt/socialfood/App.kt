@@ -11,7 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.mp.KoinPlatform.getKoin
-import pt.socialfood.data.network.SessionManager
+import pt.socialfood.domain.session.SessionManager
 import pt.socialfood.presentation.navigation.NavigationRoot
 import pt.socialfood.presentation.signin.SignInScreen
 import pt.socialfood.presentation.signup.SignUpScreen

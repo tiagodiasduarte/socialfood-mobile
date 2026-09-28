@@ -37,8 +37,8 @@ internal fun Project.configureQuality() {
     extensions.configure<DetektExtension> {
         buildUponDefaultConfig = true
         config.setFrom(rootProject.file("config/detekt/detekt.yml"))
-        val detektBaseline = file("config/detekt/baseline.xml")
-        if (detektBaseline.exists()) baseline = detektBaseline
+        // Missing baseline files are ignored by detekt; `detektBaseline` writes this path.
+        baseline = file("config/detekt/baseline.xml")
         source.setFrom(
             "src/commonMain/kotlin",
             "src/androidMain/kotlin",

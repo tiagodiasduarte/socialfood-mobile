@@ -44,9 +44,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.kover)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.ktlint)
-    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -72,7 +70,6 @@ kotlin {
             implementation(libs.androidx.core.splashscreen)
             implementation(libs.androidx.credentials)
             implementation(libs.androidx.credentials.play.services.auth)
-            implementation(libs.androidx.datastore.preferences)
             implementation(libs.google.maps.compose)
             implementation(libs.googleid)
             implementation(libs.ktor.client.okhttp)
@@ -80,6 +77,12 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.core.common)
+            implementation(projects.core.data)
+            implementation(projects.core.database)
+            implementation(projects.core.datastore)
+            implementation(projects.core.domain)
+            implementation(projects.core.model)
+            implementation(projects.core.network)
             implementation(libs.compose.components.resources)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
@@ -91,9 +94,6 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.paging.common)
             implementation(libs.androidx.paging.compose)
-            implementation(libs.androidx.room.paging)
-            implementation(libs.androidx.room.runtime)
-            implementation(libs.androidx.sqlite.bundled)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
             implementation(libs.jetbrains.lifecycle.viewmodelNavigation3)
@@ -112,6 +112,7 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
         commonTest.dependencies {
+            implementation(projects.core.testing)
             implementation(libs.androidx.paging.testing)
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
@@ -180,20 +181,18 @@ extensions.configure<ApplicationExtension> {
 dependencies {
     // Aggregate coverage of every shared module into this project's Kover reports.
     kover(projects.core.common)
+    kover(projects.core.data)
+    kover(projects.core.database)
+    kover(projects.core.datastore)
+    kover(projects.core.domain)
+    kover(projects.core.model)
+    kover(projects.core.network)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
 
     debugImplementation(libs.compose.ui.tooling)
-
-    listOf("kspAndroid", "kspIosArm64", "kspIosSimulatorArm64").forEach {
-        add(it, libs.androidx.room.compiler)
-    }
-}
-
-room {
-    schemaDirectory("$projectDir/schemas")
 }
 
 ktlint {

@@ -4,10 +4,10 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
-import pt.socialfood.data.network.SessionManager
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.AuthTokens
+import pt.socialfood.domain.session.SessionManager
 import pt.socialfood.domain.usecase.login.LoginUseCaseImpl
 import pt.socialfood.domain.usecase.login.LoginWithGoogleUseCaseImpl
 import pt.socialfood.fakes.FakeAuthRepository

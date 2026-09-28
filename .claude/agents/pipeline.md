@@ -58,7 +58,7 @@ Parse the user's message for:
 ## Step 3 — Commit & PR
 
 1. Fetch ticket summary via `mcp__atlassian__getJiraIssue` (`issueIdOrKey: <TICKET_ID>`, `fields: ["summary", "description"]`).
-2. Determine `<SCOPE>`: look at `git diff --name-only develop` (working-tree changes vs. `develop`, before committing) and take the folder name immediately after `presentation/`, `domain/`, or `data/` under `commonMain/kotlin/pt/socialfood/`. Use whichever segment appears in the most changed files; if there's no single clear winner, use `app`.
+2. Determine `<SCOPE>`: look at `git diff --name-only develop` (working-tree changes vs. `develop`, before committing) and take the module name: `<name>` for paths under `feature/<name>/` or `core/<name>/`, or the folder immediately after `presentation/` for paths under `composeApp/src/`. Use whichever segment appears in the most changed files; if there's no single clear winner, use `app`.
 3. Map `<TYPE>` (from Step 2) to the Conventional Commits type for `<COMMIT_TYPE>`: `feature` → `feat`, `hotfix` → `fix`, everything else unchanged (`fix`, `chore`, `refactor`, `docs`, `test`).
 4. Render commit message from `.claude/rules/git-conventions.md`: `<COMMIT_TYPE>(<SCOPE>): <short summary>`, lowercasing the summary.
 5. Run:

@@ -12,14 +12,17 @@ SocialFood is a Kotlin Multiplatform (KMP) app targeting **Android** and **iOS**
 # Build Android debug APK
 ./gradlew :composeApp:assembleDebug
 
-# Run all tests (Android + iOS simulator)
-./gradlew :composeApp:allTests
+# Run all tests (Android + iOS simulator), every module
+./gradlew allTests
 
-# Run Android unit tests only
-./gradlew :composeApp:testDebugUnitTest
+# Run Android unit tests only: :composeApp uses testDebugUnitTest, library modules use testAndroidHostTest
+./gradlew :composeApp:testDebugUnitTest testAndroidHostTest
 
-# Run a specific test class
-./gradlew :composeApp:testDebugUnitTest --tests "pt.socialfood.presentation.signin.SignInViewModelTest"
+# Run a specific test class (in the module that owns it)
+./gradlew :feature:auth:testAndroidHostTest --tests "pt.socialfood.presentation.signin.SignInViewModelTest"
+
+# Coverage verification across all modules (aggregated into :composeApp)
+./gradlew :composeApp:koverVerify
 
 # Lint (ktlint + detekt) — must pass before every commit
 ./gradlew ktlintCheck detekt
@@ -34,33 +37,49 @@ CI (`.github/workflows/ci.yml`) runs on PRs targeting `develop` or `main`, as fi
 
 ## Architecture
 
-Clean Architecture with three layers inside `composeApp/src/commonMain/`:
+Clean Architecture split into Gradle modules, modelled on Now in Android. Package names didn't change when code moved into modules (e.g. use cases are still `pt.socialfood.domain.usecase.*`).
 
 ```
-data/          – API clients (Ktor), repository implementations, network models
-domain/        – Repository interfaces, use cases, domain models, DataError/ErrorCode
-presentation/  – Screens, ViewModels, UI state classes, navigation
-mapper/        – Network model → domain model converters
-di/            – Koin DI module definitions
+composeApp/                 – app shell: App.kt, NavigationRoot + bottom bar, route serializers, Koin (di/),
+                              sync, MainActivity / MainViewController. Builds the iOS ComposeApp framework.
+feature/<name>/api          – the feature's @Serializable routes (sealed <Name>Route : NavKey)
+feature/<name>/impl         – screens, ViewModels, UI state, and <name>Entries(...) entry builders
+                              (home, guide, restaurant, map, author, profile, favourite, search)
+feature/auth, feature/settings – splash/sign-in/sign-up/validate-code, and drawer/theme (no api: hosted by App.kt)
+core/common                 – Result, DataError/ErrorCode, AppConfig
+core/model                  – domain models
+core/domain                 – repository interfaces, use cases, SessionManager
+core/network                – Ktor/S3/Coil clients, *Api, network models, safeApiCall, ConnectivityObserver
+core/database               – Room database, DAOs, entities (schemas/ lives here)
+core/datastore              – SettingsRepositoryImpl + token storage (DataStore / NSUserDefaults + Keychain)
+core/data                   – repository implementations, mappers, paging mediators
+core/designsystem           – AppTheme, components, and ALL compose resources (strings, drawables, fonts)
+core/ui                     – shared domain-aware UI (guide/restaurant cards), DataErrorMessages, image picker
+core/maps                   – Google Maps / MapKit views
+core/navigation             – Navigator, NavigationState, transition metadata
+core/testing                – fakes, Random generators, runTestWithMainDispatcher (test-only dependency)
+build-logic/                – convention plugins: socialfood.kmp.library / .compose / .feature / .room
 ```
+
+**Module rules:** a feature `impl` may depend on other features' `api` modules (to navigate) but never on another `impl`. Features use `core:domain` interfaces and never see `core:data`/`core:network`; `:composeApp` binds implementations in Koin. New modules apply a convention plugin instead of configuring KMP/Android/lint by hand. Every module has to be listed in `settings.gradle.kts` and in `:composeApp`'s `kover(...)` dependencies.
 
 **Data flow:** `Screen` → `ViewModel` → `UseCase` → `RepositoryImpl` → `Api` (Ktor) → backend
 
-**Result type:** All use cases and repositories return `core.Result<T>` (either `Success(data)` or `Failure(DataError)`). Never throw across layer boundaries — `safeApiCall` (`domain/error/safeApiCall.kt`) wraps Ktor calls and converts exceptions via `Throwable.toDataError()` (`data/network/extensions/ThrowableExceptions.kt`) into `DataError.Known` (structured backend error carrying an `ErrorCode`), `DataError.Unknown` (unparsed HTTP error), or `DataError.Network` (connectivity/IO failure).
+**Result type:** All use cases and repositories return `core.Result<T>` (either `Success(data)` or `Failure(DataError)`). Never throw across layer boundaries — `safeApiCall` (`core/network`, `domain/error/SafeApiCall.kt`) wraps Ktor calls and converts exceptions via `Throwable.toDataError()` (`data/network/extensions/ThrowableExceptions.kt`) into `DataError.Known` (structured backend error carrying an `ErrorCode`), `DataError.Unknown` (unparsed HTTP error), or `DataError.Network` (connectivity/IO failure).
 
-**Error messages:** Resolve error copy in Compose, not in the ViewModel — store `ErrorCode` in UI state (via `DataError.toErrorCode()`) and resolve the string at render time with `stringResource(errorCode.stringResource())` (`presentation/error/DataErrorMessages.kt`). This keeps ViewModel tests on plain JVM without needing Robolectric, since no Android resource APIs are touched outside `@Composable` scope. Every ViewModel that surfaces a `DataError` follows this pattern.
+**Error messages:** Resolve error copy in Compose, not in the ViewModel — store `ErrorCode` in UI state (via `DataError.toErrorCode()`) and resolve the string at render time with `stringResource(errorCode.stringResource())` (`core/ui`, `presentation/error/DataErrorMessages.kt`). This keeps ViewModel tests on plain JVM without needing Robolectric, since no Android resource APIs are touched outside `@Composable` scope. Every ViewModel that surfaces a `DataError` follows this pattern.
 
 **Naming convention:** Each use case has an interface (`GetGuidesUseCase`) and an `Impl` class (`GetGuidesUseCaseImpl`). Same for repositories. Packages are camelCase, never snake_case (e.g. `presentation/signin`, `domain/usecase` — not `sign_in`/`use_case`).
 
-**Lint:** `@Composable` functions are allowed PascalCase names (exempted via `ktlint_function_naming_ignore_when_annotated_with = Composable` in `.editorconfig`); everything else follows standard ktlint naming rules. Pre-existing ktlint violations not yet fixed are tracked in `composeApp/ktlint-baseline.xml`, keyed by exact line/column, so an edit that shifts lines in a baselined file needs the corresponding entry updated (or the whole file regenerated via `./gradlew ktlintGenerateBaseline` if drift is large). Detekt's equivalent baseline is `composeApp/config/detekt/baseline.xml`.
+**Lint:** `@Composable` functions are allowed PascalCase names (exempted via `ktlint_function_naming_ignore_when_annotated_with = Composable` in `.editorconfig`); everything else follows standard ktlint naming rules. Pre-existing ktlint violations not yet fixed are tracked per module in `<module>/ktlint-baseline.xml`, keyed by exact line/column, so an edit that shifts lines in a baselined file needs the corresponding entry updated (or that module's file regenerated via `./gradlew :<module>:ktlintGenerateBaseline` if drift is large). Detekt's equivalent is `<module>/config/detekt/baseline.xml` (`:<module>:detektBaseline`); the shared detekt config is `config/detekt/detekt.yml`. Moving a file to another module means moving its baseline entries too.
 
 ## Dependency Injection (Koin)
 
-All wiring is in `di/Koin.kt`, split into five modules: `platformModule` (`expect`/`actual`, binds `SettingsRepository` per platform), `networkModule`, `repositoryModule`, `useCaseModule`, `viewModelModule`. ViewModels that require an ID are registered as `factory { (id: String) -> SomeViewModel(get(), id) }` and retrieved with `parametersOf(id)`.
+All wiring is in `:composeApp`'s `di/Koin.kt` (the app module sees every implementation), split into five modules: `platformModule` (`expect`/`actual`, binds `SettingsRepository` per platform), `networkModule`, `repositoryModule`, `useCaseModule`, `viewModelModule`. ViewModels that require an ID are registered as `factory { (id: String) -> SomeViewModel(get(), id) }` and retrieved with `parametersOf(id)`.
 
 ## Navigation
 
-Uses JetBrains Navigation 3 (`androidx.navigation3`). All routes are defined as `@Serializable` objects/data classes implementing the `Route` sealed interface. The `NavigationRoot` composable hosts a `NavDisplay` with bottom-tab navigation; the bottom bar hides when the back stack depth > 1. Auth flow (Splash → SignIn/SignUp → ValidateCode → Home) is handled outside `NavigationRoot` in `App.kt`. Unverified users are routed to `ValidateCode` from both Splash (existing session, unverified) and SignUp (new registration).
+Uses JetBrains Navigation 3 (`androidx.navigation3`). Each feature defines its routes as a `@Serializable sealed interface <Feature>Route : NavKey` in its `api` module, and registers screens through an `EntryProviderScope<NavKey>.<feature>Entries(...)` builder in its `impl` module. `serializersConfig` (`:composeApp`, `NavKeySerializers.kt`) registers every feature's routes with `subclassesOfSealed`, so a new feature's route interface has to be added there. `NavKeySerializationTest` round-trips every route it lists plus every bottom-bar tab, so add new routes to it too. The `NavigationRoot` composable hosts a `NavDisplay` with bottom-tab navigation; the bottom bar hides when the back stack depth > 1. Auth flow (Splash → SignIn/SignUp → ValidateCode → Home) is handled outside `NavigationRoot` in `App.kt`. Unverified users are routed to `ValidateCode` from both Splash (existing session, unverified) and SignUp (new registration).
 
 ## Session & Auth
 
@@ -71,8 +90,10 @@ Uses JetBrains Navigation 3 (`androidx.navigation3`). All routes are defined as 
 `androidMain` and `iosMain` contain `expect`/`actual` implementations for:
 - `GoogleSignInLauncher` – platform sign-in UI
 - `ImagePickerLauncher` / `ImageBitmapDecoder` – photo picking
-- `AppVersion` – version string
+- `AppConfig` (version name, build date) – bound per platform in `platformModule`, from `BuildConfig` on Android and `NSBundle` on iOS. Only `:composeApp` can read `BuildConfig`, so library modules get build values through Koin (e.g. `GoogleSignInConfig`)
 - `platformModule` (in `di/Koin.kt`) – Koin module binding `SettingsRepository`: `SettingsRepositoryImpl` is backed by Jetpack DataStore on Android and `NSUserDefaults` on iOS (these two `SettingsRepositoryImpl` classes aren't `expect`/`actual` themselves, just independently implemented per platform and wired in through `platformModule`)
+
+Swift implements delegates declared in Kotlin `*Bridge` objects (image picker, Google Sign-In, alert dialogs). The modules that declare them (`core:ui`, `feature:auth`, `feature:guide:impl`, `feature:settings`) are `api` dependencies of `:composeApp` and `export(...)`ed from its iOS framework so Swift sees unprefixed names. A new bridge in another module needs the same treatment.
 
 Photo uploads use a separate `S3HttpClient` (unsigned requests) distinct from the main `KtorHttpClient`.
 

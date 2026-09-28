@@ -133,7 +133,7 @@ jobs:
           google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
       - name: Set BUILD_DATE
         run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
-      - run: ./gradlew ktlintCheck detekt :composeApp:lintDebug --stacktrace
+      - run: ./gradlew ktlintCheck detekt checkModuleGraph :composeApp:lintDebug --stacktrace
       - name: Upload Ktlint HTML report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4

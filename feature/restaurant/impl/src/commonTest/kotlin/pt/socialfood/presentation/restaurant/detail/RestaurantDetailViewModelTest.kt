@@ -8,11 +8,10 @@ import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.fakes.FakeGetRestaurantByIdUseCase
-import pt.socialfood.fakes.FakeGetVisitStatusUseCase
 import pt.socialfood.fakes.FakeIsRestaurantFavouriteUseCase
 import pt.socialfood.fakes.FakeMarkRestaurantFavouriteUseCase
-import pt.socialfood.fakes.FakeMarkRestaurantVisitStatusUseCase
+import pt.socialfood.fakes.FakeRestaurantVisitStatusRepository
+import pt.socialfood.fakes.FakeRestaurantsRepository
 import pt.socialfood.fakes.FakeUnmarkRestaurantFavouriteUseCase
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
@@ -43,20 +42,20 @@ class RestaurantDetailViewModelTest {
         )
 
     private fun createViewModel(
-        getRestaurantById: FakeGetRestaurantByIdUseCase = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
+        restaurantsRepository: FakeRestaurantsRepository = FakeRestaurantsRepository(
+            findByIdResult = Result.Success(fakeRestaurant),
+        ),
         isRestaurantFavourite: FakeIsRestaurantFavouriteUseCase =
             FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
         markRestaurantFavourite: FakeMarkRestaurantFavouriteUseCase = FakeMarkRestaurantFavouriteUseCase(),
         unmarkRestaurantFavourite: FakeUnmarkRestaurantFavouriteUseCase = FakeUnmarkRestaurantFavouriteUseCase(),
-        getVisitStatus: FakeGetVisitStatusUseCase = FakeGetVisitStatusUseCase(),
-        markRestaurantVisitStatus: FakeMarkRestaurantVisitStatusUseCase = FakeMarkRestaurantVisitStatusUseCase(),
+        restaurantVisitStatusRepository: FakeRestaurantVisitStatusRepository = FakeRestaurantVisitStatusRepository(),
     ) = RestaurantDetailViewModel(
-        getRestaurantById = getRestaurantById,
+        restaurantsRepository = restaurantsRepository,
         isRestaurantFavourite = isRestaurantFavourite,
         markRestaurantFavourite = markRestaurantFavourite,
         unmarkRestaurantFavourite = unmarkRestaurantFavourite,
-        getVisitStatus = getVisitStatus,
-        markRestaurantVisitStatus = markRestaurantVisitStatus,
+        restaurantVisitStatusRepository = restaurantVisitStatusRepository,
         restaurantId = fakeRestaurant.id,
     )
 
@@ -77,7 +76,11 @@ class RestaurantDetailViewModelTest {
     @Test
     fun `given restaurant already has a visit status when loaded then state reflects it`() = runTestWithMainDispatcher {
         // Given
-        val vm = createViewModel(getVisitStatus = FakeGetVisitStatusUseCase(Result.Success(VisitStatus.WISHLIST)))
+        val vm = createViewModel(
+            restaurantVisitStatusRepository = FakeRestaurantVisitStatusRepository(
+                statusResult = Result.Success(VisitStatus.WISHLIST),
+            ),
+        )
 
         // When / Then
         vm.state.test {
@@ -172,8 +175,8 @@ class RestaurantDetailViewModelTest {
     fun `given no visit status when addToWishlist is called then sets visitStatus to WISHLIST and marks it`() =
         runTestWithMainDispatcher {
             // Given
-            val mark = FakeMarkRestaurantVisitStatusUseCase()
-            val vm = createViewModel(markRestaurantVisitStatus = mark)
+            val visitStatusRepository = FakeRestaurantVisitStatusRepository()
+            val vm = createViewModel(restaurantVisitStatusRepository = visitStatusRepository)
 
             // When / Then
             vm.state.test {
@@ -190,18 +193,19 @@ class RestaurantDetailViewModelTest {
             }
 
             advanceUntilIdle()
-            assertEquals(fakeRestaurant, mark.lastMarkedRestaurant)
-            assertEquals(VisitStatus.WISHLIST, mark.lastStatus)
+            assertEquals(fakeRestaurant, visitStatusRepository.lastMarkedRestaurant)
+            assertEquals(VisitStatus.WISHLIST, visitStatusRepository.lastMarkedStatus)
         }
 
     @Test
     fun `given the restaurant is wished when moveToVisited is called then sets visitStatus to VISITED and marks it`() =
         runTestWithMainDispatcher {
             // Given
-            val mark = FakeMarkRestaurantVisitStatusUseCase()
+            val visitStatusRepository = FakeRestaurantVisitStatusRepository(
+                statusResult = Result.Success(VisitStatus.WISHLIST),
+            )
             val vm = createViewModel(
-                getVisitStatus = FakeGetVisitStatusUseCase(Result.Success(VisitStatus.WISHLIST)),
-                markRestaurantVisitStatus = mark,
+                restaurantVisitStatusRepository = visitStatusRepository,
             )
 
             // When / Then
@@ -219,8 +223,8 @@ class RestaurantDetailViewModelTest {
             }
 
             advanceUntilIdle()
-            assertEquals(fakeRestaurant, mark.lastMarkedRestaurant)
-            assertEquals(VisitStatus.VISITED, mark.lastStatus)
+            assertEquals(fakeRestaurant, visitStatusRepository.lastMarkedRestaurant)
+            assertEquals(VisitStatus.VISITED, visitStatusRepository.lastMarkedStatus)
         }
 
     @Test
@@ -228,8 +232,8 @@ class RestaurantDetailViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val vm = createViewModel(
-                markRestaurantVisitStatus = FakeMarkRestaurantVisitStatusUseCase(
-                    Result.Failure(DataError.Network(Exception("test error"))),
+                restaurantVisitStatusRepository = FakeRestaurantVisitStatusRepository(
+                    markResult = Result.Failure(DataError.Network(Exception("test error"))),
                 ),
             )
 

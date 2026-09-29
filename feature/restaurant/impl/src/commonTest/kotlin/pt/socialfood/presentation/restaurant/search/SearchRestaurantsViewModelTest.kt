@@ -6,9 +6,8 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.fakes.FakeAddRestaurantByPlaceIdUseCase
-import pt.socialfood.fakes.FakeAwaitEnrichedRestaurantByPlaceIdUseCase
 import pt.socialfood.fakes.FakeGetRecentSearchedPlacesUseCase
+import pt.socialfood.fakes.FakeRestaurantsRepository
 import pt.socialfood.fakes.FakeSaveRecentSearchedPlaceUseCase
 import pt.socialfood.fakes.FakeSearchPlacesUseCase
 import pt.socialfood.random.nextPlace
@@ -27,13 +26,13 @@ class SearchRestaurantsViewModelTest {
             // Given
             val place = Random.nextPlace()
             val expectedRestaurant = Random.nextRestaurant()
-            val fakeAdd = FakeAddRestaurantByPlaceIdUseCase()
-            val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(expectedRestaurant))
+            val restaurantsRepository = FakeRestaurantsRepository(
+                awaitEnrichedResult = Result.Success(expectedRestaurant),
+            )
             val fakeSaveRecent = FakeSaveRecentSearchedPlaceUseCase()
             val vm = SearchRestaurantsViewModel(
                 FakeSearchPlacesUseCase(),
-                fakeAwait,
-                fakeAdd,
+                restaurantsRepository,
                 FakeGetRecentSearchedPlacesUseCase(),
                 fakeSaveRecent,
             )
@@ -47,8 +46,8 @@ class SearchRestaurantsViewModelTest {
                 assertEquals(expectedRestaurant, event.restaurant)
             }
 
-            assertEquals(1, fakeAdd.invokeCount)
-            assertEquals(1, fakeAwait.invokeCount)
+            assertEquals(1, restaurantsRepository.addByPlaceIdInvokeCount)
+            assertEquals(1, restaurantsRepository.awaitEnrichedInvokeCount)
             assertEquals(1, fakeSaveRecent.invokeCount)
             assertEquals(place, fakeSaveRecent.lastPlace)
             assertFalse(vm.isImportingRestaurant.value)
@@ -58,14 +57,12 @@ class SearchRestaurantsViewModelTest {
     fun `given addByPlaceId fails when onAddRestaurant is called then no event emitted and enrichment never awaited`() =
         runTestWithMainDispatcher {
             // Given
-            val fakeAdd = FakeAddRestaurantByPlaceIdUseCase(
-                Result.Failure(DataError.Network(Exception("test error"))),
+            val restaurantsRepository = FakeRestaurantsRepository(
+                addByPlaceIdResult = Result.Failure(DataError.Network(Exception("test error"))),
             )
-            val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant()))
             val vm = SearchRestaurantsViewModel(
                 FakeSearchPlacesUseCase(),
-                fakeAwait,
-                fakeAdd,
+                restaurantsRepository,
                 FakeGetRecentSearchedPlacesUseCase(),
                 FakeSaveRecentSearchedPlaceUseCase(),
             )
@@ -76,21 +73,19 @@ class SearchRestaurantsViewModelTest {
 
             // Then
             assertFalse(vm.isImportingRestaurant.value)
-            assertEquals(0, fakeAwait.invokeCount)
+            assertEquals(0, restaurantsRepository.awaitEnrichedInvokeCount)
         }
 
     @Test
     fun `given enrichment wait times out when onAddRestaurant is called then no event is emitted and dialog closes`() =
         runTestWithMainDispatcher {
             // Given
-            val fakeAdd = FakeAddRestaurantByPlaceIdUseCase()
-            val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(
-                Result.Failure(DataError.Network(Exception("test error"))),
+            val restaurantsRepository = FakeRestaurantsRepository(
+                awaitEnrichedResult = Result.Failure(DataError.Network(Exception("test error"))),
             )
             val vm = SearchRestaurantsViewModel(
                 FakeSearchPlacesUseCase(),
-                fakeAwait,
-                fakeAdd,
+                restaurantsRepository,
                 FakeGetRecentSearchedPlacesUseCase(),
                 FakeSaveRecentSearchedPlaceUseCase(),
             )
@@ -101,20 +96,18 @@ class SearchRestaurantsViewModelTest {
 
             // Then
             assertFalse(vm.isImportingRestaurant.value)
-            assertEquals(1, fakeAdd.invokeCount)
-            assertEquals(1, fakeAwait.invokeCount)
+            assertEquals(1, restaurantsRepository.addByPlaceIdInvokeCount)
+            assertEquals(1, restaurantsRepository.awaitEnrichedInvokeCount)
         }
 
     @Test
     fun `given an import already in flight when onAddRestaurant is called again then the second call is ignored`() =
         runTestWithMainDispatcher {
             // Given
-            val fakeAdd = FakeAddRestaurantByPlaceIdUseCase()
-            val fakeAwait = FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant()))
+            val restaurantsRepository = FakeRestaurantsRepository()
             val vm = SearchRestaurantsViewModel(
                 FakeSearchPlacesUseCase(),
-                fakeAwait,
-                fakeAdd,
+                restaurantsRepository,
                 FakeGetRecentSearchedPlacesUseCase(),
                 FakeSaveRecentSearchedPlaceUseCase(),
             )
@@ -125,7 +118,7 @@ class SearchRestaurantsViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(1, fakeAdd.invokeCount)
+            assertEquals(1, restaurantsRepository.addByPlaceIdInvokeCount)
         }
 
     @Test
@@ -134,8 +127,7 @@ class SearchRestaurantsViewModelTest {
             // Given
             val vm = SearchRestaurantsViewModel(
                 FakeSearchPlacesUseCase(),
-                FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant())),
-                FakeAddRestaurantByPlaceIdUseCase(),
+                FakeRestaurantsRepository(),
                 FakeGetRecentSearchedPlacesUseCase(),
                 FakeSaveRecentSearchedPlaceUseCase(),
             )
@@ -155,8 +147,7 @@ class SearchRestaurantsViewModelTest {
             val searchPlaces = FakeSearchPlacesUseCase()
             val vm = SearchRestaurantsViewModel(
                 searchPlaces,
-                FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant())),
-                FakeAddRestaurantByPlaceIdUseCase(),
+                FakeRestaurantsRepository(),
                 FakeGetRecentSearchedPlacesUseCase(),
                 FakeSaveRecentSearchedPlaceUseCase(),
             )
@@ -178,8 +169,7 @@ class SearchRestaurantsViewModelTest {
             val searchPlaces = FakeSearchPlacesUseCase(Result.Success(places))
             val vm = SearchRestaurantsViewModel(
                 searchPlaces,
-                FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant())),
-                FakeAddRestaurantByPlaceIdUseCase(),
+                FakeRestaurantsRepository(),
                 FakeGetRecentSearchedPlacesUseCase(),
                 FakeSaveRecentSearchedPlaceUseCase(),
             )
@@ -203,8 +193,7 @@ class SearchRestaurantsViewModelTest {
             val searchPlaces = FakeSearchPlacesUseCase(Result.Failure(DataError.Network(Exception("test error"))))
             val vm = SearchRestaurantsViewModel(
                 searchPlaces,
-                FakeAwaitEnrichedRestaurantByPlaceIdUseCase(Result.Success(Random.nextRestaurant())),
-                FakeAddRestaurantByPlaceIdUseCase(),
+                FakeRestaurantsRepository(),
                 FakeGetRecentSearchedPlacesUseCase(),
                 FakeSaveRecentSearchedPlaceUseCase(),
             )

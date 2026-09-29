@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusListUseCase
+import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 
 class MapRestaurantVisitStatusViewModel(
-    getRestaurantVisitStatusList: GetRestaurantVisitStatusListUseCase,
+    restaurantVisitStatusRepository: RestaurantVisitStatusRepository,
     status: VisitStatus,
 ) : ViewModel() {
 
@@ -19,7 +19,7 @@ class MapRestaurantVisitStatusViewModel(
 
     init {
         viewModelScope.launch {
-            getRestaurantVisitStatusList(status).collect { _restaurants.value = it }
+            restaurantVisitStatusRepository.getAllFlow(status).collect { _restaurants.value = it }
         }
     }
 }

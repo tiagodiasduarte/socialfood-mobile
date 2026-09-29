@@ -4,10 +4,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.fakes.FakeGetRestaurantVisitStatusPagingUseCase
-import pt.socialfood.fakes.FakeMarkRestaurantVisitStatusUseCase
 import pt.socialfood.fakes.FakeObserveUserUseCase
-import pt.socialfood.fakes.FakeUnmarkRestaurantVisitStatusUseCase
+import pt.socialfood.fakes.FakeRestaurantVisitStatusRepository
 import pt.socialfood.random.nextRestaurant
 import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
@@ -22,11 +20,9 @@ class RestaurantWishlistViewModelTest {
     fun `given the current user is available when restaurants is collected then requests WISHLIST paging flow`() =
         runTestWithMainDispatcher {
             // Given
-            val pagingUseCase = FakeGetRestaurantVisitStatusPagingUseCase()
+            val visitStatusRepository = FakeRestaurantVisitStatusRepository()
             val vm = RestaurantWishlistViewModel(
-                pagingUseCase,
-                FakeMarkRestaurantVisitStatusUseCase(),
-                FakeUnmarkRestaurantVisitStatusUseCase(),
+                visitStatusRepository,
                 FakeObserveUserUseCase(Random.nextUser()),
             )
 
@@ -35,18 +31,16 @@ class RestaurantWishlistViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(VisitStatus.WISHLIST, pagingUseCase.lastStatus)
+            assertEquals(VisitStatus.WISHLIST, visitStatusRepository.lastPagingStatus)
             job.cancel()
         }
 
     @Test
     fun `given a restaurant when addToWishlist is called then marks it as WISHLIST`() = runTestWithMainDispatcher {
         // Given
-        val markUseCase = FakeMarkRestaurantVisitStatusUseCase()
+        val visitStatusRepository = FakeRestaurantVisitStatusRepository()
         val vm = RestaurantWishlistViewModel(
-            FakeGetRestaurantVisitStatusPagingUseCase(),
-            markUseCase,
-            FakeUnmarkRestaurantVisitStatusUseCase(),
+            visitStatusRepository,
             FakeObserveUserUseCase(Random.nextUser()),
         )
         val restaurant = Random.nextRestaurant()
@@ -56,19 +50,17 @@ class RestaurantWishlistViewModelTest {
         advanceUntilIdle()
 
         // Then
-        assertEquals(restaurant, markUseCase.lastMarkedRestaurant)
-        assertEquals(VisitStatus.WISHLIST, markUseCase.lastStatus)
+        assertEquals(restaurant, visitStatusRepository.lastMarkedRestaurant)
+        assertEquals(VisitStatus.WISHLIST, visitStatusRepository.lastMarkedStatus)
     }
 
     @Test
     fun `given a restaurant id when removeFromWishlist is called then unmarks it as WISHLIST`() =
         runTestWithMainDispatcher {
             // Given
-            val unmarkUseCase = FakeUnmarkRestaurantVisitStatusUseCase()
+            val visitStatusRepository = FakeRestaurantVisitStatusRepository()
             val vm = RestaurantWishlistViewModel(
-                FakeGetRestaurantVisitStatusPagingUseCase(),
-                FakeMarkRestaurantVisitStatusUseCase(),
-                unmarkUseCase,
+                visitStatusRepository,
                 FakeObserveUserUseCase(Random.nextUser()),
             )
 
@@ -77,7 +69,7 @@ class RestaurantWishlistViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals("r1", unmarkUseCase.lastUnmarkedRestaurantId)
-            assertEquals(VisitStatus.WISHLIST, unmarkUseCase.lastStatus)
+            assertEquals("r1", visitStatusRepository.lastUnmarkedRestaurantId)
+            assertEquals(VisitStatus.WISHLIST, visitStatusRepository.lastUnmarkedStatus)
         }
 }

@@ -4,14 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import pt.socialfood.data.network.ConnectivityObserver
+import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 import pt.socialfood.domain.usecase.favourite.SyncFavouriteRestaurantsUseCase
 import pt.socialfood.domain.usecase.favourite.SyncFavouritesUseCase
-import pt.socialfood.domain.usecase.restaurantvisitstatus.SyncRestaurantVisitStatusUseCase
 
 class SyncViewModel(
     private val syncFavourites: SyncFavouritesUseCase,
     private val syncFavouriteRestaurants: SyncFavouriteRestaurantsUseCase,
-    private val syncRestaurantVisits: SyncRestaurantVisitStatusUseCase,
+    private val restaurantVisitStatusRepository: RestaurantVisitStatusRepository,
     connectivityObserver: ConnectivityObserver,
 ) : ViewModel() {
 
@@ -30,12 +30,12 @@ class SyncViewModel(
     fun onStart() {
         viewModelScope.launch { syncFavourites() }
         viewModelScope.launch { syncFavouriteRestaurants() }
-        viewModelScope.launch { syncRestaurantVisits() }
+        viewModelScope.launch { restaurantVisitStatusRepository.sync() }
     }
 
     private suspend fun syncAll() {
         syncFavourites()
         syncFavouriteRestaurants()
-        syncRestaurantVisits()
+        restaurantVisitStatusRepository.sync()
     }
 }

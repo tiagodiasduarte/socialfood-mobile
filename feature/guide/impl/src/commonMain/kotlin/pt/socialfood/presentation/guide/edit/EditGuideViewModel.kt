@@ -14,8 +14,6 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.repository.GuidesRepository
-import pt.socialfood.domain.usecase.guide.DeleteGuideUseCase
-import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCase
 import pt.socialfood.domain.usecase.guide.UpdateGuideUseCase
 import pt.socialfood.domain.usecase.photo.UploadPhotoUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
@@ -30,11 +28,9 @@ import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 class EditGuideViewModel(
-    private val getGuideById: GetGuideByIdUseCase,
     private val updateGuide: UpdateGuideUseCase,
     private val uploadPhoto: UploadPhotoUseCase,
     private val guidesRepository: GuidesRepository,
-    private val deleteGuide: DeleteGuideUseCase,
     private val observeUser: ObserveUserUseCase,
     private val guideId: String,
 ) : ViewModel() {
@@ -70,7 +66,7 @@ class EditGuideViewModel(
         viewModelScope.launch {
             _state.value = EditGuideUiState.Loading
 
-            val guideDeferred = async { getGuideById(id) }
+            val guideDeferred = async { guidesRepository.findById(id) }
             val userDeferred = async { observeUser().first() }
             val result = guideDeferred.await()
             val currentUser = userDeferred.await()
@@ -188,7 +184,7 @@ class EditGuideViewModel(
         if (loaded.isDeleting || loaded.isSaving || loaded.isUploadingPhoto) return
         viewModelScope.launch {
             updateLoaded { copy(isDeleting = true) }
-            when (deleteGuide(guideId)) {
+            when (guidesRepository.delete(guideId)) {
                 is Result.Failure -> updateLoaded { copy(isDeleting = false) }
                 is Result.Success -> _events.emit(UiEvent.GuideDeleted)
             }

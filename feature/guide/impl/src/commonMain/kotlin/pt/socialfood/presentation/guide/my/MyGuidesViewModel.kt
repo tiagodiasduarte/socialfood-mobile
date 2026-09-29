@@ -16,15 +16,15 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.User
+import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.guide.GetUserGuidesPagingUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MyGuidesViewModel(
-    getUserGuidesPaging: GetUserGuidesPagingUseCase,
+    guidesRepository: GuidesRepository,
     private val markGuideFavourite: MarkGuideFavouriteUseCase,
     private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
     observeUser: ObserveUserUseCase,
@@ -38,7 +38,7 @@ class MyGuidesViewModel(
         .filterNotNull()
         .map { it.id }
         .distinctUntilChanged()
-        .flatMapLatest { userId -> getUserGuidesPaging(userId) }
+        .flatMapLatest { userId -> guidesRepository.findUserGuidesPagingFlow(userId) }
         .cachedIn(viewModelScope)
 
     val favouriteGuideIds: StateFlow<Set<String>> = observeFavouriteGuideIds()

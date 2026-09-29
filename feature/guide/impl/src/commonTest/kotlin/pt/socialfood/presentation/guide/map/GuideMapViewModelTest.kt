@@ -5,7 +5,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.fakes.FakeGetGuideByIdUseCase
+import pt.socialfood.fakes.FakeGuidesRepository
 import pt.socialfood.random.nextGuide
 import pt.socialfood.random.nextRestaurant
 import pt.socialfood.random.nextString
@@ -18,13 +18,13 @@ import kotlin.test.assertIs
 @OptIn(ExperimentalCoroutinesApi::class)
 class GuideMapViewModelTest {
     @Test
-    fun `given getGuideById succeeds when load is called then state is Loaded with the guide`() =
+    fun `given findById succeeds when load is called then state is Loaded with the guide`() =
         runTestWithMainDispatcher {
             // Given
             val restaurants = listOf(Random.nextRestaurant(), Random.nextRestaurant())
             val guide = Random.nextGuide(restaurants = restaurants)
             val vm = GuideMapViewModel(
-                getGuideById = FakeGetGuideByIdUseCase(Result.Success(guide)),
+                guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(guide)),
                 guideId = guide.id,
             )
 
@@ -37,11 +37,13 @@ class GuideMapViewModelTest {
         }
 
     @Test
-    fun `given getGuideById fails when load is called then state is Error with the mapped error code`() =
+    fun `given findById fails when load is called then state is Error with the mapped error code`() =
         runTestWithMainDispatcher {
             // Given
             val vm = GuideMapViewModel(
-                getGuideById = FakeGetGuideByIdUseCase(Result.Failure(DataError.Network(Exception("test error")))),
+                guidesRepository = FakeGuidesRepository(
+                    findByIdResult = Result.Failure(DataError.Network(Exception("test error"))),
+                ),
                 guideId = Random.nextString(),
             )
 

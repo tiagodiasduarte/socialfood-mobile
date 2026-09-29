@@ -4,12 +4,12 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
+import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
-import pt.socialfood.fakes.FakeGetGuidesPagingUseCase
+import pt.socialfood.fakes.FakeGuidesRepository
 import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeObserveFavouriteGuideIdsUseCase
 import pt.socialfood.fakes.FakeObserveUserUseCase
@@ -26,13 +26,13 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalCoroutinesApi::class)
 class AllGuidesViewModelTest {
     private fun createViewModel(
-        getGuidesPaging: GetGuidesPagingUseCase = FakeGetGuidesPagingUseCase(),
+        guidesRepository: GuidesRepository = FakeGuidesRepository(),
         observeUser: ObserveUserUseCase = FakeObserveUserUseCase(Random.nextUser()),
         observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase = FakeObserveFavouriteGuideIdsUseCase(),
         markGuideFavourite: MarkGuideFavouriteUseCase = FakeMarkGuideFavouriteUseCase(),
         unmarkGuideFavourite: UnmarkGuideFavouriteUseCase = FakeUnmarkGuideFavouriteUseCase(),
     ) = AllGuidesViewModel(
-        getGuidesPaging,
+        guidesRepository,
         markGuideFavourite,
         unmarkGuideFavourite,
         observeUser,
@@ -40,18 +40,18 @@ class AllGuidesViewModelTest {
     )
 
     @Test
-    fun `given the viewmodel is created when guides is collected then getGuidesPaging is invoked`() =
+    fun `given the viewmodel is created when guides is collected then the guides paging flow is requested`() =
         runTestWithMainDispatcher {
             // Given
-            val getGuidesPaging = FakeGetGuidesPagingUseCase()
-            val vm = createViewModel(getGuidesPaging = getGuidesPaging)
+            val guidesRepository = FakeGuidesRepository()
+            val vm = createViewModel(guidesRepository = guidesRepository)
 
             // When
             val job = launch { vm.guides.collect {} }
             advanceUntilIdle()
 
             // Then
-            assertEquals(1, getGuidesPaging.invokeCount)
+            assertEquals(1, guidesRepository.findGuidesPagingInvokeCount)
             job.cancel()
         }
 

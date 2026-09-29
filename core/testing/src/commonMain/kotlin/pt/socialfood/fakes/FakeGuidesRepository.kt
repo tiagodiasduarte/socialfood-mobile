@@ -2,7 +2,7 @@ package pt.socialfood.fakes
 
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
@@ -17,8 +17,8 @@ class FakeGuidesRepository(
     private val updateResult: Result<Guide> = Result.Success(Random.nextGuide()),
     private val findByIdResult: Result<Guide> = Result.Success(Random.nextGuide()),
     private val addRestaurantGuideResult: Result<Guide> = Result.Success(Random.nextGuide()),
-    private val guidesPagingFlow: Flow<PagingData<Guide>> = emptyFlow(),
-    private val joinedGuidesPagingFlow: Flow<PagingData<Guide>> = emptyFlow(),
+    private val guidesPagingFlow: Flow<PagingData<Guide>> = flowOf(PagingData.empty()),
+    private val joinedGuidesPagingFlow: Flow<PagingData<Guide>> = flowOf(PagingData.empty()),
     private val getPhotoPresignedUrlResult: Result<PresignedUrlData> =
         Result.Success(PresignedUrlData(uploadUrl = "https://upload", publicUrl = "https://public")),
     private val addPhotoResult: Result<Boolean> = Result.Success(true),
@@ -55,6 +55,8 @@ class FakeGuidesRepository(
     var lastUpdateVisibility: GuideVisibility? = null
         private set
 
+    var findByIdInvokeCount: Int = 0
+        private set
     var lastFindByIdId: String? = null
         private set
 
@@ -67,9 +69,16 @@ class FakeGuidesRepository(
     var lastAddRestaurantPlaceId: String? = null
         private set
 
+    var findGuidesPagingInvokeCount: Int = 0
+        private set
+
+    var findUserGuidesPagingInvokeCount: Int = 0
+        private set
     var lastPagingUserId: String? = null
         private set
 
+    var findUserJoinedGuidesPagingInvokeCount: Int = 0
+        private set
     var lastJoinedPagingUserId: String? = null
         private set
 
@@ -133,19 +142,25 @@ class FakeGuidesRepository(
         return findGuideBySharedCodeResult
     }
 
-    override fun findGuidesPagingFlow(): Flow<PagingData<Guide>> = guidesPagingFlow
+    override fun findGuidesPagingFlow(): Flow<PagingData<Guide>> {
+        findGuidesPagingInvokeCount++
+        return guidesPagingFlow
+    }
 
     override fun findUserGuidesPagingFlow(userId: String): Flow<PagingData<Guide>> {
+        findUserGuidesPagingInvokeCount++
         lastPagingUserId = userId
         return guidesPagingFlow
     }
 
     override fun findUserJoinedGuidesPagingFlow(userId: String): Flow<PagingData<Guide>> {
+        findUserJoinedGuidesPagingInvokeCount++
         lastJoinedPagingUserId = userId
         return joinedGuidesPagingFlow
     }
 
     override suspend fun findById(id: String): Result<Guide> {
+        findByIdInvokeCount++
         lastFindByIdId = id
         return findByIdResult
     }

@@ -21,11 +21,9 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.RecentSearch
 import pt.socialfood.domain.model.RecentSearchType
 import pt.socialfood.domain.model.Search
-import pt.socialfood.domain.usecase.search.GetGuideSuggestionsUseCase
-import pt.socialfood.domain.usecase.search.GetRecentSearchesUseCase
-import pt.socialfood.domain.usecase.search.GetRestaurantSuggestionsUseCase
+import pt.socialfood.domain.repository.SearchRepository
+import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.domain.usecase.search.SaveRecentSearchUseCase
-import pt.socialfood.domain.usecase.search.SearchUseCase
 import pt.socialfood.presentation.error.toErrorCode
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -35,10 +33,8 @@ private val SEARCH_DEBOUNCE_MS = 300.milliseconds
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 class SearchViewModel(
-    private val search: SearchUseCase,
-    private val getRestaurantSuggestions: GetRestaurantSuggestionsUseCase,
-    private val getGuideSuggestions: GetGuideSuggestionsUseCase,
-    private val getRecentSearches: GetRecentSearchesUseCase,
+    private val searchRepository: SearchRepository,
+    private val settingsRepository: SettingsRepository,
     private val saveRecentSearch: SaveRecentSearchUseCase,
 ) : ViewModel() {
 
@@ -71,7 +67,7 @@ class SearchViewModel(
             .launchIn(viewModelScope)
 
         viewModelScope.launch {
-            _recentSearches.value = getRecentSearches()
+            _recentSearches.value = settingsRepository.getRecentSearches()
         }
     }
 
@@ -84,7 +80,7 @@ class SearchViewModel(
     fun onFavoriteRestaurantsClick() {
         lastSuggestionsAction = ::onFavoriteRestaurantsClick
         requestSuggestions(SuggestionSource.RESTAURANTS) {
-            performSuggestions(fetch = { getRestaurantSuggestions() }) { suggestions ->
+            performSuggestions(fetch = { searchRepository.getRestaurantSuggestions() }) { suggestions ->
                 suggestions.restaurants.map { Search.RestaurantResult(it) }
             }
         }
@@ -93,7 +89,7 @@ class SearchViewModel(
     fun onFavoriteGuidesClick() {
         lastSuggestionsAction = ::onFavoriteGuidesClick
         requestSuggestions(SuggestionSource.GUIDES) {
-            performSuggestions(fetch = { getGuideSuggestions() }) { suggestions ->
+            performSuggestions(fetch = { searchRepository.getGuideSuggestions() }) { suggestions ->
                 suggestions.guides.map { Search.GuideResult(it) }
             }
         }
@@ -133,7 +129,7 @@ class SearchViewModel(
 
     private fun performSearch(query: String): Flow<SearchUiState> = flow {
         emit(SearchUiState.Loading)
-        when (val result = search(page = 1, limit = PAGE_SIZE, query = query)) {
+        when (val result = searchRepository.search(page = 1, limit = PAGE_SIZE, query = query)) {
             is Result.Success -> emit(SearchUiState.Loaded(result.data))
             is Result.Failure -> emit(SearchUiState.Error(result.error.toErrorCode()))
         }

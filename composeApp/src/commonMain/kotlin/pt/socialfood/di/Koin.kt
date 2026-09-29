@@ -74,14 +74,6 @@ import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.domain.repository.SearchRepository
 import pt.socialfood.domain.repository.UsersRepository
 import pt.socialfood.domain.session.SessionManager
-import pt.socialfood.domain.usecase.author.FindAuthorsUseCase
-import pt.socialfood.domain.usecase.author.FindAuthorsUseCaseImpl
-import pt.socialfood.domain.usecase.author.GetAuthorByIdUseCase
-import pt.socialfood.domain.usecase.author.GetAuthorByIdUseCaseImpl
-import pt.socialfood.domain.usecase.author.GetAuthorsPagingUseCase
-import pt.socialfood.domain.usecase.author.GetAuthorsPagingUseCaseImpl
-import pt.socialfood.domain.usecase.author.GetAuthorsUseCase
-import pt.socialfood.domain.usecase.author.GetAuthorsUseCaseImpl
 import pt.socialfood.domain.usecase.configs.GetConfigsUseCase
 import pt.socialfood.domain.usecase.configs.GetConfigsUseCaseImpl
 import pt.socialfood.domain.usecase.favourite.SyncFavouriteRestaurantsUseCase
@@ -271,10 +263,6 @@ val useCaseModule =
     module {
         factory<AddRestaurantGuideUseCase> { AddRestaurantGuideUseCaseImpl(get(), get()) }
         factory<CreateGuideUseCase> { CreateGuideUseCaseImpl(get(), get()) }
-        factory<FindAuthorsUseCase> { FindAuthorsUseCaseImpl(get()) }
-        factory<GetAuthorByIdUseCase> { GetAuthorByIdUseCaseImpl(get()) }
-        factory<GetAuthorsPagingUseCase> { GetAuthorsPagingUseCaseImpl(get()) }
-        factory<GetAuthorsUseCase> { GetAuthorsUseCaseImpl(get()) }
         factory<GetConfigsUseCase> { GetConfigsUseCaseImpl(get()) }
         factory<GetFavouriteGuidesPagingUseCase> { GetFavouriteGuidesPagingUseCaseImpl(get()) }
         factory<GetFavouriteRestaurantsPagingUseCase> { GetFavouriteRestaurantsPagingUseCaseImpl(get()) }

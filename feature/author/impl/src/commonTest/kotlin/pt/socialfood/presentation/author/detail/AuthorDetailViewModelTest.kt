@@ -5,7 +5,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.fakes.FakeGetAuthorByIdUseCase
+import pt.socialfood.fakes.FakeAuthorsRepository
 import pt.socialfood.random.nextAuthorDetail
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.random.Random
@@ -16,11 +16,11 @@ import kotlin.test.assertIs
 @OptIn(ExperimentalCoroutinesApi::class)
 class AuthorDetailViewModelTest {
     @Test
-    fun `given getAuthorById succeeds when created then state is Loaded with author`() = runTestWithMainDispatcher {
+    fun `given findAuthorById succeeds when created then state is Loaded with author`() = runTestWithMainDispatcher {
         // Given
         val author = Random.nextAuthorDetail()
         val vm = AuthorDetailViewModel(
-            getAuthorById = FakeGetAuthorByIdUseCase(Result.Success(author)),
+            authorsRepository = FakeAuthorsRepository(findAuthorByIdResult = Result.Success(author)),
             authorId = author.id,
         )
 
@@ -32,10 +32,12 @@ class AuthorDetailViewModelTest {
     }
 
     @Test
-    fun `given getAuthorById fails when created then state is Error`() = runTestWithMainDispatcher {
+    fun `given findAuthorById fails when created then state is Error`() = runTestWithMainDispatcher {
         // Given
-        val useCase = FakeGetAuthorByIdUseCase(Result.Failure(DataError.Network(Exception("test error"))))
-        val vm = AuthorDetailViewModel(getAuthorById = useCase, authorId = "author-id")
+        val authorsRepository = FakeAuthorsRepository(
+            findAuthorByIdResult = Result.Failure(DataError.Network(Exception("test error"))),
+        )
+        val vm = AuthorDetailViewModel(authorsRepository = authorsRepository, authorId = "author-id")
 
         // When / Then
         vm.state.test {
@@ -48,8 +50,8 @@ class AuthorDetailViewModelTest {
     fun `given a loaded author when load is called then reloads it`() = runTestWithMainDispatcher {
         // Given
         val author = Random.nextAuthorDetail()
-        val useCase = FakeGetAuthorByIdUseCase(Result.Success(author))
-        val vm = AuthorDetailViewModel(getAuthorById = useCase, authorId = author.id)
+        val authorsRepository = FakeAuthorsRepository(findAuthorByIdResult = Result.Success(author))
+        val vm = AuthorDetailViewModel(authorsRepository = authorsRepository, authorId = author.id)
 
         vm.state.test {
             assertEquals(AuthorDetailUiState.Loading, awaitItem())
@@ -63,7 +65,7 @@ class AuthorDetailViewModelTest {
             assertIs<AuthorDetailUiState.Loaded>(awaitItem())
         }
 
-        assertEquals(2, useCase.invokeCount)
-        assertEquals(author.id, useCase.lastId)
+        assertEquals(2, authorsRepository.findAuthorByIdInvokeCount)
+        assertEquals(author.id, authorsRepository.lastFindAuthorByIdId)
     }
 }

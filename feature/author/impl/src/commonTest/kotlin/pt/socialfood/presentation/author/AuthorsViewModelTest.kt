@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
-import pt.socialfood.fakes.FakeGetAuthorsPagingUseCase
+import pt.socialfood.fakes.FakeAuthorsRepository
 import pt.socialfood.fakes.FakeObserveUserUseCase
 import pt.socialfood.presentation.author.list.AuthorsViewModel
 import pt.socialfood.random.nextUser
@@ -17,18 +17,18 @@ import kotlin.test.assertEquals
 class AuthorsViewModelTest {
 
     @Test
-    fun `given the current user is available when authors is collected then getAuthorsPaging is invoked`() =
+    fun `given the current user is available when authors is collected then the authors paging flow is requested`() =
         runTestWithMainDispatcher {
             // Given
-            val getAuthorsPaging = FakeGetAuthorsPagingUseCase()
-            val vm = AuthorsViewModel(getAuthorsPaging, FakeObserveUserUseCase(Random.nextUser()))
+            val authorsRepository = FakeAuthorsRepository()
+            val vm = AuthorsViewModel(authorsRepository, FakeObserveUserUseCase(Random.nextUser()))
 
             // When
             val job = launch { vm.authors.collect {} }
             advanceUntilIdle()
 
             // Then
-            assertEquals(1, getAuthorsPaging.invokeCount)
+            assertEquals(1, authorsRepository.getAuthorsPagingFlowInvokeCount)
             job.cancel()
         }
 
@@ -39,7 +39,7 @@ class AuthorsViewModelTest {
         val observeUser = FakeObserveUserUseCase(initial = currentUser)
 
         // When / Then
-        val vm = AuthorsViewModel(FakeGetAuthorsPagingUseCase(), observeUser)
+        val vm = AuthorsViewModel(FakeAuthorsRepository(), observeUser)
         vm.user.test {
             awaitItem()
             assertEquals(currentUser, awaitItem())

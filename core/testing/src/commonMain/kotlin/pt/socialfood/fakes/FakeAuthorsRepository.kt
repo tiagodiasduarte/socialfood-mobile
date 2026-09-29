@@ -2,7 +2,7 @@ package pt.socialfood.fakes
 
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.AuthorDetail
@@ -15,7 +15,7 @@ import kotlin.random.Random
 class FakeAuthorsRepository(
     private val findAuthorsResult: Result<PagedAuthors> = Result.Success(Random.nextPagedAuthors()),
     private val findAuthorByIdResult: Result<AuthorDetail> = Result.Success(Random.nextAuthorDetail()),
-    private val authorsPagingFlow: Flow<PagingData<Author>> = emptyFlow(),
+    private val authorsPagingFlow: Flow<PagingData<Author>> = flowOf(PagingData.empty()),
 ) : AuthorsRepository {
     var findAuthorsInvokeCount: Int = 0
         private set
@@ -26,6 +26,8 @@ class FakeAuthorsRepository(
     var lastFindAuthorsQuery: String? = null
         private set
 
+    var findAuthorByIdInvokeCount: Int = 0
+        private set
     var lastFindAuthorByIdId: String? = null
         private set
 
@@ -41,6 +43,7 @@ class FakeAuthorsRepository(
     }
 
     override suspend fun findAuthorById(id: String): Result<AuthorDetail> {
+        findAuthorByIdInvokeCount++
         lastFindAuthorByIdId = id
         return findAuthorByIdResult
     }

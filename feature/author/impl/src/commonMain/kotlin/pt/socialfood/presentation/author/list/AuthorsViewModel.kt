@@ -15,11 +15,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.User
-import pt.socialfood.domain.usecase.author.GetAuthorsPagingUseCase
+import pt.socialfood.domain.repository.AuthorsRepository
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class AuthorsViewModel(getAuthorsPaging: GetAuthorsPagingUseCase, observeUser: ObserveUserUseCase) : ViewModel() {
+class AuthorsViewModel(authorsRepository: AuthorsRepository, observeUser: ObserveUserUseCase) : ViewModel() {
 
     val user: StateFlow<User?> = observeUser()
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)
@@ -28,6 +28,6 @@ class AuthorsViewModel(getAuthorsPaging: GetAuthorsPagingUseCase, observeUser: O
         .filterNotNull()
         .map { it.id }
         .distinctUntilChanged()
-        .flatMapLatest { getAuthorsPaging() }
+        .flatMapLatest { authorsRepository.getAuthorsPagingFlow() }
         .cachedIn(viewModelScope)
 }

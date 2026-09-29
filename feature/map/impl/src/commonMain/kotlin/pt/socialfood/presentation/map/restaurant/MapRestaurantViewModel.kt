@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.usecase.restaurant.GetRestaurantByIdUseCase
+import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.presentation.error.toErrorCode
 
 class MapRestaurantViewModel(
-    private val getRestaurantById: GetRestaurantByIdUseCase,
+    private val restaurantsRepository: RestaurantsRepository,
     private val restaurantId: String,
 ) : ViewModel() {
 
@@ -24,7 +24,7 @@ class MapRestaurantViewModel(
     fun load() {
         viewModelScope.launch {
             _state.value = MapRestaurantUiState.Loading
-            _state.value = when (val result = getRestaurantById(restaurantId)) {
+            _state.value = when (val result = restaurantsRepository.findById(restaurantId)) {
                 is Result.Success -> MapRestaurantUiState.Loaded(restaurant = result.data)
                 is Result.Failure -> MapRestaurantUiState.Error(result.error.toErrorCode())
             }

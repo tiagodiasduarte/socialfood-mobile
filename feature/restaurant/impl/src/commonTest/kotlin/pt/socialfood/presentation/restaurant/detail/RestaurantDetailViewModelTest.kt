@@ -8,11 +8,11 @@ import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.fakes.FakeGetRestaurantByIdUseCase
 import pt.socialfood.fakes.FakeGetVisitStatusUseCase
 import pt.socialfood.fakes.FakeIsRestaurantFavouriteUseCase
 import pt.socialfood.fakes.FakeMarkRestaurantFavouriteUseCase
 import pt.socialfood.fakes.FakeMarkRestaurantVisitStatusUseCase
+import pt.socialfood.fakes.FakeRestaurantsRepository
 import pt.socialfood.fakes.FakeUnmarkRestaurantFavouriteUseCase
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
@@ -43,7 +43,9 @@ class RestaurantDetailViewModelTest {
         )
 
     private fun createViewModel(
-        getRestaurantById: FakeGetRestaurantByIdUseCase = FakeGetRestaurantByIdUseCase(Result.Success(fakeRestaurant)),
+        restaurantsRepository: FakeRestaurantsRepository = FakeRestaurantsRepository(
+            findByIdResult = Result.Success(fakeRestaurant),
+        ),
         isRestaurantFavourite: FakeIsRestaurantFavouriteUseCase =
             FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
         markRestaurantFavourite: FakeMarkRestaurantFavouriteUseCase = FakeMarkRestaurantFavouriteUseCase(),
@@ -51,7 +53,7 @@ class RestaurantDetailViewModelTest {
         getVisitStatus: FakeGetVisitStatusUseCase = FakeGetVisitStatusUseCase(),
         markRestaurantVisitStatus: FakeMarkRestaurantVisitStatusUseCase = FakeMarkRestaurantVisitStatusUseCase(),
     ) = RestaurantDetailViewModel(
-        getRestaurantById = getRestaurantById,
+        restaurantsRepository = restaurantsRepository,
         isRestaurantFavourite = isRestaurantFavourite,
         markRestaurantFavourite = markRestaurantFavourite,
         unmarkRestaurantFavourite = unmarkRestaurantFavourite,

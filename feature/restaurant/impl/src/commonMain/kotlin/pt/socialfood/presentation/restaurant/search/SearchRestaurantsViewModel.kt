@@ -16,8 +16,7 @@ import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Place
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.usecase.restaurant.AddRestaurantByPlaceIdUseCase
-import pt.socialfood.domain.usecase.restaurant.AwaitEnrichedRestaurantByPlaceIdUseCase
+import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.domain.usecase.search.GetRecentSearchedPlacesUseCase
 import pt.socialfood.domain.usecase.search.SaveRecentSearchedPlaceUseCase
 import pt.socialfood.domain.usecase.search.SearchPlacesUseCase
@@ -26,8 +25,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 class SearchRestaurantsViewModel(
     private val searchPlaces: SearchPlacesUseCase,
-    private val awaitEnrichedRestaurantByPlaceId: AwaitEnrichedRestaurantByPlaceIdUseCase,
-    private val addRestaurantByPlaceId: AddRestaurantByPlaceIdUseCase,
+    private val restaurantsRepository: RestaurantsRepository,
     private val getRecentSearchedPlaces: GetRecentSearchedPlacesUseCase,
     private val saveRecentSearchedPlace: SaveRecentSearchedPlaceUseCase,
 ) : ViewModel() {
@@ -81,9 +79,9 @@ class SearchRestaurantsViewModel(
         _isImportingRestaurant.value = true
 
         addRestaurantJob = viewModelScope.launch {
-            when (addRestaurantByPlaceId(place.id)) {
+            when (restaurantsRepository.addByPlaceId(place.id)) {
                 is Result.Success -> {
-                    when (val result = awaitEnrichedRestaurantByPlaceId(place.id)) {
+                    when (val result = restaurantsRepository.awaitEnrichedRestaurantByPlaceId(place.id)) {
                         is Result.Success -> {
                             _recentSearchedPlaces.value = saveRecentSearchedPlace(place)
                             _events.emit(UiEvent.RestaurantAdded(result.data))

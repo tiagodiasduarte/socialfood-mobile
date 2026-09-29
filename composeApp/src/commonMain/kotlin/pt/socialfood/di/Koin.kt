@@ -128,22 +128,6 @@ import pt.socialfood.domain.usecase.login.ValidateCodeUseCase
 import pt.socialfood.domain.usecase.login.ValidateCodeUseCaseImpl
 import pt.socialfood.domain.usecase.photo.UploadPhotoUseCase
 import pt.socialfood.domain.usecase.photo.UploadPhotoUseCaseImpl
-import pt.socialfood.domain.usecase.restaurant.AddRestaurantByPlaceIdUseCase
-import pt.socialfood.domain.usecase.restaurant.AddRestaurantByPlaceIdUseCaseImpl
-import pt.socialfood.domain.usecase.restaurant.AwaitEnrichedRestaurantByPlaceIdUseCase
-import pt.socialfood.domain.usecase.restaurant.AwaitEnrichedRestaurantByPlaceIdUseCaseImpl
-import pt.socialfood.domain.usecase.restaurant.DeleteRestaurantUseCase
-import pt.socialfood.domain.usecase.restaurant.DeleteRestaurantUseCaseImpl
-import pt.socialfood.domain.usecase.restaurant.FindRestaurantsUseCase
-import pt.socialfood.domain.usecase.restaurant.FindRestaurantsUseCaseImpl
-import pt.socialfood.domain.usecase.restaurant.GetRestaurantByIdUseCase
-import pt.socialfood.domain.usecase.restaurant.GetRestaurantByIdUseCaseImpl
-import pt.socialfood.domain.usecase.restaurant.GetRestaurantByPlaceIdUseCase
-import pt.socialfood.domain.usecase.restaurant.GetRestaurantByPlaceIdUseCaseImpl
-import pt.socialfood.domain.usecase.restaurant.GetRestaurantsUseCase
-import pt.socialfood.domain.usecase.restaurant.GetRestaurantsUseCaseImpl
-import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCase
-import pt.socialfood.domain.usecase.restaurant.UpdateRestaurantUseCaseImpl
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusListUseCase
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusListUseCaseImpl
 import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusPagingUseCase
@@ -309,13 +293,9 @@ val repositoryModule =
 
 val useCaseModule =
     module {
-        factory<AddRestaurantByPlaceIdUseCase> { AddRestaurantByPlaceIdUseCaseImpl(get()) }
         factory<AddRestaurantGuideUseCase> { AddRestaurantGuideUseCaseImpl(get(), get()) }
-        factory<AwaitEnrichedRestaurantByPlaceIdUseCase> { AwaitEnrichedRestaurantByPlaceIdUseCaseImpl(get()) }
         factory<CreateGuideUseCase> { CreateGuideUseCaseImpl(get(), get()) }
-        factory<DeleteRestaurantUseCase> { DeleteRestaurantUseCaseImpl(get()) }
         factory<FindAuthorsUseCase> { FindAuthorsUseCaseImpl(get()) }
-        factory<FindRestaurantsUseCase> { FindRestaurantsUseCaseImpl(get()) }
         factory<FindUsersUseCase> { FindUsersUseCaseImpl(get()) }
         factory<GetAuthorByIdUseCase> { GetAuthorByIdUseCaseImpl(get()) }
         factory<GetAuthorsPagingUseCase> { GetAuthorsPagingUseCaseImpl(get()) }
@@ -327,10 +307,7 @@ val useCaseModule =
         factory<GetPresignedUrlUseCase> { GetPresignedUrlUseCaseImpl(get()) }
         factory<GetRecentSearchedPlacesUseCase> { GetRecentSearchedPlacesUseCaseImpl(get()) }
         factory<GetRecentSearchesUseCase> { GetRecentSearchesUseCaseImpl(get()) }
-        factory<GetRestaurantByIdUseCase> { GetRestaurantByIdUseCaseImpl(get()) }
-        factory<GetRestaurantByPlaceIdUseCase> { GetRestaurantByPlaceIdUseCaseImpl(get()) }
         factory<GetRestaurantSuggestionsUseCase> { GetRestaurantSuggestionsUseCaseImpl(get()) }
-        factory<GetRestaurantsUseCase> { GetRestaurantsUseCaseImpl(get()) }
         factory<GetUserByIdUseCase> { GetUserByIdUseCaseImpl(get()) }
         factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
         factory<GetRestaurantVisitStatusListUseCase> { GetRestaurantVisitStatusListUseCaseImpl(get()) }
@@ -362,7 +339,6 @@ val useCaseModule =
         factory<UnmarkRestaurantFavouriteUseCase> { UnmarkRestaurantFavouriteUseCaseImpl(get()) }
         factory<UnmarkRestaurantVisitStatusUseCase> { UnmarkRestaurantVisitStatusUseCaseImpl(get()) }
         factory<UpdateGuideUseCase> { UpdateGuideUseCaseImpl(get(), get()) }
-        factory<UpdateRestaurantUseCase> { UpdateRestaurantUseCaseImpl(get()) }
         factory<UpdateUserPhotoUseCase> { UpdateUserPhotoUseCaseImpl(get()) }
         factory<UpdateUserUseCase> { UpdateUserUseCaseImpl(get()) }
         factory<UploadPhotoUseCase> { UploadPhotoUseCaseImpl(get()) }
@@ -392,7 +368,7 @@ val viewModelModule =
         factory { RestaurantVisitedViewModel(get(), get(), get(), get()) }
         factory { RestaurantWishlistViewModel(get(), get(), get(), get()) }
         factory { SharedGuidesViewModel(get(), get(), get(), get(), get()) }
-        factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get(), get(), get()) }
+        factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get(), get()) }
         factory { SearchViewModel(get(), get(), get(), get(), get()) }
         factory { SignInViewModel(get(), get(), get()) }
         factory { SignUpViewModel(get()) }

@@ -11,8 +11,6 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.fakes.FakeDeleteGuideUseCase
-import pt.socialfood.fakes.FakeGetGuideByIdUseCase
 import pt.socialfood.fakes.FakeGuidesRepository
 import pt.socialfood.fakes.FakeObserveUserUseCase
 import pt.socialfood.fakes.FakeUpdateGuideUseCase
@@ -64,26 +62,22 @@ class EditGuideViewModelTest {
     )
 
     private fun createViewModel(
-        getGuideById: FakeGetGuideByIdUseCase = FakeGetGuideByIdUseCase(Result.Success(guide())),
         updateGuide: FakeUpdateGuideUseCase = FakeUpdateGuideUseCase(Result.Success(guide())),
         uploadPhoto: FakeUploadPhotoUseCase = FakeUploadPhotoUseCase(Result.Success(Unit)),
-        guidesRepository: FakeGuidesRepository = FakeGuidesRepository(),
-        deleteGuide: FakeDeleteGuideUseCase = FakeDeleteGuideUseCase(Result.Success(true)),
+        guidesRepository: FakeGuidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(guide())),
         observeUser: FakeObserveUserUseCase = FakeObserveUserUseCase(),
     ) = EditGuideViewModel(
-        getGuideById = getGuideById,
         updateGuide = updateGuide,
         uploadPhoto = uploadPhoto,
         guidesRepository = guidesRepository,
-        deleteGuide = deleteGuide,
         observeUser = observeUser,
         guideId = "guide-1",
     )
 
     @Test
-    fun `given getGuideById succeeds when created then state is Loaded`() = runTestWithMainDispatcher {
+    fun `given findById succeeds when created then state is Loaded`() = runTestWithMainDispatcher {
         // Given / When
-        val vm = createViewModel(getGuideById = FakeGetGuideByIdUseCase(Result.Success(guide())))
+        val vm = createViewModel(guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(guide())))
 
         // Then
         vm.state.test {
@@ -95,12 +89,14 @@ class EditGuideViewModelTest {
     }
 
     @Test
-    fun `given getGuideById fails when created then state is Error`() = runTestWithMainDispatcher {
+    fun `given findById fails when created then state is Error`() = runTestWithMainDispatcher {
         // Given
-        val getGuideById = FakeGetGuideByIdUseCase(Result.Failure(DataError.Network(Exception("test error"))))
+        val guidesRepository = FakeGuidesRepository(
+            findByIdResult = Result.Failure(DataError.Network(Exception("test error"))),
+        )
 
         // When
-        val vm = createViewModel(getGuideById = getGuideById)
+        val vm = createViewModel(guidesRepository = guidesRepository)
 
         // Then
         vm.state.test {
@@ -112,8 +108,8 @@ class EditGuideViewModelTest {
     @Test
     fun `given a loaded guide when onRetry is called then reloads the guide`() = runTestWithMainDispatcher {
         // Given
-        val getGuideById = FakeGetGuideByIdUseCase(Result.Success(guide()))
-        val vm = createViewModel(getGuideById = getGuideById)
+        val guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(guide()))
+        val vm = createViewModel(guidesRepository = guidesRepository)
         vm.state.test {
             skipItems(2)
 
@@ -124,7 +120,7 @@ class EditGuideViewModelTest {
             assertEquals(EditGuideUiState.Loading, awaitItem())
             assertIs<EditGuideUiState.Loaded>(awaitItem())
         }
-        assertEquals(2, getGuideById.invokeCount)
+        assertEquals(2, guidesRepository.findByIdInvokeCount)
     }
 
     @Test
@@ -177,7 +173,9 @@ class EditGuideViewModelTest {
             // Given
             val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
             val vm = createViewModel(
-                getGuideById = FakeGetGuideByIdUseCase(Result.Success(guide(visibility = GuideVisibility.PUBLIC))),
+                guidesRepository = FakeGuidesRepository(
+                    findByIdResult = Result.Success(guide(visibility = GuideVisibility.PUBLIC)),
+                ),
                 updateGuide = updateGuide,
             )
 
@@ -202,8 +200,8 @@ class EditGuideViewModelTest {
             val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
             val restaurants = List(3) { restaurant("r$it") }
             val vm = createViewModel(
-                getGuideById = FakeGetGuideByIdUseCase(
-                    Result.Success(
+                guidesRepository = FakeGuidesRepository(
+                    findByIdResult = Result.Success(
                         guide(visibility = GuideVisibility.PUBLIC, restaurants = restaurants)
                             .copy(imageUrl = "https://example.com/image.jpg"),
                     ),
@@ -231,8 +229,8 @@ class EditGuideViewModelTest {
             val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
             val restaurants = List(3) { restaurant("r$it") }
             val vm = createViewModel(
-                getGuideById = FakeGetGuideByIdUseCase(
-                    Result.Success(
+                guidesRepository = FakeGuidesRepository(
+                    findByIdResult = Result.Success(
                         guide(visibility = GuideVisibility.PUBLIC, restaurants = restaurants)
                             .copy(imageUrl = "https://example.com/image.jpg"),
                     ),
@@ -258,7 +256,9 @@ class EditGuideViewModelTest {
     fun `given onDismissErrors is called then validationErrors is cleared`() = runTestWithMainDispatcher {
         // Given
         val vm = createViewModel(
-            getGuideById = FakeGetGuideByIdUseCase(Result.Success(guide(visibility = GuideVisibility.PUBLIC))),
+            guidesRepository = FakeGuidesRepository(
+                findByIdResult = Result.Success(guide(visibility = GuideVisibility.PUBLIC)),
+            ),
         )
 
         advanceUntilIdle()
@@ -316,7 +316,7 @@ class EditGuideViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val uploadPhoto = FakeUploadPhotoUseCase(Result.Success(Unit))
-            val guidesRepository = FakeGuidesRepository()
+            val guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(guide()))
             val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
             val vm = createViewModel(
                 updateGuide = updateGuide,
@@ -342,8 +342,11 @@ class EditGuideViewModelTest {
     @Test
     fun `given onDelete succeeds then GuideDeleted event is emitted`() = runTestWithMainDispatcher {
         // Given
-        val deleteGuide = FakeDeleteGuideUseCase(Result.Success(true))
-        val vm = createViewModel(deleteGuide = deleteGuide)
+        val guidesRepository = FakeGuidesRepository(
+            findByIdResult = Result.Success(guide()),
+            deleteResult = Result.Success(true),
+        )
+        val vm = createViewModel(guidesRepository = guidesRepository)
 
         advanceUntilIdle()
         advanceUntilIdle()
@@ -355,14 +358,17 @@ class EditGuideViewModelTest {
             // Then
             assertEquals(EditGuideViewModel.UiEvent.GuideDeleted, awaitItem())
         }
-        assertEquals(1, deleteGuide.invokeCount)
+        assertEquals(1, guidesRepository.deleteInvokeCount)
     }
 
     @Test
     fun `given onDelete fails then isDeleting is reset`() = runTestWithMainDispatcher {
         // Given
-        val deleteGuide = FakeDeleteGuideUseCase(Result.Failure(DataError.Network(Exception("test error"))))
-        val vm = createViewModel(deleteGuide = deleteGuide)
+        val guidesRepository = FakeGuidesRepository(
+            findByIdResult = Result.Success(guide()),
+            deleteResult = Result.Failure(DataError.Network(Exception("test error"))),
+        )
+        val vm = createViewModel(guidesRepository = guidesRepository)
         vm.state.test {
             skipItems(2)
 
@@ -397,7 +403,9 @@ class EditGuideViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val vm = createViewModel(
-                getGuideById = FakeGetGuideByIdUseCase(Result.Success(guide(restaurants = listOf(restaurant("r1"))))),
+                guidesRepository = FakeGuidesRepository(
+                    findByIdResult = Result.Success(guide(restaurants = listOf(restaurant("r1")))),
+                ),
             )
             vm.state.test {
                 skipItems(2)
@@ -415,7 +423,9 @@ class EditGuideViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val vm = createViewModel(
-                getGuideById = FakeGetGuideByIdUseCase(Result.Success(guide(restaurants = listOf(restaurant("r1"))))),
+                guidesRepository = FakeGuidesRepository(
+                    findByIdResult = Result.Success(guide(restaurants = listOf(restaurant("r1")))),
+                ),
             )
             vm.state.test {
                 skipItems(2)

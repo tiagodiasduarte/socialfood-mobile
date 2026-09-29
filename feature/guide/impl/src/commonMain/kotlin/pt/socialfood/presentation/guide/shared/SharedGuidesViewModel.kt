@@ -20,12 +20,10 @@ import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.User
+import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.guide.GetGuideBySharedCodeUseCase
-import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCase
-import pt.socialfood.domain.usecase.guide.JoinGuideUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
 import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideCardUiState
@@ -33,9 +31,7 @@ import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideDialogUiState
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SharedGuidesViewModel(
-    getUserJoinedGuidesPaging: GetUserJoinedGuidesPagingUseCase,
-    private val getGuideBySharedCode: GetGuideBySharedCodeUseCase,
-    private val joinGuide: JoinGuideUseCase,
+    private val guidesRepository: GuidesRepository,
     private val markGuideFavourite: MarkGuideFavouriteUseCase,
     private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
     observeUser: ObserveUserUseCase,
@@ -49,7 +45,7 @@ class SharedGuidesViewModel(
         .filterNotNull()
         .map { it.id }
         .distinctUntilChanged()
-        .flatMapLatest { userId -> getUserJoinedGuidesPaging(userId) }
+        .flatMapLatest { userId -> guidesRepository.findUserJoinedGuidesPagingFlow(userId) }
         .cachedIn(viewModelScope)
 
     val favouriteGuideIds: StateFlow<Set<String>> = observeFavouriteGuideIds()
@@ -84,7 +80,7 @@ class SharedGuidesViewModel(
         viewModelScope.launch {
             _joinGuideState.value = JoinSharedGuideDialogUiState.Loading
 
-            when (val result = getGuideBySharedCode(code)) {
+            when (val result = guidesRepository.findGuideBySharedCode(code)) {
                 is Result.Success -> {
                     _joinGuideState.value = JoinSharedGuideDialogUiState.Idle
                     joinCode = code
@@ -108,7 +104,7 @@ class SharedGuidesViewModel(
         viewModelScope.launch {
             _guideToJoin.value = guideToJoin.copy(isJoining = true, joinErrorCode = null)
 
-            when (val result = joinGuide(guideToJoin.guide.id, code)) {
+            when (val result = guidesRepository.joinGuide(guideToJoin.guide.id, code)) {
                 is Result.Success -> {
                     joinCode = null
                     _guideToJoin.value = null

@@ -110,22 +110,6 @@ import pt.socialfood.domain.usecase.guide.AddRestaurantGuideUseCase
 import pt.socialfood.domain.usecase.guide.AddRestaurantGuideUseCaseImpl
 import pt.socialfood.domain.usecase.guide.CreateGuideUseCase
 import pt.socialfood.domain.usecase.guide.CreateGuideUseCaseImpl
-import pt.socialfood.domain.usecase.guide.DeleteGuideUseCase
-import pt.socialfood.domain.usecase.guide.DeleteGuideUseCaseImpl
-import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCase
-import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCaseImpl
-import pt.socialfood.domain.usecase.guide.GetGuideBySharedCodeUseCase
-import pt.socialfood.domain.usecase.guide.GetGuideBySharedCodeUseCaseImpl
-import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCase
-import pt.socialfood.domain.usecase.guide.GetGuidesPagingUseCaseImpl
-import pt.socialfood.domain.usecase.guide.GetUserGuidesPagingUseCase
-import pt.socialfood.domain.usecase.guide.GetUserGuidesPagingUseCaseImpl
-import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCase
-import pt.socialfood.domain.usecase.guide.GetUserJoinedGuidesPagingUseCaseImpl
-import pt.socialfood.domain.usecase.guide.JoinGuideUseCase
-import pt.socialfood.domain.usecase.guide.JoinGuideUseCaseImpl
-import pt.socialfood.domain.usecase.guide.LeaveGuideUseCase
-import pt.socialfood.domain.usecase.guide.LeaveGuideUseCaseImpl
 import pt.socialfood.domain.usecase.guide.UpdateGuideUseCase
 import pt.socialfood.domain.usecase.guide.UpdateGuideUseCaseImpl
 import pt.socialfood.domain.usecase.home.AddHomeSectionItemUseCase
@@ -347,7 +331,6 @@ val useCaseModule =
         factory<AwaitEnrichedRestaurantByPlaceIdUseCase> { AwaitEnrichedRestaurantByPlaceIdUseCaseImpl(get()) }
         factory<CreateGuideUseCase> { CreateGuideUseCaseImpl(get(), get()) }
         factory<CreateHomeSectionUseCase> { CreateHomeSectionUseCaseImpl(get()) }
-        factory<DeleteGuideUseCase> { DeleteGuideUseCaseImpl(get()) }
         factory<DeleteHomeSectionUseCase> { DeleteHomeSectionUseCaseImpl(get()) }
         factory<DeleteRestaurantUseCase> { DeleteRestaurantUseCaseImpl(get()) }
         factory<FindAuthorsUseCase> { FindAuthorsUseCaseImpl(get()) }
@@ -359,10 +342,7 @@ val useCaseModule =
         factory<GetConfigsUseCase> { GetConfigsUseCaseImpl(get()) }
         factory<GetFavouriteGuidesPagingUseCase> { GetFavouriteGuidesPagingUseCaseImpl(get()) }
         factory<GetFavouriteRestaurantsPagingUseCase> { GetFavouriteRestaurantsPagingUseCaseImpl(get()) }
-        factory<GetGuideByIdUseCase> { GetGuideByIdUseCaseImpl(get()) }
-        factory<GetGuideBySharedCodeUseCase> { GetGuideBySharedCodeUseCaseImpl(get()) }
         factory<GetGuideSuggestionsUseCase> { GetGuideSuggestionsUseCaseImpl(get()) }
-        factory<GetGuidesPagingUseCase> { GetGuidesPagingUseCaseImpl(get()) }
         factory<GetHomeSectionByIdUseCase> { GetHomeSectionByIdUseCaseImpl(get()) }
         factory<GetHomeSectionsUseCase> { GetHomeSectionsUseCaseImpl(get()) }
         factory<GetPresignedUrlUseCase> { GetPresignedUrlUseCaseImpl(get()) }
@@ -373,16 +353,12 @@ val useCaseModule =
         factory<GetRestaurantSuggestionsUseCase> { GetRestaurantSuggestionsUseCaseImpl(get()) }
         factory<GetRestaurantsUseCase> { GetRestaurantsUseCaseImpl(get()) }
         factory<GetUserByIdUseCase> { GetUserByIdUseCaseImpl(get()) }
-        factory<GetUserGuidesPagingUseCase> { GetUserGuidesPagingUseCaseImpl(get()) }
-        factory<GetUserJoinedGuidesPagingUseCase> { GetUserJoinedGuidesPagingUseCaseImpl(get()) }
         factory<GetUserMeUseCase> { GetUserMeUseCaseImpl(get()) }
         factory<GetRestaurantVisitStatusListUseCase> { GetRestaurantVisitStatusListUseCaseImpl(get()) }
         factory<GetRestaurantVisitStatusPagingUseCase> { GetRestaurantVisitStatusPagingUseCaseImpl(get()) }
         factory<GetVisitStatusUseCase> { GetVisitStatusUseCaseImpl(get()) }
         factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
         factory<IsRestaurantFavouriteUseCase> { IsRestaurantFavouriteUseCaseImpl(get()) }
-        factory<JoinGuideUseCase> { JoinGuideUseCaseImpl(get()) }
-        factory<LeaveGuideUseCase> { LeaveGuideUseCaseImpl(get()) }
         factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
         factory<LoginWithGoogleUseCase> { LoginWithGoogleUseCaseImpl(get(), get()) }
         factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get(), get()) }
@@ -424,11 +400,11 @@ val viewModelModule =
         factory { AuthorsViewModel(get(), get()) }
         factory { CreateGuideViewModel(get(), get(), get()) }
         factory { DrawerViewModel(get(), get(), get()) }
-        factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), get(), get(), guideId) }
+        factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), guideId) }
         factory { EditProfileViewModel(get(), get(), get(), get(), get(), get()) }
         factory { FavouriteGuidesViewModel(get(), get(), get()) }
         factory { FavouriteRestaurantsViewModel(get(), get(), get()) }
-        factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), get(), guideId) }
+        factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
         factory { (guideId: String) -> GuideMapViewModel(get(), guideId) }
         factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
         factory { (restaurantId: String) -> MapRestaurantViewModel(get(), restaurantId) }
@@ -439,7 +415,7 @@ val viewModelModule =
         }
         factory { RestaurantVisitedViewModel(get(), get(), get(), get()) }
         factory { RestaurantWishlistViewModel(get(), get(), get(), get()) }
-        factory { SharedGuidesViewModel(get(), get(), get(), get(), get(), get(), get()) }
+        factory { SharedGuidesViewModel(get(), get(), get(), get(), get()) }
         factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get(), get(), get()) }
         factory { SearchViewModel(get(), get(), get(), get(), get()) }
         factory { SignInViewModel(get(), get(), get()) }

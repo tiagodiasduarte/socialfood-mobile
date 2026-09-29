@@ -9,10 +9,9 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.User
-import pt.socialfood.fakes.FakeGetGuideByIdUseCase
 import pt.socialfood.fakes.FakeGetUserMeUseCase
+import pt.socialfood.fakes.FakeGuidesRepository
 import pt.socialfood.fakes.FakeIsGuideFavouriteUseCase
-import pt.socialfood.fakes.FakeLeaveGuideUseCase
 import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeUnmarkGuideFavouriteUseCase
 import pt.socialfood.runner.runTestWithMainDispatcher
@@ -42,12 +41,11 @@ class GuideDetailViewModelTest {
             // Given
             val vm =
                 GuideDetailViewModel(
-                    getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
+                    guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(fakeGuide)),
                     getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
                     isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(true)),
                     markGuideFavourite = FakeMarkGuideFavouriteUseCase(),
                     unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
-                    leaveGuide = FakeLeaveGuideUseCase(),
                     guideId = fakeGuide.id,
                 )
 
@@ -66,12 +64,11 @@ class GuideDetailViewModelTest {
             val mark = FakeMarkGuideFavouriteUseCase()
             val vm =
                 GuideDetailViewModel(
-                    getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
+                    guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(fakeGuide)),
                     getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
                     isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
                     markGuideFavourite = mark,
                     unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
-                    leaveGuide = FakeLeaveGuideUseCase(),
                     guideId = fakeGuide.id,
                 )
 
@@ -101,12 +98,11 @@ class GuideDetailViewModelTest {
             val unmark = FakeUnmarkGuideFavouriteUseCase()
             val vm =
                 GuideDetailViewModel(
-                    getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
+                    guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(fakeGuide)),
                     getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
                     isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(true)),
                     markGuideFavourite = FakeMarkGuideFavouriteUseCase(),
                     unmarkGuideFavourite = unmark,
-                    leaveGuide = FakeLeaveGuideUseCase(),
                     guideId = fakeGuide.id,
                 )
 
@@ -135,14 +131,13 @@ class GuideDetailViewModelTest {
             // Given
             val vm =
                 GuideDetailViewModel(
-                    getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
+                    guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(fakeGuide)),
                     getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
                     isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
                     markGuideFavourite = FakeMarkGuideFavouriteUseCase(
                         Result.Failure(DataError.Network(Exception("test error"))),
                     ),
                     unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
-                    leaveGuide = FakeLeaveGuideUseCase(),
                     guideId = fakeGuide.id,
                 )
 
@@ -163,18 +158,20 @@ class GuideDetailViewModelTest {
         }
 
     @Test
-    fun `given leaveGuide succeeds when onLeaveGuide is called then sets isLeaving and emits GuideLeft`() =
+    fun `given leaving succeeds when onLeaveGuide is called then sets isLeaving and emits GuideLeft`() =
         runTestWithMainDispatcher {
             // Given
-            val leaveGuide = FakeLeaveGuideUseCase(Result.Success(true))
+            val guidesRepository = FakeGuidesRepository(
+                findByIdResult = Result.Success(fakeGuide),
+                leaveGuideResult = Result.Success(true),
+            )
             val vm =
                 GuideDetailViewModel(
-                    getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
+                    guidesRepository = guidesRepository,
                     getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
                     isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
                     markGuideFavourite = FakeMarkGuideFavouriteUseCase(),
                     unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
-                    leaveGuide = leaveGuide,
                     guideId = fakeGuide.id,
                 )
             advanceUntilIdle()
@@ -189,22 +186,24 @@ class GuideDetailViewModelTest {
                 assertEquals(GuideDetailViewModel.UiEvent.GuideLeft, awaitItem())
             }
 
-            assertEquals(1, leaveGuide.invokeCount)
-            assertEquals(fakeGuide.id, leaveGuide.lastGuideId)
+            assertEquals(1, guidesRepository.leaveGuideInvokeCount)
+            assertEquals(fakeGuide.id, guidesRepository.lastLeaveGuideId)
         }
 
     @Test
-    fun `given leaveGuide fails when onLeaveGuide is called then reverts isLeaving`() = runTestWithMainDispatcher {
+    fun `given leaving fails when onLeaveGuide is called then reverts isLeaving`() = runTestWithMainDispatcher {
         // Given
         val error = DataError.Network(Exception("test error"))
         val vm =
             GuideDetailViewModel(
-                getGuideById = FakeGetGuideByIdUseCase(Result.Success(fakeGuide)),
+                guidesRepository = FakeGuidesRepository(
+                    findByIdResult = Result.Success(fakeGuide),
+                    leaveGuideResult = Result.Failure(error),
+                ),
                 getUserMe = FakeGetUserMeUseCase(Result.Success(fakeUser)),
                 isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
                 markGuideFavourite = FakeMarkGuideFavouriteUseCase(),
                 unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
-                leaveGuide = FakeLeaveGuideUseCase(Result.Failure(error)),
                 guideId = fakeGuide.id,
             )
         advanceUntilIdle()

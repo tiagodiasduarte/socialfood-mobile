@@ -9,21 +9,19 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
+import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.usecase.favourite.guide.IsGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.guide.GetGuideByIdUseCase
-import pt.socialfood.domain.usecase.guide.LeaveGuideUseCase
 import pt.socialfood.domain.usecase.user.GetUserMeUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
 class GuideDetailViewModel(
-    private val getGuideById: GetGuideByIdUseCase,
+    private val guidesRepository: GuidesRepository,
     private val getUserMe: GetUserMeUseCase,
     private val isGuideFavourite: IsGuideFavouriteUseCase,
     private val markGuideFavourite: MarkGuideFavouriteUseCase,
     private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
-    private val leaveGuide: LeaveGuideUseCase,
     private val guideId: String,
 ) : ViewModel() {
 
@@ -40,7 +38,7 @@ class GuideDetailViewModel(
     fun load() {
         viewModelScope.launch {
             _state.value = GuideDetailUiState.Loading
-            val guideDeferred = async { getGuideById(guideId) }
+            val guideDeferred = async { guidesRepository.findById(guideId) }
             val userDeferred = async { getUserMe() }
             val isFavouriteDeferred = async { isGuideFavourite(guideId) }
             val guideResult = guideDeferred.await()
@@ -82,7 +80,7 @@ class GuideDetailViewModel(
         _state.value = current.copy(isLeaving = true)
 
         viewModelScope.launch {
-            when (leaveGuide(guideId)) {
+            when (guidesRepository.leaveGuide(guideId)) {
                 is Result.Success -> _events.emit(UiEvent.GuideLeft)
                 is Result.Failure -> {
                     val stateNow = _state.value as? GuideDetailUiState.Loaded ?: return@launch

@@ -65,6 +65,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-java
+      - uses: ./.github/actions/cache-kotlin-native
       - name: Create Secrets.xcconfig
         env:
           GOOGLE_CLIENT_ID_IOS: ${{ secrets.GOOGLE_CLIENT_ID_IOS }}
@@ -100,7 +101,7 @@ jobs:
   ios-test:
     name: iOS Unit Tests
     runs-on: macos-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     env:
       GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
       GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
@@ -109,6 +110,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-java
+      - uses: ./.github/actions/cache-kotlin-native
       - uses: ./.github/actions/setup-google-services
         with:
           google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}

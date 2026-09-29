@@ -8,7 +8,7 @@ import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.PresignedUrlData
 import pt.socialfood.domain.model.User
 import pt.socialfood.fakes.FakeImageCache
-import pt.socialfood.fakes.FakeUploadPhotoUseCase
+import pt.socialfood.fakes.FakePhotosRepository
 import pt.socialfood.fakes.FakeUsersRepository
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
@@ -46,11 +46,11 @@ class EditProfileViewModelTest {
 
     private fun createViewModel(
         usersRepository: FakeUsersRepository = fakeUsersRepository(),
-        uploadPhoto: FakeUploadPhotoUseCase = FakeUploadPhotoUseCase(Result.Success(Unit)),
+        photosRepository: FakePhotosRepository = FakePhotosRepository(),
         imageCache: FakeImageCache = FakeImageCache(),
     ) = EditProfileViewModel(
         usersRepository = usersRepository,
-        uploadPhoto = uploadPhoto,
+        photosRepository = photosRepository,
         imageCache = imageCache,
     )
 
@@ -58,9 +58,9 @@ class EditProfileViewModelTest {
     fun `given a pending image when save is called then photo is uploaded to S3 before saving`() =
         runTestWithMainDispatcher {
             // Given
-            val uploadPhoto = FakeUploadPhotoUseCase(Result.Success(Unit))
+            val photosRepository = FakePhotosRepository()
             val imageCache = FakeImageCache()
-            val vm = createViewModel(uploadPhoto = uploadPhoto, imageCache = imageCache)
+            val vm = createViewModel(photosRepository = photosRepository, imageCache = imageCache)
 
             vm.state.test {
                 assertEquals(EditProfileUiState.Loading, awaitItem())
@@ -77,8 +77,8 @@ class EditProfileViewModelTest {
                 assertIs<EditProfileUiState.Loaded>(awaitItem()).let { assertEquals(true, it.isUploadingPhoto) }
 
                 val photoUploaded = assertIs<EditProfileUiState.Loaded>(awaitItem())
-                assertEquals(1, uploadPhoto.invokeCount)
-                assertEquals(presignedUrlData, uploadPhoto.lastPresigned)
+                assertEquals(1, photosRepository.uploadInvokeCount)
+                assertEquals(presignedUrlData.uploadUrl, photosRepository.lastUploadUrl)
                 assertEquals(presignedUrlData.publicUrl, photoUploaded.imageUrl)
                 assertEquals(null, photoUploaded.pendingImage)
                 assertEquals(listOf(presignedUrlData.publicUrl), imageCache.clearedUrls)
@@ -90,8 +90,8 @@ class EditProfileViewModelTest {
     @Test
     fun `given no pending image when save is called then photo is not uploaded to S3`() = runTestWithMainDispatcher {
         // Given
-        val uploadPhoto = FakeUploadPhotoUseCase(Result.Success(Unit))
-        val vm = createViewModel(uploadPhoto = uploadPhoto)
+        val photosRepository = FakePhotosRepository()
+        val vm = createViewModel(photosRepository = photosRepository)
 
         vm.state.test {
             assertEquals(EditProfileUiState.Loading, awaitItem())
@@ -102,7 +102,7 @@ class EditProfileViewModelTest {
 
             // Then
             cancelAndIgnoreRemainingEvents()
-            assertEquals(0, uploadPhoto.invokeCount)
+            assertEquals(0, photosRepository.uploadInvokeCount)
         }
     }
 
@@ -110,12 +110,14 @@ class EditProfileViewModelTest {
     fun `given the S3 upload fails when save is called then the user photo is not updated`() =
         runTestWithMainDispatcher {
             // Given
-            val uploadPhoto = FakeUploadPhotoUseCase(Result.Failure(DataError.Network(Exception("test error"))))
+            val photosRepository = FakePhotosRepository(
+                uploadResult = Result.Failure(DataError.Network(Exception("test error"))),
+            )
             val usersRepository = fakeUsersRepository()
             val imageCache = FakeImageCache()
             val vm =
                 createViewModel(
-                    uploadPhoto = uploadPhoto,
+                    photosRepository = photosRepository,
                     usersRepository = usersRepository,
                     imageCache = imageCache,
                 )
@@ -134,7 +136,7 @@ class EditProfileViewModelTest {
                 assertIs<EditProfileUiState.Loaded>(awaitItem()).let { assertEquals(true, it.isUploadingPhoto) }
 
                 val failed = assertIs<EditProfileUiState.Loaded>(awaitItem())
-                assertEquals(1, uploadPhoto.invokeCount)
+                assertEquals(1, photosRepository.uploadInvokeCount)
                 assertEquals(0, usersRepository.updatePhotoInvokeCount)
                 assertEquals(false, failed.isSaving)
                 assertEquals(false, failed.isUploadingPhoto)
@@ -317,8 +319,8 @@ class EditProfileViewModelTest {
             val usersRepository = fakeUsersRepository(
                 getPresignedUrlResult = Result.Failure(DataError.Network(Exception("test error"))),
             )
-            val uploadPhoto = FakeUploadPhotoUseCase(Result.Success(Unit))
-            val vm = createViewModel(usersRepository = usersRepository, uploadPhoto = uploadPhoto)
+            val photosRepository = FakePhotosRepository()
+            val vm = createViewModel(usersRepository = usersRepository, photosRepository = photosRepository)
 
             vm.state.test {
                 assertEquals(EditProfileUiState.Loading, awaitItem())
@@ -335,7 +337,7 @@ class EditProfileViewModelTest {
 
                 val failed = assertIs<EditProfileUiState.Loaded>(awaitItem())
                 assertEquals(1, usersRepository.getPresignedUrlInvokeCount)
-                assertEquals(0, uploadPhoto.invokeCount)
+                assertEquals(0, photosRepository.uploadInvokeCount)
                 assertEquals(false, failed.isSaving)
                 assertEquals(false, failed.isUploadingPhoto)
                 assertEquals(ErrorCode.NETWORK, failed.saveError)

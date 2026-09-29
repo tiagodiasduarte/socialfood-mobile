@@ -10,7 +10,7 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.fakes.FakeCreateGuideUseCase
 import pt.socialfood.fakes.FakeGuidesRepository
-import pt.socialfood.fakes.FakeUploadPhotoUseCase
+import pt.socialfood.fakes.FakePhotosRepository
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_description_error
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_title_error
@@ -34,11 +34,11 @@ class CreateGuideViewModelTest {
 
     private fun createViewModel(
         createGuide: FakeCreateGuideUseCase = FakeCreateGuideUseCase(Result.Success(sampleGuide)),
-        uploadPhoto: FakeUploadPhotoUseCase = FakeUploadPhotoUseCase(Result.Success(Unit)),
+        photosRepository: FakePhotosRepository = FakePhotosRepository(),
         guidesRepository: FakeGuidesRepository = FakeGuidesRepository(),
     ) = CreateGuideViewModel(
         createGuide = createGuide,
-        uploadPhoto = uploadPhoto,
+        photosRepository = photosRepository,
         guidesRepository = guidesRepository,
     )
 
@@ -145,10 +145,13 @@ class CreateGuideViewModelTest {
     fun `given a pending image when onCreateGuide succeeds then photo is uploaded`() = runTestWithMainDispatcher {
         // Given
         val createGuide = FakeCreateGuideUseCase(Result.Success(sampleGuide))
-        val uploadPhoto = FakeUploadPhotoUseCase(Result.Success(Unit))
+        val photosRepository = FakePhotosRepository()
         val guidesRepository = FakeGuidesRepository()
-        val vm =
-            createViewModel(createGuide = createGuide, uploadPhoto = uploadPhoto, guidesRepository = guidesRepository)
+        val vm = createViewModel(
+            createGuide = createGuide,
+            photosRepository = photosRepository,
+            guidesRepository = guidesRepository,
+        )
         vm.onTitleChange("My Guide")
         vm.onDescriptionChange("My description")
         vm.onPhotoSelected(byteArrayOf(1, 2, 3), "image/png")
@@ -161,7 +164,7 @@ class CreateGuideViewModelTest {
             val event = assertIs<CreateGuideViewModel.UiEvent.GuideCreated>(awaitItem())
             assertEquals(sampleGuide.id, event.guideId)
         }
-        assertEquals(1, uploadPhoto.invokeCount)
+        assertEquals(1, photosRepository.uploadInvokeCount)
         assertEquals(1, guidesRepository.addPhotoInvokeCount)
     }
 
@@ -169,10 +172,13 @@ class CreateGuideViewModelTest {
     fun `given no pending image when onCreateGuide succeeds then photo is not uploaded`() = runTestWithMainDispatcher {
         // Given
         val createGuide = FakeCreateGuideUseCase(Result.Success(sampleGuide))
-        val uploadPhoto = FakeUploadPhotoUseCase(Result.Success(Unit))
+        val photosRepository = FakePhotosRepository()
         val guidesRepository = FakeGuidesRepository()
-        val vm =
-            createViewModel(createGuide = createGuide, uploadPhoto = uploadPhoto, guidesRepository = guidesRepository)
+        val vm = createViewModel(
+            createGuide = createGuide,
+            photosRepository = photosRepository,
+            guidesRepository = guidesRepository,
+        )
         vm.onTitleChange("My Guide")
         vm.onDescriptionChange("My description")
 
@@ -183,7 +189,7 @@ class CreateGuideViewModelTest {
             // Then
             assertIs<CreateGuideViewModel.UiEvent.GuideCreated>(awaitItem())
         }
-        assertEquals(0, uploadPhoto.invokeCount)
+        assertEquals(0, photosRepository.uploadInvokeCount)
         assertEquals(0, guidesRepository.addPhotoInvokeCount)
     }
 }

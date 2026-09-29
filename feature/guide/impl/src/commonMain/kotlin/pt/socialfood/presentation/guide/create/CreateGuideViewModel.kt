@@ -12,8 +12,8 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.repository.GuidesRepository
+import pt.socialfood.domain.repository.PhotosRepository
 import pt.socialfood.domain.usecase.guide.CreateGuideUseCase
-import pt.socialfood.domain.usecase.photo.UploadPhotoUseCase
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_description_error
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_title_error
@@ -23,7 +23,7 @@ import kotlin.time.ExperimentalTime
 
 class CreateGuideViewModel(
     private val createGuide: CreateGuideUseCase,
-    private val uploadPhoto: UploadPhotoUseCase,
+    private val photosRepository: PhotosRepository,
     private val guidesRepository: GuidesRepository,
 ) : ViewModel() {
 
@@ -105,7 +105,7 @@ class CreateGuideViewModel(
                 val fileName = "photo_${Clock.System.now().toEpochMilliseconds()}.$ext"
                 val presigned = guidesRepository.getPhotoPresignedUrl(guide.id, fileName, mimeType)
                 if (presigned is Result.Success) {
-                    if (uploadPhoto(presigned.data, bytes, mimeType) is Result.Success) {
+                    if (photosRepository.uploadToS3(presigned.data.uploadUrl, bytes, mimeType) is Result.Success) {
                         guidesRepository.addPhoto(guide.id, presigned.data.publicUrl)
                     }
                 }

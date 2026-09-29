@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
-import pt.socialfood.domain.usecase.login.ResendVerificationCodeUseCase
+import pt.socialfood.domain.repository.AuthRepository
 import pt.socialfood.domain.usecase.login.RestartSignUpUseCase
 import pt.socialfood.domain.usecase.login.ValidateCodeUseCase
 import pt.socialfood.feature.auth.generated.resources.Res
@@ -15,7 +15,7 @@ import pt.socialfood.presentation.error.toErrorCode
 
 class ValidateCodeViewModel(
     private val validateCode: ValidateCodeUseCase,
-    private val resendVerificationCode: ResendVerificationCodeUseCase,
+    private val authRepository: AuthRepository,
     private val restartSignUp: RestartSignUpUseCase,
     val email: String,
 ) : ViewModel() {
@@ -41,7 +41,7 @@ class ValidateCodeViewModel(
 
     fun onResendCode() {
         viewModelScope.launch {
-            resendVerificationCode(email)
+            authRepository.resendVerificationCode(email)
         }
     }
 

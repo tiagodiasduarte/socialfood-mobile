@@ -112,22 +112,6 @@ import pt.socialfood.domain.usecase.guide.CreateGuideUseCase
 import pt.socialfood.domain.usecase.guide.CreateGuideUseCaseImpl
 import pt.socialfood.domain.usecase.guide.UpdateGuideUseCase
 import pt.socialfood.domain.usecase.guide.UpdateGuideUseCaseImpl
-import pt.socialfood.domain.usecase.home.AddHomeSectionItemUseCase
-import pt.socialfood.domain.usecase.home.AddHomeSectionItemUseCaseImpl
-import pt.socialfood.domain.usecase.home.CreateHomeSectionUseCase
-import pt.socialfood.domain.usecase.home.CreateHomeSectionUseCaseImpl
-import pt.socialfood.domain.usecase.home.DeleteHomeSectionUseCase
-import pt.socialfood.domain.usecase.home.DeleteHomeSectionUseCaseImpl
-import pt.socialfood.domain.usecase.home.GetHomeSectionByIdUseCase
-import pt.socialfood.domain.usecase.home.GetHomeSectionByIdUseCaseImpl
-import pt.socialfood.domain.usecase.home.GetHomeSectionsUseCase
-import pt.socialfood.domain.usecase.home.GetHomeSectionsUseCaseImpl
-import pt.socialfood.domain.usecase.home.ObserveHomeSectionsUseCase
-import pt.socialfood.domain.usecase.home.ObserveHomeSectionsUseCaseImpl
-import pt.socialfood.domain.usecase.home.RemoveHomeSectionItemUseCase
-import pt.socialfood.domain.usecase.home.RemoveHomeSectionItemUseCaseImpl
-import pt.socialfood.domain.usecase.home.UpdateHomeSectionUseCase
-import pt.socialfood.domain.usecase.home.UpdateHomeSectionUseCaseImpl
 import pt.socialfood.domain.usecase.login.LoginUseCase
 import pt.socialfood.domain.usecase.login.LoginUseCaseImpl
 import pt.socialfood.domain.usecase.login.LoginWithGoogleUseCase
@@ -325,13 +309,10 @@ val repositoryModule =
 
 val useCaseModule =
     module {
-        factory<AddHomeSectionItemUseCase> { AddHomeSectionItemUseCaseImpl(get()) }
         factory<AddRestaurantByPlaceIdUseCase> { AddRestaurantByPlaceIdUseCaseImpl(get()) }
         factory<AddRestaurantGuideUseCase> { AddRestaurantGuideUseCaseImpl(get(), get()) }
         factory<AwaitEnrichedRestaurantByPlaceIdUseCase> { AwaitEnrichedRestaurantByPlaceIdUseCaseImpl(get()) }
         factory<CreateGuideUseCase> { CreateGuideUseCaseImpl(get(), get()) }
-        factory<CreateHomeSectionUseCase> { CreateHomeSectionUseCaseImpl(get()) }
-        factory<DeleteHomeSectionUseCase> { DeleteHomeSectionUseCaseImpl(get()) }
         factory<DeleteRestaurantUseCase> { DeleteRestaurantUseCaseImpl(get()) }
         factory<FindAuthorsUseCase> { FindAuthorsUseCaseImpl(get()) }
         factory<FindRestaurantsUseCase> { FindRestaurantsUseCaseImpl(get()) }
@@ -343,8 +324,6 @@ val useCaseModule =
         factory<GetFavouriteGuidesPagingUseCase> { GetFavouriteGuidesPagingUseCaseImpl(get()) }
         factory<GetFavouriteRestaurantsPagingUseCase> { GetFavouriteRestaurantsPagingUseCaseImpl(get()) }
         factory<GetGuideSuggestionsUseCase> { GetGuideSuggestionsUseCaseImpl(get()) }
-        factory<GetHomeSectionByIdUseCase> { GetHomeSectionByIdUseCaseImpl(get()) }
-        factory<GetHomeSectionsUseCase> { GetHomeSectionsUseCaseImpl(get()) }
         factory<GetPresignedUrlUseCase> { GetPresignedUrlUseCaseImpl(get()) }
         factory<GetRecentSearchedPlacesUseCase> { GetRecentSearchedPlacesUseCaseImpl(get()) }
         factory<GetRecentSearchesUseCase> { GetRecentSearchesUseCaseImpl(get()) }
@@ -366,11 +345,9 @@ val useCaseModule =
         factory<MarkRestaurantFavouriteUseCase> { MarkRestaurantFavouriteUseCaseImpl(get()) }
         factory<MarkRestaurantVisitStatusUseCase> { MarkRestaurantVisitStatusUseCaseImpl(get()) }
         factory<ObserveFavouriteGuideIdsUseCase> { ObserveFavouriteGuideIdsUseCaseImpl(get()) }
-        factory<ObserveHomeSectionsUseCase> { ObserveHomeSectionsUseCaseImpl(get()) }
         factory<ObserveThemeModeUseCase> { ObserveThemeModeUseCaseImpl(get()) }
         factory<ObserveUserUseCase> { ObserveUserUseCaseImpl(get()) }
         factory<RegisterUseCase> { RegisterUseCaseImpl(get(), get()) }
-        factory<RemoveHomeSectionItemUseCase> { RemoveHomeSectionItemUseCaseImpl(get()) }
         factory<ResendVerificationCodeUseCase> { ResendVerificationCodeUseCaseImpl(get()) }
         factory<RestartSignUpUseCase> { RestartSignUpUseCaseImpl(get()) }
         factory<SaveRecentSearchUseCase> { SaveRecentSearchUseCaseImpl(get()) }
@@ -385,7 +362,6 @@ val useCaseModule =
         factory<UnmarkRestaurantFavouriteUseCase> { UnmarkRestaurantFavouriteUseCaseImpl(get()) }
         factory<UnmarkRestaurantVisitStatusUseCase> { UnmarkRestaurantVisitStatusUseCaseImpl(get()) }
         factory<UpdateGuideUseCase> { UpdateGuideUseCaseImpl(get(), get()) }
-        factory<UpdateHomeSectionUseCase> { UpdateHomeSectionUseCaseImpl(get()) }
         factory<UpdateRestaurantUseCase> { UpdateRestaurantUseCaseImpl(get()) }
         factory<UpdateUserPhotoUseCase> { UpdateUserPhotoUseCaseImpl(get()) }
         factory<UpdateUserUseCase> { UpdateUserUseCaseImpl(get()) }
@@ -406,7 +382,7 @@ val viewModelModule =
         factory { FavouriteRestaurantsViewModel(get(), get(), get()) }
         factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), get(), get(), guideId) }
         factory { (guideId: String) -> GuideMapViewModel(get(), guideId) }
-        factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+        factory { HomeViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
         factory { (restaurantId: String) -> MapRestaurantViewModel(get(), restaurantId) }
         factory { (status: VisitStatus) -> MapRestaurantVisitStatusViewModel(get(), status) }
         factory { MyGuidesViewModel(get(), get(), get(), get(), get()) }

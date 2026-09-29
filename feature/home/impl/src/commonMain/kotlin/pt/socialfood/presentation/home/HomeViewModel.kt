@@ -18,19 +18,18 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.HomeSection
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.User
+import pt.socialfood.domain.repository.HomeRepository
 import pt.socialfood.domain.usecase.favourite.guide.IsGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.restaurant.IsRestaurantFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.restaurant.MarkRestaurantFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
-import pt.socialfood.domain.usecase.home.GetHomeSectionsUseCase
-import pt.socialfood.domain.usecase.home.ObserveHomeSectionsUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
 class HomeViewModel(
-    private val getHomeSections: GetHomeSectionsUseCase,
+    private val homeRepository: HomeRepository,
     private val isRestaurantFavourite: IsRestaurantFavouriteUseCase,
     private val markRestaurantFavourite: MarkRestaurantFavouriteUseCase,
     private val unmarkRestaurantFavourite: UnmarkRestaurantFavouriteUseCase,
@@ -38,7 +37,6 @@ class HomeViewModel(
     private val markGuideFavourite: MarkGuideFavouriteUseCase,
     private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
     observeUser: ObserveUserUseCase,
-    observeHomeSections: ObserveHomeSectionsUseCase,
 ) : ViewModel() {
     private val _state = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     val state: StateFlow<HomeUiState> = _state
@@ -50,7 +48,7 @@ class HomeViewModel(
         .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     val sections: StateFlow<List<HomeSection>> =
-        observeHomeSections()
+        homeRepository.observeHomeSections()
             .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     init {
@@ -82,7 +80,7 @@ class HomeViewModel(
     }
 
     private suspend fun fetchSections() {
-        when (val result = getHomeSections()) {
+        when (val result = homeRepository.findAll()) {
             is Result.Success -> {
                 val active = result.data
                     .filter { it.isActive }

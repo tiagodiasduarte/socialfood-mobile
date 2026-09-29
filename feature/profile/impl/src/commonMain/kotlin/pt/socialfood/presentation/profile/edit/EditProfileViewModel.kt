@@ -7,11 +7,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
+import pt.socialfood.domain.repository.UsersRepository
 import pt.socialfood.domain.usecase.photo.UploadPhotoUseCase
-import pt.socialfood.domain.usecase.user.GetPresignedUrlUseCase
-import pt.socialfood.domain.usecase.user.GetUserMeUseCase
-import pt.socialfood.domain.usecase.user.UpdateUserPhotoUseCase
-import pt.socialfood.domain.usecase.user.UpdateUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
 import pt.socialfood.presentation.ui.image.ImageCache
 import kotlin.time.Clock
@@ -19,11 +16,8 @@ import kotlin.time.ExperimentalTime
 
 @Suppress("TooManyFunctions")
 class EditProfileViewModel(
-    private val getUserMe: GetUserMeUseCase,
-    private val updateUser: UpdateUserUseCase,
+    private val usersRepository: UsersRepository,
     private val uploadPhoto: UploadPhotoUseCase,
-    private val updateUserPhoto: UpdateUserPhotoUseCase,
-    private val getPresignedUrl: GetPresignedUrlUseCase,
     private val imageCache: ImageCache,
 ) : ViewModel() {
 
@@ -49,7 +43,7 @@ class EditProfileViewModel(
     private fun load() {
         viewModelScope.launch {
             _state.value = EditProfileUiState.Loading
-            when (val result = getUserMe()) {
+            when (val result = usersRepository.getUserMe()) {
                 is Result.Success -> {
                     val user = result.data
                     _state.value = EditProfileUiState.Loaded(
@@ -89,7 +83,7 @@ class EditProfileViewModel(
         val fileName = "photo_${Clock.System.now().toEpochMilliseconds()}.$ext"
 
         val presigned = when (
-            val result = getPresignedUrl(
+            val result = usersRepository.getPresignedUrl(
                 userId = state.userId,
                 fileName = fileName,
                 mimeType = mimeType,
@@ -109,7 +103,7 @@ class EditProfileViewModel(
             return false
         }
 
-        return when (val photoResult = updateUserPhoto(id = state.userId, imageUrl = presigned.publicUrl)) {
+        return when (val photoResult = usersRepository.updatePhoto(id = state.userId, imageUrl = presigned.publicUrl)) {
             is Result.Success -> {
                 imageCache.clear(presigned.publicUrl)
                 loaded { copy(isUploadingPhoto = false, pendingImage = null, imageUrl = presigned.publicUrl) }
@@ -132,7 +126,7 @@ class EditProfileViewModel(
 
             val current = _state.value as? EditProfileUiState.Loaded ?: return@launch
             when (
-                val result = updateUser(
+                val result = usersRepository.update(
                     id = current.userId,
                     name = current.name.ifBlank { null },
                     username = current.username.ifBlank { null },

@@ -41,6 +41,9 @@ class FakeUsersRepository(
     var lastFindUsersQuery: String? = null
         private set
 
+    var getUserMeInvokeCount: Int = 0
+        private set
+
     var lastFindByIdId: String? = null
         private set
 
@@ -70,6 +73,8 @@ class FakeUsersRepository(
     var lastUpdatePhotoImageUrl: String? = null
         private set
 
+    var getPresignedUrlInvokeCount: Int = 0
+        private set
     var lastPresignedUrlUserId: String? = null
         private set
     var lastPresignedUrlFileName: String? = null
@@ -96,7 +101,10 @@ class FakeUsersRepository(
         return findUsersResult
     }
 
-    override suspend fun getUserMe(): Result<User> = getUserMeResult
+    override suspend fun getUserMe(): Result<User> {
+        getUserMeInvokeCount++
+        return getUserMeResult
+    }
 
     override suspend fun findById(id: String): Result<User> {
         lastFindByIdId = id
@@ -138,6 +146,7 @@ class FakeUsersRepository(
         mimeType: String,
         context: String,
     ): Result<PresignedUrlData> {
+        getPresignedUrlInvokeCount++
         lastPresignedUrlUserId = userId
         lastPresignedUrlFileName = fileName
         lastPresignedUrlMimeType = mimeType

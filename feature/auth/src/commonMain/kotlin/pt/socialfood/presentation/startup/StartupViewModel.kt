@@ -9,13 +9,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.repository.SettingsRepository
+import pt.socialfood.domain.repository.UsersRepository
 import pt.socialfood.domain.usecase.configs.GetConfigsUseCase
-import pt.socialfood.domain.usecase.user.GetUserMeUseCase
 
 private const val MIN_STARTUP_DURATION_MILLIS = 1000L
 
 class StartupViewModel(
-    private val getUserMe: GetUserMeUseCase,
+    private val usersRepository: UsersRepository,
     private val getConfigs: GetConfigsUseCase,
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
@@ -39,7 +39,7 @@ class StartupViewModel(
                     StartupUiState.NavigateToLogin
                 }
             } else {
-                val userDeferred = async { getUserMe() }
+                val userDeferred = async { usersRepository.getUserMe() }
                 val configsDeferred = async { getConfigs() }
 
                 val userResult = userDeferred.await()

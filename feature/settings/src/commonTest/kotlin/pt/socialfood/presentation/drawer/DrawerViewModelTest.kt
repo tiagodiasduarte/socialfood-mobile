@@ -6,9 +6,9 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.fakes.FakeGetUserMeUseCase
 import pt.socialfood.fakes.FakeLogoutUseCase
 import pt.socialfood.fakes.FakeObserveUserUseCase
+import pt.socialfood.fakes.FakeUsersRepository
 import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.random.Random
@@ -23,7 +23,7 @@ class DrawerViewModelTest {
         // Given
         val user = Random.nextUser()
         val vm = DrawerViewModel(
-            getUserMe = FakeGetUserMeUseCase(Result.Success(user)),
+            usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(user)),
             logout = FakeLogoutUseCase(),
             observeUser = FakeObserveUserUseCase(),
         )
@@ -39,7 +39,9 @@ class DrawerViewModelTest {
     fun `given getUserMe fails when created then state is Error`() = runTestWithMainDispatcher {
         // Given
         val vm = DrawerViewModel(
-            getUserMe = FakeGetUserMeUseCase(Result.Failure(DataError.Network(Exception("test error")))),
+            usersRepository = FakeUsersRepository(
+                getUserMeResult = Result.Failure(DataError.Network(Exception("test error"))),
+            ),
             logout = FakeLogoutUseCase(),
             observeUser = FakeObserveUserUseCase(),
         )
@@ -59,7 +61,7 @@ class DrawerViewModelTest {
             val observeUser = FakeObserveUserUseCase()
 
             val vm = DrawerViewModel(
-                getUserMe = FakeGetUserMeUseCase(Result.Success(user)),
+                usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(user)),
                 logout = FakeLogoutUseCase(),
                 observeUser = observeUser,
             )
@@ -83,7 +85,7 @@ class DrawerViewModelTest {
             val user = Random.nextUser()
             val logout = FakeLogoutUseCase()
             val vm = DrawerViewModel(
-                getUserMe = FakeGetUserMeUseCase(Result.Success(user)),
+                usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(user)),
                 logout = logout,
                 observeUser = FakeObserveUserUseCase(),
             )

@@ -10,15 +10,15 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.repository.GuidesRepository
+import pt.socialfood.domain.repository.UsersRepository
 import pt.socialfood.domain.usecase.favourite.guide.IsGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.user.GetUserMeUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
 class GuideDetailViewModel(
     private val guidesRepository: GuidesRepository,
-    private val getUserMe: GetUserMeUseCase,
+    private val usersRepository: UsersRepository,
     private val isGuideFavourite: IsGuideFavouriteUseCase,
     private val markGuideFavourite: MarkGuideFavouriteUseCase,
     private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
@@ -39,7 +39,7 @@ class GuideDetailViewModel(
         viewModelScope.launch {
             _state.value = GuideDetailUiState.Loading
             val guideDeferred = async { guidesRepository.findById(guideId) }
-            val userDeferred = async { getUserMe() }
+            val userDeferred = async { usersRepository.getUserMe() }
             val isFavouriteDeferred = async { isGuideFavourite(guideId) }
             val guideResult = guideDeferred.await()
             val userResult = userDeferred.await()

@@ -6,10 +6,10 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.fakes.FakeGetRecentSearchedPlacesUseCase
+import pt.socialfood.fakes.FakePlacesRepository
 import pt.socialfood.fakes.FakeRestaurantsRepository
 import pt.socialfood.fakes.FakeSaveRecentSearchedPlaceUseCase
-import pt.socialfood.fakes.FakeSearchPlacesUseCase
+import pt.socialfood.fakes.FakeSettingsRepository
 import pt.socialfood.random.nextPlace
 import pt.socialfood.random.nextRestaurant
 import pt.socialfood.runner.runTestWithMainDispatcher
@@ -31,9 +31,9 @@ class SearchRestaurantsViewModelTest {
             )
             val fakeSaveRecent = FakeSaveRecentSearchedPlaceUseCase()
             val vm = SearchRestaurantsViewModel(
-                FakeSearchPlacesUseCase(),
+                FakePlacesRepository(),
                 restaurantsRepository,
-                FakeGetRecentSearchedPlacesUseCase(),
+                FakeSettingsRepository(),
                 fakeSaveRecent,
             )
             assertFalse(vm.isImportingRestaurant.value)
@@ -61,9 +61,9 @@ class SearchRestaurantsViewModelTest {
                 addByPlaceIdResult = Result.Failure(DataError.Network(Exception("test error"))),
             )
             val vm = SearchRestaurantsViewModel(
-                FakeSearchPlacesUseCase(),
+                FakePlacesRepository(),
                 restaurantsRepository,
-                FakeGetRecentSearchedPlacesUseCase(),
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchedPlaceUseCase(),
             )
 
@@ -84,9 +84,9 @@ class SearchRestaurantsViewModelTest {
                 awaitEnrichedResult = Result.Failure(DataError.Network(Exception("test error"))),
             )
             val vm = SearchRestaurantsViewModel(
-                FakeSearchPlacesUseCase(),
+                FakePlacesRepository(),
                 restaurantsRepository,
-                FakeGetRecentSearchedPlacesUseCase(),
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchedPlaceUseCase(),
             )
 
@@ -106,9 +106,9 @@ class SearchRestaurantsViewModelTest {
             // Given
             val restaurantsRepository = FakeRestaurantsRepository()
             val vm = SearchRestaurantsViewModel(
-                FakeSearchPlacesUseCase(),
+                FakePlacesRepository(),
                 restaurantsRepository,
-                FakeGetRecentSearchedPlacesUseCase(),
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchedPlaceUseCase(),
             )
 
@@ -126,9 +126,9 @@ class SearchRestaurantsViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val vm = SearchRestaurantsViewModel(
-                FakeSearchPlacesUseCase(),
+                FakePlacesRepository(),
                 FakeRestaurantsRepository(),
-                FakeGetRecentSearchedPlacesUseCase(),
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchedPlaceUseCase(),
             )
 
@@ -144,11 +144,11 @@ class SearchRestaurantsViewModelTest {
     fun `given a query shorter than 3 characters when onSearchQueryChange is called then search is not triggered`() =
         runTestWithMainDispatcher {
             // Given
-            val searchPlaces = FakeSearchPlacesUseCase()
+            val placesRepository = FakePlacesRepository()
             val vm = SearchRestaurantsViewModel(
-                searchPlaces,
+                placesRepository,
                 FakeRestaurantsRepository(),
-                FakeGetRecentSearchedPlacesUseCase(),
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchedPlaceUseCase(),
             )
 
@@ -157,20 +157,20 @@ class SearchRestaurantsViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(0, searchPlaces.invokeCount)
+            assertEquals(0, placesRepository.searchInvokeCount)
             assertEquals("ab", vm.searchQuery)
         }
 
     @Test
-    fun `given searchPlaces succeeds when onSearchQueryChange is called then state is Loaded with the results`() =
+    fun `given the places search succeeds when onSearchQueryChange is called then state is Loaded with the results`() =
         runTestWithMainDispatcher {
             // Given
             val places = listOf(Random.nextPlace())
-            val searchPlaces = FakeSearchPlacesUseCase(Result.Success(places))
+            val placesRepository = FakePlacesRepository(result = Result.Success(places))
             val vm = SearchRestaurantsViewModel(
-                searchPlaces,
+                placesRepository,
                 FakeRestaurantsRepository(),
-                FakeGetRecentSearchedPlacesUseCase(),
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchedPlaceUseCase(),
             )
 
@@ -183,18 +183,20 @@ class SearchRestaurantsViewModelTest {
                 assertEquals(SearchRestaurantsUiState.Loading, awaitItem())
                 assertEquals(SearchRestaurantsUiState.Loaded(places), awaitItem())
             }
-            assertEquals(1, searchPlaces.invokeCount)
+            assertEquals(1, placesRepository.searchInvokeCount)
         }
 
     @Test
-    fun `given searchPlaces fails when onSearchQueryChange is called then state is Error`() =
+    fun `given the places search fails when onSearchQueryChange is called then state is Error`() =
         runTestWithMainDispatcher {
             // Given
-            val searchPlaces = FakeSearchPlacesUseCase(Result.Failure(DataError.Network(Exception("test error"))))
+            val placesRepository = FakePlacesRepository(
+                result = Result.Failure(DataError.Network(Exception("test error"))),
+            )
             val vm = SearchRestaurantsViewModel(
-                searchPlaces,
+                placesRepository,
                 FakeRestaurantsRepository(),
-                FakeGetRecentSearchedPlacesUseCase(),
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchedPlaceUseCase(),
             )
 

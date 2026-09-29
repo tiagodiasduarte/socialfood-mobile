@@ -7,11 +7,9 @@ import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.Search
-import pt.socialfood.fakes.FakeGetGuideSuggestionsUseCase
-import pt.socialfood.fakes.FakeGetRecentSearchesUseCase
-import pt.socialfood.fakes.FakeGetRestaurantSuggestionsUseCase
 import pt.socialfood.fakes.FakeSaveRecentSearchUseCase
-import pt.socialfood.fakes.FakeSearchUseCase
+import pt.socialfood.fakes.FakeSearchRepository
+import pt.socialfood.fakes.FakeSettingsRepository
 import pt.socialfood.random.nextGuideSuggestions
 import pt.socialfood.random.nextRecentSearch
 import pt.socialfood.random.nextRestaurantSuggestions
@@ -29,10 +27,8 @@ class SearchViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val vm = SearchViewModel(
-                FakeSearchUseCase(),
-                FakeGetRestaurantSuggestionsUseCase(),
-                FakeGetGuideSuggestionsUseCase(),
-                FakeGetRecentSearchesUseCase(),
+                FakeSearchRepository(),
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchUseCase(),
             )
 
@@ -49,12 +45,10 @@ class SearchViewModelTest {
     fun `given a query shorter than the minimum length when onSearchQueryChange is called then search is skipped`() =
         runTestWithMainDispatcher {
             // Given
-            val search = FakeSearchUseCase()
+            val searchRepository = FakeSearchRepository()
             val vm = SearchViewModel(
-                search,
-                FakeGetRestaurantSuggestionsUseCase(),
-                FakeGetGuideSuggestionsUseCase(),
-                FakeGetRecentSearchesUseCase(),
+                searchRepository,
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchUseCase(),
             )
 
@@ -63,7 +57,7 @@ class SearchViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(0, search.invokeCount)
+            assertEquals(0, searchRepository.searchInvokeCount)
             assertEquals("a", vm.query.value)
         }
 
@@ -72,12 +66,10 @@ class SearchViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val results = listOf(Random.nextSearch())
-            val search = FakeSearchUseCase(Result.Success(results))
+            val searchRepository = FakeSearchRepository(result = Result.Success(results))
             val vm = SearchViewModel(
-                search,
-                FakeGetRestaurantSuggestionsUseCase(),
-                FakeGetGuideSuggestionsUseCase(),
-                FakeGetRecentSearchesUseCase(),
+                searchRepository,
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchUseCase(),
             )
 
@@ -90,18 +82,16 @@ class SearchViewModelTest {
                 assertEquals(SearchUiState.Loading, awaitItem())
                 assertEquals(SearchUiState.Loaded(results), awaitItem())
             }
-            assertEquals(1, search.invokeCount)
+            assertEquals(1, searchRepository.searchInvokeCount)
         }
 
     @Test
     fun `given search fails when onSearchQueryChange is called then state is Error`() = runTestWithMainDispatcher {
         // Given
-        val search = FakeSearchUseCase(Result.Failure(DataError.Network(Exception("test error"))))
+        val searchRepository = FakeSearchRepository(result = Result.Failure(DataError.Network(Exception("test error"))))
         val vm = SearchViewModel(
-            search,
-            FakeGetRestaurantSuggestionsUseCase(),
-            FakeGetGuideSuggestionsUseCase(),
-            FakeGetRecentSearchesUseCase(),
+            searchRepository,
+            FakeSettingsRepository(),
             FakeSaveRecentSearchUseCase(),
         )
 
@@ -121,12 +111,10 @@ class SearchViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val results = listOf(Random.nextSearch())
-            val search = FakeSearchUseCase(Result.Success(results))
+            val searchRepository = FakeSearchRepository(result = Result.Success(results))
             val vm = SearchViewModel(
-                search,
-                FakeGetRestaurantSuggestionsUseCase(),
-                FakeGetGuideSuggestionsUseCase(),
-                FakeGetRecentSearchesUseCase(),
+                searchRepository,
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchUseCase(),
             )
 
@@ -136,7 +124,7 @@ class SearchViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(1, search.invokeCount)
+            assertEquals(1, searchRepository.searchInvokeCount)
             assertEquals("pizza", vm.query.value)
         }
 
@@ -145,12 +133,10 @@ class SearchViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val suggestions = Random.nextRestaurantSuggestions()
-            val getRestaurantSuggestions = FakeGetRestaurantSuggestionsUseCase(Result.Success(suggestions))
+            val searchRepository = FakeSearchRepository(restaurantSuggestionsResult = Result.Success(suggestions))
             val vm = SearchViewModel(
-                FakeSearchUseCase(),
-                getRestaurantSuggestions,
-                FakeGetGuideSuggestionsUseCase(),
-                FakeGetRecentSearchesUseCase(),
+                searchRepository,
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchUseCase(),
             )
 
@@ -169,21 +155,19 @@ class SearchViewModelTest {
             }
             advanceUntilIdle()
             assertEquals(true, vm.suggestionResultsRequested.value)
-            assertEquals(1, getRestaurantSuggestions.invokeCount)
+            assertEquals(1, searchRepository.restaurantSuggestionsInvokeCount)
         }
 
     @Test
     fun `given suggestions fail when onFavoriteRestaurantsClick is called then state is Error`() =
         runTestWithMainDispatcher {
             // Given
-            val getRestaurantSuggestions = FakeGetRestaurantSuggestionsUseCase(
-                Result.Failure(DataError.Network(Exception("test error"))),
+            val searchRepository = FakeSearchRepository(
+                restaurantSuggestionsResult = Result.Failure(DataError.Network(Exception("test error"))),
             )
             val vm = SearchViewModel(
-                FakeSearchUseCase(),
-                getRestaurantSuggestions,
-                FakeGetGuideSuggestionsUseCase(),
-                FakeGetRecentSearchesUseCase(),
+                searchRepository,
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchUseCase(),
             )
 
@@ -205,10 +189,8 @@ class SearchViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val vm = SearchViewModel(
-                FakeSearchUseCase(),
-                FakeGetRestaurantSuggestionsUseCase(),
-                FakeGetGuideSuggestionsUseCase(),
-                FakeGetRecentSearchesUseCase(),
+                FakeSearchRepository(),
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchUseCase(),
             )
             vm.onFavoriteRestaurantsClick()
@@ -226,12 +208,10 @@ class SearchViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val suggestions = Random.nextGuideSuggestions()
-            val getGuideSuggestions = FakeGetGuideSuggestionsUseCase(Result.Success(suggestions))
+            val searchRepository = FakeSearchRepository(guideSuggestionsResult = Result.Success(suggestions))
             val vm = SearchViewModel(
-                FakeSearchUseCase(),
-                FakeGetRestaurantSuggestionsUseCase(),
-                getGuideSuggestions,
-                FakeGetRecentSearchesUseCase(),
+                searchRepository,
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchUseCase(),
             )
 
@@ -250,21 +230,19 @@ class SearchViewModelTest {
             }
             advanceUntilIdle()
             assertEquals(true, vm.suggestionResultsRequested.value)
-            assertEquals(1, getGuideSuggestions.invokeCount)
+            assertEquals(1, searchRepository.guideSuggestionsInvokeCount)
         }
 
     @Test
     fun `given suggestions fail when onFavoriteGuidesClick is called then state is Error`() =
         runTestWithMainDispatcher {
             // Given
-            val getGuideSuggestions = FakeGetGuideSuggestionsUseCase(
-                Result.Failure(DataError.Network(Exception("test error"))),
+            val searchRepository = FakeSearchRepository(
+                guideSuggestionsResult = Result.Failure(DataError.Network(Exception("test error"))),
             )
             val vm = SearchViewModel(
-                FakeSearchUseCase(),
-                FakeGetRestaurantSuggestionsUseCase(),
-                getGuideSuggestions,
-                FakeGetRecentSearchesUseCase(),
+                searchRepository,
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchUseCase(),
             )
 
@@ -285,12 +263,10 @@ class SearchViewModelTest {
     fun `given guide suggestions were requested when retrySuggestions is called then retries guide suggestions`() =
         runTestWithMainDispatcher {
             // Given
-            val getGuideSuggestions = FakeGetGuideSuggestionsUseCase()
+            val searchRepository = FakeSearchRepository()
             val vm = SearchViewModel(
-                FakeSearchUseCase(),
-                FakeGetRestaurantSuggestionsUseCase(),
-                getGuideSuggestions,
-                FakeGetRecentSearchesUseCase(),
+                searchRepository,
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchUseCase(),
             )
             vm.onFavoriteGuidesClick()
@@ -301,19 +277,17 @@ class SearchViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(2, getGuideSuggestions.invokeCount)
+            assertEquals(2, searchRepository.guideSuggestionsInvokeCount)
         }
 
     @Test
     fun `given restaurant suggestions were requested when retrySuggestions is called then retries restaurants`() =
         runTestWithMainDispatcher {
             // Given
-            val getRestaurantSuggestions = FakeGetRestaurantSuggestionsUseCase()
+            val searchRepository = FakeSearchRepository()
             val vm = SearchViewModel(
-                FakeSearchUseCase(),
-                getRestaurantSuggestions,
-                FakeGetGuideSuggestionsUseCase(),
-                FakeGetRecentSearchesUseCase(),
+                searchRepository,
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchUseCase(),
             )
             vm.onFavoriteRestaurantsClick()
@@ -324,7 +298,7 @@ class SearchViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(2, getRestaurantSuggestions.invokeCount)
+            assertEquals(2, searchRepository.restaurantSuggestionsInvokeCount)
         }
 
     @Test
@@ -332,10 +306,8 @@ class SearchViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val vm = SearchViewModel(
-                FakeSearchUseCase(),
-                FakeGetRestaurantSuggestionsUseCase(),
-                FakeGetGuideSuggestionsUseCase(),
-                FakeGetRecentSearchesUseCase(),
+                FakeSearchRepository(),
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchUseCase(),
             )
 
@@ -352,10 +324,8 @@ class SearchViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val vm = SearchViewModel(
-                FakeSearchUseCase(),
-                FakeGetRestaurantSuggestionsUseCase(),
-                FakeGetGuideSuggestionsUseCase(),
-                FakeGetRecentSearchesUseCase(),
+                FakeSearchRepository(),
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchUseCase(),
             )
 
@@ -373,10 +343,8 @@ class SearchViewModelTest {
             // Given
             val suggestions = Random.nextRestaurantSuggestions()
             val vm = SearchViewModel(
-                FakeSearchUseCase(),
-                FakeGetRestaurantSuggestionsUseCase(Result.Success(suggestions)),
-                FakeGetGuideSuggestionsUseCase(),
-                FakeGetRecentSearchesUseCase(),
+                FakeSearchRepository(restaurantSuggestionsResult = Result.Success(suggestions)),
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchUseCase(),
             )
             vm.onFavoriteRestaurantsClick()
@@ -395,12 +363,10 @@ class SearchViewModelTest {
     fun `given suggestions were cleared when retrySuggestions is called then nothing happens`() =
         runTestWithMainDispatcher {
             // Given
-            val getRestaurantSuggestions = FakeGetRestaurantSuggestionsUseCase()
+            val searchRepository = FakeSearchRepository()
             val vm = SearchViewModel(
-                FakeSearchUseCase(),
-                getRestaurantSuggestions,
-                FakeGetGuideSuggestionsUseCase(),
-                FakeGetRecentSearchesUseCase(),
+                searchRepository,
+                FakeSettingsRepository(),
                 FakeSaveRecentSearchUseCase(),
             )
             vm.onFavoriteRestaurantsClick()
@@ -412,7 +378,7 @@ class SearchViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(1, getRestaurantSuggestions.invokeCount)
+            assertEquals(1, searchRepository.restaurantSuggestionsInvokeCount)
         }
 
     @Test
@@ -423,10 +389,8 @@ class SearchViewModelTest {
             val savedSearches = listOf(Random.nextRecentSearch())
             val saveRecentSearch = FakeSaveRecentSearchUseCase(savedSearches)
             val vm = SearchViewModel(
-                FakeSearchUseCase(),
-                FakeGetRestaurantSuggestionsUseCase(),
-                FakeGetGuideSuggestionsUseCase(),
-                FakeGetRecentSearchesUseCase(),
+                FakeSearchRepository(),
+                FakeSettingsRepository(),
                 saveRecentSearch,
             )
 
@@ -447,10 +411,8 @@ class SearchViewModelTest {
             val savedSearches = listOf(recentSearch)
             val saveRecentSearch = FakeSaveRecentSearchUseCase(savedSearches)
             val vm = SearchViewModel(
-                FakeSearchUseCase(),
-                FakeGetRestaurantSuggestionsUseCase(),
-                FakeGetGuideSuggestionsUseCase(),
-                FakeGetRecentSearchesUseCase(),
+                FakeSearchRepository(),
+                FakeSettingsRepository(),
                 saveRecentSearch,
             )
 
@@ -471,10 +433,8 @@ class SearchViewModelTest {
 
             // When
             val vm = SearchViewModel(
-                FakeSearchUseCase(),
-                FakeGetRestaurantSuggestionsUseCase(),
-                FakeGetGuideSuggestionsUseCase(),
-                FakeGetRecentSearchesUseCase(recentSearches),
+                FakeSearchRepository(),
+                FakeSettingsRepository(recentSearches = recentSearches),
                 FakeSaveRecentSearchUseCase(),
             )
             advanceUntilIdle()

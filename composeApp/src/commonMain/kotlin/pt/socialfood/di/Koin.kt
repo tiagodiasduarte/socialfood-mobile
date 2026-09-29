@@ -120,22 +120,10 @@ import pt.socialfood.domain.usecase.login.ValidateCodeUseCase
 import pt.socialfood.domain.usecase.login.ValidateCodeUseCaseImpl
 import pt.socialfood.domain.usecase.photo.UploadPhotoUseCase
 import pt.socialfood.domain.usecase.photo.UploadPhotoUseCaseImpl
-import pt.socialfood.domain.usecase.search.GetGuideSuggestionsUseCase
-import pt.socialfood.domain.usecase.search.GetGuideSuggestionsUseCaseImpl
-import pt.socialfood.domain.usecase.search.GetRecentSearchedPlacesUseCase
-import pt.socialfood.domain.usecase.search.GetRecentSearchedPlacesUseCaseImpl
-import pt.socialfood.domain.usecase.search.GetRecentSearchesUseCase
-import pt.socialfood.domain.usecase.search.GetRecentSearchesUseCaseImpl
-import pt.socialfood.domain.usecase.search.GetRestaurantSuggestionsUseCase
-import pt.socialfood.domain.usecase.search.GetRestaurantSuggestionsUseCaseImpl
 import pt.socialfood.domain.usecase.search.SaveRecentSearchUseCase
 import pt.socialfood.domain.usecase.search.SaveRecentSearchUseCaseImpl
 import pt.socialfood.domain.usecase.search.SaveRecentSearchedPlaceUseCase
 import pt.socialfood.domain.usecase.search.SaveRecentSearchedPlaceUseCaseImpl
-import pt.socialfood.domain.usecase.search.SearchPlacesUseCase
-import pt.socialfood.domain.usecase.search.SearchPlacesUseCaseImpl
-import pt.socialfood.domain.usecase.search.SearchUseCase
-import pt.socialfood.domain.usecase.search.SearchUseCaseImpl
 import pt.socialfood.domain.usecase.theme.ObserveThemeModeUseCase
 import pt.socialfood.domain.usecase.theme.ObserveThemeModeUseCaseImpl
 import pt.socialfood.domain.usecase.theme.SetThemeModeUseCase
@@ -266,10 +254,6 @@ val useCaseModule =
         factory<GetConfigsUseCase> { GetConfigsUseCaseImpl(get()) }
         factory<GetFavouriteGuidesPagingUseCase> { GetFavouriteGuidesPagingUseCaseImpl(get()) }
         factory<GetFavouriteRestaurantsPagingUseCase> { GetFavouriteRestaurantsPagingUseCaseImpl(get()) }
-        factory<GetGuideSuggestionsUseCase> { GetGuideSuggestionsUseCaseImpl(get()) }
-        factory<GetRecentSearchedPlacesUseCase> { GetRecentSearchedPlacesUseCaseImpl(get()) }
-        factory<GetRecentSearchesUseCase> { GetRecentSearchesUseCaseImpl(get()) }
-        factory<GetRestaurantSuggestionsUseCase> { GetRestaurantSuggestionsUseCaseImpl(get()) }
         factory<IsGuideFavouriteUseCase> { IsGuideFavouriteUseCaseImpl(get()) }
         factory<IsRestaurantFavouriteUseCase> { IsRestaurantFavouriteUseCaseImpl(get()) }
         factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
@@ -285,8 +269,6 @@ val useCaseModule =
         factory<RestartSignUpUseCase> { RestartSignUpUseCaseImpl(get()) }
         factory<SaveRecentSearchUseCase> { SaveRecentSearchUseCaseImpl(get()) }
         factory<SaveRecentSearchedPlaceUseCase> { SaveRecentSearchedPlaceUseCaseImpl(get()) }
-        factory<SearchPlacesUseCase> { SearchPlacesUseCaseImpl(get()) }
-        factory<SearchUseCase> { SearchUseCaseImpl(get()) }
         factory<SetThemeModeUseCase> { SetThemeModeUseCaseImpl(get()) }
         factory<SyncFavouriteRestaurantsUseCase> { SyncFavouriteRestaurantsUseCaseImpl(get()) }
         factory<SyncFavouritesUseCase> { SyncFavouritesUseCaseImpl(get()) }
@@ -321,7 +303,7 @@ val viewModelModule =
         factory { RestaurantWishlistViewModel(get(), get()) }
         factory { SharedGuidesViewModel(get(), get(), get(), get(), get()) }
         factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get(), get()) }
-        factory { SearchViewModel(get(), get(), get(), get(), get()) }
+        factory { SearchViewModel(get(), get(), get()) }
         factory { SignInViewModel(get(), get(), get()) }
         factory { SignUpViewModel(get()) }
         factory { StartupViewModel(get(), get(), get()) }

@@ -7,7 +7,10 @@ import pt.socialfood.domain.model.RecentSearch
 import pt.socialfood.domain.model.ThemeMode
 import pt.socialfood.domain.repository.SettingsRepository
 
-class FakeSettingsRepository : SettingsRepository {
+class FakeSettingsRepository(
+    private var recentSearchedPlaces: List<Place> = emptyList(),
+    private var recentSearches: List<RecentSearch> = emptyList(),
+) : SettingsRepository {
 
     private var token: String? = null
     private var refreshToken: String? = null
@@ -19,8 +22,6 @@ class FakeSettingsRepository : SettingsRepository {
     private var lastFavouriteRestaurantsSyncAttemptAt: Long? = null
     private var lastRestaurantVisitStatusSyncedAt: String? = null
     private var lastRestaurantVisitStatusSyncAttemptAt: Long? = null
-    private var recentSearchedPlaces: List<Place> = emptyList()
-    private var recentSearches: List<RecentSearch> = emptyList()
 
     override suspend fun getToken(): String? = token
 

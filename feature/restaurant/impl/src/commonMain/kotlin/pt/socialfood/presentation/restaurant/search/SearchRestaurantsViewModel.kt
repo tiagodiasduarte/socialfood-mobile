@@ -16,17 +16,17 @@ import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Place
 import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.domain.repository.PlacesRepository
 import pt.socialfood.domain.repository.RestaurantsRepository
-import pt.socialfood.domain.usecase.search.GetRecentSearchedPlacesUseCase
+import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.domain.usecase.search.SaveRecentSearchedPlaceUseCase
-import pt.socialfood.domain.usecase.search.SearchPlacesUseCase
 import pt.socialfood.presentation.error.toErrorCode
 import kotlin.time.Duration.Companion.milliseconds
 
 class SearchRestaurantsViewModel(
-    private val searchPlaces: SearchPlacesUseCase,
+    private val placesRepository: PlacesRepository,
     private val restaurantsRepository: RestaurantsRepository,
-    private val getRecentSearchedPlaces: GetRecentSearchedPlacesUseCase,
+    private val settingsRepository: SettingsRepository,
     private val saveRecentSearchedPlace: SaveRecentSearchedPlaceUseCase,
 ) : ViewModel() {
 
@@ -50,7 +50,7 @@ class SearchRestaurantsViewModel(
 
     init {
         viewModelScope.launch {
-            _recentSearchedPlaces.value = getRecentSearchedPlaces()
+            _recentSearchedPlaces.value = settingsRepository.getRecentSearchedPlaces()
         }
     }
 
@@ -67,7 +67,7 @@ class SearchRestaurantsViewModel(
         searchJob = viewModelScope.launch {
             delay(SEARCH_DEBOUNCE_MS)
             _state.value = SearchRestaurantsUiState.Loading
-            when (val result = searchPlaces(query)) {
+            when (val result = placesRepository.search(query)) {
                 is Result.Success -> _state.value = SearchRestaurantsUiState.Loaded(result.data)
                 is Result.Failure -> _state.value = SearchRestaurantsUiState.Error(result.error.toErrorCode())
             }

@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
+import pt.socialfood.domain.repository.UsersRepository
 import pt.socialfood.domain.usecase.login.LogoutUseCase
-import pt.socialfood.domain.usecase.user.GetUserMeUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
 class DrawerViewModel(
-    private val getUserMe: GetUserMeUseCase,
+    private val usersRepository: UsersRepository,
     private val logout: LogoutUseCase,
     private val observeUser: ObserveUserUseCase,
 ) : ViewModel() {
@@ -32,7 +32,7 @@ class DrawerViewModel(
 
     private fun load() {
         viewModelScope.launch {
-            _state.value = when (val result = getUserMe()) {
+            _state.value = when (val result = usersRepository.getUserMe()) {
                 is Result.Success -> DrawerUiState.Loaded(result.data)
                 is Result.Failure -> DrawerUiState.Error(result.error.toErrorCode())
             }

@@ -7,12 +7,9 @@ import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.PresignedUrlData
 import pt.socialfood.domain.model.User
-import pt.socialfood.fakes.FakeGetPresignedUrlUseCase
-import pt.socialfood.fakes.FakeGetUserMeUseCase
 import pt.socialfood.fakes.FakeImageCache
-import pt.socialfood.fakes.FakeUpdateUserPhotoUseCase
-import pt.socialfood.fakes.FakeUpdateUserUseCase
 import pt.socialfood.fakes.FakeUploadPhotoUseCase
+import pt.socialfood.fakes.FakeUsersRepository
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -35,19 +32,25 @@ class EditProfileViewModelTest {
             publicUrl = "https://cdn.socialfood.pt/new.png",
         )
 
+    private fun fakeUsersRepository(
+        getUserMeResult: Result<User> = Result.Success(sampleUser),
+        updateResult: Result<User> = Result.Success(sampleUser),
+        updatePhotoResult: Result<Boolean> = Result.Success(true),
+        getPresignedUrlResult: Result<PresignedUrlData> = Result.Success(presignedUrlData),
+    ) = FakeUsersRepository(
+        getUserMeResult = getUserMeResult,
+        updateResult = updateResult,
+        updatePhotoResult = updatePhotoResult,
+        getPresignedUrlResult = getPresignedUrlResult,
+    )
+
     private fun createViewModel(
-        getUserMe: FakeGetUserMeUseCase = FakeGetUserMeUseCase(Result.Success(sampleUser)),
-        getPresignedUrl: FakeGetPresignedUrlUseCase = FakeGetPresignedUrlUseCase(Result.Success(presignedUrlData)),
+        usersRepository: FakeUsersRepository = fakeUsersRepository(),
         uploadPhoto: FakeUploadPhotoUseCase = FakeUploadPhotoUseCase(Result.Success(Unit)),
-        updateUserPhoto: FakeUpdateUserPhotoUseCase = FakeUpdateUserPhotoUseCase(Result.Success(true)),
-        updateUser: FakeUpdateUserUseCase = FakeUpdateUserUseCase(Result.Success(sampleUser)),
         imageCache: FakeImageCache = FakeImageCache(),
     ) = EditProfileViewModel(
-        getUserMe = getUserMe,
-        updateUser = updateUser,
+        usersRepository = usersRepository,
         uploadPhoto = uploadPhoto,
-        updateUserPhoto = updateUserPhoto,
-        getPresignedUrl = getPresignedUrl,
         imageCache = imageCache,
     )
 
@@ -108,12 +111,12 @@ class EditProfileViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val uploadPhoto = FakeUploadPhotoUseCase(Result.Failure(DataError.Network(Exception("test error"))))
-            val updateUserPhoto = FakeUpdateUserPhotoUseCase(Result.Success(true))
+            val usersRepository = fakeUsersRepository()
             val imageCache = FakeImageCache()
             val vm =
                 createViewModel(
                     uploadPhoto = uploadPhoto,
-                    updateUserPhoto = updateUserPhoto,
+                    usersRepository = usersRepository,
                     imageCache = imageCache,
                 )
 
@@ -132,7 +135,7 @@ class EditProfileViewModelTest {
 
                 val failed = assertIs<EditProfileUiState.Loaded>(awaitItem())
                 assertEquals(1, uploadPhoto.invokeCount)
-                assertEquals(0, updateUserPhoto.invokeCount)
+                assertEquals(0, usersRepository.updatePhotoInvokeCount)
                 assertEquals(false, failed.isSaving)
                 assertEquals(false, failed.isUploadingPhoto)
                 assertEquals(ErrorCode.NETWORK, failed.saveError)
@@ -143,10 +146,12 @@ class EditProfileViewModelTest {
         }
 
     @Test
-    fun `given updateUser fails when save is called then saveError is set`() = runTestWithMainDispatcher {
+    fun `given the user update fails when save is called then saveError is set`() = runTestWithMainDispatcher {
         // Given
-        val updateUser = FakeUpdateUserUseCase(Result.Failure(DataError.Network(Exception("test error"))))
-        val vm = createViewModel(updateUser = updateUser)
+        val usersRepository = fakeUsersRepository(
+            updateResult = Result.Failure(DataError.Network(Exception("test error"))),
+        )
+        val vm = createViewModel(usersRepository = usersRepository)
 
         vm.state.test {
             assertEquals(EditProfileUiState.Loading, awaitItem())
@@ -169,8 +174,10 @@ class EditProfileViewModelTest {
     fun `given saveError is true when dismissSaveError is called then saveError is cleared`() =
         runTestWithMainDispatcher {
             // Given
-            val updateUser = FakeUpdateUserUseCase(Result.Failure(DataError.Network(Exception("test error"))))
-            val vm = createViewModel(updateUser = updateUser)
+            val usersRepository = fakeUsersRepository(
+                updateResult = Result.Failure(DataError.Network(Exception("test error"))),
+            )
+            val vm = createViewModel(usersRepository = usersRepository)
 
             vm.state.test {
                 assertEquals(EditProfileUiState.Loading, awaitItem())
@@ -194,7 +201,9 @@ class EditProfileViewModelTest {
     fun `given getUserMe fails when created then state is Error`() = runTestWithMainDispatcher {
         // Given
         val vm = createViewModel(
-            getUserMe = FakeGetUserMeUseCase(Result.Failure(DataError.Network(Exception("test error")))),
+            usersRepository = fakeUsersRepository(
+                getUserMeResult = Result.Failure(DataError.Network(Exception("test error"))),
+            ),
         )
 
         // When / Then
@@ -207,7 +216,7 @@ class EditProfileViewModelTest {
     @Test
     fun `given getUserMe succeeds when created then the Loaded state has the user email`() = runTestWithMainDispatcher {
         // Given
-        val vm = createViewModel(getUserMe = FakeGetUserMeUseCase(Result.Success(sampleUser)))
+        val vm = createViewModel(usersRepository = fakeUsersRepository(getUserMeResult = Result.Success(sampleUser)))
 
         // When / Then
         vm.state.test {
@@ -220,8 +229,8 @@ class EditProfileViewModelTest {
     @Test
     fun `given a loaded state when retry is called then reloads the user`() = runTestWithMainDispatcher {
         // Given
-        val getUserMe = FakeGetUserMeUseCase(Result.Success(sampleUser))
-        val vm = createViewModel(getUserMe = getUserMe)
+        val usersRepository = fakeUsersRepository(getUserMeResult = Result.Success(sampleUser))
+        val vm = createViewModel(usersRepository = usersRepository)
 
         vm.state.test {
             assertEquals(EditProfileUiState.Loading, awaitItem())
@@ -234,7 +243,7 @@ class EditProfileViewModelTest {
             assertEquals(EditProfileUiState.Loading, awaitItem())
             assertIs<EditProfileUiState.Loaded>(awaitItem())
         }
-        assertEquals(2, getUserMe.invokeCount)
+        assertEquals(2, usersRepository.getUserMeInvokeCount)
     }
 
     @Test
@@ -280,8 +289,8 @@ class EditProfileViewModelTest {
     @Test
     fun `given author mode toggled on when save is called then isAuthor true is sent`() = runTestWithMainDispatcher {
         // Given
-        val updateUser = FakeUpdateUserUseCase(Result.Success(sampleUser))
-        val vm = createViewModel(updateUser = updateUser)
+        val usersRepository = fakeUsersRepository(updateResult = Result.Success(sampleUser))
+        val vm = createViewModel(usersRepository = usersRepository)
 
         vm.state.test {
             assertEquals(EditProfileUiState.Loading, awaitItem())
@@ -297,17 +306,19 @@ class EditProfileViewModelTest {
             assertIs<EditProfileUiState.Loaded>(awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
-        assertEquals(1, updateUser.invokeCount)
-        assertEquals(true, updateUser.lastIsAuthor)
+        assertEquals(1, usersRepository.updateInvokeCount)
+        assertEquals(true, usersRepository.lastUpdateIsAuthor)
     }
 
     @Test
     fun `given getPresignedUrl fails when save is called with a pending photo then saveError is set`() =
         runTestWithMainDispatcher {
             // Given
-            val getPresignedUrl = FakeGetPresignedUrlUseCase(Result.Failure(DataError.Network(Exception("test error"))))
+            val usersRepository = fakeUsersRepository(
+                getPresignedUrlResult = Result.Failure(DataError.Network(Exception("test error"))),
+            )
             val uploadPhoto = FakeUploadPhotoUseCase(Result.Success(Unit))
-            val vm = createViewModel(getPresignedUrl = getPresignedUrl, uploadPhoto = uploadPhoto)
+            val vm = createViewModel(usersRepository = usersRepository, uploadPhoto = uploadPhoto)
 
             vm.state.test {
                 assertEquals(EditProfileUiState.Loading, awaitItem())
@@ -323,7 +334,7 @@ class EditProfileViewModelTest {
                 assertIs<EditProfileUiState.Loaded>(awaitItem()).let { assertEquals(true, it.isUploadingPhoto) }
 
                 val failed = assertIs<EditProfileUiState.Loaded>(awaitItem())
-                assertEquals(1, getPresignedUrl.invokeCount)
+                assertEquals(1, usersRepository.getPresignedUrlInvokeCount)
                 assertEquals(0, uploadPhoto.invokeCount)
                 assertEquals(false, failed.isSaving)
                 assertEquals(false, failed.isUploadingPhoto)
@@ -336,8 +347,8 @@ class EditProfileViewModelTest {
     @Test
     fun `given already saving when save is called again then the second call is ignored`() = runTestWithMainDispatcher {
         // Given
-        val updateUser = FakeUpdateUserUseCase(Result.Success(sampleUser))
-        val vm = createViewModel(updateUser = updateUser)
+        val usersRepository = fakeUsersRepository(updateResult = Result.Success(sampleUser))
+        val vm = createViewModel(usersRepository = usersRepository)
 
         vm.state.test {
             assertEquals(EditProfileUiState.Loading, awaitItem())
@@ -352,6 +363,6 @@ class EditProfileViewModelTest {
             assertIs<EditProfileUiState.Loaded>(awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
-        assertEquals(1, updateUser.invokeCount)
+        assertEquals(1, usersRepository.updateInvokeCount)
     }
 }

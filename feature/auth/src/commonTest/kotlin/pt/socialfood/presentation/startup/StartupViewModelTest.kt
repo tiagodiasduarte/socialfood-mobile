@@ -7,8 +7,8 @@ import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Configs
 import pt.socialfood.domain.model.User
 import pt.socialfood.fakes.FakeGetConfigsUseCase
-import pt.socialfood.fakes.FakeGetUserMeUseCase
 import pt.socialfood.fakes.FakeSettingsRepository
+import pt.socialfood.fakes.FakeUsersRepository
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -21,17 +21,17 @@ class StartupViewModelTest {
             // Given
             val settingsRepository = FakeSettingsRepository()
             settingsRepository.savePendingVerificationEmail("pending@test.com")
-            val fakeGetUserMe = FakeGetUserMeUseCase(Result.Success(defaultUser()))
+            val usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(defaultUser()))
             val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
             // When
-            val viewModel = StartupViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
+            val viewModel = StartupViewModel(usersRepository, fakeGetConfigs, settingsRepository)
 
             // Then
             viewModel.state.test {
                 assertEquals(StartupUiState.Loading, awaitItem())
                 assertEquals(StartupUiState.NavigateToValidateCode("pending@test.com"), awaitItem())
-                assertEquals(0, fakeGetUserMe.invokeCount)
+                assertEquals(0, usersRepository.getUserMeInvokeCount)
                 assertEquals(0, fakeGetConfigs.invokeCount)
             }
         }
@@ -41,11 +41,11 @@ class StartupViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val settingsRepository = FakeSettingsRepository()
-            val fakeGetUserMe = FakeGetUserMeUseCase(Result.Success(defaultUser()))
+            val usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(defaultUser()))
             val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
             // When
-            val viewModel = StartupViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
+            val viewModel = StartupViewModel(usersRepository, fakeGetConfigs, settingsRepository)
 
             // Then
             viewModel.state.test {
@@ -60,12 +60,11 @@ class StartupViewModelTest {
             // Given
             val settingsRepository = FakeSettingsRepository()
             settingsRepository.saveToken("jwt-token")
-            val fakeGetUserMe =
-                FakeGetUserMeUseCase(Result.Success(defaultUser(isVerified = false)))
+            val usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(defaultUser(isVerified = false)))
             val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
             // When
-            val viewModel = StartupViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
+            val viewModel = StartupViewModel(usersRepository, fakeGetConfigs, settingsRepository)
 
             // Then
             viewModel.state.test {
@@ -83,11 +82,11 @@ class StartupViewModelTest {
             // Given
             val settingsRepository = FakeSettingsRepository()
             settingsRepository.saveToken("jwt-token")
-            val fakeGetUserMe = FakeGetUserMeUseCase(Result.Success(defaultUser(isVerified = true)))
+            val usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(defaultUser(isVerified = true)))
             val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
             // When
-            val viewModel = StartupViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
+            val viewModel = StartupViewModel(usersRepository, fakeGetConfigs, settingsRepository)
 
             // Then
             viewModel.state.test {
@@ -103,17 +102,17 @@ class StartupViewModelTest {
             val settingsRepository = FakeSettingsRepository()
             settingsRepository.savePendingVerificationEmail("stale@test.com")
             settingsRepository.saveToken("jwt-token")
-            val fakeGetUserMe = FakeGetUserMeUseCase(Result.Success(defaultUser(isVerified = true)))
+            val usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(defaultUser(isVerified = true)))
             val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
             // When
-            val viewModel = StartupViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
+            val viewModel = StartupViewModel(usersRepository, fakeGetConfigs, settingsRepository)
 
             // Then
             viewModel.state.test {
                 assertEquals(StartupUiState.Loading, awaitItem())
                 assertEquals(StartupUiState.NavigateToHome, awaitItem())
-                assertEquals(1, fakeGetUserMe.invokeCount)
+                assertEquals(1, usersRepository.getUserMeInvokeCount)
                 assertEquals(1, fakeGetConfigs.invokeCount)
             }
         }
@@ -124,11 +123,13 @@ class StartupViewModelTest {
             // Given
             val settingsRepository = FakeSettingsRepository()
             settingsRepository.saveToken("jwt-token")
-            val fakeGetUserMe = FakeGetUserMeUseCase(Result.Failure(DataError.Network(Exception("test error"))))
+            val usersRepository = FakeUsersRepository(
+                getUserMeResult = Result.Failure(DataError.Network(Exception("test error"))),
+            )
             val fakeGetConfigs = FakeGetConfigsUseCase(Result.Success(Configs(version = "1.0.0")))
 
             // When
-            val viewModel = StartupViewModel(fakeGetUserMe, fakeGetConfigs, settingsRepository)
+            val viewModel = StartupViewModel(usersRepository, fakeGetConfigs, settingsRepository)
 
             // Then
             viewModel.state.test {

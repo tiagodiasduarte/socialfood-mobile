@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.domain.repository.UsersRepository
 import pt.socialfood.domain.usecase.login.LoginUseCase
 import pt.socialfood.domain.usecase.login.LoginWithGoogleUseCase
-import pt.socialfood.domain.usecase.user.GetUserMeUseCase
 import pt.socialfood.feature.auth.generated.resources.Res
 import pt.socialfood.feature.auth.generated.resources.sign_in_invalid_email
 import pt.socialfood.feature.auth.generated.resources.sign_in_invalid_password
@@ -18,7 +18,7 @@ import pt.socialfood.presentation.error.toErrorCode
 class SignInViewModel(
     private val login: LoginUseCase,
     private val loginWithGoogle: LoginWithGoogleUseCase,
-    private val getUserMe: GetUserMeUseCase,
+    private val usersRepository: UsersRepository,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<SignInUiState>(SignInUiState.Idle)
@@ -56,7 +56,7 @@ class SignInViewModel(
     }
 
     private suspend fun onLoginSucceeded() {
-        _state.value = when (val result = getUserMe()) {
+        _state.value = when (val result = usersRepository.getUserMe()) {
             is Result.Success -> SignInUiState.Success
             is Result.Failure -> SignInUiState.Error(result.error.toErrorCode())
         }

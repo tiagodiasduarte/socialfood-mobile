@@ -139,6 +139,9 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
+        androidUnitTest.dependencies {
+            implementation(libs.koin.test)
+        }
         commonTest.dependencies {
             implementation(projects.core.testing)
             implementation(libs.androidx.paging.testing)

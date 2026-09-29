@@ -58,7 +58,6 @@ import pt.socialfood.data.repository.RestaurantVisitStatusRepositoryImpl
 import pt.socialfood.data.repository.RestaurantsRepositoryImpl
 import pt.socialfood.data.repository.SearchRepositoryImpl
 import pt.socialfood.data.repository.UsersRepositoryImpl
-import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.AuthRepository
 import pt.socialfood.domain.repository.AuthorsRepository
 import pt.socialfood.domain.repository.ConfigsRepository
@@ -108,34 +107,18 @@ import pt.socialfood.domain.usecase.theme.SetThemeModeUseCase
 import pt.socialfood.domain.usecase.theme.SetThemeModeUseCaseImpl
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCaseImpl
-import pt.socialfood.presentation.author.detail.AuthorDetailViewModel
-import pt.socialfood.presentation.author.list.AuthorsViewModel
-import pt.socialfood.presentation.drawer.DrawerViewModel
-import pt.socialfood.presentation.favourite.guide.FavouriteGuidesViewModel
-import pt.socialfood.presentation.favourite.restaurant.FavouriteRestaurantsViewModel
-import pt.socialfood.presentation.guide.all.AllGuidesViewModel
-import pt.socialfood.presentation.guide.create.CreateGuideViewModel
-import pt.socialfood.presentation.guide.detail.GuideDetailViewModel
-import pt.socialfood.presentation.guide.edit.EditGuideViewModel
-import pt.socialfood.presentation.guide.map.GuideMapViewModel
-import pt.socialfood.presentation.guide.my.MyGuidesViewModel
-import pt.socialfood.presentation.guide.shared.SharedGuidesViewModel
-import pt.socialfood.presentation.home.HomeViewModel
-import pt.socialfood.presentation.map.restaurant.MapRestaurantViewModel
-import pt.socialfood.presentation.map.restaurant.visitstatus.MapRestaurantVisitStatusViewModel
-import pt.socialfood.presentation.profile.edit.EditProfileViewModel
-import pt.socialfood.presentation.restaurant.detail.RestaurantDetailViewModel
-import pt.socialfood.presentation.restaurant.search.SearchRestaurantsViewModel
-import pt.socialfood.presentation.restaurant.visited.RestaurantVisitedViewModel
-import pt.socialfood.presentation.restaurant.wishlist.RestaurantWishlistViewModel
-import pt.socialfood.presentation.search.SearchViewModel
-import pt.socialfood.presentation.signin.SignInViewModel
-import pt.socialfood.presentation.signup.SignUpViewModel
-import pt.socialfood.presentation.startup.StartupViewModel
+import pt.socialfood.presentation.auth.di.authFeatureModule
+import pt.socialfood.presentation.author.di.authorFeatureModule
+import pt.socialfood.presentation.favourite.di.favouriteFeatureModule
+import pt.socialfood.presentation.guide.di.guideFeatureModule
+import pt.socialfood.presentation.home.di.homeFeatureModule
+import pt.socialfood.presentation.map.di.mapFeatureModule
+import pt.socialfood.presentation.profile.di.profileFeatureModule
+import pt.socialfood.presentation.restaurant.di.restaurantFeatureModule
+import pt.socialfood.presentation.search.di.searchFeatureModule
+import pt.socialfood.presentation.settings.di.settingsFeatureModule
 import pt.socialfood.presentation.sync.SyncViewModel
-import pt.socialfood.presentation.theme.ThemeViewModel
 import pt.socialfood.presentation.ui.image.ImageCache
-import pt.socialfood.presentation.validatecode.ValidateCodeViewModel
 
 expect val platformModule: Module
 
@@ -248,35 +231,7 @@ val useCaseModule =
 
 val viewModelModule =
     module {
-        factory { AllGuidesViewModel(get(), get(), get()) }
-        factory { (authorId: String) -> AuthorDetailViewModel(get(), authorId) }
-        factory { AuthorsViewModel(get(), get()) }
-        factory { CreateGuideViewModel(get(), get(), get()) }
-        factory { DrawerViewModel(get(), get(), get()) }
-        factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), guideId) }
-        factory { EditProfileViewModel(get(), get(), get()) }
-        factory { FavouriteGuidesViewModel(get(), get()) }
-        factory { FavouriteRestaurantsViewModel(get(), get()) }
-        factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), guideId) }
-        factory { (guideId: String) -> GuideMapViewModel(get(), guideId) }
-        factory { HomeViewModel(get(), get(), get(), get()) }
-        factory { (restaurantId: String) -> MapRestaurantViewModel(get(), restaurantId) }
-        factory { (status: VisitStatus) -> MapRestaurantVisitStatusViewModel(get(), status) }
-        factory { MyGuidesViewModel(get(), get(), get()) }
-        factory { (restaurantId: String) ->
-            RestaurantDetailViewModel(get(), get(), get(), restaurantId)
-        }
-        factory { RestaurantVisitedViewModel(get(), get()) }
-        factory { RestaurantWishlistViewModel(get(), get()) }
-        factory { SharedGuidesViewModel(get(), get(), get()) }
-        factory { (guideId: String) -> SearchRestaurantsViewModel(get(), get(), get(), get()) }
-        factory { SearchViewModel(get(), get(), get()) }
-        factory { SignInViewModel(get(), get(), get()) }
-        factory { SignUpViewModel(get()) }
-        factory { StartupViewModel(get(), get(), get()) }
         factory { SyncViewModel(get(), get(), get(), get()) }
-        factory { ThemeViewModel(get(), get()) }
-        factory { (email: String) -> ValidateCodeViewModel(get(), get(), get(), email) }
     }
 
 fun initKoin(configuration: KoinAppDeclaration? = null) {
@@ -291,6 +246,16 @@ fun initKoin(configuration: KoinAppDeclaration? = null) {
                         repositoryModule,
                         useCaseModule,
                         viewModelModule,
+                        authFeatureModule,
+                        authorFeatureModule,
+                        favouriteFeatureModule,
+                        guideFeatureModule,
+                        homeFeatureModule,
+                        mapFeatureModule,
+                        profileFeatureModule,
+                        restaurantFeatureModule,
+                        searchFeatureModule,
+                        settingsFeatureModule,
                     )
                 },
             )

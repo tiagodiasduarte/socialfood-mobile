@@ -4,10 +4,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.fakes.FakeGetRestaurantVisitStatusPagingUseCase
-import pt.socialfood.fakes.FakeMarkRestaurantVisitStatusUseCase
 import pt.socialfood.fakes.FakeObserveUserUseCase
-import pt.socialfood.fakes.FakeUnmarkRestaurantVisitStatusUseCase
+import pt.socialfood.fakes.FakeRestaurantVisitStatusRepository
 import pt.socialfood.random.nextRestaurant
 import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
@@ -22,11 +20,9 @@ class RestaurantVisitedViewModelTest {
     fun `given the current user is available when restaurants is collected then requests VISITED paging flow`() =
         runTestWithMainDispatcher {
             // Given
-            val pagingUseCase = FakeGetRestaurantVisitStatusPagingUseCase()
+            val visitStatusRepository = FakeRestaurantVisitStatusRepository()
             val vm = RestaurantVisitedViewModel(
-                pagingUseCase,
-                FakeMarkRestaurantVisitStatusUseCase(),
-                FakeUnmarkRestaurantVisitStatusUseCase(),
+                visitStatusRepository,
                 FakeObserveUserUseCase(Random.nextUser()),
             )
 
@@ -35,18 +31,16 @@ class RestaurantVisitedViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(VisitStatus.VISITED, pagingUseCase.lastStatus)
+            assertEquals(VisitStatus.VISITED, visitStatusRepository.lastPagingStatus)
             job.cancel()
         }
 
     @Test
     fun `given a restaurant when addToVisited is called then marks it as VISITED`() = runTestWithMainDispatcher {
         // Given
-        val markUseCase = FakeMarkRestaurantVisitStatusUseCase()
+        val visitStatusRepository = FakeRestaurantVisitStatusRepository()
         val vm = RestaurantVisitedViewModel(
-            FakeGetRestaurantVisitStatusPagingUseCase(),
-            markUseCase,
-            FakeUnmarkRestaurantVisitStatusUseCase(),
+            visitStatusRepository,
             FakeObserveUserUseCase(Random.nextUser()),
         )
         val restaurant = Random.nextRestaurant()
@@ -56,19 +50,17 @@ class RestaurantVisitedViewModelTest {
         advanceUntilIdle()
 
         // Then
-        assertEquals(restaurant, markUseCase.lastMarkedRestaurant)
-        assertEquals(VisitStatus.VISITED, markUseCase.lastStatus)
+        assertEquals(restaurant, visitStatusRepository.lastMarkedRestaurant)
+        assertEquals(VisitStatus.VISITED, visitStatusRepository.lastMarkedStatus)
     }
 
     @Test
     fun `given a restaurant id when removeFromVisited is called then unmarks it as VISITED`() =
         runTestWithMainDispatcher {
             // Given
-            val unmarkUseCase = FakeUnmarkRestaurantVisitStatusUseCase()
+            val visitStatusRepository = FakeRestaurantVisitStatusRepository()
             val vm = RestaurantVisitedViewModel(
-                FakeGetRestaurantVisitStatusPagingUseCase(),
-                FakeMarkRestaurantVisitStatusUseCase(),
-                unmarkUseCase,
+                visitStatusRepository,
                 FakeObserveUserUseCase(Random.nextUser()),
             )
 
@@ -77,7 +69,7 @@ class RestaurantVisitedViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals("r1", unmarkUseCase.lastUnmarkedRestaurantId)
-            assertEquals(VisitStatus.VISITED, unmarkUseCase.lastStatus)
+            assertEquals("r1", visitStatusRepository.lastUnmarkedRestaurantId)
+            assertEquals(VisitStatus.VISITED, visitStatusRepository.lastUnmarkedStatus)
         }
 }

@@ -14,18 +14,14 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.domain.usecase.restaurantvisitstatus.GetRestaurantVisitStatusPagingUseCase
-import pt.socialfood.domain.usecase.restaurantvisitstatus.MarkRestaurantVisitStatusUseCase
-import pt.socialfood.domain.usecase.restaurantvisitstatus.UnmarkRestaurantVisitStatusUseCase
+import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 
 private val STATUS = VisitStatus.WISHLIST
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RestaurantWishlistViewModel(
-    private val getRestaurantVisitStatusPaging: GetRestaurantVisitStatusPagingUseCase,
-    private val markRestaurantVisitStatus: MarkRestaurantVisitStatusUseCase,
-    private val unmarkRestaurantVisitStatus: UnmarkRestaurantVisitStatusUseCase,
+    private val restaurantVisitStatusRepository: RestaurantVisitStatusRepository,
     observeUser: ObserveUserUseCase,
 ) : ViewModel() {
 
@@ -33,19 +29,19 @@ class RestaurantWishlistViewModel(
         .filterNotNull()
         .map { it.id }
         .distinctUntilChanged()
-        .flatMapLatest { getRestaurantVisitStatusPaging(STATUS) }
+        .flatMapLatest { restaurantVisitStatusRepository.getPagingFlow(STATUS) }
         .map { pagingData -> pagingData.map { it.restaurant } }
         .cachedIn(viewModelScope)
 
     fun addToWishlist(restaurant: Restaurant) {
-        viewModelScope.launch { markRestaurantVisitStatus(restaurant, STATUS) }
+        viewModelScope.launch { restaurantVisitStatusRepository.mark(restaurant, STATUS) }
     }
 
     fun removeFromWishlist(restaurantId: String) {
-        viewModelScope.launch { unmarkRestaurantVisitStatus(restaurantId, STATUS) }
+        viewModelScope.launch { restaurantVisitStatusRepository.unmark(restaurantId, STATUS) }
     }
 
     fun moveToVisited(restaurant: Restaurant) {
-        viewModelScope.launch { markRestaurantVisitStatus(restaurant, VisitStatus.VISITED) }
+        viewModelScope.launch { restaurantVisitStatusRepository.mark(restaurant, VisitStatus.VISITED) }
     }
 }

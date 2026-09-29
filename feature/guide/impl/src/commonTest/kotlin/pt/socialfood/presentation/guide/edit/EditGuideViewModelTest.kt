@@ -13,8 +13,8 @@ import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.fakes.FakeGuidesRepository
 import pt.socialfood.fakes.FakeObserveUserUseCase
+import pt.socialfood.fakes.FakePhotosRepository
 import pt.socialfood.fakes.FakeUpdateGuideUseCase
-import pt.socialfood.fakes.FakeUploadPhotoUseCase
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_description_error
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_public_author_warning
@@ -63,12 +63,12 @@ class EditGuideViewModelTest {
 
     private fun createViewModel(
         updateGuide: FakeUpdateGuideUseCase = FakeUpdateGuideUseCase(Result.Success(guide())),
-        uploadPhoto: FakeUploadPhotoUseCase = FakeUploadPhotoUseCase(Result.Success(Unit)),
+        photosRepository: FakePhotosRepository = FakePhotosRepository(),
         guidesRepository: FakeGuidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(guide())),
         observeUser: FakeObserveUserUseCase = FakeObserveUserUseCase(),
     ) = EditGuideViewModel(
         updateGuide = updateGuide,
-        uploadPhoto = uploadPhoto,
+        photosRepository = photosRepository,
         guidesRepository = guidesRepository,
         observeUser = observeUser,
         guideId = "guide-1",
@@ -315,12 +315,12 @@ class EditGuideViewModelTest {
     fun `given a pending image when onSave succeeds then photo is uploaded and imageUrl is updated`() =
         runTestWithMainDispatcher {
             // Given
-            val uploadPhoto = FakeUploadPhotoUseCase(Result.Success(Unit))
+            val photosRepository = FakePhotosRepository()
             val guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(guide()))
             val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
             val vm = createViewModel(
                 updateGuide = updateGuide,
-                uploadPhoto = uploadPhoto,
+                photosRepository = photosRepository,
                 guidesRepository = guidesRepository,
             )
             advanceUntilIdle()
@@ -335,7 +335,7 @@ class EditGuideViewModelTest {
                 // Then
                 assertEquals(EditGuideViewModel.UiEvent.NavigateBack, awaitItem())
             }
-            assertEquals(1, uploadPhoto.invokeCount)
+            assertEquals(1, photosRepository.uploadInvokeCount)
             assertEquals(1, guidesRepository.addPhotoInvokeCount)
         }
 

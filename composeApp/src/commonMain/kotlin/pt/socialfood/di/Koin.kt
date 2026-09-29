@@ -74,8 +74,6 @@ import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.domain.repository.SearchRepository
 import pt.socialfood.domain.repository.UsersRepository
 import pt.socialfood.domain.session.SessionManager
-import pt.socialfood.domain.usecase.configs.GetConfigsUseCase
-import pt.socialfood.domain.usecase.configs.GetConfigsUseCaseImpl
 import pt.socialfood.domain.usecase.guide.AddRestaurantGuideUseCase
 import pt.socialfood.domain.usecase.guide.AddRestaurantGuideUseCaseImpl
 import pt.socialfood.domain.usecase.guide.CreateGuideUseCase
@@ -90,20 +88,14 @@ import pt.socialfood.domain.usecase.login.LogoutUseCase
 import pt.socialfood.domain.usecase.login.LogoutUseCaseImpl
 import pt.socialfood.domain.usecase.login.RegisterUseCase
 import pt.socialfood.domain.usecase.login.RegisterUseCaseImpl
-import pt.socialfood.domain.usecase.login.ResendVerificationCodeUseCase
-import pt.socialfood.domain.usecase.login.ResendVerificationCodeUseCaseImpl
 import pt.socialfood.domain.usecase.login.RestartSignUpUseCase
 import pt.socialfood.domain.usecase.login.RestartSignUpUseCaseImpl
 import pt.socialfood.domain.usecase.login.ValidateCodeUseCase
 import pt.socialfood.domain.usecase.login.ValidateCodeUseCaseImpl
-import pt.socialfood.domain.usecase.photo.UploadPhotoUseCase
-import pt.socialfood.domain.usecase.photo.UploadPhotoUseCaseImpl
 import pt.socialfood.domain.usecase.search.SaveRecentSearchUseCase
 import pt.socialfood.domain.usecase.search.SaveRecentSearchUseCaseImpl
 import pt.socialfood.domain.usecase.search.SaveRecentSearchedPlaceUseCase
 import pt.socialfood.domain.usecase.search.SaveRecentSearchedPlaceUseCaseImpl
-import pt.socialfood.domain.usecase.theme.ObserveThemeModeUseCase
-import pt.socialfood.domain.usecase.theme.ObserveThemeModeUseCaseImpl
 import pt.socialfood.domain.usecase.theme.SetThemeModeUseCase
 import pt.socialfood.domain.usecase.theme.SetThemeModeUseCaseImpl
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
@@ -229,20 +221,16 @@ val useCaseModule =
     module {
         factory<AddRestaurantGuideUseCase> { AddRestaurantGuideUseCaseImpl(get(), get()) }
         factory<CreateGuideUseCase> { CreateGuideUseCaseImpl(get(), get()) }
-        factory<GetConfigsUseCase> { GetConfigsUseCaseImpl(get()) }
         factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
         factory<LoginWithGoogleUseCase> { LoginWithGoogleUseCaseImpl(get(), get()) }
         factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get(), get()) }
-        factory<ObserveThemeModeUseCase> { ObserveThemeModeUseCaseImpl(get()) }
         factory<ObserveUserUseCase> { ObserveUserUseCaseImpl(get()) }
         factory<RegisterUseCase> { RegisterUseCaseImpl(get(), get()) }
-        factory<ResendVerificationCodeUseCase> { ResendVerificationCodeUseCaseImpl(get()) }
         factory<RestartSignUpUseCase> { RestartSignUpUseCaseImpl(get()) }
         factory<SaveRecentSearchUseCase> { SaveRecentSearchUseCaseImpl(get()) }
         factory<SaveRecentSearchedPlaceUseCase> { SaveRecentSearchedPlaceUseCaseImpl(get()) }
         factory<SetThemeModeUseCase> { SetThemeModeUseCaseImpl(get()) }
         factory<UpdateGuideUseCase> { UpdateGuideUseCaseImpl(get(), get()) }
-        factory<UploadPhotoUseCase> { UploadPhotoUseCaseImpl(get()) }
         factory<ValidateCodeUseCase> { ValidateCodeUseCaseImpl(get(), get(), get()) }
     }
 

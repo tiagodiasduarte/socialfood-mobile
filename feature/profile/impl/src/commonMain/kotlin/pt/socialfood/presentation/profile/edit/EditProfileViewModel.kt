@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
+import pt.socialfood.domain.repository.PhotosRepository
 import pt.socialfood.domain.repository.UsersRepository
-import pt.socialfood.domain.usecase.photo.UploadPhotoUseCase
 import pt.socialfood.presentation.error.toErrorCode
 import pt.socialfood.presentation.ui.image.ImageCache
 import kotlin.time.Clock
@@ -17,7 +17,7 @@ import kotlin.time.ExperimentalTime
 @Suppress("TooManyFunctions")
 class EditProfileViewModel(
     private val usersRepository: UsersRepository,
-    private val uploadPhoto: UploadPhotoUseCase,
+    private val photosRepository: PhotosRepository,
     private val imageCache: ImageCache,
 ) : ViewModel() {
 
@@ -97,7 +97,11 @@ class EditProfileViewModel(
             }
         }
 
-        val uploadResult = uploadPhoto(presigned = presigned, bytes = bytes, mimeType = mimeType)
+        val uploadResult = photosRepository.uploadToS3(
+            uploadUrl = presigned.uploadUrl,
+            bytes = bytes,
+            mimeType = mimeType,
+        )
         if (uploadResult is Result.Failure) {
             loaded { copy(isSaving = false, isUploadingPhoto = false, saveError = uploadResult.error.toErrorCode()) }
             return false

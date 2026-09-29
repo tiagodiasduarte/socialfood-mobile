@@ -6,7 +6,7 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.fakes.FakeResendVerificationCodeUseCase
+import pt.socialfood.fakes.FakeAuthRepository
 import pt.socialfood.fakes.FakeRestartSignUpUseCase
 import pt.socialfood.fakes.FakeValidateCodeUseCase
 import pt.socialfood.feature.auth.generated.resources.Res
@@ -25,7 +25,7 @@ class ValidateCodeViewModelTest {
         // Given
         val vm = ValidateCodeViewModel(
             validateCode = FakeValidateCodeUseCase(),
-            resendVerificationCode = FakeResendVerificationCodeUseCase(),
+            authRepository = FakeAuthRepository(),
             restartSignUp = FakeRestartSignUpUseCase(),
             email = Random.nextEmail(),
         )
@@ -49,7 +49,7 @@ class ValidateCodeViewModelTest {
         val useCase = FakeValidateCodeUseCase(Result.Success(true))
         val vm = ValidateCodeViewModel(
             validateCode = useCase,
-            resendVerificationCode = FakeResendVerificationCodeUseCase(),
+            authRepository = FakeAuthRepository(),
             restartSignUp = FakeRestartSignUpUseCase(),
             email = email,
         )
@@ -74,7 +74,7 @@ class ValidateCodeViewModelTest {
         val useCase = FakeValidateCodeUseCase(Result.Failure(DataError.Network(Exception("test error"))))
         val vm = ValidateCodeViewModel(
             validateCode = useCase,
-            resendVerificationCode = FakeResendVerificationCodeUseCase(),
+            authRepository = FakeAuthRepository(),
             restartSignUp = FakeRestartSignUpUseCase(),
             email = Random.nextEmail(),
         )
@@ -92,14 +92,14 @@ class ValidateCodeViewModelTest {
     }
 
     @Test
-    fun `given onResendCode is called then resendVerificationCode is invoked with the email`() =
+    fun `given onResendCode is called then the verification code is resent to that email`() =
         runTestWithMainDispatcher {
             // Given
             val email = Random.nextEmail()
-            val resendVerificationCode = FakeResendVerificationCodeUseCase()
+            val authRepository = FakeAuthRepository()
             val vm = ValidateCodeViewModel(
                 validateCode = FakeValidateCodeUseCase(),
-                resendVerificationCode = resendVerificationCode,
+                authRepository = authRepository,
                 restartSignUp = FakeRestartSignUpUseCase(),
                 email = email,
             )
@@ -109,8 +109,8 @@ class ValidateCodeViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(1, resendVerificationCode.invokeCount)
-            assertEquals(email, resendVerificationCode.lastEmail)
+            assertEquals(1, authRepository.resendVerificationCodeInvokeCount)
+            assertEquals(email, authRepository.lastResendVerificationCodeEmail)
         }
 
     @Test
@@ -121,7 +121,7 @@ class ValidateCodeViewModelTest {
             val viewModel =
                 ValidateCodeViewModel(
                     validateCode = FakeValidateCodeUseCase(),
-                    resendVerificationCode = FakeResendVerificationCodeUseCase(),
+                    authRepository = FakeAuthRepository(),
                     restartSignUp = fakeRestartSignUp,
                     email = "user@test.com",
                 )

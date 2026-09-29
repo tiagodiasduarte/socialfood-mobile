@@ -8,15 +8,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
+import pt.socialfood.domain.repository.ConfigsRepository
 import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.domain.repository.UsersRepository
-import pt.socialfood.domain.usecase.configs.GetConfigsUseCase
 
 private const val MIN_STARTUP_DURATION_MILLIS = 1000L
 
 class StartupViewModel(
     private val usersRepository: UsersRepository,
-    private val getConfigs: GetConfigsUseCase,
+    private val configsRepository: ConfigsRepository,
     private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
 
@@ -40,7 +40,7 @@ class StartupViewModel(
                 }
             } else {
                 val userDeferred = async { usersRepository.getUserMe() }
-                val configsDeferred = async { getConfigs() }
+                val configsDeferred = async { configsRepository.getConfigs() }
 
                 val userResult = userDeferred.await()
                 val configsResult = configsDeferred.await()

@@ -22,7 +22,7 @@ import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.network.model.photo.PresignedUrlResponse
 
 @Suppress("TooManyFunctions")
-class GuidesApiImpl(private val client: HttpClient) : GuidesApi {
+internal class GuidesApiImpl(private val client: HttpClient) : GuidesApi {
 
     override suspend fun create(name: String, description: String, userId: String): GuideDetailResponse = client
         .post("guides") {

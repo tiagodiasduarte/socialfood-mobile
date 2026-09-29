@@ -6,7 +6,7 @@ import pt.socialfood.domain.error.safeApiCall
 import pt.socialfood.domain.model.AuthTokens
 import pt.socialfood.domain.repository.AuthRepository
 
-class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {
+internal class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {
 
     override suspend fun login(email: String, password: String): Result<AuthTokens> = safeApiCall {
         val response = authApi.login(email, password)

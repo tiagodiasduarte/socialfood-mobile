@@ -13,7 +13,7 @@ import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.mapper.toRestaurant
 import kotlin.time.Duration.Companion.milliseconds
 
-class RestaurantsRepositoryImpl(private val restaurantApi: RestaurantApi) : RestaurantsRepository {
+internal class RestaurantsRepositoryImpl(private val restaurantApi: RestaurantApi) : RestaurantsRepository {
 
     private val logger = Logger.withTag(TAG)
 

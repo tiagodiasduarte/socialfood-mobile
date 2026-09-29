@@ -14,7 +14,7 @@ import pt.socialfood.data.network.model.login.ResendVerificationCodeRequest
 import pt.socialfood.data.network.model.login.ValidateCodeRequest
 import pt.socialfood.data.network.model.login.ValidateCodeResponse
 
-class AuthApiImpl(private val client: HttpClient) : AuthApi {
+internal class AuthApiImpl(private val client: HttpClient) : AuthApi {
 
     override suspend fun login(username: String, password: String): LoginResponse = client.post("auth/login") {
         contentType(ContentType.Application.Json)

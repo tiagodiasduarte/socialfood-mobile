@@ -17,7 +17,7 @@ import pt.socialfood.domain.repository.HomeRepository
 import pt.socialfood.mapper.toHomeSection
 import pt.socialfood.mapper.toHomeSectionEntity
 
-class HomeRepositoryImpl(
+internal class HomeRepositoryImpl(
     private val homeApi: HomeApi,
     private val homeDao: HomeDao,
     private val transactionRunner: HomeCacheTransactionRunner,

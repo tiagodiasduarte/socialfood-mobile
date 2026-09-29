@@ -14,7 +14,7 @@ import pt.socialfood.data.network.model.home.CreateHomeSectionRequest
 import pt.socialfood.data.network.model.home.HomeSectionResponse
 import pt.socialfood.data.network.model.home.UpdateHomeSectionRequest
 
-class HomeApiImpl(private val client: HttpClient) : HomeApi {
+internal class HomeApiImpl(private val client: HttpClient) : HomeApi {
     override suspend fun findAll(): List<HomeSectionResponse> = client.get("home/sections").body()
 
     override suspend fun findById(id: String): HomeSectionResponse = client.get("home/sections/$id").body()

@@ -20,7 +20,7 @@ internal val VisitStatus.pathSegment: String
         VisitStatus.VISITED -> VISITED_PATH_SEGMENT
     }
 
-class RestaurantVisitStatusApiImpl(private val client: HttpClient) : RestaurantVisitStatusApi {
+internal class RestaurantVisitStatusApiImpl(private val client: HttpClient) : RestaurantVisitStatusApi {
 
     override suspend fun mark(restaurantId: String, status: VisitStatus) {
         client.put("me/restaurants/${status.pathSegment}/$restaurantId")

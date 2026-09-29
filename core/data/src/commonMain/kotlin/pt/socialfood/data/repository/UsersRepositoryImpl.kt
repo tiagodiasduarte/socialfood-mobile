@@ -14,7 +14,7 @@ import pt.socialfood.domain.model.User
 import pt.socialfood.domain.repository.UsersRepository
 import pt.socialfood.mapper.toUser
 
-class UsersRepositoryImpl(private val userApi: UserApi) : UsersRepository {
+internal class UsersRepositoryImpl(private val userApi: UserApi) : UsersRepository {
 
     private val _currentUser = MutableStateFlow<User?>(null)
     override val currentUser: StateFlow<User?> = _currentUser

@@ -34,7 +34,7 @@ private const val TAG = "FavouritesGuidesRepository"
 
 @OptIn(ExperimentalPagingApi::class)
 @Suppress("TooManyFunctions")
-class FavouritesGuidesRepositoryImpl(
+internal class FavouritesGuidesRepositoryImpl(
     private val favouritesApi: FavouritesGuidesApi,
     private val favouriteDao: FavouriteDao,
     private val favouriteGuideRemoteKeyDao: FavouriteGuideRemoteKeyDao,

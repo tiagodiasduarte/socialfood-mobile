@@ -8,7 +8,7 @@ import pt.socialfood.data.network.model.search.GuideSuggestionsResponse
 import pt.socialfood.data.network.model.search.RestaurantSuggestionsResponse
 import pt.socialfood.data.network.model.search.SearchResponse
 
-class SearchApiImpl(private val client: HttpClient) : SearchApi {
+internal class SearchApiImpl(private val client: HttpClient) : SearchApi {
 
     override suspend fun search(page: Int, limit: Int, query: String?): SearchResponse = client.get("search") {
         parameter("page", page)

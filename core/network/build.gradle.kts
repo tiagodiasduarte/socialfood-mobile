@@ -6,6 +6,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(libs.koin.core)
             api(projects.core.domain)
             api(libs.ktor.client.core)
             implementation(libs.kermit)

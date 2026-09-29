@@ -14,7 +14,7 @@ import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.data.network.model.restaurant.UpdateRestaurantRequest
 
-class RestaurantApiImpl(private val client: HttpClient) : RestaurantApi {
+internal class RestaurantApiImpl(private val client: HttpClient) : RestaurantApi {
 
     override suspend fun importRestaurants(): Boolean = client.post("admin/import/restaurants").body()
 

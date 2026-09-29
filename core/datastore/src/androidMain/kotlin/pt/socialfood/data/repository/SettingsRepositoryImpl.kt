@@ -37,7 +37,7 @@ private val RECENT_SEARCHED_PLACES = stringPreferencesKey("recent_searched_place
 private val RECENT_SEARCHES = stringPreferencesKey("recent_searches")
 
 @Suppress("TooManyFunctions")
-class SettingsRepositoryImpl(private val context: Context) : SettingsRepository {
+internal class SettingsRepositoryImpl(private val context: Context) : SettingsRepository {
     private val tokenCipher = TokenCipher()
 
     override suspend fun getToken(): String? {

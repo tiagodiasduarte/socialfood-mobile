@@ -5,6 +5,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(libs.koin.core)
             api(projects.core.domain)
             implementation(libs.kotlinx.serialization.json)
         }

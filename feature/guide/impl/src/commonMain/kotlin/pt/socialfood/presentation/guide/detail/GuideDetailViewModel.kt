@@ -9,19 +9,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
+import pt.socialfood.domain.repository.FavouritesGuidesRepository
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.repository.UsersRepository
-import pt.socialfood.domain.usecase.favourite.guide.IsGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
 class GuideDetailViewModel(
     private val guidesRepository: GuidesRepository,
     private val usersRepository: UsersRepository,
-    private val isGuideFavourite: IsGuideFavouriteUseCase,
-    private val markGuideFavourite: MarkGuideFavouriteUseCase,
-    private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
+    private val favouritesGuidesRepository: FavouritesGuidesRepository,
     private val guideId: String,
 ) : ViewModel() {
 
@@ -40,7 +36,7 @@ class GuideDetailViewModel(
             _state.value = GuideDetailUiState.Loading
             val guideDeferred = async { guidesRepository.findById(guideId) }
             val userDeferred = async { usersRepository.getUserMe() }
-            val isFavouriteDeferred = async { isGuideFavourite(guideId) }
+            val isFavouriteDeferred = async { favouritesGuidesRepository.isFavourite(guideId) }
             val guideResult = guideDeferred.await()
             val userResult = userDeferred.await()
             val isFavouriteResult = isFavouriteDeferred.await()
@@ -62,9 +58,9 @@ class GuideDetailViewModel(
 
         viewModelScope.launch {
             val result = if (newIsFavourite) {
-                markGuideFavourite(current.guide)
+                favouritesGuidesRepository.mark(current.guide)
             } else {
-                unmarkGuideFavourite(current.guide.id)
+                favouritesGuidesRepository.unmark(current.guide.id)
             }
             if (result is Result.Failure) {
                 val stateNow = _state.value as? GuideDetailUiState.Loaded ?: return@launch

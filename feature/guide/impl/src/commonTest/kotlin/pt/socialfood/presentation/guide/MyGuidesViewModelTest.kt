@@ -4,16 +4,12 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
+import pt.socialfood.domain.repository.FavouritesGuidesRepository
 import pt.socialfood.domain.repository.GuidesRepository
-import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
-import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.fakes.FakeFavouritesGuidesRepository
 import pt.socialfood.fakes.FakeGuidesRepository
-import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
-import pt.socialfood.fakes.FakeObserveFavouriteGuideIdsUseCase
 import pt.socialfood.fakes.FakeObserveUserUseCase
-import pt.socialfood.fakes.FakeUnmarkGuideFavouriteUseCase
 import pt.socialfood.presentation.guide.my.MyGuidesViewModel
 import pt.socialfood.random.nextGuide
 import pt.socialfood.random.nextString
@@ -28,15 +24,11 @@ class MyGuidesViewModelTest {
     private fun createViewModel(
         guidesRepository: GuidesRepository = FakeGuidesRepository(),
         observeUser: ObserveUserUseCase = FakeObserveUserUseCase(Random.nextUser()),
-        observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase = FakeObserveFavouriteGuideIdsUseCase(),
-        markGuideFavourite: MarkGuideFavouriteUseCase = FakeMarkGuideFavouriteUseCase(),
-        unmarkGuideFavourite: UnmarkGuideFavouriteUseCase = FakeUnmarkGuideFavouriteUseCase(),
+        favouritesGuidesRepository: FavouritesGuidesRepository = FakeFavouritesGuidesRepository(),
     ) = MyGuidesViewModel(
         guidesRepository,
-        markGuideFavourite,
-        unmarkGuideFavourite,
+        favouritesGuidesRepository,
         observeUser,
-        observeFavouriteGuideIds,
     )
 
     @Test
@@ -117,10 +109,10 @@ class MyGuidesViewModelTest {
     fun `given favourite ids are observed then favouriteGuideIds reflects them`() = runTestWithMainDispatcher {
         // Given
         val guideId = Random.nextString()
-        val observeFavouriteGuideIds = FakeObserveFavouriteGuideIdsUseCase(initial = setOf(guideId))
+        val favouritesGuidesRepository = FakeFavouritesGuidesRepository(favouriteGuideIds = setOf(guideId))
 
         // When
-        val vm = createViewModel(observeFavouriteGuideIds = observeFavouriteGuideIds)
+        val vm = createViewModel(favouritesGuidesRepository = favouritesGuidesRepository)
         advanceUntilIdle()
 
         // Then
@@ -128,15 +120,13 @@ class MyGuidesViewModelTest {
     }
 
     @Test
-    fun `given a guide is not favourited when onToggleGuideFavourite is called then markGuideFavourite is invoked`() =
+    fun `given a guide is not favourited when onToggleGuideFavourite is called then it is marked`() =
         runTestWithMainDispatcher {
             // Given
-            val markGuideFavourite = FakeMarkGuideFavouriteUseCase()
-            val unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase()
+            val favouritesGuidesRepository = FakeFavouritesGuidesRepository()
             val vm =
                 createViewModel(
-                    markGuideFavourite = markGuideFavourite,
-                    unmarkGuideFavourite = unmarkGuideFavourite,
+                    favouritesGuidesRepository = favouritesGuidesRepository,
                 )
             val target = Random.nextGuide()
 
@@ -145,23 +135,19 @@ class MyGuidesViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(target, markGuideFavourite.lastGuide)
-            assertEquals(0, unmarkGuideFavourite.invokeCount)
+            assertEquals(target, favouritesGuidesRepository.lastMarkedGuide)
+            assertEquals(0, favouritesGuidesRepository.unmarkInvokeCount)
         }
 
     @Test
-    fun `given a favourited guide when onToggleGuideFavourite is called then unmarkGuideFavourite is invoked`() =
+    fun `given a favourited guide when onToggleGuideFavourite is called then it is unmarked`() =
         runTestWithMainDispatcher {
             // Given
-            val markGuideFavourite = FakeMarkGuideFavouriteUseCase()
-            val unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase()
             val guideId = Random.nextString()
-            val observeFavouriteGuideIds = FakeObserveFavouriteGuideIdsUseCase(initial = setOf(guideId))
+            val favouritesGuidesRepository = FakeFavouritesGuidesRepository(favouriteGuideIds = setOf(guideId))
             val vm =
                 createViewModel(
-                    observeFavouriteGuideIds = observeFavouriteGuideIds,
-                    markGuideFavourite = markGuideFavourite,
-                    unmarkGuideFavourite = unmarkGuideFavourite,
+                    favouritesGuidesRepository = favouritesGuidesRepository,
                 )
             val target = Random.nextGuide(id = guideId)
             advanceUntilIdle()
@@ -171,7 +157,7 @@ class MyGuidesViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(guideId, unmarkGuideFavourite.lastGuideId)
-            assertEquals(0, markGuideFavourite.invokeCount)
+            assertEquals(guideId, favouritesGuidesRepository.lastUnmarkedGuideId)
+            assertEquals(0, favouritesGuidesRepository.markInvokeCount)
         }
 }

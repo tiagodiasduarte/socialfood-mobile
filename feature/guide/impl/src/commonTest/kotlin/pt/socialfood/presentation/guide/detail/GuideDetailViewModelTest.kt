@@ -9,10 +9,8 @@ import pt.socialfood.domain.model.Author
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.model.User
+import pt.socialfood.fakes.FakeFavouritesGuidesRepository
 import pt.socialfood.fakes.FakeGuidesRepository
-import pt.socialfood.fakes.FakeIsGuideFavouriteUseCase
-import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
-import pt.socialfood.fakes.FakeUnmarkGuideFavouriteUseCase
 import pt.socialfood.fakes.FakeUsersRepository
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
@@ -43,9 +41,9 @@ class GuideDetailViewModelTest {
                 GuideDetailViewModel(
                     guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(fakeGuide)),
                     usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(fakeUser)),
-                    isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(true)),
-                    markGuideFavourite = FakeMarkGuideFavouriteUseCase(),
-                    unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
+                    favouritesGuidesRepository = FakeFavouritesGuidesRepository(
+                        isFavouriteResult = Result.Success(true),
+                    ),
                     guideId = fakeGuide.id,
                 )
 
@@ -61,14 +59,14 @@ class GuideDetailViewModelTest {
     fun `given guide is not a favourite when toggleFavourite is called then flips isFavourite and calls mark`() =
         runTestWithMainDispatcher {
             // Given
-            val mark = FakeMarkGuideFavouriteUseCase()
+            val favouritesGuidesRepository = FakeFavouritesGuidesRepository(
+                isFavouriteResult = Result.Success(false),
+            )
             val vm =
                 GuideDetailViewModel(
                     guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(fakeGuide)),
                     usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(fakeUser)),
-                    isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
-                    markGuideFavourite = mark,
-                    unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
+                    favouritesGuidesRepository = favouritesGuidesRepository,
                     guideId = fakeGuide.id,
                 )
 
@@ -87,22 +85,22 @@ class GuideDetailViewModelTest {
             }
 
             advanceUntilIdle()
-            assertEquals(1, mark.invokeCount)
-            assertEquals(fakeGuide, mark.lastGuide)
+            assertEquals(1, favouritesGuidesRepository.markInvokeCount)
+            assertEquals(fakeGuide, favouritesGuidesRepository.lastMarkedGuide)
         }
 
     @Test
     fun `given guide is a favourite when toggleFavourite is called then flips isFavourite and calls unmark`() =
         runTestWithMainDispatcher {
             // Given
-            val unmark = FakeUnmarkGuideFavouriteUseCase()
+            val favouritesGuidesRepository = FakeFavouritesGuidesRepository(
+                isFavouriteResult = Result.Success(true),
+            )
             val vm =
                 GuideDetailViewModel(
                     guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(fakeGuide)),
                     usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(fakeUser)),
-                    isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(true)),
-                    markGuideFavourite = FakeMarkGuideFavouriteUseCase(),
-                    unmarkGuideFavourite = unmark,
+                    favouritesGuidesRepository = favouritesGuidesRepository,
                     guideId = fakeGuide.id,
                 )
 
@@ -121,8 +119,8 @@ class GuideDetailViewModelTest {
             }
 
             advanceUntilIdle()
-            assertEquals(1, unmark.invokeCount)
-            assertEquals(fakeGuide.id, unmark.lastGuideId)
+            assertEquals(1, favouritesGuidesRepository.unmarkInvokeCount)
+            assertEquals(fakeGuide.id, favouritesGuidesRepository.lastUnmarkedGuideId)
         }
 
     @Test
@@ -133,11 +131,10 @@ class GuideDetailViewModelTest {
                 GuideDetailViewModel(
                     guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(fakeGuide)),
                     usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(fakeUser)),
-                    isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
-                    markGuideFavourite = FakeMarkGuideFavouriteUseCase(
-                        Result.Failure(DataError.Network(Exception("test error"))),
+                    favouritesGuidesRepository = FakeFavouritesGuidesRepository(
+                        isFavouriteResult = Result.Success(false),
+                        markResult = Result.Failure(DataError.Network(Exception("test error"))),
                     ),
-                    unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
                     guideId = fakeGuide.id,
                 )
 
@@ -169,9 +166,9 @@ class GuideDetailViewModelTest {
                 GuideDetailViewModel(
                     guidesRepository = guidesRepository,
                     usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(fakeUser)),
-                    isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
-                    markGuideFavourite = FakeMarkGuideFavouriteUseCase(),
-                    unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
+                    favouritesGuidesRepository = FakeFavouritesGuidesRepository(
+                        isFavouriteResult = Result.Success(false),
+                    ),
                     guideId = fakeGuide.id,
                 )
             advanceUntilIdle()
@@ -201,9 +198,9 @@ class GuideDetailViewModelTest {
                     leaveGuideResult = Result.Failure(error),
                 ),
                 usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(fakeUser)),
-                isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
-                markGuideFavourite = FakeMarkGuideFavouriteUseCase(),
-                unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase(),
+                favouritesGuidesRepository = FakeFavouritesGuidesRepository(
+                    isFavouriteResult = Result.Success(false),
+                ),
                 guideId = fakeGuide.id,
             )
         advanceUntilIdle()

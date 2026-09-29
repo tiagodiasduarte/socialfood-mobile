@@ -9,22 +9,14 @@ import pt.socialfood.domain.error.ErrorCode
 import pt.socialfood.domain.model.HomeItemType
 import pt.socialfood.domain.model.HomeSection
 import pt.socialfood.domain.model.HomeSectionType
+import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
+import pt.socialfood.domain.repository.FavouritesGuidesRepository
 import pt.socialfood.domain.repository.HomeRepository
-import pt.socialfood.domain.usecase.favourite.guide.IsGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.restaurant.IsRestaurantFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.restaurant.MarkRestaurantFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.fakes.FakeFavouriteRestaurantsRepository
+import pt.socialfood.fakes.FakeFavouritesGuidesRepository
 import pt.socialfood.fakes.FakeHomeRepository
-import pt.socialfood.fakes.FakeIsGuideFavouriteUseCase
-import pt.socialfood.fakes.FakeIsRestaurantFavouriteUseCase
-import pt.socialfood.fakes.FakeMarkGuideFavouriteUseCase
-import pt.socialfood.fakes.FakeMarkRestaurantFavouriteUseCase
 import pt.socialfood.fakes.FakeObserveUserUseCase
-import pt.socialfood.fakes.FakeUnmarkGuideFavouriteUseCase
-import pt.socialfood.fakes.FakeUnmarkRestaurantFavouriteUseCase
 import pt.socialfood.random.nextGuide
 import pt.socialfood.random.nextHomeSection
 import pt.socialfood.random.nextHomeSectionItem
@@ -51,21 +43,13 @@ class HomeViewModelTest {
 
     private fun createViewModel(
         homeRepository: HomeRepository = FakeHomeRepository(),
-        isRestaurantFavourite: IsRestaurantFavouriteUseCase = FakeIsRestaurantFavouriteUseCase(),
-        markRestaurantFavourite: MarkRestaurantFavouriteUseCase = FakeMarkRestaurantFavouriteUseCase(),
-        unmarkRestaurantFavourite: UnmarkRestaurantFavouriteUseCase = FakeUnmarkRestaurantFavouriteUseCase(),
-        isGuideFavourite: IsGuideFavouriteUseCase = FakeIsGuideFavouriteUseCase(),
-        markGuideFavourite: MarkGuideFavouriteUseCase = FakeMarkGuideFavouriteUseCase(),
-        unmarkGuideFavourite: UnmarkGuideFavouriteUseCase = FakeUnmarkGuideFavouriteUseCase(),
+        favouriteRestaurantsRepository: FavouriteRestaurantsRepository = FakeFavouriteRestaurantsRepository(),
+        favouritesGuidesRepository: FavouritesGuidesRepository = FakeFavouritesGuidesRepository(),
         observeUser: ObserveUserUseCase = FakeObserveUserUseCase(Random.nextUser()),
     ) = HomeViewModel(
         homeRepository,
-        isRestaurantFavourite,
-        markRestaurantFavourite,
-        unmarkRestaurantFavourite,
-        isGuideFavourite,
-        markGuideFavourite,
-        unmarkGuideFavourite,
+        favouriteRestaurantsRepository,
+        favouritesGuidesRepository,
         observeUser,
     )
 
@@ -150,8 +134,12 @@ class HomeViewModelTest {
             )
             val vm = createViewModel(
                 homeRepository = FakeHomeRepository(findAllResult = Result.Success(listOf(section))),
-                isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(true)),
-                isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
+                favouriteRestaurantsRepository = FakeFavouriteRestaurantsRepository(
+                    isFavouriteResult = Result.Success(true),
+                ),
+                favouritesGuidesRepository = FakeFavouritesGuidesRepository(
+                    isFavouriteResult = Result.Success(false),
+                ),
             )
 
             // When / Then
@@ -214,11 +202,12 @@ class HomeViewModelTest {
                     ),
                 ),
             )
-            val markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase()
+            val favouriteRestaurantsRepository = FakeFavouriteRestaurantsRepository(
+                isFavouriteResult = Result.Success(false),
+            )
             val vm = createViewModel(
                 homeRepository = FakeHomeRepository(findAllResult = Result.Success(listOf(section))),
-                isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
-                markRestaurantFavourite = markRestaurantFavourite,
+                favouriteRestaurantsRepository = favouriteRestaurantsRepository,
             )
 
             vm.state.test {
@@ -237,8 +226,8 @@ class HomeViewModelTest {
             }
 
             advanceUntilIdle()
-            assertEquals(1, markRestaurantFavourite.invokeCount)
-            assertEquals(restaurant, markRestaurantFavourite.lastRestaurant)
+            assertEquals(1, favouriteRestaurantsRepository.markInvokeCount)
+            assertEquals(restaurant, favouriteRestaurantsRepository.lastMarkedRestaurant)
         }
 
     @Test
@@ -256,11 +245,12 @@ class HomeViewModelTest {
                     ),
                 ),
             )
-            val unmarkRestaurantFavourite = FakeUnmarkRestaurantFavouriteUseCase()
+            val favouriteRestaurantsRepository = FakeFavouriteRestaurantsRepository(
+                isFavouriteResult = Result.Success(true),
+            )
             val vm = createViewModel(
                 homeRepository = FakeHomeRepository(findAllResult = Result.Success(listOf(section))),
-                isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(true)),
-                unmarkRestaurantFavourite = unmarkRestaurantFavourite,
+                favouriteRestaurantsRepository = favouriteRestaurantsRepository,
             )
 
             vm.state.test {
@@ -279,8 +269,8 @@ class HomeViewModelTest {
             }
 
             advanceUntilIdle()
-            assertEquals(1, unmarkRestaurantFavourite.invokeCount)
-            assertEquals(restaurant.id, unmarkRestaurantFavourite.lastRestaurantId)
+            assertEquals(1, favouriteRestaurantsRepository.unmarkInvokeCount)
+            assertEquals(restaurant.id, favouriteRestaurantsRepository.lastUnmarkedRestaurantId)
         }
 
     @Test
@@ -300,9 +290,9 @@ class HomeViewModelTest {
             )
             val vm = createViewModel(
                 homeRepository = FakeHomeRepository(findAllResult = Result.Success(listOf(section))),
-                isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
-                markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(
-                    Result.Failure(DataError.Network(Exception("test error"))),
+                favouriteRestaurantsRepository = FakeFavouriteRestaurantsRepository(
+                    isFavouriteResult = Result.Success(false),
+                    markResult = Result.Failure(DataError.Network(Exception("test error"))),
                 ),
             )
 
@@ -334,11 +324,12 @@ class HomeViewModelTest {
                     Random.nextHomeSectionItem(itemType = HomeItemType.GUIDE, restaurant = null, guide = guide),
                 ),
             )
-            val markGuideFavourite = FakeMarkGuideFavouriteUseCase()
+            val favouritesGuidesRepository = FakeFavouritesGuidesRepository(
+                isFavouriteResult = Result.Success(false),
+            )
             val vm = createViewModel(
                 homeRepository = FakeHomeRepository(findAllResult = Result.Success(listOf(section))),
-                isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
-                markGuideFavourite = markGuideFavourite,
+                favouritesGuidesRepository = favouritesGuidesRepository,
             )
 
             vm.state.test {
@@ -357,8 +348,8 @@ class HomeViewModelTest {
             }
 
             advanceUntilIdle()
-            assertEquals(1, markGuideFavourite.invokeCount)
-            assertEquals(guide, markGuideFavourite.lastGuide)
+            assertEquals(1, favouritesGuidesRepository.markInvokeCount)
+            assertEquals(guide, favouritesGuidesRepository.lastMarkedGuide)
         }
 
     @Test
@@ -372,11 +363,12 @@ class HomeViewModelTest {
                     Random.nextHomeSectionItem(itemType = HomeItemType.GUIDE, restaurant = null, guide = guide),
                 ),
             )
-            val unmarkGuideFavourite = FakeUnmarkGuideFavouriteUseCase()
+            val favouritesGuidesRepository = FakeFavouritesGuidesRepository(
+                isFavouriteResult = Result.Success(true),
+            )
             val vm = createViewModel(
                 homeRepository = FakeHomeRepository(findAllResult = Result.Success(listOf(section))),
-                isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(true)),
-                unmarkGuideFavourite = unmarkGuideFavourite,
+                favouritesGuidesRepository = favouritesGuidesRepository,
             )
 
             vm.state.test {
@@ -395,8 +387,8 @@ class HomeViewModelTest {
             }
 
             advanceUntilIdle()
-            assertEquals(1, unmarkGuideFavourite.invokeCount)
-            assertEquals(guide.id, unmarkGuideFavourite.lastGuideId)
+            assertEquals(1, favouritesGuidesRepository.unmarkInvokeCount)
+            assertEquals(guide.id, favouritesGuidesRepository.lastUnmarkedGuideId)
         }
 
     @Test
@@ -412,9 +404,9 @@ class HomeViewModelTest {
             )
             val vm = createViewModel(
                 homeRepository = FakeHomeRepository(findAllResult = Result.Success(listOf(section))),
-                isGuideFavourite = FakeIsGuideFavouriteUseCase(Result.Success(false)),
-                markGuideFavourite = FakeMarkGuideFavouriteUseCase(
-                    Result.Failure(DataError.Network(Exception("test error"))),
+                favouritesGuidesRepository = FakeFavouritesGuidesRepository(
+                    isFavouriteResult = Result.Success(false),
+                    markResult = Result.Failure(DataError.Network(Exception("test error"))),
                 ),
             )
 

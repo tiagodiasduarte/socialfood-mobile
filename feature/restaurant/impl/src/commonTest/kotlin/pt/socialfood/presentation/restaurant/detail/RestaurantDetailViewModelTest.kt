@@ -8,11 +8,9 @@ import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.model.Location
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.fakes.FakeIsRestaurantFavouriteUseCase
-import pt.socialfood.fakes.FakeMarkRestaurantFavouriteUseCase
+import pt.socialfood.fakes.FakeFavouriteRestaurantsRepository
 import pt.socialfood.fakes.FakeRestaurantVisitStatusRepository
 import pt.socialfood.fakes.FakeRestaurantsRepository
-import pt.socialfood.fakes.FakeUnmarkRestaurantFavouriteUseCase
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -45,16 +43,11 @@ class RestaurantDetailViewModelTest {
         restaurantsRepository: FakeRestaurantsRepository = FakeRestaurantsRepository(
             findByIdResult = Result.Success(fakeRestaurant),
         ),
-        isRestaurantFavourite: FakeIsRestaurantFavouriteUseCase =
-            FakeIsRestaurantFavouriteUseCase(Result.Success(false)),
-        markRestaurantFavourite: FakeMarkRestaurantFavouriteUseCase = FakeMarkRestaurantFavouriteUseCase(),
-        unmarkRestaurantFavourite: FakeUnmarkRestaurantFavouriteUseCase = FakeUnmarkRestaurantFavouriteUseCase(),
+        favouriteRestaurantsRepository: FakeFavouriteRestaurantsRepository = FakeFavouriteRestaurantsRepository(),
         restaurantVisitStatusRepository: FakeRestaurantVisitStatusRepository = FakeRestaurantVisitStatusRepository(),
     ) = RestaurantDetailViewModel(
         restaurantsRepository = restaurantsRepository,
-        isRestaurantFavourite = isRestaurantFavourite,
-        markRestaurantFavourite = markRestaurantFavourite,
-        unmarkRestaurantFavourite = unmarkRestaurantFavourite,
+        favouriteRestaurantsRepository = favouriteRestaurantsRepository,
         restaurantVisitStatusRepository = restaurantVisitStatusRepository,
         restaurantId = fakeRestaurant.id,
     )
@@ -63,7 +56,11 @@ class RestaurantDetailViewModelTest {
     fun `given restaurant is already a favourite when loaded then state reflects isFavourite true`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = createViewModel(isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(true)))
+            val vm = createViewModel(
+                favouriteRestaurantsRepository = FakeFavouriteRestaurantsRepository(
+                    isFavouriteResult = Result.Success(true),
+                ),
+            )
 
             // When / Then
             vm.state.test {
@@ -94,8 +91,8 @@ class RestaurantDetailViewModelTest {
     fun `given restaurant is not a favourite when toggleFavourite is called then flips isFavourite and calls mark`() =
         runTestWithMainDispatcher {
             // Given
-            val mark = FakeMarkRestaurantFavouriteUseCase()
-            val vm = createViewModel(markRestaurantFavourite = mark)
+            val favouriteRestaurantsRepository = FakeFavouriteRestaurantsRepository()
+            val vm = createViewModel(favouriteRestaurantsRepository = favouriteRestaurantsRepository)
 
             // When / Then
             vm.state.test {
@@ -112,18 +109,19 @@ class RestaurantDetailViewModelTest {
             }
 
             advanceUntilIdle()
-            assertEquals(1, mark.invokeCount)
-            assertEquals(fakeRestaurant, mark.lastRestaurant)
+            assertEquals(1, favouriteRestaurantsRepository.markInvokeCount)
+            assertEquals(fakeRestaurant, favouriteRestaurantsRepository.lastMarkedRestaurant)
         }
 
     @Test
     fun `given restaurant is a favourite when toggleFavourite is called then flips isFavourite and calls unmark`() =
         runTestWithMainDispatcher {
             // Given
-            val unmark = FakeUnmarkRestaurantFavouriteUseCase()
+            val favouriteRestaurantsRepository = FakeFavouriteRestaurantsRepository(
+                isFavouriteResult = Result.Success(true),
+            )
             val vm = createViewModel(
-                isRestaurantFavourite = FakeIsRestaurantFavouriteUseCase(Result.Success(true)),
-                unmarkRestaurantFavourite = unmark,
+                favouriteRestaurantsRepository = favouriteRestaurantsRepository,
             )
 
             // When / Then
@@ -141,8 +139,8 @@ class RestaurantDetailViewModelTest {
             }
 
             advanceUntilIdle()
-            assertEquals(1, unmark.invokeCount)
-            assertEquals(fakeRestaurant.id, unmark.lastRestaurantId)
+            assertEquals(1, favouriteRestaurantsRepository.unmarkInvokeCount)
+            assertEquals(fakeRestaurant.id, favouriteRestaurantsRepository.lastUnmarkedRestaurantId)
         }
 
     @Test
@@ -150,8 +148,8 @@ class RestaurantDetailViewModelTest {
         runTestWithMainDispatcher {
             // Given
             val vm = createViewModel(
-                markRestaurantFavourite = FakeMarkRestaurantFavouriteUseCase(
-                    Result.Failure(DataError.Network(Exception("test error"))),
+                favouriteRestaurantsRepository = FakeFavouriteRestaurantsRepository(
+                    markResult = Result.Failure(DataError.Network(Exception("test error"))),
                 ),
             )
 

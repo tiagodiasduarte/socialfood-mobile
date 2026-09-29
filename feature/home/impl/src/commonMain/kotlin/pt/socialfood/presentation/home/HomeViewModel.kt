@@ -18,24 +18,16 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.HomeSection
 import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.User
+import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
+import pt.socialfood.domain.repository.FavouritesGuidesRepository
 import pt.socialfood.domain.repository.HomeRepository
-import pt.socialfood.domain.usecase.favourite.guide.IsGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.restaurant.IsRestaurantFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.restaurant.MarkRestaurantFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
 class HomeViewModel(
     private val homeRepository: HomeRepository,
-    private val isRestaurantFavourite: IsRestaurantFavouriteUseCase,
-    private val markRestaurantFavourite: MarkRestaurantFavouriteUseCase,
-    private val unmarkRestaurantFavourite: UnmarkRestaurantFavouriteUseCase,
-    private val isGuideFavourite: IsGuideFavouriteUseCase,
-    private val markGuideFavourite: MarkGuideFavouriteUseCase,
-    private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
+    private val favouriteRestaurantsRepository: FavouriteRestaurantsRepository,
+    private val favouritesGuidesRepository: FavouritesGuidesRepository,
     observeUser: ObserveUserUseCase,
 ) : ViewModel() {
     private val _state = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -92,8 +84,12 @@ class HomeViewModel(
                         val restaurantIds = items.mapNotNull { it.restaurant?.id }.distinct()
                         val guideIds = items.mapNotNull { it.guide?.id }.distinct()
 
-                        val restaurantsDeferred = restaurantIds.map { id -> async { id to isRestaurantFavourite(id) } }
-                        val guidesDeferred = guideIds.map { id -> async { id to isGuideFavourite(id) } }
+                        val restaurantsDeferred = restaurantIds.map { id ->
+                            async { id to favouriteRestaurantsRepository.isFavourite(id) }
+                        }
+                        val guidesDeferred = guideIds.map { id ->
+                            async { id to favouritesGuidesRepository.isFavourite(id) }
+                        }
 
                         val favouriteRestaurants = restaurantsDeferred
                             .awaitAll()
@@ -131,9 +127,9 @@ class HomeViewModel(
 
         viewModelScope.launch {
             val result = if (isFavourite) {
-                unmarkRestaurantFavourite(restaurant.id)
+                favouriteRestaurantsRepository.unmarkFavourite(restaurant.id)
             } else {
-                markRestaurantFavourite(restaurant)
+                favouriteRestaurantsRepository.markFavourite(restaurant)
             }
             if (result is Result.Failure) {
                 val stateNow = _state.value as? HomeUiState.Loaded ?: return@launch
@@ -155,9 +151,9 @@ class HomeViewModel(
 
         viewModelScope.launch {
             val result = if (isFavourite) {
-                unmarkGuideFavourite(guide.id)
+                favouritesGuidesRepository.unmark(guide.id)
             } else {
-                markGuideFavourite(guide)
+                favouritesGuidesRepository.mark(guide)
             }
             if (result is Result.Failure) {
                 val stateNow = _state.value as? HomeUiState.Loaded ?: return@launch

@@ -12,14 +12,12 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.usecase.favourite.guide.GetFavouriteGuidesPagingUseCase
-import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
+import pt.socialfood.domain.repository.FavouritesGuidesRepository
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FavouriteGuidesViewModel(
-    private val getFavouriteGuidesPaging: GetFavouriteGuidesPagingUseCase,
-    private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
+    private val favouritesGuidesRepository: FavouritesGuidesRepository,
     observeUser: ObserveUserUseCase,
 ) : ViewModel() {
 
@@ -27,10 +25,10 @@ class FavouriteGuidesViewModel(
         .filterNotNull()
         .map { it.id }
         .distinctUntilChanged()
-        .flatMapLatest { getFavouriteGuidesPaging() }
+        .flatMapLatest { favouritesGuidesRepository.getFavouritesPagingFlow() }
         .cachedIn(viewModelScope)
 
     fun removeFavourite(guideId: String) {
-        viewModelScope.launch { unmarkGuideFavourite(guideId) }
+        viewModelScope.launch { favouritesGuidesRepository.unmark(guideId) }
     }
 }

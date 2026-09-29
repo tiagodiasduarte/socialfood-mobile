@@ -16,19 +16,15 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.model.User
+import pt.socialfood.domain.repository.FavouritesGuidesRepository
 import pt.socialfood.domain.repository.GuidesRepository
-import pt.socialfood.domain.usecase.favourite.guide.MarkGuideFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.guide.ObserveFavouriteGuideIdsUseCase
-import pt.socialfood.domain.usecase.favourite.guide.UnmarkGuideFavouriteUseCase
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MyGuidesViewModel(
     guidesRepository: GuidesRepository,
-    private val markGuideFavourite: MarkGuideFavouriteUseCase,
-    private val unmarkGuideFavourite: UnmarkGuideFavouriteUseCase,
+    private val favouritesGuidesRepository: FavouritesGuidesRepository,
     observeUser: ObserveUserUseCase,
-    observeFavouriteGuideIds: ObserveFavouriteGuideIdsUseCase,
 ) : ViewModel() {
 
     val user: StateFlow<User?> = observeUser()
@@ -41,7 +37,7 @@ class MyGuidesViewModel(
         .flatMapLatest { userId -> guidesRepository.findUserGuidesPagingFlow(userId) }
         .cachedIn(viewModelScope)
 
-    val favouriteGuideIds: StateFlow<Set<String>> = observeFavouriteGuideIds()
+    val favouriteGuideIds: StateFlow<Set<String>> = favouritesGuidesRepository.observeFavouriteGuideIds()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Eagerly,
@@ -51,9 +47,9 @@ class MyGuidesViewModel(
     fun onToggleGuideFavourite(guide: Guide) {
         viewModelScope.launch {
             if (guide.id in favouriteGuideIds.value) {
-                unmarkGuideFavourite(guide.id)
+                favouritesGuidesRepository.unmark(guide.id)
             } else {
-                markGuideFavourite(guide)
+                favouritesGuidesRepository.mark(guide)
             }
         }
     }

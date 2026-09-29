@@ -9,18 +9,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.VisitStatus
+import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
 import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 import pt.socialfood.domain.repository.RestaurantsRepository
-import pt.socialfood.domain.usecase.favourite.restaurant.IsRestaurantFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.restaurant.MarkRestaurantFavouriteUseCase
-import pt.socialfood.domain.usecase.favourite.restaurant.UnmarkRestaurantFavouriteUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
 class RestaurantDetailViewModel(
     private val restaurantsRepository: RestaurantsRepository,
-    private val isRestaurantFavourite: IsRestaurantFavouriteUseCase,
-    private val markRestaurantFavourite: MarkRestaurantFavouriteUseCase,
-    private val unmarkRestaurantFavourite: UnmarkRestaurantFavouriteUseCase,
+    private val favouriteRestaurantsRepository: FavouriteRestaurantsRepository,
     private val restaurantVisitStatusRepository: RestaurantVisitStatusRepository,
     private val restaurantId: String,
 ) : ViewModel() {
@@ -36,7 +32,7 @@ class RestaurantDetailViewModel(
         viewModelScope.launch {
             _state.value = RestaurantDetailUiState.Loading
             val restaurantDeferred = async { restaurantsRepository.findById(restaurantId) }
-            val isFavouriteDeferred = async { isRestaurantFavourite(restaurantId) }
+            val isFavouriteDeferred = async { favouriteRestaurantsRepository.isFavourite(restaurantId) }
             val visitStatusDeferred = async { restaurantVisitStatusRepository.getStatus(restaurantId) }
             val restaurantResult = restaurantDeferred.await()
             val isFavouriteResult = isFavouriteDeferred.await()
@@ -59,9 +55,9 @@ class RestaurantDetailViewModel(
 
         viewModelScope.launch {
             val result = if (newIsFavourite) {
-                markRestaurantFavourite(current.restaurant)
+                favouriteRestaurantsRepository.markFavourite(current.restaurant)
             } else {
-                unmarkRestaurantFavourite(current.restaurant.id)
+                favouriteRestaurantsRepository.unmarkFavourite(current.restaurant.id)
             }
             if (result is Result.Failure) {
                 val stateNow = _state.value as? RestaurantDetailUiState.Loaded ?: return@launch

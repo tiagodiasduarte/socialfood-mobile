@@ -3,9 +3,8 @@ package pt.socialfood.presentation.favourite
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
-import pt.socialfood.fakes.FakeGetFavouriteGuidesPagingUseCase
+import pt.socialfood.fakes.FakeFavouritesGuidesRepository
 import pt.socialfood.fakes.FakeObserveUserUseCase
-import pt.socialfood.fakes.FakeUnmarkGuideFavouriteUseCase
 import pt.socialfood.presentation.favourite.guide.FavouriteGuidesViewModel
 import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
@@ -20,10 +19,9 @@ class FavouriteGuidesViewModelTest {
     fun `given the current user is available when guides is collected then requests the paging flow`() =
         runTestWithMainDispatcher {
             // Given
-            val pagingUseCase = FakeGetFavouriteGuidesPagingUseCase()
+            val favouritesGuidesRepository = FakeFavouritesGuidesRepository()
             val vm = FavouriteGuidesViewModel(
-                pagingUseCase,
-                FakeUnmarkGuideFavouriteUseCase(),
+                favouritesGuidesRepository,
                 FakeObserveUserUseCase(Random.nextUser()),
             )
 
@@ -32,17 +30,16 @@ class FavouriteGuidesViewModelTest {
             advanceUntilIdle()
 
             // Then
-            assertEquals(1, pagingUseCase.invokeCount)
+            assertEquals(1, favouritesGuidesRepository.pagingInvokeCount)
             job.cancel()
         }
 
     @Test
     fun `given a guide id when removeFavourite is called then unmarks it`() = runTestWithMainDispatcher {
         // Given
-        val unmarkUseCase = FakeUnmarkGuideFavouriteUseCase()
+        val favouritesGuidesRepository = FakeFavouritesGuidesRepository()
         val vm = FavouriteGuidesViewModel(
-            FakeGetFavouriteGuidesPagingUseCase(),
-            unmarkUseCase,
+            favouritesGuidesRepository,
             FakeObserveUserUseCase(Random.nextUser()),
         )
 
@@ -51,7 +48,7 @@ class FavouriteGuidesViewModelTest {
         advanceUntilIdle()
 
         // Then
-        assertEquals(1, unmarkUseCase.invokeCount)
-        assertEquals("g1", unmarkUseCase.lastGuideId)
+        assertEquals(1, favouritesGuidesRepository.unmarkInvokeCount)
+        assertEquals("g1", favouritesGuidesRepository.lastUnmarkedGuideId)
     }
 }

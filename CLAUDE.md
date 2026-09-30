@@ -46,8 +46,7 @@ feature/<name>/api          – the feature's @Serializable routes (sealed <Name
 feature/<name>/impl         – screens, ViewModels, UI state, and <name>Entries(...) entry builders
                               (home, guide, restaurant, map, author, profile, favourite, search)
 feature/auth, feature/settings – splash/sign-in/sign-up/validate-code, and drawer/theme (no api: hosted by App.kt)
-core/common                 – Result, DataError/ErrorCode, AppConfig
-core/model                  – domain models
+core/common                 – Result, DataError/ErrorCode, AppConfig, domain models
 core/domain                 – repository interfaces, use cases, SessionManager
 core/network                – Ktor/S3/Coil clients, *Api, network models, safeApiCall, ConnectivityObserver
 core/database               – Room database, DAOs, entities (schemas/ lives here)

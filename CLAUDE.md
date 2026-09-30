@@ -79,7 +79,9 @@ build-logic/                – convention plugins: socialfood.kmp.library / .co
 
 ## Dependency Injection (Koin)
 
-All wiring is in `:composeApp`'s `di/Koin.kt` (the app module sees every implementation), split into five modules: `platformModule` (`expect`/`actual`, binds `SettingsRepository` per platform), `networkModule`, `repositoryModule`, `useCaseModule`, `viewModelModule`. ViewModels that require an ID are registered as `factory { (id: String) -> SomeViewModel(get(), id) }` and retrieved with `parametersOf(id)`.
+Each feature module declares its own ViewModel bindings in a `di/<Feature>FeatureModule.kt` (e.g. `guideFeatureModule` in `:feature:guide:impl`), so adding or changing a ViewModel doesn't touch `:composeApp`. The rest of the wiring is still in `:composeApp`'s `di/Koin.kt`: `platformModule` (`expect`/`actual`: `SettingsRepository`, `AppDatabase`, `ConnectivityObserver`, `AppConfig`, `GoogleSignInConfig`), `networkModule`, `repositoryModule`, `useCaseModule`, and `viewModelModule` (app-level ViewModels such as `SyncViewModel`). `initKoin` includes all of them, and a new feature module must be added there. ViewModels that require an ID are registered as `factory { (id: String) -> SomeViewModel(get(), id) }` and retrieved with `parametersOf(id)`.
+
+`KoinModulesTest` (`:composeApp` Android unit tests) runs Koin's `verify()` over every module, so a missing binding fails a test instead of crashing at runtime. Types that are provided outside Koin definitions (Android `Context`, runtime parameters) are listed there as `extraTypes`.
 
 ## Navigation
 

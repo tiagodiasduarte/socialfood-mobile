@@ -33,7 +33,7 @@ SocialFood is a Kotlin Multiplatform (KMP) app targeting **Android** and **iOS**
 
 For iOS: open `iosApp/` in Xcode and run from there.
 
-CI (`.github/workflows/ci.yml`) runs on PRs targeting `develop` or `main`, as five parallel jobs: Android build, Android unit tests + Kover coverage verification (`koverVerify`), iOS build, iOS unit tests, and Static Analysis (`ktlintCheck detekt :composeApp:lintDebug`). Release builds/distribution are handled separately by `firebase.yml` (Firebase App Distribution) and `testflight.yml` (TestFlight).
+CI (`.github/workflows/ci.yml`) runs on PRs targeting `develop` or `main`, as parallel jobs: Android build, Android unit tests + Kover coverage verification (`koverVerify`), iOS build, iOS unit tests, and Static Analysis (`ktlintCheck detekt checkModuleGraph :composeApp:lintDebug`). iOS unit tests are split into four shards (`core`, `features-1`, `features-2`, `app`) because each module links its own Kotlin/Native test binary; `scripts/ios-test-shard.sh` assigns every `iosSimulatorArm64Test` task to exactly one shard, so new modules are picked up automatically. Only the 🏁 Finish job is a required check. Release builds/distribution are handled separately by `firebase.yml` (Firebase App Distribution) and `testflight.yml` (TestFlight).
 
 ## Architecture
 

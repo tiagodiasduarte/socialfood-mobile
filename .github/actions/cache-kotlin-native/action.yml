@@ -1,12 +1,25 @@
 name: Cache Kotlin/Native
-description: Caches the Kotlin/Native toolchain and its prebuilt platform library caches (~/.konan)
+description: >-
+  Restores the Kotlin/Native toolchain (~/.konan). On a cache miss it downloads the toolchain with a
+  small Kotlin/Native compile and saves the cache straight away, so the cache is written even if
+  later steps fail or time out. Must run after BUILD_DATE is set (Gradle configuration needs it).
 
 runs:
   using: composite
   steps:
-    - uses: actions/cache@v4
+    - id: restore
+      uses: actions/cache/restore@v4
       with:
         path: ~/.konan
         key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
         restore-keys: |
           konan-${{ runner.os }}-
+    - if: steps.restore.outputs.cache-hit != 'true'
+      name: Download the Kotlin/Native toolchain
+      shell: bash
+      run: ./gradlew :core:common:compileKotlinIosSimulatorArm64 --stacktrace
+    - if: steps.restore.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: ~/.konan
+        key: ${{ steps.restore.outputs.cache-primary-key }}

@@ -10,7 +10,7 @@ import pt.socialfood.domain.repository.LocalCacheRepository
 import pt.socialfood.domain.repository.UsersRepository
 import pt.socialfood.domain.session.SessionManager
 
-class LogoutUseCaseImpl(
+internal class LogoutUseCaseImpl(
     private val sessionManager: SessionManager,
     private val repository: AuthRepository,
     private val localCacheRepository: LocalCacheRepository,

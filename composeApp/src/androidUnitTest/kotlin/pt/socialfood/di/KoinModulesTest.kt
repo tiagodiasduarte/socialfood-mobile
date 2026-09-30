@@ -9,6 +9,7 @@ import org.koin.test.verify.verify
 import pt.socialfood.core.data.di.coreDataModule
 import pt.socialfood.core.database.di.coreDatabaseModule
 import pt.socialfood.core.datastore.di.coreDatastoreModule
+import pt.socialfood.core.domain.di.coreDomainModule
 import pt.socialfood.core.network.di.coreNetworkModule
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.presentation.auth.di.authFeatureModule
@@ -37,7 +38,7 @@ class KoinModulesTest {
                 coreDataModule,
                 platformModule,
                 appModule,
-                useCaseModule,
+                coreDomainModule,
                 viewModelModule,
                 authFeatureModule,
                 authorFeatureModule,

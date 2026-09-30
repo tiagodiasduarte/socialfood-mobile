@@ -6,12 +6,8 @@ import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.model.AuthTokens
-import pt.socialfood.domain.session.SessionManager
-import pt.socialfood.domain.usecase.login.LoginUseCaseImpl
-import pt.socialfood.domain.usecase.login.LoginWithGoogleUseCaseImpl
-import pt.socialfood.fakes.FakeAuthRepository
-import pt.socialfood.fakes.FakeSettingsRepository
+import pt.socialfood.fakes.FakeLoginUseCase
+import pt.socialfood.fakes.FakeLoginWithGoogleUseCase
 import pt.socialfood.fakes.FakeUsersRepository
 import pt.socialfood.feature.auth.generated.resources.Res
 import pt.socialfood.feature.auth.generated.resources.sign_in_invalid_email
@@ -24,19 +20,15 @@ import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SignInViewModelTest {
-    private fun createViewModel(loginResult: Result<AuthTokens>): SignInViewModel {
-        val sessionManager = SessionManager(FakeSettingsRepository())
-        val fakeRepo = FakeAuthRepository(loginResult)
-        val loginUseCase = LoginUseCaseImpl(sessionManager, fakeRepo)
-        val loginWithGoogleUseCase = LoginWithGoogleUseCaseImpl(sessionManager, fakeRepo)
+    private fun createViewModel(loginResult: Result<Boolean>): SignInViewModel {
         val usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(Random.nextUser()))
-        return SignInViewModel(loginUseCase, loginWithGoogleUseCase, usersRepository)
+        return SignInViewModel(FakeLoginUseCase(loginResult), FakeLoginWithGoogleUseCase(loginResult), usersRepository)
     }
 
     @Test
     fun `given a new view model when created then state is Idle`() = runTest {
         // Given
-        val vm = createViewModel(Result.Success(AuthTokens("token", "refresh-token")))
+        val vm = createViewModel(Result.Success(true))
 
         // When / Then
         vm.state.test {
@@ -48,7 +40,7 @@ class SignInViewModelTest {
     fun `given an empty email when sign in is called then state is InvalidCredentials error`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = createViewModel(Result.Success(AuthTokens("token", "refresh-token")))
+            val vm = createViewModel(Result.Success(true))
 
             vm.state.test {
                 assertEquals(SignInUiState.Idle, awaitItem())
@@ -65,7 +57,7 @@ class SignInViewModelTest {
     fun `given an empty password when sign in is called then state is InvalidCredentials error`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = createViewModel(Result.Success(AuthTokens("token", "refresh-token")))
+            val vm = createViewModel(Result.Success(true))
 
             vm.state.test {
                 assertEquals(SignInUiState.Idle, awaitItem())
@@ -81,7 +73,7 @@ class SignInViewModelTest {
     @Test
     fun `given valid credentials when sign in is called then state is Success`() = runTestWithMainDispatcher {
         // Given
-        val vm = createViewModel(Result.Success(AuthTokens("token", "refresh-token")))
+        val vm = createViewModel(Result.Success(true))
 
         vm.state.test {
             assertEquals(SignInUiState.Idle, awaitItem())
@@ -98,10 +90,8 @@ class SignInViewModelTest {
     @Test
     fun `given valid credentials when sign in is called then current user is refreshed`() = runTestWithMainDispatcher {
         // Given
-        val sessionManager = SessionManager(FakeSettingsRepository())
-        val fakeRepo = FakeAuthRepository(Result.Success(AuthTokens("token", "refresh-token")))
-        val loginUseCase = LoginUseCaseImpl(sessionManager, fakeRepo)
-        val loginWithGoogleUseCase = LoginWithGoogleUseCaseImpl(sessionManager, fakeRepo)
+        val loginUseCase = FakeLoginUseCase()
+        val loginWithGoogleUseCase = FakeLoginWithGoogleUseCase()
         val usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(Random.nextUser()))
         val vm = SignInViewModel(loginUseCase, loginWithGoogleUseCase, usersRepository)
 
@@ -121,10 +111,8 @@ class SignInViewModelTest {
     @Test
     fun `given sign in succeeds but current user fetch fails then state is Error`() = runTestWithMainDispatcher {
         // Given
-        val sessionManager = SessionManager(FakeSettingsRepository())
-        val fakeRepo = FakeAuthRepository(Result.Success(AuthTokens("token", "refresh-token")))
-        val loginUseCase = LoginUseCaseImpl(sessionManager, fakeRepo)
-        val loginWithGoogleUseCase = LoginWithGoogleUseCaseImpl(sessionManager, fakeRepo)
+        val loginUseCase = FakeLoginUseCase()
+        val loginWithGoogleUseCase = FakeLoginWithGoogleUseCase()
         val usersRepository = FakeUsersRepository(
             getUserMeResult = Result.Failure(DataError.Network(Exception("test error"))),
         )
@@ -163,7 +151,7 @@ class SignInViewModelTest {
     fun `given google sign in succeeds when onGoogleSignIn is called then state is Success`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = createViewModel(Result.Success(AuthTokens("token", "refresh-token")))
+            val vm = createViewModel(Result.Success(true))
 
             vm.state.test {
                 assertEquals(SignInUiState.Idle, awaitItem())
@@ -198,7 +186,7 @@ class SignInViewModelTest {
     fun `given onGoogleSignInError is called then state is Error UNKNOWN with the debug message`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = createViewModel(Result.Success(AuthTokens("token", "refresh-token")))
+            val vm = createViewModel(Result.Success(true))
 
             vm.state.test {
                 assertEquals(SignInUiState.Idle, awaitItem())

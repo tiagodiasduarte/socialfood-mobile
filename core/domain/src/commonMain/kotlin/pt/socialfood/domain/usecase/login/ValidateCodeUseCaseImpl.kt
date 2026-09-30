@@ -5,7 +5,7 @@ import pt.socialfood.domain.repository.AuthRepository
 import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.domain.session.SessionManager
 
-class ValidateCodeUseCaseImpl(
+internal class ValidateCodeUseCaseImpl(
     private val sessionManager: SessionManager,
     private val repository: AuthRepository,
     private val settingsRepository: SettingsRepository,

@@ -3,7 +3,8 @@ package pt.socialfood.domain.usecase.search
 import pt.socialfood.domain.model.RecentSearch
 import pt.socialfood.domain.repository.SettingsRepository
 
-class SaveRecentSearchUseCaseImpl(private val settingsRepository: SettingsRepository) : SaveRecentSearchUseCase {
+internal class SaveRecentSearchUseCaseImpl(private val settingsRepository: SettingsRepository) :
+    SaveRecentSearchUseCase {
     override suspend operator fun invoke(search: RecentSearch): List<RecentSearch> {
         val current = settingsRepository.getRecentSearches()
         val updated = (listOf(search) + current.filterNot { it.id == search.id && it.type == search.type })

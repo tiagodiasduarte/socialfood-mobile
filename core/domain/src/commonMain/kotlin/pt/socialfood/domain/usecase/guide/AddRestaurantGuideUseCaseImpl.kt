@@ -7,7 +7,7 @@ import pt.socialfood.domain.model.Guide
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.repository.UsersRepository
 
-class AddRestaurantGuideUseCaseImpl(
+internal class AddRestaurantGuideUseCaseImpl(
     private val guidesRepository: GuidesRepository,
     private val userRepository: UsersRepository,
 ) : AddRestaurantGuideUseCase {

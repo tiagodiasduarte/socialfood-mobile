@@ -65,7 +65,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-java
-      - uses: ./.github/actions/cache-kotlin-native
       - name: Create Secrets.xcconfig
         env:
           GOOGLE_CLIENT_ID_IOS: ${{ secrets.GOOGLE_CLIENT_ID_IOS }}
@@ -88,6 +87,7 @@ jobs:
           echo "udid=$UDID" >> "$GITHUB_OUTPUT"
       - name: Set BUILD_DATE
         run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
+      - uses: ./.github/actions/cache-kotlin-native
       - name: Build iOS app (Debug, simulator, unsigned)
         run: |
           cd iosApp
@@ -99,9 +99,15 @@ jobs:
             CODE_SIGNING_ALLOWED=NO
 
   ios-test:
-    name: iOS Unit Tests
+    name: iOS Unit Tests (${{ matrix.shard }})
     runs-on: macos-latest
     timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        # Each module links its own Kotlin/Native test binary, so one job can't link them all in time.
+        # scripts/ios-test-shard.sh assigns every iosSimulatorArm64Test task to exactly one shard.
+        shard: [ core, features-1, features-2, app ]
     env:
       GOOGLE_CLIENT_ID_WEB: ${{ secrets.GOOGLE_CLIENT_ID_WEB }}
       GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
@@ -110,13 +116,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-java
-      - uses: ./.github/actions/cache-kotlin-native
       - uses: ./.github/actions/setup-google-services
         with:
           google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
       - name: Set BUILD_DATE
         run: echo "BUILD_DATE=$(date +%Y%m%d-%H%M)" >> $GITHUB_ENV
-      - run: ./gradlew iosSimulatorArm64Test --stacktrace
+      - uses: ./.github/actions/cache-kotlin-native
+      - name: Run iOS unit tests (${{ matrix.shard }})
+        run: |
+          TASKS=$(scripts/ios-test-shard.sh ${{ matrix.shard }})
+          echo "$TASKS"
+          test -n "$TASKS"
+          ./gradlew $TASKS --stacktrace
 
   static-analysis:
     name: Static Analysis

@@ -8,7 +8,7 @@ import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.domain.repository.UsersRepository
 
-class UpdateGuideUseCaseImpl(
+internal class UpdateGuideUseCaseImpl(
     private val guidesRepository: GuidesRepository,
     private val userRepository: UsersRepository,
 ) : UpdateGuideUseCase {

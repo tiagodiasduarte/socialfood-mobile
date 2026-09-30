@@ -12,7 +12,7 @@ import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 
 private const val FAVOURITE_RESTAURANTS_PATH = "me/favourites/restaurants"
 
-class FavouriteRestaurantsApiImpl(private val client: HttpClient) : FavouriteRestaurantsApi {
+internal class FavouriteRestaurantsApiImpl(private val client: HttpClient) : FavouriteRestaurantsApi {
 
     override suspend fun mark(restaurantId: String) {
         client.post("$FAVOURITE_RESTAURANTS_PATH/$restaurantId")

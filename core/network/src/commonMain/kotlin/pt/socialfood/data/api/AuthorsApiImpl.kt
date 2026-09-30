@@ -8,7 +8,7 @@ import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.author.AuthorDetailResponse
 import pt.socialfood.data.network.model.author.AuthorResponse
 
-class AuthorsApiImpl(private val client: HttpClient) : AuthorsApi {
+internal class AuthorsApiImpl(private val client: HttpClient) : AuthorsApi {
     override suspend fun findAuthors(page: Int, limit: Int, query: String?): PagedResponse<AuthorResponse> =
         client.get("authors") {
             parameter("page", page)

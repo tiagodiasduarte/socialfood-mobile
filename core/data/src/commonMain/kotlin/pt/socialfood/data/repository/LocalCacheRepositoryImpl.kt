@@ -3,7 +3,7 @@ package pt.socialfood.data.repository
 import pt.socialfood.data.local.AppDatabase
 import pt.socialfood.domain.repository.LocalCacheRepository
 
-class LocalCacheRepositoryImpl(private val appDatabase: AppDatabase) : LocalCacheRepository {
+internal class LocalCacheRepositoryImpl(private val appDatabase: AppDatabase) : LocalCacheRepository {
 
     override suspend fun clearAll() {
         appDatabase.authorDao().deleteAll()

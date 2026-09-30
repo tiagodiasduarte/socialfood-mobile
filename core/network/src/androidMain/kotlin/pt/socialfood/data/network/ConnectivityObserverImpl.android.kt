@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 
-class ConnectivityObserverImpl(private val context: Context) : ConnectivityObserver {
+internal class ConnectivityObserverImpl(private val context: Context) : ConnectivityObserver {
 
     override val isOnline: Flow<Boolean> = callbackFlow {
         val connectivityManager = context.applicationContext

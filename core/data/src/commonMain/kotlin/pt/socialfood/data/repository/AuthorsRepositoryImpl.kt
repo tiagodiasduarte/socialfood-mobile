@@ -23,7 +23,7 @@ import pt.socialfood.mapper.toAuthorDetail
 
 private const val AUTHORS_PAGE_SIZE = 20
 
-class AuthorsRepositoryImpl(
+internal class AuthorsRepositoryImpl(
     private val authorsApi: AuthorsApi,
     private val authorDao: AuthorDao,
     private val authorRemoteKeyDao: AuthorRemoteKeyDao,

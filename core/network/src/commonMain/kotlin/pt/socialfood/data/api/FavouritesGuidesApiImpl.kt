@@ -12,7 +12,7 @@ import pt.socialfood.data.network.model.guide.GuideResponse
 
 private const val FAVOURITE_GUIDES_PATH = "me/favourites/guides"
 
-class FavouritesGuidesApiImpl(private val client: HttpClient) : FavouritesGuidesApi {
+internal class FavouritesGuidesApiImpl(private val client: HttpClient) : FavouritesGuidesApi {
 
     override suspend fun mark(guideId: String) {
         client.post("$FAVOURITE_GUIDES_PATH/$guideId")

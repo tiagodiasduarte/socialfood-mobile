@@ -37,7 +37,7 @@ private const val OPTIMISTIC_POSITION = Int.MIN_VALUE
 private const val TAG = "RestaurantVisitStatusRepository"
 
 @OptIn(ExperimentalPagingApi::class)
-class RestaurantVisitStatusRepositoryImpl(
+internal class RestaurantVisitStatusRepositoryImpl(
     private val restaurantVisitStatusApi: RestaurantVisitStatusApi,
     private val restaurantVisitStatusDao: RestaurantVisitStatusDao,
     private val restaurantVisitStatusRemoteKeyDao: RestaurantVisitStatusRemoteKeyDao,

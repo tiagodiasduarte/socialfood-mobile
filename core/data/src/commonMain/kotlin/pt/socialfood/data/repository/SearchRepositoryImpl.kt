@@ -11,7 +11,7 @@ import pt.socialfood.mapper.toGuideSuggestions
 import pt.socialfood.mapper.toRestaurantSuggestions
 import pt.socialfood.mapper.toSearchResults
 
-class SearchRepositoryImpl(private val searchApi: SearchApi) : SearchRepository {
+internal class SearchRepositoryImpl(private val searchApi: SearchApi) : SearchRepository {
 
     override suspend fun search(page: Int, limit: Int, query: String?): Result<List<Search>> =
         safeApiCall { searchApi.search(page, limit, query).toSearchResults() }

@@ -6,6 +6,10 @@ import io.ktor.client.engine.HttpClientEngine
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.module
 import org.koin.test.verify.verify
+import pt.socialfood.core.data.di.coreDataModule
+import pt.socialfood.core.database.di.coreDatabaseModule
+import pt.socialfood.core.datastore.di.coreDatastoreModule
+import pt.socialfood.core.network.di.coreNetworkModule
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.presentation.auth.di.authFeatureModule
 import pt.socialfood.presentation.author.di.authorFeatureModule
@@ -27,9 +31,12 @@ class KoinModulesTest {
         // Given
         val appModule = module {
             includes(
-                networkModule,
+                coreNetworkModule,
+                coreDatabaseModule,
+                coreDatastoreModule,
+                coreDataModule,
                 platformModule,
-                repositoryModule,
+                appModule,
                 useCaseModule,
                 viewModelModule,
                 authFeatureModule,

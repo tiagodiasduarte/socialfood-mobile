@@ -27,7 +27,7 @@ import pt.socialfood.mapper.toGuide
 private const val GUIDES_PAGE_SIZE = 20
 
 @Suppress("TooManyFunctions")
-class GuidesRepositoryImpl(
+internal class GuidesRepositoryImpl(
     private val guideApi: GuidesApi,
     private val guideDao: GuideDao,
     private val guideRemoteKeyDao: GuideRemoteKeyDao,

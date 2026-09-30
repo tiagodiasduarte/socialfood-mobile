@@ -16,7 +16,7 @@ import pt.socialfood.data.network.model.user.UpdateUserPhotoRequest
 import pt.socialfood.data.network.model.user.UpdateUserRequest
 import pt.socialfood.data.network.model.user.UserResponse
 
-class UserApiImpl(private val client: HttpClient) : UserApi {
+internal class UserApiImpl(private val client: HttpClient) : UserApi {
 
     override suspend fun findById(id: String): UserResponse = client.get("users/$id").body()
 

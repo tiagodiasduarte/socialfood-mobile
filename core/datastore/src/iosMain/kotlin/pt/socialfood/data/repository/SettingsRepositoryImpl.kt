@@ -24,7 +24,7 @@ private const val KEY_RECENT_SEARCHED_PLACES = "recent_searched_places"
 private const val KEY_RECENT_SEARCHES = "recent_searches"
 
 @Suppress("TooManyFunctions")
-class SettingsRepositoryImpl : SettingsRepository {
+internal class SettingsRepositoryImpl : SettingsRepository {
     private val defaults = NSUserDefaults.standardUserDefaults
 
     override suspend fun getToken(): String? = KeychainTokenStore.get(KeychainTokenStore.ACCESS_TOKEN_ACCOUNT)

@@ -15,7 +15,7 @@ import platform.Network.nw_path_status_satisfied
 import platform.darwin.dispatch_get_main_queue
 
 @OptIn(ExperimentalForeignApi::class)
-class ConnectivityObserverImpl : ConnectivityObserver {
+internal class ConnectivityObserverImpl : ConnectivityObserver {
 
     override val isOnline: Flow<Boolean> = callbackFlow {
         val monitor = nw_path_monitor_create()

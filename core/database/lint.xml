@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Room's KSP output (AppDatabase_Impl, DAO impls) calls Room-internal APIs by design. -->
+<lint>
+    <issue id="all">
+        <ignore path="build/generated/**" />
+    </issue>
+</lint>

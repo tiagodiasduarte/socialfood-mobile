@@ -49,7 +49,7 @@ import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRe
 fun RestaurantWishlistScreen(
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
-    onAddClick: (onRestaurantAdded: (Restaurant) -> Unit) -> Unit = {},
+    onAddClick: (requestKey: String) -> Unit = {},
     onMapClick: () -> Unit = {},
     viewModel: RestaurantWishlistViewModel = koinViewModel(),
 ) {
@@ -59,7 +59,7 @@ fun RestaurantWishlistScreen(
         restaurants = restaurants,
         onBackClick = onBackClick,
         onRestaurantClick = onRestaurantClick,
-        onAddClick = { onAddClick(viewModel::addToWishlist) },
+        onAddClick = { onAddClick(viewModel.restaurantPickerKey) },
         onRemoveClick = viewModel::removeFromWishlist,
         onMoveToVisitedClick = viewModel::moveToVisited,
         onMapClick = onMapClick,

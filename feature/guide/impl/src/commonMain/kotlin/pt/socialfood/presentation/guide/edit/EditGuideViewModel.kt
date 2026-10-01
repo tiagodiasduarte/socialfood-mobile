@@ -24,6 +24,7 @@ import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_p
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_public_restaurants_warning
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_title_error
 import pt.socialfood.presentation.error.toErrorCode
+import pt.socialfood.presentation.restaurant.navigation.RestaurantPickerResults
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -32,6 +33,7 @@ class EditGuideViewModel(
     private val photosRepository: PhotosRepository,
     private val guidesRepository: GuidesRepository,
     private val observeUser: ObserveUserUseCase,
+    private val restaurantPickerResults: RestaurantPickerResults,
     private val guideId: String,
 ) : ViewModel() {
     private val _state = MutableStateFlow<EditGuideUiState>(EditGuideUiState.Loading)
@@ -47,7 +49,10 @@ class EditGuideViewModel(
         }
     }
 
-    fun onRestaurantAdded(restaurant: Restaurant) {
+    /** Request key for the restaurant picker opened from this guide. */
+    val restaurantPickerKey = "edit-guide:$guideId"
+
+    private fun onRestaurantAdded(restaurant: Restaurant) {
         updateLoaded {
             if (restaurants.any { it.id == restaurant.id }) return@updateLoaded this
             copy(restaurants = restaurants + restaurant)
@@ -60,6 +65,11 @@ class EditGuideViewModel(
 
     init {
         loadGuide(guideId)
+        viewModelScope.launch {
+            // Picked restaurants are only added to a loaded guide, so wait for it before collecting.
+            state.first { it is EditGuideUiState.Loaded }
+            restaurantPickerResults.results(restaurantPickerKey).collect(::onRestaurantAdded)
+        }
     }
 
     private fun loadGuide(id: String) {

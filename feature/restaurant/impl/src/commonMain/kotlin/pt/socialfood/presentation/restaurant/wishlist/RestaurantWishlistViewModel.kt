@@ -16,6 +16,7 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 import pt.socialfood.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.presentation.restaurant.navigation.RestaurantPickerResults
 
 private val STATUS = VisitStatus.WISHLIST
 
@@ -23,7 +24,11 @@ private val STATUS = VisitStatus.WISHLIST
 class RestaurantWishlistViewModel(
     private val restaurantVisitStatusRepository: RestaurantVisitStatusRepository,
     observeUser: ObserveUserUseCase,
+    restaurantPickerResults: RestaurantPickerResults,
 ) : ViewModel() {
+
+    /** Request key for the restaurant picker opened from this screen. */
+    val restaurantPickerKey = "restaurant-wishlist"
 
     val restaurants: Flow<PagingData<Restaurant>> = observeUser()
         .filterNotNull()
@@ -33,7 +38,13 @@ class RestaurantWishlistViewModel(
         .map { pagingData -> pagingData.map { it.restaurant } }
         .cachedIn(viewModelScope)
 
-    fun addToWishlist(restaurant: Restaurant) {
+    init {
+        viewModelScope.launch {
+            restaurantPickerResults.results(restaurantPickerKey).collect(::addToWishlist)
+        }
+    }
+
+    private fun addToWishlist(restaurant: Restaurant) {
         viewModelScope.launch { restaurantVisitStatusRepository.mark(restaurant, STATUS) }
     }
 

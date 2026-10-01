@@ -14,6 +14,7 @@ import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.fakes.FakeGuidesRepository
 import pt.socialfood.fakes.FakeObserveUserUseCase
 import pt.socialfood.fakes.FakePhotosRepository
+import pt.socialfood.fakes.FakeRestaurantPickerResults
 import pt.socialfood.fakes.FakeUpdateGuideUseCase
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_description_error
@@ -66,11 +67,13 @@ class EditGuideViewModelTest {
         photosRepository: FakePhotosRepository = FakePhotosRepository(),
         guidesRepository: FakeGuidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(guide())),
         observeUser: FakeObserveUserUseCase = FakeObserveUserUseCase(),
+        restaurantPickerResults: FakeRestaurantPickerResults = FakeRestaurantPickerResults(),
     ) = EditGuideViewModel(
         updateGuide = updateGuide,
         photosRepository = photosRepository,
         guidesRepository = guidesRepository,
         observeUser = observeUser,
+        restaurantPickerResults = restaurantPickerResults,
         guideId = "guide-1",
     )
 
@@ -382,15 +385,16 @@ class EditGuideViewModelTest {
     }
 
     @Test
-    fun `given a restaurant when onRestaurantAdded is called then restaurant is added to the list`() =
+    fun `given a loaded guide when a restaurant is picked then restaurant is added to the list`() =
         runTestWithMainDispatcher {
             // Given
-            val vm = createViewModel()
+            val pickerResults = FakeRestaurantPickerResults()
+            val vm = createViewModel(restaurantPickerResults = pickerResults)
             vm.state.test {
                 skipItems(2)
 
                 // When
-                vm.onRestaurantAdded(restaurant("r1"))
+                pickerResults.publish(vm.restaurantPickerKey, restaurant("r1"))
 
                 // Then
                 val state = assertIs<EditGuideUiState.Loaded>(awaitItem())
@@ -399,23 +403,57 @@ class EditGuideViewModelTest {
         }
 
     @Test
-    fun `given an already added restaurant when onRestaurantAdded is called then it is not duplicated`() =
+    fun `given an already added restaurant when it is picked again then it is not duplicated`() =
         runTestWithMainDispatcher {
             // Given
+            val pickerResults = FakeRestaurantPickerResults()
             val vm = createViewModel(
                 guidesRepository = FakeGuidesRepository(
                     findByIdResult = Result.Success(guide(restaurants = listOf(restaurant("r1")))),
                 ),
+                restaurantPickerResults = pickerResults,
             )
             vm.state.test {
                 skipItems(2)
 
                 // When
-                vm.onRestaurantAdded(restaurant("r1"))
+                pickerResults.publish(vm.restaurantPickerKey, restaurant("r1"))
 
                 // Then
                 expectNoEvents()
             }
+        }
+
+    @Test
+    fun `given a restaurant picked before the guide loads when the guide loads then the restaurant is added`() =
+        runTestWithMainDispatcher {
+            // Given
+            val pickerResults = FakeRestaurantPickerResults()
+            pickerResults.publish("edit-guide:guide-1", restaurant("r1"))
+
+            // When
+            val vm = createViewModel(restaurantPickerResults = pickerResults)
+            advanceUntilIdle()
+
+            // Then
+            val state = assertIs<EditGuideUiState.Loaded>(vm.state.value)
+            assertEquals(listOf("r1"), state.restaurants.map { it.id })
+        }
+
+    @Test
+    fun `given a restaurant picked for another guide when the guide loads then it is not added`() =
+        runTestWithMainDispatcher {
+            // Given
+            val pickerResults = FakeRestaurantPickerResults()
+            pickerResults.publish("edit-guide:other-guide", restaurant("r1"))
+
+            // When
+            val vm = createViewModel(restaurantPickerResults = pickerResults)
+            advanceUntilIdle()
+
+            // Then
+            val state = assertIs<EditGuideUiState.Loaded>(vm.state.value)
+            assertTrue(state.restaurants.isEmpty())
         }
 
     @Test

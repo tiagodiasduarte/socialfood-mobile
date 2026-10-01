@@ -8,14 +8,12 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import kotlinx.coroutines.launch
-import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.author.navigation.AuthorRoute
 import pt.socialfood.presentation.author.navigation.authorEntries
 import pt.socialfood.presentation.drawer.DrawerContent
@@ -40,8 +38,6 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
             serializersConfig = serializersConfig,
         )
     val navigator = remember { Navigator(navigationState) }
-
-    val onRestaurantAddedRef = remember { mutableStateOf<((Restaurant) -> Unit)?>(null) }
 
     val activeBackStack = navigationState.backStacks[navigationState.topLevelRoute]
     val showBottomBar = (activeBackStack?.size ?: 0) <= 1
@@ -99,11 +95,11 @@ fun NavigationRoot(modifier: Modifier = Modifier) {
                     entryProvider {
                         authorEntries(navigator, onOpenDrawer)
                         favouriteEntries(navigator)
-                        guideEntries(navigator, onOpenDrawer, onRestaurantAddedRef)
+                        guideEntries(navigator, onOpenDrawer)
                         homeEntries(navigator, onOpenDrawer)
                         mapEntries(navigator)
                         profileEntries(navigator)
-                        restaurantEntries(navigator, onRestaurantAddedRef)
+                        restaurantEntries(navigator)
                         searchEntries(navigator)
                     },
                 ),

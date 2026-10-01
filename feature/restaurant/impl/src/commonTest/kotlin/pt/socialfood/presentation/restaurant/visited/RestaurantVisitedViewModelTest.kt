@@ -6,6 +6,7 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeObserveUserUseCase
 import pt.socialfood.fakes.FakeRestaurantVisitStatusRepository
+import pt.socialfood.presentation.restaurant.navigation.RestaurantPickerResultsImpl
 import pt.socialfood.random.nextRestaurant
 import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
@@ -24,6 +25,7 @@ class RestaurantVisitedViewModelTest {
             val vm = RestaurantVisitedViewModel(
                 visitStatusRepository,
                 FakeObserveUserUseCase(Random.nextUser()),
+                RestaurantPickerResultsImpl(),
             )
 
             // When
@@ -36,17 +38,19 @@ class RestaurantVisitedViewModelTest {
         }
 
     @Test
-    fun `given a restaurant when addToVisited is called then marks it as VISITED`() = runTestWithMainDispatcher {
+    fun `given a restaurant when it is picked then marks it as VISITED`() = runTestWithMainDispatcher {
         // Given
         val visitStatusRepository = FakeRestaurantVisitStatusRepository()
+        val pickerResults = RestaurantPickerResultsImpl()
         val vm = RestaurantVisitedViewModel(
             visitStatusRepository,
             FakeObserveUserUseCase(Random.nextUser()),
+            pickerResults,
         )
         val restaurant = Random.nextRestaurant()
 
         // When
-        vm.addToVisited(restaurant)
+        pickerResults.publish(vm.restaurantPickerKey, restaurant)
         advanceUntilIdle()
 
         // Then
@@ -62,6 +66,7 @@ class RestaurantVisitedViewModelTest {
             val vm = RestaurantVisitedViewModel(
                 visitStatusRepository,
                 FakeObserveUserUseCase(Random.nextUser()),
+                RestaurantPickerResultsImpl(),
             )
 
             // When

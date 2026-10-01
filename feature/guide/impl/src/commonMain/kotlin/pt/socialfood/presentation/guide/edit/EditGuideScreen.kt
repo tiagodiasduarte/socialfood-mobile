@@ -61,7 +61,7 @@ fun EditGuideScreen(
     onBackClick: () -> Unit,
     onGuideDeleted: () -> Unit = {},
     initialTab: Int = TAB_DETAILS,
-    onAddRestaurantsClick: (onRestaurantAdded: (Restaurant) -> Unit) -> Unit = {},
+    onAddRestaurantsClick: (requestKey: String) -> Unit = {},
     viewModel: EditGuideViewModel = koinViewModel(parameters = { parametersOf(guideId) }),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -79,7 +79,7 @@ fun EditGuideScreen(
         state = state,
         initialTab = initialTab,
         onBackClick = onBackClick,
-        onAddRestaurantsClick = { onAddRestaurantsClick(viewModel::onRestaurantAdded) },
+        onAddRestaurantsClick = { onAddRestaurantsClick(viewModel.restaurantPickerKey) },
         onRestaurantRemoved = viewModel::onRestaurantRemoved,
         onTitleChange = viewModel::onTitleChange,
         onDescriptionChange = viewModel::onDescriptionChange,

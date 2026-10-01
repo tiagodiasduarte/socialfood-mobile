@@ -2,6 +2,7 @@ package pt.socialfood.presentation.restaurant.search
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.Result
 import pt.socialfood.domain.error.DataError
@@ -10,8 +11,10 @@ import pt.socialfood.fakes.FakePlacesRepository
 import pt.socialfood.fakes.FakeRestaurantsRepository
 import pt.socialfood.fakes.FakeSaveRecentSearchedPlaceUseCase
 import pt.socialfood.fakes.FakeSettingsRepository
+import pt.socialfood.presentation.restaurant.navigation.RestaurantPickerResultsImpl
 import pt.socialfood.random.nextPlace
 import pt.socialfood.random.nextRestaurant
+import pt.socialfood.random.nextString
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.random.Random
 import kotlin.test.Test
@@ -21,7 +24,7 @@ import kotlin.test.assertFalse
 @OptIn(ExperimentalCoroutinesApi::class)
 class SearchRestaurantsViewModelTest {
     @Test
-    fun `given addByPlaceId and enrichment succeed when onAddRestaurant is called then RestaurantAdded is emitted`() =
+    fun `given addByPlaceId and enrichment succeed when onAddRestaurant is called then the restaurant is picked`() =
         runTestWithMainDispatcher {
             // Given
             val place = Random.nextPlace()
@@ -30,11 +33,15 @@ class SearchRestaurantsViewModelTest {
                 awaitEnrichedResult = Result.Success(expectedRestaurant),
             )
             val fakeSaveRecent = FakeSaveRecentSearchedPlaceUseCase()
+            val pickerResults = RestaurantPickerResultsImpl()
+            val requestKey = Random.nextString()
             val vm = SearchRestaurantsViewModel(
                 FakePlacesRepository(),
                 restaurantsRepository,
                 FakeSettingsRepository(),
                 fakeSaveRecent,
+                pickerResults,
+                requestKey,
             )
             assertFalse(vm.isImportingRestaurant.value)
 
@@ -42,9 +49,10 @@ class SearchRestaurantsViewModelTest {
             vm.events.test {
                 vm.onAddRestaurant(place)
 
-                val event = awaitItem() as SearchRestaurantsViewModel.UiEvent.RestaurantAdded
-                assertEquals(expectedRestaurant, event.restaurant)
+                assertEquals(SearchRestaurantsViewModel.UiEvent.RestaurantPicked, awaitItem())
             }
+
+            assertEquals(expectedRestaurant, pickerResults.results(requestKey).first())
 
             assertEquals(1, restaurantsRepository.addByPlaceIdInvokeCount)
             assertEquals(1, restaurantsRepository.awaitEnrichedInvokeCount)
@@ -65,6 +73,8 @@ class SearchRestaurantsViewModelTest {
                 restaurantsRepository,
                 FakeSettingsRepository(),
                 FakeSaveRecentSearchedPlaceUseCase(),
+                RestaurantPickerResultsImpl(),
+                Random.nextString(),
             )
 
             // When
@@ -88,6 +98,8 @@ class SearchRestaurantsViewModelTest {
                 restaurantsRepository,
                 FakeSettingsRepository(),
                 FakeSaveRecentSearchedPlaceUseCase(),
+                RestaurantPickerResultsImpl(),
+                Random.nextString(),
             )
 
             // When
@@ -110,6 +122,8 @@ class SearchRestaurantsViewModelTest {
                 restaurantsRepository,
                 FakeSettingsRepository(),
                 FakeSaveRecentSearchedPlaceUseCase(),
+                RestaurantPickerResultsImpl(),
+                Random.nextString(),
             )
 
             // When
@@ -130,6 +144,8 @@ class SearchRestaurantsViewModelTest {
                 FakeRestaurantsRepository(),
                 FakeSettingsRepository(),
                 FakeSaveRecentSearchedPlaceUseCase(),
+                RestaurantPickerResultsImpl(),
+                Random.nextString(),
             )
 
             // When
@@ -150,6 +166,8 @@ class SearchRestaurantsViewModelTest {
                 FakeRestaurantsRepository(),
                 FakeSettingsRepository(),
                 FakeSaveRecentSearchedPlaceUseCase(),
+                RestaurantPickerResultsImpl(),
+                Random.nextString(),
             )
 
             // When
@@ -172,6 +190,8 @@ class SearchRestaurantsViewModelTest {
                 FakeRestaurantsRepository(),
                 FakeSettingsRepository(),
                 FakeSaveRecentSearchedPlaceUseCase(),
+                RestaurantPickerResultsImpl(),
+                Random.nextString(),
             )
 
             // When / Then
@@ -198,6 +218,8 @@ class SearchRestaurantsViewModelTest {
                 FakeRestaurantsRepository(),
                 FakeSettingsRepository(),
                 FakeSaveRecentSearchedPlaceUseCase(),
+                RestaurantPickerResultsImpl(),
+                Random.nextString(),
             )
 
             // When / Then

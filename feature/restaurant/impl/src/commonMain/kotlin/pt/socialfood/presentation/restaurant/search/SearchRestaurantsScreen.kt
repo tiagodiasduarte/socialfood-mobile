@@ -42,7 +42,6 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import pt.socialfood.core.designsystem.generated.resources.restaurant_icon
 import pt.socialfood.domain.model.Place
-import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.feature.restaurant.impl.generated.resources.Res
 import pt.socialfood.feature.restaurant.impl.generated.resources.search_restaurants_idle_subtitle
 import pt.socialfood.feature.restaurant.impl.generated.resources.search_restaurants_idle_subtitle_bold
@@ -63,10 +62,10 @@ import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRe
 
 @Composable
 fun SearchRestaurantsScreen(
-    guideId: String,
+    requestKey: String,
     onBackClick: () -> Unit,
-    onRestaurantAdded: (Restaurant) -> Unit,
-    viewModel: SearchRestaurantsViewModel = koinViewModel(parameters = { parametersOf(guideId) }),
+    onRestaurantPicked: () -> Unit,
+    viewModel: SearchRestaurantsViewModel = koinViewModel(parameters = { parametersOf(requestKey) }),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val isImportingRestaurant by viewModel.isImportingRestaurant.collectAsStateWithLifecycle()
@@ -75,7 +74,7 @@ fun SearchRestaurantsScreen(
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
-                is SearchRestaurantsViewModel.UiEvent.RestaurantAdded -> onRestaurantAdded(event.restaurant)
+                SearchRestaurantsViewModel.UiEvent.RestaurantPicked -> onRestaurantPicked()
             }
         }
     }

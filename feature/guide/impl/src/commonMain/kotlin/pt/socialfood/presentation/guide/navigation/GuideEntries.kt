@@ -1,9 +1,7 @@
 package pt.socialfood.presentation.guide.navigation
 
-import androidx.compose.runtime.MutableState
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
-import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.presentation.author.navigation.AuthorRoute
 import pt.socialfood.presentation.guide.GuidesScreen
 import pt.socialfood.presentation.guide.create.CreateGuideScreen
@@ -15,11 +13,7 @@ import pt.socialfood.presentation.navigation.defaultAnimationMetadata
 import pt.socialfood.presentation.navigation.slideUpAnimationMetadata
 import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute
 
-fun EntryProviderScope<NavKey>.guideEntries(
-    navigator: Navigator,
-    onOpenDrawer: () -> Unit,
-    onRestaurantAddedRef: MutableState<((Restaurant) -> Unit)?>,
-) {
+fun EntryProviderScope<NavKey>.guideEntries(navigator: Navigator, onOpenDrawer: () -> Unit) {
     entry<GuideRoute.CreateGuide> {
         CreateGuideScreen(
             onBackClick = navigator::goBack,
@@ -35,9 +29,8 @@ fun EntryProviderScope<NavKey>.guideEntries(
             onBackClick = navigator::goBack,
             onGuideDeleted = navigator::popToRoot,
             initialTab = route.initialTab,
-            onAddRestaurantsClick = { onRestaurantAdded ->
-                onRestaurantAddedRef.value = onRestaurantAdded
-                navigator.navigate(RestaurantRoute.AddRestaurants(route.guideId))
+            onAddRestaurantsClick = { requestKey ->
+                navigator.navigate(RestaurantRoute.PickRestaurant(requestKey))
             },
         )
     }

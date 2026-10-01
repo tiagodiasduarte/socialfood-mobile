@@ -6,6 +6,7 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeObserveUserUseCase
 import pt.socialfood.fakes.FakeRestaurantVisitStatusRepository
+import pt.socialfood.presentation.restaurant.navigation.RestaurantPickerResultsImpl
 import pt.socialfood.random.nextRestaurant
 import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
@@ -24,6 +25,7 @@ class RestaurantWishlistViewModelTest {
             val vm = RestaurantWishlistViewModel(
                 visitStatusRepository,
                 FakeObserveUserUseCase(Random.nextUser()),
+                RestaurantPickerResultsImpl(),
             )
 
             // When
@@ -36,17 +38,19 @@ class RestaurantWishlistViewModelTest {
         }
 
     @Test
-    fun `given a restaurant when addToWishlist is called then marks it as WISHLIST`() = runTestWithMainDispatcher {
+    fun `given a restaurant when it is picked then marks it as WISHLIST`() = runTestWithMainDispatcher {
         // Given
         val visitStatusRepository = FakeRestaurantVisitStatusRepository()
+        val pickerResults = RestaurantPickerResultsImpl()
         val vm = RestaurantWishlistViewModel(
             visitStatusRepository,
             FakeObserveUserUseCase(Random.nextUser()),
+            pickerResults,
         )
         val restaurant = Random.nextRestaurant()
 
         // When
-        vm.addToWishlist(restaurant)
+        pickerResults.publish(vm.restaurantPickerKey, restaurant)
         advanceUntilIdle()
 
         // Then
@@ -62,6 +66,7 @@ class RestaurantWishlistViewModelTest {
             val vm = RestaurantWishlistViewModel(
                 visitStatusRepository,
                 FakeObserveUserUseCase(Random.nextUser()),
+                RestaurantPickerResultsImpl(),
             )
 
             // When

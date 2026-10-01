@@ -41,11 +41,9 @@ class NavKeySerializationTest {
             MapRoute.RestaurantsMap(VisitStatus.entries.random()),
             ProfileRoute.EditProfile,
             RestaurantRoute.RestaurantDetail(Random.nextString()),
-            RestaurantRoute.AddRestaurants(Random.nextString()),
+            RestaurantRoute.PickRestaurant(Random.nextString()),
             RestaurantRoute.WishRestaurants,
-            RestaurantRoute.AddWishRestaurant,
             RestaurantRoute.VisitedRestaurants,
-            RestaurantRoute.AddVisitedRestaurant,
             SearchRoute.Search,
         )
 

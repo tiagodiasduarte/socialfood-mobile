@@ -52,7 +52,7 @@ import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRe
 fun RestaurantVisitedScreen(
     onBackClick: () -> Unit,
     onRestaurantClick: (restaurantId: String) -> Unit = {},
-    onAddClick: (onRestaurantAdded: (Restaurant) -> Unit) -> Unit = {},
+    onAddClick: (requestKey: String) -> Unit = {},
     onMapClick: () -> Unit = {},
     viewModel: RestaurantVisitedViewModel = koinViewModel(),
 ) {
@@ -62,7 +62,7 @@ fun RestaurantVisitedScreen(
         restaurants = restaurants,
         onBackClick = onBackClick,
         onRestaurantClick = onRestaurantClick,
-        onAddClick = { onAddClick(viewModel::addToVisited) },
+        onAddClick = { onAddClick(viewModel.restaurantPickerKey) },
         onRemoveClick = viewModel::removeFromVisited,
         onMapClick = onMapClick,
     )

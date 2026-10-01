@@ -15,12 +15,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.Result
 import pt.socialfood.domain.model.Place
-import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.domain.repository.PlacesRepository
 import pt.socialfood.domain.repository.RestaurantsRepository
 import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.domain.usecase.search.SaveRecentSearchedPlaceUseCase
 import pt.socialfood.presentation.error.toErrorCode
+import pt.socialfood.presentation.restaurant.navigation.RestaurantPickerResults
 import kotlin.time.Duration.Companion.milliseconds
 
 class SearchRestaurantsViewModel(
@@ -28,6 +28,8 @@ class SearchRestaurantsViewModel(
     private val restaurantsRepository: RestaurantsRepository,
     private val settingsRepository: SettingsRepository,
     private val saveRecentSearchedPlace: SaveRecentSearchedPlaceUseCase,
+    private val restaurantPickerResults: RestaurantPickerResults,
+    private val requestKey: String,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<SearchRestaurantsUiState>(SearchRestaurantsUiState.Loaded(emptyList()))
@@ -84,7 +86,8 @@ class SearchRestaurantsViewModel(
                     when (val result = restaurantsRepository.awaitEnrichedRestaurantByPlaceId(place.id)) {
                         is Result.Success -> {
                             _recentSearchedPlaces.value = saveRecentSearchedPlace(place)
-                            _events.emit(UiEvent.RestaurantAdded(result.data))
+                            restaurantPickerResults.publish(requestKey, result.data)
+                            _events.emit(UiEvent.RestaurantPicked)
                         }
                         is Result.Failure -> Unit
                     }
@@ -102,7 +105,7 @@ class SearchRestaurantsViewModel(
     }
 
     sealed class UiEvent {
-        data class RestaurantAdded(val restaurant: Restaurant) : UiEvent()
+        data object RestaurantPicked : UiEvent()
     }
 
     companion object {

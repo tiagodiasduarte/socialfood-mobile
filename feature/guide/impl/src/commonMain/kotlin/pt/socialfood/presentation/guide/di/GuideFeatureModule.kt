@@ -13,7 +13,7 @@ val guideFeatureModule =
     module {
         factory { AllGuidesViewModel(get(), get(), get()) }
         factory { CreateGuideViewModel(get(), get(), get()) }
-        factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), guideId) }
+        factory { (guideId: String) -> EditGuideViewModel(get(), get(), get(), get(), get(), guideId) }
         factory { (guideId: String) -> GuideDetailViewModel(get(), get(), get(), guideId) }
         factory { (guideId: String) -> GuideMapViewModel(get(), guideId) }
         factory { MyGuidesViewModel(get(), get(), get()) }

@@ -1,59 +1,40 @@
 package pt.socialfood.presentation.navigation
 
 import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.PolymorphicSerializer
+import kotlinx.serialization.descriptors.PolymorphicKind
+import kotlinx.serialization.descriptors.elementDescriptors
 import kotlinx.serialization.json.Json
-import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.presentation.author.navigation.AuthorRoute
-import pt.socialfood.presentation.favourite.navigation.FavouriteRoute
-import pt.socialfood.presentation.guide.navigation.GuideRoute
-import pt.socialfood.presentation.home.navigation.HomeRoute
-import pt.socialfood.presentation.map.navigation.MapRoute
-import pt.socialfood.presentation.profile.navigation.ProfileRoute
-import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute
-import pt.socialfood.presentation.search.navigation.SearchRoute
-import pt.socialfood.random.nextString
-import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
+@OptIn(ExperimentalSerializationApi::class)
 class NavKeySerializationTest {
 
-    private val json = Json { serializersModule = serializersConfig.serializersModule }
+    private val serializersModule = serializersConfig.serializersModule
+    private val json = Json { serializersModule = this@NavKeySerializationTest.serializersModule }
     private val serializer = PolymorphicSerializer(NavKey::class)
 
     @Test
-    fun `given every route when encoded and decoded as NavKey then the same route is restored`() {
+    fun `given every feature route interface when its routes are looked up as NavKey then each one resolves`() {
         // Given
-        val routes = listOf(
-            AuthorRoute.Authors,
-            AuthorRoute.AuthorDetail(Random.nextString()),
-            AuthorRoute.Profile(Random.nextString()),
-            FavouriteRoute.FavouriteGuides,
-            FavouriteRoute.FavouriteRestaurants,
-            GuideRoute.Guides,
-            GuideRoute.GuideDetail(Random.nextString()),
-            GuideRoute.GuideMap(Random.nextString(), Random.nextString(), Random.nextInt()),
-            GuideRoute.CreateGuide,
-            GuideRoute.EditGuide(Random.nextString(), Random.nextInt()),
-            HomeRoute.Home,
-            MapRoute.RestaurantMap(Random.nextString()),
-            MapRoute.RestaurantsMap(VisitStatus.entries.random()),
-            ProfileRoute.EditProfile,
-            RestaurantRoute.RestaurantDetail(Random.nextString()),
-            RestaurantRoute.PickRestaurant(Random.nextString()),
-            RestaurantRoute.WishRestaurants,
-            RestaurantRoute.VisitedRestaurants,
-            SearchRoute.Search,
-        )
+        val routeNames = featureRouteSerializers.flatMap { sealedSerializer ->
+            val descriptor = sealedSerializer.descriptor
+            assertEquals(PolymorphicKind.SEALED, descriptor.kind, "${descriptor.serialName} isn't sealed")
+            // A sealed descriptor's second element ("value") lists one descriptor per subclass.
+            descriptor.getElementDescriptor(1).elementDescriptors.map { it.serialName }
+        }
 
         // When
-        val restored = routes.map { route ->
-            json.decodeFromString(serializer, json.encodeToString(serializer, route))
+        val unresolved = routeNames.filter { name ->
+            serializersModule.getPolymorphic(NavKey::class, serializedClassName = name) == null
         }
 
         // Then
-        assertEquals(routes, restored)
+        assertTrue(routeNames.isNotEmpty())
+        assertEquals(emptyList(), unresolved, "Routes missing from serializersConfig")
     }
 
     @Test

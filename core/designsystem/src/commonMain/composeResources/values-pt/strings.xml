@@ -7,61 +7,39 @@
 
     <string name="sign_in_google_button_description">Ícone do Google</string>
 
-    <string name="home_list_see_all_label">Ver Tudo</string>
-    <string name="home_list_view_all_label">Ver Tudo</string>
 
     <string name="profile_stat_guides_label">Guias</string>
     <string name="profile_stat_followers_label">Seguidores</string>
     <string name="profile_stat_following_label">A Seguir</string>
 
-    <string name="profile_edit_profile_button">Editar Perfil</string>
-    <string name="profile_edit_profile_button_description">Botão de editar perfil</string>
-    <string name="profile_drawer_close_button_description">Fechar menu</string>
 
-    <string name="guide_detail_error_label">Não foi possível carregar o guia</string>
-    <string name="guide_detail_back_button_description">Voltar</string>
     <string name="guide_detail_share_button_description">Partilhar</string>
     <string name="guide_detail_edit_button_description">Editar</string>
     <string name="guide_detail_favourite_button_description">Favorito</string>
     <string name="guide_detail_map_button_description">Mapa</string>
     <string name="guide_map_restaurants_count_label">%1$d restaurantes</string>
     <string name="guide_map_close_button_description">Fechar</string>
-    <string name="guide_map_show_list_button">Mostrar %1$d restaurantes</string>
     <string name="guide_detail_public_icon_description">Ícone de público</string>
     <string name="guide_detail_private_icon_description">Ícone de privado</string>
     <string name="guide_detail_shared_icon_description">Ícone de partilhado</string>
 
     <string name="wish_restaurants_title">Lista de Desejos</string>
-    <string name="wish_add_button_description">Adicionar restaurante à lista de desejos</string>
     <string name="visited_restaurants_title">Restaurantes Visitados</string>
-    <string name="visited_add_button_description">Adicionar restaurante à lista de visitados</string>
 
     <string name="guides_add_button_description">Adicionar guia</string>
 
     <string name="join_shared_guide_screen_close_button_description">Fechar</string>
-    <string name="join_shared_guide_screen_restaurants_count_label">%1$d restaurantes</string>
 
-    <string name="authors_error_label">Não foi possível carregar os autores</string>
     <string name="authors_stat_guides_label">guias</string>
     <string name="authors_stat_followers_label">seguidores</string>
     <string name="authors_stat_following_label">a seguir</string>
     <string name="authors_separator">·</string>
 
-    <string name="author_detail_error_label">Não foi possível carregar o autor</string>
-    <string name="author_detail_back_button_description">Voltar</string>
-    <string name="author_detail_stat_guides_label">Guias</string>
-    <string name="author_detail_stat_followers_label">Seguidores</string>
-    <string name="author_detail_stat_following_label">A Seguir</string>
-    <string name="author_detail_stat_separator">|</string>
 
     <string name="create_guide_save_button">Guardar</string>
 
-    <string name="edit_guide_save_button">Guardar</string>
 
-    <string name="search_restaurants_error">Não foi possível carregar os restaurantes</string>
 
-    <string name="edit_profile_save_button">Guardar</string>
-    <string name="edit_profile_google_info">Estás ligado com uma conta Google. Adiciona uma palavra-passe para editares as tuas informações de contacto.</string>
 
     <string name="social_facebook_icon_description">Facebook</string>
     <string name="social_instagram_icon_description">Instagram</string>
@@ -71,23 +49,17 @@
     <string name="bottom_nav_search">Pesquisar</string>
     <string name="bottom_nav_guides">Guias</string>
     <string name="bottom_nav_authors">Autores</string>
-    <string name="bottom_nav_profile">Perfil</string>
 
     <string name="error_content_title">Erro do Servidor</string>
     <string name="error_content_subtitle">Ups! Algo correu mal do nosso lado.</string>
     <string name="error_content_description">Estamos com dificuldades em ligar aos nossos servidores. Tenta novamente dentro de instantes.</string>
     <string name="error_content_retry_button">Tentar Novamente</string>
-    <string name="error_content_go_home_button">Ir para o Início</string>
     <string name="error_content_error_code_label">Código de erro: %1$s</string>
 
-    <string name="restaurant_detail_favourite_description">Adicionar aos favoritos</string>
     <string name="restaurant_detail_more_options_description">Mais opções</string>
 
-    <string name="favorite_card_remove_button_description">Remover dos favoritos</string>
     <string name="restaurant_card_remove_button">Remover</string>
     <string name="restaurant_card_visited_button">Visitado</string>
-    <string name="wish_card_remove_button_description">Remover da lista de desejos</string>
-    <string name="visited_card_remove_button_description">Remover dos visitados</string>
 
     <string name="error_code_user_already_exists">Já existe uma conta com este email.</string>
     <string name="error_code_invalid_credentials">Email ou palavra-passe incorretos.</string>

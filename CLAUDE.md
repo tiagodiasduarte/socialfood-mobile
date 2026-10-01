@@ -27,13 +27,16 @@ SocialFood is a Kotlin Multiplatform (KMP) app targeting **Android** and **iOS**
 # Lint (ktlint + detekt) — must pass before every commit
 ./gradlew ktlintCheck detekt
 
+# Android lint: the app's debug variant plus every library module's main sources
+./gradlew :composeApp:lintDebug lintAndroidMain
+
 # Full build (compiles, lints, tests) — closest to what CI runs end-to-end
 ./gradlew build
 ```
 
 For iOS: open `iosApp/` in Xcode and run from there.
 
-CI (`.github/workflows/ci.yml`) runs on PRs targeting `develop` or `main`, as parallel jobs: Android build, Android unit tests + Kover coverage verification (`koverVerify`), iOS build, iOS unit tests, and Static Analysis (`ktlintCheck detekt checkModuleGraph :composeApp:lintDebug`). iOS unit tests are split into four shards (`core`, `features-1`, `features-2`, `app`) because each module links its own Kotlin/Native test binary; `scripts/ios-test-shard.sh` assigns every `iosSimulatorArm64Test` task to exactly one shard, so new modules are picked up automatically. Only the 🏁 Finish job is a required check. Release builds/distribution are handled separately by `firebase.yml` (Firebase App Distribution) and `testflight.yml` (TestFlight).
+CI (`.github/workflows/ci.yml`) runs on PRs targeting `develop` or `main`, as parallel jobs: Android build, Android unit tests + Kover coverage verification (`koverVerify`), iOS build, iOS unit tests, and Static Analysis (`ktlintCheck detekt checkModuleGraph :composeApp:lintDebug lintAndroidMain`). iOS unit tests are split into four shards (`core`, `features-1`, `features-2`, `app`) because each module links its own Kotlin/Native test binary; `scripts/ios-test-shard.sh` assigns every `iosSimulatorArm64Test` task to exactly one shard, so new modules are picked up automatically. Only the 🏁 Finish job is a required check. Release builds/distribution are handled separately by `firebase.yml` (Firebase App Distribution) and `testflight.yml` (TestFlight).
 
 ## Architecture
 
@@ -63,7 +66,7 @@ build-logic/                – convention plugins: socialfood.kmp.library / .co
 
 **Compose resources:** each module has its own generated `Res` class (`pt.socialfood.<module path>.generated.resources`). A string used by only one feature lives in that feature's `src/commonMain/composeResources/values{,-pt}/strings.xml`; strings shared by several modules, plus all drawables and fonts, live in `core/designsystem`. A file that needs both imports the feature's class as `Res` and the design system's as `import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes`. Always add a new string to both `values` and `values-pt`.
 
-**Module rules** (enforced by `./gradlew checkModuleGraph`, which CI runs in Static Analysis): a feature `impl` (and `:feature:auth`/`:feature:settings`) may depend on other features' `api` modules (to navigate) but never on another feature's implementation. Feature `api` modules only depend on `:core:navigation`/`:core:model`/`:core:common`. Features use `core:domain` interfaces and never see `core:data`/`core:network`/`core:database`/`core:datastore`; `:composeApp` binds implementations in Koin. Core modules never depend on features, `:core:designsystem` depends on no other module (callers pass in what it needs, e.g. `AppTheme(darkTheme = ...)`), and non-UI core modules never depend on the Compose ones (`designsystem`, `ui`, `maps`, `navigation`). The rules live in `build-logic/.../ModuleGraphCheck.kt`. New modules apply a convention plugin instead of configuring KMP/Android/lint by hand. Every module has to be listed in `settings.gradle.kts` and in `:composeApp`'s `kover(...)` dependencies.
+**Module rules** (enforced by `./gradlew checkModuleGraph`, which CI runs in Static Analysis): a feature `impl` (and `:feature:auth`/`:feature:settings`) may depend on other features' `api` modules (to navigate) but never on another feature's implementation. Feature `api` modules only depend on `:core:navigation`/`:core:model`/`:core:common`. Features use `core:domain` interfaces and never see `core:data`/`core:network`/`core:database`/`core:datastore`; `:composeApp` binds implementations in Koin. Core modules never depend on features, `:core:designsystem` depends on no other module (callers pass in what it needs, e.g. `AppTheme(darkTheme = ...)`), and non-UI core modules never depend on the Compose ones (`designsystem`, `ui`, `maps`, `navigation`). The rules live in `build-logic/.../ModuleGraphCheck.kt`. New modules apply a convention plugin instead of configuring KMP/Android/lint by hand. The KMP library plugin doesn't lint main sources on its own, so `socialfood.kmp.library` also applies `com.android.lint`, which adds `lintAndroidMain` to every module. A library that uses an API needing a permission declares it in its own `src/androidMain/AndroidManifest.xml` (e.g. `:core:network`); the manifest merger brings it into the app. `core/database/lint.xml` ignores Room's KSP output. Every module has to be listed in `settings.gradle.kts` and in `:composeApp`'s `kover(...)` dependencies.
 
 **Data flow:** `Screen` → `ViewModel` → (`UseCase` →) `RepositoryImpl` → `Api` (Ktor) → backend
 

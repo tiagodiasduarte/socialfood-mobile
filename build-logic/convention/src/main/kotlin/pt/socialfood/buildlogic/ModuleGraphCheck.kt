@@ -61,6 +61,8 @@ private fun violation(module: String, dependency: String): String? {
             "$dependency: features may only depend on other features' api modules, never their implementation"
         isFeature && dependency in dataLayerModules ->
             "$dependency: features use :core:domain interfaces; data-layer modules are bound in :composeApp"
+        module == ":core:designsystem" ->
+            "$dependency: the design system depends on no other module; callers pass in what it needs"
         module.startsWith(":core:") && dependency.startsWith(":feature:") ->
             "$dependency: core modules must not depend on features"
         module.startsWith(":core:") && module !in composeCoreModules &&

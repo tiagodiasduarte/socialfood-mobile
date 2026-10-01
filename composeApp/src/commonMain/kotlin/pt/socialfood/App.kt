@@ -42,7 +42,7 @@ fun App(prewarmedStartupViewModel: StartupViewModel? = null) {
         }
     }
 
-    AppTheme {
+    AppTheme(darkTheme = rememberUseDarkTheme()) {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface) {
             when (val dest = destination) {
                 AppDestination.Splash -> SplashScreen(

@@ -1,4 +1,4 @@
-package pt.socialfood.ui.theme
+package pt.socialfood
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
@@ -8,4 +8,4 @@ import androidx.compose.runtime.Composable
  * iOS users already have that control in Settings > Display & Brightness.
  */
 @Composable
-internal actual fun resolveUseDarkTheme(): Boolean = isSystemInDarkTheme()
+internal actual fun rememberUseDarkTheme(): Boolean = isSystemInDarkTheme()

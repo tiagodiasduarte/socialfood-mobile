@@ -14,13 +14,15 @@ import pt.socialfood.buildlogic.version
 
 /**
  * Base for every shared module: Android (KMP library plugin) + iosArm64 + iosSimulatorArm64,
- * JVM 21, ktlint/detekt with the shared config, Kover, and the common test dependencies.
+ * JVM 21, ktlint/detekt with the shared config, Android lint, Kover, and the common test dependencies.
  */
 class KmpLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         with(pluginManager) {
             apply("org.jetbrains.kotlin.multiplatform")
             apply("com.android.kotlin.multiplatform.library")
+            // The KMP library plugin doesn't lint main sources by itself; this adds `lintAndroidMain`.
+            apply("com.android.lint")
             apply("org.jetbrains.kotlinx.kover")
         }
         configureQuality()

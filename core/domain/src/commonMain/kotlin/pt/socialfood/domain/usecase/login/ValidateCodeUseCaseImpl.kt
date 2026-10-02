@@ -10,8 +10,8 @@ internal class ValidateCodeUseCaseImpl(
     private val repository: AuthRepository,
     private val settingsRepository: SettingsRepository,
 ) : ValidateCodeUseCase {
-    override suspend operator fun invoke(email: String, code: String): Result<Boolean> {
-        return when (val result = repository.validateCode(email = email, code = code)) {
+    override suspend operator fun invoke(email: String, code: String): Result<Boolean> =
+        when (val result = repository.validateCode(email = email, code = code)) {
             is Result.Success -> {
                 sessionManager.saveTokens(result.data.accessToken, result.data.refreshToken)
                 settingsRepository.clearPendingVerificationEmail()
@@ -19,5 +19,4 @@ internal class ValidateCodeUseCaseImpl(
             }
             is Result.Failure -> Result.Failure(result.error)
         }
-    }
 }

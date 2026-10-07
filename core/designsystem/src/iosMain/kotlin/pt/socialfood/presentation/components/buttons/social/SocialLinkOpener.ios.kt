@@ -25,16 +25,14 @@ private fun SocialPlatform.appUri(url: String): String? = when (this) {
 }
 
 @Composable
-actual fun rememberSocialLinkOpener(): (socialPlatform: SocialPlatform, url: String) -> Unit {
-    return { socialPlatform, url ->
-        val application = UIApplication.sharedApplication
-        val appUrl = socialPlatform.appUri(url)?.let { NSURL(string = it) }
-        val webUrl = NSURL(string = url)
+actual fun rememberSocialLinkOpener(): (socialPlatform: SocialPlatform, url: String) -> Unit = { socialPlatform, url ->
+    val application = UIApplication.sharedApplication
+    val appUrl = socialPlatform.appUri(url)?.let { NSURL(string = it) }
+    val webUrl = NSURL(string = url)
 
-        if (appUrl != null && application.canOpenURL(appUrl)) {
-            application.openURL(appUrl, options = emptyMap<Any?, Any?>(), completionHandler = null)
-        } else {
-            application.openURL(webUrl, options = emptyMap<Any?, Any?>(), completionHandler = null)
-        }
+    if (appUrl != null && application.canOpenURL(appUrl)) {
+        application.openURL(appUrl, options = emptyMap<Any?, Any?>(), completionHandler = null)
+    } else {
+        application.openURL(webUrl, options = emptyMap<Any?, Any?>(), completionHandler = null)
     }
 }

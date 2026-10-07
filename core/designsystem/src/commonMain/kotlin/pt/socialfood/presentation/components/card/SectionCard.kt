@@ -14,11 +14,7 @@ import androidx.compose.ui.unit.dp
 import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
-fun SectionCard(
-    modifier: Modifier = Modifier,
-    onClick: (() -> Unit)? = null,
-    content: @Composable () -> Unit,
-) {
+fun SectionCard(modifier: Modifier = Modifier, onClick: (() -> Unit)? = null, content: @Composable () -> Unit) {
     val cardContent: @Composable ColumnScope.() -> Unit = {
         Column(modifier = Modifier.padding(SpaceSize.large)) {
             content()

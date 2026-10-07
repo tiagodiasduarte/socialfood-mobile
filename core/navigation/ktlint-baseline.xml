@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<baseline version="1.0">
-    <file name="src/commonMain/kotlin/pt/socialfood/presentation/navigation/Navigator.kt">
-        <error line="8" column="11" source="standard:keyword-spacing" />
-        <error line="20" column="11" source="standard:keyword-spacing" />
-    </file>
-</baseline>

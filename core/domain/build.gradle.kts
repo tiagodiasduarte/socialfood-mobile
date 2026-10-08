@@ -7,7 +7,6 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.koin.core)
             api(projects.core.common)
-            api(projects.core.model)
             api(libs.androidx.paging.common)
             api(libs.kotlinx.coroutines.core)
         }

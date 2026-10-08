@@ -18,7 +18,6 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
                 implementation(project(":core:common"))
                 implementation(project(":core:designsystem"))
                 implementation(project(":core:domain"))
-                implementation(project(":core:model"))
                 implementation(project(":core:navigation"))
                 implementation(project(":core:ui"))
                 implementation(libs.library("androidx-lifecycle-runtimeCompose"))

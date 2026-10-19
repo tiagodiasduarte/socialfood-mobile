@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -61,6 +62,10 @@ import pt.socialfood.presentation.imagepicker.toImageBitmap
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize
 
+private const val COVER_ASPECT_RATIO = 16f / 9f
+private const val DASH_LENGTH = 12f
+private const val DASH_GAP = 6f
+
 @Composable
 fun GuideDetailsCard(
     modifier: Modifier = Modifier,
@@ -103,82 +108,28 @@ fun GuideDetailsCard(
                 )
             }
 
-            Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.medium)) {
-                Text(
-                    text = stringResource(Res.string.edit_guide_details_title_label),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = if (titleError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onBackground,
-                )
-                OutlinedTextField(
-                    value = title,
-                    onValueChange = onTitleChange,
-                    placeholder = {
-                        Text(
-                            text = stringResource(Res.string.edit_guide_details_title_placeholder),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.outline,
-                        )
-                    },
-                    isError = titleError,
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                    keyboardActions = KeyboardActions(
-                        onNext = { focusManager.moveFocus(FocusDirection.Down) },
-                    ),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
-                        focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                if (titleError) {
-                    Text(
-                        text = stringResource(Res.string.edit_guide_details_title_error),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.error,
-                    )
-                }
-            }
+            LabeledTextField(
+                label = stringResource(Res.string.edit_guide_details_title_label),
+                value = title,
+                onValueChange = onTitleChange,
+                placeholder = stringResource(Res.string.edit_guide_details_title_placeholder),
+                errorText = stringResource(Res.string.edit_guide_details_title_error).takeIf { titleError },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                ),
+            )
 
-            Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.medium)) {
-                Text(
-                    text = stringResource(Res.string.edit_guide_details_description_label),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = if (descriptionError) {
-                        MaterialTheme.colorScheme.error
-                    } else {
-                        MaterialTheme.colorScheme.onBackground
-                    },
-                )
-                OutlinedTextField(
-                    value = description,
-                    onValueChange = onDescriptionChange,
-                    placeholder = {
-                        Text(
-                            text = stringResource(Res.string.edit_guide_details_description_placeholder),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.outline,
-                        )
-                    },
-                    isError = descriptionError,
-                    minLines = 4,
-                    shape = RoundedCornerShape(12.dp),
-                    colors =
-                    OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
-                        focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                if (descriptionError) {
-                    Text(
-                        text = stringResource(Res.string.edit_guide_details_description_error),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.error,
-                    )
-                }
-            }
+            LabeledTextField(
+                label = stringResource(Res.string.edit_guide_details_description_label),
+                value = description,
+                onValueChange = onDescriptionChange,
+                placeholder = stringResource(Res.string.edit_guide_details_description_placeholder),
+                errorText = stringResource(Res.string.edit_guide_details_description_error)
+                    .takeIf { descriptionError },
+                minLines = 4,
+            )
         }
     }
 }
@@ -197,7 +148,7 @@ private fun CoverImagePicker(
         modifier =
         Modifier
             .fillMaxWidth()
-            .aspectRatio(16f / 9f)
+            .aspectRatio(COVER_ASPECT_RATIO)
             .then(
                 if (!hasContent) {
                     Modifier.drawBehind {
@@ -206,7 +157,7 @@ private fun CoverImagePicker(
                             style =
                             Stroke(
                                 width = 1.dp.toPx(),
-                                pathEffect = PathEffect.dashPathEffect(floatArrayOf(12f, 6f)),
+                                pathEffect = PathEffect.dashPathEffect(floatArrayOf(DASH_LENGTH, DASH_GAP)),
                             ),
                             cornerRadius = CornerRadius(12.dp.toPx()),
                         )
@@ -239,63 +190,122 @@ private fun CoverImagePicker(
                 )
             }
 
-            else -> {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Image,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(40.dp),
-                    )
-                    Text(
-                        text = stringResource(Res.string.edit_guide_details_cover_image_click_label),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        textAlign = TextAlign.Center,
-                    )
-                    Text(
-                        text = stringResource(Res.string.edit_guide_details_cover_image_hint),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.outline,
-                        textAlign = TextAlign.Center,
-                    )
-                }
-            }
+            else -> CoverImagePlaceholder()
         }
 
-        if (isUploadingPhoto) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.4f)),
-                contentAlignment = Alignment.Center,
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(32.dp),
-                    strokeWidth = 2.dp,
-                    color = Color.White,
+        CoverImageOverlay(isUploadingPhoto = isUploadingPhoto, hasContent = hasContent)
+    }
+}
+
+@Composable
+private fun LabeledTextField(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+    errorText: String?,
+    singleLine: Boolean = false,
+    minLines: Int = 1,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+) {
+    val isError = errorText != null
+    Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.medium)) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelMedium,
+            color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onBackground,
+        )
+        OutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            placeholder = {
+                Text(
+                    text = placeholder,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.outline,
                 )
-            }
-        } else if (image != null || pendingImage != null) {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(SpaceSize.medium)
-                    .size(32.dp)
-                    .clip(CircleShape)
-                    .background(Color.Black.copy(alpha = 0.5f)),
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Edit,
-                    contentDescription = "Change photo",
-                    tint = Color.White,
-                    modifier = Modifier.size(16.dp),
-                )
-            }
+            },
+            isError = isError,
+            singleLine = singleLine,
+            minLines = minLines,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
+            shape = RoundedCornerShape(12.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+            ),
+            modifier = Modifier.fillMaxWidth(),
+        )
+        if (errorText != null) {
+            Text(
+                text = errorText,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.error,
+            )
+        }
+    }
+}
+
+@Composable
+private fun CoverImagePlaceholder() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
+    ) {
+        Icon(
+            imageVector = Icons.Outlined.Image,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(40.dp),
+        )
+        Text(
+            text = stringResource(Res.string.edit_guide_details_cover_image_click_label),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+        )
+        Text(
+            text = stringResource(Res.string.edit_guide_details_cover_image_hint),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.outline,
+            textAlign = TextAlign.Center,
+        )
+    }
+}
+
+@Composable
+private fun BoxScope.CoverImageOverlay(isUploadingPhoto: Boolean, hasContent: Boolean) {
+    if (isUploadingPhoto) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.4f)),
+            contentAlignment = Alignment.Center,
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(32.dp),
+                strokeWidth = 2.dp,
+                color = Color.White,
+            )
+        }
+    } else if (hasContent) {
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(SpaceSize.medium)
+                .size(32.dp)
+                .clip(CircleShape)
+                .background(Color.Black.copy(alpha = 0.5f)),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                imageVector = Icons.Default.Edit,
+                contentDescription = "Change photo",
+                tint = Color.White,
+                modifier = Modifier.size(16.dp),
+            )
         }
     }
 }

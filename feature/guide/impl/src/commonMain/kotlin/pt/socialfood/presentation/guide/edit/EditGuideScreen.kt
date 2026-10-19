@@ -84,7 +84,7 @@ fun EditGuideScreen(
         onTitleChange = viewModel::onTitleChange,
         onDescriptionChange = viewModel::onDescriptionChange,
         onVisibilityChange = viewModel::onVisibilityChange,
-        onRetry = viewModel::onRetry,
+        onRetry = viewModel::load,
         onSaveGuide = viewModel::onSave,
         onPhotoSelected = viewModel::onPhotoSelected,
         onDeleteGuide = viewModel::onDelete,

@@ -41,25 +41,7 @@ internal fun EditProfileSkeleton() {
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        // Top bar skeleton
-        Row(
-            modifier =
-            Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(horizontal = SpaceSize.medium, vertical = SpaceSize.medium),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            ShimmerBox(modifier = Modifier.size(40.dp), alpha = alpha, shape = CircleShape)
-            Spacer(Modifier.weight(1f))
-            ShimmerBox(modifier = Modifier.width(80.dp).height(20.dp), alpha = alpha)
-            Spacer(Modifier.weight(1f))
-            ShimmerBox(
-                modifier = Modifier.width(64.dp).height(36.dp),
-                alpha = alpha,
-                shape = RoundedCornerShape(SpaceSize.large),
-            )
-        }
+        TopBarSkeleton(alpha = alpha)
 
         Column(
             modifier =
@@ -69,21 +51,7 @@ internal fun EditProfileSkeleton() {
                 .padding(SpaceSize.large),
             verticalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
-            // Profile picture card
-            SectionCardSkeleton {
-                ShimmerBox(modifier = Modifier.width(140.dp).height(20.dp), alpha = alpha)
-                Spacer(Modifier.height(SpaceSize.large))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
-                ) {
-                    ShimmerBox(modifier = Modifier.size(72.dp), alpha = alpha, shape = CircleShape)
-                    Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.medium)) {
-                        ShimmerBox(modifier = Modifier.width(180.dp).height(14.dp), alpha = alpha)
-                        ShimmerBox(modifier = Modifier.width(100.dp).height(14.dp), alpha = alpha)
-                    }
-                }
-            }
+            ProfilePictureCardSkeleton(alpha = alpha)
 
             // Personal details card
             SectionCardSkeleton {
@@ -106,6 +74,46 @@ internal fun EditProfileSkeleton() {
             }
 
             Spacer(Modifier.height(SpaceSize.large))
+        }
+    }
+}
+
+@Composable
+private fun TopBarSkeleton(alpha: Float) {
+    Row(
+        modifier =
+        Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(horizontal = SpaceSize.medium, vertical = SpaceSize.medium),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        ShimmerBox(modifier = Modifier.size(40.dp), alpha = alpha, shape = CircleShape)
+        Spacer(Modifier.weight(1f))
+        ShimmerBox(modifier = Modifier.width(80.dp).height(20.dp), alpha = alpha)
+        Spacer(Modifier.weight(1f))
+        ShimmerBox(
+            modifier = Modifier.width(64.dp).height(36.dp),
+            alpha = alpha,
+            shape = RoundedCornerShape(SpaceSize.large),
+        )
+    }
+}
+
+@Composable
+private fun ProfilePictureCardSkeleton(alpha: Float) {
+    SectionCardSkeleton {
+        ShimmerBox(modifier = Modifier.width(140.dp).height(20.dp), alpha = alpha)
+        Spacer(Modifier.height(SpaceSize.large))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
+        ) {
+            ShimmerBox(modifier = Modifier.size(72.dp), alpha = alpha, shape = CircleShape)
+            Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.medium)) {
+                ShimmerBox(modifier = Modifier.width(180.dp).height(14.dp), alpha = alpha)
+                ShimmerBox(modifier = Modifier.width(100.dp).height(14.dp), alpha = alpha)
+            }
         }
     }
 }

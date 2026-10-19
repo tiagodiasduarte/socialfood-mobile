@@ -51,48 +51,11 @@ fun ErrorContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Box(
-            modifier = Modifier
-                .size(120.dp)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.errorContainer),
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(
-                painter = painterResource(Res.drawable.server_error_icon),
-                contentDescription = null,
-                modifier = Modifier.size(52.dp),
-                tint = MaterialTheme.colorScheme.error,
-            )
-        }
+        ErrorIcon()
 
         Spacer(Modifier.height(SpaceSize.xlarge))
 
-        Text(
-            text = stringResource(Res.string.error_content_title),
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center,
-        )
-
-        Spacer(Modifier.height(SpaceSize.medium))
-
-        Text(
-            text = stringResource(Res.string.error_content_subtitle),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-        )
-
-        Spacer(Modifier.height(SpaceSize.small))
-
-        Text(
-            text = stringResource(Res.string.error_content_description),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-        )
+        ErrorMessage()
 
         Spacer(Modifier.height(SpaceSize.xlarge))
 
@@ -114,6 +77,53 @@ fun ErrorContent(
             )
         }
     }
+}
+
+@Composable
+private fun ErrorIcon() {
+    Box(
+        modifier = Modifier
+            .size(120.dp)
+            .clip(CircleShape)
+            .background(MaterialTheme.colorScheme.errorContainer),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            painter = painterResource(Res.drawable.server_error_icon),
+            contentDescription = null,
+            modifier = Modifier.size(52.dp),
+            tint = MaterialTheme.colorScheme.error,
+        )
+    }
+}
+
+@Composable
+private fun ErrorMessage() {
+    Text(
+        text = stringResource(Res.string.error_content_title),
+        style = MaterialTheme.typography.headlineMedium,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.onBackground,
+        textAlign = TextAlign.Center,
+    )
+
+    Spacer(Modifier.height(SpaceSize.medium))
+
+    Text(
+        text = stringResource(Res.string.error_content_subtitle),
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        textAlign = TextAlign.Center,
+    )
+
+    Spacer(Modifier.height(SpaceSize.small))
+
+    Text(
+        text = stringResource(Res.string.error_content_description),
+        style = MaterialTheme.typography.bodySmall,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        textAlign = TextAlign.Center,
+    )
 }
 
 @Preview

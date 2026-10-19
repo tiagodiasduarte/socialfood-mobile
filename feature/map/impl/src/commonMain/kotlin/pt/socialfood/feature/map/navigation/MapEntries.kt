@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.map.navigation
+package pt.socialfood.feature.map.navigation
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
@@ -9,8 +9,8 @@ import pt.socialfood.core.designsystem.generated.resources.wish_restaurants_titl
 import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.core.navigation.Navigator
 import pt.socialfood.core.navigation.slideUpAnimationMetadata
-import pt.socialfood.presentation.map.restaurant.MapRestaurantScreen
-import pt.socialfood.presentation.map.restaurant.visitstatus.MapRestaurantVisitStatusScreen
+import pt.socialfood.feature.map.restaurant.MapRestaurantScreen
+import pt.socialfood.feature.map.restaurant.visitstatus.MapRestaurantVisitStatusScreen
 import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute
 
 fun EntryProviderScope<NavKey>.mapEntries(navigator: Navigator) {

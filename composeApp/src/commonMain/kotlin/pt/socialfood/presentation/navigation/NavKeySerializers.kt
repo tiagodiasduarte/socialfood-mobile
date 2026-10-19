@@ -10,7 +10,7 @@ import pt.socialfood.feature.author.navigation.AuthorRoute
 import pt.socialfood.feature.favourite.navigation.FavouriteRoute
 import pt.socialfood.feature.guide.navigation.GuideRoute
 import pt.socialfood.feature.home.navigation.HomeRoute
-import pt.socialfood.presentation.map.navigation.MapRoute
+import pt.socialfood.feature.map.navigation.MapRoute
 import pt.socialfood.presentation.profile.navigation.ProfileRoute
 import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute
 import pt.socialfood.presentation.search.navigation.SearchRoute

@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.map.restaurant.visitstatus
+package pt.socialfood.feature.map.restaurant.visitstatus
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

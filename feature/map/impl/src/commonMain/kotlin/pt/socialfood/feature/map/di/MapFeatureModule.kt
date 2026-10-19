@@ -1,9 +1,9 @@
-package pt.socialfood.presentation.map.di
+package pt.socialfood.feature.map.di
 
 import org.koin.dsl.module
 import pt.socialfood.core.model.VisitStatus
-import pt.socialfood.presentation.map.restaurant.MapRestaurantViewModel
-import pt.socialfood.presentation.map.restaurant.visitstatus.MapRestaurantVisitStatusViewModel
+import pt.socialfood.feature.map.restaurant.MapRestaurantViewModel
+import pt.socialfood.feature.map.restaurant.visitstatus.MapRestaurantVisitStatusViewModel
 
 val mapFeatureModule =
     module {

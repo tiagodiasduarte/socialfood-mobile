@@ -6,7 +6,7 @@ import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.core.navigation.Navigator
 import pt.socialfood.core.navigation.defaultAnimationMetadata
 import pt.socialfood.core.navigation.slideHorizontalAnimationMetadata
-import pt.socialfood.presentation.map.navigation.MapRoute
+import pt.socialfood.feature.map.navigation.MapRoute
 import pt.socialfood.presentation.restaurant.detail.RestaurantDetailScreen
 import pt.socialfood.presentation.restaurant.search.SearchRestaurantsScreen
 import pt.socialfood.presentation.restaurant.visited.RestaurantVisitedScreen

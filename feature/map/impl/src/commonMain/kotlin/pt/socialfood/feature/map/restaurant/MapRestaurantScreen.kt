@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.map.restaurant
+package pt.socialfood.feature.map.restaurant
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

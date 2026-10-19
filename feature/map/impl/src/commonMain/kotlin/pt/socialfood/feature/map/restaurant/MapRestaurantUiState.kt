@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.map.restaurant
+package pt.socialfood.feature.map.restaurant
 
 import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.core.model.Restaurant

@@ -1,11 +1,11 @@
-package pt.socialfood.presentation.favourite
+package pt.socialfood.feature.favourite
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.fakes.FakeFavouritesGuidesRepository
 import pt.socialfood.fakes.FakeObserveUserUseCase
-import pt.socialfood.presentation.favourite.guide.FavouriteGuidesViewModel
+import pt.socialfood.feature.favourite.guide.FavouriteGuidesViewModel
 import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.random.Random

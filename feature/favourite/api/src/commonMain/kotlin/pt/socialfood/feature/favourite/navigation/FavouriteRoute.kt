@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.favourite.navigation
+package pt.socialfood.feature.favourite.navigation
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable

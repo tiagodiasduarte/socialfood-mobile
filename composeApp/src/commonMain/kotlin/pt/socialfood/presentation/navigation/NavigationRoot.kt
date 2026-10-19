@@ -19,9 +19,9 @@ import pt.socialfood.core.navigation.rememberNavigationState
 import pt.socialfood.core.navigation.toEntries
 import pt.socialfood.feature.author.navigation.AuthorRoute
 import pt.socialfood.feature.author.navigation.authorEntries
+import pt.socialfood.feature.favourite.navigation.FavouriteRoute
+import pt.socialfood.feature.favourite.navigation.favouriteEntries
 import pt.socialfood.feature.settings.drawer.DrawerContent
-import pt.socialfood.presentation.favourite.navigation.FavouriteRoute
-import pt.socialfood.presentation.favourite.navigation.favouriteEntries
 import pt.socialfood.presentation.guide.navigation.guideEntries
 import pt.socialfood.presentation.home.navigation.HomeRoute
 import pt.socialfood.presentation.home.navigation.homeEntries

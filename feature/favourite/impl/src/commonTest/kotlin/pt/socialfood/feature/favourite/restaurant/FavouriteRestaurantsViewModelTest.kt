@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.favourite.restaurant
+package pt.socialfood.feature.favourite.restaurant
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch

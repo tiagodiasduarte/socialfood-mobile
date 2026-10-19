@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.favourite.restaurant
+package pt.socialfood.feature.favourite.restaurant
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

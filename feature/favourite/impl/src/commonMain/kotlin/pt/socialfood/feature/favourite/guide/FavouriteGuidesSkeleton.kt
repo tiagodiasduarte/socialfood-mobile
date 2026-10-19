@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.favourite.guide
+package pt.socialfood.feature.favourite.guide
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

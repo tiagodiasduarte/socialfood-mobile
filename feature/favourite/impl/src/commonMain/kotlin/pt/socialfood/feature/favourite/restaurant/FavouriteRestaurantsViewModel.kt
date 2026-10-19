@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.favourite.guide
+package pt.socialfood.feature.favourite.restaurant
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,24 +11,24 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import pt.socialfood.core.domain.repository.FavouritesGuidesRepository
+import pt.socialfood.core.domain.repository.FavouriteRestaurantsRepository
 import pt.socialfood.core.domain.usecase.user.ObserveUserUseCase
-import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.Restaurant
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class FavouriteGuidesViewModel(
-    private val favouritesGuidesRepository: FavouritesGuidesRepository,
+class FavouriteRestaurantsViewModel(
+    private val favouriteRestaurantsRepository: FavouriteRestaurantsRepository,
     observeUser: ObserveUserUseCase,
 ) : ViewModel() {
 
-    val guides: Flow<PagingData<Guide>> = observeUser()
+    val restaurants: Flow<PagingData<Restaurant>> = observeUser()
         .filterNotNull()
         .map { it.id }
         .distinctUntilChanged()
-        .flatMapLatest { favouritesGuidesRepository.getFavouritesPagingFlow() }
+        .flatMapLatest { favouriteRestaurantsRepository.getFavouritesPagingFlow() }
         .cachedIn(viewModelScope)
 
-    fun removeFavourite(guideId: String) {
-        viewModelScope.launch { favouritesGuidesRepository.unmark(guideId) }
+    fun removeFavourite(restaurantId: String) {
+        viewModelScope.launch { favouriteRestaurantsRepository.unmarkFavourite(restaurantId) }
     }
 }

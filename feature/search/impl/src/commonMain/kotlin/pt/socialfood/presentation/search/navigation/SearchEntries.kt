@@ -6,7 +6,7 @@ import pt.socialfood.core.navigation.Navigator
 import pt.socialfood.core.navigation.defaultAnimationMetadata
 import pt.socialfood.feature.author.navigation.AuthorRoute
 import pt.socialfood.feature.guide.navigation.GuideRoute
-import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute
+import pt.socialfood.feature.restaurant.navigation.RestaurantRoute
 import pt.socialfood.presentation.search.SearchScreen
 
 fun EntryProviderScope<NavKey>.searchEntries(navigator: Navigator) {

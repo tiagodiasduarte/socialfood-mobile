@@ -7,7 +7,7 @@ import pt.socialfood.core.navigation.slideHorizontalAnimationMetadata
 import pt.socialfood.feature.favourite.guide.FavouriteGuidesScreen
 import pt.socialfood.feature.favourite.restaurant.FavouriteRestaurantsScreen
 import pt.socialfood.feature.guide.navigation.GuideRoute
-import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute
+import pt.socialfood.feature.restaurant.navigation.RestaurantRoute
 
 fun EntryProviderScope<NavKey>.favouriteEntries(navigator: Navigator) {
     entry<FavouriteRoute.FavouriteGuides>(metadata = slideHorizontalAnimationMetadata) {

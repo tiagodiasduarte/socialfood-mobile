@@ -11,7 +11,7 @@ import pt.socialfood.core.navigation.Navigator
 import pt.socialfood.core.navigation.slideUpAnimationMetadata
 import pt.socialfood.feature.map.restaurant.MapRestaurantScreen
 import pt.socialfood.feature.map.restaurant.visitstatus.MapRestaurantVisitStatusScreen
-import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute
+import pt.socialfood.feature.restaurant.navigation.RestaurantRoute
 
 fun EntryProviderScope<NavKey>.mapEntries(navigator: Navigator) {
     entry<MapRoute.RestaurantMap>(metadata = slideUpAnimationMetadata) { route ->

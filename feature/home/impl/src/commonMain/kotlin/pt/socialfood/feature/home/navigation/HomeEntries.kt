@@ -6,7 +6,7 @@ import pt.socialfood.core.navigation.Navigator
 import pt.socialfood.core.navigation.defaultAnimationMetadata
 import pt.socialfood.feature.guide.navigation.GuideRoute
 import pt.socialfood.feature.home.HomeScreen
-import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute
+import pt.socialfood.feature.restaurant.navigation.RestaurantRoute
 import pt.socialfood.presentation.search.navigation.SearchRoute
 
 fun EntryProviderScope<NavKey>.homeEntries(navigator: Navigator, onOpenDrawer: () -> Unit) {

@@ -19,8 +19,8 @@ import pt.socialfood.feature.guide.di.guideFeatureModule
 import pt.socialfood.feature.home.di.homeFeatureModule
 import pt.socialfood.feature.map.di.mapFeatureModule
 import pt.socialfood.feature.profile.di.profileFeatureModule
+import pt.socialfood.feature.restaurant.di.restaurantFeatureModule
 import pt.socialfood.feature.settings.di.settingsFeatureModule
-import pt.socialfood.presentation.restaurant.di.restaurantFeatureModule
 import pt.socialfood.presentation.search.di.searchFeatureModule
 import kotlin.test.Test
 

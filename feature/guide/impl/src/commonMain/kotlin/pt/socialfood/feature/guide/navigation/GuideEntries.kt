@@ -11,7 +11,7 @@ import pt.socialfood.feature.guide.create.CreateGuideScreen
 import pt.socialfood.feature.guide.detail.GuideDetailScreen
 import pt.socialfood.feature.guide.edit.EditGuideScreen
 import pt.socialfood.feature.guide.map.GuideMapScreen
-import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute
+import pt.socialfood.feature.restaurant.navigation.RestaurantRoute
 
 fun EntryProviderScope<NavKey>.guideEntries(navigator: Navigator, onOpenDrawer: () -> Unit) {
     entry<GuideRoute.CreateGuide> {

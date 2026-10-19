@@ -12,7 +12,7 @@ import pt.socialfood.feature.guide.navigation.GuideRoute
 import pt.socialfood.feature.home.navigation.HomeRoute
 import pt.socialfood.feature.map.navigation.MapRoute
 import pt.socialfood.feature.profile.navigation.ProfileRoute
-import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute
+import pt.socialfood.feature.restaurant.navigation.RestaurantRoute
 import pt.socialfood.presentation.search.navigation.SearchRoute
 
 /**

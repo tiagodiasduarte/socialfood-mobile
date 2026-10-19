@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.profile.edit
+package pt.socialfood.feature.profile.edit
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -7,9 +7,9 @@ import pt.socialfood.core.common.error.DataError
 import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.core.model.PresignedUrlData
 import pt.socialfood.core.model.User
-import pt.socialfood.fakes.FakeImageCache
 import pt.socialfood.fakes.FakePhotosRepository
 import pt.socialfood.fakes.FakeUsersRepository
+import pt.socialfood.feature.profile.fakes.FakeImageCache
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals

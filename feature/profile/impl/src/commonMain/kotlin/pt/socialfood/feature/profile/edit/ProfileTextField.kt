@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.profile.edit
+package pt.socialfood.feature.profile.edit
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

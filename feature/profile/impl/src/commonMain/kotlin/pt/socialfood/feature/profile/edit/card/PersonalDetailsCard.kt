@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.profile.edit.card
+package pt.socialfood.feature.profile.edit.card
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -12,6 +12,8 @@ import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.core.designsystem.component.card.SectionCard
 import pt.socialfood.core.designsystem.theme.AppTheme
 import pt.socialfood.core.designsystem.theme.SpaceSize
+import pt.socialfood.feature.profile.edit.EditProfileUiState
+import pt.socialfood.feature.profile.edit.ProfileTextField
 import pt.socialfood.feature.profile.impl.generated.resources.Res
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_email_label
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_name_label
@@ -19,8 +21,6 @@ import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_name_
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_personal_details_title
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_username_label
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_username_placeholder
-import pt.socialfood.presentation.profile.edit.EditProfileUiState
-import pt.socialfood.presentation.profile.edit.ProfileTextField
 
 @Composable
 fun PersonalDetailsCard(

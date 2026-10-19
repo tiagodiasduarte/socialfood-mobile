@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.profile.edit
+package pt.socialfood.feature.profile.edit
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,14 +29,14 @@ import pt.socialfood.core.designsystem.component.buttons.SaveButton
 import pt.socialfood.core.designsystem.theme.AppTheme
 import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.ui.error.stringResource
+import pt.socialfood.feature.profile.edit.card.AuthorModeCard
+import pt.socialfood.feature.profile.edit.card.PersonalDetailsCard
+import pt.socialfood.feature.profile.edit.card.ProfilePictureCard
+import pt.socialfood.feature.profile.edit.card.SocialNetworkCard
 import pt.socialfood.feature.profile.impl.generated.resources.Res
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_save_error_dismiss
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_save_error_title
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_title
-import pt.socialfood.presentation.profile.edit.card.AuthorModeCard
-import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
-import pt.socialfood.presentation.profile.edit.card.ProfilePictureCard
-import pt.socialfood.presentation.profile.edit.card.SocialNetworkCard
 
 private val SaveButtonHeight = 56.dp
 

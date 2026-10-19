@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.profile.edit.card
+package pt.socialfood.feature.profile.edit.card
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,11 +32,11 @@ import pt.socialfood.core.designsystem.component.card.SectionCard
 import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.ui.imagepicker.rememberImagePickerLauncher
 import pt.socialfood.core.ui.imagepicker.toImageBitmap
+import pt.socialfood.feature.profile.edit.EditProfileUiState
 import pt.socialfood.feature.profile.impl.generated.resources.Res
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_picture_change_button
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_picture_section_title
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_picture_upload_label
-import pt.socialfood.presentation.profile.edit.EditProfileUiState
 
 @Composable
 fun ProfilePictureCard(state: EditProfileUiState.Loaded, onPhotoSelected: (ByteArray, String) -> Unit) {

@@ -25,8 +25,8 @@ import pt.socialfood.feature.guide.navigation.guideEntries
 import pt.socialfood.feature.home.navigation.HomeRoute
 import pt.socialfood.feature.home.navigation.homeEntries
 import pt.socialfood.feature.map.navigation.mapEntries
+import pt.socialfood.feature.profile.navigation.profileEntries
 import pt.socialfood.feature.settings.drawer.DrawerContent
-import pt.socialfood.presentation.profile.navigation.profileEntries
 import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute
 import pt.socialfood.presentation.restaurant.navigation.restaurantEntries
 import pt.socialfood.presentation.search.navigation.searchEntries

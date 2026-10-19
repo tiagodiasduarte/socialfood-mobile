@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.profile.edit
+package pt.socialfood.feature.profile.edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

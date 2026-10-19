@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.profile.edit.card
+package pt.socialfood.feature.profile.edit.card
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,10 +17,10 @@ import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.core.designsystem.component.card.SectionCard
 import pt.socialfood.core.designsystem.theme.AppTheme
 import pt.socialfood.core.designsystem.theme.SpaceSize
+import pt.socialfood.feature.profile.edit.EditProfileUiState
 import pt.socialfood.feature.profile.impl.generated.resources.Res
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_author_mode_description
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_author_mode_title
-import pt.socialfood.presentation.profile.edit.EditProfileUiState
 
 @Composable
 fun AuthorModeCard(state: EditProfileUiState.Loaded, onAuthorModeChange: (Boolean) -> Unit) {

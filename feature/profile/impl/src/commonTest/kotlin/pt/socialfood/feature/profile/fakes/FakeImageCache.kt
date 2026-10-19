@@ -1,4 +1,4 @@
-package pt.socialfood.fakes
+package pt.socialfood.feature.profile.fakes
 
 import pt.socialfood.core.ui.image.ImageCache
 

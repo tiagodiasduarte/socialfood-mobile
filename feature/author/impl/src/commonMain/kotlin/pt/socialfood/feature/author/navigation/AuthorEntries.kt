@@ -8,7 +8,7 @@ import pt.socialfood.core.navigation.slideHorizontalAnimationMetadata
 import pt.socialfood.feature.author.detail.AuthorDetailScreen
 import pt.socialfood.feature.author.list.AuthorsScreen
 import pt.socialfood.feature.guide.navigation.GuideRoute
-import pt.socialfood.presentation.profile.navigation.ProfileRoute
+import pt.socialfood.feature.profile.navigation.ProfileRoute
 
 fun EntryProviderScope<NavKey>.authorEntries(navigator: Navigator, onOpenDrawer: () -> Unit) {
     entry<AuthorRoute.AuthorDetail>(metadata = defaultAnimationMetadata) { route ->

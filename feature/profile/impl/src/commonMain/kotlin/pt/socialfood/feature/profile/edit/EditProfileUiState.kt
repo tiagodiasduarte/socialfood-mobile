@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.profile.edit
+package pt.socialfood.feature.profile.edit
 
 import pt.socialfood.core.common.error.ErrorCode
 

@@ -28,8 +28,8 @@ import pt.socialfood.feature.map.navigation.mapEntries
 import pt.socialfood.feature.profile.navigation.profileEntries
 import pt.socialfood.feature.restaurant.navigation.RestaurantRoute
 import pt.socialfood.feature.restaurant.navigation.restaurantEntries
+import pt.socialfood.feature.search.navigation.searchEntries
 import pt.socialfood.feature.settings.drawer.DrawerContent
-import pt.socialfood.presentation.search.navigation.searchEntries
 
 @Suppress("LongMethod")
 @Composable

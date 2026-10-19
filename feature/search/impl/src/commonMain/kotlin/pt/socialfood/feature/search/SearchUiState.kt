@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.search
+package pt.socialfood.feature.search
 
 import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.core.model.Search

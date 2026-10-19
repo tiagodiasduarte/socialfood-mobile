@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.search
+package pt.socialfood.feature.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

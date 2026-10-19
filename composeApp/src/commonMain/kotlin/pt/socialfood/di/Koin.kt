@@ -22,8 +22,8 @@ import pt.socialfood.feature.home.di.homeFeatureModule
 import pt.socialfood.feature.map.di.mapFeatureModule
 import pt.socialfood.feature.profile.di.profileFeatureModule
 import pt.socialfood.feature.restaurant.di.restaurantFeatureModule
+import pt.socialfood.feature.search.di.searchFeatureModule
 import pt.socialfood.feature.settings.di.settingsFeatureModule
-import pt.socialfood.presentation.search.di.searchFeatureModule
 import pt.socialfood.presentation.sync.SyncViewModel
 
 expect val platformModule: Module

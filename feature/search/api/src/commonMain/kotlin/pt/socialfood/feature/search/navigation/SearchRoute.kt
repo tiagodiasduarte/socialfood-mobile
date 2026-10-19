@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.search.navigation
+package pt.socialfood.feature.search.navigation
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable

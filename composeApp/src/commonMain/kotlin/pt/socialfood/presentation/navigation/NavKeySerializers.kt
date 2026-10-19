@@ -13,7 +13,7 @@ import pt.socialfood.feature.home.navigation.HomeRoute
 import pt.socialfood.feature.map.navigation.MapRoute
 import pt.socialfood.feature.profile.navigation.ProfileRoute
 import pt.socialfood.feature.restaurant.navigation.RestaurantRoute
-import pt.socialfood.presentation.search.navigation.SearchRoute
+import pt.socialfood.feature.search.navigation.SearchRoute
 
 /**
  * Every feature's sealed route interface. Each one has to be listed here, or restoring the back

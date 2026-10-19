@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.search
+package pt.socialfood.feature.search
 
 import org.jetbrains.compose.resources.StringResource
 import pt.socialfood.feature.search.impl.generated.resources.Res

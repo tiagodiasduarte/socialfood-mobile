@@ -182,58 +182,68 @@ private fun ValidateCodeFormView(
 
             Spacer(modifier = Modifier.height(SpaceSize.xlarge))
 
-            Button(
-                onClick = { onValidateClick(code) },
-                enabled = isComplete,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
-                shape = RoundedCornerShape(50.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colorScheme.primary,
-                    disabledContainerColor = Shimmer,
-                    contentColor = colorScheme.onPrimary,
-                    disabledContentColor = colorScheme.onPrimary,
-                ),
-            ) {
-                Text(
-                    text = stringResource(Res.string.validate_code_button),
-                    style = MaterialTheme.typography.titleSmall,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
-                )
-            }
+            ValidateButton(enabled = isComplete, onClick = { onValidateClick(code) })
 
             Spacer(modifier = Modifier.height(SpaceSize.large))
 
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
-            ) {
-                Text(
-                    text = stringResource(Res.string.validate_code_resend_label),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = colorScheme.onSurfaceVariant,
-                )
-                Text(
-                    text = stringResource(Res.string.validate_code_resend_button),
-                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
-                    color = colorScheme.primary,
-                    modifier = Modifier
-                        .padding(vertical = SpaceSize.small)
-                        .clickable { onResendClick() },
-                )
-                Text(
-                    text = stringResource(Res.string.validate_code_restart_signup_label),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = colorScheme.onSurfaceVariant,
-                    modifier = Modifier
-                        .padding(vertical = SpaceSize.small)
-                        .clickable { onRestartClick() },
-                )
-            }
+            ValidateCodeLinks(onResendClick = onResendClick, onRestartClick = onRestartClick)
         }
+    }
+}
+
+@Composable
+private fun ValidateButton(enabled: Boolean, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        enabled = enabled,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(52.dp),
+        shape = RoundedCornerShape(50.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = colorScheme.primary,
+            disabledContainerColor = Shimmer,
+            contentColor = colorScheme.onPrimary,
+            disabledContentColor = colorScheme.onPrimary,
+        ),
+    ) {
+        Text(
+            text = stringResource(Res.string.validate_code_button),
+            style = MaterialTheme.typography.titleSmall,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.SemiBold,
+        )
+    }
+}
+
+@Composable
+private fun ValidateCodeLinks(onResendClick: () -> Unit, onRestartClick: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(SpaceSize.small),
+    ) {
+        Text(
+            text = stringResource(Res.string.validate_code_resend_label),
+            style = MaterialTheme.typography.bodyMedium,
+            color = colorScheme.onSurfaceVariant,
+        )
+        Text(
+            text = stringResource(Res.string.validate_code_resend_button),
+            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
+            color = colorScheme.primary,
+            modifier = Modifier
+                .padding(vertical = SpaceSize.small)
+                .clickable { onResendClick() },
+        )
+        Text(
+            text = stringResource(Res.string.validate_code_restart_signup_label),
+            style = MaterialTheme.typography.bodyMedium,
+            color = colorScheme.onSurfaceVariant,
+            modifier = Modifier
+                .padding(vertical = SpaceSize.small)
+                .clickable { onRestartClick() },
+        )
     }
 }
 

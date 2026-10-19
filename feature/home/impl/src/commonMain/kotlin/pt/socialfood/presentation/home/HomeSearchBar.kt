@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
@@ -22,6 +21,7 @@ import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.feature.home.impl.generated.resources.Res
 import pt.socialfood.feature.home.impl.generated.resources.home_search_bar_placeholder
 import pt.socialfood.ui.theme.AppTypography
+import pt.socialfood.ui.theme.SearchBarShape
 import pt.socialfood.ui.theme.SearchBorder
 import pt.socialfood.ui.theme.SpaceSize
 
@@ -47,7 +47,7 @@ fun HomeSearchBar(searchQuery: String, onQueryChange: (String) -> Unit, onClick:
             )
         },
         singleLine = true,
-        shape = RoundedCornerShape(25),
+        shape = SearchBarShape,
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = MaterialTheme.colorScheme.surface,
             focusedContainerColor = MaterialTheme.colorScheme.background,
@@ -63,7 +63,7 @@ fun HomeSearchBar(searchQuery: String, onQueryChange: (String) -> Unit, onClick:
             .border(
                 width = 1.dp,
                 color = SearchBorder,
-                shape = RoundedCornerShape(25),
+                shape = SearchBarShape,
             )
             .clickable(onClick = onClick),
     )

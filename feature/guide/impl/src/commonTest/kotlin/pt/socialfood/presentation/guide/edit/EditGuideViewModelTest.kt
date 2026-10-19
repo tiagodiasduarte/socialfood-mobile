@@ -109,7 +109,7 @@ class EditGuideViewModelTest {
     }
 
     @Test
-    fun `given a loaded guide when onRetry is called then reloads the guide`() = runTestWithMainDispatcher {
+    fun `given a loaded guide when load is called again then reloads the guide`() = runTestWithMainDispatcher {
         // Given
         val guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(guide()))
         val vm = createViewModel(guidesRepository = guidesRepository)
@@ -117,7 +117,7 @@ class EditGuideViewModelTest {
             skipItems(2)
 
             // When
-            vm.onRetry()
+            vm.load()
 
             // Then
             assertEquals(EditGuideUiState.Loading, awaitItem())

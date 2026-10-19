@@ -55,47 +55,11 @@ fun ProfilePictureCard(state: EditProfileUiState.Loaded, onPhotoSelected: (ByteA
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(SpaceSize.large),
         ) {
-            Box {
-                if (state.pendingImage != null) {
-                    val bitmap = remember(state.pendingImage.first) { state.pendingImage.first.toImageBitmap() }
-                    Image(
-                        bitmap = bitmap,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(72.dp)
-                            .clip(CircleShape),
-                    )
-                } else {
-                    UserImage(
-                        imageUrl = state.imageUrl,
-                        imageSize = 72.dp,
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .size(24.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primary),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    if (state.isUploadingPhoto) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(14.dp),
-                            strokeWidth = 2.dp,
-                            color = MaterialTheme.colorScheme.onPrimary,
-                        )
-                    } else {
-                        Icon(
-                            imageVector = Icons.Outlined.CameraAlt,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier.size(14.dp),
-                        )
-                    }
-                }
-            }
+            ProfilePictureAvatar(
+                pendingImage = state.pendingImage?.first,
+                imageUrl = state.imageUrl,
+                isUploadingPhoto = state.isUploadingPhoto,
+            )
 
             Column(verticalArrangement = Arrangement.spacedBy(SpaceSize.small)) {
                 Text(
@@ -114,6 +78,51 @@ fun ProfilePictureCard(state: EditProfileUiState.Loaded, onPhotoSelected: (ByteA
                         color = MaterialTheme.colorScheme.primary,
                     )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ProfilePictureAvatar(pendingImage: ByteArray?, imageUrl: String?, isUploadingPhoto: Boolean) {
+    Box {
+        if (pendingImage != null) {
+            val bitmap = remember(pendingImage) { pendingImage.toImageBitmap() }
+            Image(
+                bitmap = bitmap,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(72.dp)
+                    .clip(CircleShape),
+            )
+        } else {
+            UserImage(
+                imageUrl = imageUrl,
+                imageSize = 72.dp,
+            )
+        }
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .size(24.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.primary),
+            contentAlignment = Alignment.Center,
+        ) {
+            if (isUploadingPhoto) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(14.dp),
+                    strokeWidth = 2.dp,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Outlined.CameraAlt,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.size(14.dp),
+                )
             }
         }
     }

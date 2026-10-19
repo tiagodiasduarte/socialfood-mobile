@@ -2,7 +2,7 @@ package pt.socialfood.fakes
 
 import kotlinx.io.IOException
 import pt.socialfood.core.model.Configs
-import pt.socialfood.data.api.ConfigsApi
+import pt.socialfood.core.network.api.ConfigsApi
 
 class FakeConfigsApi(private val shouldThrow: Boolean = false) : ConfigsApi {
 

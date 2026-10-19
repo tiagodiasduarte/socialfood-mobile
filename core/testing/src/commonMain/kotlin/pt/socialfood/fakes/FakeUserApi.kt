@@ -1,13 +1,13 @@
 package pt.socialfood.fakes
 
 import kotlinx.io.IOException
-import pt.socialfood.data.api.UserApi
-import pt.socialfood.data.network.model.PagedResponse
-import pt.socialfood.data.network.model.photo.PresignedUrlRequest
-import pt.socialfood.data.network.model.photo.PresignedUrlResponse
-import pt.socialfood.data.network.model.user.UpdateUserPhotoRequest
-import pt.socialfood.data.network.model.user.UpdateUserRequest
-import pt.socialfood.data.network.model.user.UserResponse
+import pt.socialfood.core.network.api.UserApi
+import pt.socialfood.core.network.model.PagedResponse
+import pt.socialfood.core.network.model.photo.PresignedUrlRequest
+import pt.socialfood.core.network.model.photo.PresignedUrlResponse
+import pt.socialfood.core.network.model.user.UpdateUserPhotoRequest
+import pt.socialfood.core.network.model.user.UpdateUserRequest
+import pt.socialfood.core.network.model.user.UserResponse
 
 class FakeUserApi(private val shouldThrow: Boolean = false) : UserApi {
 

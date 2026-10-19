@@ -3,8 +3,8 @@ package pt.socialfood.fakes
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.sqlite.SQLiteException
-import pt.socialfood.data.local.dao.AuthorDao
-import pt.socialfood.data.local.entity.AuthorEntity
+import pt.socialfood.core.database.dao.AuthorDao
+import pt.socialfood.core.database.entity.AuthorEntity
 
 class FakeAuthorDao(private val shouldThrowOnWrite: Boolean = false) : AuthorDao {
 

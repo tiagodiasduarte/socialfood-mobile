@@ -1,6 +1,6 @@
 package pt.socialfood.random
 
-import pt.socialfood.data.network.model.restaurant.RestaurantResponse
+import pt.socialfood.core.network.model.restaurant.RestaurantResponse
 import kotlin.random.Random
 
 fun Random.nextRestaurantResponse(

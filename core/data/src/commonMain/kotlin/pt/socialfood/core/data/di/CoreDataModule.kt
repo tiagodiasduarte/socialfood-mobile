@@ -1,6 +1,27 @@
 package pt.socialfood.core.data.di
 
 import org.koin.dsl.module
+import pt.socialfood.core.data.paging.asAuthorCacheTransactionRunner
+import pt.socialfood.core.data.paging.asFavouriteGuideCacheTransactionRunner
+import pt.socialfood.core.data.paging.asFavouriteRestaurantCacheTransactionRunner
+import pt.socialfood.core.data.paging.asGuideCacheTransactionRunner
+import pt.socialfood.core.data.paging.asHomeCacheTransactionRunner
+import pt.socialfood.core.data.paging.asRestaurantVisitStatusCacheTransactionRunner
+import pt.socialfood.core.data.repository.AuthRepositoryImpl
+import pt.socialfood.core.data.repository.AuthorsRepositoryImpl
+import pt.socialfood.core.data.repository.ConfigsRepositoryImpl
+import pt.socialfood.core.data.repository.FavouriteRestaurantsRepositoryImpl
+import pt.socialfood.core.data.repository.FavouritesGuidesRepositoryImpl
+import pt.socialfood.core.data.repository.GuidesRepositoryImpl
+import pt.socialfood.core.data.repository.HomeRepositoryImpl
+import pt.socialfood.core.data.repository.LocalCacheRepositoryImpl
+import pt.socialfood.core.data.repository.PhotosRepositoryImpl
+import pt.socialfood.core.data.repository.PlacesRepositoryImpl
+import pt.socialfood.core.data.repository.RestaurantVisitStatusRepositoryImpl
+import pt.socialfood.core.data.repository.RestaurantsRepositoryImpl
+import pt.socialfood.core.data.repository.SearchRepositoryImpl
+import pt.socialfood.core.data.repository.UsersRepositoryImpl
+import pt.socialfood.core.database.AppDatabase
 import pt.socialfood.core.domain.repository.AuthRepository
 import pt.socialfood.core.domain.repository.AuthorsRepository
 import pt.socialfood.core.domain.repository.ConfigsRepository
@@ -15,27 +36,6 @@ import pt.socialfood.core.domain.repository.RestaurantVisitStatusRepository
 import pt.socialfood.core.domain.repository.RestaurantsRepository
 import pt.socialfood.core.domain.repository.SearchRepository
 import pt.socialfood.core.domain.repository.UsersRepository
-import pt.socialfood.data.local.AppDatabase
-import pt.socialfood.data.paging.asAuthorCacheTransactionRunner
-import pt.socialfood.data.paging.asFavouriteGuideCacheTransactionRunner
-import pt.socialfood.data.paging.asFavouriteRestaurantCacheTransactionRunner
-import pt.socialfood.data.paging.asGuideCacheTransactionRunner
-import pt.socialfood.data.paging.asHomeCacheTransactionRunner
-import pt.socialfood.data.paging.asRestaurantVisitStatusCacheTransactionRunner
-import pt.socialfood.data.repository.AuthRepositoryImpl
-import pt.socialfood.data.repository.AuthorsRepositoryImpl
-import pt.socialfood.data.repository.ConfigsRepositoryImpl
-import pt.socialfood.data.repository.FavouriteRestaurantsRepositoryImpl
-import pt.socialfood.data.repository.FavouritesGuidesRepositoryImpl
-import pt.socialfood.data.repository.GuidesRepositoryImpl
-import pt.socialfood.data.repository.HomeRepositoryImpl
-import pt.socialfood.data.repository.LocalCacheRepositoryImpl
-import pt.socialfood.data.repository.PhotosRepositoryImpl
-import pt.socialfood.data.repository.PlacesRepositoryImpl
-import pt.socialfood.data.repository.RestaurantVisitStatusRepositoryImpl
-import pt.socialfood.data.repository.RestaurantsRepositoryImpl
-import pt.socialfood.data.repository.SearchRepositoryImpl
-import pt.socialfood.data.repository.UsersRepositoryImpl
 
 val coreDataModule =
     module {

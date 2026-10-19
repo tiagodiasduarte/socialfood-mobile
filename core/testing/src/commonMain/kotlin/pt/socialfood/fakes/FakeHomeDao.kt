@@ -3,8 +3,8 @@ package pt.socialfood.fakes
 import androidx.sqlite.SQLiteException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import pt.socialfood.data.local.dao.HomeDao
-import pt.socialfood.data.local.entity.HomeSectionEntity
+import pt.socialfood.core.database.dao.HomeDao
+import pt.socialfood.core.database.entity.HomeSectionEntity
 
 class FakeHomeDao(private val shouldThrowOnWrite: Boolean = false) : HomeDao {
 

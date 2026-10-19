@@ -1,10 +1,10 @@
 package pt.socialfood.fakes
 
 import kotlinx.io.IOException
-import pt.socialfood.data.api.FavouriteRestaurantsApi
-import pt.socialfood.data.network.model.PagedResponse
-import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
-import pt.socialfood.data.network.model.restaurant.RestaurantResponse
+import pt.socialfood.core.network.api.FavouriteRestaurantsApi
+import pt.socialfood.core.network.model.PagedResponse
+import pt.socialfood.core.network.model.favourite.FavouriteSyncResponse
+import pt.socialfood.core.network.model.restaurant.RestaurantResponse
 
 class FakeFavouriteRestaurantsApi(private val shouldThrow: Boolean = false) : FavouriteRestaurantsApi {
 

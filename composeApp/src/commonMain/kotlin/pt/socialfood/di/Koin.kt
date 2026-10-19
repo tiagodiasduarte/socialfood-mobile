@@ -11,8 +11,8 @@ import pt.socialfood.core.data.di.coreDataModule
 import pt.socialfood.core.database.di.coreDatabaseModule
 import pt.socialfood.core.datastore.di.coreDatastoreModule
 import pt.socialfood.core.domain.di.coreDomainModule
+import pt.socialfood.core.network.CoilHttpClient
 import pt.socialfood.core.network.di.coreNetworkModule
-import pt.socialfood.data.network.CoilHttpClient
 import pt.socialfood.presentation.auth.di.authFeatureModule
 import pt.socialfood.presentation.author.di.authorFeatureModule
 import pt.socialfood.presentation.favourite.di.favouriteFeatureModule

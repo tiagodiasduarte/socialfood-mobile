@@ -297,7 +297,7 @@ kover {
                     "$appNamespace.core.common.*",
                     "$appNamespace.core.*.di.*",
                     "$appNamespace.di.*",
-                    "$appNamespace.data.network.model.*",
+                    "$appNamespace.core.network.model.*",
                     "$appNamespace.presentation.*.navigation.*Route*",
                     "$appNamespace.ui.theme.*",
                 )

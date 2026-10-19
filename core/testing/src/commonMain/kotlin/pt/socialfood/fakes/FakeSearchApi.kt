@@ -1,11 +1,11 @@
 package pt.socialfood.fakes
 
 import kotlinx.io.IOException
-import pt.socialfood.data.api.SearchApi
-import pt.socialfood.data.network.model.PagedResponse
-import pt.socialfood.data.network.model.search.GuideSuggestionsResponse
-import pt.socialfood.data.network.model.search.RestaurantSuggestionsResponse
-import pt.socialfood.data.network.model.search.SearchResponse
+import pt.socialfood.core.network.api.SearchApi
+import pt.socialfood.core.network.model.PagedResponse
+import pt.socialfood.core.network.model.search.GuideSuggestionsResponse
+import pt.socialfood.core.network.model.search.RestaurantSuggestionsResponse
+import pt.socialfood.core.network.model.search.SearchResponse
 
 class FakeSearchApi(
     private val response: SearchResponse = SearchResponse(

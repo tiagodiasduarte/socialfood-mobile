@@ -1,8 +1,8 @@
 package pt.socialfood.fakes
 
 import androidx.sqlite.SQLiteException
-import pt.socialfood.data.local.dao.FavouriteRestaurantRemoteKeyDao
-import pt.socialfood.data.local.entity.FavouriteRestaurantRemoteKeyEntity
+import pt.socialfood.core.database.dao.FavouriteRestaurantRemoteKeyDao
+import pt.socialfood.core.database.entity.FavouriteRestaurantRemoteKeyEntity
 
 class FakeFavouriteRestaurantRemoteKeyDao(private val shouldThrowOnWrite: Boolean = false) :
     FavouriteRestaurantRemoteKeyDao {

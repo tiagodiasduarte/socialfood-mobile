@@ -1,9 +1,9 @@
 package pt.socialfood.fakes
 
 import kotlinx.io.IOException
-import pt.socialfood.data.api.RestaurantApi
-import pt.socialfood.data.network.model.PagedResponse
-import pt.socialfood.data.network.model.restaurant.RestaurantResponse
+import pt.socialfood.core.network.api.RestaurantApi
+import pt.socialfood.core.network.model.PagedResponse
+import pt.socialfood.core.network.model.restaurant.RestaurantResponse
 
 class FakeRestaurantApi(
     private val shouldThrow: Boolean = false,

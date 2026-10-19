@@ -3,8 +3,8 @@ package pt.socialfood.fakes
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.sqlite.SQLiteException
-import pt.socialfood.data.local.dao.GuideDao
-import pt.socialfood.data.local.entity.GuideEntity
+import pt.socialfood.core.database.dao.GuideDao
+import pt.socialfood.core.database.entity.GuideEntity
 
 class FakeGuideDao(private val shouldThrowOnWrite: Boolean = false) : GuideDao {
 

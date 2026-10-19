@@ -5,8 +5,8 @@ import androidx.paging.PagingState
 import androidx.sqlite.SQLiteException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import pt.socialfood.data.local.dao.RestaurantVisitStatusDao
-import pt.socialfood.data.local.entity.RestaurantVisitStatusEntity
+import pt.socialfood.core.database.dao.RestaurantVisitStatusDao
+import pt.socialfood.core.database.entity.RestaurantVisitStatusEntity
 
 class FakeRestaurantVisitStatusDao(
     private val shouldThrowOnWrite: Boolean = false,

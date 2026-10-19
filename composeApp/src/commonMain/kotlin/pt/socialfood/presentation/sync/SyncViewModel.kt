@@ -6,7 +6,7 @@ import kotlinx.coroutines.launch
 import pt.socialfood.core.domain.repository.FavouriteRestaurantsRepository
 import pt.socialfood.core.domain.repository.FavouritesGuidesRepository
 import pt.socialfood.core.domain.repository.RestaurantVisitStatusRepository
-import pt.socialfood.data.network.ConnectivityObserver
+import pt.socialfood.core.network.ConnectivityObserver
 
 class SyncViewModel(
     private val favouritesGuidesRepository: FavouritesGuidesRepository,

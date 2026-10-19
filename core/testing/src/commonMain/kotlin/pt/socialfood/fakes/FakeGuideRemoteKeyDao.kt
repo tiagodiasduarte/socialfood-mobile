@@ -1,8 +1,8 @@
 package pt.socialfood.fakes
 
 import androidx.sqlite.SQLiteException
-import pt.socialfood.data.local.dao.GuideRemoteKeyDao
-import pt.socialfood.data.local.entity.GuideRemoteKeyEntity
+import pt.socialfood.core.database.dao.GuideRemoteKeyDao
+import pt.socialfood.core.database.entity.GuideRemoteKeyEntity
 
 class FakeGuideRemoteKeyDao(private val shouldThrowOnWrite: Boolean = false) : GuideRemoteKeyDao {
 

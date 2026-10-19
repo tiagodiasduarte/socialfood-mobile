@@ -1,8 +1,8 @@
 package pt.socialfood.fakes
 
 import kotlinx.io.IOException
-import pt.socialfood.data.api.HomeApi
-import pt.socialfood.data.network.model.home.HomeSectionResponse
+import pt.socialfood.core.network.api.HomeApi
+import pt.socialfood.core.network.model.home.HomeSectionResponse
 
 class FakeHomeApi(private val shouldThrow: Boolean = false) : HomeApi {
     private val fakeHomeSectionResponse =

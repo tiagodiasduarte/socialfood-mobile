@@ -1,10 +1,10 @@
 package pt.socialfood.fakes
 
 import kotlinx.io.IOException
-import pt.socialfood.data.api.AuthorsApi
-import pt.socialfood.data.network.model.PagedResponse
-import pt.socialfood.data.network.model.author.AuthorDetailResponse
-import pt.socialfood.data.network.model.author.AuthorResponse
+import pt.socialfood.core.network.api.AuthorsApi
+import pt.socialfood.core.network.model.PagedResponse
+import pt.socialfood.core.network.model.author.AuthorDetailResponse
+import pt.socialfood.core.network.model.author.AuthorResponse
 
 class FakeAuthorsApi(
     private val shouldThrow: Boolean = false,

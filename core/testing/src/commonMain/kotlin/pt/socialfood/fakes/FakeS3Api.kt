@@ -1,7 +1,7 @@
 package pt.socialfood.fakes
 
 import kotlinx.io.IOException
-import pt.socialfood.data.api.S3Api
+import pt.socialfood.core.network.api.S3Api
 
 class FakeS3Api(private val shouldThrow: Boolean = false) : S3Api {
 

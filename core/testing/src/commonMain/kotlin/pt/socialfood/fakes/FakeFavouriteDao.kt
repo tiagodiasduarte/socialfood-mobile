@@ -5,8 +5,8 @@ import androidx.paging.PagingState
 import androidx.sqlite.SQLiteException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import pt.socialfood.data.local.dao.FavouriteDao
-import pt.socialfood.data.local.entity.FavouriteGuideEntity
+import pt.socialfood.core.database.dao.FavouriteDao
+import pt.socialfood.core.database.entity.FavouriteGuideEntity
 
 class FakeFavouriteDao(
     private val shouldThrowOnWrite: Boolean = false,

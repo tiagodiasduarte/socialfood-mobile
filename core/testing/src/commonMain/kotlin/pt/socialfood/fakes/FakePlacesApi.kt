@@ -1,8 +1,8 @@
 package pt.socialfood.fakes
 
 import kotlinx.io.IOException
-import pt.socialfood.data.api.PlacesApi
-import pt.socialfood.data.network.model.place.PlaceResponse
+import pt.socialfood.core.network.api.PlacesApi
+import pt.socialfood.core.network.model.place.PlaceResponse
 
 class FakePlacesApi(private val shouldThrow: Boolean = false) : PlacesApi {
 

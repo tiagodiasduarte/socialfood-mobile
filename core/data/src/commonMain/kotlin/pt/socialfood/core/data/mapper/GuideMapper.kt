@@ -1,0 +1,75 @@
+package pt.socialfood.core.data.mapper
+
+import pt.socialfood.core.database.entity.GuideEntity
+import pt.socialfood.core.model.Author
+import pt.socialfood.core.model.AuthorDetail
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
+import pt.socialfood.core.network.model.author.AuthorDetailResponse
+import pt.socialfood.core.network.model.guide.GuideDetailResponse
+import pt.socialfood.core.network.model.guide.GuideResponse
+
+fun GuideResponse.toGuide() = Guide(
+    id = this.id,
+    name = this.name,
+    description = this.description,
+    visibility = this.visibility,
+    author = this.author.toAuthor(),
+    numberOfRestaurant = this.numberOfRestaurants,
+    imageUrl = this.imageUrl,
+    shareCode = this.shareCode,
+)
+
+fun AuthorDetailResponse.GuideResponse.toAuthorDetailGuide() = AuthorDetail.Guide(
+    id = this.id,
+    name = this.name,
+    description = this.description,
+    numberOfRestaurant = this.numberOfRestaurants,
+    imageUrl = this.imageUrl,
+)
+
+fun GuideDetailResponse.toGuide() = Guide(
+    id = this.id,
+    name = this.name,
+    description = this.description,
+    visibility = this.visibility,
+    author = this.author.toAuthor(),
+    numberOfRestaurant = this.restaurants.size,
+    restaurants = this.restaurants.map { it.toRestaurant() },
+    imageUrl = this.imageUrl,
+    shareCode = this.shareCode,
+)
+
+fun Guide.toGuideEntity(scope: String, position: Int) = GuideEntity(
+    id = this.id,
+    scope = scope,
+    name = this.name,
+    description = this.description,
+    visibility = this.visibility.name,
+    authorId = this.author.id,
+    authorName = this.author.name,
+    authorUsername = this.author.username,
+    authorImageUrl = this.author.imageUrl,
+    authorIsPublic = this.author.isPublic,
+    numberOfRestaurant = this.numberOfRestaurant,
+    imageUrl = this.imageUrl,
+    position = position,
+    shareCode = this.shareCode,
+)
+
+fun GuideEntity.toGuide() = Guide(
+    id = this.id,
+    name = this.name,
+    description = this.description,
+    visibility = GuideVisibility.valueOf(this.visibility),
+    author = Author(
+        id = this.authorId,
+        name = this.authorName,
+        username = this.authorUsername,
+        imageUrl = this.authorImageUrl,
+        isPublic = this.authorIsPublic,
+    ),
+    numberOfRestaurant = this.numberOfRestaurant,
+    imageUrl = this.imageUrl,
+    shareCode = this.shareCode,
+)

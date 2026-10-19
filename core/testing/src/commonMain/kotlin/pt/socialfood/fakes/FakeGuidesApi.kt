@@ -2,14 +2,14 @@ package pt.socialfood.fakes
 
 import kotlinx.io.IOException
 import pt.socialfood.core.model.GuideVisibility
-import pt.socialfood.data.api.GuidesApi
-import pt.socialfood.data.network.model.PagedResponse
-import pt.socialfood.data.network.model.author.AuthorResponse
-import pt.socialfood.data.network.model.guide.GuideDetailResponse
-import pt.socialfood.data.network.model.guide.GuideResponse
-import pt.socialfood.data.network.model.guide.JoinGuideRequest
-import pt.socialfood.data.network.model.photo.PresignedUrlRequest
-import pt.socialfood.data.network.model.photo.PresignedUrlResponse
+import pt.socialfood.core.network.api.GuidesApi
+import pt.socialfood.core.network.model.PagedResponse
+import pt.socialfood.core.network.model.author.AuthorResponse
+import pt.socialfood.core.network.model.guide.GuideDetailResponse
+import pt.socialfood.core.network.model.guide.GuideResponse
+import pt.socialfood.core.network.model.guide.JoinGuideRequest
+import pt.socialfood.core.network.model.photo.PresignedUrlRequest
+import pt.socialfood.core.network.model.photo.PresignedUrlResponse
 
 private val defaultFakeAuthor = AuthorResponse(
     id = "author-id",

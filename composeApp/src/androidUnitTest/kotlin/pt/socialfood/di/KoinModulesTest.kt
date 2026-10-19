@@ -12,7 +12,7 @@ import pt.socialfood.core.datastore.di.coreDatastoreModule
 import pt.socialfood.core.domain.di.coreDomainModule
 import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.core.network.di.coreNetworkModule
-import pt.socialfood.presentation.auth.di.authFeatureModule
+import pt.socialfood.feature.auth.di.authFeatureModule
 import pt.socialfood.presentation.author.di.authorFeatureModule
 import pt.socialfood.presentation.favourite.di.favouriteFeatureModule
 import pt.socialfood.presentation.guide.di.guideFeatureModule

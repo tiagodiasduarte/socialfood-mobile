@@ -13,13 +13,13 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.mp.KoinPlatform.getKoin
 import pt.socialfood.core.designsystem.theme.AppTheme
 import pt.socialfood.core.domain.session.SessionManager
+import pt.socialfood.feature.auth.signin.SignInScreen
+import pt.socialfood.feature.auth.signup.SignUpScreen
+import pt.socialfood.feature.auth.splash.SplashScreen
+import pt.socialfood.feature.auth.startup.StartupViewModel
+import pt.socialfood.feature.auth.validatecode.ValidateCodeScreen
 import pt.socialfood.presentation.navigation.NavigationRoot
-import pt.socialfood.presentation.signin.SignInScreen
-import pt.socialfood.presentation.signup.SignUpScreen
-import pt.socialfood.presentation.splash.SplashScreen
-import pt.socialfood.presentation.startup.StartupViewModel
 import pt.socialfood.presentation.sync.SyncEffect
-import pt.socialfood.presentation.validatecode.ValidateCodeScreen
 
 private sealed class AppDestination {
     data object Splash : AppDestination()

@@ -1,0 +1,72 @@
+package pt.socialfood.feature.auth.signin
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.domain.repository.UsersRepository
+import pt.socialfood.core.domain.usecase.login.LoginUseCase
+import pt.socialfood.core.domain.usecase.login.LoginWithGoogleUseCase
+import pt.socialfood.core.ui.error.toErrorCode
+import pt.socialfood.feature.auth.generated.resources.Res
+import pt.socialfood.feature.auth.generated.resources.sign_in_invalid_email
+import pt.socialfood.feature.auth.generated.resources.sign_in_invalid_password
+
+class SignInViewModel(
+    private val login: LoginUseCase,
+    private val loginWithGoogle: LoginWithGoogleUseCase,
+    private val usersRepository: UsersRepository,
+) : ViewModel() {
+
+    private val _state = MutableStateFlow<SignInUiState>(SignInUiState.Idle)
+    val state: StateFlow<SignInUiState> = _state
+
+    fun onSignIn(email: String, password: String) {
+        viewModelScope.launch {
+            if (email.isEmpty()) {
+                _state.value = SignInUiState.ValidationError(Res.string.sign_in_invalid_email)
+                return@launch
+            }
+
+            if (password.isEmpty()) {
+                _state.value = SignInUiState.ValidationError(Res.string.sign_in_invalid_password)
+                return@launch
+            }
+
+            _state.value = SignInUiState.Loading
+
+            when (val result = login(email, password)) {
+                is Result.Success -> onLoginSucceeded()
+                is Result.Failure -> _state.value = SignInUiState.Error(result.error.toErrorCode())
+            }
+        }
+    }
+
+    fun onGoogleSignIn(idToken: String) {
+        viewModelScope.launch {
+            _state.value = SignInUiState.Loading
+            when (val result = loginWithGoogle(idToken)) {
+                is Result.Success -> onLoginSucceeded()
+                is Result.Failure -> _state.value = SignInUiState.Error(result.error.toErrorCode())
+            }
+        }
+    }
+
+    private suspend fun onLoginSucceeded() {
+        _state.value = when (val result = usersRepository.getUserMe()) {
+            is Result.Success -> SignInUiState.Success
+            is Result.Failure -> SignInUiState.Error(result.error.toErrorCode())
+        }
+    }
+
+    fun onGoogleSignInError(message: String) {
+        _state.value = SignInUiState.Error(ErrorCode.UNKNOWN, debugMessage = message)
+    }
+
+    fun resetState() {
+        _state.value = SignInUiState.Idle
+    }
+}

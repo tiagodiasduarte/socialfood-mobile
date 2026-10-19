@@ -19,7 +19,7 @@ SocialFood is a Kotlin Multiplatform (KMP) app targeting **Android** and **iOS**
 ./gradlew :composeApp:testDebugUnitTest testAndroidHostTest
 
 # Run a specific test class (in the module that owns it)
-./gradlew :feature:auth:testAndroidHostTest --tests "pt.socialfood.presentation.signin.SignInViewModelTest"
+./gradlew :feature:auth:testAndroidHostTest --tests "pt.socialfood.feature.auth.signin.SignInViewModelTest"
 
 # Coverage verification across all modules (aggregated into :composeApp)
 ./gradlew :composeApp:koverVerify
@@ -40,7 +40,7 @@ CI (`.github/workflows/ci.yml`) runs on PRs targeting `develop` or `main`, as pa
 
 ## Architecture
 
-Clean Architecture split into Gradle modules. Package names didn't change when code moved into modules (e.g. use cases are still `pt.socialfood.domain.usecase.*`).
+Clean Architecture split into Gradle modules. A module's code lives under the package that matches its Gradle path: `pt.socialfood.` + the path, dropping a trailing `api`/`impl` so a feature's api and impl share one package (`:core:domain` is `pt.socialfood.core.domain.*`, so use cases are `pt.socialfood.core.domain.usecase.*`; `:feature:guide:api` and `:feature:guide:impl` are both `pt.socialfood.feature.guide.*`; `:feature:auth` is `pt.socialfood.feature.auth.*`; `:composeApp` is `pt.socialfood.app.*`, except `MainActivity` and `SocialFoodApp`, which stay in `pt.socialfood` because the manifest names them). Test code follows the same rule, including `:core:testing` (`pt.socialfood.core.testing.{fakes,random,runner}`).
 
 ```
 composeApp/                 – app shell: App.kt, NavigationRoot + bottom bar, route serializers, Koin (di/),
@@ -70,13 +70,13 @@ build-logic/                – convention plugins: socialfood.kmp.library / .co
 
 **Data flow:** `Screen` → `ViewModel` → (`UseCase` →) `RepositoryImpl` → `Api` (Ktor) → backend
 
-**Result type:** All use cases and repositories return `core.Result<T>` (either `Success(data)` or `Failure(DataError)`). Never throw across layer boundaries — `safeApiCall` (`core/network`, `domain/error/SafeApiCall.kt`) wraps Ktor calls and converts exceptions via `Throwable.toDataError()` (`data/network/extensions/ThrowableExceptions.kt`) into `DataError.Known` (structured backend error carrying an `ErrorCode`), `DataError.Unknown` (unparsed HTTP error), or `DataError.Network` (connectivity/IO failure).
+**Result type:** All use cases and repositories return `pt.socialfood.core.common.Result<T>` (either `Success(data)` or `Failure(DataError)`). Never throw across layer boundaries — `safeApiCall` (`core/network`, `SafeApiCall.kt`) wraps Ktor calls and converts exceptions via `Throwable.toDataError()` (`extensions/ThrowableExceptions.kt`) into `DataError.Known` (structured backend error carrying an `ErrorCode`), `DataError.Unknown` (unparsed HTTP error), or `DataError.Network` (connectivity/IO failure).
 
-**Error messages:** Resolve error copy in Compose, not in the ViewModel — store `ErrorCode` in UI state (via `DataError.toErrorCode()`) and resolve the string at render time with `stringResource(errorCode.stringResource())` (`core/ui`, `presentation/error/DataErrorMessages.kt`). This keeps ViewModel tests on plain JVM without needing Robolectric, since no Android resource APIs are touched outside `@Composable` scope. Every ViewModel that surfaces a `DataError` follows this pattern.
+**Error messages:** Resolve error copy in Compose, not in the ViewModel — store `ErrorCode` in UI state (via `DataError.toErrorCode()`) and resolve the string at render time with `stringResource(errorCode.stringResource())` (`core/ui`, `error/DataErrorMessages.kt`). This keeps ViewModel tests on plain JVM without needing Robolectric, since no Android resource APIs are touched outside `@Composable` scope. Every ViewModel that surfaces a `DataError` follows this pattern.
 
 **Use cases only when they add logic:** add a use case when it does more than forward one repository call, e.g. it combines several repositories or managers, validates or transforms data, holds a business rule, or orchestrates a flow such as login. Otherwise the ViewModel depends on the repository interface (in `:core:domain`) directly and its tests use the `Fake*Repository` from `:core:testing`.
 
-**Naming convention:** Each use case has an interface (`CreateGuideUseCase`) and an `Impl` class (`CreateGuideUseCaseImpl`). Same for repositories. Packages are camelCase, never snake_case (e.g. `presentation/signin`, `domain/usecase` — not `sign_in`/`use_case`).
+**Naming convention:** Each use case has an interface (`CreateGuideUseCase`) and an `Impl` class (`CreateGuideUseCaseImpl`). Same for repositories. Packages are camelCase, never snake_case (e.g. `signin`, `usecase` — not `sign_in`/`use_case`).
 
 **Lint:** `@Composable` functions are allowed PascalCase names (exempted via `ktlint_function_naming_ignore_when_annotated_with = Composable` in `.editorconfig`); everything else follows standard ktlint naming rules. Pre-existing ktlint violations not yet fixed are tracked per module in `<module>/ktlint-baseline.xml`, keyed by exact line/column, so an edit that shifts lines in a baselined file needs the corresponding entry updated (or that module's file regenerated via `./gradlew :<module>:ktlintGenerateBaseline` if drift is large). Detekt's equivalent is `<module>/config/detekt/baseline.xml` (`:<module>:detektBaseline`); the shared detekt config is `config/detekt/detekt.yml`. Moving a file to another module means moving its baseline entries too.
 

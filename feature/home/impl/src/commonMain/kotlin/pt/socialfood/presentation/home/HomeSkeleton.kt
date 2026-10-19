@@ -17,10 +17,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import pt.socialfood.presentation.components.ShimmerBox
-import pt.socialfood.presentation.components.rememberShimmerAlpha
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.component.ShimmerBox
+import pt.socialfood.core.designsystem.component.rememberShimmerAlpha
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
 
 private const val HOME_SECTION_COUNT = 3
 private const val SECTION_CARD_COUNT = 3

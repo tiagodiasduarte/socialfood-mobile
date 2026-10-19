@@ -56,6 +56,9 @@ import pt.socialfood.core.designsystem.generated.resources.app_name
 import pt.socialfood.core.designsystem.generated.resources.google_icon
 import pt.socialfood.core.designsystem.generated.resources.sign_in_google_button_description
 import pt.socialfood.core.designsystem.generated.resources.socialfood_icon
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
+import pt.socialfood.core.ui.error.stringResource
 import pt.socialfood.feature.auth.generated.resources.Res
 import pt.socialfood.feature.auth.generated.resources.hide_password_content_description
 import pt.socialfood.feature.auth.generated.resources.show_password_content_description
@@ -70,10 +73,7 @@ import pt.socialfood.feature.auth.generated.resources.sign_in_password_placehold
 import pt.socialfood.feature.auth.generated.resources.sign_in_sign_up_button
 import pt.socialfood.feature.auth.generated.resources.sign_in_subtitle_label
 import pt.socialfood.feature.auth.generated.resources.sign_in_title_label
-import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.presentation.google.rememberGoogleSignInLauncher
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable

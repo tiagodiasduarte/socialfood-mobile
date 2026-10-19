@@ -14,6 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import kotlinx.coroutines.launch
+import pt.socialfood.core.navigation.Navigator
+import pt.socialfood.core.navigation.rememberNavigationState
+import pt.socialfood.core.navigation.toEntries
 import pt.socialfood.presentation.author.navigation.AuthorRoute
 import pt.socialfood.presentation.author.navigation.authorEntries
 import pt.socialfood.presentation.drawer.DrawerContent

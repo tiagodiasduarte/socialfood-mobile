@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.feature.restaurant.impl.generated.resources.Res
 import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_day_friday
 import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_day_monday
@@ -24,8 +26,6 @@ import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_deta
 import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_day_thursday
 import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_day_tuesday
 import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_day_wednesday
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
 fun OpeningHoursCard(openingHours: List<String>) {

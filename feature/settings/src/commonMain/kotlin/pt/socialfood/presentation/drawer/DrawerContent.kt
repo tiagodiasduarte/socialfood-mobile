@@ -44,6 +44,8 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.core.common.AppConfig
+import pt.socialfood.core.designsystem.component.StatsRow
+import pt.socialfood.core.designsystem.component.UserImage
 import pt.socialfood.core.designsystem.generated.resources.guide_icon
 import pt.socialfood.core.designsystem.generated.resources.logout_icon
 import pt.socialfood.core.designsystem.generated.resources.profile_icon
@@ -51,6 +53,11 @@ import pt.socialfood.core.designsystem.generated.resources.restaurant_icon
 import pt.socialfood.core.designsystem.generated.resources.theme_icon
 import pt.socialfood.core.designsystem.generated.resources.visited_icon
 import pt.socialfood.core.designsystem.generated.resources.wish_icon
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.AppTypography
+import pt.socialfood.core.designsystem.theme.ProfileGradientEnd
+import pt.socialfood.core.designsystem.theme.ProfileGradientStart
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.model.User
 import pt.socialfood.feature.settings.generated.resources.Res
 import pt.socialfood.feature.settings.generated.resources.profile_favorite_guides_button
@@ -67,15 +74,8 @@ import pt.socialfood.feature.settings.generated.resources.profile_visited_restau
 import pt.socialfood.feature.settings.generated.resources.profile_visited_restaurants_button_description
 import pt.socialfood.feature.settings.generated.resources.profile_wish_restaurants_button
 import pt.socialfood.feature.settings.generated.resources.profile_wish_restaurants_button_description
-import pt.socialfood.presentation.components.StatsRow
-import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.presentation.theme.ThemeBottomSheet
 import pt.socialfood.presentation.theme.isThemeModeSelectionSupported
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.ProfileGradientEnd
-import pt.socialfood.ui.theme.ProfileGradientStart
-import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 private val DrawerAvatarSize = 44.dp

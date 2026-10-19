@@ -30,10 +30,19 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.component.ActionButton
+import pt.socialfood.core.designsystem.component.ErrorContent
+import pt.socialfood.core.designsystem.component.NoResultsContent
+import pt.socialfood.core.designsystem.component.PullToRefreshContent
+import pt.socialfood.core.designsystem.component.TopActionBar
+import pt.socialfood.core.designsystem.component.TopTabs
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.model.Author
 import pt.socialfood.core.model.Guide
 import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.core.model.User
+import pt.socialfood.core.ui.guide.GuideCard
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.guides_no_results_all_subtitle
 import pt.socialfood.feature.guide.impl.generated.resources.guides_no_results_all_title
@@ -45,18 +54,9 @@ import pt.socialfood.feature.guide.impl.generated.resources.guides_tab_all
 import pt.socialfood.feature.guide.impl.generated.resources.guides_tab_my
 import pt.socialfood.feature.guide.impl.generated.resources.guides_tab_shared
 import pt.socialfood.feature.guide.impl.generated.resources.guides_title
-import pt.socialfood.presentation.components.ActionButton
-import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.NoResultsContent
-import pt.socialfood.presentation.components.PullToRefreshContent
-import pt.socialfood.presentation.components.TopActionBar
-import pt.socialfood.presentation.components.TopTabs
 import pt.socialfood.presentation.guide.all.AllGuidesScreen
 import pt.socialfood.presentation.guide.my.MyGuidesScreen
 import pt.socialfood.presentation.guide.shared.SharedGuidesScreen
-import pt.socialfood.presentation.ui.guide.GuideCard
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 
 const val ALL_GUIDES_TAB = 0
 const val MY_GUIDES_TAB = 1

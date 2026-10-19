@@ -23,6 +23,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.core.designsystem.component.ErrorContent
+import pt.socialfood.core.designsystem.component.NoResultsContent
+import pt.socialfood.core.designsystem.component.PullToRefreshContent
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.AppTypography
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.model.Author
 import pt.socialfood.core.model.Guide
 import pt.socialfood.core.model.GuideVisibility
@@ -33,17 +39,11 @@ import pt.socialfood.core.model.HomeSectionType
 import pt.socialfood.core.model.Location
 import pt.socialfood.core.model.Restaurant
 import pt.socialfood.core.model.User
+import pt.socialfood.core.ui.guide.GuideCard
+import pt.socialfood.core.ui.restaurant.RestaurantCard
 import pt.socialfood.feature.home.impl.generated.resources.Res
 import pt.socialfood.feature.home.impl.generated.resources.home_no_results_subtitle
 import pt.socialfood.feature.home.impl.generated.resources.home_no_results_title
-import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.NoResultsContent
-import pt.socialfood.presentation.components.PullToRefreshContent
-import pt.socialfood.presentation.ui.guide.GuideCard
-import pt.socialfood.presentation.ui.restaurant.RestaurantCard
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.SpaceSize
 
 private val cardWidth = 300.dp
 

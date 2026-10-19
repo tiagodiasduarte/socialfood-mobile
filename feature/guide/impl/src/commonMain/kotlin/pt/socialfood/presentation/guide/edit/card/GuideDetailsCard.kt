@@ -46,6 +46,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.component.card.SectionCard
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
+import pt.socialfood.core.ui.imagepicker.toImageBitmap
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_cover_image_click_label
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_cover_image_hint
@@ -57,10 +61,6 @@ import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_s
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_title_error
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_title_label
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_title_placeholder
-import pt.socialfood.presentation.components.card.SectionCard
-import pt.socialfood.presentation.imagepicker.toImageBitmap
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 
 private const val COVER_ASPECT_RATIO = 16f / 9f
 private const val DASH_LENGTH = 12f

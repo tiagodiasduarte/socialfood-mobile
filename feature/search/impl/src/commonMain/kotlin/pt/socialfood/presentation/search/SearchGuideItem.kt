@@ -20,15 +20,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import pt.socialfood.core.designsystem.component.GuideImage
+import pt.socialfood.core.designsystem.component.UserImage
+import pt.socialfood.core.designsystem.component.cardImageScrim
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.AppTypography
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.model.Author
 import pt.socialfood.core.model.Guide
 import pt.socialfood.core.model.GuideVisibility
-import pt.socialfood.presentation.components.GuideImage
-import pt.socialfood.presentation.components.UserImage
-import pt.socialfood.presentation.components.cardImageScrim
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.SpaceSize
 
 private val CardHeight = 150.dp
 

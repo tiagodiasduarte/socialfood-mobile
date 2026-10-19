@@ -51,6 +51,9 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.core.designsystem.generated.resources.app_name
 import pt.socialfood.core.designsystem.generated.resources.socialfood_icon
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
+import pt.socialfood.core.ui.error.stringResource
 import pt.socialfood.feature.auth.generated.resources.Res
 import pt.socialfood.feature.auth.generated.resources.hide_password_content_description
 import pt.socialfood.feature.auth.generated.resources.show_password_content_description
@@ -67,9 +70,6 @@ import pt.socialfood.feature.auth.generated.resources.sign_up_name_placeholder_l
 import pt.socialfood.feature.auth.generated.resources.sign_up_sign_in_label
 import pt.socialfood.feature.auth.generated.resources.sign_up_subtitle_label
 import pt.socialfood.feature.auth.generated.resources.sign_up_title_label
-import pt.socialfood.presentation.error.stringResource
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable

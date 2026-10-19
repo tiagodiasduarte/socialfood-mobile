@@ -30,10 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import pt.socialfood.presentation.components.ShimmerBox
-import pt.socialfood.presentation.components.rememberShimmerAlpha
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.component.ShimmerBox
+import pt.socialfood.core.designsystem.component.rememberShimmerAlpha
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
 
 private const val OPENING_HOURS_DAY_COUNT = 7
 private const val GALLERY_THUMBNAIL_COUNT = 5

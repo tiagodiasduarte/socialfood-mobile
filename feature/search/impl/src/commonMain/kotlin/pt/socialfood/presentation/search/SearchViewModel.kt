@@ -24,7 +24,7 @@ import pt.socialfood.core.domain.usecase.search.SaveRecentSearchUseCase
 import pt.socialfood.core.model.RecentSearch
 import pt.socialfood.core.model.RecentSearchType
 import pt.socialfood.core.model.Search
-import pt.socialfood.presentation.error.toErrorCode
+import pt.socialfood.core.ui.error.toErrorCode
 import kotlin.time.Duration.Companion.milliseconds
 
 private const val PAGE_SIZE = 50

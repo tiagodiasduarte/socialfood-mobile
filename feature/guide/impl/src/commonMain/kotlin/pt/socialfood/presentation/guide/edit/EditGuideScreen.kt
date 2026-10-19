@@ -28,27 +28,27 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.core.designsystem.component.ErrorContent
+import pt.socialfood.core.designsystem.component.TopActionBar
+import pt.socialfood.core.designsystem.component.TopTabs
+import pt.socialfood.core.designsystem.component.buttons.SaveButton
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.model.Author
 import pt.socialfood.core.model.Guide
 import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.core.model.Location
 import pt.socialfood.core.model.Restaurant
+import pt.socialfood.core.ui.imagepicker.rememberImagePickerLauncher
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_tab_details
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_tab_restaurants
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_tab_status
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_title
-import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.TopActionBar
-import pt.socialfood.presentation.components.TopTabs
-import pt.socialfood.presentation.components.buttons.SaveButton
 import pt.socialfood.presentation.guide.GuideValidationErrorDialog
 import pt.socialfood.presentation.guide.edit.card.GuideDetailsCard
 import pt.socialfood.presentation.guide.edit.card.GuideRestaurantsCard
 import pt.socialfood.presentation.guide.edit.card.GuideStatusCard
-import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 
 private const val TAB_DETAILS = 0
 private const val TAB_RESTAURANTS = 1

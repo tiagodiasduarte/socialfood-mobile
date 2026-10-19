@@ -22,7 +22,7 @@ import pt.socialfood.core.model.Guide
 import pt.socialfood.core.model.HomeSection
 import pt.socialfood.core.model.Restaurant
 import pt.socialfood.core.model.User
-import pt.socialfood.presentation.error.toErrorCode
+import pt.socialfood.core.ui.error.toErrorCode
 
 class HomeViewModel(
     private val homeRepository: HomeRepository,

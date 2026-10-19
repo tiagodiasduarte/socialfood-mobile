@@ -24,6 +24,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.core.designsystem.component.ErrorContent
+import pt.socialfood.core.designsystem.component.NoResultsContent
+import pt.socialfood.core.designsystem.component.SearchBar
+import pt.socialfood.core.designsystem.component.SearchSectionHeader
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.model.Author
 import pt.socialfood.core.model.Guide
 import pt.socialfood.core.model.GuideVisibility
@@ -39,12 +45,6 @@ import pt.socialfood.feature.search.impl.generated.resources.search_search_place
 import pt.socialfood.feature.search.impl.generated.resources.search_section_authors_title
 import pt.socialfood.feature.search.impl.generated.resources.search_section_guides_title
 import pt.socialfood.feature.search.impl.generated.resources.search_section_restaurants_title
-import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.NoResultsContent
-import pt.socialfood.presentation.components.SearchBar
-import pt.socialfood.presentation.components.SearchSectionHeader
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
 fun SearchScreen(

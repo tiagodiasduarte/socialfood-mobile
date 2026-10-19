@@ -9,9 +9,9 @@ import pt.socialfood.core.common.Result
 import pt.socialfood.core.domain.repository.AuthRepository
 import pt.socialfood.core.domain.usecase.login.RestartSignUpUseCase
 import pt.socialfood.core.domain.usecase.login.ValidateCodeUseCase
+import pt.socialfood.core.ui.error.toErrorCode
 import pt.socialfood.feature.auth.generated.resources.Res
 import pt.socialfood.feature.auth.generated.resources.validate_code_empty_code
-import pt.socialfood.presentation.error.toErrorCode
 
 class ValidateCodeViewModel(
     private val validateCode: ValidateCodeUseCase,

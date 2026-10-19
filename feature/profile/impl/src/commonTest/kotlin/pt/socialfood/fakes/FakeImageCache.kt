@@ -1,6 +1,6 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.presentation.ui.image.ImageCache
+import pt.socialfood.core.ui.image.ImageCache
 
 class FakeImageCache : ImageCache {
     var clearedUrls: MutableList<String> = mutableListOf()

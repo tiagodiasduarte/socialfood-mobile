@@ -22,21 +22,21 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.designsystem.component.ErrorAlertDialog
+import pt.socialfood.core.designsystem.component.ErrorContent
+import pt.socialfood.core.designsystem.component.TopActionBar
+import pt.socialfood.core.designsystem.component.buttons.SaveButton
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
+import pt.socialfood.core.ui.error.stringResource
 import pt.socialfood.feature.profile.impl.generated.resources.Res
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_save_error_dismiss
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_save_error_title
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_title
-import pt.socialfood.presentation.components.ErrorAlertDialog
-import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.TopActionBar
-import pt.socialfood.presentation.components.buttons.SaveButton
-import pt.socialfood.presentation.error.stringResource
 import pt.socialfood.presentation.profile.edit.card.AuthorModeCard
 import pt.socialfood.presentation.profile.edit.card.PersonalDetailsCard
 import pt.socialfood.presentation.profile.edit.card.ProfilePictureCard
 import pt.socialfood.presentation.profile.edit.card.SocialNetworkCard
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 
 private val SaveButtonHeight = 56.dp
 

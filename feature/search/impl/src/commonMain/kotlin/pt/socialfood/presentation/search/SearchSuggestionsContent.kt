@@ -24,9 +24,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.component.SearchSectionHeader
 import pt.socialfood.core.designsystem.generated.resources.author_icon
 import pt.socialfood.core.designsystem.generated.resources.guide_icon
 import pt.socialfood.core.designsystem.generated.resources.restaurant_icon
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.AppTypography
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.model.RecentSearch
 import pt.socialfood.core.model.RecentSearchType
 import pt.socialfood.feature.search.impl.generated.resources.Res
@@ -35,10 +39,6 @@ import pt.socialfood.feature.search.impl.generated.resources.search_suggestion_f
 import pt.socialfood.feature.search.impl.generated.resources.search_suggestion_favorite_restaurants
 import pt.socialfood.feature.search.impl.generated.resources.search_suggestion_most_followed
 import pt.socialfood.feature.search.impl.generated.resources.search_suggestions_title
-import pt.socialfood.presentation.components.SearchSectionHeader
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable

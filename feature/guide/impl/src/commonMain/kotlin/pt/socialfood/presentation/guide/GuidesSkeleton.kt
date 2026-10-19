@@ -9,11 +9,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import pt.socialfood.presentation.components.ShimmerBox
-import pt.socialfood.presentation.components.rememberShimmerAlpha
-import pt.socialfood.presentation.ui.guide.GuideCardHeight
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
+import pt.socialfood.core.designsystem.component.ShimmerBox
+import pt.socialfood.core.designsystem.component.rememberShimmerAlpha
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
+import pt.socialfood.core.ui.guide.GuideCardHeight
 
 private const val SKELETON_ITEM_COUNT = 8
 

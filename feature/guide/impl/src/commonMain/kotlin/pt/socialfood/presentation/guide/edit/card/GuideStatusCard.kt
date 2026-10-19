@@ -30,6 +30,9 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.component.buttons.OutlinedButton
+import pt.socialfood.core.designsystem.theme.SpaceSize
+import pt.socialfood.core.designsystem.theme.StatusGuide
 import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_delete_button
@@ -39,11 +42,8 @@ import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_needs_res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_publication_rules_label
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_share_code_copy_action
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_share_code_section_label
-import pt.socialfood.presentation.components.buttons.OutlinedButton
 import pt.socialfood.presentation.guide.GuideVisibilityPicker
 import pt.socialfood.presentation.guide.edit.rememberDeleteGuideConfirmationLauncher
-import pt.socialfood.ui.theme.SpaceSize
-import pt.socialfood.ui.theme.StatusGuide
 
 private const val MIN_RESTAURANTS = 3
 private const val SHARE_CODE_PLACEHOLDER = "_ _ _ _ _ _"

@@ -31,6 +31,8 @@ import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.core.designsystem.generated.resources.author_icon
 import pt.socialfood.core.designsystem.generated.resources.guide_private_icon
 import pt.socialfood.core.designsystem.generated.resources.guide_public_icon
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_visibility_label
@@ -40,8 +42,6 @@ import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_visibilit
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_visibility_public_description
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_visibility_shared
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_visibility_shared_description
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 private data class VisibilityOption(

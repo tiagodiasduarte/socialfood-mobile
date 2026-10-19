@@ -2,12 +2,12 @@ package pt.socialfood.presentation.author.navigation
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import pt.socialfood.core.navigation.Navigator
+import pt.socialfood.core.navigation.defaultAnimationMetadata
+import pt.socialfood.core.navigation.slideHorizontalAnimationMetadata
 import pt.socialfood.presentation.author.detail.AuthorDetailScreen
 import pt.socialfood.presentation.author.list.AuthorsScreen
 import pt.socialfood.presentation.guide.navigation.GuideRoute
-import pt.socialfood.presentation.navigation.Navigator
-import pt.socialfood.presentation.navigation.defaultAnimationMetadata
-import pt.socialfood.presentation.navigation.slideHorizontalAnimationMetadata
 import pt.socialfood.presentation.profile.navigation.ProfileRoute
 
 fun EntryProviderScope<NavKey>.authorEntries(navigator: Navigator, onOpenDrawer: () -> Unit) {

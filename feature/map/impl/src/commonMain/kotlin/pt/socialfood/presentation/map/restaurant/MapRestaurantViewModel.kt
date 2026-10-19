@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import pt.socialfood.core.common.Result
 import pt.socialfood.core.domain.repository.RestaurantsRepository
-import pt.socialfood.presentation.error.toErrorCode
+import pt.socialfood.core.ui.error.toErrorCode
 
 class MapRestaurantViewModel(
     private val restaurantsRepository: RestaurantsRepository,

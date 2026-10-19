@@ -27,21 +27,21 @@ import androidx.paging.compose.itemKey
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.core.designsystem.component.ActionButton
+import pt.socialfood.core.designsystem.component.ErrorContent
+import pt.socialfood.core.designsystem.component.NoResultsContent
+import pt.socialfood.core.designsystem.component.PullToRefreshContent
+import pt.socialfood.core.designsystem.component.TopActionBar
 import pt.socialfood.core.designsystem.generated.resources.wish_restaurants_title
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.model.Location
 import pt.socialfood.core.model.Restaurant
+import pt.socialfood.core.ui.restaurant.RestaurantVisitStatusCard
 import pt.socialfood.feature.restaurant.impl.generated.resources.Res
 import pt.socialfood.feature.restaurant.impl.generated.resources.wish_no_results_subtitle
 import pt.socialfood.feature.restaurant.impl.generated.resources.wish_no_results_title
-import pt.socialfood.presentation.components.ActionButton
-import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.NoResultsContent
-import pt.socialfood.presentation.components.PullToRefreshContent
-import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.restaurant.visited.MapButtonItem
-import pt.socialfood.presentation.ui.restaurant.RestaurantVisitStatusCard
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @OptIn(ExperimentalMaterial3Api::class)

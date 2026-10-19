@@ -13,6 +13,7 @@ import pt.socialfood.core.datastore.di.coreDatastoreModule
 import pt.socialfood.core.domain.di.coreDomainModule
 import pt.socialfood.core.network.CoilHttpClient
 import pt.socialfood.core.network.di.coreNetworkModule
+import pt.socialfood.core.ui.image.ImageCache
 import pt.socialfood.presentation.auth.di.authFeatureModule
 import pt.socialfood.presentation.author.di.authorFeatureModule
 import pt.socialfood.presentation.favourite.di.favouriteFeatureModule
@@ -24,7 +25,6 @@ import pt.socialfood.presentation.restaurant.di.restaurantFeatureModule
 import pt.socialfood.presentation.search.di.searchFeatureModule
 import pt.socialfood.presentation.settings.di.settingsFeatureModule
 import pt.socialfood.presentation.sync.SyncViewModel
-import pt.socialfood.presentation.ui.image.ImageCache
 
 expect val platformModule: Module
 

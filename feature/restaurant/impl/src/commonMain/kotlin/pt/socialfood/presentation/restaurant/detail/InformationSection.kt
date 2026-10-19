@@ -40,14 +40,14 @@ import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.core.designsystem.generated.resources.google_icon
 import pt.socialfood.core.designsystem.generated.resources.map_navigation_icon
 import pt.socialfood.core.designsystem.generated.resources.sign_in_google_button_description
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.model.Location
 import pt.socialfood.core.model.Restaurant
 import pt.socialfood.feature.restaurant.impl.generated.resources.Res
 import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_information_title
 import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_navigate_description
 import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_reviews_count
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable

@@ -28,8 +28,12 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.designsystem.component.ErrorContent
 import pt.socialfood.core.designsystem.generated.resources.guide_map_close_button_description
 import pt.socialfood.core.designsystem.generated.resources.guide_map_restaurants_count_label
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
+import pt.socialfood.core.maps.MapGuideRestaurants
 import pt.socialfood.core.model.Author
 import pt.socialfood.core.model.Guide
 import pt.socialfood.core.model.GuideVisibility
@@ -37,10 +41,6 @@ import pt.socialfood.core.model.Location
 import pt.socialfood.core.model.Restaurant
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.guide_map_empty_message
-import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.maps.MapGuideRestaurants
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable

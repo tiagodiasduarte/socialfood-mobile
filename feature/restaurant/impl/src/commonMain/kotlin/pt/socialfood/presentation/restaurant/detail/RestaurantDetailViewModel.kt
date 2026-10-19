@@ -12,7 +12,7 @@ import pt.socialfood.core.domain.repository.FavouriteRestaurantsRepository
 import pt.socialfood.core.domain.repository.RestaurantVisitStatusRepository
 import pt.socialfood.core.domain.repository.RestaurantsRepository
 import pt.socialfood.core.model.VisitStatus
-import pt.socialfood.presentation.error.toErrorCode
+import pt.socialfood.core.ui.error.toErrorCode
 
 class RestaurantDetailViewModel(
     private val restaurantsRepository: RestaurantsRepository,

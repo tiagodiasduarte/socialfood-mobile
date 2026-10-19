@@ -10,7 +10,7 @@ import pt.socialfood.core.common.Result
 import pt.socialfood.core.domain.repository.UsersRepository
 import pt.socialfood.core.domain.usecase.login.LogoutUseCase
 import pt.socialfood.core.domain.usecase.user.ObserveUserUseCase
-import pt.socialfood.presentation.error.toErrorCode
+import pt.socialfood.core.ui.error.toErrorCode
 
 class DrawerViewModel(
     private val usersRepository: UsersRepository,

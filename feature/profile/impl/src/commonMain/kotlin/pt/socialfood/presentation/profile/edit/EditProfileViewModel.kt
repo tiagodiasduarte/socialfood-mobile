@@ -9,8 +9,8 @@ import kotlinx.coroutines.launch
 import pt.socialfood.core.common.Result
 import pt.socialfood.core.domain.repository.PhotosRepository
 import pt.socialfood.core.domain.repository.UsersRepository
-import pt.socialfood.presentation.error.toErrorCode
-import pt.socialfood.presentation.ui.image.ImageCache
+import pt.socialfood.core.ui.error.toErrorCode
+import pt.socialfood.core.ui.image.ImageCache
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 

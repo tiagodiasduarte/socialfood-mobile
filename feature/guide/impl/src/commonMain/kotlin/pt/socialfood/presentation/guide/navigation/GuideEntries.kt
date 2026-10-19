@@ -2,15 +2,15 @@ package pt.socialfood.presentation.guide.navigation
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import pt.socialfood.core.navigation.Navigator
+import pt.socialfood.core.navigation.defaultAnimationMetadata
+import pt.socialfood.core.navigation.slideUpAnimationMetadata
 import pt.socialfood.presentation.author.navigation.AuthorRoute
 import pt.socialfood.presentation.guide.GuidesScreen
 import pt.socialfood.presentation.guide.create.CreateGuideScreen
 import pt.socialfood.presentation.guide.detail.GuideDetailScreen
 import pt.socialfood.presentation.guide.edit.EditGuideScreen
 import pt.socialfood.presentation.guide.map.GuideMapScreen
-import pt.socialfood.presentation.navigation.Navigator
-import pt.socialfood.presentation.navigation.defaultAnimationMetadata
-import pt.socialfood.presentation.navigation.slideUpAnimationMetadata
 import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute
 
 fun EntryProviderScope<NavKey>.guideEntries(navigator: Navigator, onOpenDrawer: () -> Unit) {

@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.mp.KoinPlatform.getKoin
+import pt.socialfood.core.designsystem.theme.AppTheme
 import pt.socialfood.core.domain.session.SessionManager
 import pt.socialfood.presentation.navigation.NavigationRoot
 import pt.socialfood.presentation.signin.SignInScreen
@@ -19,7 +20,6 @@ import pt.socialfood.presentation.splash.SplashScreen
 import pt.socialfood.presentation.startup.StartupViewModel
 import pt.socialfood.presentation.sync.SyncEffect
 import pt.socialfood.presentation.validatecode.ValidateCodeScreen
-import pt.socialfood.ui.theme.AppTheme
 
 private sealed class AppDestination {
     data object Splash : AppDestination()

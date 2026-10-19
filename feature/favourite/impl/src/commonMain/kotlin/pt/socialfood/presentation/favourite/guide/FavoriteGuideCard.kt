@@ -28,20 +28,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.component.GuideImage
+import pt.socialfood.core.designsystem.component.buttons.OutlinedButton
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.AppTypography
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.model.Author
 import pt.socialfood.core.model.Guide
 import pt.socialfood.core.model.GuideVisibility
+import pt.socialfood.core.ui.author.AuthorChip
+import pt.socialfood.core.ui.guide.badgeBackgroundColor
+import pt.socialfood.core.ui.guide.badgeContentDescription
+import pt.socialfood.core.ui.guide.badgeIcon
 import pt.socialfood.feature.favourite.impl.generated.resources.Res
 import pt.socialfood.feature.favourite.impl.generated.resources.favorite_card_remove_button
-import pt.socialfood.presentation.components.GuideImage
-import pt.socialfood.presentation.components.buttons.OutlinedButton
-import pt.socialfood.presentation.ui.author.AuthorChip
-import pt.socialfood.presentation.ui.guide.badgeBackgroundColor
-import pt.socialfood.presentation.ui.guide.badgeContentDescription
-import pt.socialfood.presentation.ui.guide.badgeIcon
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.SpaceSize
 
 internal val CardHeight = 183.dp
 

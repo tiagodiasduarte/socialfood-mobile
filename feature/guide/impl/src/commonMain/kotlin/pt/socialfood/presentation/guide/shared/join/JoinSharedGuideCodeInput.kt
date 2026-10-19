@@ -36,13 +36,13 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.core.designsystem.generated.resources.join_shared_guide_screen_close_button_description
+import pt.socialfood.core.designsystem.theme.SpaceSize
+import pt.socialfood.core.ui.error.stringResource
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.join_guide_dialog_code_placeholder
 import pt.socialfood.feature.guide.impl.generated.resources.join_guide_dialog_subtitle
 import pt.socialfood.feature.guide.impl.generated.resources.join_guide_dialog_title
 import pt.socialfood.feature.guide.impl.generated.resources.join_shared_guide_screen_join_button
-import pt.socialfood.presentation.error.stringResource
-import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 private const val JOIN_GUIDE_CODE_LENGTH = 8

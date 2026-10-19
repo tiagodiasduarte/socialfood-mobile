@@ -35,18 +35,18 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.designsystem.component.GuideImage
 import pt.socialfood.core.designsystem.generated.resources.join_shared_guide_screen_close_button_description
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.AppTypography
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.model.Author
 import pt.socialfood.core.model.Guide
 import pt.socialfood.core.model.GuideVisibility
+import pt.socialfood.core.ui.error.stringResource
+import pt.socialfood.core.ui.guide.GuideAndAuthorInfo
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.join_shared_guide_screen_join_button
-import pt.socialfood.presentation.components.GuideImage
-import pt.socialfood.presentation.error.stringResource
-import pt.socialfood.presentation.ui.guide.GuideAndAuthorInfo
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.AppTypography
-import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 @Composable

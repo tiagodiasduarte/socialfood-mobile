@@ -10,10 +10,10 @@ import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.core.domain.repository.UsersRepository
 import pt.socialfood.core.domain.usecase.login.LoginUseCase
 import pt.socialfood.core.domain.usecase.login.LoginWithGoogleUseCase
+import pt.socialfood.core.ui.error.toErrorCode
 import pt.socialfood.feature.auth.generated.resources.Res
 import pt.socialfood.feature.auth.generated.resources.sign_in_invalid_email
 import pt.socialfood.feature.auth.generated.resources.sign_in_invalid_password
-import pt.socialfood.presentation.error.toErrorCode
 
 class SignInViewModel(
     private val login: LoginUseCase,

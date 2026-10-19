@@ -27,16 +27,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.component.UserImage
+import pt.socialfood.core.designsystem.component.card.SectionCard
+import pt.socialfood.core.designsystem.theme.SpaceSize
+import pt.socialfood.core.ui.imagepicker.rememberImagePickerLauncher
+import pt.socialfood.core.ui.imagepicker.toImageBitmap
 import pt.socialfood.feature.profile.impl.generated.resources.Res
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_picture_change_button
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_picture_section_title
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_picture_upload_label
-import pt.socialfood.presentation.components.UserImage
-import pt.socialfood.presentation.components.card.SectionCard
-import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
-import pt.socialfood.presentation.imagepicker.toImageBitmap
 import pt.socialfood.presentation.profile.edit.EditProfileUiState
-import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
 fun ProfilePictureCard(state: EditProfileUiState.Loaded, onPhotoSelected: (ByteArray, String) -> Unit) {

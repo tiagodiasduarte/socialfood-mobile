@@ -45,6 +45,12 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.designsystem.component.ErrorContent
+import pt.socialfood.core.designsystem.component.GuideImage
+import pt.socialfood.core.designsystem.component.TopActionBar
+import pt.socialfood.core.designsystem.component.TopActionIconsBar
+import pt.socialfood.core.designsystem.component.buttons.OutlinedButton
+import pt.socialfood.core.designsystem.component.detailImageScrim
 import pt.socialfood.core.designsystem.generated.resources.author_icon
 import pt.socialfood.core.designsystem.generated.resources.guide_detail_map_button_description
 import pt.socialfood.core.designsystem.generated.resources.guide_detail_private_icon_description
@@ -52,11 +58,22 @@ import pt.socialfood.core.designsystem.generated.resources.guide_detail_public_i
 import pt.socialfood.core.designsystem.generated.resources.guide_detail_shared_icon_description
 import pt.socialfood.core.designsystem.generated.resources.guide_private_icon
 import pt.socialfood.core.designsystem.generated.resources.guide_public_icon
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.PrivateBadge
+import pt.socialfood.core.designsystem.theme.PrivateBadgeBackground
+import pt.socialfood.core.designsystem.theme.PublicBadge
+import pt.socialfood.core.designsystem.theme.PublicBadgeBackground
+import pt.socialfood.core.designsystem.theme.SharedBadge
+import pt.socialfood.core.designsystem.theme.SharedBadgeBackground
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.model.Author
 import pt.socialfood.core.model.Guide
 import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.core.model.Location
 import pt.socialfood.core.model.Restaurant
+import pt.socialfood.core.ui.author.AuthorChip
+import pt.socialfood.core.ui.restaurant.RestaurantEmptyCard
+import pt.socialfood.core.ui.restaurant.RestaurantSmallCard
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_leave_guide_button
 import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_leave_guide_confirmation_cancel
@@ -70,24 +87,7 @@ import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_restaur
 import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_restaurants_section_title
 import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_separator
 import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_shared_label
-import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.GuideImage
-import pt.socialfood.presentation.components.TopActionBar
-import pt.socialfood.presentation.components.TopActionIconsBar
-import pt.socialfood.presentation.components.buttons.OutlinedButton
-import pt.socialfood.presentation.components.detailImageScrim
 import pt.socialfood.presentation.guide.detail.author.AuthorItemCard
-import pt.socialfood.presentation.ui.author.AuthorChip
-import pt.socialfood.presentation.ui.restaurant.RestaurantEmptyCard
-import pt.socialfood.presentation.ui.restaurant.RestaurantSmallCard
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.PrivateBadge
-import pt.socialfood.ui.theme.PrivateBadgeBackground
-import pt.socialfood.ui.theme.PublicBadge
-import pt.socialfood.ui.theme.PublicBadgeBackground
-import pt.socialfood.ui.theme.SharedBadge
-import pt.socialfood.ui.theme.SharedBadgeBackground
-import pt.socialfood.ui.theme.SpaceSize
 import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 internal val GuideImageHeight = 320.dp

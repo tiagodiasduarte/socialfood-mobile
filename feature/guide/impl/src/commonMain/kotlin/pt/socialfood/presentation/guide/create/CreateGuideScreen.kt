@@ -24,15 +24,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import pt.socialfood.core.designsystem.component.TopActionBar
+import pt.socialfood.core.designsystem.component.buttons.SaveButton
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
+import pt.socialfood.core.ui.imagepicker.rememberImagePickerLauncher
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.create_guide_create_title
-import pt.socialfood.presentation.components.TopActionBar
-import pt.socialfood.presentation.components.buttons.SaveButton
 import pt.socialfood.presentation.guide.GuideValidationErrorDialog
 import pt.socialfood.presentation.guide.edit.card.GuideDetailsCard
-import pt.socialfood.presentation.imagepicker.rememberImagePickerLauncher
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 
 private val SaveButtonHeight = 56.dp
 

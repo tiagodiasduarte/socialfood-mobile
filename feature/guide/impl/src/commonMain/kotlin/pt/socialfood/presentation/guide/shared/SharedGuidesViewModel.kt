@@ -23,7 +23,7 @@ import pt.socialfood.core.domain.repository.GuidesRepository
 import pt.socialfood.core.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.core.model.Guide
 import pt.socialfood.core.model.User
-import pt.socialfood.presentation.error.toErrorCode
+import pt.socialfood.core.ui.error.toErrorCode
 import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideCardUiState
 import pt.socialfood.presentation.guide.shared.join.JoinSharedGuideDialogUiState
 

@@ -12,7 +12,7 @@ import pt.socialfood.core.common.Result
 import pt.socialfood.core.domain.repository.FavouritesGuidesRepository
 import pt.socialfood.core.domain.repository.GuidesRepository
 import pt.socialfood.core.domain.repository.UsersRepository
-import pt.socialfood.presentation.error.toErrorCode
+import pt.socialfood.core.ui.error.toErrorCode
 
 class GuideDetailViewModel(
     private val guidesRepository: GuidesRepository,

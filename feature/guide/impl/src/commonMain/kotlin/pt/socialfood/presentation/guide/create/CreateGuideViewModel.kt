@@ -14,10 +14,10 @@ import pt.socialfood.core.domain.repository.PhotosRepository
 import pt.socialfood.core.domain.usecase.guide.CreateGuideUseCase
 import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.core.model.Restaurant
+import pt.socialfood.core.ui.error.toErrorCode
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_description_error
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_title_error
-import pt.socialfood.presentation.error.toErrorCode
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 

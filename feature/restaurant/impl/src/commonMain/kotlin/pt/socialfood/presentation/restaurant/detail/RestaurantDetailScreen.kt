@@ -38,6 +38,14 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.designsystem.component.ErrorContent
+import pt.socialfood.core.designsystem.component.RestaurantImage
+import pt.socialfood.core.designsystem.component.TopActionBar
+import pt.socialfood.core.designsystem.component.TopActionIconsBar
+import pt.socialfood.core.designsystem.component.detailImageScrim
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.IconSize
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.model.Location
 import pt.socialfood.core.model.Restaurant
 import pt.socialfood.core.model.VisitStatus
@@ -46,14 +54,6 @@ import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_deta
 import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_move_to_visited_button
 import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_opening_hours_title
 import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_share_button
-import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.RestaurantImage
-import pt.socialfood.presentation.components.TopActionBar
-import pt.socialfood.presentation.components.TopActionIconsBar
-import pt.socialfood.presentation.components.detailImageScrim
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.IconSize
-import pt.socialfood.ui.theme.SpaceSize
 
 val ImageHeight = 300.dp
 

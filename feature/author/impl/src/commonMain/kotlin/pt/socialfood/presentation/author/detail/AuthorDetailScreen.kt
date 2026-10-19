@@ -33,18 +33,18 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.core.designsystem.component.ErrorContent
+import pt.socialfood.core.designsystem.component.ProfileHeader
+import pt.socialfood.core.designsystem.component.TopActionBar
+import pt.socialfood.core.designsystem.component.TopActionIconsBar
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.core.model.AuthorDetail
+import pt.socialfood.core.ui.guide.GuideEmptyCard
 import pt.socialfood.feature.author.impl.generated.resources.Res
 import pt.socialfood.feature.author.impl.generated.resources.author_detail_guides_section_title
 import pt.socialfood.feature.author.impl.generated.resources.author_detail_no_public_guides_label
 import pt.socialfood.feature.author.impl.generated.resources.author_detail_show_more_guides_button
-import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.ProfileHeader
-import pt.socialfood.presentation.components.TopActionBar
-import pt.socialfood.presentation.components.TopActionIconsBar
-import pt.socialfood.presentation.ui.guide.GuideEmptyCard
-import pt.socialfood.ui.theme.AppTheme
-import pt.socialfood.ui.theme.SpaceSize
 
 private const val COLLAPSED_GUIDES_COUNT = 3
 

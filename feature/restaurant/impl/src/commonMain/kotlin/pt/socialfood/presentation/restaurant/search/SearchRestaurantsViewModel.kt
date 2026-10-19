@@ -19,7 +19,7 @@ import pt.socialfood.core.domain.repository.RestaurantsRepository
 import pt.socialfood.core.domain.repository.SettingsRepository
 import pt.socialfood.core.domain.usecase.search.SaveRecentSearchedPlaceUseCase
 import pt.socialfood.core.model.Place
-import pt.socialfood.presentation.error.toErrorCode
+import pt.socialfood.core.ui.error.toErrorCode
 import pt.socialfood.presentation.restaurant.navigation.RestaurantPickerResults
 import kotlin.time.Duration.Companion.milliseconds
 

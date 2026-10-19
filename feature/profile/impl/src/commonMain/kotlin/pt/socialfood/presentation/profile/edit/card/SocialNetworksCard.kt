@@ -8,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.component.card.SectionCard
+import pt.socialfood.core.designsystem.theme.SpaceSize
 import pt.socialfood.feature.profile.impl.generated.resources.Res
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_facebook_label
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_facebook_placeholder
@@ -16,10 +18,8 @@ import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_insta
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_social_title
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_youtube_label
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_youtube_placeholder
-import pt.socialfood.presentation.components.card.SectionCard
 import pt.socialfood.presentation.profile.edit.EditProfileUiState
 import pt.socialfood.presentation.profile.edit.ProfileTextField
-import pt.socialfood.ui.theme.SpaceSize
 
 @Composable
 fun SocialNetworkCard(

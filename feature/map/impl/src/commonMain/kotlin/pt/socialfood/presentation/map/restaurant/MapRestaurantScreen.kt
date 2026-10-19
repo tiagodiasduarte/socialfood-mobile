@@ -16,12 +16,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.designsystem.component.ErrorContent
+import pt.socialfood.core.designsystem.component.TopActionBar
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.maps.MapGuideRestaurantView
 import pt.socialfood.core.model.Location
 import pt.socialfood.core.model.Restaurant
-import pt.socialfood.presentation.components.ErrorContent
-import pt.socialfood.presentation.components.TopActionBar
-import pt.socialfood.presentation.maps.MapGuideRestaurantView
-import pt.socialfood.ui.theme.AppTheme
 
 @Composable
 fun MapRestaurantScreen(

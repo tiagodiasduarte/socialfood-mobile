@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.author.detail
+package pt.socialfood.feature.author.detail
 
 import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.core.model.AuthorDetail

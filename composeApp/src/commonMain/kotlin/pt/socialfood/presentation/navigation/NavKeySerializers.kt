@@ -6,7 +6,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
-import pt.socialfood.presentation.author.navigation.AuthorRoute
+import pt.socialfood.feature.author.navigation.AuthorRoute
 import pt.socialfood.presentation.favourite.navigation.FavouriteRoute
 import pt.socialfood.presentation.guide.navigation.GuideRoute
 import pt.socialfood.presentation.home.navigation.HomeRoute

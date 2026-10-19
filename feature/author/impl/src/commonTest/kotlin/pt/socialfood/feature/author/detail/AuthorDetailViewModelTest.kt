@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.author.detail
+package pt.socialfood.feature.author.detail
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi

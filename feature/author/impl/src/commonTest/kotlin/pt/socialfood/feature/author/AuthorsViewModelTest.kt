@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.author
+package pt.socialfood.feature.author
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -6,7 +6,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.fakes.FakeAuthorsRepository
 import pt.socialfood.fakes.FakeObserveUserUseCase
-import pt.socialfood.presentation.author.list.AuthorsViewModel
+import pt.socialfood.feature.author.list.AuthorsViewModel
 import pt.socialfood.random.nextUser
 import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.random.Random

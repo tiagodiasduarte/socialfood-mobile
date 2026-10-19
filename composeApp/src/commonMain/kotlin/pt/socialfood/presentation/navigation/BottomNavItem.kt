@@ -12,7 +12,7 @@ import pt.socialfood.core.designsystem.generated.resources.bottom_nav_search
 import pt.socialfood.core.designsystem.generated.resources.guide_icon
 import pt.socialfood.core.designsystem.generated.resources.home_icon
 import pt.socialfood.core.designsystem.generated.resources.search_icon
-import pt.socialfood.presentation.author.navigation.AuthorRoute
+import pt.socialfood.feature.author.navigation.AuthorRoute
 import pt.socialfood.presentation.guide.navigation.GuideRoute
 import pt.socialfood.presentation.home.navigation.HomeRoute
 import pt.socialfood.presentation.search.navigation.SearchRoute

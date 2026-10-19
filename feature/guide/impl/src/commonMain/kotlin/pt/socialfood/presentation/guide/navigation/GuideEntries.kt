@@ -5,7 +5,7 @@ import androidx.navigation3.runtime.NavKey
 import pt.socialfood.core.navigation.Navigator
 import pt.socialfood.core.navigation.defaultAnimationMetadata
 import pt.socialfood.core.navigation.slideUpAnimationMetadata
-import pt.socialfood.presentation.author.navigation.AuthorRoute
+import pt.socialfood.feature.author.navigation.AuthorRoute
 import pt.socialfood.presentation.guide.GuidesScreen
 import pt.socialfood.presentation.guide.create.CreateGuideScreen
 import pt.socialfood.presentation.guide.detail.GuideDetailScreen

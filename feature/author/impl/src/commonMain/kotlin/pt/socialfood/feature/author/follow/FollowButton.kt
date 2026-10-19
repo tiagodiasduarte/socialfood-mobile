@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.author.follow
+package pt.socialfood.feature.author.follow
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape

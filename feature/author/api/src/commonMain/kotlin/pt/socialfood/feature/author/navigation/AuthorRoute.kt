@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.author.navigation
+package pt.socialfood.feature.author.navigation
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable

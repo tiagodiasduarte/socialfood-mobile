@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.author.detail
+package pt.socialfood.feature.author.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

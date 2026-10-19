@@ -1,0 +1,92 @@
+package pt.socialfood.feature.guide.detail
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.FavouritesGuidesRepository
+import pt.socialfood.core.domain.repository.GuidesRepository
+import pt.socialfood.core.domain.repository.UsersRepository
+import pt.socialfood.core.ui.error.toErrorCode
+
+class GuideDetailViewModel(
+    private val guidesRepository: GuidesRepository,
+    private val usersRepository: UsersRepository,
+    private val favouritesGuidesRepository: FavouritesGuidesRepository,
+    private val guideId: String,
+) : ViewModel() {
+
+    private val _state = MutableStateFlow<GuideDetailUiState>(GuideDetailUiState.Loading)
+    val state: StateFlow<GuideDetailUiState> = _state
+
+    private val _events = MutableSharedFlow<UiEvent>()
+    val events = _events.asSharedFlow()
+
+    init {
+        load()
+    }
+
+    fun load() {
+        viewModelScope.launch {
+            _state.value = GuideDetailUiState.Loading
+            val guideDeferred = async { guidesRepository.findById(guideId) }
+            val userDeferred = async { usersRepository.getUserMe() }
+            val isFavouriteDeferred = async { favouritesGuidesRepository.isFavourite(guideId) }
+            val guideResult = guideDeferred.await()
+            val userResult = userDeferred.await()
+            val isFavouriteResult = isFavouriteDeferred.await()
+            _state.value = when (guideResult) {
+                is Result.Success -> GuideDetailUiState.Loaded(
+                    guide = guideResult.data,
+                    currentUserId = (userResult as? Result.Success)?.data?.id,
+                    isFavourite = (isFavouriteResult as? Result.Success)?.data ?: false,
+                )
+                is Result.Failure -> GuideDetailUiState.Error(guideResult.error.toErrorCode())
+            }
+        }
+    }
+
+    fun toggleFavourite() {
+        val current = _state.value as? GuideDetailUiState.Loaded ?: return
+        val newIsFavourite = !current.isFavourite
+        _state.value = current.copy(isFavourite = newIsFavourite)
+
+        viewModelScope.launch {
+            val result = if (newIsFavourite) {
+                favouritesGuidesRepository.mark(current.guide)
+            } else {
+                favouritesGuidesRepository.unmark(current.guide.id)
+            }
+            if (result is Result.Failure) {
+                val stateNow = _state.value as? GuideDetailUiState.Loaded ?: return@launch
+                _state.value = stateNow.copy(isFavourite = !newIsFavourite)
+            }
+        }
+    }
+
+    fun onLeaveGuide() {
+        val current = _state.value as? GuideDetailUiState.Loaded ?: return
+        if (current.isLeaving) return
+
+        _state.value = current.copy(isLeaving = true)
+
+        viewModelScope.launch {
+            when (guidesRepository.leaveGuide(guideId)) {
+                is Result.Success -> _events.emit(UiEvent.GuideLeft)
+                is Result.Failure -> {
+                    val stateNow = _state.value as? GuideDetailUiState.Loaded ?: return@launch
+                    _state.value = stateNow.copy(isLeaving = false)
+                }
+            }
+        }
+    }
+
+    sealed interface UiEvent {
+        data object GuideLeft : UiEvent
+    }
+}

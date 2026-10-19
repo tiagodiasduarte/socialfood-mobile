@@ -6,7 +6,7 @@ import pt.socialfood.core.navigation.Navigator
 import pt.socialfood.core.navigation.slideHorizontalAnimationMetadata
 import pt.socialfood.feature.favourite.guide.FavouriteGuidesScreen
 import pt.socialfood.feature.favourite.restaurant.FavouriteRestaurantsScreen
-import pt.socialfood.presentation.guide.navigation.GuideRoute
+import pt.socialfood.feature.guide.navigation.GuideRoute
 import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute
 
 fun EntryProviderScope<NavKey>.favouriteEntries(navigator: Navigator) {

@@ -15,8 +15,8 @@ import pt.socialfood.core.network.di.coreNetworkModule
 import pt.socialfood.feature.auth.di.authFeatureModule
 import pt.socialfood.feature.author.di.authorFeatureModule
 import pt.socialfood.feature.favourite.di.favouriteFeatureModule
+import pt.socialfood.feature.guide.di.guideFeatureModule
 import pt.socialfood.feature.settings.di.settingsFeatureModule
-import pt.socialfood.presentation.guide.di.guideFeatureModule
 import pt.socialfood.presentation.home.di.homeFeatureModule
 import pt.socialfood.presentation.map.di.mapFeatureModule
 import pt.socialfood.presentation.profile.di.profileFeatureModule

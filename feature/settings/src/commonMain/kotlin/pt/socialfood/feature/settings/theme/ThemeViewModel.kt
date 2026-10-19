@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.theme
+package pt.socialfood.feature.settings.theme
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

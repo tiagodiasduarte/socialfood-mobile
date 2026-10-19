@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.drawer
+package pt.socialfood.feature.settings.drawer
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi

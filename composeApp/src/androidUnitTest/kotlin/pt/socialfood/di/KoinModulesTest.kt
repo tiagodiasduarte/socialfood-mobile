@@ -13,6 +13,7 @@ import pt.socialfood.core.domain.di.coreDomainModule
 import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.core.network.di.coreNetworkModule
 import pt.socialfood.feature.auth.di.authFeatureModule
+import pt.socialfood.feature.settings.di.settingsFeatureModule
 import pt.socialfood.presentation.author.di.authorFeatureModule
 import pt.socialfood.presentation.favourite.di.favouriteFeatureModule
 import pt.socialfood.presentation.guide.di.guideFeatureModule
@@ -21,7 +22,6 @@ import pt.socialfood.presentation.map.di.mapFeatureModule
 import pt.socialfood.presentation.profile.di.profileFeatureModule
 import pt.socialfood.presentation.restaurant.di.restaurantFeatureModule
 import pt.socialfood.presentation.search.di.searchFeatureModule
-import pt.socialfood.presentation.settings.di.settingsFeatureModule
 import kotlin.test.Test
 
 @OptIn(KoinExperimentalAPI::class)

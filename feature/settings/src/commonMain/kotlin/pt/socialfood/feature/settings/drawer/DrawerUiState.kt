@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.drawer
+package pt.socialfood.feature.settings.drawer
 
 import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.core.model.User

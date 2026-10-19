@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.drawer
+package pt.socialfood.feature.settings.drawer
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text

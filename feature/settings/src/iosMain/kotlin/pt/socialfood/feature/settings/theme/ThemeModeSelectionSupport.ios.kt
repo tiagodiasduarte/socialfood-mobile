@@ -1,3 +1,3 @@
-package pt.socialfood.presentation.theme
+package pt.socialfood.feature.settings.theme
 
 actual val isThemeModeSelectionSupported: Boolean = false

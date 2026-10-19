@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.theme
+package pt.socialfood.feature.settings.theme
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.drawer
+package pt.socialfood.feature.settings.drawer
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -74,8 +74,8 @@ import pt.socialfood.feature.settings.generated.resources.profile_visited_restau
 import pt.socialfood.feature.settings.generated.resources.profile_visited_restaurants_button_description
 import pt.socialfood.feature.settings.generated.resources.profile_wish_restaurants_button
 import pt.socialfood.feature.settings.generated.resources.profile_wish_restaurants_button_description
-import pt.socialfood.presentation.theme.ThemeBottomSheet
-import pt.socialfood.presentation.theme.isThemeModeSelectionSupported
+import pt.socialfood.feature.settings.theme.ThemeBottomSheet
+import pt.socialfood.feature.settings.theme.isThemeModeSelectionSupported
 import pt.socialfood.core.designsystem.generated.resources.Res as DesignSystemRes
 
 private val DrawerAvatarSize = 44.dp

@@ -1,8 +1,8 @@
-package pt.socialfood.presentation.settings.di
+package pt.socialfood.feature.settings.di
 
 import org.koin.dsl.module
-import pt.socialfood.presentation.drawer.DrawerViewModel
-import pt.socialfood.presentation.theme.ThemeViewModel
+import pt.socialfood.feature.settings.drawer.DrawerViewModel
+import pt.socialfood.feature.settings.theme.ThemeViewModel
 
 val settingsFeatureModule =
     module {

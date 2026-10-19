@@ -17,9 +17,9 @@ import kotlinx.coroutines.launch
 import pt.socialfood.core.navigation.Navigator
 import pt.socialfood.core.navigation.rememberNavigationState
 import pt.socialfood.core.navigation.toEntries
+import pt.socialfood.feature.settings.drawer.DrawerContent
 import pt.socialfood.presentation.author.navigation.AuthorRoute
 import pt.socialfood.presentation.author.navigation.authorEntries
-import pt.socialfood.presentation.drawer.DrawerContent
 import pt.socialfood.presentation.favourite.navigation.FavouriteRoute
 import pt.socialfood.presentation.favourite.navigation.favouriteEntries
 import pt.socialfood.presentation.guide.navigation.guideEntries

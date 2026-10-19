@@ -15,6 +15,7 @@ import pt.socialfood.core.network.CoilHttpClient
 import pt.socialfood.core.network.di.coreNetworkModule
 import pt.socialfood.core.ui.image.ImageCache
 import pt.socialfood.feature.auth.di.authFeatureModule
+import pt.socialfood.feature.settings.di.settingsFeatureModule
 import pt.socialfood.presentation.author.di.authorFeatureModule
 import pt.socialfood.presentation.favourite.di.favouriteFeatureModule
 import pt.socialfood.presentation.guide.di.guideFeatureModule
@@ -23,7 +24,6 @@ import pt.socialfood.presentation.map.di.mapFeatureModule
 import pt.socialfood.presentation.profile.di.profileFeatureModule
 import pt.socialfood.presentation.restaurant.di.restaurantFeatureModule
 import pt.socialfood.presentation.search.di.searchFeatureModule
-import pt.socialfood.presentation.settings.di.settingsFeatureModule
 import pt.socialfood.presentation.sync.SyncViewModel
 
 expect val platformModule: Module

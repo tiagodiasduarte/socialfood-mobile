@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.drawer
+package pt.socialfood.feature.settings.drawer
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

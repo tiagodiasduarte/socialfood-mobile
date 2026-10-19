@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.theme
+package pt.socialfood.feature.settings.theme
 
 /**
  * Whether the app should offer a Light/Dark/System picker at all. iOS always follows the

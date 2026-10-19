@@ -2,8 +2,8 @@ package pt.socialfood.feature.restaurant.navigation
 
 import app.cash.turbine.test
 import kotlinx.coroutines.test.runTest
-import pt.socialfood.random.nextRestaurant
-import pt.socialfood.random.nextString
+import pt.socialfood.core.testing.random.nextRestaurant
+import pt.socialfood.core.testing.random.nextString
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

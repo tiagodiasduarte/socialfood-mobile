@@ -5,7 +5,7 @@ import pt.socialfood.core.common.Result
 import pt.socialfood.core.common.error.DataError
 import pt.socialfood.core.model.PagedRestaurants
 import pt.socialfood.core.model.Restaurant
-import pt.socialfood.fakes.FakeRestaurantApi
+import pt.socialfood.core.testing.fakes.FakeRestaurantApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

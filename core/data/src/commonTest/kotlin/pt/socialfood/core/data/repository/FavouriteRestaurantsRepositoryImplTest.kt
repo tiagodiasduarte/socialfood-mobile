@@ -6,11 +6,11 @@ import pt.socialfood.core.data.mapper.toFavouriteRestaurantEntity
 import pt.socialfood.core.data.paging.FavouriteRestaurantCacheTransactionRunner
 import pt.socialfood.core.database.entity.FavouriteSyncState
 import pt.socialfood.core.model.Restaurant
-import pt.socialfood.fakes.FakeFavouriteRestaurantDao
-import pt.socialfood.fakes.FakeFavouriteRestaurantRemoteKeyDao
-import pt.socialfood.fakes.FakeFavouriteRestaurantsApi
-import pt.socialfood.fakes.FakeSettingsRepository
-import pt.socialfood.random.nextRestaurant
+import pt.socialfood.core.testing.fakes.FakeFavouriteRestaurantDao
+import pt.socialfood.core.testing.fakes.FakeFavouriteRestaurantRemoteKeyDao
+import pt.socialfood.core.testing.fakes.FakeFavouriteRestaurantsApi
+import pt.socialfood.core.testing.fakes.FakeSettingsRepository
+import pt.socialfood.core.testing.random.nextRestaurant
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

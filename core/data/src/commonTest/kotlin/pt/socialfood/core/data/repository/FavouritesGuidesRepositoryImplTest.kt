@@ -6,11 +6,11 @@ import pt.socialfood.core.data.mapper.toFavouriteGuideEntity
 import pt.socialfood.core.data.paging.FavouriteGuideCacheTransactionRunner
 import pt.socialfood.core.database.entity.FavouriteSyncState
 import pt.socialfood.core.model.Guide
-import pt.socialfood.fakes.FakeFavouriteDao
-import pt.socialfood.fakes.FakeFavouriteGuideRemoteKeyDao
-import pt.socialfood.fakes.FakeFavouritesGuidesApi
-import pt.socialfood.fakes.FakeSettingsRepository
-import pt.socialfood.random.nextGuide
+import pt.socialfood.core.testing.fakes.FakeFavouriteDao
+import pt.socialfood.core.testing.fakes.FakeFavouriteGuideRemoteKeyDao
+import pt.socialfood.core.testing.fakes.FakeFavouritesGuidesApi
+import pt.socialfood.core.testing.fakes.FakeSettingsRepository
+import pt.socialfood.core.testing.random.nextGuide
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

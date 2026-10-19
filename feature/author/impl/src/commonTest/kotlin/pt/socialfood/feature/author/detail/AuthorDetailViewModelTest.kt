@@ -5,9 +5,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import pt.socialfood.core.common.Result
 import pt.socialfood.core.common.error.DataError
 import pt.socialfood.core.common.error.ErrorCode
-import pt.socialfood.fakes.FakeAuthorsRepository
-import pt.socialfood.random.nextAuthorDetail
-import pt.socialfood.runner.runTestWithMainDispatcher
+import pt.socialfood.core.testing.fakes.FakeAuthorsRepository
+import pt.socialfood.core.testing.random.nextAuthorDetail
+import pt.socialfood.core.testing.runner.runTestWithMainDispatcher
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

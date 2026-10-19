@@ -7,10 +7,10 @@ import pt.socialfood.core.common.error.DataError
 import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.core.model.PresignedUrlData
 import pt.socialfood.core.model.User
-import pt.socialfood.fakes.FakePhotosRepository
-import pt.socialfood.fakes.FakeUsersRepository
+import pt.socialfood.core.testing.fakes.FakePhotosRepository
+import pt.socialfood.core.testing.fakes.FakeUsersRepository
+import pt.socialfood.core.testing.runner.runTestWithMainDispatcher
 import pt.socialfood.feature.profile.fakes.FakeImageCache
-import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

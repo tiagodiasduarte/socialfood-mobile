@@ -4,7 +4,7 @@ import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.common.Result
 import pt.socialfood.core.common.error.DataError
 import pt.socialfood.core.model.Configs
-import pt.socialfood.fakes.FakeConfigsApi
+import pt.socialfood.core.testing.fakes.FakeConfigsApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

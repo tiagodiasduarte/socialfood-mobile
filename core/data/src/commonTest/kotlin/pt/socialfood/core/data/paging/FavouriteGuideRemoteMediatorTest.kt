@@ -16,9 +16,9 @@ import pt.socialfood.core.database.entity.FavouriteSyncState
 import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.core.network.model.author.AuthorResponse
 import pt.socialfood.core.network.model.guide.GuideResponse
-import pt.socialfood.fakes.FakeFavouriteDao
-import pt.socialfood.fakes.FakeFavouriteGuideRemoteKeyDao
-import pt.socialfood.fakes.FakeFavouritesGuidesApi
+import pt.socialfood.core.testing.fakes.FakeFavouriteDao
+import pt.socialfood.core.testing.fakes.FakeFavouriteGuideRemoteKeyDao
+import pt.socialfood.core.testing.fakes.FakeFavouritesGuidesApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

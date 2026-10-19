@@ -11,10 +11,12 @@ import pt.socialfood.core.model.Guide
 import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.core.model.Location
 import pt.socialfood.core.model.Restaurant
-import pt.socialfood.fakes.FakeGuidesRepository
-import pt.socialfood.fakes.FakeObserveUserUseCase
-import pt.socialfood.fakes.FakePhotosRepository
-import pt.socialfood.fakes.FakeUpdateGuideUseCase
+import pt.socialfood.core.testing.fakes.FakeGuidesRepository
+import pt.socialfood.core.testing.fakes.FakeObserveUserUseCase
+import pt.socialfood.core.testing.fakes.FakePhotosRepository
+import pt.socialfood.core.testing.fakes.FakeUpdateGuideUseCase
+import pt.socialfood.core.testing.random.nextUser
+import pt.socialfood.core.testing.runner.runTestWithMainDispatcher
 import pt.socialfood.feature.guide.fakes.FakeRestaurantPickerResults
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_description_error
@@ -22,8 +24,6 @@ import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_p
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_public_image_warning
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_public_restaurants_warning
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_title_error
-import pt.socialfood.random.nextUser
-import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

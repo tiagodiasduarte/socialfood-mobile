@@ -8,10 +8,10 @@ import pt.socialfood.core.common.error.DataError
 import pt.socialfood.core.model.Location
 import pt.socialfood.core.model.Restaurant
 import pt.socialfood.core.model.VisitStatus
-import pt.socialfood.fakes.FakeFavouriteRestaurantsRepository
-import pt.socialfood.fakes.FakeRestaurantVisitStatusRepository
-import pt.socialfood.fakes.FakeRestaurantsRepository
-import pt.socialfood.runner.runTestWithMainDispatcher
+import pt.socialfood.core.testing.fakes.FakeFavouriteRestaurantsRepository
+import pt.socialfood.core.testing.fakes.FakeRestaurantVisitStatusRepository
+import pt.socialfood.core.testing.fakes.FakeRestaurantsRepository
+import pt.socialfood.core.testing.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

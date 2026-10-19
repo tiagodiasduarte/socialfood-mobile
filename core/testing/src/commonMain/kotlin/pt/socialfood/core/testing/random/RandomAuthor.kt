@@ -1,0 +1,12 @@
+package pt.socialfood.core.testing.random
+
+import pt.socialfood.core.model.Author
+import kotlin.random.Random
+
+fun Random.nextAuthor(
+    id: String = nextString(),
+    name: String = nextString(),
+    username: String = nextString(),
+    imageUrl: String? = nextNullable { nextUrl() },
+    isPublic: Boolean = nextBoolean(),
+) = Author(id = id, name = name, username = username, imageUrl = imageUrl, isPublic = isPublic)

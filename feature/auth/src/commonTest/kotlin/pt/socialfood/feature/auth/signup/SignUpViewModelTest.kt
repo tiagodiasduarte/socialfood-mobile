@@ -5,13 +5,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import pt.socialfood.core.common.Result
 import pt.socialfood.core.common.error.DataError
 import pt.socialfood.core.common.error.ErrorCode
-import pt.socialfood.fakes.FakeRegisterUseCase
+import pt.socialfood.core.testing.fakes.FakeRegisterUseCase
+import pt.socialfood.core.testing.random.nextEmail
+import pt.socialfood.core.testing.random.nextString
+import pt.socialfood.core.testing.runner.runTestWithMainDispatcher
 import pt.socialfood.feature.auth.generated.resources.Res
 import pt.socialfood.feature.auth.generated.resources.sign_up_fill_all_fields
 import pt.socialfood.feature.auth.generated.resources.sign_up_password_mismatch
-import pt.socialfood.random.nextEmail
-import pt.socialfood.random.nextString
-import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

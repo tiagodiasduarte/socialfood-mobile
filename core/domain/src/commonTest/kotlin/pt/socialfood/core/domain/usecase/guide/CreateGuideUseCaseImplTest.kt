@@ -4,11 +4,11 @@ import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.common.Result
 import pt.socialfood.core.common.error.DataError
 import pt.socialfood.core.model.GuideVisibility
-import pt.socialfood.fakes.FakeGuidesRepository
-import pt.socialfood.fakes.FakeUsersRepository
-import pt.socialfood.random.nextGuide
-import pt.socialfood.random.nextString
-import pt.socialfood.random.nextUser
+import pt.socialfood.core.testing.fakes.FakeGuidesRepository
+import pt.socialfood.core.testing.fakes.FakeUsersRepository
+import pt.socialfood.core.testing.random.nextGuide
+import pt.socialfood.core.testing.random.nextString
+import pt.socialfood.core.testing.random.nextUser
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

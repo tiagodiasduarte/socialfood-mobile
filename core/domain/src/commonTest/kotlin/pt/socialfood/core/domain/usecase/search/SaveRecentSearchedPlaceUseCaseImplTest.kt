@@ -1,8 +1,8 @@
 package pt.socialfood.core.domain.usecase.search
 
 import kotlinx.coroutines.test.runTest
-import pt.socialfood.fakes.FakeSettingsRepository
-import pt.socialfood.random.nextPlace
+import pt.socialfood.core.testing.fakes.FakeSettingsRepository
+import pt.socialfood.core.testing.random.nextPlace
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

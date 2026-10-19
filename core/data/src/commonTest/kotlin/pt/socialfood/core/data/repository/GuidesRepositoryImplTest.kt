@@ -7,9 +7,9 @@ import pt.socialfood.core.data.paging.GuideCacheTransactionRunner
 import pt.socialfood.core.model.Guide
 import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.core.model.PresignedUrlData
-import pt.socialfood.fakes.FakeGuideDao
-import pt.socialfood.fakes.FakeGuideRemoteKeyDao
-import pt.socialfood.fakes.FakeGuidesApi
+import pt.socialfood.core.testing.fakes.FakeGuideDao
+import pt.socialfood.core.testing.fakes.FakeGuideRemoteKeyDao
+import pt.socialfood.core.testing.fakes.FakeGuidesApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

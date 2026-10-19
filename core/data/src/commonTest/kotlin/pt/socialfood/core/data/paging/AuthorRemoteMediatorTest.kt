@@ -11,9 +11,9 @@ import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.database.entity.AuthorEntity
 import pt.socialfood.core.database.entity.AuthorRemoteKeyEntity
 import pt.socialfood.core.network.model.author.AuthorResponse
-import pt.socialfood.fakes.FakeAuthorDao
-import pt.socialfood.fakes.FakeAuthorRemoteKeyDao
-import pt.socialfood.fakes.FakeAuthorsApi
+import pt.socialfood.core.testing.fakes.FakeAuthorDao
+import pt.socialfood.core.testing.fakes.FakeAuthorRemoteKeyDao
+import pt.socialfood.core.testing.fakes.FakeAuthorsApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

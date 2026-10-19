@@ -4,12 +4,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.model.VisitStatus
-import pt.socialfood.fakes.FakeObserveUserUseCase
-import pt.socialfood.fakes.FakeRestaurantVisitStatusRepository
+import pt.socialfood.core.testing.fakes.FakeObserveUserUseCase
+import pt.socialfood.core.testing.fakes.FakeRestaurantVisitStatusRepository
+import pt.socialfood.core.testing.random.nextRestaurant
+import pt.socialfood.core.testing.random.nextUser
+import pt.socialfood.core.testing.runner.runTestWithMainDispatcher
 import pt.socialfood.feature.restaurant.navigation.RestaurantPickerResultsImpl
-import pt.socialfood.random.nextRestaurant
-import pt.socialfood.random.nextUser
-import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

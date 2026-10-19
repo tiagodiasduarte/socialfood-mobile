@@ -13,7 +13,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.Serializable
 import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.core.domain.session.SessionManager
-import pt.socialfood.fakes.FakeSettingsRepository
+import pt.socialfood.core.testing.fakes.FakeSettingsRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

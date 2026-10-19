@@ -10,8 +10,8 @@ import pt.socialfood.core.network.model.PagedResponse
 import pt.socialfood.core.network.model.search.GuideSuggestionsResponse
 import pt.socialfood.core.network.model.search.RestaurantSuggestionsResponse
 import pt.socialfood.core.network.model.search.SearchResponse
-import pt.socialfood.fakes.FakeSearchApi
-import pt.socialfood.random.nextString
+import pt.socialfood.core.testing.fakes.FakeSearchApi
+import pt.socialfood.core.testing.random.nextString
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

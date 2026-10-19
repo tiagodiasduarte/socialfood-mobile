@@ -13,9 +13,9 @@ import pt.socialfood.core.database.entity.GuideRemoteKeyEntity
 import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.core.network.model.author.AuthorResponse
 import pt.socialfood.core.network.model.guide.GuideResponse
-import pt.socialfood.fakes.FakeGuideDao
-import pt.socialfood.fakes.FakeGuideRemoteKeyDao
-import pt.socialfood.fakes.FakeGuidesApi
+import pt.socialfood.core.testing.fakes.FakeGuideDao
+import pt.socialfood.core.testing.fakes.FakeGuideRemoteKeyDao
+import pt.socialfood.core.testing.fakes.FakeGuidesApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

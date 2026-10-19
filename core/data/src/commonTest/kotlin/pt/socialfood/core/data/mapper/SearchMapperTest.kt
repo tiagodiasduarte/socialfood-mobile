@@ -8,10 +8,10 @@ import pt.socialfood.core.network.model.restaurant.RestaurantResponse
 import pt.socialfood.core.network.model.search.GuideSuggestionsResponse
 import pt.socialfood.core.network.model.search.RestaurantSuggestionsResponse
 import pt.socialfood.core.network.model.search.SearchResponse
-import pt.socialfood.random.nextEnum
-import pt.socialfood.random.nextNullable
-import pt.socialfood.random.nextString
-import pt.socialfood.random.nextUrl
+import pt.socialfood.core.testing.random.nextEnum
+import pt.socialfood.core.testing.random.nextNullable
+import pt.socialfood.core.testing.random.nextString
+import pt.socialfood.core.testing.random.nextUrl
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

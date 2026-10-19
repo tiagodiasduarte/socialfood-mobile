@@ -2,7 +2,7 @@ package pt.socialfood.core.data.mapper
 
 import pt.socialfood.core.model.Place
 import pt.socialfood.core.network.model.place.PlaceResponse
-import pt.socialfood.random.nextString
+import pt.socialfood.core.testing.random.nextString
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

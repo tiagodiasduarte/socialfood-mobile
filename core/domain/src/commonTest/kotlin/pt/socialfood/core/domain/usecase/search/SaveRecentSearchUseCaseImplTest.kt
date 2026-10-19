@@ -2,8 +2,8 @@ package pt.socialfood.core.domain.usecase.search
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.model.RecentSearchType
-import pt.socialfood.fakes.FakeSettingsRepository
-import pt.socialfood.random.nextRecentSearch
+import pt.socialfood.core.testing.fakes.FakeSettingsRepository
+import pt.socialfood.core.testing.random.nextRecentSearch
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

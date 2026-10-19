@@ -12,8 +12,8 @@ import pt.socialfood.core.network.model.guide.GuideResponse
 import pt.socialfood.core.network.model.home.HomeSectionItemResponse
 import pt.socialfood.core.network.model.home.HomeSectionResponse
 import pt.socialfood.core.network.model.restaurant.RestaurantResponse
-import pt.socialfood.random.nextEnum
-import pt.socialfood.random.nextString
+import pt.socialfood.core.testing.random.nextEnum
+import pt.socialfood.core.testing.random.nextString
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

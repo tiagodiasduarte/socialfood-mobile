@@ -6,9 +6,9 @@ import pt.socialfood.core.common.error.DataError
 import pt.socialfood.core.data.paging.AuthorCacheTransactionRunner
 import pt.socialfood.core.model.AuthorDetail
 import pt.socialfood.core.model.PagedAuthors
-import pt.socialfood.fakes.FakeAuthorDao
-import pt.socialfood.fakes.FakeAuthorRemoteKeyDao
-import pt.socialfood.fakes.FakeAuthorsApi
+import pt.socialfood.core.testing.fakes.FakeAuthorDao
+import pt.socialfood.core.testing.fakes.FakeAuthorRemoteKeyDao
+import pt.socialfood.core.testing.fakes.FakeAuthorsApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

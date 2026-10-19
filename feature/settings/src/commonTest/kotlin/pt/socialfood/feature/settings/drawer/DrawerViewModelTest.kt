@@ -6,11 +6,11 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import pt.socialfood.core.common.Result
 import pt.socialfood.core.common.error.DataError
 import pt.socialfood.core.common.error.ErrorCode
-import pt.socialfood.fakes.FakeLogoutUseCase
-import pt.socialfood.fakes.FakeObserveUserUseCase
-import pt.socialfood.fakes.FakeUsersRepository
-import pt.socialfood.random.nextUser
-import pt.socialfood.runner.runTestWithMainDispatcher
+import pt.socialfood.core.testing.fakes.FakeLogoutUseCase
+import pt.socialfood.core.testing.fakes.FakeObserveUserUseCase
+import pt.socialfood.core.testing.fakes.FakeUsersRepository
+import pt.socialfood.core.testing.random.nextUser
+import pt.socialfood.core.testing.runner.runTestWithMainDispatcher
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

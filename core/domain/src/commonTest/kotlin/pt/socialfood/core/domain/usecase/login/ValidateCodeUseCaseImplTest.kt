@@ -5,8 +5,8 @@ import pt.socialfood.core.common.Result
 import pt.socialfood.core.common.error.DataError
 import pt.socialfood.core.domain.session.SessionManager
 import pt.socialfood.core.model.AuthTokens
-import pt.socialfood.fakes.FakeAuthRepository
-import pt.socialfood.fakes.FakeSettingsRepository
+import pt.socialfood.core.testing.fakes.FakeAuthRepository
+import pt.socialfood.core.testing.fakes.FakeSettingsRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

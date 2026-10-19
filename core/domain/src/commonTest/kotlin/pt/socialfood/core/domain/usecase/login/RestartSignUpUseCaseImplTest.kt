@@ -2,7 +2,7 @@ package pt.socialfood.core.domain.usecase.login
 
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.common.Result
-import pt.socialfood.fakes.FakeSettingsRepository
+import pt.socialfood.core.testing.fakes.FakeSettingsRepository
 import kotlin.test.Test
 import kotlin.test.assertIs
 import kotlin.test.assertNull

@@ -6,11 +6,11 @@ import pt.socialfood.core.model.Location
 import pt.socialfood.core.model.Restaurant
 import pt.socialfood.core.model.RestaurantVisitStatus
 import pt.socialfood.core.model.VisitStatus
-import pt.socialfood.random.nextEnum
-import pt.socialfood.random.nextNullable
-import pt.socialfood.random.nextRestaurant
-import pt.socialfood.random.nextString
-import pt.socialfood.random.nextUrl
+import pt.socialfood.core.testing.random.nextEnum
+import pt.socialfood.core.testing.random.nextNullable
+import pt.socialfood.core.testing.random.nextRestaurant
+import pt.socialfood.core.testing.random.nextString
+import pt.socialfood.core.testing.random.nextUrl
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

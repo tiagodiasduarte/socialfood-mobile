@@ -2,11 +2,11 @@ package pt.socialfood.app.sync
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
-import pt.socialfood.fakes.FakeConnectivityObserver
-import pt.socialfood.fakes.FakeFavouriteRestaurantsRepository
-import pt.socialfood.fakes.FakeFavouritesGuidesRepository
-import pt.socialfood.fakes.FakeRestaurantVisitStatusRepository
-import pt.socialfood.runner.runTestWithMainDispatcher
+import pt.socialfood.core.testing.fakes.FakeConnectivityObserver
+import pt.socialfood.core.testing.fakes.FakeFavouriteRestaurantsRepository
+import pt.socialfood.core.testing.fakes.FakeFavouritesGuidesRepository
+import pt.socialfood.core.testing.fakes.FakeRestaurantVisitStatusRepository
+import pt.socialfood.core.testing.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

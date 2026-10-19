@@ -10,11 +10,11 @@ import pt.socialfood.core.network.model.author.AuthorResponse
 import pt.socialfood.core.network.model.guide.GuideDetailResponse
 import pt.socialfood.core.network.model.guide.GuideResponse
 import pt.socialfood.core.network.model.restaurant.RestaurantResponse
-import pt.socialfood.random.nextEnum
-import pt.socialfood.random.nextGuide
-import pt.socialfood.random.nextNullable
-import pt.socialfood.random.nextString
-import pt.socialfood.random.nextUrl
+import pt.socialfood.core.testing.random.nextEnum
+import pt.socialfood.core.testing.random.nextGuide
+import pt.socialfood.core.testing.random.nextNullable
+import pt.socialfood.core.testing.random.nextString
+import pt.socialfood.core.testing.random.nextUrl
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

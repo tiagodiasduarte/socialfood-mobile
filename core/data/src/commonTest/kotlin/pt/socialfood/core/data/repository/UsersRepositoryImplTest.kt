@@ -6,7 +6,7 @@ import pt.socialfood.core.common.error.DataError
 import pt.socialfood.core.model.PagedUsers
 import pt.socialfood.core.model.PresignedUrlData
 import pt.socialfood.core.model.User
-import pt.socialfood.fakes.FakeUserApi
+import pt.socialfood.core.testing.fakes.FakeUserApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

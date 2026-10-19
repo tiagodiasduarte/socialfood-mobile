@@ -9,8 +9,8 @@ import pt.socialfood.core.database.entity.HomeSectionEntity
 import pt.socialfood.core.model.HomeItemType
 import pt.socialfood.core.model.HomeSection
 import pt.socialfood.core.model.HomeSectionType
-import pt.socialfood.fakes.FakeHomeApi
-import pt.socialfood.fakes.FakeHomeDao
+import pt.socialfood.core.testing.fakes.FakeHomeApi
+import pt.socialfood.core.testing.fakes.FakeHomeDao
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

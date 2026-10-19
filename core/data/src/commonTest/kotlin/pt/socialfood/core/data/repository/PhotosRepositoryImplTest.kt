@@ -3,7 +3,7 @@ package pt.socialfood.core.data.repository
 import kotlinx.coroutines.test.runTest
 import pt.socialfood.core.common.Result
 import pt.socialfood.core.common.error.DataError
-import pt.socialfood.fakes.FakeS3Api
+import pt.socialfood.core.testing.fakes.FakeS3Api
 import kotlin.test.Test
 import kotlin.test.assertIs
 

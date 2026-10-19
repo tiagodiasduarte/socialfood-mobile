@@ -6,10 +6,10 @@ import pt.socialfood.core.common.Result
 import pt.socialfood.core.common.error.DataError
 import pt.socialfood.core.model.Configs
 import pt.socialfood.core.model.User
-import pt.socialfood.fakes.FakeConfigsRepository
-import pt.socialfood.fakes.FakeSettingsRepository
-import pt.socialfood.fakes.FakeUsersRepository
-import pt.socialfood.runner.runTestWithMainDispatcher
+import pt.socialfood.core.testing.fakes.FakeConfigsRepository
+import pt.socialfood.core.testing.fakes.FakeSettingsRepository
+import pt.socialfood.core.testing.fakes.FakeUsersRepository
+import pt.socialfood.core.testing.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

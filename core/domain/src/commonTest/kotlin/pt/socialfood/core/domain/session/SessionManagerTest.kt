@@ -2,7 +2,7 @@ package pt.socialfood.core.domain.session
 
 import app.cash.turbine.test
 import kotlinx.coroutines.test.runTest
-import pt.socialfood.fakes.FakeSettingsRepository
+import pt.socialfood.core.testing.fakes.FakeSettingsRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull

@@ -9,10 +9,10 @@ import pt.socialfood.core.model.Author
 import pt.socialfood.core.model.Guide
 import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.core.model.User
-import pt.socialfood.fakes.FakeFavouritesGuidesRepository
-import pt.socialfood.fakes.FakeGuidesRepository
-import pt.socialfood.fakes.FakeUsersRepository
-import pt.socialfood.runner.runTestWithMainDispatcher
+import pt.socialfood.core.testing.fakes.FakeFavouritesGuidesRepository
+import pt.socialfood.core.testing.fakes.FakeGuidesRepository
+import pt.socialfood.core.testing.fakes.FakeUsersRepository
+import pt.socialfood.core.testing.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse

@@ -5,10 +5,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import pt.socialfood.core.common.Result
 import pt.socialfood.core.common.error.DataError
 import pt.socialfood.core.common.error.ErrorCode
-import pt.socialfood.fakes.FakeRestaurantsRepository
-import pt.socialfood.random.nextRestaurant
-import pt.socialfood.random.nextString
-import pt.socialfood.runner.runTestWithMainDispatcher
+import pt.socialfood.core.testing.fakes.FakeRestaurantsRepository
+import pt.socialfood.core.testing.random.nextRestaurant
+import pt.socialfood.core.testing.random.nextString
+import pt.socialfood.core.testing.runner.runTestWithMainDispatcher
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

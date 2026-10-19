@@ -2,9 +2,9 @@ package pt.socialfood.core.data.mapper
 
 import pt.socialfood.core.model.AuthorDetail
 import pt.socialfood.core.network.model.author.AuthorDetailResponse
-import pt.socialfood.random.nextNullable
-import pt.socialfood.random.nextString
-import pt.socialfood.random.nextUrl
+import pt.socialfood.core.testing.random.nextNullable
+import pt.socialfood.core.testing.random.nextString
+import pt.socialfood.core.testing.random.nextUrl
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

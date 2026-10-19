@@ -2,8 +2,8 @@ package pt.socialfood.core.domain.usecase.user
 
 import app.cash.turbine.test
 import kotlinx.coroutines.test.runTest
-import pt.socialfood.fakes.FakeUsersRepository
-import pt.socialfood.random.nextUser
+import pt.socialfood.core.testing.fakes.FakeUsersRepository
+import pt.socialfood.core.testing.random.nextUser
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

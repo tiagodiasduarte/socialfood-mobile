@@ -14,10 +14,10 @@ import pt.socialfood.core.database.entity.RestaurantVisitStatusEntity
 import pt.socialfood.core.database.entity.RestaurantVisitStatusRemoteKeyEntity
 import pt.socialfood.core.database.entity.SyncState
 import pt.socialfood.core.model.VisitStatus
-import pt.socialfood.fakes.FakeRestaurantVisitStatusApi
-import pt.socialfood.fakes.FakeRestaurantVisitStatusDao
-import pt.socialfood.fakes.FakeRestaurantVisitStatusRemoteKeyDao
-import pt.socialfood.random.nextRestaurantResponse
+import pt.socialfood.core.testing.fakes.FakeRestaurantVisitStatusApi
+import pt.socialfood.core.testing.fakes.FakeRestaurantVisitStatusDao
+import pt.socialfood.core.testing.fakes.FakeRestaurantVisitStatusRemoteKeyDao
+import pt.socialfood.core.testing.random.nextRestaurantResponse
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals

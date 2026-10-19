@@ -8,13 +8,13 @@ import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.core.model.Author
 import pt.socialfood.core.model.Guide
 import pt.socialfood.core.model.GuideVisibility
-import pt.socialfood.fakes.FakeCreateGuideUseCase
-import pt.socialfood.fakes.FakeGuidesRepository
-import pt.socialfood.fakes.FakePhotosRepository
+import pt.socialfood.core.testing.fakes.FakeCreateGuideUseCase
+import pt.socialfood.core.testing.fakes.FakeGuidesRepository
+import pt.socialfood.core.testing.fakes.FakePhotosRepository
+import pt.socialfood.core.testing.runner.runTestWithMainDispatcher
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_description_error
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_title_error
-import pt.socialfood.runner.runTestWithMainDispatcher
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

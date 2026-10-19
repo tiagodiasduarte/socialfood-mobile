@@ -1,7 +1,7 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.core.Result
-import pt.socialfood.domain.usecase.login.LogoutUseCase
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.usecase.login.LogoutUseCase
 
 class FakeLogoutUseCase(private val result: Result<Boolean> = Result.Success(true)) : LogoutUseCase {
     var invokeCount: Int = 0

@@ -3,7 +3,7 @@ package pt.socialfood.presentation.map.restaurant.visitstatus
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import pt.socialfood.domain.model.VisitStatus
+import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.fakes.FakeRestaurantVisitStatusRepository
 import pt.socialfood.random.nextEnum
 import pt.socialfood.random.nextRestaurant

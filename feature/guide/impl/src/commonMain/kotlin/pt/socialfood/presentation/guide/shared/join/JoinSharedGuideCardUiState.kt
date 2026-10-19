@@ -1,7 +1,7 @@
 package pt.socialfood.presentation.guide.shared.join
 
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.model.Guide
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.model.Guide
 
 data class JoinSharedGuideCardUiState(
     val guide: Guide,

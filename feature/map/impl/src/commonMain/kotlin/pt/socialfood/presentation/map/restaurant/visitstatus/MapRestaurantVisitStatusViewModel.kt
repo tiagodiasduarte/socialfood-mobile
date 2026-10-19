@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
+import pt.socialfood.core.domain.repository.RestaurantVisitStatusRepository
+import pt.socialfood.core.model.Restaurant
+import pt.socialfood.core.model.VisitStatus
 
 class MapRestaurantVisitStatusViewModel(
     restaurantVisitStatusRepository: RestaurantVisitStatusRepository,

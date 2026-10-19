@@ -1,7 +1,7 @@
 package pt.socialfood.presentation.author.detail
 
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.model.AuthorDetail
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.model.AuthorDetail
 
 sealed interface AuthorDetailUiState {
     data object Loading : AuthorDetailUiState

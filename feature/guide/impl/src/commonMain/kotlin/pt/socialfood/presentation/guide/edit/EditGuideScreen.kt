@@ -28,11 +28,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.domain.model.Location
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.model.Author
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
+import pt.socialfood.core.model.Location
+import pt.socialfood.core.model.Restaurant
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_tab_details
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_tab_restaurants

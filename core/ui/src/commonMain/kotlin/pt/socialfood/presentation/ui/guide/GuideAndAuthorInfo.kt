@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import pt.socialfood.domain.model.Guide
+import pt.socialfood.core.model.Guide
 import pt.socialfood.presentation.ui.author.AuthorChip
 import pt.socialfood.ui.theme.AppTypography
 

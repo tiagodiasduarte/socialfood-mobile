@@ -1,8 +1,8 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.core.Result
-import pt.socialfood.domain.model.Place
-import pt.socialfood.domain.repository.PlacesRepository
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.PlacesRepository
+import pt.socialfood.core.model.Place
 
 class FakePlacesRepository(private val result: Result<List<Place>> = Result.Success(emptyList())) :
     PlacesRepository {

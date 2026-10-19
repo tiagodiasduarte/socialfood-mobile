@@ -1,6 +1,6 @@
 package pt.socialfood.random
 
-import pt.socialfood.domain.model.Search
+import pt.socialfood.core.model.Search
 import kotlin.random.Random
 
 fun Random.nextSearch(): Search = when (nextInt(3)) {

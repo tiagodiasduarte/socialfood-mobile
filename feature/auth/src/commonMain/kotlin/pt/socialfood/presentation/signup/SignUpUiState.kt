@@ -1,7 +1,7 @@
 package pt.socialfood.presentation.signup
 
 import org.jetbrains.compose.resources.StringResource
-import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.core.common.error.ErrorCode
 
 sealed interface SignUpUiState {
     data object Idle : SignUpUiState

@@ -1,7 +1,7 @@
 package pt.socialfood.presentation.map.restaurant
 
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.model.Restaurant
 
 sealed interface MapRestaurantUiState {
     data object Loading : MapRestaurantUiState

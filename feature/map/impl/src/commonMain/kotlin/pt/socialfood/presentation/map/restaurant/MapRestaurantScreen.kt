@@ -15,9 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.model.Location
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.model.Location
+import pt.socialfood.core.model.Restaurant
 import pt.socialfood.presentation.components.ErrorContent
 import pt.socialfood.presentation.components.TopActionBar
 import pt.socialfood.presentation.maps.MapGuideRestaurantView

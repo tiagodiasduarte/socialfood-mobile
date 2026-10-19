@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.User
-import pt.socialfood.domain.repository.AuthorsRepository
-import pt.socialfood.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.core.domain.repository.AuthorsRepository
+import pt.socialfood.core.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.core.model.Author
+import pt.socialfood.core.model.User
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class AuthorsViewModel(authorsRepository: AuthorsRepository, observeUser: ObserveUserUseCase) : ViewModel() {

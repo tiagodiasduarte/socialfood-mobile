@@ -1,7 +1,7 @@
 package pt.socialfood.presentation.search
 
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.model.Search
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.model.Search
 
 sealed interface SearchUiState {
     data object Loading : SearchUiState

@@ -1,6 +1,6 @@
 package pt.socialfood.data.api
 
-import pt.socialfood.domain.model.VisitStatus
+import pt.socialfood.core.model.VisitStatus
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

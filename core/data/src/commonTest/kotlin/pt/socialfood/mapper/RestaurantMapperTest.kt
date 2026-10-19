@@ -1,8 +1,8 @@
 package pt.socialfood.mapper
 
+import pt.socialfood.core.model.Location
+import pt.socialfood.core.model.Restaurant
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
-import pt.socialfood.domain.model.Location
-import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.random.nextNullable
 import pt.socialfood.random.nextString
 import pt.socialfood.random.nextUrl

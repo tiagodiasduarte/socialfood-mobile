@@ -2,9 +2,9 @@ package pt.socialfood.presentation.author.detail
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import pt.socialfood.core.Result
-import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.fakes.FakeAuthorsRepository
 import pt.socialfood.random.nextAuthorDetail
 import pt.socialfood.runner.runTestWithMainDispatcher

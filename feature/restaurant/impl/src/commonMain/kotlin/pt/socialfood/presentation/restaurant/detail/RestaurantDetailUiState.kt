@@ -1,8 +1,8 @@
 package pt.socialfood.presentation.restaurant.detail
 
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.VisitStatus
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.model.Restaurant
+import pt.socialfood.core.model.VisitStatus
 
 sealed interface RestaurantDetailUiState {
     data object Loading : RestaurantDetailUiState

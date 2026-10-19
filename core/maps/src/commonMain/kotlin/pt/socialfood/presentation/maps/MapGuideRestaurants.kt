@@ -26,8 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.presentation.maps.MapRestaurantCard
+import pt.socialfood.core.model.Restaurant
 import pt.socialfood.ui.theme.SpaceSize
 
 private val MapCardWidth = 300.dp

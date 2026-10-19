@@ -18,8 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import pt.socialfood.domain.model.Location
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.model.Location
+import pt.socialfood.core.model.Restaurant
 import pt.socialfood.presentation.ui.restaurant.PlaceThumbnail
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.SpaceSize

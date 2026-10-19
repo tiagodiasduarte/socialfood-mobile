@@ -37,10 +37,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.model.Location
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.VisitStatus
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.model.Location
+import pt.socialfood.core.model.Restaurant
+import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.feature.restaurant.impl.generated.resources.Res
 import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_add_to_wishlist_button
 import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_move_to_visited_button

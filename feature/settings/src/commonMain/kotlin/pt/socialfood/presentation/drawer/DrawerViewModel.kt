@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
-import pt.socialfood.core.Result
-import pt.socialfood.domain.repository.UsersRepository
-import pt.socialfood.domain.usecase.login.LogoutUseCase
-import pt.socialfood.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.UsersRepository
+import pt.socialfood.core.domain.usecase.login.LogoutUseCase
+import pt.socialfood.core.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.presentation.error.toErrorCode
 
 class DrawerViewModel(

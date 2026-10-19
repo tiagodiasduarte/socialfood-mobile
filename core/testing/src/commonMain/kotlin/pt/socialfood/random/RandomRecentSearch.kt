@@ -1,7 +1,7 @@
 package pt.socialfood.random
 
-import pt.socialfood.domain.model.RecentSearch
-import pt.socialfood.domain.model.RecentSearchType
+import pt.socialfood.core.model.RecentSearch
+import pt.socialfood.core.model.RecentSearchType
 import kotlin.random.Random
 
 fun Random.nextRecentSearch(

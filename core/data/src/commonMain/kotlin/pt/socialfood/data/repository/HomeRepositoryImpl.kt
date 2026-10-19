@@ -3,17 +3,17 @@ package pt.socialfood.data.repository
 import androidx.sqlite.SQLiteException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import pt.socialfood.core.Result
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.domain.repository.HomeRepository
+import pt.socialfood.core.model.HomeItemType
+import pt.socialfood.core.model.HomeSection
+import pt.socialfood.core.model.HomeSectionType
 import pt.socialfood.data.api.HomeApi
 import pt.socialfood.data.local.dao.HomeDao
 import pt.socialfood.data.network.extensions.toDataError
 import pt.socialfood.data.paging.HomeCacheTransactionRunner
-import pt.socialfood.domain.error.DataError
 import pt.socialfood.domain.error.safeApiCall
-import pt.socialfood.domain.model.HomeItemType
-import pt.socialfood.domain.model.HomeSection
-import pt.socialfood.domain.model.HomeSectionType
-import pt.socialfood.domain.repository.HomeRepository
 import pt.socialfood.mapper.toHomeSection
 import pt.socialfood.mapper.toHomeSectionEntity
 

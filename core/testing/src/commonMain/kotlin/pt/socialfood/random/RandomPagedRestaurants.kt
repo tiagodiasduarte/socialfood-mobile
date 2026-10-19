@@ -1,7 +1,7 @@
 package pt.socialfood.random
 
-import pt.socialfood.domain.model.PagedRestaurants
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.model.PagedRestaurants
+import pt.socialfood.core.model.Restaurant
 import kotlin.random.Random
 
 fun Random.nextPagedRestaurants(

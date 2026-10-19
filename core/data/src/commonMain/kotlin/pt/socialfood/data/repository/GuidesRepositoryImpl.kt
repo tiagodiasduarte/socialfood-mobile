@@ -7,7 +7,11 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import pt.socialfood.core.Result
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.GuidesRepository
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
+import pt.socialfood.core.model.PresignedUrlData
 import pt.socialfood.data.api.GuidesApi
 import pt.socialfood.data.local.dao.GuideDao
 import pt.socialfood.data.local.dao.GuideRemoteKeyDao
@@ -18,10 +22,6 @@ import pt.socialfood.data.paging.GuideListScope
 import pt.socialfood.data.paging.GuideRemoteMediator
 import pt.socialfood.data.paging.toScope
 import pt.socialfood.domain.error.safeApiCall
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.domain.model.PresignedUrlData
-import pt.socialfood.domain.repository.GuidesRepository
 import pt.socialfood.mapper.toGuide
 
 private const val GUIDES_PAGE_SIZE = 20

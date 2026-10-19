@@ -3,11 +3,11 @@ package pt.socialfood.fakes
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import pt.socialfood.core.Result
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.domain.model.PresignedUrlData
-import pt.socialfood.domain.repository.GuidesRepository
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.GuidesRepository
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
+import pt.socialfood.core.model.PresignedUrlData
 import pt.socialfood.random.nextGuide
 import kotlin.random.Random
 

@@ -28,8 +28,8 @@ import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import pt.socialfood.core.designsystem.generated.resources.wish_restaurants_title
-import pt.socialfood.domain.model.Location
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.model.Location
+import pt.socialfood.core.model.Restaurant
 import pt.socialfood.feature.restaurant.impl.generated.resources.Res
 import pt.socialfood.feature.restaurant.impl.generated.resources.wish_no_results_subtitle
 import pt.socialfood.feature.restaurant.impl.generated.resources.wish_no_results_title

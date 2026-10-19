@@ -12,7 +12,7 @@ import pt.socialfood.core.designsystem.generated.resources.guide_detail_public_i
 import pt.socialfood.core.designsystem.generated.resources.guide_detail_shared_icon_description
 import pt.socialfood.core.designsystem.generated.resources.guide_private_icon
 import pt.socialfood.core.designsystem.generated.resources.guide_public_icon
-import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.ui.theme.PrivateBadge
 import pt.socialfood.ui.theme.PublicBadge
 import pt.socialfood.ui.theme.SharedBadge

@@ -1,7 +1,7 @@
 package pt.socialfood.mapper
 
+import pt.socialfood.core.model.AuthorDetail
 import pt.socialfood.data.network.model.author.AuthorDetailResponse
-import pt.socialfood.domain.model.AuthorDetail
 import pt.socialfood.random.nextNullable
 import pt.socialfood.random.nextString
 import pt.socialfood.random.nextUrl

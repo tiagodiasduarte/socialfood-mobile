@@ -3,7 +3,7 @@ package pt.socialfood.presentation.restaurant.wishlist
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
-import pt.socialfood.domain.model.VisitStatus
+import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.fakes.FakeObserveUserUseCase
 import pt.socialfood.fakes.FakeRestaurantVisitStatusRepository
 import pt.socialfood.presentation.restaurant.navigation.RestaurantPickerResultsImpl

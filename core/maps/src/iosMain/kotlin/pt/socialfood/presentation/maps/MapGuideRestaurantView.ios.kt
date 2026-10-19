@@ -16,7 +16,7 @@ import platform.MapKit.MKPointAnnotation
 import platform.UIKit.UITapGestureRecognizer
 import platform.UIKit.UIView
 import platform.darwin.NSObject
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.model.Restaurant
 
 @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)
 private class MapTapHandler : NSObject() {

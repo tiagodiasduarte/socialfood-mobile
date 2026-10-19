@@ -7,7 +7,9 @@ import androidx.paging.RemoteMediator
 import androidx.room.immediateTransaction
 import androidx.room.useWriterConnection
 import androidx.sqlite.SQLiteException
-import pt.socialfood.core.Result
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.toThrowable
+import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.data.api.RestaurantVisitStatusApi
 import pt.socialfood.data.currentTimeMillis
 import pt.socialfood.data.local.AppDatabase
@@ -19,8 +21,6 @@ import pt.socialfood.data.local.entity.SyncState
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.domain.error.safeApiCall
-import pt.socialfood.domain.error.toThrowable
-import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.mapper.toRestaurant
 import pt.socialfood.mapper.toRestaurantVisitStatusEntity
 

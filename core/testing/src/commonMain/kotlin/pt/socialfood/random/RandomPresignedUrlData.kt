@@ -1,6 +1,6 @@
 package pt.socialfood.random
 
-import pt.socialfood.domain.model.PresignedUrlData
+import pt.socialfood.core.model.PresignedUrlData
 import kotlin.random.Random
 
 fun Random.nextPresignedUrlData(uploadUrl: String = nextUrl(), publicUrl: String = nextUrl()) =

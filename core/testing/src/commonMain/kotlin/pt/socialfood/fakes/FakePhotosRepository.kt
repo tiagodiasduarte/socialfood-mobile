@@ -1,7 +1,7 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.core.Result
-import pt.socialfood.domain.repository.PhotosRepository
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.PhotosRepository
 
 class FakePhotosRepository(private val uploadResult: Result<Unit> = Result.Success(Unit)) : PhotosRepository {
     var uploadInvokeCount: Int = 0

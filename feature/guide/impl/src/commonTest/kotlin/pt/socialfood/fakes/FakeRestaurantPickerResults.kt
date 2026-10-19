@@ -3,7 +3,7 @@ package pt.socialfood.fakes
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.model.Restaurant
 import pt.socialfood.presentation.restaurant.navigation.RestaurantPickerResults
 
 /** Buffers results per key like the real implementation, so a result can be published before collection. */

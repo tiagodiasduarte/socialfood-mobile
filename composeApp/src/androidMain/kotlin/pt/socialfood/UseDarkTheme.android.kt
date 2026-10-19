@@ -6,8 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.mp.KoinPlatform.getKoin
-import pt.socialfood.domain.model.ThemeMode
-import pt.socialfood.domain.repository.SettingsRepository
+import pt.socialfood.core.domain.repository.SettingsRepository
+import pt.socialfood.core.model.ThemeMode
 
 /** Android follows the Light/Dark/System choice saved in the in-app settings. */
 @Composable

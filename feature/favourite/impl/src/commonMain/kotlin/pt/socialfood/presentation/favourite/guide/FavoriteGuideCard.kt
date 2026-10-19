@@ -28,9 +28,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.core.model.Author
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.feature.favourite.impl.generated.resources.Res
 import pt.socialfood.feature.favourite.impl.generated.resources.favorite_card_remove_button
 import pt.socialfood.presentation.components.GuideImage

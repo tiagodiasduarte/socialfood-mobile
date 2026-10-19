@@ -1,7 +1,7 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.domain.model.RecentSearch
-import pt.socialfood.domain.usecase.search.SaveRecentSearchUseCase
+import pt.socialfood.core.domain.usecase.search.SaveRecentSearchUseCase
+import pt.socialfood.core.model.RecentSearch
 
 class FakeSaveRecentSearchUseCase(private val result: List<RecentSearch> = emptyList()) : SaveRecentSearchUseCase {
     var invokeCount: Int = 0

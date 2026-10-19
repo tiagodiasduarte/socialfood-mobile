@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import pt.socialfood.domain.model.Author
+import pt.socialfood.core.model.Author
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.ui.theme.AppTypography
 

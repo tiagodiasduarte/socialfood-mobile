@@ -1,10 +1,10 @@
 package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
-import pt.socialfood.core.Result
-import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.model.PagedRestaurants
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.model.PagedRestaurants
+import pt.socialfood.core.model.Restaurant
 import pt.socialfood.fakes.FakeRestaurantApi
 import kotlin.test.Test
 import kotlin.test.assertEquals

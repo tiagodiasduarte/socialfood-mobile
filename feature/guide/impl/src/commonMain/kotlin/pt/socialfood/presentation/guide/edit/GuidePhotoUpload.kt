@@ -1,8 +1,8 @@
 package pt.socialfood.presentation.guide.edit
 
-import pt.socialfood.core.Result
-import pt.socialfood.domain.repository.GuidesRepository
-import pt.socialfood.domain.repository.PhotosRepository
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.GuidesRepository
+import pt.socialfood.core.domain.repository.PhotosRepository
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 

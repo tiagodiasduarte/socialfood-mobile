@@ -1,7 +1,7 @@
 package pt.socialfood.presentation.restaurant.navigation
 
 import kotlinx.coroutines.flow.Flow
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.model.Restaurant
 
 /**
  * Hands the restaurant picked on [RestaurantRoute.PickRestaurant] back to whoever opened it. The

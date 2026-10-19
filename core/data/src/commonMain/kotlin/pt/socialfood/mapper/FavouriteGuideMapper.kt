@@ -1,10 +1,10 @@
 package pt.socialfood.mapper
 
+import pt.socialfood.core.model.Author
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.data.local.entity.FavouriteGuideEntity
 import pt.socialfood.data.local.entity.FavouriteSyncState
-import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
 
 fun FavouriteGuideEntity.toGuide(): Guide = Guide(
     id = this.guideId,

@@ -1,7 +1,7 @@
 package pt.socialfood.data.repository
 
+import pt.socialfood.core.domain.repository.LocalCacheRepository
 import pt.socialfood.data.local.AppDatabase
-import pt.socialfood.domain.repository.LocalCacheRepository
 
 internal class LocalCacheRepositoryImpl(private val appDatabase: AppDatabase) : LocalCacheRepository {
 

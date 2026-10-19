@@ -1,10 +1,10 @@
 package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
-import pt.socialfood.core.Result
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.model.Restaurant
 import pt.socialfood.data.local.entity.FavouriteSyncState
 import pt.socialfood.data.paging.FavouriteRestaurantCacheTransactionRunner
-import pt.socialfood.domain.model.Restaurant
 import pt.socialfood.fakes.FakeFavouriteRestaurantDao
 import pt.socialfood.fakes.FakeFavouriteRestaurantRemoteKeyDao
 import pt.socialfood.fakes.FakeFavouriteRestaurantsApi

@@ -1,6 +1,6 @@
 package pt.socialfood.random
 
-import pt.socialfood.domain.model.Author
+import pt.socialfood.core.model.Author
 import kotlin.random.Random
 
 fun Random.nextAuthor(

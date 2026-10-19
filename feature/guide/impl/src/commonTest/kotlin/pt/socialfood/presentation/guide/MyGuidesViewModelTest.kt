@@ -4,9 +4,9 @@ import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
-import pt.socialfood.domain.repository.FavouritesGuidesRepository
-import pt.socialfood.domain.repository.GuidesRepository
-import pt.socialfood.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.core.domain.repository.FavouritesGuidesRepository
+import pt.socialfood.core.domain.repository.GuidesRepository
+import pt.socialfood.core.domain.usecase.user.ObserveUserUseCase
 import pt.socialfood.fakes.FakeFavouritesGuidesRepository
 import pt.socialfood.fakes.FakeGuidesRepository
 import pt.socialfood.fakes.FakeObserveUserUseCase

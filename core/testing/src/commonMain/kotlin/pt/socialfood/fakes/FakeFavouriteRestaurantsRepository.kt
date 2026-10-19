@@ -3,9 +3,9 @@ package pt.socialfood.fakes
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import pt.socialfood.core.Result
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.FavouriteRestaurantsRepository
+import pt.socialfood.core.model.Restaurant
 
 class FakeFavouriteRestaurantsRepository(
     private val markResult: Result<Unit> = Result.Success(Unit),

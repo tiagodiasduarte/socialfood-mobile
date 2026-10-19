@@ -2,7 +2,7 @@ package pt.socialfood.presentation.restaurant.navigation
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
-import pt.socialfood.domain.model.VisitStatus
+import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.presentation.map.navigation.MapRoute
 import pt.socialfood.presentation.navigation.Navigator
 import pt.socialfood.presentation.navigation.defaultAnimationMetadata

@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import pt.socialfood.core.Result
-import pt.socialfood.domain.repository.AuthorsRepository
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.AuthorsRepository
 import pt.socialfood.presentation.error.toErrorCode
 
 class AuthorDetailViewModel(private val authorsRepository: AuthorsRepository, private val authorId: String) :

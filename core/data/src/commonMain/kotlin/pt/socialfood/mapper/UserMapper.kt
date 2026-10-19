@@ -1,8 +1,8 @@
 package pt.socialfood.mapper
 
+import pt.socialfood.core.model.User
+import pt.socialfood.core.model.UserRole
 import pt.socialfood.data.network.model.user.UserResponse
-import pt.socialfood.domain.model.User
-import pt.socialfood.domain.model.UserRole
 
 fun UserResponse.toUser(): User = User(
     id = this.id,

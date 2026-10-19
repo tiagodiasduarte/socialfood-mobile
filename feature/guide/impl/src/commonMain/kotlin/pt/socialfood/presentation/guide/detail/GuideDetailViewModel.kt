@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import pt.socialfood.core.Result
-import pt.socialfood.domain.repository.FavouritesGuidesRepository
-import pt.socialfood.domain.repository.GuidesRepository
-import pt.socialfood.domain.repository.UsersRepository
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.FavouritesGuidesRepository
+import pt.socialfood.core.domain.repository.GuidesRepository
+import pt.socialfood.core.domain.repository.UsersRepository
 import pt.socialfood.presentation.error.toErrorCode
 
 class GuideDetailViewModel(

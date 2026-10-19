@@ -1,7 +1,7 @@
 package pt.socialfood.presentation.validatecode
 
 import org.jetbrains.compose.resources.StringResource
-import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.core.common.error.ErrorCode
 
 sealed interface ValidateCodeUiState {
     data object Idle : ValidateCodeUiState

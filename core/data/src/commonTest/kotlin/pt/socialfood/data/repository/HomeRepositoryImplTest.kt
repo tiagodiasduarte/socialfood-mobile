@@ -2,13 +2,13 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import pt.socialfood.core.Result
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.model.HomeItemType
+import pt.socialfood.core.model.HomeSection
+import pt.socialfood.core.model.HomeSectionType
 import pt.socialfood.data.local.entity.HomeSectionEntity
 import pt.socialfood.data.paging.HomeCacheTransactionRunner
-import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.model.HomeItemType
-import pt.socialfood.domain.model.HomeSection
-import pt.socialfood.domain.model.HomeSectionType
 import pt.socialfood.fakes.FakeHomeApi
 import pt.socialfood.fakes.FakeHomeDao
 import kotlin.test.Test

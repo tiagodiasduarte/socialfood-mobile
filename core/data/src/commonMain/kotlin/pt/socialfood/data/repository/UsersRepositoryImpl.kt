@@ -2,16 +2,16 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import pt.socialfood.core.Result
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.UsersRepository
+import pt.socialfood.core.model.PagedUsers
+import pt.socialfood.core.model.PresignedUrlData
+import pt.socialfood.core.model.User
 import pt.socialfood.data.api.UserApi
 import pt.socialfood.data.network.model.photo.PresignedUrlRequest
 import pt.socialfood.data.network.model.user.UpdateUserPhotoRequest
 import pt.socialfood.data.network.model.user.UpdateUserRequest
 import pt.socialfood.domain.error.safeApiCall
-import pt.socialfood.domain.model.PagedUsers
-import pt.socialfood.domain.model.PresignedUrlData
-import pt.socialfood.domain.model.User
-import pt.socialfood.domain.repository.UsersRepository
 import pt.socialfood.mapper.toUser
 
 internal class UsersRepositoryImpl(private val userApi: UserApi) : UsersRepository {

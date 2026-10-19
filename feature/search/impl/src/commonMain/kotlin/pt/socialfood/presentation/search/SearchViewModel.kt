@@ -17,13 +17,13 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import pt.socialfood.core.Result
-import pt.socialfood.domain.model.RecentSearch
-import pt.socialfood.domain.model.RecentSearchType
-import pt.socialfood.domain.model.Search
-import pt.socialfood.domain.repository.SearchRepository
-import pt.socialfood.domain.repository.SettingsRepository
-import pt.socialfood.domain.usecase.search.SaveRecentSearchUseCase
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.SearchRepository
+import pt.socialfood.core.domain.repository.SettingsRepository
+import pt.socialfood.core.domain.usecase.search.SaveRecentSearchUseCase
+import pt.socialfood.core.model.RecentSearch
+import pt.socialfood.core.model.RecentSearchType
+import pt.socialfood.core.model.Search
 import pt.socialfood.presentation.error.toErrorCode
 import kotlin.time.Duration.Companion.milliseconds
 

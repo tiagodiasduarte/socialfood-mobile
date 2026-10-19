@@ -1,13 +1,13 @@
 package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
-import pt.socialfood.core.Result
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.model.Search
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.search.GuideSuggestionsResponse
 import pt.socialfood.data.network.model.search.RestaurantSuggestionsResponse
 import pt.socialfood.data.network.model.search.SearchResponse
-import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.model.Search
 import pt.socialfood.fakes.FakeSearchApi
 import pt.socialfood.mapper.toGuideSuggestions
 import pt.socialfood.mapper.toRestaurantSuggestions

@@ -3,9 +3,9 @@ package pt.socialfood.presentation.drawer
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
-import pt.socialfood.core.Result
-import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.fakes.FakeLogoutUseCase
 import pt.socialfood.fakes.FakeObserveUserUseCase
 import pt.socialfood.fakes.FakeUsersRepository

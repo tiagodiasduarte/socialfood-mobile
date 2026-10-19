@@ -1,12 +1,12 @@
 package pt.socialfood.fakes
 
 import kotlinx.io.IOException
+import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.data.api.FavouritesGuidesApi
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.author.AuthorResponse
 import pt.socialfood.data.network.model.favourite.FavouriteSyncResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
-import pt.socialfood.domain.model.GuideVisibility
 
 class FakeFavouritesGuidesApi(private val shouldThrow: Boolean = false) : FavouritesGuidesApi {
 

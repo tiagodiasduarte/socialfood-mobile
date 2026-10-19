@@ -1,0 +1,22 @@
+package pt.socialfood.core.model
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Restaurant(
+    val id: String,
+    val name: String,
+    val description: String?,
+    val city: String,
+    val country: String,
+    val countryCode: String,
+    val postalCode: String?,
+    val imagesUrl: List<String>,
+    val address: String,
+    val rating: Double,
+    val userRatingCount: Int,
+    val websiteUrl: String?,
+    val phoneNumber: String,
+    val regularOpeningHours: List<String>? = null,
+    val location: Location,
+)

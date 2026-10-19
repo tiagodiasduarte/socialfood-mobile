@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import pt.socialfood.core.Result
-import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
-import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
-import pt.socialfood.domain.repository.RestaurantsRepository
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.FavouriteRestaurantsRepository
+import pt.socialfood.core.domain.repository.RestaurantVisitStatusRepository
+import pt.socialfood.core.domain.repository.RestaurantsRepository
+import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.presentation.error.toErrorCode
 
 class RestaurantDetailViewModel(

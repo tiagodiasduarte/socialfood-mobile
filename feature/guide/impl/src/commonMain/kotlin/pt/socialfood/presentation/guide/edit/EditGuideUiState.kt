@@ -1,10 +1,10 @@
 package pt.socialfood.presentation.guide.edit
 
 import org.jetbrains.compose.resources.StringResource
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
+import pt.socialfood.core.model.Restaurant
 
 sealed interface EditGuideUiState {
     data object Loading : EditGuideUiState

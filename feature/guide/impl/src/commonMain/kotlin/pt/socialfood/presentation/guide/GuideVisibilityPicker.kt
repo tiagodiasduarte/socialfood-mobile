@@ -31,7 +31,7 @@ import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.core.designsystem.generated.resources.author_icon
 import pt.socialfood.core.designsystem.generated.resources.guide_private_icon
 import pt.socialfood.core.designsystem.generated.resources.guide_public_icon
-import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_visibility_label
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_visibility_private

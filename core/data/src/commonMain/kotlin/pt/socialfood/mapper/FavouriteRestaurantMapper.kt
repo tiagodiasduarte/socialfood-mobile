@@ -1,9 +1,9 @@
 package pt.socialfood.mapper
 
+import pt.socialfood.core.model.Location
+import pt.socialfood.core.model.Restaurant
 import pt.socialfood.data.local.entity.FavouriteRestaurantEntity
 import pt.socialfood.data.local.entity.FavouriteSyncState
-import pt.socialfood.domain.model.Location
-import pt.socialfood.domain.model.Restaurant
 
 fun FavouriteRestaurantEntity.toRestaurant(): Restaurant = Restaurant(
     id = this.restaurantId,

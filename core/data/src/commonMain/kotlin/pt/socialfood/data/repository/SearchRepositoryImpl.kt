@@ -1,12 +1,12 @@
 package pt.socialfood.data.repository
 
-import pt.socialfood.core.Result
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.SearchRepository
+import pt.socialfood.core.model.GuideSuggestions
+import pt.socialfood.core.model.RestaurantSuggestions
+import pt.socialfood.core.model.Search
 import pt.socialfood.data.api.SearchApi
 import pt.socialfood.domain.error.safeApiCall
-import pt.socialfood.domain.model.GuideSuggestions
-import pt.socialfood.domain.model.RestaurantSuggestions
-import pt.socialfood.domain.model.Search
-import pt.socialfood.domain.repository.SearchRepository
 import pt.socialfood.mapper.toGuideSuggestions
 import pt.socialfood.mapper.toRestaurantSuggestions
 import pt.socialfood.mapper.toSearchResults

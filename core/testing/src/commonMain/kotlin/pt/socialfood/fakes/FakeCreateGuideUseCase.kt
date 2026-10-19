@@ -1,9 +1,9 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.core.Result
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.domain.usecase.guide.CreateGuideUseCase
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.usecase.guide.CreateGuideUseCase
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
 
 class FakeCreateGuideUseCase(private val result: Result<Guide>) : CreateGuideUseCase {
     var invokeCount: Int = 0

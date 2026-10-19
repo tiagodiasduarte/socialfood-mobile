@@ -43,7 +43,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
-import pt.socialfood.core.AppConfig
+import pt.socialfood.core.common.AppConfig
 import pt.socialfood.core.designsystem.generated.resources.guide_icon
 import pt.socialfood.core.designsystem.generated.resources.logout_icon
 import pt.socialfood.core.designsystem.generated.resources.profile_icon
@@ -51,7 +51,7 @@ import pt.socialfood.core.designsystem.generated.resources.restaurant_icon
 import pt.socialfood.core.designsystem.generated.resources.theme_icon
 import pt.socialfood.core.designsystem.generated.resources.visited_icon
 import pt.socialfood.core.designsystem.generated.resources.wish_icon
-import pt.socialfood.domain.model.User
+import pt.socialfood.core.model.User
 import pt.socialfood.feature.settings.generated.resources.Res
 import pt.socialfood.feature.settings.generated.resources.profile_favorite_guides_button
 import pt.socialfood.feature.settings.generated.resources.profile_favorite_guides_button_description

@@ -1,8 +1,8 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.core.Result
-import pt.socialfood.domain.model.AuthTokens
-import pt.socialfood.domain.repository.AuthRepository
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.AuthRepository
+import pt.socialfood.core.model.AuthTokens
 import pt.socialfood.random.nextString
 import kotlin.random.Random
 

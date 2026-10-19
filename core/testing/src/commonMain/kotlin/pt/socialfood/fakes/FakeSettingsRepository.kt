@@ -2,10 +2,10 @@ package pt.socialfood.fakes
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import pt.socialfood.domain.model.Place
-import pt.socialfood.domain.model.RecentSearch
-import pt.socialfood.domain.model.ThemeMode
-import pt.socialfood.domain.repository.SettingsRepository
+import pt.socialfood.core.domain.repository.SettingsRepository
+import pt.socialfood.core.model.Place
+import pt.socialfood.core.model.RecentSearch
+import pt.socialfood.core.model.ThemeMode
 
 class FakeSettingsRepository(
     private var recentSearchedPlaces: List<Place> = emptyList(),

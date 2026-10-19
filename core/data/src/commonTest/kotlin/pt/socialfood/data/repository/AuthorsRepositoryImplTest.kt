@@ -1,11 +1,11 @@
 package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
-import pt.socialfood.core.Result
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.model.AuthorDetail
+import pt.socialfood.core.model.PagedAuthors
 import pt.socialfood.data.paging.AuthorCacheTransactionRunner
-import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.model.AuthorDetail
-import pt.socialfood.domain.model.PagedAuthors
 import pt.socialfood.fakes.FakeAuthorDao
 import pt.socialfood.fakes.FakeAuthorRemoteKeyDao
 import pt.socialfood.fakes.FakeAuthorsApi

@@ -8,10 +8,10 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.paging.testing.TestPager
 import kotlinx.coroutines.test.runTest
+import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.data.local.entity.RestaurantVisitStatusEntity
 import pt.socialfood.data.local.entity.RestaurantVisitStatusRemoteKeyEntity
 import pt.socialfood.data.local.entity.SyncState
-import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeRestaurantVisitStatusApi
 import pt.socialfood.fakes.FakeRestaurantVisitStatusDao
 import pt.socialfood.fakes.FakeRestaurantVisitStatusRemoteKeyDao

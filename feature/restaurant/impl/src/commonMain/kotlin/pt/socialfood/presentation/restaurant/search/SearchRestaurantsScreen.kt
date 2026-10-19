@@ -41,7 +41,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import pt.socialfood.core.designsystem.generated.resources.restaurant_icon
-import pt.socialfood.domain.model.Place
+import pt.socialfood.core.model.Place
 import pt.socialfood.feature.restaurant.impl.generated.resources.Res
 import pt.socialfood.feature.restaurant.impl.generated.resources.search_restaurants_idle_subtitle
 import pt.socialfood.feature.restaurant.impl.generated.resources.search_restaurants_idle_subtitle_bold

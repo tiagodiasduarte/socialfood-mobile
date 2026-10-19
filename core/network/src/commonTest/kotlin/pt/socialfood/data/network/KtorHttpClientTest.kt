@@ -11,8 +11,8 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.Serializable
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.session.SessionManager
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.domain.session.SessionManager
 import pt.socialfood.fakes.FakeSettingsRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals

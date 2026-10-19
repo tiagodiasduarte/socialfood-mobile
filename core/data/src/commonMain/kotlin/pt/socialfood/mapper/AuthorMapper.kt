@@ -1,8 +1,8 @@
 package pt.socialfood.mapper
 
+import pt.socialfood.core.model.Author
 import pt.socialfood.data.local.entity.AuthorEntity
 import pt.socialfood.data.network.model.author.AuthorResponse
-import pt.socialfood.domain.model.Author
 
 fun AuthorResponse.toAuthor(): Author = Author(
     id = this.id,

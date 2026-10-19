@@ -5,11 +5,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import pt.socialfood.core.Result
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.repository.UsersRepository
-import pt.socialfood.domain.usecase.login.LoginUseCase
-import pt.socialfood.domain.usecase.login.LoginWithGoogleUseCase
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.domain.repository.UsersRepository
+import pt.socialfood.core.domain.usecase.login.LoginUseCase
+import pt.socialfood.core.domain.usecase.login.LoginWithGoogleUseCase
 import pt.socialfood.feature.auth.generated.resources.Res
 import pt.socialfood.feature.auth.generated.resources.sign_in_invalid_email
 import pt.socialfood.feature.auth.generated.resources.sign_in_invalid_password

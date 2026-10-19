@@ -29,8 +29,8 @@ import pt.socialfood.core.designsystem.generated.resources.Res
 import pt.socialfood.core.designsystem.generated.resources.restaurant_card_remove_button
 import pt.socialfood.core.designsystem.generated.resources.restaurant_card_visited_button
 import pt.socialfood.core.designsystem.generated.resources.user_image_content_description
-import pt.socialfood.domain.model.Location
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.model.Location
+import pt.socialfood.core.model.Restaurant
 import pt.socialfood.presentation.components.RestaurantImage
 import pt.socialfood.presentation.components.buttons.OutlinedButton
 import pt.socialfood.ui.theme.AppTheme

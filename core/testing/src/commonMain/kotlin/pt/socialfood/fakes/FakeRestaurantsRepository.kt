@@ -1,9 +1,9 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.core.Result
-import pt.socialfood.domain.model.PagedRestaurants
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.repository.RestaurantsRepository
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.RestaurantsRepository
+import pt.socialfood.core.model.PagedRestaurants
+import pt.socialfood.core.model.Restaurant
 import pt.socialfood.random.nextPagedRestaurants
 import pt.socialfood.random.nextRestaurant
 import kotlin.random.Random

@@ -1,8 +1,8 @@
 package pt.socialfood.data.network.model.guide
 
 import kotlinx.serialization.Serializable
+import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.data.network.model.author.AuthorResponse
-import pt.socialfood.domain.model.GuideVisibility
 
 @Serializable
 data class GuideResponse(

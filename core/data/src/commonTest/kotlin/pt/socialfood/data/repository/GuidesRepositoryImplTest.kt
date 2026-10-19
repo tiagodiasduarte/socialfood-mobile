@@ -1,12 +1,12 @@
 package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
-import pt.socialfood.core.Result
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
+import pt.socialfood.core.model.PresignedUrlData
 import pt.socialfood.data.paging.GuideCacheTransactionRunner
-import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.domain.model.PresignedUrlData
 import pt.socialfood.fakes.FakeGuideDao
 import pt.socialfood.fakes.FakeGuideRemoteKeyDao
 import pt.socialfood.fakes.FakeGuidesApi

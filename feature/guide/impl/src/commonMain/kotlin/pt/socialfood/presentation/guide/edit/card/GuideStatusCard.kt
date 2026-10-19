@@ -30,7 +30,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_delete_button
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_public_author_warning

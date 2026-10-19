@@ -1,8 +1,8 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.core.Result
-import pt.socialfood.domain.model.Configs
-import pt.socialfood.domain.repository.ConfigsRepository
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.ConfigsRepository
+import pt.socialfood.core.model.Configs
 
 class FakeConfigsRepository(private val result: Result<Configs>) : ConfigsRepository {
     var getConfigsInvokeCount: Int = 0

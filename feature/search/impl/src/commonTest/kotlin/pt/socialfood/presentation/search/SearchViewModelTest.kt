@@ -3,10 +3,10 @@ package pt.socialfood.presentation.search
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
-import pt.socialfood.core.Result
-import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.model.Search
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.model.Search
 import pt.socialfood.fakes.FakeSaveRecentSearchUseCase
 import pt.socialfood.fakes.FakeSearchRepository
 import pt.socialfood.fakes.FakeSettingsRepository

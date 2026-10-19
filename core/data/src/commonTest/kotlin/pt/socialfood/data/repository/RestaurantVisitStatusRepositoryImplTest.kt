@@ -2,12 +2,12 @@ package pt.socialfood.data.repository
 
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import pt.socialfood.core.Result
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.model.Restaurant
+import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.data.local.entity.SyncState
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
 import pt.socialfood.data.paging.RestaurantVisitStatusCacheTransactionRunner
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.fakes.FakeRestaurantVisitStatusApi
 import pt.socialfood.fakes.FakeRestaurantVisitStatusDao
 import pt.socialfood.fakes.FakeRestaurantVisitStatusRemoteKeyDao

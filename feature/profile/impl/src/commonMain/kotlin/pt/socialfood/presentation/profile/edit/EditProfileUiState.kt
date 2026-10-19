@@ -1,6 +1,6 @@
 package pt.socialfood.presentation.profile.edit
 
-import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.core.common.error.ErrorCode
 
 sealed interface EditProfileUiState {
     data object Loading : EditProfileUiState

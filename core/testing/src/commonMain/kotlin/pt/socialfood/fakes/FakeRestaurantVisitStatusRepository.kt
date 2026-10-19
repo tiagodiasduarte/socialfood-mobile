@@ -3,11 +3,11 @@ package pt.socialfood.fakes
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import pt.socialfood.core.Result
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.RestaurantVisitStatus
-import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.RestaurantVisitStatusRepository
+import pt.socialfood.core.model.Restaurant
+import pt.socialfood.core.model.RestaurantVisitStatus
+import pt.socialfood.core.model.VisitStatus
 
 class FakeRestaurantVisitStatusRepository(
     private val markResult: Result<Unit> = Result.Success(Unit),

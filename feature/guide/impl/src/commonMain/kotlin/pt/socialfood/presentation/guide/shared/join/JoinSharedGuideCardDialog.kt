@@ -34,11 +34,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.core.designsystem.generated.resources.join_shared_guide_screen_close_button_description
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.core.model.Author
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.join_shared_guide_screen_join_button
 import pt.socialfood.presentation.components.GuideImage

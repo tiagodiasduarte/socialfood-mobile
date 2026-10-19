@@ -1,6 +1,8 @@
 package pt.socialfood.presentation.error
 
 import org.jetbrains.compose.resources.StringResource
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.core.designsystem.generated.resources.Res
 import pt.socialfood.core.designsystem.generated.resources.error_code_already_favourited
 import pt.socialfood.core.designsystem.generated.resources.error_code_already_following
@@ -32,8 +34,6 @@ import pt.socialfood.core.designsystem.generated.resources.error_code_unknown
 import pt.socialfood.core.designsystem.generated.resources.error_code_user_already_exists
 import pt.socialfood.core.designsystem.generated.resources.error_code_user_not_found
 import pt.socialfood.core.designsystem.generated.resources.error_network_message
-import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.error.ErrorCode
 
 private val errorCodeStringResources: Map<ErrorCode, StringResource> = mapOf(
     ErrorCode.USER_ALREADY_EXISTS to Res.string.error_code_user_already_exists,

@@ -1,7 +1,7 @@
 package pt.socialfood.presentation.drawer
 
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.model.User
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.model.User
 
 sealed interface DrawerUiState {
     data object Loading : DrawerUiState

@@ -44,6 +44,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.core.designsystem.generated.resources.author_icon
 import pt.socialfood.core.designsystem.generated.resources.guide_detail_map_button_description
 import pt.socialfood.core.designsystem.generated.resources.guide_detail_private_icon_description
@@ -51,12 +52,11 @@ import pt.socialfood.core.designsystem.generated.resources.guide_detail_public_i
 import pt.socialfood.core.designsystem.generated.resources.guide_detail_shared_icon_description
 import pt.socialfood.core.designsystem.generated.resources.guide_private_icon
 import pt.socialfood.core.designsystem.generated.resources.guide_public_icon
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.domain.model.Location
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.model.Author
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
+import pt.socialfood.core.model.Location
+import pt.socialfood.core.model.Restaurant
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_leave_guide_button
 import pt.socialfood.feature.guide.impl.generated.resources.guide_detail_leave_guide_confirmation_cancel

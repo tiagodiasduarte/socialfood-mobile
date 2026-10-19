@@ -1,8 +1,8 @@
 package pt.socialfood.mapper
 
+import pt.socialfood.core.model.Location
+import pt.socialfood.core.model.Restaurant
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
-import pt.socialfood.domain.model.Location
-import pt.socialfood.domain.model.Restaurant
 
 fun RestaurantResponse.toRestaurant(): Restaurant = Restaurant(
     id = this.id,

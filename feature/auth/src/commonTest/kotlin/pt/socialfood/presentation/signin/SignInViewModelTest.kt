@@ -3,9 +3,9 @@ package pt.socialfood.presentation.signin
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import pt.socialfood.core.Result
-import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.fakes.FakeLoginUseCase
 import pt.socialfood.fakes.FakeLoginWithGoogleUseCase
 import pt.socialfood.fakes.FakeUsersRepository

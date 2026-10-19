@@ -14,11 +14,11 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.User
-import pt.socialfood.domain.repository.FavouritesGuidesRepository
-import pt.socialfood.domain.repository.GuidesRepository
-import pt.socialfood.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.core.domain.repository.FavouritesGuidesRepository
+import pt.socialfood.core.domain.repository.GuidesRepository
+import pt.socialfood.core.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.User
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MyGuidesViewModel(

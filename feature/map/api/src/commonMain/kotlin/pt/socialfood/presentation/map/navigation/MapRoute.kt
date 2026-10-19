@@ -2,7 +2,7 @@ package pt.socialfood.presentation.map.navigation
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
-import pt.socialfood.domain.model.VisitStatus
+import pt.socialfood.core.model.VisitStatus
 
 @Serializable
 sealed interface MapRoute : NavKey {

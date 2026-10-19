@@ -1,10 +1,10 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.core.Result
-import pt.socialfood.domain.model.GuideSuggestions
-import pt.socialfood.domain.model.RestaurantSuggestions
-import pt.socialfood.domain.model.Search
-import pt.socialfood.domain.repository.SearchRepository
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.SearchRepository
+import pt.socialfood.core.model.GuideSuggestions
+import pt.socialfood.core.model.RestaurantSuggestions
+import pt.socialfood.core.model.Search
 
 class FakeSearchRepository(
     private val result: Result<List<Search>> = Result.Success(emptyList()),

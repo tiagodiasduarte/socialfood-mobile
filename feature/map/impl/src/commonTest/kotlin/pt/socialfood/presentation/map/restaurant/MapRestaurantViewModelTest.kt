@@ -2,9 +2,9 @@ package pt.socialfood.presentation.map.restaurant
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import pt.socialfood.core.Result
-import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.fakes.FakeRestaurantsRepository
 import pt.socialfood.random.nextRestaurant
 import pt.socialfood.random.nextString

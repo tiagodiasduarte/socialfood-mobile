@@ -31,11 +31,11 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.io.IOException
 import kotlinx.serialization.json.Json
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.domain.session.SessionManager
 import pt.socialfood.data.network.model.ErrorResponse
 import pt.socialfood.data.network.model.login.RefreshTokenRequest
 import pt.socialfood.data.network.model.login.RefreshTokenResponse
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.session.SessionManager
 
 class KtorHttpClient(
     private val sessionManager: SessionManager,

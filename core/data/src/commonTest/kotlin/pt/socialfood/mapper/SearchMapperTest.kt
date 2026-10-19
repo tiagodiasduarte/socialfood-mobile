@@ -1,5 +1,6 @@
 package pt.socialfood.mapper
 
+import pt.socialfood.core.model.Search
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.author.AuthorResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
@@ -7,7 +8,6 @@ import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.data.network.model.search.GuideSuggestionsResponse
 import pt.socialfood.data.network.model.search.RestaurantSuggestionsResponse
 import pt.socialfood.data.network.model.search.SearchResponse
-import pt.socialfood.domain.model.Search
 import pt.socialfood.random.nextEnum
 import pt.socialfood.random.nextNullable
 import pt.socialfood.random.nextString

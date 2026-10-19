@@ -2,10 +2,10 @@ package pt.socialfood.presentation.startup
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import pt.socialfood.core.Result
-import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.model.Configs
-import pt.socialfood.domain.model.User
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.model.Configs
+import pt.socialfood.core.model.User
 import pt.socialfood.fakes.FakeConfigsRepository
 import pt.socialfood.fakes.FakeSettingsRepository
 import pt.socialfood.fakes.FakeUsersRepository

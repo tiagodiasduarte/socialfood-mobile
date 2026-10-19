@@ -1,6 +1,6 @@
 package pt.socialfood.fakes
 
-import pt.socialfood.domain.repository.LocalCacheRepository
+import pt.socialfood.core.domain.repository.LocalCacheRepository
 
 class FakeLocalCacheRepository : LocalCacheRepository {
     var clearAllCallCount = 0

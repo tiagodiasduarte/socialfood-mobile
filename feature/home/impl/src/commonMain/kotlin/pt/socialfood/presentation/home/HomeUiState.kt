@@ -1,6 +1,6 @@
 package pt.socialfood.presentation.home
 
-import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.core.common.error.ErrorCode
 
 sealed interface HomeUiState {
     data object Loading : HomeUiState

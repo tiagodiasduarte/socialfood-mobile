@@ -30,7 +30,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.model.Restaurant
 import pt.socialfood.feature.restaurant.impl.generated.resources.Res
 import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_location_copy_address_description
 import pt.socialfood.feature.restaurant.impl.generated.resources.restaurant_detail_location_expand_description

@@ -20,7 +20,7 @@ import pt.socialfood.core.designsystem.generated.resources.authors_separator
 import pt.socialfood.core.designsystem.generated.resources.authors_stat_followers_label
 import pt.socialfood.core.designsystem.generated.resources.authors_stat_following_label
 import pt.socialfood.core.designsystem.generated.resources.authors_stat_guides_label
-import pt.socialfood.domain.model.Author
+import pt.socialfood.core.model.Author
 import pt.socialfood.presentation.components.UserImage
 import pt.socialfood.presentation.components.card.SectionCard
 import pt.socialfood.ui.theme.AppTheme

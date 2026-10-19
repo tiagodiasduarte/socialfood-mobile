@@ -2,7 +2,7 @@ package pt.socialfood.presentation.maps
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.model.Restaurant
 
 @Composable
 expect fun MapGuideRestaurantView(

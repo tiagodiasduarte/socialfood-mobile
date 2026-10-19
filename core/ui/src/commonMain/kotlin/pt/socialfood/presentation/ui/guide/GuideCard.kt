@@ -30,14 +30,12 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.core.designsystem.generated.resources.Res
 import pt.socialfood.core.designsystem.generated.resources.join_shared_guide_screen_close_button_description
-import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.core.model.Author
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.presentation.components.FavouriteButton
 import pt.socialfood.presentation.components.GuideImage
 import pt.socialfood.presentation.components.cardImageScrim
-import pt.socialfood.presentation.ui.guide.badgeBackgroundColor
-import pt.socialfood.presentation.ui.guide.badgeIcon
 import pt.socialfood.ui.theme.AppTheme
 import pt.socialfood.ui.theme.AppTypography
 import pt.socialfood.ui.theme.SpaceSize

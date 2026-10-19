@@ -1,11 +1,11 @@
 package pt.socialfood.fakes
 
 import kotlinx.io.IOException
+import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.data.api.RestaurantVisitStatusApi
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
-import pt.socialfood.domain.model.VisitStatus
 import pt.socialfood.random.nextRestaurantResponse
 import kotlin.random.Random
 

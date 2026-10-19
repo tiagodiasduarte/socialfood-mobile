@@ -1,11 +1,11 @@
 package pt.socialfood.mapper
 
+import pt.socialfood.core.model.Location
+import pt.socialfood.core.model.Restaurant
+import pt.socialfood.core.model.RestaurantVisitStatus
+import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.data.local.entity.RestaurantVisitStatusEntity
 import pt.socialfood.data.local.entity.SyncState
-import pt.socialfood.domain.model.Location
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.RestaurantVisitStatus
-import pt.socialfood.domain.model.VisitStatus
 
 fun RestaurantVisitStatusEntity.toRestaurant(): Restaurant = Restaurant(
     id = this.restaurantId,

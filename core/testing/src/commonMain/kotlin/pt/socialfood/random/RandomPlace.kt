@@ -1,6 +1,6 @@
 package pt.socialfood.random
 
-import pt.socialfood.domain.model.Place
+import pt.socialfood.core.model.Place
 import kotlin.random.Random
 
 fun Random.nextPlace(

@@ -11,11 +11,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import pt.socialfood.core.domain.repository.SettingsRepository
+import pt.socialfood.core.model.Place
+import pt.socialfood.core.model.RecentSearch
+import pt.socialfood.core.model.ThemeMode
 import pt.socialfood.data.security.TokenCipher
-import pt.socialfood.domain.model.Place
-import pt.socialfood.domain.model.RecentSearch
-import pt.socialfood.domain.model.ThemeMode
-import pt.socialfood.domain.repository.SettingsRepository
 
 private val Context.dataStore by preferencesDataStore(name = "socialfood_settings")
 

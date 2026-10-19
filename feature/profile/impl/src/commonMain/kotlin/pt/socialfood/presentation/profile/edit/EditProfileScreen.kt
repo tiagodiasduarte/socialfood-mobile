@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.core.common.error.ErrorCode
 import pt.socialfood.feature.profile.impl.generated.resources.Res
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_save_error_dismiss
 import pt.socialfood.feature.profile.impl.generated.resources.edit_profile_save_error_title

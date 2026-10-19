@@ -8,11 +8,11 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.paging.testing.TestPager
 import kotlinx.coroutines.test.runTest
+import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.data.local.entity.GuideEntity
 import pt.socialfood.data.local.entity.GuideRemoteKeyEntity
 import pt.socialfood.data.network.model.author.AuthorResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
-import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.fakes.FakeGuideDao
 import pt.socialfood.fakes.FakeGuideRemoteKeyDao
 import pt.socialfood.fakes.FakeGuidesApi

@@ -9,7 +9,10 @@ import androidx.sqlite.SQLiteException
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import pt.socialfood.core.Result
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.FavouritesGuidesRepository
+import pt.socialfood.core.domain.repository.SettingsRepository
+import pt.socialfood.core.model.Guide
 import pt.socialfood.data.api.FavouritesGuidesApi
 import pt.socialfood.data.currentTimeMillis
 import pt.socialfood.data.local.dao.FavouriteDao
@@ -21,9 +24,6 @@ import pt.socialfood.data.network.model.guide.GuideResponse
 import pt.socialfood.data.paging.FavouriteGuideCacheTransactionRunner
 import pt.socialfood.data.paging.FavouriteGuideRemoteMediator
 import pt.socialfood.domain.error.safeApiCall
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.repository.FavouritesGuidesRepository
-import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.mapper.toFavouriteGuideEntity
 import pt.socialfood.mapper.toGuide
 

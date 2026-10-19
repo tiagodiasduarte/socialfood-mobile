@@ -1,15 +1,15 @@
 package pt.socialfood.mapper
 
+import pt.socialfood.core.model.Author
+import pt.socialfood.core.model.AuthorDetail
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.data.local.entity.GuideEntity
 import pt.socialfood.data.network.model.author.AuthorDetailResponse
 import pt.socialfood.data.network.model.author.AuthorResponse
 import pt.socialfood.data.network.model.guide.GuideDetailResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
-import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.AuthorDetail
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
 import pt.socialfood.random.nextEnum
 import pt.socialfood.random.nextGuide
 import pt.socialfood.random.nextNullable

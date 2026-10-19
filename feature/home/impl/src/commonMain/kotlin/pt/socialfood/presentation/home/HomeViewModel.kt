@@ -13,15 +13,15 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import pt.socialfood.core.Result
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.HomeSection
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.User
-import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
-import pt.socialfood.domain.repository.FavouritesGuidesRepository
-import pt.socialfood.domain.repository.HomeRepository
-import pt.socialfood.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.FavouriteRestaurantsRepository
+import pt.socialfood.core.domain.repository.FavouritesGuidesRepository
+import pt.socialfood.core.domain.repository.HomeRepository
+import pt.socialfood.core.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.HomeSection
+import pt.socialfood.core.model.Restaurant
+import pt.socialfood.core.model.User
 import pt.socialfood.presentation.error.toErrorCode
 
 class HomeViewModel(

@@ -1,9 +1,9 @@
 package pt.socialfood.data.repository
 
 import kotlinx.coroutines.test.runTest
-import pt.socialfood.core.Result
-import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.model.AuthTokens
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.model.AuthTokens
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

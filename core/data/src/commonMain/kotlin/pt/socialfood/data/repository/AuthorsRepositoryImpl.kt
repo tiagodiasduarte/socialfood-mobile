@@ -7,17 +7,17 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import pt.socialfood.core.Result
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.AuthorsRepository
+import pt.socialfood.core.model.Author
+import pt.socialfood.core.model.AuthorDetail
+import pt.socialfood.core.model.PagedAuthors
 import pt.socialfood.data.api.AuthorsApi
 import pt.socialfood.data.local.dao.AuthorDao
 import pt.socialfood.data.local.dao.AuthorRemoteKeyDao
 import pt.socialfood.data.paging.AuthorCacheTransactionRunner
 import pt.socialfood.data.paging.AuthorRemoteMediator
 import pt.socialfood.domain.error.safeApiCall
-import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.AuthorDetail
-import pt.socialfood.domain.model.PagedAuthors
-import pt.socialfood.domain.repository.AuthorsRepository
 import pt.socialfood.mapper.toAuthor
 import pt.socialfood.mapper.toAuthorDetail
 

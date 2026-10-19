@@ -1,7 +1,7 @@
 package pt.socialfood.random
 
-import pt.socialfood.domain.model.PagedUsers
-import pt.socialfood.domain.model.User
+import pt.socialfood.core.model.PagedUsers
+import pt.socialfood.core.model.User
 import kotlin.random.Random
 
 fun Random.nextPagedUsers(

@@ -1,7 +1,7 @@
 package pt.socialfood.mapper
 
+import pt.socialfood.core.model.Place
 import pt.socialfood.data.network.model.place.PlaceResponse
-import pt.socialfood.domain.model.Place
 
 fun PlaceResponse.toPlaces(): List<Place> = this.results.map {
     Place(

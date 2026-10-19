@@ -2,16 +2,16 @@ package pt.socialfood.mapper
 
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
+import pt.socialfood.core.model.HomeItemType
+import pt.socialfood.core.model.HomeSection
+import pt.socialfood.core.model.HomeSectionItem
+import pt.socialfood.core.model.HomeSectionType
 import pt.socialfood.data.local.entity.HomeSectionEntity
 import pt.socialfood.data.network.model.author.AuthorResponse
 import pt.socialfood.data.network.model.guide.GuideResponse
 import pt.socialfood.data.network.model.home.HomeSectionItemResponse
 import pt.socialfood.data.network.model.home.HomeSectionResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
-import pt.socialfood.domain.model.HomeItemType
-import pt.socialfood.domain.model.HomeSection
-import pt.socialfood.domain.model.HomeSectionItem
-import pt.socialfood.domain.model.HomeSectionType
 import pt.socialfood.random.nextEnum
 import pt.socialfood.random.nextString
 import kotlin.random.Random

@@ -1,6 +1,20 @@
 package pt.socialfood.core.data.di
 
 import org.koin.dsl.module
+import pt.socialfood.core.domain.repository.AuthRepository
+import pt.socialfood.core.domain.repository.AuthorsRepository
+import pt.socialfood.core.domain.repository.ConfigsRepository
+import pt.socialfood.core.domain.repository.FavouriteRestaurantsRepository
+import pt.socialfood.core.domain.repository.FavouritesGuidesRepository
+import pt.socialfood.core.domain.repository.GuidesRepository
+import pt.socialfood.core.domain.repository.HomeRepository
+import pt.socialfood.core.domain.repository.LocalCacheRepository
+import pt.socialfood.core.domain.repository.PhotosRepository
+import pt.socialfood.core.domain.repository.PlacesRepository
+import pt.socialfood.core.domain.repository.RestaurantVisitStatusRepository
+import pt.socialfood.core.domain.repository.RestaurantsRepository
+import pt.socialfood.core.domain.repository.SearchRepository
+import pt.socialfood.core.domain.repository.UsersRepository
 import pt.socialfood.data.local.AppDatabase
 import pt.socialfood.data.paging.asAuthorCacheTransactionRunner
 import pt.socialfood.data.paging.asFavouriteGuideCacheTransactionRunner
@@ -22,20 +36,6 @@ import pt.socialfood.data.repository.RestaurantVisitStatusRepositoryImpl
 import pt.socialfood.data.repository.RestaurantsRepositoryImpl
 import pt.socialfood.data.repository.SearchRepositoryImpl
 import pt.socialfood.data.repository.UsersRepositoryImpl
-import pt.socialfood.domain.repository.AuthRepository
-import pt.socialfood.domain.repository.AuthorsRepository
-import pt.socialfood.domain.repository.ConfigsRepository
-import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
-import pt.socialfood.domain.repository.FavouritesGuidesRepository
-import pt.socialfood.domain.repository.GuidesRepository
-import pt.socialfood.domain.repository.HomeRepository
-import pt.socialfood.domain.repository.LocalCacheRepository
-import pt.socialfood.domain.repository.PhotosRepository
-import pt.socialfood.domain.repository.PlacesRepository
-import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
-import pt.socialfood.domain.repository.RestaurantsRepository
-import pt.socialfood.domain.repository.SearchRepository
-import pt.socialfood.domain.repository.UsersRepository
 
 val coreDataModule =
     module {

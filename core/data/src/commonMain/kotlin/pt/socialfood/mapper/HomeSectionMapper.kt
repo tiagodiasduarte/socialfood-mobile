@@ -2,13 +2,13 @@ package pt.socialfood.mapper
 
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
+import pt.socialfood.core.model.HomeItemType
+import pt.socialfood.core.model.HomeSection
+import pt.socialfood.core.model.HomeSectionItem
+import pt.socialfood.core.model.HomeSectionType
 import pt.socialfood.data.local.entity.HomeSectionEntity
 import pt.socialfood.data.network.model.home.HomeSectionItemResponse
 import pt.socialfood.data.network.model.home.HomeSectionResponse
-import pt.socialfood.domain.model.HomeItemType
-import pt.socialfood.domain.model.HomeSection
-import pt.socialfood.domain.model.HomeSectionItem
-import pt.socialfood.domain.model.HomeSectionType
 
 fun HomeSectionResponse.toHomeSection(): HomeSection = HomeSection(
     id = id,

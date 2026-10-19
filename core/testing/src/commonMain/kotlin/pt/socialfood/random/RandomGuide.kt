@@ -1,9 +1,9 @@
 package pt.socialfood.random
 
-import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideVisibility
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.model.Author
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
+import pt.socialfood.core.model.Restaurant
 import kotlin.random.Random
 
 fun Random.nextGuide(

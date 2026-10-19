@@ -1,9 +1,9 @@
 package pt.socialfood.data.repository
 
-import pt.socialfood.core.Result
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.PhotosRepository
 import pt.socialfood.data.api.S3Api
 import pt.socialfood.domain.error.safeApiCall
-import pt.socialfood.domain.repository.PhotosRepository
 
 internal class PhotosRepositoryImpl(private val s3Api: S3Api) : PhotosRepository {
 

@@ -1,7 +1,7 @@
 package pt.socialfood.random
 
-import pt.socialfood.domain.model.Location
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.model.Location
+import pt.socialfood.core.model.Restaurant
 import kotlin.random.Random
 
 fun Random.nextRestaurant(

@@ -6,10 +6,10 @@ import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.put
+import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.data.network.model.PagedResponse
 import pt.socialfood.data.network.model.restaurant.RestaurantResponse
 import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitStatusSyncResponse
-import pt.socialfood.domain.model.VisitStatus
 
 private const val WISH_PATH_SEGMENT = "wishlist"
 private const val VISITED_PATH_SEGMENT = "visited"

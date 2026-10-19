@@ -3,10 +3,10 @@ package pt.socialfood.presentation.sync
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import pt.socialfood.core.domain.repository.FavouriteRestaurantsRepository
+import pt.socialfood.core.domain.repository.FavouritesGuidesRepository
+import pt.socialfood.core.domain.repository.RestaurantVisitStatusRepository
 import pt.socialfood.data.network.ConnectivityObserver
-import pt.socialfood.domain.repository.FavouriteRestaurantsRepository
-import pt.socialfood.domain.repository.FavouritesGuidesRepository
-import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
 
 class SyncViewModel(
     private val favouritesGuidesRepository: FavouritesGuidesRepository,

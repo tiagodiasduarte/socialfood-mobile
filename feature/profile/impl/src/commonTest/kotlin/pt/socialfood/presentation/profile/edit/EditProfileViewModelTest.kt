@@ -2,11 +2,11 @@ package pt.socialfood.presentation.profile.edit
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import pt.socialfood.core.Result
-import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.error.ErrorCode
-import pt.socialfood.domain.model.PresignedUrlData
-import pt.socialfood.domain.model.User
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.model.PresignedUrlData
+import pt.socialfood.core.model.User
 import pt.socialfood.fakes.FakeImageCache
 import pt.socialfood.fakes.FakePhotosRepository
 import pt.socialfood.fakes.FakeUsersRepository

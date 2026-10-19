@@ -1,6 +1,6 @@
 package pt.socialfood.presentation.guide.shared.join
 
-import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.core.common.error.ErrorCode
 
 sealed interface JoinSharedGuideDialogUiState {
     data object Idle : JoinSharedGuideDialogUiState

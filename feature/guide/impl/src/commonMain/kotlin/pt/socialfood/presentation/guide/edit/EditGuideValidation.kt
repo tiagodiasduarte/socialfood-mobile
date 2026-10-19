@@ -1,7 +1,7 @@
 package pt.socialfood.presentation.guide.edit
 
 import org.jetbrains.compose.resources.StringResource
-import pt.socialfood.domain.model.GuideVisibility
+import pt.socialfood.core.model.GuideVisibility
 import pt.socialfood.feature.guide.impl.generated.resources.Res
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_description_error
 import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_public_author_warning

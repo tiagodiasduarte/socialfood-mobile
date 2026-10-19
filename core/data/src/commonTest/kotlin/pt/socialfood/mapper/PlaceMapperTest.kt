@@ -1,7 +1,7 @@
 package pt.socialfood.mapper
 
+import pt.socialfood.core.model.Place
 import pt.socialfood.data.network.model.place.PlaceResponse
-import pt.socialfood.domain.model.Place
 import pt.socialfood.random.nextString
 import kotlin.random.Random
 import kotlin.test.Test

@@ -3,7 +3,7 @@ package pt.socialfood.presentation.restaurant.navigation
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.model.Restaurant
 
 /**
  * One unbounded channel per request key, so a result waits for its caller and is delivered once.

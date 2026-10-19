@@ -3,11 +3,11 @@ package pt.socialfood.fakes
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import pt.socialfood.core.Result
-import pt.socialfood.domain.model.Author
-import pt.socialfood.domain.model.AuthorDetail
-import pt.socialfood.domain.model.PagedAuthors
-import pt.socialfood.domain.repository.AuthorsRepository
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.AuthorsRepository
+import pt.socialfood.core.model.Author
+import pt.socialfood.core.model.AuthorDetail
+import pt.socialfood.core.model.PagedAuthors
 import pt.socialfood.random.nextAuthorDetail
 import pt.socialfood.random.nextPagedAuthors
 import kotlin.random.Random

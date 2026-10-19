@@ -13,7 +13,7 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.MarkerComposable
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
-import pt.socialfood.domain.model.Restaurant
+import pt.socialfood.core.model.Restaurant
 
 private const val SINGLE_PIN_ZOOM = 15f
 private const val BOUNDS_PADDING_PX = 100

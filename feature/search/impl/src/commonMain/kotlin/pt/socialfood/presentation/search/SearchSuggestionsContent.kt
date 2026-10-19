@@ -27,8 +27,8 @@ import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.core.designsystem.generated.resources.author_icon
 import pt.socialfood.core.designsystem.generated.resources.guide_icon
 import pt.socialfood.core.designsystem.generated.resources.restaurant_icon
-import pt.socialfood.domain.model.RecentSearch
-import pt.socialfood.domain.model.RecentSearchType
+import pt.socialfood.core.model.RecentSearch
+import pt.socialfood.core.model.RecentSearchType
 import pt.socialfood.feature.search.impl.generated.resources.Res
 import pt.socialfood.feature.search.impl.generated.resources.search_recent_searches_title
 import pt.socialfood.feature.search.impl.generated.resources.search_suggestion_favorite_guides

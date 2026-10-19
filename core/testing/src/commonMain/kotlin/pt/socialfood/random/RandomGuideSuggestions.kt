@@ -1,7 +1,7 @@
 package pt.socialfood.random
 
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.model.GuideSuggestions
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideSuggestions
 import kotlin.random.Random
 
 fun Random.nextGuideSuggestions(guides: List<Guide> = nextList { nextGuide() }, generatedAt: String = nextString()) =

@@ -11,9 +11,9 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.repository.FavouritesGuidesRepository
-import pt.socialfood.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.core.domain.repository.FavouritesGuidesRepository
+import pt.socialfood.core.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.core.model.Guide
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FavouriteGuidesViewModel(

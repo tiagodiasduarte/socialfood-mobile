@@ -1,7 +1,7 @@
 package pt.socialfood.presentation.guide.create
 
 import org.jetbrains.compose.resources.StringResource
-import pt.socialfood.domain.error.ErrorCode
+import pt.socialfood.core.common.error.ErrorCode
 
 sealed interface CreateGuideUiState {
     data class Idle(

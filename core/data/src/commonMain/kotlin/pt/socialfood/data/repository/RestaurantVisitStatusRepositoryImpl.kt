@@ -11,7 +11,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import pt.socialfood.core.Result
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.RestaurantVisitStatusRepository
+import pt.socialfood.core.domain.repository.SettingsRepository
+import pt.socialfood.core.model.Restaurant
+import pt.socialfood.core.model.RestaurantVisitStatus
+import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.data.api.RestaurantVisitStatusApi
 import pt.socialfood.data.currentTimeMillis
 import pt.socialfood.data.local.dao.RestaurantVisitStatusDao
@@ -22,11 +27,6 @@ import pt.socialfood.data.network.model.restaurantvisitstatus.RestaurantVisitSta
 import pt.socialfood.data.paging.RestaurantVisitStatusCacheTransactionRunner
 import pt.socialfood.data.paging.RestaurantVisitStatusRemoteMediator
 import pt.socialfood.domain.error.safeApiCall
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.RestaurantVisitStatus
-import pt.socialfood.domain.model.VisitStatus
-import pt.socialfood.domain.repository.RestaurantVisitStatusRepository
-import pt.socialfood.domain.repository.SettingsRepository
 import pt.socialfood.mapper.toRestaurant
 import pt.socialfood.mapper.toRestaurantVisitStatus
 import pt.socialfood.mapper.toRestaurantVisitStatusEntity

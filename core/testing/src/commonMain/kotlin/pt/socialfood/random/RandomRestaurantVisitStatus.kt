@@ -1,8 +1,8 @@
 package pt.socialfood.random
 
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.RestaurantVisitStatus
-import pt.socialfood.domain.model.VisitStatus
+import pt.socialfood.core.model.Restaurant
+import pt.socialfood.core.model.RestaurantVisitStatus
+import pt.socialfood.core.model.VisitStatus
 import kotlin.random.Random
 
 fun Random.nextRestaurantVisitStatus(

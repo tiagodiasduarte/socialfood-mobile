@@ -6,11 +6,11 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import platform.Foundation.NSUserDefaults
+import pt.socialfood.core.domain.repository.SettingsRepository
+import pt.socialfood.core.model.Place
+import pt.socialfood.core.model.RecentSearch
+import pt.socialfood.core.model.ThemeMode
 import pt.socialfood.data.security.KeychainTokenStore
-import pt.socialfood.domain.model.Place
-import pt.socialfood.domain.model.RecentSearch
-import pt.socialfood.domain.model.ThemeMode
-import pt.socialfood.domain.repository.SettingsRepository
 
 private const val KEY_THEME_MODE = "theme_mode"
 private const val KEY_PENDING_VERIFICATION_EMAIL = "pending_verification_email"

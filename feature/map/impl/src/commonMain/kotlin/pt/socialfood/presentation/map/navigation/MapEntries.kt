@@ -6,7 +6,7 @@ import org.jetbrains.compose.resources.stringResource
 import pt.socialfood.core.designsystem.generated.resources.Res
 import pt.socialfood.core.designsystem.generated.resources.visited_restaurants_title
 import pt.socialfood.core.designsystem.generated.resources.wish_restaurants_title
-import pt.socialfood.domain.model.VisitStatus
+import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.presentation.map.restaurant.MapRestaurantScreen
 import pt.socialfood.presentation.map.restaurant.visitstatus.MapRestaurantVisitStatusScreen
 import pt.socialfood.presentation.navigation.Navigator

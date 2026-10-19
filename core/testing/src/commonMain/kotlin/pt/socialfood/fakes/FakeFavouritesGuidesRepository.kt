@@ -4,9 +4,9 @@ import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
-import pt.socialfood.core.Result
-import pt.socialfood.domain.model.Guide
-import pt.socialfood.domain.repository.FavouritesGuidesRepository
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.domain.repository.FavouritesGuidesRepository
+import pt.socialfood.core.model.Guide
 
 class FakeFavouritesGuidesRepository(
     private val markResult: Result<Unit> = Result.Success(Unit),

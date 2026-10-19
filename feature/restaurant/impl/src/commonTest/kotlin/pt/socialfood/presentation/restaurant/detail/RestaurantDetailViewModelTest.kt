@@ -3,11 +3,11 @@ package pt.socialfood.presentation.restaurant.detail
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
-import pt.socialfood.core.Result
-import pt.socialfood.domain.error.DataError
-import pt.socialfood.domain.model.Location
-import pt.socialfood.domain.model.Restaurant
-import pt.socialfood.domain.model.VisitStatus
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.model.Location
+import pt.socialfood.core.model.Restaurant
+import pt.socialfood.core.model.VisitStatus
 import pt.socialfood.fakes.FakeFavouriteRestaurantsRepository
 import pt.socialfood.fakes.FakeRestaurantVisitStatusRepository
 import pt.socialfood.fakes.FakeRestaurantsRepository

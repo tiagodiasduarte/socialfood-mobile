@@ -1,8 +1,8 @@
 package pt.socialfood.mapper
 
+import pt.socialfood.core.model.Author
 import pt.socialfood.data.local.entity.AuthorEntity
 import pt.socialfood.data.network.model.author.AuthorResponse
-import pt.socialfood.domain.model.Author
 import pt.socialfood.random.nextAuthor
 import pt.socialfood.random.nextNullable
 import pt.socialfood.random.nextString

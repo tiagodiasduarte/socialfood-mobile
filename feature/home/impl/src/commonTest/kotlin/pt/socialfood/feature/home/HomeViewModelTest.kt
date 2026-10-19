@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.home
+package pt.socialfood.feature.home
 
 import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -14,7 +14,7 @@ import pt.socialfood.core.designsystem.generated.resources.home_icon
 import pt.socialfood.core.designsystem.generated.resources.search_icon
 import pt.socialfood.feature.author.navigation.AuthorRoute
 import pt.socialfood.feature.guide.navigation.GuideRoute
-import pt.socialfood.presentation.home.navigation.HomeRoute
+import pt.socialfood.feature.home.navigation.HomeRoute
 import pt.socialfood.presentation.search.navigation.SearchRoute
 
 data class BottomNavItem(val icon: DrawableResource, val title: StringResource)

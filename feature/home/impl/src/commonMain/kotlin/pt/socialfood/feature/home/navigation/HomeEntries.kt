@@ -1,11 +1,11 @@
-package pt.socialfood.presentation.home.navigation
+package pt.socialfood.feature.home.navigation
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import pt.socialfood.core.navigation.Navigator
 import pt.socialfood.core.navigation.defaultAnimationMetadata
 import pt.socialfood.feature.guide.navigation.GuideRoute
-import pt.socialfood.presentation.home.HomeScreen
+import pt.socialfood.feature.home.HomeScreen
 import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute
 import pt.socialfood.presentation.search.navigation.SearchRoute
 

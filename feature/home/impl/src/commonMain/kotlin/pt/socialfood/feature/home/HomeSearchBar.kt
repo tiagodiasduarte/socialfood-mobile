@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.home
+package pt.socialfood.feature.home
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable

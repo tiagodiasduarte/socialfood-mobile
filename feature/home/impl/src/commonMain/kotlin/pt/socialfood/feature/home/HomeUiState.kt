@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.home
+package pt.socialfood.feature.home
 
 import pt.socialfood.core.common.error.ErrorCode
 

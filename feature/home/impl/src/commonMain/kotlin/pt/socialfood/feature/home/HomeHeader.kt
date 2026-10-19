@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.home
+package pt.socialfood.feature.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

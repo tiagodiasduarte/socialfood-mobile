@@ -1,7 +1,7 @@
-package pt.socialfood.presentation.home.di
+package pt.socialfood.feature.home.di
 
 import org.koin.dsl.module
-import pt.socialfood.presentation.home.HomeViewModel
+import pt.socialfood.feature.home.HomeViewModel
 
 val homeFeatureModule =
     module {

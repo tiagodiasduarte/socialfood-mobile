@@ -22,9 +22,9 @@ import pt.socialfood.feature.author.navigation.authorEntries
 import pt.socialfood.feature.favourite.navigation.FavouriteRoute
 import pt.socialfood.feature.favourite.navigation.favouriteEntries
 import pt.socialfood.feature.guide.navigation.guideEntries
+import pt.socialfood.feature.home.navigation.HomeRoute
+import pt.socialfood.feature.home.navigation.homeEntries
 import pt.socialfood.feature.settings.drawer.DrawerContent
-import pt.socialfood.presentation.home.navigation.HomeRoute
-import pt.socialfood.presentation.home.navigation.homeEntries
 import pt.socialfood.presentation.map.navigation.mapEntries
 import pt.socialfood.presentation.profile.navigation.profileEntries
 import pt.socialfood.presentation.restaurant.navigation.RestaurantRoute

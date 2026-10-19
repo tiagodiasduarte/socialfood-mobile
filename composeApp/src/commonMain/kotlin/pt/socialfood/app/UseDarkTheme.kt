@@ -1,4 +1,4 @@
-package pt.socialfood
+package pt.socialfood.app
 
 import androidx.compose.runtime.Composable
 

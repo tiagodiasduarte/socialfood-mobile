@@ -1,4 +1,4 @@
-package pt.socialfood.di
+package pt.socialfood.app.di
 
 import coil3.SingletonImageLoader
 import org.koin.core.context.startKoin
@@ -7,6 +7,7 @@ import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.includes
 import org.koin.dsl.module
+import pt.socialfood.app.sync.SyncViewModel
 import pt.socialfood.core.data.di.coreDataModule
 import pt.socialfood.core.database.di.coreDatabaseModule
 import pt.socialfood.core.datastore.di.coreDatastoreModule
@@ -24,7 +25,6 @@ import pt.socialfood.feature.profile.di.profileFeatureModule
 import pt.socialfood.feature.restaurant.di.restaurantFeatureModule
 import pt.socialfood.feature.search.di.searchFeatureModule
 import pt.socialfood.feature.settings.di.settingsFeatureModule
-import pt.socialfood.presentation.sync.SyncViewModel
 
 expect val platformModule: Module
 

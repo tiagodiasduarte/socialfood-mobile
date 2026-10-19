@@ -1,4 +1,4 @@
-package pt.socialfood.di
+package pt.socialfood.app.di
 
 import coil3.ImageLoader
 import coil3.PlatformContext

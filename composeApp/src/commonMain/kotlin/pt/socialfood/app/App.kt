@@ -1,4 +1,4 @@
-package pt.socialfood
+package pt.socialfood.app
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -11,6 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.mp.KoinPlatform.getKoin
+import pt.socialfood.app.navigation.NavigationRoot
+import pt.socialfood.app.sync.SyncEffect
 import pt.socialfood.core.designsystem.theme.AppTheme
 import pt.socialfood.core.domain.session.SessionManager
 import pt.socialfood.feature.auth.signin.SignInScreen
@@ -18,8 +20,6 @@ import pt.socialfood.feature.auth.signup.SignUpScreen
 import pt.socialfood.feature.auth.splash.SplashScreen
 import pt.socialfood.feature.auth.startup.StartupViewModel
 import pt.socialfood.feature.auth.validatecode.ValidateCodeScreen
-import pt.socialfood.presentation.navigation.NavigationRoot
-import pt.socialfood.presentation.sync.SyncEffect
 
 private sealed class AppDestination {
     data object Splash : AppDestination()

@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.sync
+package pt.socialfood.app.sync
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle

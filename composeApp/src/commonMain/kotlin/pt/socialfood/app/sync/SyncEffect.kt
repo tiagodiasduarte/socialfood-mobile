@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.sync
+package pt.socialfood.app.sync
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.Lifecycle

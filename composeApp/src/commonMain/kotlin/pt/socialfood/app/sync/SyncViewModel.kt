@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.sync
+package pt.socialfood.app.sync
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

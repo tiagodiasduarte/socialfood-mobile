@@ -1,4 +1,4 @@
-package pt.socialfood.di
+package pt.socialfood.app.di
 
 import android.content.Context
 import io.ktor.client.HttpClientConfig

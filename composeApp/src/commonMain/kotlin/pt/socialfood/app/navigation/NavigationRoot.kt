@@ -1,4 +1,4 @@
-package pt.socialfood.presentation.navigation
+package pt.socialfood.app.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding

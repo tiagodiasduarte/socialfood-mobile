@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import org.koin.mp.KoinPlatform.getKoin
+import pt.socialfood.app.App
 import pt.socialfood.feature.auth.startup.StartupUiState
 import pt.socialfood.feature.auth.startup.StartupViewModel
 

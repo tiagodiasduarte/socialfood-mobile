@@ -296,7 +296,7 @@ kover {
                     "$appNamespace.BuildConfig",
                     "$appNamespace.core.common.*",
                     "$appNamespace.core.*.di.*",
-                    "$appNamespace.di.*",
+                    "$appNamespace.app.di.*",
                     "$appNamespace.core.network.model.*",
                     "$appNamespace.feature.*.navigation.*Route*",
                     "$appNamespace.core.designsystem.theme.*",

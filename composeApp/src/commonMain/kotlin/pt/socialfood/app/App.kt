@@ -1,0 +1,74 @@
+package pt.socialfood.app
+
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.mp.KoinPlatform.getKoin
+import pt.socialfood.app.navigation.NavigationRoot
+import pt.socialfood.app.sync.SyncEffect
+import pt.socialfood.core.designsystem.theme.AppTheme
+import pt.socialfood.core.domain.session.SessionManager
+import pt.socialfood.feature.auth.signin.SignInScreen
+import pt.socialfood.feature.auth.signup.SignUpScreen
+import pt.socialfood.feature.auth.splash.SplashScreen
+import pt.socialfood.feature.auth.startup.StartupViewModel
+import pt.socialfood.feature.auth.validatecode.ValidateCodeScreen
+
+private sealed class AppDestination {
+    data object Splash : AppDestination()
+    data object Home : AppDestination()
+    data object Login : AppDestination()
+    data object SignUp : AppDestination()
+    data class ValidateCode(val email: String) : AppDestination()
+}
+
+@Composable
+fun App(prewarmedStartupViewModel: StartupViewModel? = null) {
+    val sessionManager: SessionManager = remember { getKoin().get() }
+    val destinationState = remember { mutableStateOf<AppDestination>(AppDestination.Splash) }
+    val destination by destinationState
+    val navigate: (AppDestination) -> Unit = { destinationState.value = it }
+
+    LaunchedEffect(sessionManager) {
+        sessionManager.unauthorizedEvent.collect {
+            navigate(AppDestination.Login)
+        }
+    }
+
+    AppTheme(darkTheme = rememberUseDarkTheme()) {
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface) {
+            when (val dest = destination) {
+                AppDestination.Splash -> SplashScreen(
+                    viewModel = prewarmedStartupViewModel ?: koinViewModel(),
+                    onNavigateToHome = { navigate(AppDestination.Home) },
+                    onNavigateToLogin = { navigate(AppDestination.Login) },
+                    onNavigateToValidateCode = { email -> navigate(AppDestination.ValidateCode(email)) },
+                )
+                AppDestination.Home -> {
+                    NavigationRoot()
+                    SyncEffect()
+                }
+                AppDestination.Login -> SignInScreen(
+                    onSignInSuccess = { navigate(AppDestination.Home) },
+                    onSignUpClick = { navigate(AppDestination.SignUp) },
+                )
+                AppDestination.SignUp -> SignUpScreen(
+                    onSignUpSuccess = { email -> navigate(AppDestination.ValidateCode(email)) },
+                    onSignInClick = { navigate(AppDestination.Login) },
+                )
+                is AppDestination.ValidateCode -> ValidateCodeScreen(
+                    email = dest.email,
+                    onValidateSuccess = { navigate(AppDestination.Home) },
+                    onRestartSignUp = { navigate(AppDestination.SignUp) },
+                )
+            }
+        }
+    }
+}

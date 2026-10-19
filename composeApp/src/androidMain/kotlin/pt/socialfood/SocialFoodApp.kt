@@ -3,7 +3,7 @@ package pt.socialfood
 import android.app.Application
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.koin.android.ext.koin.androidContext
-import pt.socialfood.di.initKoin
+import pt.socialfood.app.di.initKoin
 
 class SocialFoodApp : Application() {
 

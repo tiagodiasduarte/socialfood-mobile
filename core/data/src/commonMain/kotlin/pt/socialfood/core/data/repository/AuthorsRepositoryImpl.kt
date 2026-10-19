@@ -1,0 +1,56 @@
+package pt.socialfood.core.data.repository
+
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.data.mapper.toAuthor
+import pt.socialfood.core.data.mapper.toAuthorDetail
+import pt.socialfood.core.data.paging.AuthorCacheTransactionRunner
+import pt.socialfood.core.data.paging.AuthorRemoteMediator
+import pt.socialfood.core.database.dao.AuthorDao
+import pt.socialfood.core.database.dao.AuthorRemoteKeyDao
+import pt.socialfood.core.domain.repository.AuthorsRepository
+import pt.socialfood.core.model.Author
+import pt.socialfood.core.model.AuthorDetail
+import pt.socialfood.core.model.PagedAuthors
+import pt.socialfood.core.network.api.AuthorsApi
+import pt.socialfood.core.network.safeApiCall
+
+private const val AUTHORS_PAGE_SIZE = 20
+
+internal class AuthorsRepositoryImpl(
+    private val authorsApi: AuthorsApi,
+    private val authorDao: AuthorDao,
+    private val authorRemoteKeyDao: AuthorRemoteKeyDao,
+    private val transactionRunner: AuthorCacheTransactionRunner,
+) : AuthorsRepository {
+    override suspend fun findAuthors(page: Int, limit: Int, query: String?): Result<PagedAuthors> = safeApiCall {
+        val response = authorsApi.findAuthors(page = page, limit = limit, query = query)
+        val hasMore = response.page * response.limit < response.total
+        PagedAuthors(
+            authors = response.items.map { it.toAuthor() },
+            page = response.page,
+            hasMore = hasMore,
+        )
+    }
+
+    override suspend fun findAuthorById(id: String): Result<AuthorDetail> =
+        safeApiCall { authorsApi.findAuthorById(id).toAuthorDetail() }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getAuthorsPagingFlow(): Flow<PagingData<Author>> = Pager(
+        config = PagingConfig(pageSize = AUTHORS_PAGE_SIZE),
+        remoteMediator = AuthorRemoteMediator(
+            authorsApi = authorsApi,
+            authorDao = authorDao,
+            authorRemoteKeyDao = authorRemoteKeyDao,
+            transactionRunner = transactionRunner,
+        ),
+        pagingSourceFactory = { authorDao.pagingSource() },
+    ).flow.map { pagingData -> pagingData.map { it.toAuthor() } }
+}

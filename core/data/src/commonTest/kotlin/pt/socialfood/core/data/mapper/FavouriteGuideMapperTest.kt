@@ -1,0 +1,99 @@
+package pt.socialfood.core.data.mapper
+
+import pt.socialfood.core.database.entity.FavouriteGuideEntity
+import pt.socialfood.core.database.entity.FavouriteSyncState
+import pt.socialfood.core.model.Author
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
+import pt.socialfood.core.testing.random.nextEnum
+import pt.socialfood.core.testing.random.nextGuide
+import pt.socialfood.core.testing.random.nextNullable
+import pt.socialfood.core.testing.random.nextString
+import pt.socialfood.core.testing.random.nextUrl
+import kotlin.random.Random
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
+class FavouriteGuideMapperTest {
+    private fun randomFavouriteGuideEntity() = FavouriteGuideEntity(
+        guideId = Random.nextString(),
+        name = Random.nextString(),
+        description = Random.nextString(),
+        visibility = Random.nextEnum<GuideVisibility>().name,
+        authorId = Random.nextString(),
+        authorName = Random.nextString(),
+        authorUsername = Random.nextString(),
+        authorImageUrl = Random.nextNullable { nextUrl() },
+        authorIsPublic = Random.nextBoolean(),
+        numberOfRestaurant = Random.nextInt(0, 50),
+        imageUrl = Random.nextNullable { nextUrl() },
+        favouritedAt = Random.nextLong(),
+        syncState = Random.nextEnum<FavouriteSyncState>().name,
+        position = Random.nextInt(),
+        shareCode = Random.nextNullable { nextString() },
+    )
+
+    @Test
+    fun `given a FavouriteGuideEntity when mapped to Guide then returns the equivalent Guide`() {
+        // Given
+        val entity = randomFavouriteGuideEntity()
+
+        // When
+        val result = entity.toGuide()
+
+        // Then
+        assertEquals(
+            Guide(
+                id = entity.guideId,
+                name = entity.name,
+                description = entity.description,
+                visibility = GuideVisibility.valueOf(entity.visibility),
+                author = Author(
+                    id = entity.authorId,
+                    name = entity.authorName,
+                    username = entity.authorUsername,
+                    imageUrl = entity.authorImageUrl,
+                    isPublic = entity.authorIsPublic,
+                ),
+                numberOfRestaurant = entity.numberOfRestaurant,
+                imageUrl = entity.imageUrl,
+                shareCode = entity.shareCode,
+            ),
+            result,
+        )
+    }
+
+    @Test
+    fun `given a Guide when mapped to entity then returns the equivalent FavouriteGuideEntity`() {
+        // Given
+        val guide = Random.nextGuide()
+        val favouritedAt = Random.nextLong()
+        val syncState = Random.nextEnum<FavouriteSyncState>()
+        val position = Random.nextInt()
+
+        // When
+        val result = guide.toFavouriteGuideEntity(favouritedAt, syncState, position)
+
+        // Then
+        assertEquals(
+            FavouriteGuideEntity(
+                guideId = guide.id,
+                name = guide.name,
+                description = guide.description,
+                visibility = guide.visibility.name,
+                authorId = guide.author.id,
+                authorName = guide.author.name,
+                authorUsername = guide.author.username,
+                authorImageUrl = guide.author.imageUrl,
+                authorIsPublic = guide.author.isPublic,
+                numberOfRestaurant = guide.numberOfRestaurant,
+                imageUrl = guide.imageUrl,
+                favouritedAt = favouritedAt,
+                syncState = syncState.name,
+                position = position,
+                shareCode = guide.shareCode,
+            ),
+            result,
+        )
+    }
+}

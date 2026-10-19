@@ -1,0 +1,479 @@
+package pt.socialfood.feature.guide.edit
+
+import app.cash.turbine.test
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.advanceUntilIdle
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.model.Author
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.model.GuideVisibility
+import pt.socialfood.core.model.Location
+import pt.socialfood.core.model.Restaurant
+import pt.socialfood.core.testing.fakes.FakeGuidesRepository
+import pt.socialfood.core.testing.fakes.FakeObserveUserUseCase
+import pt.socialfood.core.testing.fakes.FakePhotosRepository
+import pt.socialfood.core.testing.fakes.FakeUpdateGuideUseCase
+import pt.socialfood.core.testing.random.nextUser
+import pt.socialfood.core.testing.runner.runTestWithMainDispatcher
+import pt.socialfood.feature.guide.fakes.FakeRestaurantPickerResults
+import pt.socialfood.feature.guide.impl.generated.resources.Res
+import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_description_error
+import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_public_author_warning
+import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_public_image_warning
+import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_public_restaurants_warning
+import pt.socialfood.feature.guide.impl.generated.resources.edit_guide_details_title_error
+import kotlin.random.Random
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
+import kotlin.test.assertTrue
+
+@OptIn(ExperimentalCoroutinesApi::class)
+class EditGuideViewModelTest {
+    private fun guide(
+        visibility: GuideVisibility = GuideVisibility.PRIVATE,
+        restaurants: List<Restaurant> = emptyList(),
+    ) = Guide(
+        id = "guide-1",
+        name = "My Guide",
+        description = "My description",
+        visibility = visibility,
+        author = Author(id = "author-1", name = "Author", username = "author"),
+        numberOfRestaurant = restaurants.size,
+        restaurants = restaurants,
+    )
+
+    private fun restaurant(id: String) = Restaurant(
+        id = id,
+        name = "Restaurant $id",
+        description = "",
+        city = "Lisbon",
+        country = "Portugal",
+        countryCode = "PT",
+        postalCode = "1000-000",
+        imagesUrl = emptyList(),
+        address = "Rua Augusta 1",
+        rating = 4.5,
+        userRatingCount = 100,
+        websiteUrl = null,
+        phoneNumber = "+351910000000",
+        location = Location(latitude = 38.7223, longitude = -9.1393),
+    )
+
+    private fun createViewModel(
+        updateGuide: FakeUpdateGuideUseCase = FakeUpdateGuideUseCase(Result.Success(guide())),
+        photosRepository: FakePhotosRepository = FakePhotosRepository(),
+        guidesRepository: FakeGuidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(guide())),
+        observeUser: FakeObserveUserUseCase = FakeObserveUserUseCase(),
+        restaurantPickerResults: FakeRestaurantPickerResults = FakeRestaurantPickerResults(),
+    ) = EditGuideViewModel(
+        updateGuide = updateGuide,
+        photosRepository = photosRepository,
+        guidesRepository = guidesRepository,
+        observeUser = observeUser,
+        restaurantPickerResults = restaurantPickerResults,
+        guideId = "guide-1",
+    )
+
+    @Test
+    fun `given findById succeeds when created then state is Loaded`() = runTestWithMainDispatcher {
+        // Given / When
+        val vm = createViewModel(guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(guide())))
+
+        // Then
+        vm.state.test {
+            assertEquals(EditGuideUiState.Loading, awaitItem())
+            val state = assertIs<EditGuideUiState.Loaded>(awaitItem())
+            assertEquals("My Guide", state.title)
+            assertEquals("My description", state.description)
+        }
+    }
+
+    @Test
+    fun `given findById fails when created then state is Error`() = runTestWithMainDispatcher {
+        // Given
+        val guidesRepository = FakeGuidesRepository(
+            findByIdResult = Result.Failure(DataError.Network(Exception("test error"))),
+        )
+
+        // When
+        val vm = createViewModel(guidesRepository = guidesRepository)
+
+        // Then
+        vm.state.test {
+            assertEquals(EditGuideUiState.Loading, awaitItem())
+            assertEquals(EditGuideUiState.Error(ErrorCode.NETWORK), awaitItem())
+        }
+    }
+
+    @Test
+    fun `given a loaded guide when load is called again then reloads the guide`() = runTestWithMainDispatcher {
+        // Given
+        val guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(guide()))
+        val vm = createViewModel(guidesRepository = guidesRepository)
+        vm.state.test {
+            skipItems(2)
+
+            // When
+            vm.load()
+
+            // Then
+            assertEquals(EditGuideUiState.Loading, awaitItem())
+            assertIs<EditGuideUiState.Loaded>(awaitItem())
+        }
+        assertEquals(2, guidesRepository.findByIdInvokeCount)
+    }
+
+    @Test
+    fun `given a blank title when onSave is called then validationErrors includes title error`() =
+        runTestWithMainDispatcher {
+            // Given
+            val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
+            val vm = createViewModel(updateGuide = updateGuide)
+
+            advanceUntilIdle()
+            advanceUntilIdle()
+
+            vm.onTitleChange("")
+
+            // When
+            vm.onSave()
+
+            // Then
+            val state = assertIs<EditGuideUiState.Loaded>(vm.state.value)
+            assertTrue(state.titleError)
+            assertEquals(listOf(Res.string.edit_guide_details_title_error), state.validationErrors)
+            assertEquals(0, updateGuide.invokeCount)
+        }
+
+    @Test
+    fun `given a blank description when onSave is called then validationErrors includes description error`() =
+        runTestWithMainDispatcher {
+            // Given
+            val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
+            val vm = createViewModel(updateGuide = updateGuide)
+
+            advanceUntilIdle()
+            advanceUntilIdle()
+
+            vm.onDescriptionChange("")
+
+            // When
+            vm.onSave()
+
+            // Then
+            val state = assertIs<EditGuideUiState.Loaded>(vm.state.value)
+            assertTrue(state.descriptionError)
+            assertEquals(listOf(Res.string.edit_guide_details_description_error), state.validationErrors)
+            assertEquals(0, updateGuide.invokeCount)
+        }
+
+    @Test
+    fun `given public visibility missing requirements when onSave is called then validationErrors includes warnings`() =
+        runTestWithMainDispatcher {
+            // Given
+            val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
+            val vm = createViewModel(
+                guidesRepository = FakeGuidesRepository(
+                    findByIdResult = Result.Success(guide(visibility = GuideVisibility.PUBLIC)),
+                ),
+                updateGuide = updateGuide,
+            )
+
+            advanceUntilIdle()
+            advanceUntilIdle()
+
+            // When
+            vm.onSave()
+
+            // Then
+            val state = assertIs<EditGuideUiState.Loaded>(vm.state.value)
+            assertTrue(Res.string.edit_guide_details_public_restaurants_warning in state.validationErrors)
+            assertTrue(Res.string.edit_guide_details_public_image_warning in state.validationErrors)
+            assertTrue(Res.string.edit_guide_details_public_author_warning in state.validationErrors)
+            assertEquals(0, updateGuide.invokeCount)
+        }
+
+    @Test
+    fun `given a non-author when onSave is called for a public guide then validationErrors includes author warning`() =
+        runTestWithMainDispatcher {
+            // Given
+            val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
+            val restaurants = List(3) { restaurant("r$it") }
+            val vm = createViewModel(
+                guidesRepository = FakeGuidesRepository(
+                    findByIdResult = Result.Success(
+                        guide(visibility = GuideVisibility.PUBLIC, restaurants = restaurants)
+                            .copy(imageUrl = "https://example.com/image.jpg"),
+                    ),
+                ),
+                updateGuide = updateGuide,
+                observeUser = FakeObserveUserUseCase(Random.nextUser(isAuthor = false)),
+            )
+
+            advanceUntilIdle()
+            advanceUntilIdle()
+
+            // When
+            vm.onSave()
+
+            // Then
+            val state = assertIs<EditGuideUiState.Loaded>(vm.state.value)
+            assertEquals(listOf(Res.string.edit_guide_details_public_author_warning), state.validationErrors)
+            assertEquals(0, updateGuide.invokeCount)
+        }
+
+    @Test
+    fun `given an author user when onSave is called for a valid public guide then guide is saved`() =
+        runTestWithMainDispatcher {
+            // Given
+            val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
+            val restaurants = List(3) { restaurant("r$it") }
+            val vm = createViewModel(
+                guidesRepository = FakeGuidesRepository(
+                    findByIdResult = Result.Success(
+                        guide(visibility = GuideVisibility.PUBLIC, restaurants = restaurants)
+                            .copy(imageUrl = "https://example.com/image.jpg"),
+                    ),
+                ),
+                updateGuide = updateGuide,
+                observeUser = FakeObserveUserUseCase(Random.nextUser(isAuthor = true)),
+            )
+
+            advanceUntilIdle()
+            advanceUntilIdle()
+
+            vm.events.test {
+                // When
+                vm.onSave()
+
+                // Then
+                assertEquals(EditGuideViewModel.UiEvent.NavigateBack, awaitItem())
+            }
+            assertEquals(1, updateGuide.invokeCount)
+        }
+
+    @Test
+    fun `given onDismissErrors is called then validationErrors is cleared`() = runTestWithMainDispatcher {
+        // Given
+        val vm = createViewModel(
+            guidesRepository = FakeGuidesRepository(
+                findByIdResult = Result.Success(guide(visibility = GuideVisibility.PUBLIC)),
+            ),
+        )
+
+        advanceUntilIdle()
+        advanceUntilIdle()
+
+        vm.onSave()
+        assertTrue(assertIs<EditGuideUiState.Loaded>(vm.state.value).validationErrors.isNotEmpty())
+
+        // When
+        vm.onDismissErrors()
+
+        // Then
+        assertTrue(assertIs<EditGuideUiState.Loaded>(vm.state.value).validationErrors.isEmpty())
+    }
+
+    @Test
+    fun `given a valid loaded guide when onSave succeeds then NavigateBack event is emitted`() =
+        runTestWithMainDispatcher {
+            // Given
+            val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
+            val vm = createViewModel(updateGuide = updateGuide)
+
+            advanceUntilIdle()
+            advanceUntilIdle()
+
+            vm.events.test {
+                // When
+                vm.onSave()
+
+                // Then
+                assertEquals(EditGuideViewModel.UiEvent.NavigateBack, awaitItem())
+            }
+            assertEquals(1, updateGuide.invokeCount)
+        }
+
+    @Test
+    fun `given updateGuide fails when onSave is called then isSaving is reset`() = runTestWithMainDispatcher {
+        // Given
+        val updateGuide = FakeUpdateGuideUseCase(Result.Failure(DataError.Network(Exception("test error"))))
+        val vm = createViewModel(updateGuide = updateGuide)
+        vm.state.test {
+            skipItems(2)
+
+            // When
+            vm.onSave()
+
+            // Then
+            assertTrue(assertIs<EditGuideUiState.Loaded>(awaitItem()).isSaving)
+            assertEquals(false, assertIs<EditGuideUiState.Loaded>(awaitItem()).isSaving)
+        }
+    }
+
+    @Test
+    fun `given a pending image when onSave succeeds then photo is uploaded and imageUrl is updated`() =
+        runTestWithMainDispatcher {
+            // Given
+            val photosRepository = FakePhotosRepository()
+            val guidesRepository = FakeGuidesRepository(findByIdResult = Result.Success(guide()))
+            val updateGuide = FakeUpdateGuideUseCase(Result.Success(guide()))
+            val vm = createViewModel(
+                updateGuide = updateGuide,
+                photosRepository = photosRepository,
+                guidesRepository = guidesRepository,
+            )
+            advanceUntilIdle()
+            advanceUntilIdle()
+
+            vm.onPhotoSelected(byteArrayOf(1, 2, 3), "image/png")
+
+            vm.events.test {
+                // When
+                vm.onSave()
+
+                // Then
+                assertEquals(EditGuideViewModel.UiEvent.NavigateBack, awaitItem())
+            }
+            assertEquals(1, photosRepository.uploadInvokeCount)
+            assertEquals(1, guidesRepository.addPhotoInvokeCount)
+        }
+
+    @Test
+    fun `given onDelete succeeds then GuideDeleted event is emitted`() = runTestWithMainDispatcher {
+        // Given
+        val guidesRepository = FakeGuidesRepository(
+            findByIdResult = Result.Success(guide()),
+            deleteResult = Result.Success(true),
+        )
+        val vm = createViewModel(guidesRepository = guidesRepository)
+
+        advanceUntilIdle()
+        advanceUntilIdle()
+
+        vm.events.test {
+            // When
+            vm.onDelete()
+
+            // Then
+            assertEquals(EditGuideViewModel.UiEvent.GuideDeleted, awaitItem())
+        }
+        assertEquals(1, guidesRepository.deleteInvokeCount)
+    }
+
+    @Test
+    fun `given onDelete fails then isDeleting is reset`() = runTestWithMainDispatcher {
+        // Given
+        val guidesRepository = FakeGuidesRepository(
+            findByIdResult = Result.Success(guide()),
+            deleteResult = Result.Failure(DataError.Network(Exception("test error"))),
+        )
+        val vm = createViewModel(guidesRepository = guidesRepository)
+        vm.state.test {
+            skipItems(2)
+
+            // When
+            vm.onDelete()
+
+            // Then
+            assertTrue(assertIs<EditGuideUiState.Loaded>(awaitItem()).isDeleting)
+            assertEquals(false, assertIs<EditGuideUiState.Loaded>(awaitItem()).isDeleting)
+        }
+    }
+
+    @Test
+    fun `given a loaded guide when a restaurant is picked then restaurant is added to the list`() =
+        runTestWithMainDispatcher {
+            // Given
+            val pickerResults = FakeRestaurantPickerResults()
+            val vm = createViewModel(restaurantPickerResults = pickerResults)
+            vm.state.test {
+                skipItems(2)
+
+                // When
+                pickerResults.publish(vm.restaurantPickerKey, restaurant("r1"))
+
+                // Then
+                val state = assertIs<EditGuideUiState.Loaded>(awaitItem())
+                assertEquals(listOf("r1"), state.restaurants.map { it.id })
+            }
+        }
+
+    @Test
+    fun `given an already added restaurant when it is picked again then it is not duplicated`() =
+        runTestWithMainDispatcher {
+            // Given
+            val pickerResults = FakeRestaurantPickerResults()
+            val vm = createViewModel(
+                guidesRepository = FakeGuidesRepository(
+                    findByIdResult = Result.Success(guide(restaurants = listOf(restaurant("r1")))),
+                ),
+                restaurantPickerResults = pickerResults,
+            )
+            vm.state.test {
+                skipItems(2)
+
+                // When
+                pickerResults.publish(vm.restaurantPickerKey, restaurant("r1"))
+
+                // Then
+                expectNoEvents()
+            }
+        }
+
+    @Test
+    fun `given a restaurant picked before the guide loads when the guide loads then the restaurant is added`() =
+        runTestWithMainDispatcher {
+            // Given
+            val pickerResults = FakeRestaurantPickerResults()
+            pickerResults.publish("edit-guide:guide-1", restaurant("r1"))
+
+            // When
+            val vm = createViewModel(restaurantPickerResults = pickerResults)
+            advanceUntilIdle()
+
+            // Then
+            val state = assertIs<EditGuideUiState.Loaded>(vm.state.value)
+            assertEquals(listOf("r1"), state.restaurants.map { it.id })
+        }
+
+    @Test
+    fun `given a restaurant picked for another guide when the guide loads then it is not added`() =
+        runTestWithMainDispatcher {
+            // Given
+            val pickerResults = FakeRestaurantPickerResults()
+            pickerResults.publish("edit-guide:other-guide", restaurant("r1"))
+
+            // When
+            val vm = createViewModel(restaurantPickerResults = pickerResults)
+            advanceUntilIdle()
+
+            // Then
+            val state = assertIs<EditGuideUiState.Loaded>(vm.state.value)
+            assertTrue(state.restaurants.isEmpty())
+        }
+
+    @Test
+    fun `given a restaurant in the list when onRestaurantRemoved is called then it is removed`() =
+        runTestWithMainDispatcher {
+            // Given
+            val vm = createViewModel(
+                guidesRepository = FakeGuidesRepository(
+                    findByIdResult = Result.Success(guide(restaurants = listOf(restaurant("r1")))),
+                ),
+            )
+            vm.state.test {
+                skipItems(2)
+
+                // When
+                vm.onRestaurantRemoved("r1")
+
+                // Then
+                val state = assertIs<EditGuideUiState.Loaded>(awaitItem())
+                assertTrue(state.restaurants.isEmpty())
+            }
+        }
+}

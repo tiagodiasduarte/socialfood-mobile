@@ -1,0 +1,36 @@
+package pt.socialfood.feature.map.navigation
+
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
+import org.jetbrains.compose.resources.stringResource
+import pt.socialfood.core.designsystem.generated.resources.Res
+import pt.socialfood.core.designsystem.generated.resources.visited_restaurants_title
+import pt.socialfood.core.designsystem.generated.resources.wish_restaurants_title
+import pt.socialfood.core.model.VisitStatus
+import pt.socialfood.core.navigation.Navigator
+import pt.socialfood.core.navigation.slideUpAnimationMetadata
+import pt.socialfood.feature.map.restaurant.MapRestaurantScreen
+import pt.socialfood.feature.map.restaurant.visitstatus.MapRestaurantVisitStatusScreen
+import pt.socialfood.feature.restaurant.navigation.RestaurantRoute
+
+fun EntryProviderScope<NavKey>.mapEntries(navigator: Navigator) {
+    entry<MapRoute.RestaurantMap>(metadata = slideUpAnimationMetadata) { route ->
+        MapRestaurantScreen(
+            restaurantId = route.restaurantId,
+            onBackClick = navigator::goBack,
+        )
+    }
+    entry<MapRoute.RestaurantsMap>(metadata = slideUpAnimationMetadata) { route ->
+        MapRestaurantVisitStatusScreen(
+            status = route.status,
+            title = when (route.status) {
+                VisitStatus.WISHLIST -> stringResource(Res.string.wish_restaurants_title)
+                VisitStatus.VISITED -> stringResource(Res.string.visited_restaurants_title)
+            },
+            onBackClick = navigator::goBack,
+            onRestaurantClick = { restaurantId ->
+                navigator.navigate(RestaurantRoute.RestaurantDetail(restaurantId))
+            },
+        )
+    }
+}

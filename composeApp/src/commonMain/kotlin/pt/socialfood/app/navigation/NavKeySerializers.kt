@@ -1,0 +1,43 @@
+package pt.socialfood.app.navigation
+
+import androidx.navigation3.runtime.NavKey
+import androidx.savedstate.serialization.SavedStateConfiguration
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
+import pt.socialfood.feature.author.navigation.AuthorRoute
+import pt.socialfood.feature.favourite.navigation.FavouriteRoute
+import pt.socialfood.feature.guide.navigation.GuideRoute
+import pt.socialfood.feature.home.navigation.HomeRoute
+import pt.socialfood.feature.map.navigation.MapRoute
+import pt.socialfood.feature.profile.navigation.ProfileRoute
+import pt.socialfood.feature.restaurant.navigation.RestaurantRoute
+import pt.socialfood.feature.search.navigation.SearchRoute
+
+/**
+ * Every feature's sealed route interface. Each one has to be listed here, or restoring the back
+ * stack (e.g. after process death) fails to find its serializer. New routes inside an existing
+ * feature are picked up automatically, and `NavKeySerializationTest` checks that every subclass of
+ * every listed interface resolves.
+ */
+val featureRouteSerializers: List<KSerializer<out NavKey>> = listOf(
+    AuthorRoute.serializer(),
+    FavouriteRoute.serializer(),
+    GuideRoute.serializer(),
+    HomeRoute.serializer(),
+    MapRoute.serializer(),
+    ProfileRoute.serializer(),
+    RestaurantRoute.serializer(),
+    SearchRoute.serializer(),
+)
+
+@OptIn(ExperimentalSerializationApi::class)
+val serializersConfig = SavedStateConfiguration {
+    serializersModule = SerializersModule {
+        polymorphic(NavKey::class) {
+            @Suppress("UNCHECKED_CAST")
+            featureRouteSerializers.forEach { subclassesOfSealed(it as KSerializer<NavKey>) }
+        }
+    }
+}

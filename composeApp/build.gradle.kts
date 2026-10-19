@@ -294,11 +294,12 @@ kover {
                     "*.generated.resources.*",
                     "*_Impl",
                     "$appNamespace.BuildConfig",
-                    "$appNamespace.core.*",
-                    "$appNamespace.di.*",
-                    "$appNamespace.data.network.model.*",
-                    "$appNamespace.presentation.*.navigation.*Route*",
-                    "$appNamespace.ui.theme.*",
+                    "$appNamespace.core.common.*",
+                    "$appNamespace.core.*.di.*",
+                    "$appNamespace.app.di.*",
+                    "$appNamespace.core.network.model.*",
+                    "$appNamespace.feature.*.navigation.*Route*",
+                    "$appNamespace.core.designsystem.theme.*",
                 )
                 annotatedBy("androidx.compose.ui.tooling.preview.Preview")
             }

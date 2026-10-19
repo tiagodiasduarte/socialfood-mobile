@@ -1,0 +1,6 @@
+package pt.socialfood.core.network.model.login
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class ValidateCodeResponse(val userId: String, val token: String, val refreshToken: String)

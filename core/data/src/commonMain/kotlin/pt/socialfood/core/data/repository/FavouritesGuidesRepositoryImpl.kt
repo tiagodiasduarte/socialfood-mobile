@@ -1,0 +1,190 @@
+package pt.socialfood.core.data.repository
+
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
+import androidx.sqlite.SQLiteException
+import co.touchlab.kermit.Logger
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.data.currentTimeMillis
+import pt.socialfood.core.data.mapper.toFavouriteGuideEntity
+import pt.socialfood.core.data.mapper.toGuide
+import pt.socialfood.core.data.paging.FavouriteGuideCacheTransactionRunner
+import pt.socialfood.core.data.paging.FavouriteGuideRemoteMediator
+import pt.socialfood.core.database.dao.FavouriteDao
+import pt.socialfood.core.database.dao.FavouriteGuideRemoteKeyDao
+import pt.socialfood.core.database.entity.FavouriteSyncState
+import pt.socialfood.core.domain.repository.FavouritesGuidesRepository
+import pt.socialfood.core.domain.repository.SettingsRepository
+import pt.socialfood.core.model.Guide
+import pt.socialfood.core.network.api.FavouritesGuidesApi
+import pt.socialfood.core.network.extensions.toDataError
+import pt.socialfood.core.network.model.favourite.FavouriteSyncResponse
+import pt.socialfood.core.network.model.guide.GuideResponse
+import pt.socialfood.core.network.safeApiCall
+
+private const val MIN_SYNC_INTERVAL_MS = 5 * 60 * 1000L
+private const val PAGE_SIZE = 20
+private const val OPTIMISTIC_POSITION = Int.MIN_VALUE
+private const val TAG = "FavouritesGuidesRepository"
+
+@OptIn(ExperimentalPagingApi::class)
+@Suppress("TooManyFunctions")
+internal class FavouritesGuidesRepositoryImpl(
+    private val favouritesApi: FavouritesGuidesApi,
+    private val favouriteDao: FavouriteDao,
+    private val favouriteGuideRemoteKeyDao: FavouriteGuideRemoteKeyDao,
+    private val transactionRunner: FavouriteGuideCacheTransactionRunner,
+    private val settingsRepository: SettingsRepository,
+) : FavouritesGuidesRepository {
+
+    private val logger = Logger.withTag(TAG)
+
+    override suspend fun mark(guide: Guide): Result<Unit> = try {
+        val entity = guide.toFavouriteGuideEntity(
+            favouritedAt = currentTimeMillis(),
+            syncState = FavouriteSyncState.PENDING_ADD,
+            position = OPTIMISTIC_POSITION,
+        )
+        favouriteDao.upsert(entity)
+
+        when (val result = safeApiCall { favouritesApi.mark(guide.id) }) {
+            is Result.Failure ->
+                logger.w {
+                    "markFavourite(${guide.id}) failed (${result.error}); " +
+                        "row stays PENDING_ADD, retried by the next syncFavourites()."
+                }
+            is Result.Success -> {
+                favouriteDao.updateSyncState(guide.id, FavouriteSyncState.SYNCED.name)
+            }
+        }
+
+        Result.Success(Unit)
+    } catch (e: SQLiteException) {
+        Result.Failure(e.toDataError())
+    }
+
+    override suspend fun unmark(guideId: String): Result<Unit> = try {
+        favouriteDao.updateSyncState(guideId, FavouriteSyncState.PENDING_REMOVE.name)
+
+        when (val result = safeApiCall { favouritesApi.unmark(guideId) }) {
+            is Result.Failure ->
+                logger.w {
+                    "unmarkFavourite($guideId) failed (${result.error}); " +
+                        "row stays PENDING_REMOVE, retried by the next syncFavourites()."
+                }
+            is Result.Success -> {
+                favouriteDao.deleteByGuideId(guideId)
+            }
+        }
+
+        Result.Success(Unit)
+    } catch (e: SQLiteException) {
+        Result.Failure(e.toDataError())
+    }
+
+    override fun getFavouritesPagingFlow(): Flow<PagingData<Guide>> = Pager(
+        config = PagingConfig(pageSize = PAGE_SIZE),
+        remoteMediator = FavouriteGuideRemoteMediator(
+            favouritesApi = favouritesApi,
+            favouriteDao = favouriteDao,
+            remoteKeyDao = favouriteGuideRemoteKeyDao,
+            transactionRunner = transactionRunner,
+        ),
+        pagingSourceFactory = { favouriteDao.pagingSource() },
+    ).flow.map { pagingData -> pagingData.map { it.toGuide() } }
+
+    override suspend fun isFavourite(guideId: String): Result<Boolean> = try {
+        Result.Success(favouriteDao.getByGuideId(guideId) != null)
+    } catch (e: SQLiteException) {
+        Result.Failure(e.toDataError())
+    }
+
+    override fun observeFavouriteGuideIds(): Flow<Set<String>> = favouriteDao.observeAllIds().map { it.toSet() }
+
+    @Suppress("ReturnCount")
+    override suspend fun sync(): Result<Unit> {
+        val now = currentTimeMillis()
+        val lastAttempt = settingsRepository.getLastFavouritesSyncAttemptAt()
+        if (lastAttempt != null && now - lastAttempt < MIN_SYNC_INTERVAL_MS) {
+            return Result.Success(Unit)
+        }
+
+        return try {
+            settingsRepository.saveLastFavouritesSyncAttemptAt(now)
+
+            pushPendingMutations()
+
+            val syncedAt = settingsRepository.getLastFavouritesSyncedAt()
+            val changes = when (val result = safeApiCall { favouritesApi.sync(since = syncedAt) }) {
+                is Result.Failure -> return result
+                is Result.Success -> result.data
+            }
+
+            applyChanges(changes)
+
+            settingsRepository.saveLastFavouritesSyncedAt(changes.syncedAt)
+            Result.Success(Unit)
+        } catch (e: SQLiteException) {
+            Result.Failure(e.toDataError())
+        }
+    }
+
+    private suspend fun pushPendingMutations() {
+        favouriteDao.getPending().forEach { entity ->
+            when (FavouriteSyncState.valueOf(entity.syncState)) {
+                FavouriteSyncState.PENDING_ADD -> pushPendingAdd(entity.guideId)
+                FavouriteSyncState.PENDING_REMOVE -> pushPendingRemove(entity.guideId)
+                FavouriteSyncState.SYNCED -> Unit
+            }
+        }
+    }
+
+    private suspend fun pushPendingAdd(guideId: String) {
+        try {
+            when (val result = safeApiCall { favouritesApi.mark(guideId) }) {
+                is Result.Failure ->
+                    logger.w { "markFavourite($guideId) still failing (${result.error}); retried next sync." }
+                is Result.Success ->
+                    favouriteDao.updateSyncState(guideId, FavouriteSyncState.SYNCED.name)
+            }
+        } catch (e: SQLiteException) {
+            logger.w(e) { "markFavourite($guideId) local update failed; retried next sync." }
+        }
+    }
+
+    private suspend fun pushPendingRemove(guideId: String) {
+        try {
+            when (val result = safeApiCall { favouritesApi.unmark(guideId) }) {
+                is Result.Failure ->
+                    logger.w { "unmarkFavourite($guideId) still failing (${result.error}); retried next sync." }
+                is Result.Success ->
+                    favouriteDao.deleteByGuideId(guideId)
+            }
+        } catch (e: SQLiteException) {
+            logger.w(e) { "unmarkFavourite($guideId) local update failed; retried next sync." }
+        }
+    }
+
+    private suspend fun applyChanges(changes: FavouriteSyncResponse<GuideResponse>) {
+        if (changes.removedIds.isNotEmpty()) {
+            favouriteDao.deleteByGuideIds(changes.removedIds)
+        }
+
+        if (changes.added.isNotEmpty()) {
+            val now = currentTimeMillis()
+            val toUpsert = changes.added.map {
+                it.toGuide().toFavouriteGuideEntity(
+                    favouritedAt = now,
+                    syncState = FavouriteSyncState.SYNCED,
+                    position = OPTIMISTIC_POSITION,
+                )
+            }
+            favouriteDao.upsertAll(toUpsert)
+        }
+    }
+}

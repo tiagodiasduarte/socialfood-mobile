@@ -1,0 +1,34 @@
+package pt.socialfood.feature.favourite.restaurant
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import pt.socialfood.core.domain.repository.FavouriteRestaurantsRepository
+import pt.socialfood.core.domain.usecase.user.ObserveUserUseCase
+import pt.socialfood.core.model.Restaurant
+
+@OptIn(ExperimentalCoroutinesApi::class)
+class FavouriteRestaurantsViewModel(
+    private val favouriteRestaurantsRepository: FavouriteRestaurantsRepository,
+    observeUser: ObserveUserUseCase,
+) : ViewModel() {
+
+    val restaurants: Flow<PagingData<Restaurant>> = observeUser()
+        .filterNotNull()
+        .map { it.id }
+        .distinctUntilChanged()
+        .flatMapLatest { favouriteRestaurantsRepository.getFavouritesPagingFlow() }
+        .cachedIn(viewModelScope)
+
+    fun removeFavourite(restaurantId: String) {
+        viewModelScope.launch { favouriteRestaurantsRepository.unmarkFavourite(restaurantId) }
+    }
+}

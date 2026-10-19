@@ -1,0 +1,148 @@
+package pt.socialfood.feature.auth.startup
+
+import app.cash.turbine.test
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.model.Configs
+import pt.socialfood.core.model.User
+import pt.socialfood.core.testing.fakes.FakeConfigsRepository
+import pt.socialfood.core.testing.fakes.FakeSettingsRepository
+import pt.socialfood.core.testing.fakes.FakeUsersRepository
+import pt.socialfood.core.testing.runner.runTestWithMainDispatcher
+import kotlin.test.Test
+import kotlin.test.assertEquals
+
+@OptIn(ExperimentalCoroutinesApi::class)
+class StartupViewModelTest {
+    @Test
+    fun `given pendingVerificationEmail and no token when loaded then emits NavigateToValidateCode no extra calls`() =
+        runTestWithMainDispatcher {
+            // Given
+            val settingsRepository = FakeSettingsRepository()
+            settingsRepository.savePendingVerificationEmail("pending@test.com")
+            val usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(defaultUser()))
+            val configsRepository = FakeConfigsRepository(Result.Success(Configs(version = "1.0.0")))
+
+            // When
+            val viewModel = StartupViewModel(usersRepository, configsRepository, settingsRepository)
+
+            // Then
+            viewModel.state.test {
+                assertEquals(StartupUiState.Loading, awaitItem())
+                assertEquals(StartupUiState.NavigateToValidateCode("pending@test.com"), awaitItem())
+                assertEquals(0, usersRepository.getUserMeInvokeCount)
+                assertEquals(0, configsRepository.getConfigsInvokeCount)
+            }
+        }
+
+    @Test
+    fun `given no pendingVerificationEmail and no token when loaded then emits NavigateToLogin`() =
+        runTestWithMainDispatcher {
+            // Given
+            val settingsRepository = FakeSettingsRepository()
+            val usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(defaultUser()))
+            val configsRepository = FakeConfigsRepository(Result.Success(Configs(version = "1.0.0")))
+
+            // When
+            val viewModel = StartupViewModel(usersRepository, configsRepository, settingsRepository)
+
+            // Then
+            viewModel.state.test {
+                assertEquals(StartupUiState.Loading, awaitItem())
+                assertEquals(StartupUiState.NavigateToLogin, awaitItem())
+            }
+        }
+
+    @Test
+    fun `given no pendingVerificationEmail and unverified user when loaded then emits NavigateToValidateCode`() =
+        runTestWithMainDispatcher {
+            // Given
+            val settingsRepository = FakeSettingsRepository()
+            settingsRepository.saveToken("jwt-token")
+            val usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(defaultUser(isVerified = false)))
+            val configsRepository = FakeConfigsRepository(Result.Success(Configs(version = "1.0.0")))
+
+            // When
+            val viewModel = StartupViewModel(usersRepository, configsRepository, settingsRepository)
+
+            // Then
+            viewModel.state.test {
+                assertEquals(StartupUiState.Loading, awaitItem())
+                assertEquals(
+                    StartupUiState.NavigateToValidateCode(defaultUser().email),
+                    awaitItem(),
+                )
+            }
+        }
+
+    @Test
+    fun `given no pendingVerificationEmail and token and verified user when loaded then emits NavigateToHome`() =
+        runTestWithMainDispatcher {
+            // Given
+            val settingsRepository = FakeSettingsRepository()
+            settingsRepository.saveToken("jwt-token")
+            val usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(defaultUser(isVerified = true)))
+            val configsRepository = FakeConfigsRepository(Result.Success(Configs(version = "1.0.0")))
+
+            // When
+            val viewModel = StartupViewModel(usersRepository, configsRepository, settingsRepository)
+
+            // Then
+            viewModel.state.test {
+                assertEquals(StartupUiState.Loading, awaitItem())
+                assertEquals(StartupUiState.NavigateToHome, awaitItem())
+            }
+        }
+
+    @Test
+    fun `given stale pendingVerificationEmail with a valid token when loaded then emits NavigateToHome`() =
+        runTestWithMainDispatcher {
+            // Given
+            val settingsRepository = FakeSettingsRepository()
+            settingsRepository.savePendingVerificationEmail("stale@test.com")
+            settingsRepository.saveToken("jwt-token")
+            val usersRepository = FakeUsersRepository(getUserMeResult = Result.Success(defaultUser(isVerified = true)))
+            val configsRepository = FakeConfigsRepository(Result.Success(Configs(version = "1.0.0")))
+
+            // When
+            val viewModel = StartupViewModel(usersRepository, configsRepository, settingsRepository)
+
+            // Then
+            viewModel.state.test {
+                assertEquals(StartupUiState.Loading, awaitItem())
+                assertEquals(StartupUiState.NavigateToHome, awaitItem())
+                assertEquals(1, usersRepository.getUserMeInvokeCount)
+                assertEquals(1, configsRepository.getConfigsInvokeCount)
+            }
+        }
+
+    @Test
+    fun `given no pendingVerificationEmail and token and getUserMe fails when loaded then emits NavigateToLogin`() =
+        runTestWithMainDispatcher {
+            // Given
+            val settingsRepository = FakeSettingsRepository()
+            settingsRepository.saveToken("jwt-token")
+            val usersRepository = FakeUsersRepository(
+                getUserMeResult = Result.Failure(DataError.Network(Exception("test error"))),
+            )
+            val configsRepository = FakeConfigsRepository(Result.Success(Configs(version = "1.0.0")))
+
+            // When
+            val viewModel = StartupViewModel(usersRepository, configsRepository, settingsRepository)
+
+            // Then
+            viewModel.state.test {
+                assertEquals(StartupUiState.Loading, awaitItem())
+                assertEquals(StartupUiState.NavigateToLogin, awaitItem())
+            }
+        }
+
+    private fun defaultUser(isVerified: Boolean = true) = User(
+        id = "1",
+        email = "john.doe@test.com",
+        name = "John Doe",
+        username = "johndoe",
+        isVerified = isVerified,
+    )
+}

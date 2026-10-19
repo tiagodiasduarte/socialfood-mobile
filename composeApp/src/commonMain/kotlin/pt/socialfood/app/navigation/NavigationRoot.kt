@@ -1,0 +1,112 @@
+package pt.socialfood.app.navigation
+
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.ui.NavDisplay
+import kotlinx.coroutines.launch
+import pt.socialfood.core.navigation.Navigator
+import pt.socialfood.core.navigation.rememberNavigationState
+import pt.socialfood.core.navigation.toEntries
+import pt.socialfood.feature.author.navigation.AuthorRoute
+import pt.socialfood.feature.author.navigation.authorEntries
+import pt.socialfood.feature.favourite.navigation.FavouriteRoute
+import pt.socialfood.feature.favourite.navigation.favouriteEntries
+import pt.socialfood.feature.guide.navigation.guideEntries
+import pt.socialfood.feature.home.navigation.HomeRoute
+import pt.socialfood.feature.home.navigation.homeEntries
+import pt.socialfood.feature.map.navigation.mapEntries
+import pt.socialfood.feature.profile.navigation.profileEntries
+import pt.socialfood.feature.restaurant.navigation.RestaurantRoute
+import pt.socialfood.feature.restaurant.navigation.restaurantEntries
+import pt.socialfood.feature.search.navigation.searchEntries
+import pt.socialfood.feature.settings.drawer.DrawerContent
+
+@Suppress("LongMethod")
+@Composable
+fun NavigationRoot(modifier: Modifier = Modifier) {
+    val navigationState =
+        rememberNavigationState(
+            startRoute = HomeRoute.Home,
+            topLevelRoutes = TOP_LEVEL_DESTINATIONS.keys,
+            serializersConfig = serializersConfig,
+        )
+    val navigator = remember { Navigator(navigationState) }
+
+    val activeBackStack = navigationState.backStacks[navigationState.topLevelRoute]
+    val showBottomBar = (activeBackStack?.size ?: 0) <= 1
+
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+    val onOpenDrawer: () -> Unit = { scope.launch { drawerState.open() } }
+
+    ModalNavigationDrawer(
+        modifier = modifier,
+        drawerState = drawerState,
+        gesturesEnabled = drawerState.isOpen,
+        drawerContent = {
+            DrawerContent(
+                onProfileClick = { authorId ->
+                    scope.launch { drawerState.close() }
+                    navigator.navigate(AuthorRoute.Profile(authorId))
+                },
+                onFavouriteGuidesClick = {
+                    scope.launch { drawerState.close() }
+                    navigator.navigate(FavouriteRoute.FavouriteGuides)
+                },
+                onFavouriteRestaurantsClick = {
+                    scope.launch { drawerState.close() }
+                    navigator.navigate(FavouriteRoute.FavouriteRestaurants)
+                },
+                onWishRestaurantsClick = {
+                    scope.launch { drawerState.close() }
+                    navigator.navigate(RestaurantRoute.WishRestaurants)
+                },
+                onVisitedRestaurantsClick = {
+                    scope.launch { drawerState.close() }
+                    navigator.navigate(RestaurantRoute.VisitedRestaurants)
+                },
+            )
+        },
+    ) {
+        Scaffold(
+            containerColor = MaterialTheme.colorScheme.surface,
+            bottomBar = {
+                if (showBottomBar) {
+                    BottomNavigationBar(
+                        selectedKey = navigationState.topLevelRoute,
+                        onSelectKey = { navigator.navigate(it) },
+                    )
+                }
+            },
+        ) { innerPadding ->
+            NavDisplay(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                onBack = navigator::goBack,
+                entries = navigationState.toEntries(
+                    entryProvider {
+                        authorEntries(navigator, onOpenDrawer)
+                        favouriteEntries(navigator)
+                        guideEntries(navigator, onOpenDrawer)
+                        homeEntries(navigator, onOpenDrawer)
+                        mapEntries(navigator)
+                        profileEntries(navigator)
+                        restaurantEntries(navigator)
+                        searchEntries(navigator)
+                    },
+                ),
+            )
+        }
+    }
+}

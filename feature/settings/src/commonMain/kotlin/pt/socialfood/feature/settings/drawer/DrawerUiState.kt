@@ -1,0 +1,11 @@
+package pt.socialfood.feature.settings.drawer
+
+import pt.socialfood.core.common.error.ErrorCode
+import pt.socialfood.core.model.User
+
+sealed interface DrawerUiState {
+    data object Loading : DrawerUiState
+    data class Loaded(val user: User) : DrawerUiState
+    data class Error(val errorCode: ErrorCode) : DrawerUiState
+    data object LoggedOut : DrawerUiState
+}

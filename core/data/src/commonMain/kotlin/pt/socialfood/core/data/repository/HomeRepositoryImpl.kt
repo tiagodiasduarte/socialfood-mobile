@@ -1,0 +1,83 @@
+package pt.socialfood.core.data.repository
+
+import androidx.sqlite.SQLiteException
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import pt.socialfood.core.common.Result
+import pt.socialfood.core.common.error.DataError
+import pt.socialfood.core.data.mapper.toHomeSection
+import pt.socialfood.core.data.mapper.toHomeSectionEntity
+import pt.socialfood.core.data.paging.HomeCacheTransactionRunner
+import pt.socialfood.core.database.dao.HomeDao
+import pt.socialfood.core.domain.repository.HomeRepository
+import pt.socialfood.core.model.HomeItemType
+import pt.socialfood.core.model.HomeSection
+import pt.socialfood.core.model.HomeSectionType
+import pt.socialfood.core.network.api.HomeApi
+import pt.socialfood.core.network.extensions.toDataError
+import pt.socialfood.core.network.safeApiCall
+
+internal class HomeRepositoryImpl(
+    private val homeApi: HomeApi,
+    private val homeDao: HomeDao,
+    private val transactionRunner: HomeCacheTransactionRunner,
+) : HomeRepository {
+    override suspend fun findAll(): Result<List<HomeSection>> = when (val result = safeApiCall { homeApi.findAll() }) {
+        is Result.Failure -> fallbackToCache(result.error)
+        is Result.Success ->
+            try {
+                transactionRunner.run {
+                    homeDao.deleteAll()
+                    homeDao.upsertAll(result.data.map { it.toHomeSectionEntity() })
+                }
+                Result.Success(result.data.map { it.toHomeSection() })
+            } catch (e: SQLiteException) {
+                fallbackToCache(e.toDataError())
+            }
+    }
+
+    private suspend fun fallbackToCache(error: DataError): Result<List<HomeSection>> {
+        val cached = homeDao.getAllActive()
+        return if (cached.isNotEmpty()) {
+            Result.Success(cached.map { it.toHomeSection() })
+        } else {
+            Result.Failure(error)
+        }
+    }
+
+    override fun observeHomeSections(): Flow<List<HomeSection>> =
+        homeDao.observeActive().map { entities -> entities.map { it.toHomeSection() } }
+
+    override suspend fun findById(id: String): Result<HomeSection> =
+        safeApiCall { homeApi.findById(id).toHomeSection() }
+
+    override suspend fun create(title: String, type: HomeSectionType, position: Int): Result<HomeSection> =
+        safeApiCall { homeApi.create(title, type.name, position).toHomeSection() }
+
+    override suspend fun update(
+        id: String,
+        title: String,
+        position: Int,
+        isActive: Boolean,
+        restaurantIds: List<String>,
+        guideIds: List<String>,
+    ): Result<HomeSection> =
+        safeApiCall { homeApi.update(id, title, position, isActive, restaurantIds, guideIds).toHomeSection() }
+
+    override suspend fun delete(id: String): Result<Boolean> = safeApiCall {
+        homeApi.delete(id)
+        true
+    }
+
+    override suspend fun addItem(
+        sectionId: String,
+        itemId: String,
+        itemType: HomeItemType,
+        position: Int,
+    ): Result<HomeSection> = safeApiCall { homeApi.addItem(sectionId, itemId, itemType.name, position).toHomeSection() }
+
+    override suspend fun removeItem(sectionId: String, itemId: String): Result<Boolean> = safeApiCall {
+        homeApi.removeItem(sectionId, itemId)
+        true
+    }
+}
